@@ -14,7 +14,7 @@ namespace Tiles.Items
         // TODO - Add the ability to cover multiple armor slots, but still only take up one
         // OR make armors take up multiple slots all together
 
-        ArmorSlot ArmorSlot { get; }
+        IReadOnlyList<ArmorSlot> RequiredSlots { get;}
         ISprite Sprite { get; }
         DamageVector DamageVector { get; }
     }

@@ -18,13 +18,15 @@ namespace Tiles.Agents
         public IInventory Inventory { get; private set; }
         public virtual bool IsPlayer { get { return false; } }
         public IAgentBehavior AgentBehavior { get; set; }
-        public IEquipmentSlotSet EquipmentSlots { get; private set; }
+        public IOutfit Outfit { get; private set; }
         public bool IsUndead { get; set; }
 
         public bool IsDead { get {  return !Body.Parts.Where(x => x.IsCritical).Any() || Body.Parts.Where(x => x.IsCritical).Any(x => x.Health.OutOfHealth);} }
 
         public Agent(IAtlas atlas, ISprite sprite, Vector2 pos, 
-            IBody body, string name, IInventory inventory, IEquipmentSlotSet equipmentSlots)
+            IBody body, string name, 
+            IInventory inventory, 
+            IOutfit outfit)
         {
             Atlas = atlas;
             Sprite = sprite;
@@ -32,7 +34,7 @@ namespace Tiles.Agents
             Body = body;
             Name = name;
             Inventory = inventory;
-            EquipmentSlots = equipmentSlots;
+            Outfit = outfit;
         }
 
         public virtual void Update(IGame game)

@@ -12,8 +12,7 @@ namespace Tiles.Agents.Combat.CommandInterpreters
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand)
         {
-            var slotType = agentCommand.Armor.ArmorClass.ArmorSlot;
-            agent.EquipmentSlots.Fill(slotType, agentCommand.Armor);
+            agent.Outfit.Wear(agentCommand.Item);
             agent.Inventory.AddToWorn(agentCommand.Armor, agentCommand.Item);
             game.ActionLog.AddLine(string.Format("The {0} puts on the {1}.", agent.Name, agentCommand.Item.Name));
         }

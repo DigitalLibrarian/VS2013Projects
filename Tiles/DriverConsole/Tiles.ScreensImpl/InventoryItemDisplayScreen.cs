@@ -40,7 +40,7 @@ namespace Tiles.ScreensImpl
 
             if (Item.IsArmor)
             {
-                leftColumnLines.Add(string.Format("Armor Slot: {0}", Item.Armor.ArmorClass.ArmorSlot));
+                leftColumnLines.Add(string.Format("Armor Slot: {0}", string.Join(", ", Item.Armor.ArmorClass.RequiredSlots)));
                 foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
                 {
                     DamageType damageType = (DamageType)damageTypeObj;
@@ -51,7 +51,7 @@ namespace Tiles.ScreensImpl
 
             if (Item.IsWeapon)
             {
-                leftColumnLines.Add(string.Format("Weapon Slot: {0}", Item.Weapon.WeaponClass.WeaponSlot));
+                leftColumnLines.Add(string.Format("Weapon Slot: {0}", string.Join(", ", Item.Weapon.WeaponClass.RequiredSlots)));
                 foreach(var damageTypeObj in Enum.GetValues(typeof(DamageType)))
                 {
                     DamageType damageType = (DamageType)damageTypeObj;
@@ -74,68 +74,14 @@ namespace Tiles.ScreensImpl
             Canvas.WriteLineColumn(rightColumnPos, Foreground, Background, rightColumnLines.ToArray());
         }
 
+        bool IsWorn { get { return Player.Agent.Outfit.IsWorn(Item); } }
+        bool IsWielded{ get { return Player.Agent.Outfit.IsWielded(Item); } }
 
-        bool CanWield 
-        { 
-            get {
-                return HaveSlot && !IsSomethingWielded && Item.IsWeapon && !OtherWielded;
-            } 
-        }
-
-        bool CanWear
-        {
-            get
-            {
-                if (!Item.IsArmor) return false;
-                if (!Player.Agent.EquipmentSlots.HasSlot(Item.Armor.ArmorClass.ArmorSlot)) return false;
-                if (Player.Agent.EquipmentSlots.IsSlotFull(Item.Armor.ArmorClass.ArmorSlot)) return false;
-                return true;
-            }
-        }
-
-        bool CanTakeOff
-        {
-            get { return IsWorn; }
-        }
-
-        bool IsWorn
-        {
-            get { return Player.Inventory.GetWorn().Contains(Item); }
-        }
-        
-        bool CanDrop
-        {
-            get { return !IsWorn; }
-        }
-
-        bool HaveSlot
-        {
-            get
-            {
-                return
-                    (Item.IsWeapon && Player.Agent.EquipmentSlots.HasSlot(Item.Weapon.WeaponClass.WeaponSlot))
-                    || (Item.IsArmor && Player.Agent.EquipmentSlots.HasSlot(Item.Armor.ArmorClass.ArmorSlot));
-            }
-        }
-
-        bool IsSomethingWielded
-        {
-            get { return (Item.IsWeapon && HaveSlot && Player.Agent.EquipmentSlots.IsSlotFull(Item.Weapon.WeaponClass.WeaponSlot))
-                || (Item.IsArmor && HaveSlot && Player.Agent.EquipmentSlots.IsSlotFull(Item.Armor.ArmorClass.ArmorSlot)); }
-        }
-
-        bool IsWielded
-        {
-            get { return (IsSomethingWielded && !OtherWielded); }
-        }
-
-        bool OtherWielded
-        {
-            get { return Item.IsWeapon && HaveSlot
-                && Player.Agent.EquipmentSlots.IsSlotFull(Item.Weapon.WeaponClass.WeaponSlot )
-                && Player.Agent.EquipmentSlots.Get(Item.Weapon.WeaponClass.WeaponSlot) != Item.Weapon; }
-        }
-        
+        bool CanWield { get { return Player.Agent.Outfit.CanWield(Item); } }
+        bool CanWear { get { return Player.Agent.Outfit.CanWear(Item); } }
+        bool CanTakeOff { get { return IsWorn || IsWielded; } }
+        bool CanDrop { get { return !IsWorn; } }
+                
         void Wield()
         {
             Player.EnqueueCommand(new AgentCommand

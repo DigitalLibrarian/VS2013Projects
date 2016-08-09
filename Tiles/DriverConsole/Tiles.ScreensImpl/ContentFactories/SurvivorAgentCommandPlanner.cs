@@ -109,23 +109,31 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         IEnumerable<IItem> GetEquippableWeapons(IAgent agent)
         {
+            return agent.Inventory.GetItems().Where(item => agent.Outfit.CanWield(item));
+            /*
             return agent.Inventory.GetItems().Where(
                 item => item.Weapon != null
                     && agent.EquipmentSlots.HasSlot(item.Weapon.WeaponClass.WeaponSlot)
                     && !agent.EquipmentSlots.IsSlotFull(item.Weapon.WeaponClass.WeaponSlot));
+             * */
         }
 
         IEnumerable<IItem> GetEquippableArmors(IAgent agent)
         {
+            return agent.Inventory.GetItems().Where(item => agent.Outfit.CanWear(item));
+            /*
             return agent.Inventory.GetItems().Where(
                 item => item.Armor != null
                     && agent.EquipmentSlots.HasSlot(item.Armor.ArmorClass.ArmorSlot)
                     && !agent.EquipmentSlots.IsSlotFull(item.Armor.ArmorClass.ArmorSlot));
+             * */
         }
 
         bool FullyEquipped(IAgent agent)
         {
-            return !agent.EquipmentSlots.AvailableArmorSlots().Any() && !agent.EquipmentSlots.AvailableWeaponSlots().Any();
+            //return !agent.EquipmentSlots.AvailableArmorSlots().Any() && !agent.EquipmentSlots.AvailableWeaponSlots().Any();
+
+            return agent.Outfit.GetItems().Where(x => x.IsWeapon).Any();
         }
 
 

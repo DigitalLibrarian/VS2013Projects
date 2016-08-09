@@ -29,15 +29,15 @@ namespace Tiles.ScreensImpl.ContentFactories
             public ZombieClaw()
             {
                 WeaponClass = new WeaponClass(
-                    name: "zombie claws",
-                    meleeVerb: "mauls",
-                    sprite: null,
-                    slotType: WeaponSlot.None,
-                    damage: new DamageVector(new Dictionary<DamageType, uint>
+                    "zombie claws",
+                    null,
+                    new DamageVector(new Dictionary<DamageType, uint>
                     {
                         { DamageType.Slash, 12},
                         { DamageType.Pierce, 2},
-                    }));
+                    }),
+                    "mauls",
+                    WeaponSlot.None);
             }
 
             public IWeaponClass WeaponClass { get; private set; }
@@ -60,10 +60,11 @@ namespace Tiles.ScreensImpl.ContentFactories
                 body,
                 "Shambler",
                 new Inventory(),
-                new EquipmentSlotSet(body)
+                new Outfit(body)
                 );
 
-            zombie.EquipmentSlots.Fill(WeaponSlot.Main, new ZombieClaw());
+            zombie.Outfit.Wield(new Item { Weapon = new ZombieClaw() });
+
             zombie.IsUndead = true;
             zombie.AgentBehavior = new CommandAgentBehavior(new ZombieAgentCommandPlanner(Random), CommandInterpreter);
             return zombie;
@@ -84,7 +85,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 worldPos,
                 body,
                 new Inventory(),
-                new EquipmentSlotSet(body),
+                new Outfit(body),
                 planner
             );
             player.IsUndead = false;
@@ -107,7 +108,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 body,
                 "Survivor",
                 new Inventory(),
-                new EquipmentSlotSet(body)
+                new Outfit(body)
                 );
 
             survivor.AgentBehavior = new CommandAgentBehavior(new SurvivorAgentCommandPlanner(Random), CommandInterpreter);

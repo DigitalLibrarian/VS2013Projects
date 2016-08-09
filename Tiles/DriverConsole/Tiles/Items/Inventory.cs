@@ -68,7 +68,14 @@ namespace Tiles.Items
         
         public IItem GetWorn(object key)
         {
-            return Worn[key];
+            if (Worn.ContainsKey(key))
+            {
+                return Worn[key];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

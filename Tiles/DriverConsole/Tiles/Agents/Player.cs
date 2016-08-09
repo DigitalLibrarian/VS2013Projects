@@ -15,9 +15,10 @@ namespace Tiles.Agents
         public override bool IsPlayer { get { return true; } }
 
         public Player(IAtlas atlas, ISprite sprite, Vector2 pos, 
-            IBody body, IInventory inventory, IEquipmentSlotSet equipmentSlots,
+            IBody body, IInventory inventory,
+            IOutfit outfit,
             IAgentCommandQueueProducer commandQueue
-            ) : base(atlas, sprite, pos, body, "Player", inventory, equipmentSlots)
+            ) : base(atlas, sprite, pos, body, "Player", inventory, outfit)
         {
             CommandQueue = commandQueue;
         }

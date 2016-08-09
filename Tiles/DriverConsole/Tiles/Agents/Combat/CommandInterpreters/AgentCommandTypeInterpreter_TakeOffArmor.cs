@@ -12,8 +12,7 @@ namespace Tiles.Agents.Combat.CommandInterpreters
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand)
         {
-            var slotType = agentCommand.Armor.ArmorClass.ArmorSlot;
-            agent.EquipmentSlots.Empty(slotType);
+            agent.Outfit.TakeOff(agentCommand.Item);
             agent.Inventory.RestoreFromWorn(agentCommand.Item);
             game.ActionLog.AddLine(string.Format("The {0} takes off the {1}.", agent.Name, agentCommand.Item.Name));
         }

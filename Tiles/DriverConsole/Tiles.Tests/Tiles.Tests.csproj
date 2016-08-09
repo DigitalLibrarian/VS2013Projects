@@ -66,7 +66,6 @@
     <Compile Include="AtlasTests.cs" />
     <Compile Include="ActionLogTests.cs" />
     <Compile Include="Bodies\HealthVectorTests.cs" />
-    <Compile Include="Items\EquipmentSlotSetTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />
     <Compile Include="SiteTests.cs" />
     <Compile Include="Structures\StructureCellTests.cs" />

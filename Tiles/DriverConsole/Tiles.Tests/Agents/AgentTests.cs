@@ -21,7 +21,7 @@ namespace Tiles.Tests.Agents
         Mock<ISprite> SpriteMock { get; set; }
         Mock<IBody> BodyMock { get; set; }
         Mock<IInventory> InventoryMock { get; set; }
-        Mock<IEquipmentSlotSet> EquipmentSlotsMock { get; set; }
+        Mock<IOutfit> OutfitMock { get; set; }
         string Name { get; set; }
 
         Agent Agent { get; set; }
@@ -32,10 +32,10 @@ namespace Tiles.Tests.Agents
             SpriteMock = new Mock<ISprite>();
             BodyMock = new Mock<IBody>();
             InventoryMock = new Mock<IInventory>();
-            EquipmentSlotsMock = new Mock<IEquipmentSlotSet>();
+            OutfitMock = new Mock<IOutfit>();
             Name = "name";
 
-            Agent = new Agent(AtlasMock.Object, SpriteMock.Object, Vector2.Zero, BodyMock.Object, Name, InventoryMock.Object, EquipmentSlotsMock.Object);
+            Agent = new Agent(AtlasMock.Object, SpriteMock.Object, Vector2.Zero, BodyMock.Object, Name, InventoryMock.Object, OutfitMock.Object);
         }
 
 
@@ -47,7 +47,7 @@ namespace Tiles.Tests.Agents
             Assert.AreSame(SpriteMock.Object, Agent.Sprite);
             Assert.AreSame(BodyMock.Object, Agent.Body);
             Assert.AreSame(InventoryMock.Object, Agent.Inventory);
-            Assert.AreSame(EquipmentSlotsMock.Object, Agent.EquipmentSlots);
+            Assert.AreSame(OutfitMock.Object, Agent.Outfit);
             Assert.AreEqual(Vector2.Zero, Agent.Pos);
             Assert.IsFalse(Agent.IsPlayer);
             Assert.IsNull(Agent.AgentBehavior);

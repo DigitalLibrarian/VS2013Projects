@@ -93,15 +93,21 @@ namespace Tiles.Agents.Combat
             if (shedPart.Weapon != null)
             {
                 var weaponItem = defender.Inventory.GetWorn(shedPart.Weapon);
-                defender.Inventory.RemoveItem(weaponItem);
-                yield return weaponItem;
+                if (weaponItem != null)
+                {
+                    defender.Inventory.RemoveItem(weaponItem);
+                    yield return weaponItem;
+                }
             }
 
             if (shedPart.Armor != null)
             {
                 var armorItem = defender.Inventory.GetWorn(shedPart.Armor);
-                defender.Inventory.RemoveItem(armorItem);
-                yield return armorItem;
+                if (armorItem != null)
+                {
+                    defender.Inventory.RemoveItem(armorItem);
+                    yield return armorItem;
+                }
             }
 
             yield return new Item

@@ -12,20 +12,22 @@ namespace Tiles.Items
         public DamageVector DamageVector { get; set; }
 
         public string Name { get; private set; }
-        public WeaponSlot WeaponSlot { get; private set; }
         public ISprite Sprite { get; private set; }
         public string MeleeVerb { get; private set; }
 
-        public WeaponClass(string name, ISprite sprite, WeaponSlot slotType, DamageVector damage, string meleeVerb = "strikes")
+        public WeaponClass(string name, ISprite sprite, DamageVector damage, string meleeVerb = "strikes", params WeaponSlot[] slots)
         {
             Name = name;
             Sprite = sprite;
-            WeaponSlot = slotType;
             DamageVector = damage;
             MeleeVerb = meleeVerb;
+            RequiredSlots = slots;
         }
 
-
-
+        public IEnumerable<WeaponSlot> RequiredSlots
+        {
+            get;
+            private set;
+        }
     }
 }

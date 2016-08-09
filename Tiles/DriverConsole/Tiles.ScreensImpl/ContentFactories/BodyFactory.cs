@@ -16,7 +16,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             var head = new BodyPart("head", true, true, ArmorSlot.Head, WeaponSlot.None, torso);
 
             var leftArm = new BodyPart("left arm", false, true, ArmorSlot.LeftArm, WeaponSlot.None, torso);
-            var leftHand = new BodyPart("left hand", false, true, ArmorSlot.LeftHand, WeaponSlot.Main, leftArm);
+            var leftHand = new BodyPart("left hand", false, true, ArmorSlot.LeftHand, WeaponSlot.None, leftArm);
 
             var rightArm = new BodyPart("right arm", false, true, ArmorSlot.RightArm, WeaponSlot.None, torso);
             var rightHand = new BodyPart("right hand", false, true, ArmorSlot.RightHand, WeaponSlot.Main, rightArm);

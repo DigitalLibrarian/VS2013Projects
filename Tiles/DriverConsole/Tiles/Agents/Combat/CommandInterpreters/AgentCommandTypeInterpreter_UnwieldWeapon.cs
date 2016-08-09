@@ -12,8 +12,7 @@ namespace Tiles.Agents.Combat.CommandInterpreters
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand)
         {
-            var slotType = agentCommand.Weapon.WeaponClass.WeaponSlot;
-            agent.EquipmentSlots.Empty(slotType);
+            agent.Outfit.Unwield(agentCommand.Item);
             agent.Inventory.RestoreFromWorn(agentCommand.Item);
             game.ActionLog.AddLine(string.Format("The {0} stops wielding the {1}.", agent.Name, agentCommand.Item.Name));
         }

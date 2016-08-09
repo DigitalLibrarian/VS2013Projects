@@ -7,16 +7,6 @@ using Tiles.Agents.Combat;
 
 namespace Tiles.Items
 {
-    public class Item : IItem
-    {
-        public string Name { get; set; }
-        public ISprite Sprite { get; set; }
-        public bool IsWeapon { get { return Weapon != null; } }
-        public IWeapon Weapon { get; set; }
-        public bool IsArmor { get { return Armor != null; } }
-        public IArmor Armor { get; set; }
-    }
-
     public class WeaponItem : IWeapon, IItem
     {
         public IWeaponClass WeaponClass { get; private set; }

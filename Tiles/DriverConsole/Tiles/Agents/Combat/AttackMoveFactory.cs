@@ -21,13 +21,14 @@ namespace Tiles.Agents.Combat
             var diffVector = attacker.Pos - defender.Pos;
             foreach (var meBP in attacker.Body.Parts)
             {
-                if (meBP.Weapon != null)
+                var weaponItem = attacker.Outfit.GetWeaponItem(meBP);
+                if (weaponItem != null)
                 {
                     foreach (var youBP in defender.Body.Parts)
                     {
                         if (CompassVectors.IsCompassVector(diffVector))
                         {
-                            yield return MoveBuilder.WeaponStrike(attacker, defender, youBP, meBP.Weapon);
+                            yield return MoveBuilder.WeaponStrike(attacker, defender, youBP, weaponItem.Weapon);
                         }
                     }
                 }

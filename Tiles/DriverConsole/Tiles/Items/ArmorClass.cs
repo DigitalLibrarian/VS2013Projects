@@ -9,19 +9,16 @@ namespace Tiles.Items
 {
     public class ArmorClass : IArmorClass
     {
-        //Dictionary<DamageType, uint> BaseResist { get; set; }
         public DamageVector DamageVector { get; private set; }
         public string Name { get; private set; }
         public ISprite Sprite { get; private set; }
+        public IReadOnlyList<ArmorSlot> RequiredSlots { get; private set; }
 
-        // TODO - maintain interface and constructor api, but make this an IList
-        public ArmorSlot ArmorSlot { get; private set; }
-
-        public ArmorClass(string name, ISprite sprite, ArmorSlot slot, DamageVector damage)
+        public ArmorClass(string name, ISprite sprite, DamageVector damage, params ArmorSlot[] slots)
         {
             Name = name;
             Sprite = sprite;
-            ArmorSlot = slot;
+            RequiredSlots = slots;
             DamageVector = damage;
         }
 

@@ -24,6 +24,7 @@ namespace Tiles.Agents
         bool Move(Vector2 move);
         void Update(IGame game);
         IInventory Inventory { get; }
-        IEquipmentSlotSet EquipmentSlots { get; }
+        //IEquipmentSlotSet EquipmentSlots { get; }
+        IOutfit Outfit { get; }
     }
 }

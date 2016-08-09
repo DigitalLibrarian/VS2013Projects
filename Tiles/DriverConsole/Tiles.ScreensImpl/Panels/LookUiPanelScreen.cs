@@ -73,6 +73,7 @@ namespace Tiles.ScreensImpl.Panels
             }
             else
             {
+                // TODO - this should work with IOutfit
                 lines.Add(string.Format("Name: {0}", agent.Name));
                 foreach (var bodyPart in agent.Body.Parts)
                 {
