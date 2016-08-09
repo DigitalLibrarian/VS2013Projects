@@ -40,9 +40,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.StringManipulation.Tests", "Tiles.StringManipulation.Tests\Tiles.StringManipulation.Tests.csproj", "{105B71A6-9C2A-4F9F-BBDA-37241B851D9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4A43F31-FF6A-457A-9280-89F8664FFF19}"
-	ProjectSection(SolutionItems) = preProject
-		Plans.txt = Plans.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
