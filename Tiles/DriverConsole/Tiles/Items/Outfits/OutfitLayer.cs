@@ -12,7 +12,10 @@ namespace Tiles.Items.Outfits
         IBody Body { get; set; }
         IList<OutfitBinding<TSlot>> Bindings { get; set; }
 
-        public OutfitLayer(IBody body, Predicate<IItem> isSuitablePred, Func<IBodyPart, TSlot> partSlotFunc, Func<IItem, IEnumerable<TSlot>> itemRequiredSlotFunc)
+        public OutfitLayer(IBody body, 
+            Predicate<IItem> isSuitablePred, 
+            Func<IBodyPart, TSlot> partSlotFunc, 
+            Func<IItem, IEnumerable<TSlot>> itemRequiredSlotFunc)
         {
             Body = body;
             IsSuitablePred = isSuitablePred;
@@ -25,16 +28,17 @@ namespace Tiles.Items.Outfits
         Func<IBodyPart, TSlot> PartSlotFunc { get; set; }
         Func<IItem, IEnumerable<TSlot>> ItemRequiredSlotsFunc { get; set; }
 
-        bool IsSuitable(IItem item)
+        public bool IsSuitable(IItem item)
         {
             return IsSuitablePred(item);
         }
-        TSlot PartSlot(IBodyPart part)
+
+        public TSlot PartSlot(IBodyPart part)
         {
             return PartSlotFunc(part);
         }
 
-        IEnumerable<TSlot> RequiredSlots(IItem item)
+        public IEnumerable<TSlot> RequiredSlots(IItem item)
         {
             return ItemRequiredSlotsFunc(item);
         }
@@ -49,7 +53,7 @@ namespace Tiles.Items.Outfits
             return Bindings.Where(x => x.Part == part).Select(x => x.Item);
         }
 
-        IEnumerable<IBodyPart> FindParts(IItem item)
+        public IEnumerable<IBodyPart> FindParts(IItem item)
         {
             if (IsSuitable(item))
             {
@@ -72,7 +76,7 @@ namespace Tiles.Items.Outfits
             && HaveAllRequiredSlots(item);
         }
 
-        bool HaveAllRequiredSlots(IItem item)
+        public bool HaveAllRequiredSlots(IItem item)
         {
             if (!IsSuitable(item)) return false;
 
