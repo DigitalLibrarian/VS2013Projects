@@ -96,12 +96,16 @@
     <Compile Include="Items\ArmorSlot.cs" />
     <Compile Include="Agents\Combat\DamageType.cs" />
     <Compile Include="Items\IArmorClass.cs" />
-    <Compile Include="Items\IOutfit.cs" />
+    <Compile Include="Items\Outfits\IOutfit.cs" />
     <Compile Include="Items\IInventory.cs" />
     <Compile Include="Items\Inventory.cs" />
+    <Compile Include="Items\Outfits\IOutfitLayer.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\IWeapon.cs" />
     <Compile Include="Items\IWeaponClass.cs" />
+    <Compile Include="Items\Outfits\Outfit.cs" />
+    <Compile Include="Items\Outfits\OutfitBinding.cs" />
+    <Compile Include="Items\Outfits\OutfitLayer.cs" />
     <Compile Include="Items\WeaponClass.cs" />
     <Compile Include="Items\WeaponItem.cs" />
     <Compile Include="Items\WeaponSlot.cs" />

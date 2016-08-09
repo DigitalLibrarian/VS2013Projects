@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Math;
 using Tiles.Bodies;
 using Tiles.Items;
+using Tiles.Items.Outfits;
 namespace Tiles.Agents
 {
     public class Agent : IAgent

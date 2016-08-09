@@ -10,6 +10,7 @@ using Tiles.Items;
 using Tiles.Math;
 using Tiles.Random;
 using Tiles.Agents.Combat.CommandInterpreters;
+using Tiles.Items.Outfits;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {

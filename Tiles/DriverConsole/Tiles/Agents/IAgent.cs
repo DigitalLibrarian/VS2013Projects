@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tiles.Items;
 using Tiles.Math;
 using Tiles.Bodies;
+using Tiles.Items.Outfits;
 
 namespace Tiles.Agents
 {
@@ -24,7 +25,6 @@ namespace Tiles.Agents
         bool Move(Vector2 move);
         void Update(IGame game);
         IInventory Inventory { get; }
-        //IEquipmentSlotSet EquipmentSlots { get; }
         IOutfit Outfit { get; }
     }
 }

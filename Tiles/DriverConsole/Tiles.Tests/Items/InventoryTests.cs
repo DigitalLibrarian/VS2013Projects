@@ -77,11 +77,11 @@ namespace Tiles.Tests.Items
             object key3 = new object();
             object key4 = new object();
 
-            Asserter.AssertException(() => inv.GetWorn(key1));
-            Asserter.AssertException(() => inv.GetWorn(key2));
-            Asserter.AssertException(() => inv.GetWorn(key3));
-            Asserter.AssertException(() => inv.GetWorn(key4));
-
+            Assert.IsNull(inv.GetWorn(key1));
+            Assert.IsNull(inv.GetWorn(key2));
+            Assert.IsNull(inv.GetWorn(key3));
+            Assert.IsNull(inv.GetWorn(key4));
+            
             inv.AddToWorn(key1, itemMock1.Object);
             Assert.AreEqual(itemMock1.Object, inv.GetWorn(key1));
             Assert.AreEqual(2, inv.GetItems().Count());

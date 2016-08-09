@@ -11,6 +11,7 @@ using Tiles.Math;
 using Tiles.Tests.Assertions;
 using Tiles.Structures;
 using System.Collections.Generic;
+using Tiles.Items.Outfits;
 
 namespace Tiles.Tests.Agents
 {

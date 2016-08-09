@@ -7,6 +7,7 @@ using Tiles.Items;
 using Tiles.Math;
 using Tiles.Bodies;
 using Tiles.Agents.Behaviors;
+using Tiles.Items.Outfits;
 
 namespace Tiles.Agents
 {
