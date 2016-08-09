@@ -12,10 +12,9 @@ namespace Tiles.Items
         string Name { get; }
         WeaponSlot WeaponSlot { get; }
         ISprite Sprite { get; }
-        
-        DamageVector DamageVector { get; }
 
         // TODO - a single weapon class should be capable of many possible attack moves.  this is a just a stop gap
+        DamageVector DamageVector { get; }
         string MeleeVerb { get; }
     }
 }

@@ -1,7 +1,0 @@
-D:\one-offs\Tiles\DriverConsole\Tiles.StringManipulation.Tests\bin\Debug\Tiles.StringManipulation.Tests.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.StringManipulation.Tests\bin\Debug\Tiles.StringManipulation.Tests.pdb
-D:\one-offs\Tiles\DriverConsole\Tiles.StringManipulation.Tests\bin\Debug\Tiles.StringManipulation.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.StringManipulation.Tests\bin\Debug\Tiles.StringManipulation.pdb
-D:\one-offs\Tiles\DriverConsole\Tiles.StringManipulation.Tests\obj\Debug\Tiles.StringManipulation.Tests.csprojResolveAssemblyReference.cache
-D:\one-offs\Tiles\DriverConsole\Tiles.StringManipulation.Tests\obj\Debug\Tiles.StringManipulation.Tests.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.StringManipulation.Tests\obj\Debug\Tiles.StringManipulation.Tests.pdb

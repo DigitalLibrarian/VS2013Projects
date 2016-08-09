@@ -1,9 +1,0 @@
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\obj\Debug\Tiles.Math.Tests.csprojResolveAssemblyReference.cache
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\bin\Debug\Tiles.Math.Tests.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\bin\Debug\Tiles.Math.Tests.pdb
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\bin\Debug\Tiles.Math.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\bin\Debug\Tiles.Tests.Assertions.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\bin\Debug\Tiles.Math.pdb
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\bin\Debug\Tiles.Tests.Assertions.pdb
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\obj\Debug\Tiles.Math.Tests.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.Math.Tests\obj\Debug\Tiles.Math.Tests.pdb

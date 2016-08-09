@@ -1,7 +1,0 @@
-D:\one-offs\Tiles\DriverConsole\Tiles.Tests.Asserter\bin\Debug\Tiles.Tests.Asserter.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.Tests.Asserter\bin\Debug\Tiles.Tests.Asserter.pdb
-D:\one-offs\Tiles\DriverConsole\Tiles.Tests.Asserter\bin\Debug\Tiles.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.Tests.Asserter\bin\Debug\Tiles.pdb
-D:\one-offs\Tiles\DriverConsole\Tiles.Tests.Asserter\obj\Debug\Tiles.Tests.Asserter.csprojResolveAssemblyReference.cache
-D:\one-offs\Tiles\DriverConsole\Tiles.Tests.Asserter\obj\Debug\Tiles.Tests.Asserter.dll
-D:\one-offs\Tiles\DriverConsole\Tiles.Tests.Asserter\obj\Debug\Tiles.Tests.Asserter.pdb
