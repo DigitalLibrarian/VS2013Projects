@@ -10,11 +10,10 @@ namespace Tiles.Items.Outfits
     public interface IOutfit
     {
         IEnumerable<IItem> GetItems();
-        IEnumerable<IItem> GetItems(int layer);
         IEnumerable<IItem> GetItems(IBodyPart part);
 
         int NumLayers { get; }
-        IEnumerable<IOutfitLayer> GetLayers();
+        IEnumerable<IOutfitLayer> GetArmorLayers();
 
         bool CanWear(IItem Item);
         bool Wear(IItem item);

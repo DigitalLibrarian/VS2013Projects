@@ -61,7 +61,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 body,
                 "Shambler",
                 new Inventory(),
-                new Outfit(body)
+                new Outfit(body, new OutfitLayerFactory())
                 );
 
             zombie.Outfit.Wield(new Item { Weapon = new ZombieClaw() });
@@ -86,7 +86,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 worldPos,
                 body,
                 new Inventory(),
-                new Outfit(body),
+                new Outfit(body, new OutfitLayerFactory()),
                 planner
             );
             player.IsUndead = false;
@@ -109,7 +109,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 body,
                 "Survivor",
                 new Inventory(),
-                new Outfit(body)
+                new Outfit(body, new OutfitLayerFactory())
                 );
 
             survivor.AgentBehavior = new CommandAgentBehavior(new SurvivorAgentCommandPlanner(Random), CommandInterpreter);

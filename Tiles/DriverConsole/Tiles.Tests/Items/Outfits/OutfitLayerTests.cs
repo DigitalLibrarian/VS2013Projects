@@ -17,9 +17,9 @@ namespace Tiles.Tests.Items.Outfits
     {
         enum TestSlot { None, One, Two, Three}
 
-        Mock<IBodyPart> PartOneMock { get; set; }
-        Mock<IBodyPart> PartTwoMock { get; set; }
-        Mock<IBodyPart> PartThreeMock { get; set; }
+        Mock<IBodyPart> PartMock1 { get; set; }
+        Mock<IBodyPart> PartMock2 { get; set; }
+        Mock<IBodyPart> PartMock3 { get; set; }
 
         Mock<IBody> BodyMock { get; set; }
 
@@ -32,19 +32,17 @@ namespace Tiles.Tests.Items.Outfits
         [TestInitialize]
         public void Initialize()
         {
-            PartOneMock = new Mock<IBodyPart>();
-            PartTwoMock = new Mock<IBodyPart>();
-            PartThreeMock = new Mock<IBodyPart>();
+            PartMock1 = new Mock<IBodyPart>();
+            PartMock2 = new Mock<IBodyPart>();
+            PartMock3 = new Mock<IBodyPart>();
 
             BodyMock = new Mock<IBody>();
-            BodyMock.Setup(x => x.Parts).Returns(
-                new List<IBodyPart>
+            BodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart>
                 {
-                    PartOneMock.Object,
-                    PartTwoMock.Object,
-                    PartThreeMock.Object,
-                }
-                );
+                    PartMock1.Object,
+                    PartMock2.Object,
+                    PartMock3.Object,
+                });
 
             SuitableDb = new Dictionary<IItem, bool>();
             PartSlotsDb = new Dictionary<IBodyPart, TestSlot>();
@@ -63,7 +61,7 @@ namespace Tiles.Tests.Items.Outfits
 
             Assert.IsFalse(result.Any());
 
-            foreach (var partMock in new[] { PartOneMock, PartTwoMock, PartThreeMock })
+            foreach (var partMock in new[] { PartMock1, PartMock2, PartMock3 })
             {
                 Assert.IsFalse(Layer.GetItems(partMock.Object).Any());
             }
@@ -77,9 +75,9 @@ namespace Tiles.Tests.Items.Outfits
             SuitableDb[itemMock1.Object] = true;
             SuitableDb[itemMock2.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.Two;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Three;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Three;
 
             RequiredSlotsDb[itemMock1.Object] = new List<TestSlot> { TestSlot.One };
             RequiredSlotsDb[itemMock2.Object] = new List<TestSlot> { TestSlot.Two };
@@ -93,15 +91,15 @@ namespace Tiles.Tests.Items.Outfits
             Assert.IsTrue(result.Contains(itemMock1.Object));
             Assert.IsTrue(result.Contains(itemMock2.Object));
 
-            result = Layer.GetItems(PartOneMock.Object);
+            result = Layer.GetItems(PartMock1.Object);
             Assert.AreEqual(1, result.Count());
             Assert.IsTrue(result.Contains(itemMock1.Object));
 
-            result = Layer.GetItems(PartTwoMock.Object);
+            result = Layer.GetItems(PartMock2.Object);
             Assert.AreEqual(1, result.Count());
             Assert.IsTrue(result.Contains(itemMock2.Object));
 
-            result = Layer.GetItems(PartThreeMock.Object);
+            result = Layer.GetItems(PartMock3.Object);
             Assert.AreEqual(0, result.Count());
         }
 
@@ -126,9 +124,9 @@ namespace Tiles.Tests.Items.Outfits
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.Two;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Three;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Three;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.One };
 
@@ -154,9 +152,9 @@ namespace Tiles.Tests.Items.Outfits
         {
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
-            PartSlotsDb[PartOneMock.Object] = TestSlot.None;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.None;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock1.Object] = TestSlot.None;
+            PartSlotsDb[PartMock2.Object] = TestSlot.None;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Two;
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.One, TestSlot.Two };
 
             var result = Layer.CanEquip(itemMock.Object);
@@ -169,9 +167,9 @@ namespace Tiles.Tests.Items.Outfits
         {
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.None;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.None;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Two;
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.One, TestSlot.One, TestSlot.Two };
 
             var result = Layer.CanEquip(itemMock.Object);
@@ -188,9 +186,9 @@ namespace Tiles.Tests.Items.Outfits
             SuitableDb[itemMock.Object] = true;
             SuitableDb[itemInUseMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.Two;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Three;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Three;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.One, TestSlot.Two };
             RequiredSlotsDb[itemInUseMock.Object] = new List<TestSlot> { TestSlot.One };
@@ -209,9 +207,9 @@ namespace Tiles.Tests.Items.Outfits
             SuitableDb[itemMock.Object] = true;
             SuitableDb[itemInUseMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.One;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.One;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Two;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.One, TestSlot.One, TestSlot.Two };
             RequiredSlotsDb[itemInUseMock.Object] = new List<TestSlot> { TestSlot.One };
@@ -237,17 +235,17 @@ namespace Tiles.Tests.Items.Outfits
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.Two;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Three;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Three;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.Two, TestSlot.Three };
 
             var result = Layer.FindParts(itemMock.Object);
 
             Assert.AreEqual(2, result.Count());
-            Assert.AreSame(PartTwoMock.Object, result.ElementAt(0));
-            Assert.AreSame(PartThreeMock.Object, result.ElementAt(1));
+            Assert.AreSame(PartMock2.Object, result.ElementAt(0));
+            Assert.AreSame(PartMock3.Object, result.ElementAt(1));
         }
 
         [TestMethod]
@@ -256,18 +254,18 @@ namespace Tiles.Tests.Items.Outfits
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.One;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Three;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.One;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Three;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> {TestSlot.One, TestSlot.One, TestSlot.Three };
 
             var result = Layer.FindParts(itemMock.Object);
 
             Assert.AreEqual(3, result.Count());
-            Assert.AreSame(PartOneMock.Object, result.ElementAt(0));
-            Assert.AreSame(PartTwoMock.Object, result.ElementAt(1));
-            Assert.AreSame(PartThreeMock.Object, result.ElementAt(2));
+            Assert.AreSame(PartMock1.Object, result.ElementAt(0));
+            Assert.AreSame(PartMock2.Object, result.ElementAt(1));
+            Assert.AreSame(PartMock3.Object, result.ElementAt(2));
         }
 
         [TestMethod]
@@ -276,9 +274,9 @@ namespace Tiles.Tests.Items.Outfits
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.One;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.One;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.One;
+            PartSlotsDb[PartMock3.Object] = TestSlot.One;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.Two, TestSlot.Three };
 
@@ -302,9 +300,9 @@ namespace Tiles.Tests.Items.Outfits
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.One;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.One;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.One;
+            PartSlotsDb[PartMock3.Object] = TestSlot.One;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.Two, TestSlot.Three };
 
@@ -317,9 +315,9 @@ namespace Tiles.Tests.Items.Outfits
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.Two;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Three;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Three;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.Two, TestSlot.Three };
 
@@ -332,9 +330,9 @@ namespace Tiles.Tests.Items.Outfits
             var itemMock = new Mock<IItem>();
             SuitableDb[itemMock.Object] = true;
 
-            PartSlotsDb[PartOneMock.Object] = TestSlot.One;
-            PartSlotsDb[PartTwoMock.Object] = TestSlot.Two;
-            PartSlotsDb[PartThreeMock.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock1.Object] = TestSlot.One;
+            PartSlotsDb[PartMock2.Object] = TestSlot.Two;
+            PartSlotsDb[PartMock3.Object] = TestSlot.Two;
 
             RequiredSlotsDb[itemMock.Object] = new List<TestSlot> { TestSlot.One, TestSlot.Two, TestSlot.Two };
 

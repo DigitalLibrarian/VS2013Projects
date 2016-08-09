@@ -14,60 +14,43 @@ namespace Tiles.Items.Outfits
         IOutfitLayer WeaponLayer { get; set; }
         IBody Body { get; set; }
 
-
-        public Outfit(IBody body, int numLayers = 1)
+        public Outfit(IBody body, IOutfitLayerFactory outfitLayerFactory, int numLayers = 1)
         {
             Body = body;
             NumLayers = numLayers;
-            Allocate();
+            Allocate(outfitLayerFactory);
         }
 
-        void Allocate()
+        void Allocate(IOutfitLayerFactory factory)
         {
             Layers = new List<IOutfitLayer>(NumLayers);
             for (int i = 0; i < NumLayers; i++)
             {
-                Layers.Add(new OutfitLayer<ArmorSlot>(Body,
+                Layers.Add(factory.Create<ArmorSlot>(Body,
                     item => item.IsArmor,
                     part => part.ArmorSlot,
                     item => item.Armor.ArmorClass.RequiredSlots));
             }
 
-            WeaponLayer = new OutfitLayer<WeaponSlot>(Body,
+            WeaponLayer = factory.Create<WeaponSlot>(Body,
                 item => item.IsWeapon,
                 part => part.WeaponSlot,
                 item => item.Weapon.WeaponClass.RequiredSlots);
         }
 
-
         public IEnumerable<IItem> GetItems()
         {
             return Layers.SelectMany<IOutfitLayer, IItem>(x => x.GetItems()).Concat(WeaponLayer.GetItems());
         }
-
-        public IEnumerable<IItem> GetItems(int layer)
-        {
-            return Layers[layer].GetItems();
-        }
-
+        
         public IEnumerable<IItem> GetItems(IBodyPart part)
         {
             return Layers.SelectMany<IOutfitLayer, IItem>(x => x.GetItems(part)).Concat(WeaponLayer.GetItems(part));
         }
 
-        public IEnumerable<IOutfitLayer> GetLayers()
+        public IEnumerable<IOutfitLayer> GetArmorLayers()
         {
             return Layers;
-        }
-
-        public bool CanWear(IItem item, int layer)
-        {
-            return Layers[layer].CanEquip(item);
-        }
-
-        public bool Wear(IItem item, int layer)
-        {
-            return Wear(item, layer);
         }
 
         public bool IsWorn(IItem item)
@@ -88,13 +71,11 @@ namespace Tiles.Items.Outfits
             return Layers.FirstOrDefault(x => x.CanEquip(Item)) != null;
         }
 
-
         public bool Wear(IItem item)
         {
             if (!CanWear(item)) return false;
             return Layers.First(x => x.CanEquip(item)).Equip(item);
         }
-
 
         public bool CanWield(IItem item)
         {
