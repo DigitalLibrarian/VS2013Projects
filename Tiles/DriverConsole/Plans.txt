@@ -1,0 +1,20 @@
+Goal: To build an interesting tile engine on par with dwarf fortress or cataclysm dda.  
+
+Most things in the simulation should be completely data driven.  The list includes:
+
+* characters
+* weapon combat moves and capabilities
+* all inventory items
+* body
+* atlas data (terrain / world info)
+* world generation parameters
+* civilizations
+* materials
+* structures
+* vehicles
+* biomes
+* sites
+
+* religions
+* world history
+* character psychological model (dreams, wants, needs, relationships)

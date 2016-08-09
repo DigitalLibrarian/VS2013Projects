@@ -1,0 +1,7 @@
+D:\one-offs\Tiles\DriverConsole\Render\bin\Debug\Tiles.Render.dll
+D:\one-offs\Tiles\DriverConsole\Render\bin\Debug\Tiles.Render.pdb
+D:\one-offs\Tiles\DriverConsole\Render\bin\Debug\Tiles.dll
+D:\one-offs\Tiles\DriverConsole\Render\bin\Debug\Tiles.pdb
+D:\one-offs\Tiles\DriverConsole\Render\obj\Debug\Tiles.Render.csprojResolveAssemblyReference.cache
+D:\one-offs\Tiles\DriverConsole\Render\obj\Debug\Tiles.Render.dll
+D:\one-offs\Tiles\DriverConsole\Render\obj\Debug\Tiles.Render.pdb

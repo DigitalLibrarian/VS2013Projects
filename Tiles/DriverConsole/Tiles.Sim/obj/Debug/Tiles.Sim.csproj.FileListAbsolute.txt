@@ -1,0 +1,7 @@
+D:\one-offs\Tiles\DriverConsole\Tiles.Sim\bin\Debug\Tiles.Sim.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Sim\bin\Debug\Tiles.Sim.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles.Sim\bin\Debug\Tiles.Math.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Sim\bin\Debug\Tiles.Math.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles.Sim\obj\Debug\Tiles.Sim.csprojResolveAssemblyReference.cache
+D:\one-offs\Tiles\DriverConsole\Tiles.Sim\obj\Debug\Tiles.Sim.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Sim\obj\Debug\Tiles.Sim.pdb

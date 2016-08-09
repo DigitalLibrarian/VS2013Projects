@@ -1,0 +1,17 @@
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Gsm.Tests.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Gsm.Tests.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Castle.Core.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Moq.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Control.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Gsm.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Tests.Assertions.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Math.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Control.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Gsm.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Tests.Assertions.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Castle.Core.xml
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Moq.xml
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\bin\Debug\Tiles.Math.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\obj\Debug\Tiles.Gsm.Tests.csprojResolveAssemblyReference.cache
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\obj\Debug\Tiles.Gsm.Tests.dll
+D:\one-offs\Tiles\DriverConsole\Tiles.Gsm.Tests\obj\Debug\Tiles.Gsm.Tests.pdb

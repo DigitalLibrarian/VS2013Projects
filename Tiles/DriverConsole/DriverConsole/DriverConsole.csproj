@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2AFA0977-9321-4347-9DD0-6A1D54A887CF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DriverConsole</RootNamespace>
+    <AssemblyName>DriverConsole</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tiles.Console\Tiles.Console.csproj">
+      <Project>{9817aad4-2b44-46fd-9e2c-724c7094ed88}</Project>
+      <Name>Tiles.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Control.Console\Tiles.Control.Console.csproj">
+      <Project>{0f49f575-5aba-44f5-9098-a64360165397}</Project>
+      <Name>Tiles.Control.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Control\Tiles.Control.csproj">
+      <Project>{da61f81d-cd5c-4b0e-b6d2-bc1e444cffd6}</Project>
+      <Name>Tiles.Control</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Gsm\Tiles.Gsm.csproj">
+      <Project>{ef3e4903-2fec-48c1-b05b-8d8763b04337}</Project>
+      <Name>Tiles.Gsm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
+      <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
+      <Name>Tiles.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Random\Tiles.Random.csproj">
+      <Project>{604a0f97-f866-4852-9882-0708f88b2ba1}</Project>
+      <Name>Tiles.Random</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Render.Console\Tiles.Render.Console.csproj">
+      <Project>{ee6e4b3b-ab93-4fe0-bd9a-399ad55c66af}</Project>
+      <Name>Tiles.Render.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.ScreensImpl\Tiles.ScreensImpl.csproj">
+      <Project>{1a551a35-8e59-4a0d-b2c0-b87ca7fcb57f}</Project>
+      <Name>Tiles.ScreensImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles\Tiles.csproj">
+      <Project>{dbe6c63c-cd28-4c24-920c-2776da05fff4}</Project>
+      <Name>Tiles</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

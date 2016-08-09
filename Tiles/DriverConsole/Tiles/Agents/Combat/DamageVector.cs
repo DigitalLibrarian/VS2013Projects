@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Tiles.Agents.Combat
+{
+    public class DamageVector
+    {
+        IDictionary<DamageType, uint> Data { get; set; }
+
+        public DamageVector(IDictionary<DamageType, uint> data)
+        {
+            Data = data;
+        }
+
+        public DamageVector()
+        {
+            Data = new Dictionary<DamageType, uint>();
+        }
+
+        public void AddComponent(DamageType damageType, uint damage)
+        {
+            var d = GetComponent(damageType);
+            SetComponent(damageType, d + damage);
+        }
+
+        public uint GetComponent(DamageType damageType)
+        {
+            if (Data.ContainsKey(damageType))
+            {
+                return Data[damageType];
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public void SetComponent(DamageType damageType, uint damage)
+        {
+            Data[damageType] = damage;
+        }
+
+        public IEnumerable<DamageType> GetComponentTypes()
+        {
+            return Data.Keys;
+        }
+
+        StringBuilder StringBuilder = new StringBuilder();
+        public override string ToString()
+        {
+            StringBuilder.Clear();
+            foreach (var dt in GetComponentTypes())
+            {
+                StringBuilder.AppendFormat("{0}: {1} ", dt, GetComponent(dt));
+            }
+            return StringBuilder.ToString();
+        }
+
+        public static IEnumerable<DamageType> AllDamageTypes()
+        {
+            foreach (var dtObj in Enum.GetValues(typeof(DamageType)))
+            {
+                yield return (DamageType)dtObj;
+            }
+        }
+    }
+}

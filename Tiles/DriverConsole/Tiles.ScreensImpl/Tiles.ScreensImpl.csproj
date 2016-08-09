@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A551A35-8E59-4A0D-B2C0-B87CA7FCB57F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tiles.ScreensImpl</RootNamespace>
+    <AssemblyName>Tiles.ScreensImpl</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CombatScreen.cs" />
+    <Compile Include="ContentFactories\AgentFactory.cs" />
+    <Compile Include="ContentFactories\BodyFactory.cs" />
+    <Compile Include="CanvasScreen.cs" />
+    <Compile Include="CommandScreen.cs" />
+    <Compile Include="ContentFactories\GameFactory.cs" />
+    <Compile Include="ContentFactories\SurvivorAgentCommandPlanner.cs" />
+    <Compile Include="ContentFactories\ZombieAgentCommandPlanner.cs" />
+    <Compile Include="ContentFactories\ZombieSiteFactory.cs" />
+    <Compile Include="GameSimulationScreen.cs" />
+    <Compile Include="ContentFactories\ItemFactory.cs" />
+    <Compile Include="InventoryItemDisplayScreen.cs" />
+    <Compile Include="InventoryScreen.cs" />
+    <Compile Include="JaggedListSelector.cs" />
+    <Compile Include="LookingCommandScreen.cs" />
+    <Compile Include="Panels\ActionLogPanel.cs" />
+    <Compile Include="Panels\LookUiPanelScreen.cs" />
+    <Compile Include="IGameSimulationViewModel.cs" />
+    <Compile Include="CanvasBoxScreen.cs" />
+    <Compile Include="Panels\UiPanelScreen.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Panels\SimDisplayUiPanelScreen.cs" />
+    <Compile Include="GameSimulationViewModel.cs" />
+    <Compile Include="ContentFactories\StructureFactory.cs" />
+    <Compile Include="ThrowingCommandScreen.cs" />
+    <Compile Include="YouDiedScreen.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tiles.Control\Tiles.Control.csproj">
+      <Project>{da61f81d-cd5c-4b0e-b6d2-bc1e444cffd6}</Project>
+      <Name>Tiles.Control</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Gsm\Tiles.Gsm.csproj">
+      <Project>{ef3e4903-2fec-48c1-b05b-8d8763b04337}</Project>
+      <Name>Tiles.Gsm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
+      <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
+      <Name>Tiles.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Random\Tiles.Random.csproj">
+      <Project>{604a0f97-f866-4852-9882-0708f88b2ba1}</Project>
+      <Name>Tiles.Random</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.StringManipulation\Tiles.StringManipulation.csproj">
+      <Project>{c82377c3-3890-40d2-859b-9755375f6958}</Project>
+      <Name>Tiles.StringManipulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles\Tiles.csproj">
+      <Project>{dbe6c63c-cd28-4c24-920c-2776da05fff4}</Project>
+      <Name>Tiles</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

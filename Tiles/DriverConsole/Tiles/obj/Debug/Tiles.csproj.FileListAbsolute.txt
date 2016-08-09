@@ -1,0 +1,11 @@
+D:\one-offs\Tiles\DriverConsole\Tiles\obj\Debug\Tiles.csprojResolveAssemblyReference.cache
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.dll
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.Control.dll
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.Math.dll
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.Random.dll
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.Control.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.Math.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles\bin\Debug\Tiles.Random.pdb
+D:\one-offs\Tiles\DriverConsole\Tiles\obj\Debug\Tiles.dll
+D:\one-offs\Tiles\DriverConsole\Tiles\obj\Debug\Tiles.pdb
