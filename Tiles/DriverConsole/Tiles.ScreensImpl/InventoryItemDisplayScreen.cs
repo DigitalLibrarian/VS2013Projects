@@ -40,7 +40,12 @@ namespace Tiles.ScreensImpl
 
             if (Item.IsArmor)
             {
-                leftColumnLines.Add(string.Format("Armor Slot: {0}", string.Join(", ", Item.Armor.ArmorClass.RequiredSlots)));
+                leftColumnLines.Add("Armor Slots:");
+                foreach (var slot in Item.Armor.ArmorClass.RequiredSlots)
+                {
+                    leftColumnLines.Add(string.Format("  {0}", slot));
+                }
+
                 foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
                 {
                     DamageType damageType = (DamageType)damageTypeObj;
@@ -51,7 +56,13 @@ namespace Tiles.ScreensImpl
 
             if (Item.IsWeapon)
             {
-                leftColumnLines.Add(string.Format("Weapon Slot: {0}", string.Join(", ", Item.Weapon.WeaponClass.RequiredSlots)));
+
+                leftColumnLines.Add("Weapon Slots:");
+                foreach (var slot in Item.Weapon.WeaponClass.RequiredSlots)
+                {
+                    leftColumnLines.Add(string.Format("  {0}", slot));
+                }
+
                 foreach(var damageTypeObj in Enum.GetValues(typeof(DamageType)))
                 {
                     DamageType damageType = (DamageType)damageTypeObj;

@@ -89,7 +89,7 @@ namespace Tiles.Items
 
         public IEnumerable<IItem> GetItems(IBodyPart part)
         {
-            return Layers.SelectMany<IOutfitLayer, IItem>(x => x.GetItems(part));
+            return Layers.SelectMany<IOutfitLayer, IItem>(x => x.GetItems(part)).Concat(WeaponLayer.GetItems(part));
         }
 
         public IEnumerable<IOutfitLayer> GetLayers()

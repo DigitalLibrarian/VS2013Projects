@@ -73,18 +73,14 @@ namespace Tiles.ScreensImpl.Panels
             }
             else
             {
-                // TODO - this should work with IOutfit
                 lines.Add(string.Format("Name: {0}", agent.Name));
                 foreach (var bodyPart in agent.Body.Parts)
                 {
                     lines.Add(string.Format("{0}: {1}", bodyPart.Name, bodyPart.Health));
-                    if (bodyPart.Armor != null)
+
+                    foreach (var item in agent.Outfit.GetItems(bodyPart))
                     {
-                        lines.Add(string.Format(" {0}", bodyPart.Armor.ArmorClass.Name));
-                    }
-                    if (bodyPart.Weapon != null)
-                    {
-                        lines.Add(string.Format("  {0}", bodyPart.Weapon.WeaponClass.Name));
+                        lines.Add(string.Format(" {0}", item.Name));
                     }
                 }
             }
