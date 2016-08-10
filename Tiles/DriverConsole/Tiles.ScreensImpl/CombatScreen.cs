@@ -17,14 +17,17 @@ namespace Tiles.ScreensImpl
         IAttackConductor AttackConductor { get; set; }
         IAttackMoveFactory MoveFactory { get; set; }
         IAgent Target { get; set; }
+        IAgentCommandFactory CommandFactory { get; set; }
 
         JaggedListSelector Selector { get; set; }
 
-        public CombatScreen(IPlayer player, IAgent target, IAttackConductor attackConductor, IAttackMoveFactory moveFactory, ICanvas canvas, Box box)
+        public CombatScreen(IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
+            IAttackConductor attackConductor, IAttackMoveFactory moveFactory, ICanvas canvas, Box box)
             : base(canvas, box) 
         {
             Player = player;
             Target = target;
+            CommandFactory = commandFactory;
             AttackConductor = attackConductor;
             MoveFactory = moveFactory;
 
@@ -82,12 +85,7 @@ namespace Tiles.ScreensImpl
                 var moves = MoveFactory.GetPossibleMoves(Player.Agent, Target).ToList();
                 if (Selector.Selected.Y < moves.Count())
                 {
-                    Player.EnqueueCommand(new AgentCommand
-                    {
-                        CommandType = AgentCommandType.AttackMelee,
-                        Target = Target,
-                        AttackMove = moves.ElementAt(Selector.Selected.Y)
-                    });
+                    Player.EnqueueCommand(CommandFactory.MeleeAttack(Player.Agent, Target, moves.ElementAt(Selector.Selected.Y)));
                 }
                 Exit();
             }

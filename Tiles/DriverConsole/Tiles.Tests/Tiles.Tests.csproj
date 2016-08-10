@@ -58,6 +58,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Agents\AgentCommandFactoryTests.cs" />
     <Compile Include="Agents\AgentCommandInterpeterTests.cs" />
     <Compile Include="Agents\AgentTests.cs" />
     <Compile Include="Agents\Behaviors\BaseAgentCommandPlannerTests.cs" />

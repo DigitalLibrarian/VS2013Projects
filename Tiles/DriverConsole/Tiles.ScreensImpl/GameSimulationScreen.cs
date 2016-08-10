@@ -22,11 +22,15 @@ namespace Tiles.ScreensImpl
 
         Vector2 UpdateBoxHalfSize { get; set; }
 
+        IAgentCommandFactory CommandFactory { get; set; }
+
         public GameSimulationScreen(IGame game, ICanvas canvas, Box box)
             : base(canvas, box)
         {
             Game = game;
             Paused = false;
+
+            CommandFactory = new AgentCommandFactory();
             
             var padV = new Vector2(1,1);
             var simDisplayBox = new Box(padV, padV + new Vector2(23, 23));
@@ -55,9 +59,10 @@ namespace Tiles.ScreensImpl
             SimDisplayScreen = new SimDisplayUiPanelScreen(ViewModel, canvas, simDisplayBox);
             ActionLogScreen = new ActionLogUiPanelScreen(ViewModel, canvas, actionLogPanelBox);
             LookingScreen = new LookingCommandScreen(Game, lookExaminePanel);
-            InventoryScreen = new InventoryScreen(Game.Player, Game.ActionLog, Canvas, Box);
+            InventoryScreen = new InventoryScreen(Game.Player, CommandFactory, Game.ActionLog, Canvas, Box);
 
             UpdateBoxHalfSize = game.Atlas.SiteSize;
+
         }
 
         IGameSimulationViewModel ViewModel { get; set; }
@@ -175,17 +180,14 @@ namespace Tiles.ScreensImpl
                         new CombatScreen(
                             Game.Player, 
                             newTile.Agent, 
+                            CommandFactory,
                             Game.AttackConductor, 
                             new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc())), Canvas, Box)
                         );
                 }
                 else
                 {
-                    Game.Player.EnqueueCommand(new AgentCommand
-                    {
-                        CommandType = AgentCommandType.Move,
-                        Direction = delta
-                    });
+                    Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, delta));
                 }
             }
         }
@@ -193,10 +195,7 @@ namespace Tiles.ScreensImpl
         {
             if (args.Key == ConsoleKey.G)
             {
-                Game.Player.EnqueueCommand(new AgentCommand
-                {
-                    CommandType = AgentCommandType.PickUpItemsOnAgentTile
-                });
+                Game.Player.EnqueueCommand(CommandFactory.PickUpItemsOnAgentTile(Game.Player.Agent));
             }
         }
         #endregion

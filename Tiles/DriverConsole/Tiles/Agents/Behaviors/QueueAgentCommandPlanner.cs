@@ -11,8 +11,8 @@ namespace Tiles.Agents.Behaviors
     public class QueueAgentCommandPlanner : BaseAgentCommandPlanner, IAgentCommandQueueProducer
     {
         Queue<IAgentCommand> Queue { get; set; }
-        public QueueAgentCommandPlanner(IRandom random)
-            : base(random, new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc())))
+        public QueueAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory)
+            : base(random, commandFactory, new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc())))
         {
             Queue = new Queue<IAgentCommand>();
         }

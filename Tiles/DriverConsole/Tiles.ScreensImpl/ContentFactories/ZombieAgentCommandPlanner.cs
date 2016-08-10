@@ -12,7 +12,8 @@ namespace Tiles.ScreensImpl.ContentFactories
 {
     public class ZombieAgentCommandPlanner : BaseAgentCommandPlanner
     {
-        public ZombieAgentCommandPlanner(IRandom random) : base(random, new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc()))) { }
+        public ZombieAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory) 
+            : base(random, commandFactory, new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc()))) { }
 
         public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
         {
@@ -27,12 +28,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                 if (attackMoves.Any())
                 {
                     var attackMove = Random.NextElement(attackMoves.ToList());
-                    return new AgentCommand
-                    {
-                        CommandType = AgentCommandType.AttackMelee,
-                        Target = target,
-                        AttackMove = attackMove
-                    };
+                    
+                    return CommandFactory.MeleeAttack(agent, target, attackMove);
                 }
                 else if (Random.NextDouble() > wanderProb)
                 {

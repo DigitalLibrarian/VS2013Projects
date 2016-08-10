@@ -31,7 +31,7 @@ namespace Tiles.Agents
 
         IAgentCommandQueueProducer CommandQueue { get; set; }
 
-        public void EnqueueCommand(AgentCommand command)
+        public void EnqueueCommand(IAgentCommand command)
         {
             CommandQueue.Enqueue(command);
         }

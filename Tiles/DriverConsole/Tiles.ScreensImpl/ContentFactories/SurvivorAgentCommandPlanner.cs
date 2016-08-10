@@ -16,7 +16,8 @@ namespace Tiles.ScreensImpl.ContentFactories
     {
         private static int SightRange = 25;
 
-        public SurvivorAgentCommandPlanner(IRandom random) : base(random, new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc()))) { }
+        public SurvivorAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory) 
+            : base(random, commandFactory, new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc()))) { }
 
         public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
         {
@@ -35,12 +36,15 @@ namespace Tiles.ScreensImpl.ContentFactories
                     if (attackMoves.Any())
                     {
                         var attackMove = Random.NextElement(attackMoves.ToList());
+                        /*
                         return new AgentCommand
                         {
                             CommandType = AgentCommandType.AttackMelee,
                             Target = target,
                             AttackMove = attackMove
                         };
+                         * */
+                        return CommandFactory.MeleeAttack(agent, target, attackMove);
                     }
                     else
                     {
@@ -59,30 +63,41 @@ namespace Tiles.ScreensImpl.ContentFactories
                 var items = GetEquippableWeapons(agent);
                 if (items.Any())
                 {
+                    /*
                     return new AgentCommand
                     {
                         CommandType = AgentCommandType.WieldWeapon,
                         Item = items.First(),
                         Weapon = items.First().Weapon
                     };
+                     * */
+
+                    return CommandFactory.WieldWeapon(agent, items.First(), items.First().Weapon);
                 }
                 items = GetEquippableArmors(agent);
                 if (items.Any())
                 {
+                    /*
                     return new AgentCommand
                     {
                         CommandType = AgentCommandType.WearArmor,
                         Item = items.First(),
                         Armor = items.First().Armor
                     };
+                     * */
+
+                    return CommandFactory.WearArmor(agent, items.First(), items.First().Armor);
                 }
             }
             else if(game.Atlas.GetTileAtPos(agent.Pos).Items.Any())
             {
+                /*
                 return new AgentCommand
                 {
                     CommandType = AgentCommandType.PickUpItemsOnAgentTile
                 };
+                 * */
+                return CommandFactory.PickUpItemsOnAgentTile(agent);
             }
 
             var itemPos = FindNearestItem(game, agent);

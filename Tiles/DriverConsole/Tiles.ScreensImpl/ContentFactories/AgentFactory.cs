@@ -67,7 +67,9 @@ namespace Tiles.ScreensImpl.ContentFactories
             zombie.Outfit.Wield(new Item { Weapon = new ZombieClaw() });
 
             zombie.IsUndead = true;
-            zombie.AgentBehavior = new CommandAgentBehavior(new ZombieAgentCommandPlanner(Random), CommandInterpreter);
+            zombie.AgentBehavior = new CommandAgentBehavior(
+                new ZombieAgentCommandPlanner(Random, new AgentCommandFactory()), 
+                CommandInterpreter);
             return zombie;
         }
 
@@ -75,7 +77,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         public IPlayer CreatePlayer(IAtlas atlas, Vector2 worldPos)
         {
             var body = BodyFactory.CreateHumanoid();
-            var planner = new QueueAgentCommandPlanner(Random);
+            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
             var player = new Player(
                 atlas,
                 new Sprite(
@@ -98,7 +100,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         public IAgent CreateSurvivor(IAtlas atlas, Vector2 worldPos)
         {
             var body = BodyFactory.CreateHumanoid();
-            var planner = new QueueAgentCommandPlanner(Random);
+            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
             var survivor = new Agent(atlas,
                 new Sprite(
                         symbol: Symbol.Survivor,
@@ -112,7 +114,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                 new Outfit(body, new OutfitLayerFactory())
                 );
 
-            survivor.AgentBehavior = new CommandAgentBehavior(new SurvivorAgentCommandPlanner(Random), CommandInterpreter);
+            survivor.AgentBehavior = new CommandAgentBehavior(
+                new SurvivorAgentCommandPlanner(Random, new AgentCommandFactory()), 
+                CommandInterpreter);
             survivor.IsUndead = false;
             return survivor;
         }

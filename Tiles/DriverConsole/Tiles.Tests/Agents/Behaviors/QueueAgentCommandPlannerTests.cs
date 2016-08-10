@@ -17,13 +17,15 @@ namespace Tiles.Tests.Agents.Behaviors
     public class QueueAgentCommandPlannerTests
     {
         Mock<IRandom> RandomMock { get; set;}
+        Mock<IAgentCommandFactory> CommandFactoryMock { get; set; }
         QueueAgentCommandPlanner Planner { get; set; }
 
         [TestInitialize]
         public void Initialize()
         {
             RandomMock = new Mock<IRandom>();
-            Planner = new QueueAgentCommandPlanner(RandomMock.Object);
+            CommandFactoryMock = new Mock<IAgentCommandFactory>();
+            Planner = new QueueAgentCommandPlanner(RandomMock.Object, CommandFactoryMock.Object);
         }
 
         [TestMethod]
@@ -31,16 +33,14 @@ namespace Tiles.Tests.Agents.Behaviors
         {
             var gameMock = new Mock<IGame>();
             var agentMock = new Mock<IAgent>();
+
+            var commandMock = new Mock<IAgentCommand>();
+            CommandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(commandMock.Object);
             var command = Planner.PlanBehavior(gameMock.Object, agentMock.Object);
 
-            Assert.AreEqual(AgentCommandType.None, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+            Assert.AreSame(commandMock.Object, command);
+            
+            CommandFactoryMock.Verify(x => x.Nothing(agentMock.Object), Times.Once());
         }
 
         [TestMethod]
@@ -58,21 +58,17 @@ namespace Tiles.Tests.Agents.Behaviors
             Assert.AreSame(commandMock1.Object, Planner.PlanBehavior(gameMock.Object, agentMock.Object));
             Assert.AreSame(commandMock2.Object, Planner.PlanBehavior(gameMock.Object, agentMock.Object));
 
+
+            var fallBackCommandMock = new Mock<IAgentCommand>();
+            CommandFactoryMock.Verify(x => x.Nothing(agentMock.Object), Times.Never());
+            CommandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(fallBackCommandMock.Object);
+
             var command = Planner.PlanBehavior(gameMock.Object, agentMock.Object);
 
             Assert.AreNotSame(commandMock1.Object, command);
             Assert.AreNotSame(commandMock2.Object, command);
-
-            Assert.AreEqual(AgentCommandType.None, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+            Assert.AreSame(fallBackCommandMock.Object, command);
+            CommandFactoryMock.Verify(x => x.Nothing(agentMock.Object), Times.Once());
         }
-
-
     }
 }

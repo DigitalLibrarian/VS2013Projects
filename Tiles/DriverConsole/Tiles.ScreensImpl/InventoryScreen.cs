@@ -16,16 +16,18 @@ namespace Tiles.ScreensImpl
     {
         IPlayer Player { get; set; }
         IActionLog Log { get; set; }
-        
+        IAgentCommandFactory CommandFactory { get; set; }
+
         JaggedListSelector Selector { get; set; }
 
-        public InventoryScreen(IPlayer player, IActionLog log, ICanvas canvas, Box box)
+        public InventoryScreen(IPlayer player, IAgentCommandFactory commandFactory, IActionLog log, ICanvas canvas, Box box)
             : base(canvas, box)
         {
             Player = player;
             PropagateInput = false;
             PropagateUpdate = false;
 
+            CommandFactory = commandFactory;
             Log = log;
         }
 
@@ -145,7 +147,7 @@ namespace Tiles.ScreensImpl
             if (Player.Inventory.GetItems().Count() > 0 || Player.Inventory.GetWorn().Count() > 0)
             {
                 var hItem = GetHighlightedItem();
-                var itemDisplayScreen = new InventoryItemDisplayScreen(hItem, Player, Log, Canvas, Box);
+                var itemDisplayScreen = new InventoryItemDisplayScreen(hItem, Player, CommandFactory,  Log, Canvas, Box);
                 ScreenManager.Add(itemDisplayScreen);
                 Exit();
             }

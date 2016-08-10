@@ -17,7 +17,8 @@ namespace Tiles.ScreensImpl
         IPlayer Player { get; set; }
         IItem Item { get; set; }
         IActionLog Log { get; set; }
-        public InventoryItemDisplayScreen(IItem item, IPlayer player, IActionLog log, ICanvas canvas, Box box)
+        IAgentCommandFactory CommandFactory { get; set; }
+        public InventoryItemDisplayScreen(IItem item, IPlayer player, IAgentCommandFactory commandFactory, IActionLog log, ICanvas canvas, Box box)
             : base(canvas, box)
         {
             Item = item;
@@ -26,6 +27,7 @@ namespace Tiles.ScreensImpl
             PropagateUpdate = false;
 
             Log = log;
+            CommandFactory = commandFactory;
         }
 
         public override void Draw()
@@ -95,23 +97,13 @@ namespace Tiles.ScreensImpl
                 
         void Wield()
         {
-            Player.EnqueueCommand(new AgentCommand
-            {
-                CommandType = AgentCommandType.WieldWeapon,
-                Item = Item,
-                Weapon = Item.Weapon
-            });
+            Player.EnqueueCommand(CommandFactory.WieldWeapon(Player.Agent, Item, Item.Weapon));
             Exit();
         }
 
         void Wear()
         {
-            Player.EnqueueCommand(new AgentCommand
-            {
-                CommandType = AgentCommandType.WearArmor,
-                Item = Item,
-                Armor = Item.Armor
-            });
+            Player.EnqueueCommand(CommandFactory.WearArmor(Player.Agent , Item, Item.Armor));
             Exit();
         }
 
@@ -119,33 +111,19 @@ namespace Tiles.ScreensImpl
         {
             if (Item.IsWeapon)
             {
-                Player.EnqueueCommand(new AgentCommand
-                {
-                    CommandType = AgentCommandType.UnwieldWeapon,
-                    Item = Item,
-                    Weapon = Item.Weapon
-                });
+                Player.EnqueueCommand(CommandFactory.UnwieldWeapon(Player.Agent, Item, Item.Weapon));
                 Exit();
             }
             if (Item.IsArmor)
             {
-                Player.EnqueueCommand(new AgentCommand
-                {
-                    CommandType = AgentCommandType.TakeOffArmor,
-                    Item = Item,
-                    Armor = Item.Armor
-                });
+                Player.EnqueueCommand(CommandFactory.TakeOffArmor(Player.Agent, Item, Item.Armor));
                 Exit();
             }
         }
 
         void Drop()
         {
-            Player.EnqueueCommand(new AgentCommand
-            {
-                CommandType = AgentCommandType.DropInventoryItem,
-                Item = Item
-            });
+            Player.EnqueueCommand(CommandFactory.DropInventoryItem(Player.Agent, Item));
             Exit();
         }
 

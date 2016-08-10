@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agents\AgentCommandFactory.cs" />
     <Compile Include="Agents\AgentCommandType.cs" />
     <Compile Include="Agents\Behaviors\BaseAgentCommandPlanner.cs" />
     <Compile Include="Agents\Behaviors\CommandAgentBehavior.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Agents\Combat\IAttackMoveFactory.cs" />
     <Compile Include="Agents\Combat\IDamageCalc.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Agents\IAgentCommandFactory.cs" />
     <Compile Include="IAtlas.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="IActionLog.cs" />

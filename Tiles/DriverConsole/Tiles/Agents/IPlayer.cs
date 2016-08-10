@@ -18,7 +18,7 @@ namespace Tiles.Agents
         
         bool Move(Vector2 delta);
 
-        void EnqueueCommand(AgentCommand command);
+        void EnqueueCommand(IAgentCommand command);
     }
 
 }

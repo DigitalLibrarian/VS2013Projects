@@ -12,30 +12,25 @@ namespace Tiles.Agents.Behaviors
 {
     public abstract class BaseAgentCommandPlanner : IAgentCommandPlanner
     {
+        protected IAgentCommandFactory CommandFactory { get; private set; }
         IAttackMoveFactory AttackMoveFactory { get; set; }
         protected IRandom Random { get; private set; }
-        public BaseAgentCommandPlanner(IRandom random, IAttackMoveFactory moveFactory)
+        public BaseAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveFactory moveFactory)
         {
             Random = random;
+            CommandFactory = commandFactory;
             AttackMoveFactory = moveFactory;
         }
 
         protected IAgentCommand Wander(IAgent agent)
         {
             var wander = Random.NextElement(CompassVectors.GetAll().ToList());
-            return new AgentCommand
-            {
-                CommandType = AgentCommandType.Move,
-                Direction = wander
-            };
+            return CommandFactory.MoveDirection(agent, wander);
         }
 
         protected IAgentCommand Nothing(IAgent agent)
         {
-            return new AgentCommand
-            {
-                CommandType = AgentCommandType.None
-            };
+            return CommandFactory.Nothing(agent);
         }
 
         protected IAgentCommand Dead(IAgent agent)
@@ -64,12 +59,7 @@ namespace Tiles.Agents.Behaviors
 
                 if (agent.CanMove(move))
                 {
-                    return new AgentCommand
-                    {
-                        CommandType = AgentCommandType.Move,
-                        Direction = move
-
-                    };
+                    return CommandFactory.MoveDirection(agent, move);
                 }
             }
             return Wander(agent);

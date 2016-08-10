@@ -23,7 +23,8 @@ namespace Tiles.Tests.Agents.Behaviors
         // class is used via inheritance
         class TestPlanner : BaseAgentCommandPlanner
         {
-            public TestPlanner(IRandom random, IAttackMoveFactory moveFactory) : base(random, moveFactory) { }
+            public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveFactory moveFactory) 
+                : base(random, commandFactory, moveFactory) { }
 
             public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
             {
@@ -40,6 +41,7 @@ namespace Tiles.Tests.Agents.Behaviors
         }
 
         Mock<IRandom> RandomMock { get; set; }
+        Mock<IAgentCommandFactory> CommandFactoryMock { get; set; }
         Mock<IAttackMoveFactory> MoveFactoryMock { get; set; }
         TestPlanner Planner { get; set; }
 
@@ -47,8 +49,9 @@ namespace Tiles.Tests.Agents.Behaviors
         public void Initialize()
         {
             RandomMock = new Mock<IRandom>();
+            CommandFactoryMock = new Mock<IAgentCommandFactory>();
             MoveFactoryMock = new Mock<IAttackMoveFactory>();
-            Planner = new TestPlanner(RandomMock.Object, MoveFactoryMock.Object);
+            Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveFactoryMock.Object);
         }
 
         [TestMethod]
@@ -58,53 +61,40 @@ namespace Tiles.Tests.Agents.Behaviors
             var dir = new Vector2(1, 1);
             RandomMock.Setup(x => x.NextElement(It.IsAny<ICollection<Vector2>>())).Returns(dir);
 
+            var commandMock = new Mock<IAgentCommand>();
+            CommandFactoryMock.Setup(x => x.MoveDirection(agentMock.Object, dir)).Returns(commandMock.Object);
+
             var command = Planner.GetNewWanderCommand(agentMock.Object);
 
-            Assert.AreEqual(AgentCommandType.Move, command.CommandType);
-            Asserter.AreEqual(dir, command.Direction);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+            Assert.AreEqual(commandMock.Object, command);
 
             RandomMock.Verify(x => x.NextElement(It.Is<ICollection<Vector2>>(c => 
                 c.Count() == CompassVectors.GetAll().Count()
                 && c.Select(e => CompassVectors.GetAll().Contains(e)).All(b => b)
                 )), Times.Once());
+
+            CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, dir), Times.Once());
         }
 
         [TestMethod]
         public void Nothing()
         {
             var agentMock = new Mock<IAgent>();
+            var commandMock = new Mock<IAgentCommand>();
+
+            CommandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(commandMock.Object);
+
             var command = Planner.GetNewNothingCommand(agentMock.Object);
 
-            Assert.AreEqual(AgentCommandType.None, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+            CommandFactoryMock.Verify(x => x.Nothing(agentMock.Object), Times.Once());
+            Assert.AreSame(commandMock.Object, command);
+
         }
 
         [TestMethod]
         public void Dead()
         {
-            var agentMock = new Mock<IAgent>();
-            var command = Planner.GetNewDeadCommand(agentMock.Object);
-
-            Assert.AreEqual(AgentCommandType.None, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+            Nothing(); // same case for now
         }
 
         [TestMethod]
@@ -118,19 +108,17 @@ namespace Tiles.Tests.Agents.Behaviors
             agentMock.Setup(x => x.Pos).Returns(agentPos);
             agentMock.Setup(x => x.CanMove(goodMove)).Returns(true);
 
+            var commandMock = new Mock<IAgentCommand>();
+            CommandFactoryMock.Setup(x => x.MoveDirection(agentMock.Object, goodMove)).Returns(commandMock.Object);
+
             var command = Planner.GetNewSeekCommand(agentMock.Object, targetPos);
 
-            Assert.AreEqual(AgentCommandType.Move, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(goodMove, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+            Assert.AreSame(commandMock.Object, command);
 
             agentMock.Verify(x => x.CanMove(It.Is<Vector2>(v => v.X != goodMove.X || v.Y != goodMove.Y)), Times.Never());
             RandomMock.Verify(x => x.NextElement(It.IsAny<ICollection<Vector2>>()), Times.Never());
+
+            CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, goodMove), Times.Once());
         }
         
         [TestMethod]
@@ -146,15 +134,12 @@ namespace Tiles.Tests.Agents.Behaviors
             agentMock.Setup(x => x.Pos).Returns(agentPos);
             agentMock.Setup(x => x.CanMove(It.IsAny<Vector2>())).Returns(false);
 
+            var commandMock = new Mock<IAgentCommand>();
+            CommandFactoryMock.Setup(x => x.MoveDirection(agentMock.Object, wanderDir)).Returns(commandMock.Object);
+
             var command = Planner.GetNewSeekCommand(agentMock.Object, targetPos);
-            Assert.AreEqual(AgentCommandType.Move, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(wanderDir, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+
+            Assert.AreSame(commandMock.Object, command);
 
             RandomMock.Verify(x => x.NextElement(It.IsAny<ICollection<Vector2>>()), Times.Once());
 
@@ -162,6 +147,7 @@ namespace Tiles.Tests.Agents.Behaviors
             {
                 agentMock.Verify(x => x.CanMove(compassDir), Times.Once());
             }
+            CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, wanderDir), Times.Once());
         }
 
         [TestMethod]

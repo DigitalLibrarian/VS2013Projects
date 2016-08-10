@@ -23,4 +23,14 @@ namespace Tiles.Agents.Behaviors
             Interpreter.Execute(game, agent, command);
         }
     }
+
+    public class TimeContinuum
+    {
+        public long Tick { get; private set; }
+
+        void Update()
+        {
+            Tick++;
+        }
+    }
 }
