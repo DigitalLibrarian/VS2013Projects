@@ -6,13 +6,18 @@ namespace Tiles.Agents
 {
     public interface IAgentCommand
     {
-        IArmor Armor { get; set; }
-        IAttackMove AttackMove { get; set; }
         AgentCommandType CommandType { get; set; }
         Vector2 Direction { get; set; }
-        IItem Item { get; set; }
-        IAgent Target { get; set; }
         Vector2 TileOffset { get; set; }
+
+        IAttackMove AttackMove { get; set; }
+        IAgent Target { get; set; }
+
+        IItem Item { get; set; }
         IWeapon Weapon { get; set; }
+        IArmor Armor { get; set; }
+
+        // TODO - test this in agent command factory
+        long RequiredTime { get; set; }
     }
 }

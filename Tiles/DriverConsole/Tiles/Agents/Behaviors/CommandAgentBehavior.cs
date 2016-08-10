@@ -11,6 +11,7 @@ namespace Tiles.Agents.Behaviors
     {
         IAgentCommandPlanner Planner { get; set; }
         IAgentCommandInterpreter Interpreter { get; set; }
+        IAgentCommandExecutionContext Context { get; set; }
         public CommandAgentBehavior(IAgentCommandPlanner planner, IAgentCommandInterpreter interpreter)
         {
             Planner = planner;
@@ -19,18 +20,7 @@ namespace Tiles.Agents.Behaviors
 
         public void Update(IGame game, IAgent agent)
         {
-            var command = Planner.PlanBehavior(game, agent);
-            Interpreter.Execute(game, agent, command);
-        }
-    }
-
-    public class TimeContinuum
-    {
-        public long Tick { get; private set; }
-
-        void Update()
-        {
-            Tick++;
+            Interpreter.Execute(game, agent, Planner.PlanBehavior(game, agent));
         }
     }
 }

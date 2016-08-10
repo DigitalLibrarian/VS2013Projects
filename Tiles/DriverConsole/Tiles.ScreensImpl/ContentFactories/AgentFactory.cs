@@ -67,9 +67,8 @@ namespace Tiles.ScreensImpl.ContentFactories
             zombie.Outfit.Wield(new Item { Weapon = new ZombieClaw() });
 
             zombie.IsUndead = true;
-            zombie.AgentBehavior = new CommandAgentBehavior(
-                new ZombieAgentCommandPlanner(Random, new AgentCommandFactory()), 
-                CommandInterpreter);
+
+            zombie.AgentBehavior = CreateBehavior(new ZombieAgentCommandPlanner(Random, new AgentCommandFactory()));
             return zombie;
         }
 
@@ -92,7 +91,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 planner
             );
             player.IsUndead = false;
-            player.Agent.AgentBehavior = new CommandAgentBehavior(planner, CommandInterpreter);
+            player.Agent.AgentBehavior = CreateBehavior(planner);
             return player;
         }
 
@@ -114,12 +113,14 @@ namespace Tiles.ScreensImpl.ContentFactories
                 new Outfit(body, new OutfitLayerFactory())
                 );
 
-            survivor.AgentBehavior = new CommandAgentBehavior(
-                new SurvivorAgentCommandPlanner(Random, new AgentCommandFactory()), 
-                CommandInterpreter);
+            survivor.AgentBehavior = CreateBehavior(new SurvivorAgentCommandPlanner(Random, new AgentCommandFactory()));
             survivor.IsUndead = false;
             return survivor;
         }
 
+        IAgentBehavior CreateBehavior(IAgentCommandPlanner planner)
+        {
+            return new CommandAgentBehavior(planner, CommandInterpreter);
+        }
     }   
 }

@@ -37,7 +37,7 @@ namespace Tiles.Tests.Agents.Behaviors
             Behavior.Update(gameMock.Object, agentMock.Object);
 
             PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, agentMock.Object), Times.Once());
-            InterpreterMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, commandMock.Object));
+            InterpreterMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, commandMock.Object), Times.Once());
         }
 
     }

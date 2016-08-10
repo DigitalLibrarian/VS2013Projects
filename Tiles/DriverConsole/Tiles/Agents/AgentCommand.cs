@@ -21,5 +21,7 @@ namespace Tiles.Agents
         public IItem Item { get; set; }
         public IWeapon Weapon { get; set; }
         public IArmor Armor { get; set; }
+
+        public long RequiredTime { get; set; }
     }
 }

@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="Agents\AgentCommandFactory.cs" />
     <Compile Include="Agents\AgentCommandType.cs" />
+    <Compile Include="Agents\Behaviors\AgentCommandExecutionContext.cs" />
     <Compile Include="Agents\Behaviors\BaseAgentCommandPlanner.cs" />
     <Compile Include="Agents\Behaviors\CommandAgentBehavior.cs" />
+    <Compile Include="Agents\Behaviors\IAgentCommandExecutionContext.cs" />
     <Compile Include="Agents\Behaviors\IAgentCommandPlanner.cs" />
     <Compile Include="Agents\Agent.cs" />
     <Compile Include="Agents\AgentCommand.cs" />
