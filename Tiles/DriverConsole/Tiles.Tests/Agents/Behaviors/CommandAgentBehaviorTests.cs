@@ -30,7 +30,7 @@ namespace Tiles.Tests.Agents.Behaviors
         {
             var gameMock = new Mock<IGame>();
             var agentMock = new Mock<IAgent>();
-            var commandMock = new Mock<AgentCommand>();
+            var commandMock = new Mock<IAgentCommand>();
 
             PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, agentMock.Object)).Returns(commandMock.Object);
 
