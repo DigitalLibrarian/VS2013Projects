@@ -9,7 +9,12 @@ namespace Tiles.Agents.Combat
     public interface IAttackMoveClass
     {
         string Name { get; }
-        IVerb MeleeVerb { get; }
+        bool IsMeleeStrike { get; }
+        bool IsGraspPart { get; }
+        IVerb Verb { get; }
         DamageVector DamageVector { get; }
+
+
+        bool TakeDamageProducts { get; }
     }
 }

@@ -23,8 +23,67 @@ namespace Tiles.Agents.Combat
 
         public void Conduct(IAgent attacker, IAgent defender, IAttackMove move)
         {
+            if (move.AttackMoveClass.IsMeleeStrike)
+            {
+                ConductMelee(attacker, defender, move);
+            }
+
+            if(move.AttackMoveClass.IsGraspPart)
+            {
+                ConductGrasp(attacker, defender, move);
+            }
+
+            if (attacker.Body.IsWrestling)
+            {
+                ConductWrestling(attacker, defender, move);
+            }
+        }
+
+        private void ConductWrestling(IAgent attacker, IAgent defender, IAttackMove move)
+        {
+            var dmg = move.CalculatedDamage;
+            move.DefenderBodyPart.Health.TakeDamage(dmg);
+
+            var limbMessage = ".";
+            var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);
+            if (shedPart != null)
+            {
+                var newItems = CreateShedBodyPart(defender, shedPart);
+                HandleDamageProducts(attacker, defender, newItems, move);
+                limbMessage = " and it comes off!";
+
+                move.AttackerBodyPart.StopGrasp(shedPart);
+            }
+
+            if (defender.IsDead)
+            {
+                HandleDeath(defender);
+            }
+
+            Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4}", 
+                AttackerName(attacker),
+                Verb(attacker, move.AttackMoveClass.Verb),
+                defender.Name,
+                move.DefenderBodyPart.Name,
+                limbMessage
+                ));
+        }
+
+
+        private void ConductGrasp(IAgent attacker, IAgent defender, IAttackMove move)
+        {
+            var attackerName = AttackerName(attacker);
+            var attackerPoss = Possessive(attacker);
+            var defenderPoss = Possessive(defender);
+            move.AttackerBodyPart.StartGrasp(move.DefenderBodyPart);
+            var verb = Verb(attacker, move.AttackMoveClass.Verb);
+            Log.AddLine(string.Format("{0} {1} the {2}'s {3}.", attackerName, verb, move.Defender.Name, move.DefenderBodyPart.Name));
+        }
+
+        void ConductMelee(IAgent attacker, IAgent defender, IAttackMove move)
+        {
             var totalDamage = move.CalculatedDamage;
-            var shedPart = defender.Body.DamagePart(move.TargetBodyPart, totalDamage);
+            var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, totalDamage);
             var newItems = new List<IItem>();
             if (shedPart != null)
             {
@@ -37,24 +96,18 @@ namespace Tiles.Agents.Combat
             // perhaps an AgentReaper that visits every agent at death, for housekeeping.
             if (defenderDies)
             {
-                var tile = Atlas.GetTileAtPos(defender.Pos);
-                tile.RemoveAgent();
-                newItems.AddRange(CreateCorpse(defender));
+                HandleDeath(defender);
             }
 
             if (newItems.Any())
             {
-                var tile = Atlas.GetTileAtPos(defender.Pos);
-                foreach (var newItem in newItems)
-                {
-                    tile.Items.Add(newItem);
-                }
+                HandleDamageProducts(attacker, defender, newItems, move);
                 severed = " and the severed part drops away";
             }
 
             bool secondPerson = attacker.IsPlayer;
 
-            var verb = move.AttackMoveClass.MeleeVerb.Conjugate(secondPerson ? VerbConjugation.SecondPerson : VerbConjugation.ThirdPerson);
+            var verb = move.AttackMoveClass.Verb.Conjugate(secondPerson ? VerbConjugation.SecondPerson : VerbConjugation.ThirdPerson);
 
             var attackerPronoun = "its";
             var attackerName = string.Format("The {0}", attacker.Name);
@@ -70,12 +123,78 @@ namespace Tiles.Agents.Combat
                 withWeapon = string.Format(" with {0} {1}",attackerPronoun, move.Weapon.Name);
             }
 
-            Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4} for {5} damage{6}.", attackerName, verb, defender.Name, move.TargetBodyPart.Name, withWeapon, totalDamage, severed));
+            Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4} for {5} damage{6}.", attackerName, verb, defender.Name, move.DefenderBodyPart.Name, withWeapon, totalDamage, severed));
 
             if (defenderDies)
             {
                 Log.AddLine(string.Format("The {0} is killed!", defender.Name));
             }
+        }
+
+
+        void HandleDeath(IAgent defender)
+        {
+
+            foreach (var part in defender.Body.Parts)
+            {
+                if (part.IsGrasping)
+                {
+                    part.StopGrasp(part.Grasped);
+                }
+            }
+            var tile = Atlas.GetTileAtPos(defender.Pos);
+            tile.RemoveAgent();
+            foreach (var item in CreateCorpse(defender))
+            {
+                tile.Items.Add(item);
+            }
+        }
+
+        void HandleDamageProducts(IAgent attacker, IAgent defender, IEnumerable<IItem> items, IAttackMove move)
+        {
+            var tile = Atlas.GetTileAtPos(defender.Pos);
+            foreach (var newItem in items)
+            {
+                if (move.AttackMoveClass.TakeDamageProducts)
+                {
+                    attacker.Inventory.AddItem(newItem);
+                }
+                else
+                {
+                    tile.Items.Add(newItem);
+                }
+            }
+        }
+
+
+        string AttackerName(IAgent attacker)
+        {
+            if (attacker.IsPlayer)
+            {
+                return "You";
+            }
+            else
+            {
+                return string.Format("The {0}", attacker.Name);
+            }
+        }
+
+
+        string Possessive(IAgent attacker)
+        {
+            if (attacker.IsPlayer)
+            {
+                return "your";
+            }
+            else
+            {
+                return "its";
+            }
+        }
+
+        string Verb(IAgent a, IVerb verb)
+        {
+            return verb.Conjugate(a.IsPlayer ? VerbConjugation.SecondPerson : VerbConjugation.ThirdPerson);
         }
 
         IEnumerable<IItem> CreateCorpse(IAgent defender)
@@ -117,14 +236,24 @@ namespace Tiles.Agents.Combat
                 }
             }
 
-            yield return new Item
+            yield return CreateShedLimbItem(defender, shedPart);
+
+        }
+
+        IItem CreateShedLimbItem(IAgent defender, IBodyPart part)
+        {
+            return new Item
             {
-                Name = string.Format("{0}'s {1}", defender.Name, shedPart.Name),
+                Name = string.Format("{0}'s {1}", defender.Name, part.Name),
                 Sprite = new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black),
-                WeaponClass = new WeaponClass(
+                WeaponClass = DefaultWeaopnClass
+            };
+        }
+
+        private static IWeaponClass DefaultWeaopnClass = new WeaponClass(
                     name: "Strike",
                     sprite: null,
-                    slots: new WeaponSlot[] {  WeaponSlot.Main},
+                    slots: new WeaponSlot[] { WeaponSlot.Main },
                     attackMoveClasses: new IAttackMoveClass[] { 
                            new AttackMoveClass(
                                name: "Strike",
@@ -143,9 +272,7 @@ namespace Tiles.Agents.Combat
                                    )
                                ),
 
-                    })
-            };
+                    });
 
-        }
     }
 }

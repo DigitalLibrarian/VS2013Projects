@@ -49,6 +49,8 @@ namespace Tiles.Agents
 
         public bool CanMove(Vector2 delta)
         {
+            if (Body.IsWrestling) return false;
+
             var newTile = Atlas.GetTileAtPos(Pos + delta);
             if (newTile == null) return false;
             if (newTile.HasAgent) return false;

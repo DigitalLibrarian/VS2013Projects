@@ -11,9 +11,11 @@ namespace Tiles.Agents.Combat
         IAgent Defender { get; set; }
         bool IsCritical { get; set; }
         string Name { get; set; }
-        IBodyPart TargetBodyPart { get; set; }
+        IBodyPart AttackerBodyPart { get; set; }
+        IBodyPart DefenderBodyPart { get; set; }
         IItem Weapon { get; set; }
 
         IAttackMoveClass AttackMoveClass { get; }
+
     }
 }

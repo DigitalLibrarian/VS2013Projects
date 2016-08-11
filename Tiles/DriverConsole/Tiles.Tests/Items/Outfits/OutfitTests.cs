@@ -347,7 +347,14 @@ namespace Tiles.Tests.Items.Outfits
 
             Assert.IsFalse(Outfit.Wield(weaponMock.Object));
             WeaponLayerMock.Setup(x => x.Equip(weaponMock.Object)).Returns(true);
+
+            var partMock = new Mock<IBodyPart>();
+            WeaponLayerMock.Setup(x => x.FindParts(weaponMock.Object)).Returns(
+                new List<IBodyPart> { partMock.Object }
+                );
+
             Assert.IsTrue(Outfit.Wield(weaponMock.Object));
+            partMock.VerifySet(x => x.Weapon = weaponMock.Object, Times.Once());
             
             for (i = 0; i < NumArmorLayers; i++)
             {
@@ -371,6 +378,8 @@ namespace Tiles.Tests.Items.Outfits
             }
 
             Outfit.Unwield(weaponMock.Object);
+
+            partMock.VerifySet(x => x.Weapon = null, Times.Once());
             WeaponLayerMock.Verify(x => x.Unequip(It.IsAny<IItem>()), Times.Exactly(1));
         }
 

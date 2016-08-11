@@ -17,23 +17,44 @@ namespace Tiles.Bodies
         public bool IsLifeCritical { get; private set; }
         public bool CanAmputate { get; private set; }
 
+        private bool _canGrasp;
+        public bool CanGrasp { get { return _canGrasp && !IsGrasping && Weapon == null; } }
+        public IBodyPart Grasped { get; private set; }
+        public bool IsGrasping { get { return Grasped != null; } }
+        public bool IsBeingGrasped { get; set; }
         public IItem Weapon { get; set; }
         public IItem Armor { get; set; }
-        public BodyPart(string name, bool isCritical, bool canAmputate, ArmorSlot armorSlotType, WeaponSlot weaponSlotType, IBodyPart parent)
+        public BodyPart(string name, bool isCritical, bool canAmputate, bool canGrasp,
+            ArmorSlot armorSlotType, WeaponSlot weaponSlotType, IBodyPart parent)
         {
             Name = name;
             ArmorSlot = armorSlotType;
             WeaponSlot = weaponSlotType;
             Parent = parent;
             IsLifeCritical = isCritical;
-            CanAmputate = true;
+            CanAmputate = canAmputate;
+            _canGrasp = canGrasp;
+
             Health = HealthVector.Create();
         }
 
-        public BodyPart(string name, bool isCritical, bool canAmputate, ArmorSlot armorSlotType, WeaponSlot weaponSlotType)
-            : this(name, isCritical,canAmputate, armorSlotType, weaponSlotType, null)
+        public BodyPart(string name, bool isCritical, bool canAmputate, bool canGrasp, ArmorSlot armorSlotType, WeaponSlot weaponSlotType)
+            : this(name, isCritical,canAmputate, canGrasp, armorSlotType, weaponSlotType, null)
         {
 
+        }
+
+
+        public void StartGrasp(IBodyPart part)
+        {
+            Grasped = part;
+            part.IsBeingGrasped = true;
+        }
+
+        public void StopGrasp(IBodyPart part)
+        {
+            Grasped = null;
+            part.IsBeingGrasped = false;
         }
     }
 }

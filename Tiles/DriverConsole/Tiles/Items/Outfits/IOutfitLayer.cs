@@ -18,5 +18,7 @@ namespace Tiles.Items.Outfits
 
         bool IsEquipped(IItem item);
         void Unequip(IItem item);
+
+        IEnumerable<IBodyPart> FindParts(IItem item);
     }
 }

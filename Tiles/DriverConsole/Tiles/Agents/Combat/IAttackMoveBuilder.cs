@@ -12,5 +12,8 @@ namespace Tiles.Agents.Combat
     public interface IAttackMoveBuilder
     {
         IAttackMove AttackBodyPartWithWeapon(IAgent attacker, IAgent defender, IAttackMoveClass moveClass, IBodyPart targetBodyPart, IItem weapon);
+        IAttackMove GraspOpponent(IAgent attacker, IAgent defender, IBodyPart attackerPart, IBodyPart defenderBodyPart);
+
+        IAttackMove WrestlingPull(IAgent attacker, IAgent defender, IBodyPart mePart, IBodyPart youPart);
     }
 }

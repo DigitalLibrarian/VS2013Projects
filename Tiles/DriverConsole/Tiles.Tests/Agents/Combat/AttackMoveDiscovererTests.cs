@@ -86,6 +86,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoAttackerBodyParts()
         {
+            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
             Assert.IsFalse(
                 Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).Any());
             AssertNoMovesBuilt();
@@ -94,6 +96,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoWeapon()
         {
+            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
             var partMock = AddBodyPart(AttackerBodyParts);
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns((IItem)null);
 
@@ -108,6 +112,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoAttackMoveClasses()
         {
+            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
             var partMock = AddBodyPart(AttackerBodyParts);
             var itemMock = MockWeaponItem();
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
@@ -122,6 +128,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoDefenderBodyParts()
         {
+            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
             var partMock = AddBodyPart(AttackerBodyParts);
             var itemMock = MockWeaponItem(new Mock<IAttackMoveClass>());
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
@@ -147,8 +155,8 @@ namespace Tiles.Tests.Agents.Combat
 
             Assert.IsFalse(
                 Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).Any());
-
-            AttackerOutfitMock.Verify(x => x.GetWeaponItem(partMock.Object), Times.Once()); 
+            
+            AttackerOutfitMock.Verify(x => x.GetWeaponItem(partMock.Object), Times.Never()); 
             AssertNoMovesBuilt();
 
         }

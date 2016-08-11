@@ -11,13 +11,12 @@ namespace Tiles.Agents.Combat
 {
     public class AttackMove : IAttackMove
     {
-        public AttackMove(IAttackMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender, IBodyPart targetBodyPart, uint damage)
+        public AttackMove(IAttackMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender, uint damage)
         {
             AttackMoveClass = attackMoveClass;
             Name = name;
             Attacker = attacker;
             Defender = defender;
-            TargetBodyPart = targetBodyPart;
             CalculatedDamage = damage;
         }
 
@@ -28,7 +27,8 @@ namespace Tiles.Agents.Combat
         public bool IsCritical { get; set; }
         public IAgent Attacker { get; set; }
         public IAgent Defender { get; set; }
-        public IBodyPart TargetBodyPart { get; set; }
+        public IBodyPart AttackerBodyPart { get; set; }
+        public IBodyPart DefenderBodyPart { get; set; }
         public IItem Weapon { get; set; }
         public uint CalculatedDamage { get; set; }
     }

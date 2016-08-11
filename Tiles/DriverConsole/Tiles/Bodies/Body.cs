@@ -8,6 +8,11 @@ namespace Tiles.Bodies
 {
     public class Body : IBody
     {
+        public bool IsGrasping
+        {
+            get { return Parts.Any(x => x.IsGrasping); }
+        }
+        public bool IsWrestling { get {  return Parts.Any(x => x.IsGrasping || x.IsBeingGrasped);} }
         public IList<IBodyPart> Parts { get; private set; }
         public Body(IList<IBodyPart> parts)
         {

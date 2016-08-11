@@ -12,13 +12,23 @@ namespace Tiles.Bodies
     {
         string Name { get; }
         IBodyPart Parent { get; }
+        HealthVector Health { get; }
+
         bool IsLifeCritical { get; }
         bool CanAmputate { get; }
-        HealthVector Health { get; }
+        bool CanGrasp { get; }
 
         ArmorSlot ArmorSlot { get; }
         IItem Armor { get; set; }
         WeaponSlot WeaponSlot { get; }
         IItem Weapon { get; set; }
+
+        IBodyPart Grasped { get; }
+        bool IsGrasping { get; }
+        bool IsBeingGrasped { get; set; }
+
+        void StartGrasp(IBodyPart part);
+        void StopGrasp(IBodyPart part);
+
     }
 }

@@ -84,7 +84,13 @@ namespace Tiles.Items.Outfits
 
         public bool Wield(IItem item)
         {
-            return WeaponLayer.Equip(item);
+            if(WeaponLayer.Equip(item))
+            {
+                var part = WeaponLayer.FindParts(item).First();
+                part.Weapon = item;
+                return true;
+            }
+            return false;
         }
 
         public bool IsWielded(IItem item)
@@ -94,6 +100,9 @@ namespace Tiles.Items.Outfits
 
         public void Unwield(IItem item)
         {
+
+            var part = WeaponLayer.FindParts(item).First();
+            part.Weapon = null;
             WeaponLayer.Unequip(item);
         }
 
