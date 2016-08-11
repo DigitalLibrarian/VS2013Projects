@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tiles.Agents;
+using Tiles.Agents.Behaviors;
 using Tiles.Agents.Combat;
 using Tiles.Random;
 
@@ -19,6 +20,8 @@ namespace Tiles
 
         ITile CameraTile { get; }
 
-        long TicksPerUpdate { get; }
+        IActiveAgentCommandSet ActiveCommands { get; }
+
+        long TicksPerUpdate { get;  }
     }
 }

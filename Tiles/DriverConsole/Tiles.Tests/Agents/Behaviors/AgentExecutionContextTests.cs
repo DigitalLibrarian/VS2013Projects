@@ -15,6 +15,8 @@ namespace Tiles.Tests.Agents.Behaviors
     [TestClass]
     public class AgentExecutionContextTests
     {
+        Mock<IAgentContextStatusObserver> StatusObserverMock { get; set; }
+        Mock<IAgentCommandPlanner> PlannerMock { get; set; }
         Mock<IAgentCommandInterpreter> InterpreterMock { get; set; }
 
         AgentCommandExecutionContext Context { get; set; }
@@ -22,8 +24,10 @@ namespace Tiles.Tests.Agents.Behaviors
         [TestInitialize]
         public void Initialize()
         {
+            StatusObserverMock = new Mock<IAgentContextStatusObserver>();
+            PlannerMock = new Mock<IAgentCommandPlanner>();
             InterpreterMock = new Mock<IAgentCommandInterpreter>();
-            Context = new AgentCommandExecutionContext(InterpreterMock.Object);
+            Context = new AgentCommandExecutionContext(StatusObserverMock.Object, PlannerMock.Object, InterpreterMock.Object);
         }
 
         [TestMethod]

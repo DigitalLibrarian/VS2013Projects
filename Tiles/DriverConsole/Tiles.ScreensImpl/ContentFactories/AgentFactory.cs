@@ -20,9 +20,12 @@ namespace Tiles.ScreensImpl.ContentFactories
         static BodyFactory BodyFactory = new BodyFactory();
 
         public IRandom Random { get; set; }
-        public AgentFactory(IRandom random)
+
+        IAgentContextStatusObserver StatusObserver { get; set; }
+        public AgentFactory(IRandom random, IAgentContextStatusObserver statusObserver)
         {
             Random = random;
+            StatusObserver = statusObserver;
         }
 
         class ZombieClaw : IWeapon
@@ -120,7 +123,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         IAgentBehavior CreateBehavior(IAgentCommandPlanner planner)
         {
-            return new CommandAgentBehavior(planner, new AgentCommandExecutionContext(CommandInterpreter));
+            return new CommandAgentBehavior(planner, new AgentCommandExecutionContext(StatusObserver, planner, CommandInterpreter));
         }
     }   
 }

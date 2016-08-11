@@ -193,6 +193,11 @@ namespace Tiles.ScreensImpl
                     Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, delta));
                 }
             }
+
+            if (args.Key == ConsoleKey.NumPad5)
+            {
+                Game.Player.EnqueueCommand(CommandFactory.Nothing(Game.Player.Agent));
+            }
         }
         void Key_Get(KeyPressEventArgs args)
         {

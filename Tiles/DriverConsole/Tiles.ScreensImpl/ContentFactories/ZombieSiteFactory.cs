@@ -13,11 +13,13 @@ namespace Tiles.ScreensImpl.ContentFactories
 {
     public class ZombieSiteFactory : ISiteFactory
     {
+        AgentFactory AgentFactory { get; set; }
         IRandom Random { get; set; }
 
-        public ZombieSiteFactory(IRandom random)
+        public ZombieSiteFactory(IRandom random, AgentFactory agentFactory)
         {
             Random = random;
+            AgentFactory = agentFactory;
         }
 
         public ISite Create(IAtlas atlas, Vector2 siteIndex, Box box)
@@ -44,14 +46,13 @@ namespace Tiles.ScreensImpl.ContentFactories
                 s.GetTileAtSitePos(spawnLoc).Items.Add(itemFactory.CreateRandomItem(Random));
             }
 
-            var agentFactory = new AgentFactory(Random);
             var numZombies = 2;
             for (int i = 0; i < numZombies; i++)
-                AddZombie(atlas, s, agentFactory);
+                AddZombie(atlas, s);
 
             var numSurvivors = 2;
             for (int i = 0; i < numSurvivors; i++)
-                AddSurvivor(atlas, s, agentFactory);
+                AddSurvivor(atlas, s);
 
             return s;
         }
@@ -136,20 +137,20 @@ namespace Tiles.ScreensImpl.ContentFactories
         }
 
         
-        void AddZombie(IAtlas atlas, ISite site, AgentFactory agentFactory)
+        void AddZombie(IAtlas atlas, ISite site)
         {
             var sitePos = FindSpawnSitePos(site);
             var worldPos = site.Box.Min + sitePos;
-            var zombie = agentFactory.CreateZombieAgent(atlas, worldPos);
+            var zombie = AgentFactory.CreateZombieAgent(atlas, worldPos);
             var spawnTile = site.GetTileAtSitePos(sitePos);
             spawnTile.SetAgent(zombie);
         }
 
-        void AddSurvivor(IAtlas atlas, ISite site, AgentFactory agentFactory)
+        void AddSurvivor(IAtlas atlas, ISite site)
         {
             var sitePos = FindSpawnSitePos(site);
             var worldPos = site.Box.Min + sitePos;
-            var survivor = agentFactory.CreateSurvivor(atlas, worldPos);
+            var survivor = AgentFactory.CreateSurvivor(atlas, worldPos);
             var spawnTile = site.GetTileAtSitePos(sitePos);
             spawnTile.SetAgent(survivor);
         }

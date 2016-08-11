@@ -19,7 +19,9 @@ namespace Tiles.Agents.Behaviors
 
         public void Update(IGame game, IAgent agent)
         {
-            Update(game, agent, game.TicksPerUpdate);
+            //Update(game, agent, game.TicksPerUpdate);
+
+            Context.Update(game, agent);
         }
 
         long Update(IGame game, IAgent agent, long maxTimeSlice)

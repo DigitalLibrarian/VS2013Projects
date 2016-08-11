@@ -10,6 +10,7 @@ using Tiles.Math;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Random;
+using Tiles.Agents.Behaviors;
 
 namespace Tiles
 {
@@ -22,14 +23,18 @@ namespace Tiles
         public IAttackConductor AttackConductor { get; private set;}
         public IRandom Random { get; private set; }
 
+        public IActiveAgentCommandSet ActiveCommands { get; private set; }
+
         public ITile CameraTile { get { return Atlas.GetTileAtPos(Camera.Pos); } }
 
-        public Game(IAtlas atlas, IPlayer player, ICamera camera, IActionLog log, IRandom random)
+        public Game(IAtlas atlas, IPlayer player, ICamera camera, IActionLog log, IActiveAgentCommandSet activeCommands, IRandom random)
         {
             Atlas = atlas;
             Player = player;
             Camera = camera;
             ActionLog = log;
+
+            ActiveCommands = activeCommands;
             Random = random;
 
             AttackConductor = new AttackConductor(atlas, log);
@@ -40,7 +45,9 @@ namespace Tiles
 
         public long TicksPerUpdate
         {
-            get { return 10; }// TODO - this should be dynamic based on current player action
+            get { return ActiveCommands.GetShortestTimeRemaining(); }// TODO - this should be dynamic based on current player action
         }
+
+
     }
 }
