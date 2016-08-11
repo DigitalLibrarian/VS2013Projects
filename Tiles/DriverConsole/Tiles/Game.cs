@@ -38,9 +38,6 @@ namespace Tiles
         }
 
 
-        public long TicksPerUpdate
-        {
-            get { return 10; }// TODO - this should be dynamic based on current player action
-        }
+        public long DesiredFrameLength { get; set; }
     }
 }

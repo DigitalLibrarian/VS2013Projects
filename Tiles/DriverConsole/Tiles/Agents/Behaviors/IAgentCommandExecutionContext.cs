@@ -15,5 +15,7 @@ namespace Tiles.Agents.Behaviors
 
         void StartNewCommand(IGame game, IAgentCommand command);
         long Execute(IGame game, IAgent agent, long maxTimeSlice);
+
+        long TimeRemaining { get; }
     }
 }

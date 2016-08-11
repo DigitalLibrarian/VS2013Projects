@@ -11,7 +11,7 @@ namespace Tiles.Agents.Behaviors
         IAgentCommand Command { get; set; }
         IAgentCommandInterpreter Interpreter { get; set; }
 
-        long TimeRemaining { get; set; }
+        public long TimeRemaining { get; set; }
 
         public bool Executed { get; private set; }
         public bool HasCommand { get { return Command != null; } }
@@ -30,8 +30,6 @@ namespace Tiles.Agents.Behaviors
 
         public long Execute(IGame game, IAgent agent, long maxTimeSlice)
         {
-            if (!HasCommand) return 0;
-
             long timeUsed = 0;
 
             if (TimeRemaining - maxTimeSlice > 0)

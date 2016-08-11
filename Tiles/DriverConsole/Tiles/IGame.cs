@@ -19,6 +19,6 @@ namespace Tiles
 
         ITile CameraTile { get; }
 
-        long TicksPerUpdate { get; }
+        long DesiredFrameLength { get; set; }
     }
 }

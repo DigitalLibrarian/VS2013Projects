@@ -107,6 +107,15 @@ namespace Tiles.ScreensImpl
 
         public override void Update()
         {
+            if (Game.Player.LastCommand != null)
+            {
+                Game.DesiredFrameLength = Game.Player.LastCommand.RequiredTime;
+            }
+            else
+            {
+                Game.DesiredFrameLength = 1;
+                            }
+
             if (!Paused)
             {
                 var updatedAgents = new List<IAgent>();
@@ -137,7 +146,7 @@ namespace Tiles.ScreensImpl
                 Exit();
             }
 
-            BlockForInput = Game.Player.Agent.AgentBehavior.Context.Executed;
+            BlockForInput = !Game.Player.Agent.AgentBehavior.Context.HasCommand;
         }
 
         #region Controls
@@ -192,6 +201,10 @@ namespace Tiles.ScreensImpl
                 {
                     Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, delta));
                 }
+            }
+            else if (args.Key == ConsoleKey.NumPad5)
+            {
+                Game.Player.EnqueueCommand(CommandFactory.Nothing(Game.Player.Agent));
             }
         }
         void Key_Get(KeyPressEventArgs args)

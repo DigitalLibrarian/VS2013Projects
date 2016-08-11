@@ -30,10 +30,11 @@ namespace Tiles.Agents
         }
 
         IAgentCommandQueueProducer CommandQueue { get; set; }
-
+        public IAgentCommand LastCommand { get; private set; }
         public void EnqueueCommand(IAgentCommand command)
         {
             CommandQueue.Enqueue(command);
+            LastCommand = command;
         }
     }
 }

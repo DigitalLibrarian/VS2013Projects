@@ -19,18 +19,29 @@ namespace Tiles.Agents.Behaviors
 
         public void Update(IGame game, IAgent agent)
         {
-            Update(game, agent, game.TicksPerUpdate);
+            Update(game, agent, game.DesiredFrameLength);
         }
 
-        long Update(IGame game, IAgent agent, long maxTimeSlice)
+        void Update(IGame game, IAgent agent, long maxTimeSlice)
         {
-            if (!Context.HasCommand)
-            {
-                var command = Planner.PlanBehavior(game, agent);
-                Context.StartNewCommand(game, command);
-            }
+            var timeLeft = maxTimeSlice;
 
-            return Context.Execute(game, agent, maxTimeSlice);
+            while (timeLeft > 0)
+            {
+
+                if (!Context.HasCommand)
+                {
+                    var command = Planner.PlanBehavior(game, agent);
+                    Context.StartNewCommand(game, command);
+                }
+
+                var timeUsed = Context.Execute(game, agent, maxTimeSlice);
+                if (timeUsed == timeLeft)
+                {
+                    break;
+                }
+                timeLeft -= timeUsed;
+            }
         }
     }
 }

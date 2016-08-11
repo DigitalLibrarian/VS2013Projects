@@ -32,7 +32,7 @@ namespace Tiles.Tests.Agents.Behaviors
             var agentMock = new Mock<IAgent>();
             var commandMock = new Mock<IAgentCommand>();
             long timeSlice = 10;
-            gameMock.Setup(x => x.TicksPerUpdate).Returns(timeSlice);
+            gameMock.Setup(x => x.DesiredFrameLength).Returns(timeSlice);
 
             ContextMock.Setup(x => x.HasCommand).Returns(false);
             PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, agentMock.Object)).Returns(commandMock.Object);
@@ -52,7 +52,7 @@ namespace Tiles.Tests.Agents.Behaviors
             var agentMock = new Mock<IAgent>();
             var commandMock = new Mock<IAgentCommand>();
             long timeSlice = 10;
-            gameMock.Setup(x => x.TicksPerUpdate).Returns(timeSlice);
+            gameMock.Setup(x => x.DesiredFrameLength).Returns(timeSlice);
 
             ContextMock.Setup(x => x.HasCommand).Returns(true);
             PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, agentMock.Object)).Returns(commandMock.Object);
