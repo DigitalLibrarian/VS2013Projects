@@ -98,18 +98,17 @@ namespace Tiles.Tests.Agents
         {
             var agentMock = new Mock<IAgent>();
             var itemMock = new Mock<IItem>();
-            var weaponMock = new Mock<IWeapon>();
 
-            var command = Factory.WieldWeapon(agentMock.Object, itemMock.Object, weaponMock.Object);
+            var command = Factory.WieldWeapon(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.WieldWeapon, command.CommandType);
             Asserter.AreEqual(Vector2.Zero, command.TileOffset);
             Asserter.AreEqual(Vector2.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
-            Assert.AreSame(itemMock.Object, command.Item);
-            Assert.AreSame(weaponMock.Object, command.Weapon);
+            Assert.AreSame(itemMock.Object, command.Weapon);
             Assert.IsNull(command.Armor);
+            Assert.IsNull(command.Item);
         }
 
         [TestMethod]
@@ -117,18 +116,17 @@ namespace Tiles.Tests.Agents
         {
             var agentMock = new Mock<IAgent>();
             var itemMock = new Mock<IItem>();
-            var armorMock = new Mock<IArmor>();
 
-            var command = Factory.WearArmor(agentMock.Object, itemMock.Object, armorMock.Object);
+            var command = Factory.WearArmor(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.WearArmor, command.CommandType);
             Asserter.AreEqual(Vector2.Zero, command.TileOffset);
             Asserter.AreEqual(Vector2.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
-            Assert.AreSame(itemMock.Object, command.Item);
+            Assert.AreSame(itemMock.Object, command.Armor);
             Assert.IsNull(command.Weapon);
-            Assert.AreSame(armorMock.Object, command.Armor);
+            Assert.IsNull(command.Item);
         }
 
         [TestMethod]
@@ -136,17 +134,16 @@ namespace Tiles.Tests.Agents
         {
             var agentMock = new Mock<IAgent>();
             var itemMock = new Mock<IItem>();
-            var weaponMock = new Mock<IWeapon>();
 
-            var command = Factory.UnwieldWeapon(agentMock.Object, itemMock.Object, weaponMock.Object);
+            var command = Factory.UnwieldWeapon(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.UnwieldWeapon, command.CommandType);
             Asserter.AreEqual(Vector2.Zero, command.TileOffset);
             Asserter.AreEqual(Vector2.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
-            Assert.AreSame(itemMock.Object, command.Item);
-            Assert.AreSame(weaponMock.Object, command.Weapon);
+            Assert.AreSame(itemMock.Object, command.Weapon);
+            Assert.IsNull( command.Item);
             Assert.IsNull(command.Armor);
         }
 
@@ -155,18 +152,17 @@ namespace Tiles.Tests.Agents
         {
             var agentMock = new Mock<IAgent>();
             var itemMock = new Mock<IItem>();
-            var armorMock = new Mock<IArmor>();
 
-            var command = Factory.TakeOffArmor(agentMock.Object, itemMock.Object, armorMock.Object);
+            var command = Factory.TakeOffArmor(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.TakeOffArmor, command.CommandType);
             Asserter.AreEqual(Vector2.Zero, command.TileOffset);
             Asserter.AreEqual(Vector2.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
-            Assert.AreSame(itemMock.Object, command.Item);
+            Assert.AreSame(itemMock.Object, command.Armor);
+            Assert.IsNull(command.Item);
             Assert.IsNull(command.Weapon);
-            Assert.AreSame(armorMock.Object, command.Armor);
         }
 
         [TestMethod]

@@ -22,7 +22,7 @@ namespace Tiles.Agents
         public IOutfit Outfit { get; private set; }
         public bool IsUndead { get; set; }
 
-        public bool IsDead { get {  return !Body.Parts.Where(x => x.IsCritical).Any() || Body.Parts.Where(x => x.IsCritical).Any(x => x.Health.OutOfHealth);} }
+        public bool IsDead { get {  return !Body.Parts.Where(x => x.IsLifeCritical).Any() || Body.Parts.Where(x => x.IsLifeCritical).Any(x => x.Health.OutOfHealth);} }
 
         public Agent(IAtlas atlas, ISprite sprite, Vector2 pos, 
             IBody body, string name, 

@@ -72,7 +72,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                     };
                      * */
 
-                    return CommandFactory.WieldWeapon(agent, items.First(), items.First().Weapon);
+                    return CommandFactory.WieldWeapon(agent, items.First());
                 }
                 items = GetEquippableArmors(agent);
                 if (items.Any())
@@ -86,7 +86,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                     };
                      * */
 
-                    return CommandFactory.WearArmor(agent, items.First(), items.First().Armor);
+                    return CommandFactory.WearArmor(agent, items.First());
                 }
             }
             else if(game.Atlas.GetTileAtPos(agent.Pos).Items.Any())

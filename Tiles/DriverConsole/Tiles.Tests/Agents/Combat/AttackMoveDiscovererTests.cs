@@ -65,10 +65,8 @@ namespace Tiles.Tests.Agents.Combat
         {
             var itemMock = new Mock<IItem>();
             var weaponClassMock = new Mock<IWeaponClass>();
-            var weaponMock = new Mock<IWeapon>();
-            weaponMock.Setup(x => x.WeaponClass).Returns(weaponClassMock.Object);
+            itemMock.Setup(x => x.WeaponClass).Returns(weaponClassMock.Object);
             weaponClassMock.Setup(x => x.AttackMoveClasses).Returns(moveClasses.Select(x => x.Object).ToList());
-            itemMock.Setup(x => x.Weapon).Returns(weaponMock.Object);
 
             return itemMock;
         }
@@ -81,7 +79,7 @@ namespace Tiles.Tests.Agents.Combat
                     It.IsAny<IAgent>(),
                     It.IsAny<IAttackMoveClass>(), 
                     It.IsAny<IBodyPart>(), 
-                    It.IsAny<IWeapon>()
+                    It.IsAny<IItem>()
                     ), Times.Never());
         }
 
@@ -178,7 +176,7 @@ namespace Tiles.Tests.Agents.Combat
                     It.IsAny<IAgent>(),
                     It.IsAny<IAttackMoveClass>(),
                     It.IsAny<IBodyPart>(),
-                    It.IsAny<IWeapon>()
+                    It.IsAny<IItem>()
                     )).Returns(spoofedResult.Object);
 
             var result = Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).ToList();
@@ -197,7 +195,7 @@ namespace Tiles.Tests.Agents.Combat
                             DefenderMock.Object,
                             ac.Object,
                             bp.Object,
-                            itemMock.Object.Weapon
+                            itemMock.Object
                             ), Times.Once());
                 }
             }
@@ -208,7 +206,7 @@ namespace Tiles.Tests.Agents.Combat
                     It.IsAny<IAgent>(),
                     It.IsAny<IAttackMoveClass>(),
                     It.IsAny<IBodyPart>(),
-                    It.IsAny<IWeapon>()
+                    It.IsAny<IItem>()
                     ), Times.Exactly(4));
 
             AttackerOutfitMock.Verify(x => x.GetWeaponItem(partMock.Object), Times.Once());

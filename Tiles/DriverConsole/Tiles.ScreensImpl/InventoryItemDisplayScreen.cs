@@ -43,7 +43,7 @@ namespace Tiles.ScreensImpl
             if (Item.IsArmor)
             {
                 leftColumnLines.Add("Armor Slots:");
-                foreach (var slot in Item.Armor.ArmorClass.RequiredSlots)
+                foreach (var slot in Item.ArmorClass.RequiredSlots)
                 {
                     leftColumnLines.Add(string.Format("  {0}", slot));
                 }
@@ -51,7 +51,7 @@ namespace Tiles.ScreensImpl
                 foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
                 {
                     DamageType damageType = (DamageType)damageTypeObj;
-                    leftColumnLines.Add(string.Format("   -{0}: {1}%", damageType, Item.Armor.ArmorClass.ResistVector.GetComponent(damageType)));
+                    leftColumnLines.Add(string.Format("   -{0}: {1}%", damageType, Item.ArmorClass.ResistVector.GetComponent(damageType)));
                 }
             }
 
@@ -59,13 +59,13 @@ namespace Tiles.ScreensImpl
             {
 
                 leftColumnLines.Add("Weapon Slots:");
-                foreach (var slot in Item.Weapon.WeaponClass.RequiredSlots)
+                foreach (var slot in Item.WeaponClass.RequiredSlots)
                 {
                     leftColumnLines.Add(string.Format("  {0}", slot));
                 }
 
                 leftColumnLines.Add(string.Format("Moves:"));
-                foreach (var moveClass in Item.Weapon.WeaponClass.AttackMoveClasses)
+                foreach (var moveClass in Item.WeaponClass.AttackMoveClasses)
                 {
                     leftColumnLines.Add(string.Format("  {0}", moveClass.Name));
                     foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
@@ -105,13 +105,13 @@ namespace Tiles.ScreensImpl
                 
         void Wield()
         {
-            Player.EnqueueCommand(CommandFactory.WieldWeapon(Player.Agent, Item, Item.Weapon));
+            Player.EnqueueCommand(CommandFactory.WieldWeapon(Player.Agent, Item));
             Exit();
         }
 
         void Wear()
         {
-            Player.EnqueueCommand(CommandFactory.WearArmor(Player.Agent , Item, Item.Armor));
+            Player.EnqueueCommand(CommandFactory.WearArmor(Player.Agent , Item));
             Exit();
         }
 
@@ -119,12 +119,12 @@ namespace Tiles.ScreensImpl
         {
             if (Item.IsWeapon)
             {
-                Player.EnqueueCommand(CommandFactory.UnwieldWeapon(Player.Agent, Item, Item.Weapon));
+                Player.EnqueueCommand(CommandFactory.UnwieldWeapon(Player.Agent, Item));
                 Exit();
             }
             if (Item.IsArmor)
             {
-                Player.EnqueueCommand(CommandFactory.TakeOffArmor(Player.Agent, Item, Item.Armor));
+                Player.EnqueueCommand(CommandFactory.TakeOffArmor(Player.Agent, Item));
                 Exit();
             }
         }

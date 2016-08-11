@@ -12,9 +12,9 @@ namespace Tiles.Agents.Combat.CommandInterpreters
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand)
         {
-            agent.Outfit.Wear(agentCommand.Item);
-            agent.Inventory.AddToWorn(agentCommand.Armor, agentCommand.Item);
-            game.ActionLog.AddLine(string.Format("The {0} puts on the {1}.", agent.Name, agentCommand.Item.Name));
+            agent.Outfit.Wear(agentCommand.Armor);
+            agent.Inventory.AddToWorn(agentCommand.Armor, agentCommand.Armor);
+            game.ActionLog.AddLine(string.Format("The {0} puts on the {1}.", agent.Name, agentCommand.Armor.Name));
         }
     }
 }

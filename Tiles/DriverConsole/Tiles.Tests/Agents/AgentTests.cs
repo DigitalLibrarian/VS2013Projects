@@ -70,18 +70,18 @@ namespace Tiles.Tests.Agents
             var healthMock1 = new Mock<HealthVector>();
             healthMock1.Setup(x => x.OutOfHealth).Returns(false);
             partMock1.Setup(x => x.Health).Returns(healthMock1.Object);
-            partMock1.Setup(x => x.IsCritical).Returns(false);
+            partMock1.Setup(x => x.IsLifeCritical).Returns(false);
 
             var healthMock2 = new Mock<HealthVector>();
             healthMock2.Setup(x => x.OutOfHealth).Returns(false);
             partMock2.Setup(x => x.Health).Returns(healthMock2.Object);
-            partMock2.Setup(x => x.IsCritical).Returns(false);
+            partMock2.Setup(x => x.IsLifeCritical).Returns(false);
 
             Assert.IsTrue(Agent.IsDead);
             
             // Test with one critical, but not out of health part
-            partMock1.Setup(x => x.IsCritical).Returns(true);
-            partMock2.Setup(x => x.IsCritical).Returns(false);
+            partMock1.Setup(x => x.IsLifeCritical).Returns(true);
+            partMock2.Setup(x => x.IsLifeCritical).Returns(false);
 
             Assert.IsFalse(Agent.IsDead);
 

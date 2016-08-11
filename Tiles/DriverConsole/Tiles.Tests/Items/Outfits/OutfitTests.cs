@@ -79,12 +79,10 @@ namespace Tiles.Tests.Items.Outfits
         private void TestArmorRequiredSlots(Func<IItem, IEnumerable<ArmorSlot>> itemReq)
         {
             var itemMock = new Mock<IItem>();
-            var armorMock = new Mock<IArmor>();
             var armorClassMock = new Mock<IArmorClass>();
 
             var slots = new List<ArmorSlot>();
-            itemMock.Setup(x => x.Armor).Returns(armorMock.Object);
-            armorMock.Setup(x => x.ArmorClass).Returns(armorClassMock.Object);
+            itemMock.Setup(x => x.ArmorClass).Returns(armorClassMock.Object);
             armorClassMock.Setup(x => x.RequiredSlots).Returns(slots);
 
             Assert.AreSame(slots, itemReq(itemMock.Object));
@@ -113,13 +111,11 @@ namespace Tiles.Tests.Items.Outfits
         private void TestWeaponRequiredSlots(Func<IItem, IEnumerable<WeaponSlot>> itemReq)
         {
             var itemMock = new Mock<IItem>();
-            var armorMock = new Mock<IWeapon>();
-            var armorClassMock = new Mock<IWeaponClass>();
+            var weaponClassMock = new Mock<IWeaponClass>();
 
             var slots = new List<WeaponSlot>();
-            itemMock.Setup(x => x.Weapon).Returns(armorMock.Object);
-            armorMock.Setup(x => x.WeaponClass).Returns(armorClassMock.Object);
-            armorClassMock.Setup(x => x.RequiredSlots).Returns(slots);
+            itemMock.Setup(x => x.WeaponClass).Returns(weaponClassMock.Object);
+            weaponClassMock.Setup(x => x.RequiredSlots).Returns(slots);
 
             Assert.AreSame(slots, itemReq(itemMock.Object));
 

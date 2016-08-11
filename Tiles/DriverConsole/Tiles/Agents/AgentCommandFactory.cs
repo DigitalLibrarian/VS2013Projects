@@ -53,47 +53,43 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand WieldWeapon(IAgent agent, IItem item, IWeapon weapon)
+        public IAgentCommand WieldWeapon(IAgent agent, IItem item)
         {
             return new AgentCommand
             {
                 CommandType = AgentCommandType.WieldWeapon,
                 RequiredTime = MinTime * 5,
-                Item = item,
-                Weapon = weapon
+                Weapon = item
             };
         }
 
-        public IAgentCommand WearArmor(IAgent agent, IItem item, IArmor armor)
+        public IAgentCommand WearArmor(IAgent agent, IItem item)
         {
             return new AgentCommand
             {
                 CommandType = AgentCommandType.WearArmor,
                 RequiredTime = MinTime * 5,
-                Item = item,
-                Armor = armor
+                Armor = item
             };
         }
 
-        public IAgentCommand UnwieldWeapon(IAgent agent, IItem item, IWeapon weapon)
+        public IAgentCommand UnwieldWeapon(IAgent agent, IItem item)
         {
             return new AgentCommand
             {
                 CommandType = AgentCommandType.UnwieldWeapon,
                 RequiredTime = MinTime * 5,
-                Item = item,
-                Weapon = weapon
+                Weapon = item,
             };
         }
 
-        public IAgentCommand TakeOffArmor(IAgent agent, IItem item, IArmor armor)
+        public IAgentCommand TakeOffArmor(IAgent agent, IItem item)
         {
             return new AgentCommand
             {
                 CommandType = AgentCommandType.TakeOffArmor,
                 RequiredTime = MinTime * 5,
-                Item = item,
-                Armor = armor
+                Armor = item
             };
         }
 

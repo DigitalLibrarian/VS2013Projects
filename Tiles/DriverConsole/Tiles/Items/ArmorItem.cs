@@ -7,6 +7,7 @@ using Tiles.Agents.Combat;
 
 namespace Tiles.Items
 {
+    /*
     public class ArmorItem : IArmor, IItem
     {
         public IArmorClass ArmorClass { get; private set; }
@@ -28,4 +29,5 @@ namespace Tiles.Items
 
         public IArmor Armor { get { return this; } }
     }
+     * */
 }

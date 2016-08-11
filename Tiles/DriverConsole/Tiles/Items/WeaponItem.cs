@@ -7,6 +7,7 @@ using Tiles.Agents.Combat;
 
 namespace Tiles.Items
 {
+    /*
     public class WeaponItem : IWeapon, IItem
     {
         public IWeaponClass WeaponClass { get; private set; }
@@ -37,4 +38,5 @@ namespace Tiles.Items
             get { return this; }
         }
     }
+     * */
 }

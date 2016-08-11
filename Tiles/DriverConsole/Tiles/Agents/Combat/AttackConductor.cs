@@ -34,6 +34,7 @@ namespace Tiles.Agents.Combat
             string severed = "";
             bool defenderDies = defender.IsDead;
             // TODO - this needs to be handled more ubiquitously, even outside the combat case
+            // perhaps an AgentReaper that visits every agent at death, for housekeeping.
             if (defenderDies)
             {
                 var tile = Atlas.GetTileAtPos(defender.Pos);
@@ -54,7 +55,6 @@ namespace Tiles.Agents.Combat
             bool secondPerson = attacker.IsPlayer;
 
             var verb = move.AttackMoveClass.MeleeVerb.Conjugate(secondPerson ? VerbConjugation.SecondPerson : VerbConjugation.ThirdPerson);
-
 
             var attackerPronoun = "its";
             var attackerName = string.Format("The {0}", attacker.Name);

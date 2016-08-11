@@ -12,7 +12,7 @@ namespace Tiles.Agents.Combat
         bool IsCritical { get; set; }
         string Name { get; set; }
         IBodyPart TargetBodyPart { get; set; }
-        IWeapon Weapon { get; set; }
+        IItem Weapon { get; set; }
 
         IAttackMoveClass AttackMoveClass { get; }
     }

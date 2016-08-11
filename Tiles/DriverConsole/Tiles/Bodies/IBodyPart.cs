@@ -12,13 +12,13 @@ namespace Tiles.Bodies
     {
         string Name { get; }
         IBodyPart Parent { get; }
-        bool IsCritical { get; }
+        bool IsLifeCritical { get; }
         bool CanAmputate { get; }
         HealthVector Health { get; }
 
         ArmorSlot ArmorSlot { get; }
-        IArmor Armor { get; set; }
+        IItem Armor { get; set; }
         WeaponSlot WeaponSlot { get; }
-        IWeapon Weapon { get; set; }
+        IItem Weapon { get; set; }
     }
 }

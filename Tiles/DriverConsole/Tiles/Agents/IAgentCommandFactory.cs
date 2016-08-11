@@ -14,13 +14,13 @@ namespace Tiles.Agents
     {
         IAgentCommand Nothing(IAgent agent);
         IAgentCommand MeleeAttack(IAgent agent, IAgent target, IAttackMove attackMove);
-        IAgentCommand WieldWeapon(IAgent agent, IItem item, IWeapon weapon);
-        IAgentCommand WearArmor(IAgent agent, IItem item, IArmor armor);
+        IAgentCommand WieldWeapon(IAgent agent, IItem item);
+        IAgentCommand WearArmor(IAgent agent, IItem item);
         IAgentCommand PickUpItemsOnAgentTile(IAgent agent);
         IAgentCommand MoveDirection(IAgent agent, Vector2 direction);
 
-        IAgentCommand UnwieldWeapon(IAgent agent, IItem item, IWeapon weapon);
-        IAgentCommand TakeOffArmor(IAgent agent, IItem item, IArmor armor);
+        IAgentCommand UnwieldWeapon(IAgent agent, IItem item);
+        IAgentCommand TakeOffArmor(IAgent agent, IItem item);
         IAgentCommand DropInventoryItem(IAgent agent, IItem item);
 
     }

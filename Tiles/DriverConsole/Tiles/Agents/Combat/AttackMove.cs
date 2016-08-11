@@ -29,7 +29,7 @@ namespace Tiles.Agents.Combat
         public IAgent Attacker { get; set; }
         public IAgent Defender { get; set; }
         public IBodyPart TargetBodyPart { get; set; }
-        public IWeapon Weapon { get; set; }
+        public IItem Weapon { get; set; }
         public uint CalculatedDamage { get; set; }
     }
 }

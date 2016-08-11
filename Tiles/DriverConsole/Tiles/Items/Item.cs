@@ -10,9 +10,10 @@ namespace Tiles.Items
     {
         public string Name { get; set; }
         public ISprite Sprite { get; set; }
-        public bool IsWeapon { get { return Weapon != null; } }
-        public IWeapon Weapon { get; set; }
-        public bool IsArmor { get { return Armor != null; } }
-        public IArmor Armor { get; set; }
+        public bool IsWeapon { get { return WeaponClass != null; } }
+        public bool IsArmor { get { return ArmorClass != null; } }
+
+        public IWeaponClass WeaponClass { get; set; }
+        public IArmorClass ArmorClass { get; set; }
     }
 }

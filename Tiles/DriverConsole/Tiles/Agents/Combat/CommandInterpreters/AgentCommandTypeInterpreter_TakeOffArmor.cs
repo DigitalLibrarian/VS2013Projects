@@ -12,9 +12,9 @@ namespace Tiles.Agents.Combat.CommandInterpreters
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand)
         {
-            agent.Outfit.TakeOff(agentCommand.Item);
-            agent.Inventory.RestoreFromWorn(agentCommand.Item);
-            game.ActionLog.AddLine(string.Format("The {0} takes off the {1}.", agent.Name, agentCommand.Item.Name));
+            agent.Outfit.TakeOff(agentCommand.Armor);
+            agent.Inventory.RestoreFromWorn(agentCommand.Armor);
+            game.ActionLog.AddLine(string.Format("The {0} takes off the {1}.", agent.Name, agentCommand.Armor.Name));
         }
     }
 }

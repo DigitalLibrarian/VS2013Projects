@@ -24,13 +24,13 @@ namespace Tiles.Agents.Combat
                 var weaponItem = attacker.Outfit.GetWeaponItem(meBP);
                 if (weaponItem != null)
                 {
-                    foreach (var attackMoveClass in weaponItem.Weapon.WeaponClass.AttackMoveClasses)
+                    foreach (var attackMoveClass in weaponItem.WeaponClass.AttackMoveClasses)
                     {
                         foreach (var youBP in defender.Body.Parts)
                         {
                             if (CompassVectors.IsCompassVector(diffVector))
                             {
-                                yield return MoveBuilder.AttackBodyPartWithWeapon(attacker, defender, attackMoveClass, youBP, weaponItem.Weapon);
+                                yield return MoveBuilder.AttackBodyPartWithWeapon(attacker, defender, attackMoveClass, youBP, weaponItem);
                             }
                         }
                     }

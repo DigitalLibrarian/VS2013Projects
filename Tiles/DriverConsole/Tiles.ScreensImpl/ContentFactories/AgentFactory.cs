@@ -25,11 +25,9 @@ namespace Tiles.ScreensImpl.ContentFactories
             Random = random;
         }
 
-        class ZombieClaw : IWeapon
+        static class ZombieClaw
         {
-            public ZombieClaw()
-            {
-                WeaponClass = new WeaponClass(
+            public static WeaponClass WeaponClass = new WeaponClass(
                     name: "zombie claws",
                     sprite: null,
                     slots: new WeaponSlot[] { WeaponSlot.None},
@@ -64,9 +62,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                            )
                     }
                     );
-            }
 
-            public IWeaponClass WeaponClass { get; private set; }
         }
         public IAgent CreateZombieAgent(IAtlas atlas, Vector2 worldPos)
         {
@@ -84,7 +80,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 new Outfit(body, new OutfitLayerFactory())
                 );
 
-            zombie.Outfit.Wield(new Item { Weapon = new ZombieClaw() });
+            zombie.Outfit.Wield(new Item { WeaponClass = ZombieClaw.WeaponClass });
 
             zombie.IsUndead = true;
 

@@ -14,8 +14,8 @@ namespace Tiles.Agents
         IAgent Target { get; set; }
 
         IItem Item { get; set; }
-        IWeapon Weapon { get; set; }
-        IArmor Armor { get; set; }
+        IItem Weapon { get; set; }
+        IItem Armor { get; set; }
 
         // TODO - test this in agent command factory
         long RequiredTime { get; set; }

@@ -233,7 +233,12 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             foreach (var weaponClass in _WeaponClasses)
             {
-                yield return new WeaponItem(weaponClass);
+                yield return new Item
+                {
+                    Name = weaponClass.Name,
+                    Sprite = weaponClass.Sprite,
+                    WeaponClass = weaponClass
+                };
             }
         }
 
@@ -241,7 +246,13 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             foreach (var armorClass in _ArmorClasses)
             {
-                yield return new ArmorItem(armorClass);
+
+                yield return new Item
+                {
+                    Name = armorClass.Name,
+                    Sprite = armorClass.Sprite,
+                    ArmorClass = armorClass
+                };
             }
         }
 
@@ -256,11 +267,23 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             if (index < wc)
             {
-                return new WeaponItem(_WeaponClasses[index]);
+                var weaponClass = _WeaponClasses[index];
+                return new Item
+                {
+                    Name = weaponClass.Name,
+                    Sprite = weaponClass.Sprite,
+                    WeaponClass = weaponClass
+                };
             }
             else
             {
-                return new ArmorItem(_ArmorClasses[index - wc]);
+                var armorClass = _ArmorClasses[index-wc];
+                return new Item
+                {
+                    Name = armorClass.Name,
+                    Sprite = armorClass.Sprite,
+                    ArmorClass = armorClass
+                };
             }
         }
     }
