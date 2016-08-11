@@ -51,6 +51,7 @@
     <Compile Include="Agents\AgentCommandInterpreter.cs" />
     <Compile Include="Agents\Behaviors\IAgentCommandQueueProducer.cs" />
     <Compile Include="Agents\Behaviors\QueueAgentCommandPlanner.cs" />
+    <Compile Include="Agents\Combat\AttackMoveClass.cs" />
     <Compile Include="Agents\Combat\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\Combat\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\Combat\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Agents\Combat\CommandInterpreters\AgentCommandTypeInterpreter_WieldWeapon.cs" />
     <Compile Include="Agents\Combat\CommandInterpreters\DefaultAgentCommandInterpreter.cs" />
     <Compile Include="Agents\Combat\IAttackMove.cs" />
+    <Compile Include="Agents\Combat\IAttackMoveClass.cs" />
     <Compile Include="Agents\IAgentBehavior.cs" />
     <Compile Include="Agents\IAgentCommand.cs" />
     <Compile Include="Agents\IAgentCommandInterpreter.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Items\WeaponSlot.cs" />
     <Compile Include="ITile.cs" />
     <Compile Include="Agents\Player.cs" />
+    <Compile Include="IVerb.cs" />
     <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Items\IItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +131,8 @@
     <Compile Include="Structures\StructureCellType.cs" />
     <Compile Include="Symbol.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="Verb.cs" />
+    <Compile Include="VerbConjugation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tiles.Control\Tiles.Control.csproj">
