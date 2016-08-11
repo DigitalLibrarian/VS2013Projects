@@ -31,7 +31,7 @@ namespace Tiles.Agents.Behaviors
         public long Execute(IGame game, IAgent agent, long maxTimeSlice)
         {
             long timeUsed = 0;
-
+            if (!HasCommand) return 0;
             if (TimeRemaining - maxTimeSlice > 0)
             {
                 TimeRemaining -= maxTimeSlice;

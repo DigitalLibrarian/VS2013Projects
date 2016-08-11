@@ -18,7 +18,17 @@ namespace Tiles.Agents
             return new AgentCommand
             {
                 CommandType = AgentCommandType.None,
-                RequiredTime = MinTime
+                RequiredTime = MinTime * 1
+            };
+        }
+
+        public IAgentCommand MoveDirection(IAgent agent, Vector2 direction)
+        {
+            return new AgentCommand
+            {
+                CommandType = AgentCommandType.Move,
+                RequiredTime = MinTime * 10,
+                Direction = direction
             };
         }
 
@@ -62,16 +72,6 @@ namespace Tiles.Agents
                 RequiredTime = MinTime * 5,
                 Item = item,
                 Armor = armor
-            };
-        }
-
-        public IAgentCommand MoveDirection(IAgent agent, Vector2 direction)
-        {
-            return new AgentCommand
-            {
-                CommandType = AgentCommandType.Move,
-                RequiredTime = MinTime * 10,
-                Direction = direction
             };
         }
 

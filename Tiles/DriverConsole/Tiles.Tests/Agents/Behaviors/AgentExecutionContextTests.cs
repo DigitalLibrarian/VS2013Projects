@@ -27,7 +27,7 @@ namespace Tiles.Tests.Agents.Behaviors
         }
 
         [TestMethod]
-        void Invariants()
+        public void Invariants()
         {
             Assert.IsFalse(Context.HasCommand);
             Assert.IsFalse(Context.Executed);
@@ -46,7 +46,6 @@ namespace Tiles.Tests.Agents.Behaviors
             Assert.IsFalse(Context.Executed);
         }
 
-        [Ignore()]
         [TestMethod]
         public void Execute_NoCommand()
         {
