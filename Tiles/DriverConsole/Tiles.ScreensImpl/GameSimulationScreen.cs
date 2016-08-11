@@ -88,6 +88,7 @@ namespace Tiles.ScreensImpl
 
         void UpdateViewModel()
         {
+            ViewModel.GlobalTime = GlobalTime;
             ViewModel.Camera = Game.Camera;
             ViewModel.CameraTile = Game.CameraTile;
             ViewModel.Atlas = Game.Atlas;
@@ -105,6 +106,7 @@ namespace Tiles.ScreensImpl
             UpdateViewModel();
         }
 
+        long GlobalTime = 0;
         public override void Update()
         {
             if (Game.Player.LastCommand != null)
@@ -114,7 +116,7 @@ namespace Tiles.ScreensImpl
             else
             {
                 Game.DesiredFrameLength = 1;
-                            }
+            }
 
             if (!Paused)
             {
@@ -146,6 +148,7 @@ namespace Tiles.ScreensImpl
                 Exit();
             }
 
+            GlobalTime += Game.DesiredFrameLength;
             BlockForInput = !Game.Player.Agent.AgentBehavior.Context.HasCommand;
         }
 

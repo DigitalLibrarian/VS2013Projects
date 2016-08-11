@@ -26,7 +26,7 @@ namespace Tiles.ScreensImpl.Panels
             int topY = camPos.Y - (Box.Size.Y / 2);
             Vector2 topLeftWorld = new Vector2(leftX, topY);
 
-            Canvas.DrawString(string.Format("Cam@{0}", camPos.ToString()), Vector2.Zero, Color.White, Color.Black);
+            Canvas.DrawString(string.Format("Time: {0}", ViewModel.GlobalTime), Vector2.Zero, Color.White, Color.Black);
             for (int x = 0; x < Box.Size.X; x++)
             {
                 for (int y = 0; y < Box.Size.Y; y++)

@@ -22,20 +22,17 @@ namespace Tiles.Agents.Behaviors
             Update(game, agent, game.DesiredFrameLength);
         }
 
-        void Update(IGame game, IAgent agent, long maxTimeSlice)
+        void Update(IGame game, IAgent agent, long timeLeft)
         {
-            var timeLeft = maxTimeSlice;
-
             while (timeLeft > 0)
             {
-
                 if (!Context.HasCommand)
                 {
                     var command = Planner.PlanBehavior(game, agent);
                     Context.StartNewCommand(game, command);
                 }
 
-                var timeUsed = Context.Execute(game, agent, maxTimeSlice);
+                var timeUsed = Context.Execute(game, agent, timeLeft);
                 if (timeUsed == timeLeft)
                 {
                     break;

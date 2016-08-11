@@ -13,5 +13,7 @@ namespace Tiles.ScreensImpl
         ITile CameraTile { get; set; }
         bool Looking { get; set; }
         IActionLog ActionLog { get; set; }
+
+        long GlobalTime { get; set; }
     }
 }
