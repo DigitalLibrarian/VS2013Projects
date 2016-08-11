@@ -36,5 +36,7 @@ namespace Tiles.Agents
             CommandQueue.Enqueue(command);
             LastCommand = command;
         }
+
+        public bool HasCommands { get { return CommandQueue.Any(); } }
     }
 }

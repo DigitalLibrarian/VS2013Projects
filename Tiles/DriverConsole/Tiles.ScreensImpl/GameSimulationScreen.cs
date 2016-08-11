@@ -148,9 +148,8 @@ namespace Tiles.ScreensImpl
                 Exit();
             }
 
-            // TODO - make this block only when the player's command queue is empty
             GlobalTime += Game.DesiredFrameLength;
-            BlockForInput = !Game.Player.Agent.AgentBehavior.Context.HasCommand;
+            BlockForInput = !Game.Player.HasCommands;
         }
 
         #region Controls

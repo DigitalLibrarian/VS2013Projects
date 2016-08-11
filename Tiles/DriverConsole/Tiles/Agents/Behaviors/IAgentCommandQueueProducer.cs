@@ -9,5 +9,7 @@ namespace Tiles.Agents.Behaviors
     public interface IAgentCommandQueueProducer
     {
         void Enqueue(IAgentCommand command);
+
+        bool Any();
     }
 }

@@ -22,6 +22,11 @@ namespace Tiles.Agents.Behaviors
             Queue.Enqueue(command);
         }
 
+        bool IAgentCommandQueueProducer.Any()
+        {
+            return Queue.Any();
+        }
+
         IAgentCommand Next(IAgent agent)
         {
             if (Queue.Any())

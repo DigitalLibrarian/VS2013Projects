@@ -18,8 +18,11 @@ namespace Tiles.Agents
         
         bool Move(Vector2 delta);
 
+
         IAgentCommand LastCommand { get; }
         void EnqueueCommand(IAgentCommand command);
+
+        bool HasCommands { get; }
     }
 
 }
