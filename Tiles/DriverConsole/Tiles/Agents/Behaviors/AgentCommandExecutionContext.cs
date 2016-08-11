@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Agents.Behaviors
 {
-    public class AgentCommandExecutionContext
+    public class AgentCommandExecutionContext : IAgentCommandExecutionContext
     {
         IAgentCommand Command { get; set; }
         IAgentCommandInterpreter Interpreter { get; set; }
@@ -46,9 +46,20 @@ namespace Tiles.Agents.Behaviors
                 Interpreter.Execute(game, agent, Command);
                 Executed = true;
                 Command = null;
+                OnCommandComplete();
             }
 
             return timeUsed;
+        }
+
+
+        public event EventHandler CommandComplete;
+        protected void OnCommandComplete()
+        {
+            if (CommandComplete != null)
+            {
+                CommandComplete(this, EventArgs.Empty);
+            }
         }
     }
 }

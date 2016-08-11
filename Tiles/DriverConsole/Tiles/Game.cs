@@ -36,5 +36,11 @@ namespace Tiles
 
             Atlas.GetTileAtPos(player.Agent.Pos).SetAgent(player.Agent);
         }
+
+
+        public long TicksPerUpdate
+        {
+            get { return 10; }// TODO - this should be dynamic based on current player action
+        }
     }
 }

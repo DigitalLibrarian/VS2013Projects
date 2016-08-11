@@ -18,5 +18,7 @@ namespace Tiles
         IAttackConductor AttackConductor { get; }
 
         ITile CameraTile { get; }
+
+        long TicksPerUpdate { get; }
     }
 }

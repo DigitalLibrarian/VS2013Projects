@@ -10,17 +10,27 @@ namespace Tiles.Agents.Behaviors
     public class CommandAgentBehavior : IAgentBehavior
     {
         IAgentCommandPlanner Planner { get; set; }
-        IAgentCommandInterpreter Interpreter { get; set; }
-        IAgentCommandExecutionContext Context { get; set; }
-        public CommandAgentBehavior(IAgentCommandPlanner planner, IAgentCommandInterpreter interpreter)
+        public IAgentCommandExecutionContext Context { get; set; }
+        public CommandAgentBehavior(IAgentCommandPlanner planner, IAgentCommandExecutionContext context)
         {
             Planner = planner;
-            Interpreter = interpreter;
+            Context = context;
         }
 
         public void Update(IGame game, IAgent agent)
         {
-            Interpreter.Execute(game, agent, Planner.PlanBehavior(game, agent));
+            Update(game, agent, game.TicksPerUpdate);
+        }
+
+        long Update(IGame game, IAgent agent, long maxTimeSlice)
+        {
+            if (!Context.HasCommand)
+            {
+                var command = Planner.PlanBehavior(game, agent);
+                Context.StartNewCommand(game, command);
+            }
+
+            return Context.Execute(game, agent, maxTimeSlice);
         }
     }
 }

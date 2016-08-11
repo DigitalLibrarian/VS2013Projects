@@ -120,7 +120,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         IAgentBehavior CreateBehavior(IAgentCommandPlanner planner)
         {
-            return new CommandAgentBehavior(planner, CommandInterpreter);
+            return new CommandAgentBehavior(planner, new AgentCommandExecutionContext(CommandInterpreter));
         }
     }   
 }

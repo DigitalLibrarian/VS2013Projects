@@ -21,7 +21,7 @@ namespace Tiles.ScreensImpl
             Background = Color.Black;
 
             PropagateDraw = false;
-            BlockForInput = true;
+            BlockForInput = false;
         }
 
         public override void Draw() { }

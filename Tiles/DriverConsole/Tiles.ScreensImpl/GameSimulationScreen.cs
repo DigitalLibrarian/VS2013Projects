@@ -76,6 +76,7 @@ namespace Tiles.ScreensImpl
             base.Load();
             ScreenManager.Add(SimDisplayScreen);
             ScreenManager.Add(ActionLogScreen);
+            BlockForInput = true;// block on initial draw for user input
         }
 
         public override void Unload()
@@ -135,6 +136,8 @@ namespace Tiles.ScreensImpl
                 ScreenManager.Add(new YouDiedScreen(Game.Random, Canvas, Box));
                 Exit();
             }
+
+            BlockForInput = Game.Player.Agent.AgentBehavior.Context.Executed;
         }
 
         #region Controls

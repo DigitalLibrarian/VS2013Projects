@@ -11,8 +11,9 @@ namespace Tiles.Agents.Behaviors
         bool HasCommand { get; }
         bool Executed { get; }
 
-        void StartNewCommand(IGame game, IAgentCommand command);
+        event EventHandler CommandComplete;
 
+        void StartNewCommand(IGame game, IAgentCommand command);
         long Execute(IGame game, IAgent agent, long maxTimeSlice);
     }
 }

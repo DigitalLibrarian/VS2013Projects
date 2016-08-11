@@ -154,7 +154,6 @@ namespace Tiles.Tests.Agents.Behaviors
         [TestMethod]
         public void Execute_LongTime()
         {
-
             var gameMock = new Mock<IGame>();
             var agentMock = new Mock<IAgent>();
             var commandMock = new Mock<IAgentCommand>();
@@ -207,6 +206,40 @@ namespace Tiles.Tests.Agents.Behaviors
 
             Assert.IsTrue(Context.HasCommand);
             Assert.IsFalse(Context.Executed);
+        }
+
+        [TestMethod]
+        public void CommandCompletedEvent()
+        {
+            int eventCount = 0;
+            Context.CommandComplete += new EventHandler((obj, args) => eventCount++);
+
+            Assert.AreEqual(0, eventCount);
+
+            var gameMock = new Mock<IGame>();
+            var agentMock = new Mock<IAgent>();
+            var commandMock = new Mock<IAgentCommand>();
+            commandMock.Setup(x => x.RequiredTime).Returns(0);
+
+            Context.StartNewCommand(gameMock.Object, commandMock.Object);
+            Assert.AreEqual(0, eventCount);
+
+            var result = Context.Execute(gameMock.Object, agentMock.Object, 1);
+            Assert.AreEqual(0, result);
+            Assert.AreEqual(1, eventCount);
+
+            commandMock.Setup(x => x.RequiredTime).Returns(3);
+
+            Context.StartNewCommand(gameMock.Object, commandMock.Object);
+            Assert.AreEqual(1, eventCount);
+
+            result = Context.Execute(gameMock.Object, agentMock.Object, 2);
+            Assert.AreEqual(2, result);
+            Assert.AreEqual(1, eventCount);
+
+            result = Context.Execute(gameMock.Object, agentMock.Object, 2);
+            Assert.AreEqual(1, result);
+            Assert.AreEqual(2, eventCount);
         }
     }
 }
