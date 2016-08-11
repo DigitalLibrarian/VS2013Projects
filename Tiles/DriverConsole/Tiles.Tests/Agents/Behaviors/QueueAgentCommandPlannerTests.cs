@@ -51,7 +51,7 @@ namespace Tiles.Tests.Agents.Behaviors
             var commandMock1 = new Mock<IAgentCommand>();
             var commandMock2 = new Mock<IAgentCommand>();
 
-            var queueProducer = Planner as IAgentCommandQueueProducer;
+            var queueProducer = Planner as IAgentCommandQueue;
             queueProducer.Enqueue(commandMock1.Object);
             queueProducer.Enqueue(commandMock2.Object);
 

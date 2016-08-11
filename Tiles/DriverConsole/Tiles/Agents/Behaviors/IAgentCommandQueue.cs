@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Agents.Behaviors
 {
-    public interface IAgentCommandQueueProducer
+    public interface IAgentCommandQueue
     {
         void Enqueue(IAgentCommand command);
 

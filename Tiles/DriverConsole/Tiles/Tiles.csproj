@@ -49,7 +49,7 @@
     <Compile Include="Agents\Agent.cs" />
     <Compile Include="Agents\AgentCommand.cs" />
     <Compile Include="Agents\AgentCommandInterpreter.cs" />
-    <Compile Include="Agents\Behaviors\IAgentCommandQueueProducer.cs" />
+    <Compile Include="Agents\Behaviors\IAgentCommandQueue.cs" />
     <Compile Include="Agents\Behaviors\QueueAgentCommandPlanner.cs" />
     <Compile Include="Agents\Combat\AttackMoveClass.cs" />
     <Compile Include="Agents\Combat\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />

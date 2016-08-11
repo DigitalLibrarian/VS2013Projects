@@ -18,7 +18,7 @@ namespace Tiles.Agents
         public Player(IAtlas atlas, ISprite sprite, Vector2 pos, 
             IBody body, IInventory inventory,
             IOutfit outfit,
-            IAgentCommandQueueProducer commandQueue
+            IAgentCommandQueue commandQueue
             ) : base(atlas, sprite, pos, body, "Player", inventory, outfit)
         {
             CommandQueue = commandQueue;
@@ -29,7 +29,7 @@ namespace Tiles.Agents
             get { return this; }
         }
 
-        IAgentCommandQueueProducer CommandQueue { get; set; }
+        IAgentCommandQueue CommandQueue { get; set; }
         public IAgentCommand LastCommand { get; private set; }
         public void EnqueueCommand(IAgentCommand command)
         {

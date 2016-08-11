@@ -8,7 +8,7 @@ using Tiles.Random;
 
 namespace Tiles.Agents.Behaviors
 {
-    public class QueueAgentCommandPlanner : BaseAgentCommandPlanner, IAgentCommandQueueProducer
+    public class QueueAgentCommandPlanner : BaseAgentCommandPlanner, IAgentCommandQueue
     {
         Queue<IAgentCommand> Queue { get; set; }
         public QueueAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory)
@@ -17,12 +17,12 @@ namespace Tiles.Agents.Behaviors
             Queue = new Queue<IAgentCommand>();
         }
 
-        void IAgentCommandQueueProducer.Enqueue(IAgentCommand command)
+        void IAgentCommandQueue.Enqueue(IAgentCommand command)
         {
             Queue.Enqueue(command);
         }
 
-        bool IAgentCommandQueueProducer.Any()
+        bool IAgentCommandQueue.Any()
         {
             return Queue.Any();
         }
