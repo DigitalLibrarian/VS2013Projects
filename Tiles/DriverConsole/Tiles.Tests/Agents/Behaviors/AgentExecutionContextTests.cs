@@ -46,6 +46,7 @@ namespace Tiles.Tests.Agents.Behaviors
             Assert.IsFalse(Context.Executed);
         }
 
+        [Ignore()]
         [TestMethod]
         public void Execute_NoCommand()
         {

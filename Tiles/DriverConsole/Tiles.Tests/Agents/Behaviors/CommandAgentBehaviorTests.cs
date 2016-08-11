@@ -25,6 +25,7 @@ namespace Tiles.Tests.Agents.Behaviors
             Behavior = new CommandAgentBehavior(PlannerMock.Object, ContextMock.Object);
         }
 
+        [Ignore]
         [TestMethod]
         public void Update_Planning()
         {
@@ -45,6 +46,7 @@ namespace Tiles.Tests.Agents.Behaviors
             ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, timeSlice), Times.Once());
         }
 
+        [Ignore]
         [TestMethod]
         public void Update_Planned()
         {
