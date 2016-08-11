@@ -28,7 +28,10 @@ namespace Tiles.ScreensImpl.ContentFactories
                 if (attackMoves.Any())
                 {
                     var attackMove = Random.NextElement(attackMoves.ToList());
-                    
+                    if (attackMove.AttackMoveClass.IsGraspPart)
+                    {
+                        int b = 9;
+                    }
                     return CommandFactory.MeleeAttack(agent, target, attackMove);
                 }
                 else if (Random.NextDouble() > wanderProb)

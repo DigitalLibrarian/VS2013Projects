@@ -27,16 +27,16 @@ namespace Tiles.Agents.Combat
             {
                 ConductMelee(attacker, defender, move);
             }
+            else if (attacker.Body.IsGrasping)
+            {
+                ConductWrestling(attacker, defender, move);
+            }
 
             if(move.AttackMoveClass.IsGraspPart)
             {
                 ConductGrasp(attacker, defender, move);
             }
 
-            if (attacker.Body.IsWrestling)
-            {
-                ConductWrestling(attacker, defender, move);
-            }
         }
 
         private void ConductWrestling(IAgent attacker, IAgent defender, IAttackMove move)
@@ -49,10 +49,10 @@ namespace Tiles.Agents.Combat
             if (shedPart != null)
             {
                 var newItems = CreateShedBodyPart(defender, shedPart);
+                move.AttackerBodyPart.StopGrasp(shedPart);
                 HandleDamageProducts(attacker, defender, newItems, move);
                 limbMessage = " and it comes off!";
 
-                move.AttackerBodyPart.StopGrasp(shedPart);
             }
 
             if (defender.IsDead)
@@ -87,6 +87,10 @@ namespace Tiles.Agents.Combat
             var newItems = new List<IItem>();
             if (shedPart != null)
             {
+                if (shedPart.IsGrasping)
+                {
+                    shedPart.StopGrasp(shedPart.Grasped);
+                }
                 newItems.AddRange(CreateShedBodyPart(defender, shedPart));
             }
 
@@ -134,7 +138,6 @@ namespace Tiles.Agents.Combat
 
         void HandleDeath(IAgent defender)
         {
-
             foreach (var part in defender.Body.Parts)
             {
                 if (part.IsGrasping)

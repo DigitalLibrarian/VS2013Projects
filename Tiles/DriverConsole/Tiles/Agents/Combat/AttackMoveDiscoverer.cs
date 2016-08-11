@@ -43,7 +43,7 @@ namespace Tiles.Agents.Combat
                             yield return move;
                     }
 
-                    if (attacker.Body.IsWrestling)
+                    if (attacker.Body.IsGrasping)
                     {
                         foreach (var move in WrestlingMoves(attacker, defender, mePart))
                             yield return move;
@@ -82,7 +82,10 @@ namespace Tiles.Agents.Combat
             if (mePart.IsGrasping)
             {
                 var youPart = mePart.Grasped;
-                yield return MoveBuilder.WrestlingPull(attacker, defender, mePart, youPart);
+                if (!youPart.IsGrasping)
+                {
+                    yield return MoveBuilder.WrestlingPull(attacker, defender, mePart, youPart);
+                }
             }
 
         }

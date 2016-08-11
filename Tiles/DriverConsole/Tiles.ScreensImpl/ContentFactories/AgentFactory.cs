@@ -30,7 +30,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             public static WeaponClass WeaponClass = new WeaponClass(
                     name: "zombie claws",
                     sprite: null,
-                    slots: new WeaponSlot[] { WeaponSlot.None},
+                    slots: new WeaponSlot[] { WeaponSlot.Main},
                     attackMoveClasses: new IAttackMoveClass[] { 
                        new AttackMoveClass(
                            name: "Scratch",
