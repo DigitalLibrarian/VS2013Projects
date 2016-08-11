@@ -9,7 +9,7 @@ namespace Tiles.Items
 {
     public class ArmorClass : IArmorClass
     {
-        public DamageVector DamageVector { get; private set; }
+        public DamageVector ResistVector { get; private set; }
         public string Name { get; private set; }
         public ISprite Sprite { get; private set; }
         public IReadOnlyList<ArmorSlot> RequiredSlots { get; private set; }
@@ -19,7 +19,7 @@ namespace Tiles.Items
             Name = name;
             Sprite = sprite;
             RequiredSlots = slots;
-            DamageVector = damage;
+            ResistVector = damage;
         }
 
     }

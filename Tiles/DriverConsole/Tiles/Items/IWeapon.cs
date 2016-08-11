@@ -11,6 +11,6 @@ namespace Tiles.Items
     {
         IWeaponClass WeaponClass { get; }
         
-        uint GetBaseTypeDamage(DamageType damageType);
+        //uint GetBaseTypeDamage(DamageType damageType);
     }
 }

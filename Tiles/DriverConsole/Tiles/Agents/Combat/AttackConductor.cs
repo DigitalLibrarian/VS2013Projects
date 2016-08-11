@@ -51,19 +51,26 @@ namespace Tiles.Agents.Combat
                 severed = " and the severed part drops away";
             }
 
-            var verb = "attacks";
-            if (move.Verb != null)
+            bool secondPerson = attacker.IsPlayer;
+
+            var verb = move.AttackMoveClass.MeleeVerb.Conjugate(secondPerson ? VerbConjugation.SecondPerson : VerbConjugation.ThirdPerson);
+
+
+            var attackerPronoun = "its";
+            var attackerName = string.Format("The {0}", attacker.Name);
+            if (secondPerson)
             {
-                verb = move.Verb;
+                attackerName = "You";
+                attackerPronoun = "your";
             }
 
             var withWeapon = "";
             if (move.Weapon != null)
             {
-                withWeapon = string.Format(" with its {0}", move.Weapon.WeaponClass.Name);
+                withWeapon = string.Format(" with {0} {1}",attackerPronoun, move.Weapon.WeaponClass.Name);
             }
 
-            Log.AddLine(string.Format("The {0} {1} the {2}'s {3}{4} for {5} damage{6}.", attacker.Name, verb, defender.Name, move.TargetBodyPart.Name, withWeapon, totalDamage, severed));
+            Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4} for {5} damage{6}.", attackerName, verb, defender.Name, move.TargetBodyPart.Name, withWeapon, totalDamage, severed));
 
             if (defenderDies)
             {

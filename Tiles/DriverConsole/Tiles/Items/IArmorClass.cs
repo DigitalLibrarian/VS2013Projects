@@ -16,6 +16,6 @@ namespace Tiles.Items
 
         IReadOnlyList<ArmorSlot> RequiredSlots { get;}
         ISprite Sprite { get; }
-        DamageVector DamageVector { get; }
+        DamageVector ResistVector { get; }
     }
 }

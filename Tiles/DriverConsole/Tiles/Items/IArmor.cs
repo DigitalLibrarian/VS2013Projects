@@ -11,7 +11,7 @@ namespace Tiles.Items
     {
         IArmorClass ArmorClass { get; }
 
-        uint GetTypeResistence(DamageType damageType);
+        //uint GetTypeResistence(DamageType damageType);
     }
 
 }

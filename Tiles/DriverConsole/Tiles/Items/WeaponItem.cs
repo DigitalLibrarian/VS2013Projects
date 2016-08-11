@@ -36,10 +36,5 @@ namespace Tiles.Items
         {
             get { return this; }
         }
-
-        public uint GetBaseTypeDamage(DamageType damageType)
-        {
-            return WeaponClass.DamageVector.GetComponent(damageType);
-        }
     }
 }

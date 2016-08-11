@@ -11,17 +11,17 @@ namespace Tiles.Agents.Combat
 {
     public class DamageCalc : IDamageCalc
     {
-        public uint MeleeStrikeMoveDamage(IAgent attacker, IAgent defender, IBodyPart bodyPart, IWeapon weapon)
+        public uint MeleeStrikeMoveDamage(IAttackMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart bodyPart, IWeapon weapon)
         {
             int total = 0;
             DamageTypes((damageType) =>
             {
-                double dmg = (double)weapon.GetBaseTypeDamage(damageType);
+                double dmg = (double)moveClass.DamageVector.GetComponent(damageType);
                 if (dmg > 0)
                 {
                     if (bodyPart.Armor != null)
                     {
-                        double resist = (double)bodyPart.Armor.GetTypeResistence(damageType);
+                        double resist = (double)bodyPart.Armor.ArmorClass.ResistVector.GetComponent(damageType);
                         dmg *= ((100d - resist) / 100d);
                     }
                     if (dmg > 0)

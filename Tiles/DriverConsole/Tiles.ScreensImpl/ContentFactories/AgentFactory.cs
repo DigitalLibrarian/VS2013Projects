@@ -30,23 +30,43 @@ namespace Tiles.ScreensImpl.ContentFactories
             public ZombieClaw()
             {
                 WeaponClass = new WeaponClass(
-                    "zombie claws",
-                    null,
-                    new DamageVector(new Dictionary<DamageType, uint>
-                    {
-                        { DamageType.Slash, 12},
-                        { DamageType.Pierce, 2},
-                    }),
-                    "mauls",
-                    WeaponSlot.None);
+                    name: "zombie claws",
+                    sprite: null,
+                    slots: new WeaponSlot[] { WeaponSlot.None},
+                    attackMoveClasses: new IAttackMoveClass[] { 
+                       new AttackMoveClass(
+                           name: "Scratch",
+                           meleeVerb: new Verb(
+                               firstPerson: "scratch",
+                               secondPerson: "scratch",
+                               thirdPerson: "scratches"
+                               ),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Slash, 12 },
+                                        { DamageType.Pierce, 2},
+                                    }
+                               )
+                           ),
+                       new AttackMoveClass(
+                           name: "Bite",
+                           meleeVerb: new Verb(
+                               firstPerson: "bite",
+                               secondPerson: "bite",
+                               thirdPerson: "bites"
+                               ),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Slash, 3 },
+                                        { DamageType.Pierce, 22},
+                                    }
+                               )
+                           )
+                    }
+                    );
             }
 
             public IWeaponClass WeaponClass { get; private set; }
-
-            public uint GetBaseTypeDamage(DamageType damageType)
-            {
-                return WeaponClass.DamageVector.GetComponent(damageType);
-            }
         }
         public IAgent CreateZombieAgent(IAtlas atlas, Vector2 worldPos)
         {

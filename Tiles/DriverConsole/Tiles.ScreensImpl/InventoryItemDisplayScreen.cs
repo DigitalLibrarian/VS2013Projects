@@ -51,8 +51,7 @@ namespace Tiles.ScreensImpl
                 foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
                 {
                     DamageType damageType = (DamageType)damageTypeObj;
-                    leftColumnLines.Add(string.Format("{0} Class Resist: {1}", damageType, Item.Armor.ArmorClass.DamageVector.GetComponent(damageType)));
-                    leftColumnLines.Add(string.Format("{0} Instance Resist: {1}", damageType, Item.Armor.GetTypeResistence(damageType)));
+                    leftColumnLines.Add(string.Format("{0} Resist: {1}", damageType, Item.Armor.ArmorClass.ResistVector.GetComponent(damageType)));
                 }
             }
 
@@ -65,11 +64,20 @@ namespace Tiles.ScreensImpl
                     leftColumnLines.Add(string.Format("  {0}", slot));
                 }
 
-                foreach(var damageTypeObj in Enum.GetValues(typeof(DamageType)))
+                leftColumnLines.Add(string.Format("Moves:"));
+                foreach (var moveClass in Item.Weapon.WeaponClass.AttackMoveClasses)
                 {
-                    DamageType damageType = (DamageType)damageTypeObj;
-                    leftColumnLines.Add(string.Format("{0} Class Dmg: {1}", damageType, Item.Weapon.WeaponClass.DamageVector.GetComponent(damageType)));
-                    leftColumnLines.Add(string.Format("{0} Instance Dmg: {1}", damageType, Item.Weapon.GetBaseTypeDamage(damageType)));
+                    leftColumnLines.Add(string.Format("  {0}", moveClass.Name));
+                    foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
+                    {
+                        DamageType damageType = (DamageType)damageTypeObj;
+
+                        uint dmg = moveClass.DamageVector.GetComponent(damageType);
+                        if (dmg > 0)
+                        {
+                            leftColumnLines.Add(string.Format("   {0} Dmg: {1}", damageType, dmg));
+                        }
+                    }
                 }
             }
 

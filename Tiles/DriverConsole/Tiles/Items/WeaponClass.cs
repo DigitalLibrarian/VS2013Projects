@@ -9,19 +9,20 @@ namespace Tiles.Items
 {
     public class WeaponClass : IWeaponClass
     {
-        public DamageVector DamageVector { get; set; }
-
         public string Name { get; private set; }
         public ISprite Sprite { get; private set; }
-        public string MeleeVerb { get; private set; }
+        public IList<IAttackMoveClass> AttackMoveClasses { get; private set; }
 
-        public WeaponClass(string name, ISprite sprite, DamageVector damage, string meleeVerb = "strikes", params WeaponSlot[] slots)
+        public WeaponClass(
+            string name, ISprite sprite, 
+            WeaponSlot[] slots,
+            IAttackMoveClass[] attackMoveClasses
+            )
         {
             Name = name;
             Sprite = sprite;
-            DamageVector = damage;
-            MeleeVerb = meleeVerb;
             RequiredSlots = slots;
+            AttackMoveClasses = new List<IAttackMoveClass>(attackMoveClasses);
         }
 
         public IEnumerable<WeaponSlot> RequiredSlots

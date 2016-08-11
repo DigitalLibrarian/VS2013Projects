@@ -15,11 +15,6 @@ namespace Tiles.Items
         {
             ArmorClass = armorClass;
         }
-        
-        public uint GetTypeResistence(DamageType damageType)
-        {
-            return ArmorClass.DamageVector.GetComponent(damageType);
-        }
 
         public string Name { get { return ArmorClass.Name; } }
 

@@ -14,10 +14,12 @@ namespace Tiles.ScreensImpl.ContentFactories
     public class ZombieSiteFactory : ISiteFactory
     {
         IRandom Random { get; set; }
+        ItemFactory ItemFactory { get; set; }
 
         public ZombieSiteFactory(IRandom random)
         {
             Random = random;
+            ItemFactory = new ItemFactory(Random);
         }
 
         public ISite Create(IAtlas atlas, Vector2 siteIndex, Box box)
@@ -37,11 +39,10 @@ namespace Tiles.ScreensImpl.ContentFactories
             var door = Random.NextElement(new List<CompassDirection> { CompassDirection.North, CompassDirection.East, CompassDirection.South, CompassDirection.West });
             CreateRectangularBuilding(s, buildingBox, door);
             
-            var itemFactory = new ItemFactory();
             for (int i = 0; i < box.Size.X; i++)
             {
                 var spawnLoc = FindSpawnSitePos(s);
-                s.GetTileAtSitePos(spawnLoc).Items.Add(itemFactory.CreateRandomItem(Random));
+                s.GetTileAtSitePos(spawnLoc).Items.Add(ItemFactory.CreateRandomItem());
             }
 
             var agentFactory = new AgentFactory(Random);

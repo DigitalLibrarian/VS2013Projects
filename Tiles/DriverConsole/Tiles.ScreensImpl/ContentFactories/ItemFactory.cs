@@ -17,25 +17,56 @@ namespace Tiles.ScreensImpl.ContentFactories
         private static IList<IWeaponClass> _WeaponClasses = new List<IWeaponClass>
         {
             new WeaponClass("baseball bat", 
-                new Sprite(Symbol.MeleeClub, Color.White, Color.Black), 
-                new DamageVector(
-                    new Dictionary<DamageType,uint>{
-                        { DamageType.Blunt, 25 }
-                    }
-               ),
-               "bashes",
-                WeaponSlot.Main
+                new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
+               new WeaponSlot[] { WeaponSlot.Main },
+               new IAttackMoveClass[] {
+                   new AttackMoveClass(
+                       name: "Bash",
+                       meleeVerb: new Verb(
+                           firstPerson: "bash",
+                           secondPerson: "bash",
+                           thirdPerson: "bashes"
+                           ),
+                       damage: new DamageVector(
+                                new Dictionary<DamageType,uint>{
+                                    { DamageType.Blunt, 25 }
+                                }
+                           )
+                       )
+               }
             ),
-            new WeaponClass("iron scimitar", 
+            new WeaponClass("steel sword", 
                 new Sprite(Symbol.MeleeSword, Color.White, Color.Black), 
-                new DamageVector(
-                    new Dictionary<DamageType,uint>{
-                        { DamageType.Slash, 36},
-                        { DamageType.Pierce, 22}
-                    }
-                ),
-                "slashes",
-                WeaponSlot.Main
+               new WeaponSlot[] { WeaponSlot.Main },
+               new IAttackMoveClass[] {
+                   new AttackMoveClass(
+                       name: "Slash",
+                       meleeVerb: new Verb(
+                           firstPerson: "slash",
+                           secondPerson: "slash",
+                           thirdPerson: "slashes"
+                           ),
+                       damage: new DamageVector(
+                                new Dictionary<DamageType,uint>{
+                                    { DamageType.Slash, 55 }
+                                }
+                           )
+                       ),
+                   new AttackMoveClass(
+                       name: "Stab",
+                       meleeVerb: new Verb(
+                           firstPerson: "stab",
+                           secondPerson: "stab",
+                           thirdPerson: "stabs"
+                           ),
+                       damage: new DamageVector(
+                                new Dictionary<DamageType,uint>{
+                                    { DamageType.Pierce, 21 },
+                                    { DamageType.Slash, 3 }
+                                }
+                           )
+                       ),
+               }
             ),
         };
 
@@ -154,6 +185,13 @@ namespace Tiles.ScreensImpl.ContentFactories
                 ArmorSlot.RightLeg
             ),
         };
+        private IRandom Random;
+
+        public ItemFactory(IRandom Random)
+        {
+            // TODO: Complete member initialization
+            this.Random = Random;
+        }
         #endregion
         
         public IEnumerable<IItem> CreateAllWeapons()
@@ -173,13 +211,13 @@ namespace Tiles.ScreensImpl.ContentFactories
         }
 
 
-        public IItem CreateRandomItem(IRandom random)
+        public IItem CreateRandomItem()
         {
             var wc = _WeaponClasses.Count();
             var ac = _ArmorClasses.Count();
             var tot = wc + ac;
 
-            var index = random.Next(tot);
+            var index = Random.Next(tot);
 
             if (index < wc)
             {
