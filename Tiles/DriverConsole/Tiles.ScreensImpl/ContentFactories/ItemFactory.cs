@@ -16,10 +16,11 @@ namespace Tiles.ScreensImpl.ContentFactories
         #region static defns
         private static IList<IWeaponClass> _WeaponClasses = new List<IWeaponClass>
         {
-            new WeaponClass("baseball bat", 
-                new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
-               new WeaponSlot[] { WeaponSlot.Main },
-               new IAttackMoveClass[] {
+            new WeaponClass(
+                name: "baseball bat", 
+                sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
+                slots: new WeaponSlot[] { WeaponSlot.Main },
+                attackMoveClasses: new IAttackMoveClass[] {
                    new AttackMoveClass(
                        name: "Bash",
                        meleeVerb: new Verb(
@@ -35,10 +36,11 @@ namespace Tiles.ScreensImpl.ContentFactories
                        )
                }
             ),
-            new WeaponClass("steel sword", 
-                new Sprite(Symbol.MeleeSword, Color.White, Color.Black), 
-               new WeaponSlot[] { WeaponSlot.Main },
-               new IAttackMoveClass[] {
+            new WeaponClass(
+               name: "steel sword", 
+               sprite: new Sprite(Symbol.MeleeSword, Color.White, Color.Black), 
+               slots: new WeaponSlot[] { WeaponSlot.Main },
+               attackMoveClasses: new IAttackMoveClass[] {
                    new AttackMoveClass(
                        name: "Slash",
                        meleeVerb: new Verb(
@@ -61,8 +63,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                            ),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
-                                    { DamageType.Pierce, 21 },
-                                    { DamageType.Slash, 3 }
+                                    { DamageType.Pierce, 63 },
+                                    { DamageType.Slash, 11 }
                                 }
                            )
                        ),

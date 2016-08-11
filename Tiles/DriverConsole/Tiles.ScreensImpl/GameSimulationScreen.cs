@@ -197,7 +197,7 @@ namespace Tiles.ScreensImpl
                             newTile.Agent, 
                             CommandFactory,
                             Game.AttackConductor, 
-                            new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc())), Canvas, Box)
+                            new AttackMoveDiscoverer(new AttackMoveBuilder(new DamageCalc())), Canvas, Box)
                         );
                 }
                 else

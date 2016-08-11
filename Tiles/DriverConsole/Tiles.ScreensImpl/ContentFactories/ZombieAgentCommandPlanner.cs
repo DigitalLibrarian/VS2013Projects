@@ -13,7 +13,7 @@ namespace Tiles.ScreensImpl.ContentFactories
     public class ZombieAgentCommandPlanner : BaseAgentCommandPlanner
     {
         public ZombieAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory) 
-            : base(random, commandFactory, new AttackMoveFactory(new AttackMoveBuilder(new DamageCalc()))) { }
+            : base(random, commandFactory, new AttackMoveDiscoverer(new AttackMoveBuilder(new DamageCalc()))) { }
 
         public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
         {

@@ -76,7 +76,7 @@
     <Compile Include="Agents\Combat\AttackConductor.cs" />
     <Compile Include="Agents\Combat\AttackMove.cs" />
     <Compile Include="Agents\Combat\AttackMoveBuilder.cs" />
-    <Compile Include="Agents\Combat\AttackMoveFactory.cs" />
+    <Compile Include="Agents\Combat\AttackMoveDiscoverer.cs" />
     <Compile Include="Agents\Combat\DamageCalc.cs" />
     <Compile Include="Agents\Combat\DamageVector.cs" />
     <Compile Include="Agents\Combat\IAttackConductor.cs" />
@@ -85,7 +85,7 @@
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IPlayer.cs" />
     <Compile Include="Agents\Combat\IAttackMoveBuilder.cs" />
-    <Compile Include="Agents\Combat\IAttackMoveFactory.cs" />
+    <Compile Include="Agents\Combat\IAttackMoveDiscoverer.cs" />
     <Compile Include="Agents\Combat\IDamageCalc.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Agents\IAgentCommandFactory.cs" />

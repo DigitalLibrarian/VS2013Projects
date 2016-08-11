@@ -13,13 +13,13 @@ namespace Tiles.Agents.Behaviors
     public abstract class BaseAgentCommandPlanner : IAgentCommandPlanner
     {
         protected IAgentCommandFactory CommandFactory { get; private set; }
-        IAttackMoveFactory AttackMoveFactory { get; set; }
+        IAttackMoveDiscoverer AttackMoveDisco { get; set; }
         protected IRandom Random { get; private set; }
-        public BaseAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveFactory moveFactory)
+        public BaseAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveDiscoverer moveDisco)
         {
             Random = random;
             CommandFactory = commandFactory;
-            AttackMoveFactory = moveFactory;
+            AttackMoveDisco = moveDisco;
         }
 
         protected IAgentCommand Wander(IAgent agent)
@@ -67,7 +67,7 @@ namespace Tiles.Agents.Behaviors
 
         protected IEnumerable<IAttackMove> AttackMoves(IAgent agent, IAgent target)
         {
-            return AttackMoveFactory.GetPossibleMoves(agent, target);
+            return AttackMoveDisco.GetPossibleMoves(agent, target);
         }
 
         protected Vector2? FindNearbyPos(Vector2 centerWorldPos, Predicate<Vector2> finderPred, int halfBoxSize)

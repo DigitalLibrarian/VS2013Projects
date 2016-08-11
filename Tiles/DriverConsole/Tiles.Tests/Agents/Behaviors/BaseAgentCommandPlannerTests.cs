@@ -23,8 +23,8 @@ namespace Tiles.Tests.Agents.Behaviors
         // class is used via inheritance
         class TestPlanner : BaseAgentCommandPlanner
         {
-            public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveFactory moveFactory) 
-                : base(random, commandFactory, moveFactory) { }
+            public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveDiscoverer moveDisco) 
+                : base(random, commandFactory, moveDisco) { }
 
             public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
             {
@@ -42,7 +42,7 @@ namespace Tiles.Tests.Agents.Behaviors
 
         Mock<IRandom> RandomMock { get; set; }
         Mock<IAgentCommandFactory> CommandFactoryMock { get; set; }
-        Mock<IAttackMoveFactory> MoveFactoryMock { get; set; }
+        Mock<IAttackMoveDiscoverer> MoveDiscoMock { get; set; }
         TestPlanner Planner { get; set; }
 
         [TestInitialize]
@@ -50,8 +50,8 @@ namespace Tiles.Tests.Agents.Behaviors
         {
             RandomMock = new Mock<IRandom>();
             CommandFactoryMock = new Mock<IAgentCommandFactory>();
-            MoveFactoryMock = new Mock<IAttackMoveFactory>();
-            Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveFactoryMock.Object);
+            MoveDiscoMock = new Mock<IAttackMoveDiscoverer>();
+            Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveDiscoMock.Object);
         }
 
         [TestMethod]
@@ -157,13 +157,13 @@ namespace Tiles.Tests.Agents.Behaviors
             var targetMock = new Mock<IAgent>();
 
             var mockedResult = new List<IAttackMove>();
-            MoveFactoryMock.Setup(x => x.GetPossibleMoves(agentMock.Object, targetMock.Object)).Returns(mockedResult);
+            MoveDiscoMock.Setup(x => x.GetPossibleMoves(agentMock.Object, targetMock.Object)).Returns(mockedResult);
 
             var result = Planner.GetAttackMoves(agentMock.Object, targetMock.Object);
 
             Assert.AreSame(mockedResult, result);
 
-            MoveFactoryMock.Verify(x => x.GetPossibleMoves(agentMock.Object, targetMock.Object), Times.Once());
+            MoveDiscoMock.Verify(x => x.GetPossibleMoves(agentMock.Object, targetMock.Object), Times.Once());
         }
 
 

@@ -15,21 +15,21 @@ namespace Tiles.ScreensImpl
     {
         IPlayer Player { get; set; }
         IAttackConductor AttackConductor { get; set; }
-        IAttackMoveFactory MoveFactory { get; set; }
+        IAttackMoveDiscoverer MoveDisco { get; set; }
         IAgent Target { get; set; }
         IAgentCommandFactory CommandFactory { get; set; }
 
         JaggedListSelector Selector { get; set; }
 
         public CombatScreen(IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
-            IAttackConductor attackConductor, IAttackMoveFactory moveFactory, ICanvas canvas, Box box)
+            IAttackConductor attackConductor, IAttackMoveDiscoverer moveDisco, ICanvas canvas, Box box)
             : base(canvas, box) 
         {
             Player = player;
             Target = target;
             CommandFactory = commandFactory;
             AttackConductor = attackConductor;
-            MoveFactory = moveFactory;
+            MoveDisco = moveDisco;
 
             PropagateInput = false;
             PropagateUpdate = false;
@@ -55,7 +55,7 @@ namespace Tiles.ScreensImpl
             Canvas.DrawString("What is your attack move?", Box.Min);
 
             var lines = new List<string>();
-            var moves = MoveFactory.GetPossibleMoves(Player.Agent, Target);
+            var moves = MoveDisco.GetPossibleMoves(Player.Agent, Target);
             foreach (var move in moves)
             {
                 lines.Add(string.Format("{0} ({1} dmg)", move.Name, move.CalculatedDamage));
@@ -82,7 +82,7 @@ namespace Tiles.ScreensImpl
             }
             else if (args.Key == ConsoleKey.Enter)
             {
-                var moves = MoveFactory.GetPossibleMoves(Player.Agent, Target).ToList();
+                var moves = MoveDisco.GetPossibleMoves(Player.Agent, Target).ToList();
                 if (Selector.Selected.Y < moves.Count())
                 {
                     Player.EnqueueCommand(CommandFactory.MeleeAttack(Player.Agent, Target, moves.ElementAt(Selector.Selected.Y)));

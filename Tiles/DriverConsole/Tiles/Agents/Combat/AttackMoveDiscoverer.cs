@@ -8,10 +8,10 @@ using Tiles.Math;
 
 namespace Tiles.Agents.Combat
 {
-    public class AttackMoveFactory : IAttackMoveFactory
+    public class AttackMoveDiscoverer : IAttackMoveDiscoverer
     {
         public IAttackMoveBuilder MoveBuilder { get; private set; }
-        public AttackMoveFactory(IAttackMoveBuilder moveBuilder)
+        public AttackMoveDiscoverer(IAttackMoveBuilder moveBuilder)
         {
             MoveBuilder = moveBuilder;
         }

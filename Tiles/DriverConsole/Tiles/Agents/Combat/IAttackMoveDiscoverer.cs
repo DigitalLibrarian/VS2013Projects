@@ -10,7 +10,7 @@ using Tiles.Random;
 
 namespace Tiles.Agents.Combat
 {
-    public interface IAttackMoveFactory
+    public interface IAttackMoveDiscoverer
     {
         IEnumerable<IAttackMove> GetPossibleMoves(IAgent attacker, IAgent defender);
     }
