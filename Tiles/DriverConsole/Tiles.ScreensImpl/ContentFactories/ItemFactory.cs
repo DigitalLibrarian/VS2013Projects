@@ -17,23 +17,36 @@ namespace Tiles.ScreensImpl.ContentFactories
         private static IList<IWeaponClass> _WeaponClasses = new List<IWeaponClass>
         {
             new WeaponClass(
-                name: "baseball bat", 
-                sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
-                slots: new WeaponSlot[] { WeaponSlot.Main },
-                attackMoveClasses: new IAttackMoveClass[] {
+               name: "plastic flyswatter", 
+               sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black), 
+               slots: new WeaponSlot[] { WeaponSlot.Main },
+               attackMoveClasses: new IAttackMoveClass[] {
                    new AttackMoveClass(
-                       name: "Bash",
+                       name: "Swat",
                        meleeVerb: new Verb(
-                           firstPerson: "bash",
-                           secondPerson: "bash",
-                           thirdPerson: "bashes"
+                           firstPerson: "swat",
+                           secondPerson: "swat",
+                           thirdPerson: "swats"
                            ),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
-                                    { DamageType.Blunt, 25 }
+                                    { DamageType.Blunt, 1 }
                                 }
                            )
-                       )
+                       ),
+                   new AttackMoveClass(
+                       name: "Swish",
+                       meleeVerb: new Verb(
+                           firstPerson: "swish",
+                           secondPerson: "swish",
+                           thirdPerson: "swishes"
+                           ),
+                       damage: new DamageVector(
+                                new Dictionary<DamageType,uint>{
+                                    { DamageType.Slash, 1 }
+                                }
+                           )
+                       ),
                }
             ),
             new WeaponClass(
@@ -68,6 +81,26 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 }
                            )
                        ),
+               }
+            ),
+            new WeaponClass(
+                name: "baseball bat", 
+                sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
+                slots: new WeaponSlot[] { WeaponSlot.Main },
+                attackMoveClasses: new IAttackMoveClass[] {
+                   new AttackMoveClass(
+                       name: "Bash",
+                       meleeVerb: new Verb(
+                           firstPerson: "bash",
+                           secondPerson: "bash",
+                           thirdPerson: "bashes"
+                           ),
+                       damage: new DamageVector(
+                                new Dictionary<DamageType,uint>{
+                                    { DamageType.Blunt, 25 }
+                                }
+                           )
+                       )
                }
             ),
         };

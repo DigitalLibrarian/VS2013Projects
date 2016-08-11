@@ -120,14 +120,12 @@ namespace Tiles.ScreensImpl
                         Selector.MoveLeft();
                         break;
                 }
-
             }
             else if (args.Key == ConsoleKey.Enter)
             {
                 ViewSelected();
             }
         }
-
 
         IItem GetHighlightedItem()
         {
