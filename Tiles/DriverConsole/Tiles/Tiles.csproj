@@ -96,7 +96,6 @@
     <Compile Include="ISite.cs" />
     <Compile Include="ISiteFactory.cs" />
     <Compile Include="ISprite.cs" />
-    <Compile Include="Items\ArmorItem.cs" />
     <Compile Include="Items\ArmorClass.cs" />
     <Compile Include="Items\ArmorSlot.cs" />
     <Compile Include="Agents\Combat\DamageType.cs" />
@@ -113,7 +112,6 @@
     <Compile Include="Items\Outfits\OutfitLayer.cs" />
     <Compile Include="Items\Outfits\OutfitLayerFactory.cs" />
     <Compile Include="Items\WeaponClass.cs" />
-    <Compile Include="Items\WeaponItem.cs" />
     <Compile Include="Items\WeaponSlot.cs" />
     <Compile Include="ITile.cs" />
     <Compile Include="Agents\Player.cs" />

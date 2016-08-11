@@ -233,12 +233,11 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             foreach (var weaponClass in _WeaponClasses)
             {
-                yield return new Item
-                {
-                    Name = weaponClass.Name,
-                    Sprite = weaponClass.Sprite,
-                    WeaponClass = weaponClass
-                };
+                yield return CreateItem(
+                    name: weaponClass.Name,
+                    sprite: weaponClass.Sprite,
+                    weaponClass: weaponClass);
+
             }
         }
 
@@ -246,16 +245,49 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             foreach (var armorClass in _ArmorClasses)
             {
-
-                yield return new Item
-                {
-                    Name = armorClass.Name,
-                    Sprite = armorClass.Sprite,
-                    ArmorClass = armorClass
-                };
+                yield return CreateItem(
+                    name: armorClass.Name,
+                    sprite: armorClass.Sprite,
+                    armorClass: armorClass);
             }
         }
 
+        static IWeaponClass DefaultWeaponClass = new WeaponClass(
+            name: "Strike",
+            sprite: null,
+            slots: new WeaponSlot[] {  WeaponSlot.Main},
+            attackMoveClasses: new IAttackMoveClass[] { 
+                   new AttackMoveClass(
+                       name: "Strike",
+                       meleeVerb: new Verb(
+                           firstPerson: "strike",
+                           secondPerson: "strike",
+                           thirdPerson: "strikes"
+                           ),
+                       damage: new DamageVector(
+                                new Dictionary<DamageType,uint>{
+                                    { DamageType.Slash, 1 },
+                                    { DamageType.Pierce, 1 },
+                                    { DamageType.Blunt, 1 },
+                                    { DamageType.Burn, 1 }
+                                }
+                           )
+                       ),
+
+            });
+
+        IItem CreateItem(
+            string name, ISprite sprite,
+            IWeaponClass weaponClass = null, IArmorClass armorClass = null)
+        {
+            return new Item
+            {
+                Name = name,
+                Sprite = sprite,
+                ArmorClass = armorClass,
+                WeaponClass = weaponClass ?? DefaultWeaponClass
+            };
+        }
 
         public IItem CreateRandomItem()
         {
@@ -268,22 +300,18 @@ namespace Tiles.ScreensImpl.ContentFactories
             if (index < wc)
             {
                 var weaponClass = _WeaponClasses[index];
-                return new Item
-                {
-                    Name = weaponClass.Name,
-                    Sprite = weaponClass.Sprite,
-                    WeaponClass = weaponClass
-                };
+                return CreateItem(
+                    name: weaponClass.Name,
+                    sprite: weaponClass.Sprite,
+                    weaponClass: weaponClass);
             }
             else
             {
-                var armorClass = _ArmorClasses[index-wc];
-                return new Item
-                {
-                    Name = armorClass.Name,
-                    Sprite = armorClass.Sprite,
-                    ArmorClass = armorClass
-                };
+                var armorClass = _ArmorClasses[index - wc]; 
+                return CreateItem(
+                       name: armorClass.Name,
+                       sprite: armorClass.Sprite,
+                       armorClass: armorClass);
             }
         }
     }

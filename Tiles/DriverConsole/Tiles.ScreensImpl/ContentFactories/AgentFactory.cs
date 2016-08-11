@@ -80,7 +80,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 new Outfit(body, new OutfitLayerFactory())
                 );
 
-            zombie.Outfit.Wield(new Item { WeaponClass = ZombieClaw.WeaponClass });
+            zombie.Outfit.Wield(new Item { Name = ZombieClaw.WeaponClass.Name,  WeaponClass = ZombieClaw.WeaponClass });
 
             zombie.IsUndead = true;
 

@@ -67,7 +67,7 @@ namespace Tiles.Agents.Combat
             var withWeapon = "";
             if (move.Weapon != null)
             {
-                withWeapon = string.Format(" with {0} {1}",attackerPronoun, move.Weapon.WeaponClass.Name);
+                withWeapon = string.Format(" with {0} {1}",attackerPronoun, move.Weapon.Name);
             }
 
             Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4} for {5} damage{6}.", attackerName, verb, defender.Name, move.TargetBodyPart.Name, withWeapon, totalDamage, severed));
@@ -120,7 +120,30 @@ namespace Tiles.Agents.Combat
             yield return new Item
             {
                 Name = string.Format("{0}'s {1}", defender.Name, shedPart.Name),
-                Sprite = new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black)
+                Sprite = new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black),
+                WeaponClass = new WeaponClass(
+                    name: "Strike",
+                    sprite: null,
+                    slots: new WeaponSlot[] {  WeaponSlot.Main},
+                    attackMoveClasses: new IAttackMoveClass[] { 
+                           new AttackMoveClass(
+                               name: "Strike",
+                               meleeVerb: new Verb(
+                                   firstPerson: "strike",
+                                   secondPerson: "strike",
+                                   thirdPerson: "strikes"
+                                   ),
+                               damage: new DamageVector(
+                                        new Dictionary<DamageType,uint>{
+                                            { DamageType.Slash, 1 },
+                                            { DamageType.Pierce, 1 },
+                                            { DamageType.Blunt, 1 },
+                                            { DamageType.Burn, 1 }
+                                        }
+                                   )
+                               ),
+
+                    })
             };
 
         }

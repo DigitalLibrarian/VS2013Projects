@@ -46,11 +46,11 @@ namespace Tiles.ScreensImpl.ContentFactories
             }
 
             var agentFactory = new AgentFactory(Random);
-            var numZombies = 2;
+            var numZombies = 4;
             for (int i = 0; i < numZombies; i++)
                 AddZombie(atlas, s, agentFactory);
 
-            var numSurvivors = 2;
+            var numSurvivors = 1;
             for (int i = 0; i < numSurvivors; i++)
                 AddSurvivor(atlas, s, agentFactory);
 

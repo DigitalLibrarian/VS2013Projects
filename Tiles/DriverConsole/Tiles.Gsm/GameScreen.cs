@@ -44,7 +44,10 @@ namespace Tiles.Gsm
 
         public virtual void Exit()
         {
-            ScreenManager.Remove(this);
+            if (ScreenManager != null)
+            {
+                ScreenManager.Remove(this);
+            }
         }
 
 

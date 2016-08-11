@@ -84,6 +84,7 @@ namespace Tiles.ScreensImpl
             var rightColumnLines = new List<string>();
 
             if (CanWield) rightColumnLines.Add("w\tWield");
+            if (CanUnwield) rightColumnLines.Add("u\tUnwield");
             if (CanWear) rightColumnLines.Add("W\tWear");
             if (CanTakeOff) rightColumnLines.Add("T\tTake off");
             if (CanDrop) rightColumnLines.Add("d\tDrop");
@@ -100,12 +101,19 @@ namespace Tiles.ScreensImpl
 
         bool CanWield { get { return Player.Agent.Outfit.CanWield(Item); } }
         bool CanWear { get { return Player.Agent.Outfit.CanWear(Item); } }
-        bool CanTakeOff { get { return IsWorn || IsWielded; } }
+        bool CanTakeOff { get { return IsWorn; } }
+        bool CanUnwield { get { return IsWielded; } }
         bool CanDrop { get { return !IsWorn; } }
                 
         void Wield()
         {
             Player.EnqueueCommand(CommandFactory.WieldWeapon(Player.Agent, Item));
+            Exit();
+        }
+
+        void Unwield()
+        {
+            Player.EnqueueCommand(CommandFactory.UnwieldWeapon(Player.Agent, Item));
             Exit();
         }
 
@@ -115,18 +123,11 @@ namespace Tiles.ScreensImpl
             Exit();
         }
 
+
         void TakeOff()
         {
-            if (Item.IsWeapon)
-            {
-                Player.EnqueueCommand(CommandFactory.UnwieldWeapon(Player.Agent, Item));
-                Exit();
-            }
-            if (Item.IsArmor)
-            {
-                Player.EnqueueCommand(CommandFactory.TakeOffArmor(Player.Agent, Item));
-                Exit();
-            }
+            Player.EnqueueCommand(CommandFactory.TakeOffArmor(Player.Agent, Item));
+            Exit();
         }
 
         void Drop()
@@ -151,6 +152,7 @@ namespace Tiles.ScreensImpl
 
 
             if (CanWield && args.KeyChar == 'w') Wield();
+            if (CanUnwield && args.KeyChar == 'u') Unwield();
             if (CanWear && args.KeyChar == 'W') Wear();
             if (CanTakeOff && args.KeyChar == 'T') TakeOff();
             if (CanDrop && args.KeyChar == 'd') Drop();
