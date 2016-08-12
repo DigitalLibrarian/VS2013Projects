@@ -71,6 +71,31 @@ namespace Tiles.Agents.Combat
         };
 
 
+        static IAttackMoveClass _breakGrasp = new AttackMoveClass(
+            name: "Break grasp",
+            meleeVerb: new Verb(
+                    firstPerson: "break away from",
+                    secondPerson: "break away from",
+                    thirdPerson: "breas away from"),
+            damage: new DamageVector()
+            )
+        {
+            IsMeleeStrike = false,
+            IsGraspBreak = true
+        };
+
+
+        public IAttackMove BreakOpponentGrasp(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        {
+            var moveName = string.Format("Break {0}'s {1} grasp on {2}", defender.Name,  defenderBodyPart.Name, attackerBodyPart.Name);
+
+            return new AttackMove(_breakGrasp, moveName, attacker, defender, 0)
+            {
+                AttackerBodyPart = attackerBodyPart,
+                DefenderBodyPart = defenderBodyPart
+            };
+        }
+
         public IAttackMove GraspOpponentBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Grab {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);

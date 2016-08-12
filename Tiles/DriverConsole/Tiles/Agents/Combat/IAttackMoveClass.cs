@@ -12,6 +12,7 @@ namespace Tiles.Agents.Combat
         bool IsMeleeStrike { get; }
         bool IsGraspPart { get; }
         bool IsReleasePart { get; }
+        bool IsGraspBreak { get; }
         bool TakeDamageProducts { get; }
 
         IVerb Verb { get; }

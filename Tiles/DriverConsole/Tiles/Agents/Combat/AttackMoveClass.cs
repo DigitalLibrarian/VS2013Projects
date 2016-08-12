@@ -25,6 +25,9 @@ namespace Tiles.Agents.Combat
             IsMeleeStrike = true;
             IsGraspPart = false;
             IsReleasePart = false;
+            IsGraspBreak = false;
         }
+
+        public bool IsGraspBreak { get; set; }
     }
 }

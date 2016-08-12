@@ -27,7 +27,7 @@ namespace Tiles.Agents.Combat
             {
                 ConductMelee(attacker, defender, move);
             }
-            else if (attacker.Body.IsGrasping)
+            else if (attacker.Body.IsWrestling)
             {
                 ConductWrestling(attacker, defender, move);
             }
@@ -62,6 +62,14 @@ namespace Tiles.Agents.Combat
             if (move.AttackMoveClass.IsReleasePart)
             {
                 move.AttackerBodyPart.StopGrasp(move.DefenderBodyPart);
+            }
+
+            if (move.AttackMoveClass.IsGraspBreak)
+            {
+                if (move.DefenderBodyPart.IsGrasping && move.DefenderBodyPart.Grasped == move.AttackerBodyPart)
+                {
+                    move.DefenderBodyPart.StopGrasp(move.AttackerBodyPart);
+                }
             }
 
             Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4}", 

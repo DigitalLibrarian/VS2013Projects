@@ -43,7 +43,7 @@ namespace Tiles.Agents.Combat
                             yield return move;
                     }
 
-                    if (attacker.Body.IsGrasping)
+                    if (attacker.Body.IsWrestling)
                     {
                         foreach (var move in WrestlingMoves(attacker, defender, mePart))
                             yield return move;
@@ -89,6 +89,17 @@ namespace Tiles.Agents.Combat
                 // twist, if can
                 // bend, if can
 
+            }
+
+            if (defender.Body.IsWrestling)
+            {
+                foreach (var youPart in defender.Body.Parts)
+                {
+                    if (youPart.IsGrasping && youPart.Grasped == mePart)
+                    {
+                        yield return MoveBuilder.BreakOpponentGrasp(attacker, defender, mePart, youPart);
+                    }
+                }
             }
 
         }
