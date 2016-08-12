@@ -46,7 +46,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             }
 
             var agentFactory = new AgentFactory(Random);
-            var numZombies = 4;
+            var numZombies = 40;
             for (int i = 0; i < numZombies; i++)
                 AddZombie(atlas, s, agentFactory);
 

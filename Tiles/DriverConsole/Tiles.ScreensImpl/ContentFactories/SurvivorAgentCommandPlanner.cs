@@ -36,14 +36,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                     if (attackMoves.Any())
                     {
                         var attackMove = Random.NextElement(attackMoves.ToList());
-                        /*
-                        return new AgentCommand
-                        {
-                            CommandType = AgentCommandType.AttackMelee,
-                            Target = target,
-                            AttackMove = attackMove
-                        };
-                         * */
                         return CommandFactory.MeleeAttack(agent, target, attackMove);
                     }
                     else
@@ -63,40 +55,16 @@ namespace Tiles.ScreensImpl.ContentFactories
                 var items = GetEquippableWeapons(agent);
                 if (items.Any())
                 {
-                    /*
-                    return new AgentCommand
-                    {
-                        CommandType = AgentCommandType.WieldWeapon,
-                        Item = items.First(),
-                        Weapon = items.First().Weapon
-                    };
-                     * */
-
                     return CommandFactory.WieldWeapon(agent, items.First());
                 }
                 items = GetEquippableArmors(agent);
                 if (items.Any())
                 {
-                    /*
-                    return new AgentCommand
-                    {
-                        CommandType = AgentCommandType.WearArmor,
-                        Item = items.First(),
-                        Armor = items.First().Armor
-                    };
-                     * */
-
                     return CommandFactory.WearArmor(agent, items.First());
                 }
             }
             else if(game.Atlas.GetTileAtPos(agent.Pos).Items.Any())
             {
-                /*
-                return new AgentCommand
-                {
-                    CommandType = AgentCommandType.PickUpItemsOnAgentTile
-                };
-                 * */
                 return CommandFactory.PickUpItemsOnAgentTile(agent);
             }
 

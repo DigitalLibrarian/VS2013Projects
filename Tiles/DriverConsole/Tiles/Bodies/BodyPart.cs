@@ -21,6 +21,7 @@ namespace Tiles.Bodies
         public bool CanGrasp { get { return _canGrasp && !IsGrasping && Weapon == null; } }
         public IBodyPart Grasped { get; private set; }
         public bool IsGrasping { get { return Grasped != null; } }
+        public bool IsWrestling { get { return IsGrasping || IsBeingGrasped; } }
         public bool IsBeingGrasped { get; set; }
         public IItem Weapon { get; set; }
         public IItem Armor { get; set; }

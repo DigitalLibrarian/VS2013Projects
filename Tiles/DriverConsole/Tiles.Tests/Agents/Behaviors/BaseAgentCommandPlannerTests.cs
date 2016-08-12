@@ -54,6 +54,14 @@ namespace Tiles.Tests.Agents.Behaviors
             Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveDiscoMock.Object);
         }
 
+        [Ignore]
+        [TestMethod]
+        public void FindTarget()
+        {
+            // move this out of the subclasses and into the base class 
+            // with a predicate
+        }
+
         [TestMethod]
         public void Wander()
         {

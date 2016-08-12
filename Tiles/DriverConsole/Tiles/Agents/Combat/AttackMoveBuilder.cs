@@ -28,7 +28,7 @@ namespace Tiles.Agents.Combat
             };
         }
 
-        public IAttackMove GraspOpponent(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        public IAttackMove GraspOpponentBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Grab {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
 
@@ -43,10 +43,10 @@ namespace Tiles.Agents.Combat
         static IAttackMoveClass _wrestlingPull = new WrestlingPullMoveClass();
 
 
-        public IAttackMove WrestlingPull(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        public IAttackMove PullGraspedBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Pull {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
-            uint dmg = 50; //TODO - calculate
+            uint dmg = 20; //TODO - calculate
             return new AttackMove(_wrestlingPull, moveName, attacker, defender, dmg)
             {
                 AttackerBodyPart = attackerBodyPart,
@@ -126,7 +126,7 @@ namespace Tiles.Agents.Combat
         }
 
         static private DamageVector _damage = new DamageVector(new Dictionary<DamageType, uint>{
-            {DamageType.Blunt, 50}
+            {DamageType.Blunt, 20}
         });
         public DamageVector DamageVector
         {

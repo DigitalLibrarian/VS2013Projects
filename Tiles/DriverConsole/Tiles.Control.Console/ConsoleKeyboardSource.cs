@@ -8,7 +8,6 @@ using Tiles.Control;
 using Tiles.Math;
 namespace Tiles.Control.Console
 {
-    // TODO - replace with this
     public class ConsoleKeyboardSource : IKeyboadSource
     {
         IConsoleReader Reader { get; set; }

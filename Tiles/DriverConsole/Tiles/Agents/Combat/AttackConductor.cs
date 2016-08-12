@@ -41,7 +41,7 @@ namespace Tiles.Agents.Combat
 
         private void ConductWrestling(IAgent attacker, IAgent defender, IAttackMove move)
         {
-            var dmg = move.CalculatedDamage;
+            var dmg = move.PredictedDamage;
             move.DefenderBodyPart.Health.TakeDamage(dmg);
 
             var limbMessage = ".";
@@ -82,7 +82,7 @@ namespace Tiles.Agents.Combat
 
         void ConductMelee(IAgent attacker, IAgent defender, IAttackMove move)
         {
-            var totalDamage = move.CalculatedDamage;
+            var totalDamage = move.PredictedDamage;
             var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, totalDamage);
             var newItems = new List<IItem>();
             if (shedPart != null)
@@ -249,11 +249,12 @@ namespace Tiles.Agents.Combat
             {
                 Name = string.Format("{0}'s {1}", defender.Name, part.Name),
                 Sprite = new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black),
-                WeaponClass = DefaultWeaopnClass
+                WeaponClass = DefaultWeaponClass
             };
         }
 
-        private static IWeaponClass DefaultWeaopnClass = new WeaponClass(
+        // TODO - create factory interface
+        private static IWeaponClass DefaultWeaponClass = new WeaponClass(
                     name: "Strike",
                     sprite: null,
                     slots: new WeaponSlot[] { WeaponSlot.Main },

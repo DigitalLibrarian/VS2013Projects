@@ -12,7 +12,7 @@ namespace Tiles.Bodies
         {
             get { return Parts.Any(x => x.IsGrasping); }
         }
-        public bool IsWrestling { get {  return Parts.Any(x => x.IsGrasping || x.IsBeingGrasped);} }
+        public bool IsWrestling { get {  return Parts.Any(x => x.IsWrestling);} }
         public IList<IBodyPart> Parts { get; private set; }
         public Body(IList<IBodyPart> parts)
         {

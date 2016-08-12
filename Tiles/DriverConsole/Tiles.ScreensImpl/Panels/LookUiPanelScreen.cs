@@ -74,6 +74,10 @@ namespace Tiles.ScreensImpl.Panels
             else
             {
                 lines.Add(string.Format("Name: {0}", agent.Name));
+                if (agent.Body.IsWrestling)
+                {
+                    lines.Add("Wrestling");
+                }
                 foreach (var bodyPart in agent.Body.Parts)
                 {
                     lines.Add(string.Format("{0}: {1}", bodyPart.Name, bodyPart.Health));

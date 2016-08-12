@@ -28,10 +28,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                 if (attackMoves.Any())
                 {
                     var attackMove = Random.NextElement(attackMoves.ToList());
-                    if (attackMove.AttackMoveClass.IsGraspPart)
-                    {
-                        int b = 9;
-                    }
                     return CommandFactory.MeleeAttack(agent, target, attackMove);
                 }
                 else if (Random.NextDouble() > wanderProb)
@@ -42,6 +38,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             return Wander(agent);
         }
 
+        // TODO - move into base class and test
         private IAgent FindTarget(IGame game, IAgent agent)
         {
             var pos = FindNearbyPos(agent.Pos, worldPos =>

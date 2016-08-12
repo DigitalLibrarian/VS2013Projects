@@ -6,16 +6,16 @@ namespace Tiles.Agents.Combat
 {
     public interface IAttackMove
     {
-        IAgent Attacker { get; set; }
-        uint CalculatedDamage { get; set; }
-        IAgent Defender { get; set; }
-        bool IsCritical { get; set; }
         string Name { get; set; }
+        IAttackMoveClass AttackMoveClass { get; }
+
+        IAgent Attacker { get; set; }
+        IAgent Defender { get; set; }
+
         IBodyPart AttackerBodyPart { get; set; }
         IBodyPart DefenderBodyPart { get; set; }
         IItem Weapon { get; set; }
 
-        IAttackMoveClass AttackMoveClass { get; }
-
+        uint PredictedDamage { get; set; }
     }
 }

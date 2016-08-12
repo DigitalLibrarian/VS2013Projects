@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Agents.Behaviors
 {
+    // TODO - rename
     public interface IAgentCommandExecutionContext
     {
         bool HasCommand { get; }

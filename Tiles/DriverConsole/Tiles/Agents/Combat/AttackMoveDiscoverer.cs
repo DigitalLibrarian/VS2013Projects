@@ -48,7 +48,6 @@ namespace Tiles.Agents.Combat
                         foreach (var move in WrestlingMoves(attacker, defender, mePart))
                             yield return move;
                     }
-
                 }
 
                 // TODO - armor, weapon, racial, magic, tech, etc.. other types of abilities
@@ -73,19 +72,22 @@ namespace Tiles.Agents.Combat
         {
             foreach (var youPart in defender.Body.Parts)
             {
-                yield return MoveBuilder.GraspOpponent(attacker, defender, mePart, youPart);
+                if (!youPart.IsWrestling)
+                {
+                    yield return MoveBuilder.GraspOpponentBodyPart(attacker, defender, mePart, youPart);
+                }
             }
         }
 
         IEnumerable<IAttackMove> WrestlingMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
         {
-            if (mePart.IsGrasping)
+            if (mePart.IsWrestling)
             {
-                var youPart = mePart.Grasped;
-                if (!youPart.IsGrasping)
-                {
-                    yield return MoveBuilder.WrestlingPull(attacker, defender, mePart, youPart);
-                }
+                yield return MoveBuilder.PullGraspedBodyPart(attacker, defender, mePart, mePart.Grasped);
+                // TODO - more mixable verbs
+                // twist, if can
+                // bend, if can
+
             }
 
         }

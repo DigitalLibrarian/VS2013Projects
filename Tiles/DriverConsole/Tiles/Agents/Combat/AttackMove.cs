@@ -17,7 +17,7 @@ namespace Tiles.Agents.Combat
             Name = name;
             Attacker = attacker;
             Defender = defender;
-            CalculatedDamage = damage;
+            PredictedDamage = damage;
         }
 
 
@@ -30,6 +30,6 @@ namespace Tiles.Agents.Combat
         public IBodyPart AttackerBodyPart { get; set; }
         public IBodyPart DefenderBodyPart { get; set; }
         public IItem Weapon { get; set; }
-        public uint CalculatedDamage { get; set; }
+        public uint PredictedDamage { get; set; }
     }
 }
