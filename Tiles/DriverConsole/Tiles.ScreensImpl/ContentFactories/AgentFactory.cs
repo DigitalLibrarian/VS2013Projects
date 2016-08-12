@@ -9,7 +9,7 @@ using Tiles.Agents.Combat;
 using Tiles.Items;
 using Tiles.Math;
 using Tiles.Random;
-using Tiles.Agents.Combat.CommandInterpreters;
+using Tiles.Agents.CommandInterpreters;
 using Tiles.Items.Outfits;
 
 namespace Tiles.ScreensImpl.ContentFactories

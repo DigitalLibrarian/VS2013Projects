@@ -8,13 +8,13 @@ namespace Tiles.Agents.Combat
 {
     public class AttackMoveClass : IAttackMoveClass
     {
-        public string Name { get; private set; }
-        public IVerb Verb { get; private set; }
-        public DamageVector DamageVector { get; private set; }
-        public bool IsMeleeStrike { get; private set; }
-        public bool IsGraspPart { get; private set; }
-        public bool IsReleasePart { get; private set; }
-        public bool TakeDamageProducts { get; private set; }
+        public string Name { get; set; }
+        public IVerb Verb { get; set; }
+        public DamageVector DamageVector { get; set; }
+        public bool IsMeleeStrike { get; set; }
+        public bool IsGraspPart { get; set; }
+        public bool IsReleasePart { get; set; }
+        public bool TakeDamageProducts { get; set; }
 
         public AttackMoveClass(string name, IVerb meleeVerb, DamageVector damage)
         {

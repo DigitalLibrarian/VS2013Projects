@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Agents.Combat.CommandInterpreters
+namespace Tiles.Agents.CommandInterpreters
 {
     public class AgentCommandTypeInterpreter_WearArmor : IAgentCommandTypeInterpreter
     {

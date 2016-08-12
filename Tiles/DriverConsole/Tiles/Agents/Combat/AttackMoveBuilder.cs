@@ -28,6 +28,49 @@ namespace Tiles.Agents.Combat
             };
         }
 
+
+        static IAttackMoveClass _grasp = new AttackMoveClass(
+            name: "Grasp",
+            meleeVerb: new Verb(
+                    firstPerson: "grab",
+                    secondPerson: "grab",
+                    thirdPerson: "grabs"),
+            damage: new DamageVector()
+            )
+        {
+            IsMeleeStrike = false,
+            IsGraspPart = true
+        };
+
+        static IAttackMoveClass _release = new AttackMoveClass(
+            name: "Release",
+            meleeVerb: new Verb(
+                    firstPerson: "release",
+                    secondPerson: "release",
+                    thirdPerson: "release"),
+            damage: new DamageVector()
+            )
+        {
+            IsMeleeStrike = false,
+            IsReleasePart = true
+        };
+
+        static IAttackMoveClass _wrestlingPull = new AttackMoveClass(
+            name: "Pull",
+            meleeVerb: new Verb(
+                    firstPerson: "pull",
+                    secondPerson: "pull",
+                    thirdPerson: "pulls"),
+            damage: new DamageVector(new Dictionary<DamageType, uint>{
+                    {DamageType.Blunt, 20}
+                })
+            )
+        {
+            IsMeleeStrike = false,
+            TakeDamageProducts = true
+        };
+
+
         public IAttackMove GraspOpponentBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Grab {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
@@ -38,11 +81,6 @@ namespace Tiles.Agents.Combat
                 DefenderBodyPart = defenderBodyPart
             };
         }
-
-        static IAttackMoveClass _grasp = new GraspMoveClass();
-        static IAttackMoveClass _release = new GraspReleaseMoveClass();
-        static IAttackMoveClass _wrestlingPull = new WrestlingPullMoveClass();
-
 
         public IAttackMove PullGraspedBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
@@ -59,153 +97,12 @@ namespace Tiles.Agents.Combat
         public IAttackMove ReleaseGraspedPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Release {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
-            uint dmg = 20; //TODO - calculate
+            uint dmg = 0; //TODO - calculate
             return new AttackMove(_release, moveName, attacker, defender, dmg)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
             };
-        }
-    }
-
-    public class GraspMoveClass : IAttackMoveClass
-    {
-        public string Name
-        {
-            get { return "Grasp"; }
-        }
-
-        public bool IsMeleeStrike
-        {
-            get { return false; }
-        }
-
-        static private IVerb _verb = new Verb(
-                    firstPerson: "grab",
-                    secondPerson: "grab",
-                    thirdPerson: "grabs");
-
-        public IVerb Verb
-        {
-            get
-            {
-                return _verb;
-            }
-        }
-        
-        static private DamageVector _damage = new DamageVector();
-        public DamageVector DamageVector
-        {
-            get { return _damage; }
-        }
-
-
-        public bool IsGraspPart
-        {
-            get { return true; }
-        }
-
-        public bool IsReleasePart
-        {
-            get { return false; }
-        }
-
-        public bool TakeDamageProducts
-        {
-            get { return false; }
-        }
-    }
-    public class GraspReleaseMoveClass : IAttackMoveClass
-    {
-        public string Name
-        {
-            get { return "Grasp"; }
-        }
-
-        public bool IsMeleeStrike
-        {
-            get { return false; }
-        }
-
-        static private IVerb _verb = new Verb(
-                    firstPerson: "release",
-                    secondPerson: "release",
-                    thirdPerson: "release");
-
-        public IVerb Verb
-        {
-            get
-            {
-                return _verb;
-            }
-        }
-
-        static private DamageVector _damage = new DamageVector();
-        public DamageVector DamageVector
-        {
-            get { return _damage; }
-        }
-
-
-        public bool IsGraspPart
-        {
-            get { return false; }
-        }
-
-        public bool IsReleasePart
-        {
-            get { return true; }
-        }
-
-        public bool TakeDamageProducts
-        {
-            get { return false; }
-        }
-    }
-
-    public class WrestlingPullMoveClass : IAttackMoveClass
-    {
-        public string Name { get { return "Pull"; } }
-
-        public bool IsMeleeStrike
-        {
-            get { return false; }
-        }
-
-        public bool IsGraspPart
-        {
-            get { return false; }
-        }
-
-        public bool IsReleasePart
-        {
-            get { return false; }
-        }
-
-        static private IVerb _verb = new Verb(
-                    firstPerson: "pull",
-                    secondPerson: "pull",
-                    thirdPerson: "pulls");
-
-        public IVerb Verb
-        {
-            get
-            {
-                return _verb;
-            }
-        }
-
-        static private DamageVector _damage = new DamageVector(new Dictionary<DamageType, uint>{
-            {DamageType.Blunt, 20}
-        });
-        public DamageVector DamageVector
-        {
-            get { return _damage; }
-        }
-
-        public bool TakeDamageProducts
-        {
-            get { return true; }
         }
     }
 }
