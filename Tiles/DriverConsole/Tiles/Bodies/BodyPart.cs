@@ -20,9 +20,10 @@ namespace Tiles.Bodies
         private bool _canGrasp;
         public bool CanGrasp { get { return _canGrasp && !IsGrasping && Weapon == null; } }
         public IBodyPart Grasped { get; private set; }
+        public IBodyPart Grasper { get; set; }
         public bool IsGrasping { get { return Grasped != null; } }
         public bool IsWrestling { get { return IsGrasping || IsBeingGrasped; } }
-        public bool IsBeingGrasped { get; set; }
+        public bool IsBeingGrasped { get { return Grasper != null; } }
         public IItem Weapon { get; set; }
         public IItem Armor { get; set; }
         public BodyPart(string name, bool isCritical, bool canAmputate, bool canGrasp,
@@ -49,13 +50,13 @@ namespace Tiles.Bodies
         public void StartGrasp(IBodyPart part)
         {
             Grasped = part;
-            part.IsBeingGrasped = true;
+            part.Grasper = part;
         }
 
         public void StopGrasp(IBodyPart part)
         {
             Grasped = null;
-            part.IsBeingGrasped = false;
+            part.Grasper = null;
         }
     }
 }

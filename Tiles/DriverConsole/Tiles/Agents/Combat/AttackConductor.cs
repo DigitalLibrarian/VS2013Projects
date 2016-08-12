@@ -52,12 +52,11 @@ namespace Tiles.Agents.Combat
                 move.AttackerBodyPart.StopGrasp(shedPart);
                 HandleDamageProducts(attacker, defender, newItems, move);
                 limbMessage = " and it comes off!";
-
             }
 
             if (defender.IsDead)
             {
-                HandleDeath(defender);
+                HandleDeath(attacker, defender);
             }
 
             Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4}", 
@@ -107,7 +106,7 @@ namespace Tiles.Agents.Combat
             // perhaps an AgentReaper that visits every agent at death, for housekeeping.
             if (defenderDies)
             {
-                HandleDeath(defender);
+                HandleDeath(attacker, defender);
             }
 
             if (newItems.Any())
@@ -143,13 +142,18 @@ namespace Tiles.Agents.Combat
         }
 
 
-        void HandleDeath(IAgent defender)
+        void HandleDeath(IAgent attacker, IAgent defender)
         {
             foreach (var part in defender.Body.Parts)
             {
                 if (part.IsGrasping)
                 {
                     part.StopGrasp(part.Grasped);
+                }
+
+                foreach (var attPart in attacker.Body.Parts.Where(x => x.Grasped == part))
+                {
+                    attPart.StopGrasp(part);
                 }
             }
             var tile = Atlas.GetTileAtPos(defender.Pos);
