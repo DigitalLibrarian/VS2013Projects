@@ -81,7 +81,7 @@ namespace Tiles.Agents.Combat
 
         IEnumerable<IAttackMove> WrestlingMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
         {
-            if (mePart.IsWrestling)
+            if (mePart.IsGrasping && defender.Body.Parts.Contains(mePart.Grasped))
             {
                 yield return MoveBuilder.PullGraspedBodyPart(attacker, defender, mePart, mePart.Grasped);
                 // TODO - more mixable verbs
