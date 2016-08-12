@@ -11,10 +11,10 @@ namespace Tiles.Agents.Combat
         string Name { get; }
         bool IsMeleeStrike { get; }
         bool IsGraspPart { get; }
+        bool IsReleasePart { get; }
+        bool TakeDamageProducts { get; }
+
         IVerb Verb { get; }
         DamageVector DamageVector { get; }
-
-
-        bool TakeDamageProducts { get; }
     }
 }

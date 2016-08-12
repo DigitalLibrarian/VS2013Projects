@@ -84,6 +84,7 @@ namespace Tiles.Agents.Combat
             if (mePart.IsGrasping && defender.Body.Parts.Contains(mePart.Grasped))
             {
                 yield return MoveBuilder.PullGraspedBodyPart(attacker, defender, mePart, mePart.Grasped);
+                yield return MoveBuilder.ReleaseGraspedPart(attacker, defender, mePart, mePart.Grasped);
                 // TODO - more mixable verbs
                 // twist, if can
                 // bend, if can

@@ -59,6 +59,11 @@ namespace Tiles.Agents.Combat
                 HandleDeath(attacker, defender);
             }
 
+            if (move.AttackMoveClass.IsReleasePart)
+            {
+                move.AttackerBodyPart.StopGrasp(move.DefenderBodyPart);
+            }
+
             Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4}", 
                 AttackerName(attacker),
                 Verb(attacker, move.AttackMoveClass.Verb),

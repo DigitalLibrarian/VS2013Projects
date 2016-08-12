@@ -16,5 +16,6 @@ namespace Tiles.Agents.Combat
         IAttackMove GraspOpponentBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerPart, IBodyPart defenderBodyPart);
 
         IAttackMove PullGraspedBodyPart(IAgent attacker, IAgent defender, IBodyPart mePart, IBodyPart youPart);
+        IAttackMove ReleaseGraspedPart(IAgent attacker, IAgent defender, IBodyPart mePart, IBodyPart youPart);
     }
 }

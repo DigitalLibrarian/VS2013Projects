@@ -40,6 +40,7 @@ namespace Tiles.Agents.Combat
         }
 
         static IAttackMoveClass _grasp = new GraspMoveClass();
+        static IAttackMoveClass _release = new GraspReleaseMoveClass();
         static IAttackMoveClass _wrestlingPull = new WrestlingPullMoveClass();
 
 
@@ -48,6 +49,18 @@ namespace Tiles.Agents.Combat
             var moveName = string.Format("Pull {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
             uint dmg = 20; //TODO - calculate
             return new AttackMove(_wrestlingPull, moveName, attacker, defender, dmg)
+            {
+                AttackerBodyPart = attackerBodyPart,
+                DefenderBodyPart = defenderBodyPart
+            };
+        }
+
+
+        public IAttackMove ReleaseGraspedPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        {
+            var moveName = string.Format("Release {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
+            uint dmg = 20; //TODO - calculate
+            return new AttackMove(_release, moveName, attacker, defender, dmg)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -92,6 +105,57 @@ namespace Tiles.Agents.Combat
             get { return true; }
         }
 
+        public bool IsReleasePart
+        {
+            get { return false; }
+        }
+
+        public bool TakeDamageProducts
+        {
+            get { return false; }
+        }
+    }
+    public class GraspReleaseMoveClass : IAttackMoveClass
+    {
+        public string Name
+        {
+            get { return "Grasp"; }
+        }
+
+        public bool IsMeleeStrike
+        {
+            get { return false; }
+        }
+
+        static private IVerb _verb = new Verb(
+                    firstPerson: "release",
+                    secondPerson: "release",
+                    thirdPerson: "release");
+
+        public IVerb Verb
+        {
+            get
+            {
+                return _verb;
+            }
+        }
+
+        static private DamageVector _damage = new DamageVector();
+        public DamageVector DamageVector
+        {
+            get { return _damage; }
+        }
+
+
+        public bool IsGraspPart
+        {
+            get { return false; }
+        }
+
+        public bool IsReleasePart
+        {
+            get { return true; }
+        }
 
         public bool TakeDamageProducts
         {
@@ -112,6 +176,12 @@ namespace Tiles.Agents.Combat
         {
             get { return false; }
         }
+
+        public bool IsReleasePart
+        {
+            get { return false; }
+        }
+
         static private IVerb _verb = new Verb(
                     firstPerson: "pull",
                     secondPerson: "pull",

@@ -13,6 +13,7 @@ namespace Tiles.Agents.Combat
         public DamageVector DamageVector { get; private set; }
         public bool IsMeleeStrike { get; private set; }
         public bool IsGraspPart { get; private set; }
+        public bool IsReleasePart { get; private set; }
         public bool TakeDamageProducts { get; private set; }
 
         public AttackMoveClass(string name, IVerb meleeVerb, DamageVector damage)
@@ -23,6 +24,7 @@ namespace Tiles.Agents.Combat
             TakeDamageProducts = false;
             IsMeleeStrike = true;
             IsGraspPart = false;
+            IsReleasePart = false;
         }
     }
 }
