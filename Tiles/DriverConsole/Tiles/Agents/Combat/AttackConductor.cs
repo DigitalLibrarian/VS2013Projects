@@ -75,9 +75,16 @@ namespace Tiles.Agents.Combat
             var attackerName = AttackerName(attacker);
             var attackerPoss = Possessive(attacker);
             var defenderPoss = Possessive(defender);
-            move.AttackerBodyPart.StartGrasp(move.DefenderBodyPart);
-            var verb = Verb(attacker, move.AttackMoveClass.Verb);
-            Log.AddLine(string.Format("{0} {1} the {2}'s {3}.", attackerName, verb, move.Defender.Name, move.DefenderBodyPart.Name));
+            if (CompassVectors.IsCompassVector(attacker.Pos - defender.Pos) && !move.DefenderBodyPart.IsWrestling)
+            {
+                move.AttackerBodyPart.StartGrasp(move.DefenderBodyPart);
+                var verb = Verb(attacker, move.AttackMoveClass.Verb);
+                Log.AddLine(string.Format("{0} {1} the {2}'s {3}.", attackerName, verb, move.Defender.Name, move.DefenderBodyPart.Name));
+            }
+            else
+            {
+                Log.AddLine(string.Format("{0} lunges for the {1} but misses.", attackerName, move.Defender.Name));
+            }
         }
 
         void ConductMelee(IAgent attacker, IAgent defender, IAttackMove move)

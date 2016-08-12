@@ -76,7 +76,14 @@ namespace Tiles.ScreensImpl.Panels
                 lines.Add(string.Format("Name: {0}", agent.Name));
                 if (agent.Body.IsWrestling)
                 {
-                    lines.Add("Wrestling");
+                    if (agent.Body.IsGrasping)
+                    {
+                        lines.Add("Grasping");
+                    }
+                    if (agent.Body.IsBeingGrasped)
+                    {
+                        lines.Add("Being grasped");
+                    }
                 }
                 foreach (var bodyPart in agent.Body.Parts)
                 {

@@ -200,7 +200,7 @@ namespace Tiles.ScreensImpl
                             new AttackMoveDiscoverer(new AttackMoveBuilder(new DamageCalc())), Canvas, Box)
                         );
                 }
-                else
+                else if (!Game.Player.Agent.Body.IsWrestling)
                 {
                     Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, delta));
                 }

@@ -9,6 +9,7 @@ namespace Tiles.Bodies
     public interface IBody
     {
         bool IsGrasping { get; }
+        bool IsBeingGrasped { get; }
         bool IsWrestling { get; }
         IList<IBodyPart> Parts { get; }
         IBodyPart DamagePart(IBodyPart part, uint dmg);
