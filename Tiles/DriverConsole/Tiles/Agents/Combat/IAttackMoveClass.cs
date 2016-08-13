@@ -18,4 +18,12 @@ namespace Tiles.Agents.Combat
         IVerb Verb { get; }
         DamageVector DamageVector { get; }
     }
+
+    public enum BodyStateMechanic
+    {
+        Damage,
+        StartHold,
+        ReleaseHold,
+        BreakHold
+    }
 }

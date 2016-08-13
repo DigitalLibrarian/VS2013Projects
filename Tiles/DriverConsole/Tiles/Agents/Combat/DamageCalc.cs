@@ -13,10 +13,16 @@ namespace Tiles.Agents.Combat
     {
         public uint MeleeStrikeMoveDamage(IAttackMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart bodyPart, IItem weapon)
         {
+            return CalculateBodyPartDmg(moveClass.DamageVector, bodyPart);
+        }
+
+        uint CalculateBodyPartDmg(DamageVector damageV, IBodyPart bodyPart)
+        {
             int total = 0;
+
             DamageTypes((damageType) =>
             {
-                double dmg = (double)moveClass.DamageVector.GetComponent(damageType);
+                double dmg = (double)damageV.GetComponent(damageType);
                 if (dmg > 0)
                 {
                     if (bodyPart.Armor != null)
@@ -45,6 +51,12 @@ namespace Tiles.Agents.Combat
             {
                 action(dt);
             }
+        }
+
+
+        public uint MeleeStrikeBodyPartAttackDamage(IAttackMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart attackerPart, IBodyPart defenderPart)
+        {
+            return CalculateBodyPartDmg(moveClass.DamageVector, defenderPart);
         }
     }
 }

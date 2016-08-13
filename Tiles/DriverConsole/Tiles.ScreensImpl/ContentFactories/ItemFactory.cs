@@ -24,10 +24,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                    new AttackMoveClass(
                        name: "Swat",
                        meleeVerb: new Verb(
-                           firstPerson: "swat",
-                           secondPerson: "swat",
-                           thirdPerson: "swats"
-                           ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "swat"},
+                                { VerbConjugation.SecondPerson, "swat"},
+                                { VerbConjugation.ThirdPerson, "swats"},
+                            }, true),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Blunt, 1 }
@@ -37,10 +39,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                    new AttackMoveClass(
                        name: "Swish",
                        meleeVerb: new Verb(
-                           firstPerson: "swish",
-                           secondPerson: "swish",
-                           thirdPerson: "swishes"
-                           ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "swish"},
+                                { VerbConjugation.SecondPerson, "swish"},
+                                { VerbConjugation.ThirdPerson, "swishes"},
+                            }, true),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Slash, 1 }
@@ -57,10 +61,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                    new AttackMoveClass(
                        name: "Slash",
                        meleeVerb: new Verb(
-                           firstPerson: "slash",
-                           secondPerson: "slash",
-                           thirdPerson: "slashes"
-                           ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "slash"},
+                                { VerbConjugation.SecondPerson, "slash"},
+                                { VerbConjugation.ThirdPerson, "slashes"},
+                            }, true),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Slash, 55 }
@@ -70,10 +76,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                    new AttackMoveClass(
                        name: "Stab",
                        meleeVerb: new Verb(
-                           firstPerson: "stab",
-                           secondPerson: "stab",
-                           thirdPerson: "stabs"
-                           ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "stab"},
+                                { VerbConjugation.SecondPerson, "stab"},
+                                { VerbConjugation.ThirdPerson, "stabs"},
+                            }, true),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Pierce, 63 },
@@ -91,10 +99,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                    new AttackMoveClass(
                        name: "Bash",
                        meleeVerb: new Verb(
-                           firstPerson: "bash",
-                           secondPerson: "bash",
-                           thirdPerson: "bashes"
-                           ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "bash"},
+                                { VerbConjugation.SecondPerson, "bash"},
+                                { VerbConjugation.ThirdPerson, "bashes"},
+                            }, true),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Blunt, 25 }
@@ -260,10 +270,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                    new AttackMoveClass(
                        name: "Strike",
                        meleeVerb: new Verb(
-                           firstPerson: "strike",
-                           secondPerson: "strike",
-                           thirdPerson: "strikes"
-                           ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "strike"},
+                                { VerbConjugation.SecondPerson, "strike"},
+                                { VerbConjugation.ThirdPerson, "strikes"},
+                            }, true),
                        damage: new DamageVector(
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Slash, 1 },

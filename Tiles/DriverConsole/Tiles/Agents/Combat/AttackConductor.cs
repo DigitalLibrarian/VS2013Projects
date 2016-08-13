@@ -286,10 +286,12 @@ namespace Tiles.Agents.Combat
                            new AttackMoveClass(
                                name: "Strike",
                                meleeVerb: new Verb(
-                                   firstPerson: "strike",
-                                   secondPerson: "strike",
-                                   thirdPerson: "strikes"
-                                   ),
+                               new Dictionary<VerbConjugation, string>()
+                               {
+                                   { VerbConjugation.FirstPerson, "strike"},
+                                   { VerbConjugation.SecondPerson, "strike"},
+                                   { VerbConjugation.ThirdPerson, "strikes"},
+                               }, true),
                                damage: new DamageVector(
                                         new Dictionary<DamageType,uint>{
                                             { DamageType.Slash, 1 },

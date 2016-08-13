@@ -12,6 +12,7 @@ namespace Tiles.Agents.Combat
     public interface IDamageCalc
     {
         uint MeleeStrikeMoveDamage(IAttackMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart bodyPart, IItem weapon);
+        uint MeleeStrikeBodyPartAttackDamage(IAttackMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart attackerPart, IBodyPart defenderPart);
         uint ThrownItemDamage(IAgent agent, IAgent defender, IBodyPart bodyPart, IItem item);
     }
 }

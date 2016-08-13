@@ -52,6 +52,7 @@
     <Compile Include="Agents\Behaviors\IAgentCommandQueue.cs" />
     <Compile Include="Agents\Behaviors\QueueAgentCommandPlanner.cs" />
     <Compile Include="Agents\Combat\AttackMoveClass.cs" />
+    <Compile Include="Agents\Combat\Wrestling.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />

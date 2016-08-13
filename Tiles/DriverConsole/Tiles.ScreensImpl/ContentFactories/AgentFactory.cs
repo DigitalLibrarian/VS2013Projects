@@ -35,10 +35,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                        new AttackMoveClass(
                            name: "Scratch",
                            meleeVerb: new Verb(
-                               firstPerson: "scratch",
-                               secondPerson: "scratch",
-                               thirdPerson: "scratches"
-                               ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "scratch"},
+                                { VerbConjugation.SecondPerson, "scratch"},
+                                { VerbConjugation.ThirdPerson, "scratches"},
+                            }, true),
                            damage: new DamageVector(
                                     new Dictionary<DamageType,uint>{
                                         { DamageType.Slash, 12 },
@@ -47,16 +49,18 @@ namespace Tiles.ScreensImpl.ContentFactories
                                )
                            ),
                        new AttackMoveClass(
-                           name: "Bite",
+                           name: "Rake",
                            meleeVerb: new Verb(
-                               firstPerson: "bite",
-                               secondPerson: "bite",
-                               thirdPerson: "bites"
-                               ),
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "rake"},
+                                { VerbConjugation.SecondPerson, "rake"},
+                                { VerbConjugation.ThirdPerson, "rakes"},
+                            }, true),
                            damage: new DamageVector(
                                     new Dictionary<DamageType,uint>{
-                                        { DamageType.Slash, 3 },
-                                        { DamageType.Pierce, 22},
+                                        { DamageType.Slash, 18 },
+                                        { DamageType.Pierce, 5},
                                     }
                                )
                            )

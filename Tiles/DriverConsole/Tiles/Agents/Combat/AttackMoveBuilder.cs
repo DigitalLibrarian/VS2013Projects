@@ -32,9 +32,12 @@ namespace Tiles.Agents.Combat
         static IAttackMoveClass _grasp = new AttackMoveClass(
             name: "Grasp",
             meleeVerb: new Verb(
-                    firstPerson: "grab",
-                    secondPerson: "grab",
-                    thirdPerson: "grabs"),
+                new Dictionary<VerbConjugation, string>()
+                {
+                    { VerbConjugation.FirstPerson, "grab"},
+                    { VerbConjugation.SecondPerson, "grab"},
+                    { VerbConjugation.ThirdPerson, "grabs"},
+                }, true),
             damage: new DamageVector()
             )
         {
@@ -45,9 +48,12 @@ namespace Tiles.Agents.Combat
         static IAttackMoveClass _release = new AttackMoveClass(
             name: "Release",
             meleeVerb: new Verb(
-                    firstPerson: "release",
-                    secondPerson: "release",
-                    thirdPerson: "release"),
+                new Dictionary<VerbConjugation, string>()
+                {
+                    { VerbConjugation.FirstPerson, "release"},
+                    { VerbConjugation.SecondPerson, "release"},
+                    { VerbConjugation.ThirdPerson, "releases"},
+                }, true),
             damage: new DamageVector()
             )
         {
@@ -58,9 +64,12 @@ namespace Tiles.Agents.Combat
         static IAttackMoveClass _wrestlingPull = new AttackMoveClass(
             name: "Pull",
             meleeVerb: new Verb(
-                    firstPerson: "pull",
-                    secondPerson: "pull",
-                    thirdPerson: "pulls"),
+                new Dictionary<VerbConjugation, string>()
+                {
+                    { VerbConjugation.FirstPerson, "pull"},
+                    { VerbConjugation.SecondPerson, "pull"},
+                    { VerbConjugation.ThirdPerson, "pulls"},
+                }, true),
             damage: new DamageVector(new Dictionary<DamageType, uint>{
                     {DamageType.Blunt, 20}
                 })
@@ -74,9 +83,12 @@ namespace Tiles.Agents.Combat
         static IAttackMoveClass _breakGrasp = new AttackMoveClass(
             name: "Break grasp",
             meleeVerb: new Verb(
-                    firstPerson: "break away from",
-                    secondPerson: "break away from",
-                    thirdPerson: "breas away from"),
+                new Dictionary<VerbConjugation, string>()
+                {
+                    { VerbConjugation.FirstPerson, "break away from"},
+                    { VerbConjugation.SecondPerson, "break away from"},
+                    { VerbConjugation.ThirdPerson, "breaks away from"},
+                }, true),
             damage: new DamageVector()
             )
         {

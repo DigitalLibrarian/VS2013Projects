@@ -10,5 +10,6 @@ namespace Tiles.Items
     {
         None,
         Main,
+        Mouth
     }
 }

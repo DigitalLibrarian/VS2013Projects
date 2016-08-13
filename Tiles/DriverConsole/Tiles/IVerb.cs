@@ -8,6 +8,16 @@ namespace Tiles
 {
     public interface IVerb
     {
+        bool IsTransitive { get; }
         string Conjugate(VerbConjugation con);
     }
+
+
+    public interface INoun
+    {
+        bool IsProper { get; }
+        string Conjugate(VerbConjugation conjugation);
+    }
+
+
 }
