@@ -83,6 +83,10 @@ namespace Tiles.Tests.Agents.Combat
                     ), Times.Never());
         }
 
+        [Ignore]
+        [TestMethod]
+        public void TODO_WriteTestsForNewDiscoveryFunctionality() { }
+
         [TestMethod]
         public void NoPossibleMoves_NoAttackerBodyParts()
         {
