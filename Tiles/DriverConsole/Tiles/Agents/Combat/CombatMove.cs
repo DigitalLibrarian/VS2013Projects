@@ -9,11 +9,11 @@ using Tiles.Items;
 
 namespace Tiles.Agents.Combat
 {
-    public class AttackMove : IAttackMove
+    public class CombatMove : ICombatMove
     {
-        public AttackMove(IAttackMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender, uint damage)
+        public CombatMove(ICombatMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender, uint damage)
         {
-            AttackMoveClass = attackMoveClass;
+            Class = attackMoveClass;
             Name = name;
             Attacker = attacker;
             Defender = defender;
@@ -21,7 +21,7 @@ namespace Tiles.Agents.Combat
         }
 
 
-        public IAttackMoveClass AttackMoveClass { get; private set; }
+        public ICombatMoveClass Class { get; set; }
         public string Name { get; set; }
         public string Verb { get; set; }
         public bool IsCritical { get; set; }
@@ -29,6 +29,7 @@ namespace Tiles.Agents.Combat
         public IAgent Defender { get; set; }
         public IBodyPart AttackerBodyPart { get; set; }
         public IBodyPart DefenderBodyPart { get; set; }
+        public IItem Item { get { return Weapon; } }
         public IItem Weapon { get; set; }
         public uint PredictedDamage { get; set; }
     }

@@ -17,7 +17,7 @@ namespace Tiles.Agents
         public Vector2 Direction { get; set; }
 
         public IAgent Target { get; set; }
-        public IAttackMove AttackMove { get; set; }
+        public ICombatMove AttackMove { get; set; }
         public IItem Item { get; set; }
         public IItem Weapon { get; set; }
         public IItem Armor { get; set; }

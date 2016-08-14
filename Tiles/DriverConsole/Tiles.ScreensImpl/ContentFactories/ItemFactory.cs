@@ -20,8 +20,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                name: "plastic flyswatter", 
                sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black), 
                slots: new WeaponSlot[] { WeaponSlot.Main },
-               attackMoveClasses: new IAttackMoveClass[] {
-                   new AttackMoveClass(
+               attackMoveClasses: new ICombatMoveClass[] {
+                   new CombatMoveClass(
                        name: "Swat",
                        meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -36,7 +36,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 }
                            )
                        ),
-                   new AttackMoveClass(
+                   new CombatMoveClass(
                        name: "Swish",
                        meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -57,8 +57,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                name: "steel sword", 
                sprite: new Sprite(Symbol.MeleeSword, Color.White, Color.Black), 
                slots: new WeaponSlot[] { WeaponSlot.Main },
-               attackMoveClasses: new IAttackMoveClass[] {
-                   new AttackMoveClass(
+               attackMoveClasses: new ICombatMoveClass[] {
+                   new CombatMoveClass(
                        name: "Slash",
                        meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -73,7 +73,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 }
                            )
                        ),
-                   new AttackMoveClass(
+                   new CombatMoveClass(
                        name: "Stab",
                        meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -95,8 +95,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                 name: "baseball bat", 
                 sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
                 slots: new WeaponSlot[] { WeaponSlot.Main },
-                attackMoveClasses: new IAttackMoveClass[] {
-                   new AttackMoveClass(
+                attackMoveClasses: new ICombatMoveClass[] {
+                   new CombatMoveClass(
                        name: "Bash",
                        meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -266,8 +266,8 @@ namespace Tiles.ScreensImpl.ContentFactories
             name: "Strike",
             sprite: null,
             slots: new WeaponSlot[] {  WeaponSlot.Main},
-            attackMoveClasses: new IAttackMoveClass[] { 
-                   new AttackMoveClass(
+            attackMoveClasses: new ICombatMoveClass[] { 
+                   new CombatMoveClass(
                        name: "Strike",
                        meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -284,7 +284,10 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Burn, 1 }
                                 }
                            )
-                       ),
+                       )
+                        {
+                            IsMartialArts = true
+                        },
 
             });
 

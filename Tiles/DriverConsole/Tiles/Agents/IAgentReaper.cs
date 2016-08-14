@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tiles.Agents;
 using Tiles.Bodies;
 using Tiles.Items;
-using Tiles.Math;
 
-namespace Tiles.Agents.Combat
+namespace Tiles.Agents
 {
-    public interface IAttackConductor
+    public interface IAgentReaper
     {
-        void Conduct(IAgent attacker, IAgent defender, ICombatMove move);
+        IEnumerable<IItem> Reap(IAgent agent);
+        IEnumerable<IItem> Reap(IAgent agent, IBodyPart bodyPart);
     }
 }

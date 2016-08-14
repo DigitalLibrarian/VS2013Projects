@@ -31,8 +31,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                     name: "zombie claws",
                     sprite: null,
                     slots: new WeaponSlot[] { WeaponSlot.Main},
-                    attackMoveClasses: new IAttackMoveClass[] { 
-                       new AttackMoveClass(
+                    attackMoveClasses: new ICombatMoveClass[] { 
+                       new CombatMoveClass(
                            name: "Scratch",
                            meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -47,8 +47,14 @@ namespace Tiles.ScreensImpl.ContentFactories
                                         { DamageType.Pierce, 2},
                                     }
                                )
-                           ),
-                       new AttackMoveClass(
+                           )
+                           {
+                               IsMartialArts = true,
+                               IsStrike = true,
+                               IsDefenderPartSpecific = true,
+                               IsItem = true
+                           },
+                       new CombatMoveClass(
                            name: "Rake",
                            meleeVerb: new Verb(
                             new Dictionary<VerbConjugation, string>()
@@ -64,6 +70,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     }
                                )
                            )
+                           {
+                               IsMartialArts = true,
+                               IsStrike = true,
+                               IsDefenderPartSpecific = true,
+                               IsItem = true
+                           }
                     }
                     );
 

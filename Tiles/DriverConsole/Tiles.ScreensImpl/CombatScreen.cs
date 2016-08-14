@@ -15,14 +15,14 @@ namespace Tiles.ScreensImpl
     {
         IPlayer Player { get; set; }
         IAttackConductor AttackConductor { get; set; }
-        IAttackMoveDiscoverer MoveDisco { get; set; }
+        ICombatMoveDiscoverer MoveDisco { get; set; }
         IAgent Target { get; set; }
         IAgentCommandFactory CommandFactory { get; set; }
 
         JaggedListSelector Selector { get; set; }
 
         public CombatScreen(IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
-            IAttackConductor attackConductor, IAttackMoveDiscoverer moveDisco, ICanvas canvas, Box box)
+            IAttackConductor attackConductor, ICombatMoveDiscoverer moveDisco, ICanvas canvas, Box box)
             : base(canvas, box) 
         {
             Player = player;

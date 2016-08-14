@@ -15,10 +15,10 @@ using Tiles.Math;
 namespace Tiles.Tests.Agents.Combat
 {
     [TestClass]
-    public class AttackMoveDiscovererTests
+    public class CombatMoveDiscovererTests
     {
-        Mock<IAttackMoveBuilder> BuilderMock { get; set; }
-        AttackMoveDiscoverer Disco { get; set; }
+        Mock<ICombatMoveBuilder> BuilderMock { get; set; }
+        CombatMoveDiscoverer Disco { get; set; }
 
         Mock<IAgent> AttackerMock { get; set; }
         Mock<IBody> AttackerBodyMock { get; set; }
@@ -33,8 +33,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestInitialize]
         public void Initialize()
         {
-            BuilderMock = new Mock<IAttackMoveBuilder>();
-            Disco = new AttackMoveDiscoverer(BuilderMock.Object);
+            BuilderMock = new Mock<ICombatMoveBuilder>();
+            Disco = new CombatMoveDiscoverer(BuilderMock.Object);
 
             AttackerBodyParts = new List<IBodyPart>();
             AttackerBodyMock = new Mock<IBody>();
@@ -61,7 +61,7 @@ namespace Tiles.Tests.Agents.Combat
             return partMock;
         }
 
-        Mock<IItem> MockWeaponItem(params Mock<IAttackMoveClass>[] moveClasses)
+        Mock<IItem> MockWeaponItem(params Mock<ICombatMoveClass>[] moveClasses)
         {
             var itemMock = new Mock<IItem>();
             var weaponClassMock = new Mock<IWeaponClass>();
@@ -77,7 +77,7 @@ namespace Tiles.Tests.Agents.Combat
                 x => x.AttackBodyPartWithWeapon(
                     It.IsAny<IAgent>(), 
                     It.IsAny<IAgent>(),
-                    It.IsAny<IAttackMoveClass>(), 
+                    It.IsAny<ICombatMoveClass>(), 
                     It.IsAny<IBodyPart>(), 
                     It.IsAny<IItem>()
                     ), Times.Never());
@@ -135,7 +135,7 @@ namespace Tiles.Tests.Agents.Combat
             AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
             DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
             var partMock = AddBodyPart(AttackerBodyParts);
-            var itemMock = MockWeaponItem(new Mock<IAttackMoveClass>());
+            var itemMock = MockWeaponItem(new Mock<ICombatMoveClass>());
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
 
             Assert.IsFalse(
@@ -154,7 +154,7 @@ namespace Tiles.Tests.Agents.Combat
             AddBodyPart(DefenderBodyParts);
 
             var partMock = AddBodyPart(AttackerBodyParts);
-            var itemMock = MockWeaponItem(new Mock<IAttackMoveClass>());
+            var itemMock = MockWeaponItem(new Mock<ICombatMoveClass>());
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
 
             Assert.IsFalse(
@@ -174,19 +174,19 @@ namespace Tiles.Tests.Agents.Combat
             var defenderBodyPartMock1 = AddBodyPart(DefenderBodyParts);
             var defenderBodyPartMock2 = AddBodyPart(DefenderBodyParts);
 
-            var attackClassMock1 = new Mock<IAttackMoveClass>();
-            var attackClassMock2 = new Mock<IAttackMoveClass>();
+            var attackClassMock1 = new Mock<ICombatMoveClass>();
+            var attackClassMock2 = new Mock<ICombatMoveClass>();
 
             var partMock = AddBodyPart(AttackerBodyParts);
             var itemMock = MockWeaponItem(attackClassMock1, attackClassMock2);
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
 
-            var spoofedResult = new Mock<IAttackMove>();
+            var spoofedResult = new Mock<ICombatMove>();
             BuilderMock.Setup(
                 x => x.AttackBodyPartWithWeapon(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
-                    It.IsAny<IAttackMoveClass>(),
+                    It.IsAny<ICombatMoveClass>(),
                     It.IsAny<IBodyPart>(),
                     It.IsAny<IItem>()
                     )).Returns(spoofedResult.Object);
@@ -216,7 +216,7 @@ namespace Tiles.Tests.Agents.Combat
                 x => x.AttackBodyPartWithWeapon(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
-                    It.IsAny<IAttackMoveClass>(),
+                    It.IsAny<ICombatMoveClass>(),
                     It.IsAny<IBodyPart>(),
                     It.IsAny<IItem>()
                     ), Times.Exactly(4));

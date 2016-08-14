@@ -10,6 +10,7 @@ using Tiles.Math;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Random;
+using Tiles.Agents.Combat.CombatEvolutions;
 
 namespace Tiles
 {
@@ -32,7 +33,17 @@ namespace Tiles
             ActionLog = log;
             Random = random;
 
-            AttackConductor = new AttackConductor(atlas, log);
+
+            var reporter = new ActionReporter(log);
+            var damageCalc = new DamageCalc();
+            var evolutions = new List<ICombatEvolution>{
+                new CombatEvolution_MartialArtsStrike(reporter, damageCalc),
+                new CombatEvolution_StartHold(reporter, damageCalc),
+                new CombatEvolution_ReleaseHold(reporter, damageCalc),
+                new CombatEvolution_BreakHold(reporter, damageCalc)
+            };
+            AttackConductor = new AttackConductor(evolutions);
+                 
 
             Atlas.GetTileAtPos(player.Agent.Pos).SetAgent(player.Agent);
         }

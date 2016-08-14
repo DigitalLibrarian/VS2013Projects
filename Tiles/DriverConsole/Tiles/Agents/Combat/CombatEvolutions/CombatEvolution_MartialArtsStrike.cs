@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Tiles.Bodies;
+using Tiles.Math;
+
+namespace Tiles.Agents.Combat.CombatEvolutions
+{
+    public class CombatEvolution_MartialArtsStrike : CombatEvolution
+    {
+        public CombatEvolution_MartialArtsStrike(IActionReporter reporter, IDamageCalc damageCalc) : base(reporter, damageCalc) { }
+
+        protected override bool Should(ICombatMoveContext session)
+        {
+            var move = session.Move;
+            return move.Class.IsMartialArts
+                && move.Class.IsStrike;
+        }
+
+        protected override void Run(ICombatMoveContext session)
+        {
+            var move = session.Move;
+            var attacker = session.Attacker;
+            var defender = session.Defender;
+
+            bool isPartTarget = move.Class.IsDefenderPartSpecific;
+            bool isWeaponBased = move.Class.IsItem;
+
+            if (isPartTarget)
+            {
+                uint dmg = 0;
+
+                if (isWeaponBased)
+                {
+                    dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Item);
+                }
+                else
+                {
+                    dmg = DamageCalc.MeleeStrikeBodyPartAttackDamage(move.Class,
+                        attacker, defender, move.AttackerBodyPart, move.DefenderBodyPart);
+                }
+
+                var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);
+                bool targetPartWasShed = shedPart != null;
+                if (targetPartWasShed)
+                {
+                    HandleShedPart(attacker, defender, move, shedPart);
+                }
+                var defenderDies = defender.IsDead;
+                if (defenderDies)
+                {
+                    HandleDeath(attacker, defender, move);
+                }
+
+                if (isWeaponBased)
+                {
+                    Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Item, move.DefenderBodyPart, dmg, targetPartWasShed);
+                }
+                else
+                {
+                    Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, targetPartWasShed);
+                }
+            }
+        }
+    }
+}

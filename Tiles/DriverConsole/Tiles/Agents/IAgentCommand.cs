@@ -10,7 +10,7 @@ namespace Tiles.Agents
         Vector2 Direction { get; set; }
         Vector2 TileOffset { get; set; }
 
-        IAttackMove AttackMove { get; set; }
+        ICombatMove AttackMove { get; set; }
         IAgent Target { get; set; }
 
         IItem Item { get; set; }

@@ -50,7 +50,7 @@ namespace Tiles.Bodies
         public void StartGrasp(IBodyPart part)
         {
             Grasped = part;
-            part.Grasper = part;
+            part.Grasper = this;
         }
 
         public void StopGrasp(IBodyPart part)

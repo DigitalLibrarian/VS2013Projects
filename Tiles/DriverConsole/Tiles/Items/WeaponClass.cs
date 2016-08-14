@@ -11,18 +11,18 @@ namespace Tiles.Items
     {
         public string Name { get; private set; }
         public ISprite Sprite { get; private set; }
-        public IList<IAttackMoveClass> AttackMoveClasses { get; private set; }
+        public IList<ICombatMoveClass> AttackMoveClasses { get; private set; }
 
         public WeaponClass(
             string name, ISprite sprite, 
             WeaponSlot[] slots,
-            IAttackMoveClass[] attackMoveClasses
+            ICombatMoveClass[] attackMoveClasses
             )
         {
             Name = name;
             Sprite = sprite;
             RequiredSlots = slots;
-            AttackMoveClasses = new List<IAttackMoveClass>(attackMoveClasses);
+            AttackMoveClasses = new List<ICombatMoveClass>(attackMoveClasses);
         }
 
         public IEnumerable<WeaponSlot> RequiredSlots

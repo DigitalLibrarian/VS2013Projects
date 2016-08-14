@@ -13,7 +13,7 @@ namespace Tiles.Agents
     public interface IAgentCommandFactory
     {
         IAgentCommand Nothing(IAgent agent);
-        IAgentCommand MeleeAttack(IAgent agent, IAgent target, IAttackMove attackMove);
+        IAgentCommand MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove);
         IAgentCommand WieldWeapon(IAgent agent, IItem item);
         IAgentCommand WearArmor(IAgent agent, IItem item);
         IAgentCommand PickUpItemsOnAgentTile(IAgent agent);

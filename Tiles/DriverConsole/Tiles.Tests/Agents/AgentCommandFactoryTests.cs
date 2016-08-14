@@ -79,7 +79,7 @@ namespace Tiles.Tests.Agents
         {
             var agentMock = new Mock<IAgent>();
             var targetMock = new Mock<IAgent>();
-            var attackMock = new Mock<IAttackMove>();
+            var attackMock = new Mock<ICombatMove>();
 
             var command = Factory.MeleeAttack(agentMock.Object, targetMock.Object, attackMock.Object);
 

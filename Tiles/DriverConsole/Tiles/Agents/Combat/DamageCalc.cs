@@ -11,7 +11,7 @@ namespace Tiles.Agents.Combat
 {
     public class DamageCalc : IDamageCalc
     {
-        public uint MeleeStrikeMoveDamage(IAttackMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart bodyPart, IItem weapon)
+        public uint MeleeStrikeMoveDamage(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart bodyPart, IItem weapon)
         {
             return CalculateBodyPartDmg(moveClass.DamageVector, bodyPart);
         }
@@ -54,7 +54,7 @@ namespace Tiles.Agents.Combat
         }
 
 
-        public uint MeleeStrikeBodyPartAttackDamage(IAttackMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart attackerPart, IBodyPart defenderPart)
+        public uint MeleeStrikeBodyPartAttackDamage(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart attackerPart, IBodyPart defenderPart)
         {
             return CalculateBodyPartDmg(moveClass.DamageVector, defenderPart);
         }

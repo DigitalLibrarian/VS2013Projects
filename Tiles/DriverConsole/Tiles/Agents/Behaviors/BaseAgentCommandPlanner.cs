@@ -13,9 +13,9 @@ namespace Tiles.Agents.Behaviors
     public abstract class BaseAgentCommandPlanner : IAgentCommandPlanner
     {
         protected IAgentCommandFactory CommandFactory { get; private set; }
-        IAttackMoveDiscoverer AttackMoveDisco { get; set; }
+        ICombatMoveDiscoverer AttackMoveDisco { get; set; }
         protected IRandom Random { get; private set; }
-        public BaseAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveDiscoverer moveDisco)
+        public BaseAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory, ICombatMoveDiscoverer moveDisco)
         {
             Random = random;
             CommandFactory = commandFactory;
@@ -65,7 +65,7 @@ namespace Tiles.Agents.Behaviors
             return Wander(agent);
         }
 
-        protected IEnumerable<IAttackMove> AttackMoves(IAgent agent, IAgent target)
+        protected IEnumerable<ICombatMove> AttackMoves(IAgent agent, IAgent target)
         {
             return AttackMoveDisco.GetPossibleMoves(agent, target);
         }

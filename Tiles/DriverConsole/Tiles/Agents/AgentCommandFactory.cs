@@ -42,7 +42,7 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand MeleeAttack(IAgent agent, IAgent target, IAttackMove attackMove)
+        public IAgentCommand MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove)
         {
             return new AgentCommand
             {

@@ -23,7 +23,7 @@ namespace Tiles.Tests.Agents.Behaviors
         // class is used via inheritance
         class TestPlanner : BaseAgentCommandPlanner
         {
-            public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, IAttackMoveDiscoverer moveDisco) 
+            public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, ICombatMoveDiscoverer moveDisco) 
                 : base(random, commandFactory, moveDisco) { }
 
             public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
@@ -35,14 +35,14 @@ namespace Tiles.Tests.Agents.Behaviors
             public IAgentCommand GetNewWanderCommand(IAgent agent) { return Wander(agent); }
             public IAgentCommand GetNewDeadCommand(IAgent agent) { return Dead(agent); }
             public IAgentCommand GetNewSeekCommand(IAgent agent, Vector2 pos) { return Seek(agent, pos); }
-            public IEnumerable<IAttackMove> GetAttackMoves(IAgent agent, IAgent target) { return AttackMoves(agent, target); }
+            public IEnumerable<ICombatMove> GetAttackMoves(IAgent agent, IAgent target) { return AttackMoves(agent, target); }
             public Vector2? RunFindNearbyPos(Vector2 center, Predicate<Vector2> finderPred, int halfBoxSize) { return FindNearbyPos(center, finderPred, halfBoxSize); }
 
         }
 
         Mock<IRandom> RandomMock { get; set; }
         Mock<IAgentCommandFactory> CommandFactoryMock { get; set; }
-        Mock<IAttackMoveDiscoverer> MoveDiscoMock { get; set; }
+        Mock<ICombatMoveDiscoverer> MoveDiscoMock { get; set; }
         TestPlanner Planner { get; set; }
 
         [TestInitialize]
@@ -50,7 +50,7 @@ namespace Tiles.Tests.Agents.Behaviors
         {
             RandomMock = new Mock<IRandom>();
             CommandFactoryMock = new Mock<IAgentCommandFactory>();
-            MoveDiscoMock = new Mock<IAttackMoveDiscoverer>();
+            MoveDiscoMock = new Mock<ICombatMoveDiscoverer>();
             Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveDiscoMock.Object);
         }
 
@@ -164,7 +164,7 @@ namespace Tiles.Tests.Agents.Behaviors
             var agentMock = new Mock<IAgent>();
             var targetMock = new Mock<IAgent>();
 
-            var mockedResult = new List<IAttackMove>();
+            var mockedResult = new List<ICombatMove>();
             MoveDiscoMock.Setup(x => x.GetPossibleMoves(agentMock.Object, targetMock.Object)).Returns(mockedResult);
 
             var result = Planner.GetAttackMoves(agentMock.Object, targetMock.Object);

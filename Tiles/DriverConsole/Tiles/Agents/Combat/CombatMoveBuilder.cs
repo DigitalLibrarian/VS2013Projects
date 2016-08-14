@@ -9,19 +9,19 @@ using Tiles.Items;
 
 namespace Tiles.Agents.Combat
 {
-    public class AttackMoveBuilder : IAttackMoveBuilder
+    public class CombatMoveBuilder : ICombatMoveBuilder
     {
         public IDamageCalc DamageCalc { get; private set; }
-        public AttackMoveBuilder(IDamageCalc damageCalc)
+        public CombatMoveBuilder(IDamageCalc damageCalc)
         {
             DamageCalc = damageCalc;
         }
-        public IAttackMove AttackBodyPartWithWeapon(IAgent attacker, IAgent defender, IAttackMoveClass moveClass, IBodyPart targetBodyPart, IItem weapon)
+        public ICombatMove AttackBodyPartWithWeapon(IAgent attacker, IAgent defender, ICombatMoveClass moveClass, IBodyPart targetBodyPart, IItem weapon)
         {
             var dmg = DamageCalc.MeleeStrikeMoveDamage(moveClass, attacker, defender, targetBodyPart, weapon);
             var moveName = string.Format("{0} {1} with {2}", moveClass.Name, targetBodyPart.Name, weapon.WeaponClass.Name);
 
-            return new AttackMove(moveClass, moveName, attacker, defender, dmg)
+            return new CombatMove(moveClass, moveName, attacker, defender, dmg)
             {
                 Weapon = weapon,
                 DefenderBodyPart = targetBodyPart
@@ -29,7 +29,7 @@ namespace Tiles.Agents.Combat
         }
 
 
-        static IAttackMoveClass _grasp = new AttackMoveClass(
+        static ICombatMoveClass _grasp = new CombatMoveClass(
             name: "Grasp",
             meleeVerb: new Verb(
                 new Dictionary<VerbConjugation, string>()
@@ -42,10 +42,13 @@ namespace Tiles.Agents.Combat
             )
         {
             IsMeleeStrike = false,
-            IsGraspPart = true
+            IsGraspPart = true,
+            IsMartialArts = true,
+            IsDefenderPartSpecific = true,
+            AttackerBodyStateChange = BodyStateChange.StartHold
         };
 
-        static IAttackMoveClass _release = new AttackMoveClass(
+        static ICombatMoveClass _release = new CombatMoveClass(
             name: "Release",
             meleeVerb: new Verb(
                 new Dictionary<VerbConjugation, string>()
@@ -58,10 +61,12 @@ namespace Tiles.Agents.Combat
             )
         {
             IsMeleeStrike = false,
-            IsReleasePart = true
+            IsReleasePart = true,
+            IsMartialArts = true,
+            AttackerBodyStateChange = BodyStateChange.ReleaseHold
         };
 
-        static IAttackMoveClass _wrestlingPull = new AttackMoveClass(
+        static ICombatMoveClass _wrestlingPull = new CombatMoveClass(
             name: "Pull",
             meleeVerb: new Verb(
                 new Dictionary<VerbConjugation, string>()
@@ -76,11 +81,14 @@ namespace Tiles.Agents.Combat
             )
         {
             IsMeleeStrike = false,
-            TakeDamageProducts = true
+            TakeDamageProducts = true,
+            IsMartialArts = true,
+            IsStrike = true,
+            IsDefenderPartSpecific = true
         };
 
 
-        static IAttackMoveClass _breakGrasp = new AttackMoveClass(
+        static ICombatMoveClass _breakGrasp = new CombatMoveClass(
             name: "Break grasp",
             meleeVerb: new Verb(
                 new Dictionary<VerbConjugation, string>()
@@ -93,37 +101,39 @@ namespace Tiles.Agents.Combat
             )
         {
             IsMeleeStrike = false,
-            IsGraspBreak = true
+            IsGraspBreak = true,
+            IsMartialArts = true,
+            AttackerBodyStateChange = BodyStateChange.BreakHold
         };
 
 
-        public IAttackMove BreakOpponentGrasp(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        public ICombatMove BreakOpponentGrasp(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Break {0}'s {1} grasp on {2}", defender.Name,  defenderBodyPart.Name, attackerBodyPart.Name);
 
-            return new AttackMove(_breakGrasp, moveName, attacker, defender, 0)
+            return new CombatMove(_breakGrasp, moveName, attacker, defender, 0)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
             };
         }
 
-        public IAttackMove GraspOpponentBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        public ICombatMove GraspOpponentBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Grab {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
 
-            return new AttackMove(_grasp, moveName, attacker, defender, 0)
+            return new CombatMove(_grasp, moveName, attacker, defender, 0)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
             };
         }
 
-        public IAttackMove PullGraspedBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        public ICombatMove PullGraspedBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Pull {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
             uint dmg = 20; //TODO - calculate
-            return new AttackMove(_wrestlingPull, moveName, attacker, defender, dmg)
+            return new CombatMove(_wrestlingPull, moveName, attacker, defender, dmg)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -131,11 +141,11 @@ namespace Tiles.Agents.Combat
         }
 
 
-        public IAttackMove ReleaseGraspedPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
+        public ICombatMove ReleaseGraspedPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Release {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
             uint dmg = 0; //TODO - calculate
-            return new AttackMove(_release, moveName, attacker, defender, dmg)
+            return new CombatMove(_release, moveName, attacker, defender, dmg)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart

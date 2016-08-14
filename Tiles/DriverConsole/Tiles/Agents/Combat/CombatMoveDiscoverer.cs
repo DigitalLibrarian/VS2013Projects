@@ -10,10 +10,10 @@ using Tiles.Math;
 
 namespace Tiles.Agents.Combat
 {
-    public class AttackMoveDiscoverer : IAttackMoveDiscoverer
+    public class CombatMoveDiscoverer : ICombatMoveDiscoverer
     {
-        public IAttackMoveBuilder MoveBuilder { get; private set; }
-        public AttackMoveDiscoverer(IAttackMoveBuilder moveBuilder)
+        public ICombatMoveBuilder MoveBuilder { get; private set; }
+        public CombatMoveDiscoverer(ICombatMoveBuilder moveBuilder)
         {
             MoveBuilder = moveBuilder;
         }
@@ -23,7 +23,7 @@ namespace Tiles.Agents.Combat
             return CompassVectors.IsCompassVector(diffVector);
         }
 
-        public IEnumerable<IAttackMove> GetPossibleMoves(IAgent attacker, IAgent defender)
+        public IEnumerable<ICombatMove> GetPossibleMoves(IAgent attacker, IAgent defender)
         {
             bool meleeRange = IsMeleeRange(attacker, defender);
             foreach (var mePart in attacker.Body.Parts)
@@ -56,7 +56,7 @@ namespace Tiles.Agents.Combat
 
 
 
-        IEnumerable<IAttackMove> WeaponMoves(IAgent attacker, IAgent defender, IItem weaponItem)
+        IEnumerable<ICombatMove> WeaponMoves(IAgent attacker, IAgent defender, IItem weaponItem)
         {
             foreach (var attackMoveClass in weaponItem.WeaponClass.AttackMoveClasses)
             {
@@ -68,7 +68,7 @@ namespace Tiles.Agents.Combat
         }
 
 
-        IEnumerable<IAttackMove> GraspMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
+        IEnumerable<ICombatMove> GraspMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
         {
             foreach (var youPart in defender.Body.Parts)
             {
@@ -79,7 +79,7 @@ namespace Tiles.Agents.Combat
             }
         }
 
-        IEnumerable<IAttackMove> WrestlingMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
+        IEnumerable<ICombatMove> WrestlingMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
         {
             if (mePart.IsGrasping && defender.Body.Parts.Contains(mePart.Grasped))
             {

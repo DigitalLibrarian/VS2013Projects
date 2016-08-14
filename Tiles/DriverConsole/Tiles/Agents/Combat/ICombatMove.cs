@@ -4,10 +4,10 @@ using Tiles.Bodies;
 using Tiles.Items;
 namespace Tiles.Agents.Combat
 {
-    public interface IAttackMove
+    public interface ICombatMove
     {
         string Name { get; set; }
-        IAttackMoveClass AttackMoveClass { get; }
+        ICombatMoveClass Class { get; }
 
         IAgent Attacker { get; set; }
         IAgent Defender { get; set; }
@@ -15,7 +15,7 @@ namespace Tiles.Agents.Combat
         IBodyPart AttackerBodyPart { get; set; }
         IBodyPart DefenderBodyPart { get; set; }
         IItem Weapon { get; set; }
-
+        IItem Item { get; }
         uint PredictedDamage { get; set; }
     }
 }

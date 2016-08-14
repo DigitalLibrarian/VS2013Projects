@@ -14,6 +14,6 @@ namespace Tiles.Items
         
         IEnumerable<WeaponSlot> RequiredSlots { get; }
 
-        IList<IAttackMoveClass> AttackMoveClasses { get; }
+        IList<ICombatMoveClass> AttackMoveClasses { get; }
     }
 }
