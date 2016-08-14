@@ -28,17 +28,5 @@ namespace Tiles.Agents.Combat
             Run(session);
             return true;
         }
-
-        #region Reaping
-        protected void HandleDeath(IAgent attacker, IAgent defender, ICombatMove move)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected void HandleShedPart(IAgent attacker, IAgent defender, ICombatMove move, IBodyPart shedPart)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
     }    
 }
