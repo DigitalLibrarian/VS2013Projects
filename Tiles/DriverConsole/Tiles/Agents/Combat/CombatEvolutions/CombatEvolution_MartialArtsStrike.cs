@@ -16,7 +16,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
         {
             var move = session.Move;
             return move.Class.IsMartialArts
-                && move.Class.IsStrike;
+                && move.Class.IsStrike
+                && move.Class.IsDefenderPartSpecific;
         }
 
         protected override void Run(ICombatMoveContext session)
@@ -25,43 +26,39 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var attacker = session.Attacker;
             var defender = session.Defender;
 
-            bool isPartTarget = move.Class.IsDefenderPartSpecific;
             bool isWeaponBased = move.Class.IsItem;
 
-            if (isPartTarget)
+            uint dmg = 0;
+
+            if (isWeaponBased)
             {
-                uint dmg = 0;
+                dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Item);
+            }
+            else
+            {
+                dmg = DamageCalc.MeleeStrikeBodyPartAttackDamage(move.Class,
+                    attacker, defender, move.AttackerBodyPart, move.DefenderBodyPart);
+            }
 
-                if (isWeaponBased)
-                {
-                    dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Item);
-                }
-                else
-                {
-                    dmg = DamageCalc.MeleeStrikeBodyPartAttackDamage(move.Class,
-                        attacker, defender, move.AttackerBodyPart, move.DefenderBodyPart);
-                }
+            var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);
+            bool targetPartWasShed = shedPart != null;
+            if (targetPartWasShed)
+            {
+                HandleShedPart(attacker, defender, move, shedPart);
+            }
+            var defenderDies = defender.IsDead;
+            if (defenderDies)
+            {
+                HandleDeath(attacker, defender, move);
+            }
 
-                var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);
-                bool targetPartWasShed = shedPart != null;
-                if (targetPartWasShed)
-                {
-                    HandleShedPart(attacker, defender, move, shedPart);
-                }
-                var defenderDies = defender.IsDead;
-                if (defenderDies)
-                {
-                    HandleDeath(attacker, defender, move);
-                }
-
-                if (isWeaponBased)
-                {
-                    Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Item, move.DefenderBodyPart, dmg, targetPartWasShed);
-                }
-                else
-                {
-                    Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, targetPartWasShed);
-                }
+            if (isWeaponBased)
+            {
+                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Item, move.DefenderBodyPart, dmg, targetPartWasShed);
+            }
+            else
+            {
+                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, targetPartWasShed);
             }
         }
     }
