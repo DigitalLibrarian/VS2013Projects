@@ -41,8 +41,6 @@ namespace Tiles.Agents.Combat
             damage: new DamageVector()
             )
         {
-            IsMeleeStrike = false,
-            IsGraspPart = true,
             IsMartialArts = true,
             IsDefenderPartSpecific = true,
             AttackerBodyStateChange = BodyStateChange.StartHold
@@ -60,8 +58,6 @@ namespace Tiles.Agents.Combat
             damage: new DamageVector()
             )
         {
-            IsMeleeStrike = false,
-            IsReleasePart = true,
             IsMartialArts = true,
             AttackerBodyStateChange = BodyStateChange.ReleaseHold
         };
@@ -80,8 +76,6 @@ namespace Tiles.Agents.Combat
                 })
             )
         {
-            IsMeleeStrike = false,
-            TakeDamageProducts = true,
             IsMartialArts = true,
             IsStrike = true,
             IsDefenderPartSpecific = true
@@ -100,9 +94,8 @@ namespace Tiles.Agents.Combat
             damage: new DamageVector()
             )
         {
-            IsMeleeStrike = false,
-            IsGraspBreak = true,
             IsMartialArts = true,
+            IsDefenderPartSpecific = true,
             AttackerBodyStateChange = BodyStateChange.BreakHold
         };
 

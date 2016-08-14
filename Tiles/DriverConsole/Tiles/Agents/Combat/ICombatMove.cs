@@ -15,7 +15,6 @@ namespace Tiles.Agents.Combat
         IBodyPart AttackerBodyPart { get; set; }
         IBodyPart DefenderBodyPart { get; set; }
         IItem Weapon { get; set; }
-        IItem Item { get; }
         uint PredictedDamage { get; set; }
     }
 }

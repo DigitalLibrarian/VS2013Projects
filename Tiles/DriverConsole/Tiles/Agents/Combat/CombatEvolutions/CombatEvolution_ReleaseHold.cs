@@ -10,7 +10,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_ReleaseHold : CombatEvolution
     {
-        public CombatEvolution_ReleaseHold(IActionReporter reporter, IDamageCalc damageCalc) : base(reporter, damageCalc) { }
+        public CombatEvolution_ReleaseHold(IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper) 
+            : base(reporter, damageCalc, reaper) { }
 
         protected override bool Should(ICombatMoveContext session)
         {
@@ -20,7 +21,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 && move.AttackerBodyPart != null
                 && move.DefenderBodyPart != null
                 && move.AttackerBodyPart.Grasped == move.DefenderBodyPart
-                && move.DefenderBodyPart.Grasper == move.AttackerBodyPart;
+                && move.DefenderBodyPart.GraspedBy == move.AttackerBodyPart;
         }
 
         protected override void Run(ICombatMoveContext session)

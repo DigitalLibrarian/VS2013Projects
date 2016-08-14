@@ -10,18 +10,19 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_BreakHold : CombatEvolution
     {
-        public CombatEvolution_BreakHold(IActionReporter reporter, IDamageCalc damageCalc) : base(reporter, damageCalc) { }
+        public CombatEvolution_BreakHold(IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper) :
+            base(reporter, damageCalc, reaper) { }
 
         protected override bool Should(ICombatMoveContext session)
         {
             var move = session.Move;
             return move.Class.AttackerBodyStateChange == BodyStateChange.BreakHold
                 && move.Class.IsMartialArts
+                && move.Class.IsDefenderPartSpecific 
                 && move.AttackerBodyPart != null
                 && move.DefenderBodyPart != null
-                && move.AttackerBodyPart.Grasped == move.DefenderBodyPart
-                && move.DefenderBodyPart.Grasper == move.AttackerBodyPart
-                && move.DefenderBodyPart.IsWrestling;
+                && move.AttackerBodyPart.GraspedBy == move.DefenderBodyPart
+                && move.DefenderBodyPart.Grasped == move.AttackerBodyPart;
         }
 
         protected override void Run(ICombatMoveContext session)
@@ -29,10 +30,10 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var move = session.Move;
             var attacker = session.Attacker;
             var defender = session.Defender;
-            var grasper = move.AttackerBodyPart;
-            var graspee = move.DefenderBodyPart;
+            var grasper = move.DefenderBodyPart;
+            var graspee = move.AttackerBodyPart;
 
-            if (CompassVectors.IsCompassVector(attacker.Pos - defender.Pos) && !move.DefenderBodyPart.IsWrestling)
+            if (CompassVectors.IsCompassVector(attacker.Pos - defender.Pos))
             {
                 grasper.StopGrasp(graspee);
 

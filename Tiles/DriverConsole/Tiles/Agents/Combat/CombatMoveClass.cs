@@ -9,24 +9,13 @@ namespace Tiles.Agents.Combat
 {
     public class CombatMoveClass : ICombatMoveClass
     {
-        public bool IsMeleeStrike { get; set; }
-        public bool IsGraspPart { get; set; }
-        public bool IsReleasePart { get; set; }
-        public bool TakeDamageProducts { get; set; }
-
         public CombatMoveClass(string name, IVerb meleeVerb, DamageVector damage)
         {
             Name = name;
             Verb = meleeVerb;
             DamageVector = damage;
-            TakeDamageProducts = false;
-            IsMeleeStrike = true;
-            IsGraspPart = false;
-            IsReleasePart = false;
-            IsGraspBreak = false;
         }
 
-        public bool IsGraspBreak { get; set; }
 
         // New stuff
         public string Name { get; set; }

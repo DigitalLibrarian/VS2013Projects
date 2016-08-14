@@ -23,7 +23,7 @@ namespace Tiles.Bodies
         WeaponSlot WeaponSlot { get; }
         IItem Weapon { get; set; }
 
-        IBodyPart Grasper { get; set; }
+        IBodyPart GraspedBy { get; set; }
         IBodyPart Grasped { get; }
         bool IsGrasping { get; }
         bool IsBeingGrasped { get; }

@@ -30,7 +30,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             public static WeaponClass WeaponClass = new WeaponClass(
                     name: "zombie claws",
                     sprite: null,
-                    slots: new WeaponSlot[] { WeaponSlot.Main},
+                    slots: new WeaponSlot[] { WeaponSlot.Claw},
                     attackMoveClasses: new ICombatMoveClass[] { 
                        new CombatMoveClass(
                            name: "Scratch",
@@ -80,9 +80,42 @@ namespace Tiles.ScreensImpl.ContentFactories
                     );
 
         }
+        static class ZombieTeeth
+        {
+            public static WeaponClass WeaponClass = new WeaponClass(
+                    name: "zombie teeth",
+                    sprite: null,
+                    slots: new WeaponSlot[] { WeaponSlot.Teeth },
+                    attackMoveClasses: new ICombatMoveClass[] { 
+                       new CombatMoveClass(
+                           name: "Bite",
+                           meleeVerb: new Verb(
+                            new Dictionary<VerbConjugation, string>()
+                            {
+                                { VerbConjugation.FirstPerson, "bite"},
+                                { VerbConjugation.SecondPerson, "bite"},
+                                { VerbConjugation.ThirdPerson, "bites"},
+                            }, true),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Slash, 12 },
+                                        { DamageType.Pierce, 2},
+                                    }
+                               )
+                           )
+                           {
+                               IsMartialArts = true,
+                               IsStrike = true,
+                               IsDefenderPartSpecific = true,
+                               IsItem = true
+                           },
+                    }
+                    );
+
+        }
         public IAgent CreateZombieAgent(IAtlas atlas, Vector2 worldPos)
         {
-            var body = BodyFactory.CreateHumanoid();
+            var body = BodyFactory.CreateFeralHumanoid();
             var zombie = new Agent(atlas,
                 new Sprite(
                         symbol: Symbol.Zombie,
@@ -96,7 +129,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                 new Outfit(body, new OutfitLayerFactory())
                 );
 
-            zombie.Outfit.Wield(new Item { Name = ZombieClaw.WeaponClass.Name,  WeaponClass = ZombieClaw.WeaponClass });
+            zombie.Outfit.Wield(new Item { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass });
+            zombie.Outfit.Wield(new Item { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass });
+            zombie.Outfit.Wield(new Item { Name = ZombieTeeth.WeaponClass.Name, WeaponClass = ZombieTeeth.WeaponClass });
 
             zombie.IsUndead = true;
 

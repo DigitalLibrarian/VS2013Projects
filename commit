@@ -1,0 +1,9 @@
+More combat overhaul cleanup
+
+* Added teeth and claw weapon slots.  Now zombies have claws on each hand and a teeth weapon slot on their head.
+* BodyFactory.CreateFeralHumanoid() ^^
+* Removed old combat move and class properties
+* Fixed lots of metadata bugs
+* IAgentReaper has been integrated
+* IBodyPart.GraspedBy is better than IBodyPart.Grasper
+

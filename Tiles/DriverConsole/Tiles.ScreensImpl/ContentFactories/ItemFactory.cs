@@ -35,7 +35,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Blunt, 1 }
                                 }
                            )
-                       ),
+                       ){
+                       IsDefenderPartSpecific = true,
+                       IsMartialArts = true,
+                       IsStrike = true,
+                       IsItem = true,
+                   },
                    new CombatMoveClass(
                        name: "Swish",
                        meleeVerb: new Verb(
@@ -50,7 +55,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Slash, 1 }
                                 }
                            )
-                       ),
+                       ){
+                       IsDefenderPartSpecific = true,
+                       IsMartialArts = true,
+                       IsStrike = true,
+                       IsItem = true,
+                   },
                }
             ),
             new WeaponClass(
@@ -72,7 +82,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Slash, 55 }
                                 }
                            )
-                       ),
+                       ){
+                       IsDefenderPartSpecific = true,
+                       IsMartialArts = true,
+                       IsStrike = true,
+                       IsItem = true,
+                   },
                    new CombatMoveClass(
                        name: "Stab",
                        meleeVerb: new Verb(
@@ -88,7 +103,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Slash, 11 }
                                 }
                            )
-                       ),
+                       ){
+                       IsDefenderPartSpecific = true,
+                       IsMartialArts = true,
+                       IsStrike = true,
+                       IsItem = true,
+                   },
                }
             ),
             new WeaponClass(
@@ -110,7 +130,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Blunt, 25 }
                                 }
                            )
-                       )
+                       ){
+                       IsDefenderPartSpecific = true,
+                       IsMartialArts = true,
+                       IsStrike = true,
+                       IsItem = true,
+                   }
                }
             ),
         };
@@ -286,8 +311,11 @@ namespace Tiles.ScreensImpl.ContentFactories
                            )
                        )
                         {
-                            IsMartialArts = true
-                        },
+                       IsDefenderPartSpecific = true,
+                       IsMartialArts = true,
+                       IsStrike = true,
+                       IsItem = true,
+                   },
 
             });
 

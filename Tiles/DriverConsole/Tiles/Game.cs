@@ -36,11 +36,12 @@ namespace Tiles
 
             var reporter = new ActionReporter(log);
             var damageCalc = new DamageCalc();
+            var reaper = new AgentReaper(Atlas);
             var evolutions = new List<ICombatEvolution>{
-                new CombatEvolution_MartialArtsStrike(reporter, damageCalc),
-                new CombatEvolution_StartHold(reporter, damageCalc),
-                new CombatEvolution_ReleaseHold(reporter, damageCalc),
-                new CombatEvolution_BreakHold(reporter, damageCalc)
+                new CombatEvolution_MartialArtsStrike(reporter, damageCalc, reaper),
+                new CombatEvolution_StartHold(reporter, damageCalc, reaper),
+                new CombatEvolution_ReleaseHold(reporter, damageCalc, reaper),
+                new CombatEvolution_BreakHold(reporter, damageCalc, reaper)
             };
             AttackConductor = new AttackConductor(evolutions);
                  

@@ -10,13 +10,6 @@ namespace Tiles.Agents.Combat
     public interface ICombatMoveClass
     {
         string Name { get; }
-        bool IsMeleeStrike { get; }
-        bool IsGraspPart { get; }
-        bool IsReleasePart { get; }
-        bool IsGraspBreak { get; }
-        bool TakeDamageProducts { get; }
-
-        // keepers
         IVerb Verb { get; }
         DamageVector DamageVector { get; }
 

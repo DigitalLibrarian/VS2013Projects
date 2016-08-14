@@ -10,6 +10,7 @@ namespace Tiles.Items
     {
         None,
         Main,
-        Mouth
+        Claw,
+        Teeth
     }
 }

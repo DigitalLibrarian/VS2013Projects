@@ -29,7 +29,6 @@ namespace Tiles.Agents.Combat
         public IAgent Defender { get; set; }
         public IBodyPart AttackerBodyPart { get; set; }
         public IBodyPart DefenderBodyPart { get; set; }
-        public IItem Item { get { return Weapon; } }
         public IItem Weapon { get; set; }
         public uint PredictedDamage { get; set; }
     }

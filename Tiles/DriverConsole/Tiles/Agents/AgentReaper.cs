@@ -14,27 +14,45 @@ namespace Tiles.Agents
     {
         IAtlas Atlas { get; set; }
 
+        public AgentReaper(IAtlas atlas)
+        {
+            Atlas = atlas;
+        }
+
         public IEnumerable<IItem> Reap(IAgent agent)
         {
             foreach (var bodyPart in agent.Body.Parts)
             {
                 ClearGrasps(bodyPart);
             }
-            Atlas.GetTileAtPos(agent.Pos).RemoveAgent();
-            return CreateCorpse(agent);
+            var tile = Atlas.GetTileAtPos(agent.Pos);
+            tile.RemoveAgent();
+            var newItems = CreateCorpse(agent);
+            foreach (var item in newItems)
+            {
+                tile.Items.Add(item);
+            }
+            return newItems;
         }
 
         public IEnumerable<IItem> Reap(IAgent agent, IBodyPart bodyPart)
         {
             ClearGrasps(bodyPart);
-            return CreateShedBodyPart(agent, bodyPart);
+
+            var newItems = CreateShedBodyPart(agent, bodyPart);
+            var tile = Atlas.GetTileAtPos(agent.Pos);
+            foreach (var item in newItems)
+            {
+                tile.Items.Add(item);
+            }
+            return newItems;
         }
 
         void ClearGrasps(IBodyPart part)
         {
             if (part.IsBeingGrasped)
             {
-                part.Grasper.StopGrasp(part);
+                part.GraspedBy.StopGrasp(part);
             }
 
             if (part.IsGrasping)
@@ -119,7 +137,10 @@ namespace Tiles.Agents
                                    )
                                )
                            {
-                               IsMartialArts = true
+                               IsMartialArts = true,
+                               IsDefenderPartSpecific = true,
+                               IsItem = true,
+                               IsStrike = true
                            },
 
                     });

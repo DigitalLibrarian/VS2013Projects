@@ -10,7 +10,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_MartialArtsStrike : CombatEvolution
     {
-        public CombatEvolution_MartialArtsStrike(IActionReporter reporter, IDamageCalc damageCalc) : base(reporter, damageCalc) { }
+        public CombatEvolution_MartialArtsStrike(IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper) 
+            : base(reporter, damageCalc, reaper) { }
 
         protected override bool Should(ICombatMoveContext session)
         {
@@ -27,12 +28,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var defender = session.Defender;
 
             bool isWeaponBased = move.Class.IsItem;
-
             uint dmg = 0;
 
             if (isWeaponBased)
             {
-                dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Item);
+                dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Weapon);
             }
             else
             {
@@ -54,7 +54,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             if (isWeaponBased)
             {
-                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Item, move.DefenderBodyPart, dmg, targetPartWasShed);
+                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, dmg, targetPartWasShed);
             }
             else
             {
