@@ -50,7 +50,7 @@
     <Compile Include="ContentFactories\ZombieAgentCommandPlanner.cs" />
     <Compile Include="ContentFactories\ZombieSiteFactory.cs" />
     <Compile Include="GameSimulationScreen.cs" />
-    <Compile Include="ContentFactories\ItemFactory.cs" />
+    <Compile Include="ContentFactories\GearFactory.cs" />
     <Compile Include="InventoryItemDisplayScreen.cs" />
     <Compile Include="InventoryScreen.cs" />
     <Compile Include="JaggedListSelector.cs" />

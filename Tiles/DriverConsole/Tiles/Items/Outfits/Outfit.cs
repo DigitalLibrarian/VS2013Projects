@@ -29,13 +29,13 @@ namespace Tiles.Items.Outfits
                 Layers.Add(factory.Create<ArmorSlot>(Body,
                     item => item.IsArmor,
                     part => part.ArmorSlot,
-                    item => item.ArmorClass.RequiredSlots));
+                    item => item.Class.ArmorClass.RequiredSlots));
             }
 
             WeaponLayer = factory.Create<WeaponSlot>(Body,
                 item => item.IsWeapon,
                 part => part.WeaponSlot,
-                item => item.WeaponClass.RequiredSlots);
+                item => item.Class.WeaponClass.RequiredSlots);
         }
 
         public IEnumerable<IItem> GetItems()

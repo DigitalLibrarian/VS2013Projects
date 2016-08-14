@@ -14,7 +14,7 @@ namespace Tiles.Agents.CommandInterpreters
         {
             agent.Outfit.Wear(agentCommand.Armor);
             agent.Inventory.AddToWorn(agentCommand.Armor, agentCommand.Armor);
-            game.ActionLog.AddLine(string.Format("The {0} puts on the {1}.", agent.Name, agentCommand.Armor.Name));
+            game.ActionLog.AddLine(string.Format("The {0} puts on the {1}.", agent.Name, agentCommand.Armor.Class.Name));
         }
     }
 }

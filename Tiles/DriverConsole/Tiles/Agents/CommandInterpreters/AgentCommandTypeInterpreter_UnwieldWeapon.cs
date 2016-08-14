@@ -14,7 +14,7 @@ namespace Tiles.Agents.CommandInterpreters
         {
             agent.Outfit.Unwield(agentCommand.Weapon);
             agent.Inventory.RestoreFromWorn(agentCommand.Weapon);
-            game.ActionLog.AddLine(string.Format("The {0} stops wielding the {1}.", agent.Name, agentCommand.Weapon.Name));
+            game.ActionLog.AddLine(string.Format("The {0} stops wielding the {1}.", agent.Name, agentCommand.Weapon.Class.Name));
         }
     }
 }

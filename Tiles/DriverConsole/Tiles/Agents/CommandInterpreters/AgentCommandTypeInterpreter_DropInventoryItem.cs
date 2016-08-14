@@ -14,7 +14,7 @@ namespace Tiles.Agents.CommandInterpreters
         {
             agent.Inventory.RemoveItem(agentCommand.Item);
             game.Atlas.GetTileAtPos(agent.Pos).Items.Add(agentCommand.Item);
-            game.ActionLog.AddLine(string.Format("The {0} dropped {1}.", agent.Name, agentCommand.Item.Name));
+            game.ActionLog.AddLine(string.Format("The {0} dropped {1}.", agent.Name, agentCommand.Item.Class.Name));
         }
     }
 }

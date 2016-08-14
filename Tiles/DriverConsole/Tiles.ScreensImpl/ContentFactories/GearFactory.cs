@@ -11,7 +11,7 @@ using Tiles.Agents.Combat;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
-    public class ItemFactory
+    public class GearFactory
     {
         #region static defns
         private static IList<IWeaponClass> _WeaponClasses = new List<IWeaponClass>
@@ -257,12 +257,14 @@ namespace Tiles.ScreensImpl.ContentFactories
         };
         private IRandom Random;
 
-        public ItemFactory(IRandom Random)
+        public GearFactory(IRandom Random)
         {
             // TODO: Complete member initialization
             this.Random = Random;
         }
         #endregion
+
+        IItemFactory ItemFactory = new ItemFactory();
         
         public IEnumerable<IItem> CreateAllWeapons()
         {
@@ -323,13 +325,13 @@ namespace Tiles.ScreensImpl.ContentFactories
             string name, ISprite sprite,
             IWeaponClass weaponClass = null, IArmorClass armorClass = null)
         {
-            return new Item
+            return ItemFactory.Create(new ItemClass
             {
                 Name = name,
                 Sprite = sprite,
                 ArmorClass = armorClass,
                 WeaponClass = weaponClass ?? DefaultWeaponClass
-            };
+            });
         }
 
         public IItem CreateRandomItem()

@@ -54,7 +54,7 @@ namespace Tiles
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
             var bodyPartName = bodyPart.Name;
             var limbMessage = targetPartWasShed ? " and the severed part falls away!" : ".";
-            string withWeapon = string.Format(" with it's {0}", item.Name);
+            string withWeapon = string.Format(" with it's {0}", item.Class.Name);
             Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4} for {5} damage{6}", attackerName, verbStr, defenderName, bodyPartName, withWeapon, dmg, limbMessage));
         }
 

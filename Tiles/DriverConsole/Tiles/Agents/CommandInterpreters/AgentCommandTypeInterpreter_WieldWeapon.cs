@@ -14,7 +14,7 @@ namespace Tiles.Agents.CommandInterpreters
         {
             agent.Outfit.Wield(agentCommand.Weapon);
             agent.Inventory.AddToWorn(agentCommand.Weapon, agentCommand.Weapon);
-            game.ActionLog.AddLine(string.Format("The {0} starts wielding the {1}.", agent.Name, agentCommand.Weapon.Name));
+            game.ActionLog.AddLine(string.Format("The {0} starts wielding the {1}.", agent.Name, agentCommand.Weapon.Class.Name));
         }
     }
 }

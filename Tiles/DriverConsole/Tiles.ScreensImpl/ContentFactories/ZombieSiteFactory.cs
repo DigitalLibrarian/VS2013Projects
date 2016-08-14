@@ -14,12 +14,12 @@ namespace Tiles.ScreensImpl.ContentFactories
     public class ZombieSiteFactory : ISiteFactory
     {
         IRandom Random { get; set; }
-        ItemFactory ItemFactory { get; set; }
+        GearFactory ItemFactory { get; set; }
 
         public ZombieSiteFactory(IRandom random)
         {
             Random = random;
-            ItemFactory = new ItemFactory(Random);
+            ItemFactory = new GearFactory(Random);
         }
 
         public ISite Create(IAtlas atlas, Vector2 siteIndex, Box box)

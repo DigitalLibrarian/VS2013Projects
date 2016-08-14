@@ -8,12 +8,15 @@ namespace Tiles.Items
 {
     public class Item : IItem
     {
+        public IItemClass Class { get; set; }
+
+        public bool IsWeapon { get { return Class.WeaponClass != null; } }
+        public bool IsArmor { get { return Class.ArmorClass != null; } }
+        /*
         public string Name { get; set; }
         public ISprite Sprite { get; set; }
-        public bool IsWeapon { get { return WeaponClass != null; } }
-        public bool IsArmor { get { return ArmorClass != null; } }
-
         public IWeaponClass WeaponClass { get; set; }
         public IArmorClass ArmorClass { get; set; }
+         * */
     }
 }

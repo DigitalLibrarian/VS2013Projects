@@ -91,7 +91,7 @@ namespace Tiles.ScreensImpl.Panels
 
                     foreach (var item in agent.Outfit.GetItems(bodyPart))
                     {
-                        lines.Add(string.Format(" {0}", item.Name));
+                        lines.Add(string.Format(" {0}", item.Class.Name));
                     }
                 }
             }
@@ -144,7 +144,7 @@ namespace Tiles.ScreensImpl.Panels
             {
                 foreach (var item in items)
                 {
-                    lines.Add(item.Name);
+                    lines.Add(item.Class.Name);
                 }
             }
             DrawInfoLines(lines.ToArray());

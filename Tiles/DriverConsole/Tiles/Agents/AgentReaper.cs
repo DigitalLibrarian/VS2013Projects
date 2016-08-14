@@ -14,11 +14,13 @@ namespace Tiles.Agents
     {
         IAtlas Atlas { get; set; }
         IActionReporter Reporter { get; set; }
+        IItemFactory ItemFactory { get; set; }
 
         public AgentReaper(IAtlas atlas, IActionReporter reporter)
         {
             Atlas = atlas;
             Reporter = reporter;
+            ItemFactory = new ItemFactory();
         }
 
         public IEnumerable<IItem> Reap(IAgent agent)
@@ -73,11 +75,7 @@ namespace Tiles.Agents
                 yield return item;
             }
 
-            yield return new Item
-            {
-                Name = string.Format("{0}'s corpse", defender.Name),
-                Sprite = new Sprite(Symbol.Corpse, Color.DarkGray, Color.Black)
-            };
+            yield return ItemFactory.CreateCorpse(defender);
         }
         IEnumerable<IItem> CreateShedBodyPart(IAgent defender, IBodyPart shedPart)
         {
@@ -107,46 +105,7 @@ namespace Tiles.Agents
 
         IItem CreateShedLimbItem(IAgent defender, IBodyPart part)
         {
-            return new Item
-            {
-                Name = string.Format("{0}'s {1}", defender.Name, part.Name),
-                Sprite = new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black),
-                WeaponClass = DefaultWeaponClass
-            };
+            return ItemFactory.CreateShedLimb(defender, part);;
         }
-
-        // TODO - create factory interface
-        private static IWeaponClass DefaultWeaponClass = new WeaponClass(
-                    name: "Strike",
-                    sprite: null,
-                    slots: new WeaponSlot[] { WeaponSlot.Main },
-                    attackMoveClasses: new ICombatMoveClass[] { 
-                           new CombatMoveClass(
-                               name: "Strike",
-                               meleeVerb: new Verb(
-                               new Dictionary<VerbConjugation, string>()
-                               {
-                                   { VerbConjugation.FirstPerson, "strike"},
-                                   { VerbConjugation.SecondPerson, "strike"},
-                                   { VerbConjugation.ThirdPerson, "strikes"},
-                               }, true),
-                               damage: new DamageVector(
-                                        new Dictionary<DamageType,uint>{
-                                            { DamageType.Slash, 1 },
-                                            { DamageType.Pierce, 1 },
-                                            { DamageType.Blunt, 1 },
-                                            { DamageType.Burn, 1 }
-                                        }
-                                   )
-                               )
-                           {
-                               IsMartialArts = true,
-                               IsDefenderPartSpecific = true,
-                               IsItem = true,
-                               IsStrike = true
-                           },
-
-                    });
-
     }
 }

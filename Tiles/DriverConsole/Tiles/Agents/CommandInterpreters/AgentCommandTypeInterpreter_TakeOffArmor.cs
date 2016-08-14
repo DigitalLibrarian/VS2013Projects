@@ -14,7 +14,7 @@ namespace Tiles.Agents.CommandInterpreters
         {
             agent.Outfit.TakeOff(agentCommand.Armor);
             agent.Inventory.RestoreFromWorn(agentCommand.Armor);
-            game.ActionLog.AddLine(string.Format("The {0} takes off the {1}.", agent.Name, agentCommand.Armor.Name));
+            game.ActionLog.AddLine(string.Format("The {0} takes off the {1}.", agent.Name, agentCommand.Armor.Class.Name));
         }
     }
 }

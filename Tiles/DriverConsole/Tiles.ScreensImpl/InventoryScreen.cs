@@ -73,7 +73,7 @@ namespace Tiles.ScreensImpl
                     fg = Selector.Foreground;
                     bg = Selector.Background;
                 }
-                Canvas.DrawString(item.Name, screenPos, fg, bg);
+                Canvas.DrawString(item.Class.Name, screenPos, fg, bg);
                 screenPos += slope;
             }
             screenPos = Box.Min + new Vector2(40, 2);
@@ -91,7 +91,7 @@ namespace Tiles.ScreensImpl
                     fg = Selector.Foreground;
                     bg = Selector.Background;
                 }
-                Canvas.DrawString(item.Name, screenPos, fg, bg);
+                Canvas.DrawString(item.Class.Name, screenPos, fg, bg);
                 screenPos += slope;
             }
         }

@@ -17,7 +17,7 @@ namespace Tiles.Agents.CommandInterpreters
             foreach (var item in tile.Items)
             {
                 agent.Inventory.AddItem(item);
-                game.ActionLog.AddLine(string.Format("The {0} picked up a {1}.", agent.Name, item.Name));
+                game.ActionLog.AddLine(string.Format("The {0} picked up a {1}.", agent.Name, item.Class.Name));
             }
             tile.Items.Clear();
         }

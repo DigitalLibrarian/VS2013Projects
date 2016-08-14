@@ -58,7 +58,7 @@ namespace Tiles.Agents.Combat
 
         IEnumerable<ICombatMove> WeaponMoves(IAgent attacker, IAgent defender, IItem weaponItem)
         {
-            foreach (var attackMoveClass in weaponItem.WeaponClass.AttackMoveClasses)
+            foreach (var attackMoveClass in weaponItem.Class.WeaponClass.AttackMoveClasses)
             {
                 foreach (var youPart in defender.Body.Parts)
                 {

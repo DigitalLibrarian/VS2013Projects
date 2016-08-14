@@ -35,7 +35,7 @@ namespace Tiles.ScreensImpl
             base.Draw();
 
             var leftColumnLines = new List<string>{
-                string.Format("Name: {0}", Item.Name),
+                string.Format("Name: {0}", Item.Class.Name),
                 string.Format("Weapon?: {0}", Item.IsWeapon),
                 string.Format("Armor?: {0}", Item.IsArmor),
             };
@@ -43,7 +43,7 @@ namespace Tiles.ScreensImpl
             if (Item.IsArmor)
             {
                 leftColumnLines.Add("Armor Slots:");
-                foreach (var slot in Item.ArmorClass.RequiredSlots)
+                foreach (var slot in Item.Class.ArmorClass.RequiredSlots)
                 {
                     leftColumnLines.Add(string.Format("  {0}", slot));
                 }
@@ -51,7 +51,7 @@ namespace Tiles.ScreensImpl
                 foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
                 {
                     DamageType damageType = (DamageType)damageTypeObj;
-                    leftColumnLines.Add(string.Format("   -{0}: {1}%", damageType, Item.ArmorClass.ResistVector.GetComponent(damageType)));
+                    leftColumnLines.Add(string.Format("   -{0}: {1}%", damageType, Item.Class.ArmorClass.ResistVector.GetComponent(damageType)));
                 }
             }
 
@@ -59,13 +59,13 @@ namespace Tiles.ScreensImpl
             {
 
                 leftColumnLines.Add("Weapon Slots:");
-                foreach (var slot in Item.WeaponClass.RequiredSlots)
+                foreach (var slot in Item.Class.WeaponClass.RequiredSlots)
                 {
                     leftColumnLines.Add(string.Format("  {0}", slot));
                 }
 
                 leftColumnLines.Add(string.Format("Moves:"));
-                foreach (var moveClass in Item.WeaponClass.AttackMoveClasses)
+                foreach (var moveClass in Item.Class.WeaponClass.AttackMoveClasses)
                 {
                     leftColumnLines.Add(string.Format("  {0}", moveClass.Name));
                     foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))

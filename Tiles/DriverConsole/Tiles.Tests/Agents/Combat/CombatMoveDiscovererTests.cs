@@ -65,7 +65,7 @@ namespace Tiles.Tests.Agents.Combat
         {
             var itemMock = new Mock<IItem>();
             var weaponClassMock = new Mock<IWeaponClass>();
-            itemMock.Setup(x => x.WeaponClass).Returns(weaponClassMock.Object);
+            itemMock.Setup(x => x.Class.WeaponClass).Returns(weaponClassMock.Object);
             weaponClassMock.Setup(x => x.AttackMoveClasses).Returns(moveClasses.Select(x => x.Object).ToList());
 
             return itemMock;

@@ -113,6 +113,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                     );
 
         }
+
+        IItemFactory ItemFactory = new ItemFactory();
         public IAgent CreateZombieAgent(IAtlas atlas, Vector2 worldPos)
         {
             var body = BodyFactory.CreateFeralHumanoid();
@@ -129,9 +131,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                 new Outfit(body, new OutfitLayerFactory())
                 );
 
-            zombie.Outfit.Wield(new Item { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass });
-            zombie.Outfit.Wield(new Item { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass });
-            zombie.Outfit.Wield(new Item { Name = ZombieTeeth.WeaponClass.Name, WeaponClass = ZombieTeeth.WeaponClass });
+            zombie.Outfit.Wield(ItemFactory.Create(new ItemClass { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass }));
+            zombie.Outfit.Wield(ItemFactory.Create(new ItemClass { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass }));
+            zombie.Outfit.Wield(ItemFactory.Create(new ItemClass { Name = ZombieTeeth.WeaponClass.Name, WeaponClass = ZombieTeeth.WeaponClass }));
 
             zombie.IsUndead = true;
 

@@ -62,7 +62,7 @@ namespace Tiles.ScreensImpl.Panels
             }
             else if (obj != null)
             {
-                s = obj.Sprite;
+                s = obj.Class.Sprite;
             }
             else if (tile.HasStructureCell)
             {

@@ -27,7 +27,7 @@ namespace Tiles.Agents.Combat
                 {
                     if (bodyPart.Armor != null)
                     {
-                        double resist = (double)bodyPart.Armor.ArmorClass.ResistVector.GetComponent(damageType);
+                        double resist = (double)bodyPart.Armor.Class.ArmorClass.ResistVector.GetComponent(damageType);
                         dmg *= ((100d - resist) / 100d);
                     }
                     if (dmg > 0)
