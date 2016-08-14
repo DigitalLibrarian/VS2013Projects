@@ -1,9 +1,6 @@
-More combat overhaul cleanup
+Arena mode beginnings
 
-* Added teeth and claw weapon slots.  Now zombies have claws on each hand and a teeth weapon slot on their head.
-* BodyFactory.CreateFeralHumanoid() ^^
-* Removed old combat move and class properties
-* Fixed lots of metadata bugs
-* IAgentReaper has been integrated
-* IBodyPart.GraspedBy is better than IBodyPart.Grasper
-
+* Added Arena mode, which is currently just a site factory that generates site-sized rooms without doors.
+* Added reaper death action reporting
+* Changed symbol for floors to space, and modified structure factory to swap foreground and background colors.  It makes more sense to show floors as the background color
+* ScreenLoadingMenuScreen is meant to be the new top level screen.  Currently it just allows a single selection and exits.
