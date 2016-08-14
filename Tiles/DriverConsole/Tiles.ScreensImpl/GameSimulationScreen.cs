@@ -120,20 +120,9 @@ namespace Tiles.ScreensImpl
 
             if (!Paused)
             {
-                var updatedAgents = new List<IAgent>();
                 var camPos = Game.Camera.Pos;
-
                 var updateBox = new Box(camPos - UpdateBoxHalfSize, camPos + UpdateBoxHalfSize);
-                // TODO - limit this to a "working set" of sites
-                foreach (var tile in Game.Atlas.GetTiles(updateBox).ToList()) 
-                {
-                    if (tile.HasAgent && !updatedAgents.Contains(tile.Agent))
-                    {
-                        var cTile = Game.Atlas.GetTileAtPos(tile.Agent.Pos);
-                        updatedAgents.Add(tile.Agent);
-                        tile.Agent.Update(Game);
-                    }
-                }
+                Game.UpdateBox(updateBox);
             }
             
             if (UnpauseOnUpdate)

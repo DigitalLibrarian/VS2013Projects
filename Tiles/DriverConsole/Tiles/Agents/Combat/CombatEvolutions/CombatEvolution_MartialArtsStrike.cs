@@ -46,11 +46,6 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             {
                 HandleShedPart(attacker, defender, move, shedPart);
             }
-            var defenderDies = defender.IsDead;
-            if (defenderDies)
-            {
-                HandleDeath(attacker, defender, move);
-            }
 
             if (isWeaponBased)
             {
@@ -59,6 +54,12 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             else
             {
                 Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, targetPartWasShed);
+            }
+
+            var defenderDies = defender.IsDead;
+            if (defenderDies)
+            {
+                HandleDeath(attacker, defender, move);
             }
         }
     }

@@ -20,5 +20,7 @@ namespace Tiles
         ITile CameraTile { get; }
 
         long DesiredFrameLength { get; set; }
+
+        void UpdateBox(Math.Box updateBox);
     }
 }

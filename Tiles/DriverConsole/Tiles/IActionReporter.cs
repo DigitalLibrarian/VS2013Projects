@@ -16,5 +16,7 @@ namespace Tiles
         void ReportGrabReleaseBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart grasper, IBodyPart graspee);
         void ReportMeleeItemStrikeBodyPart(ICombatMoveContext session, IVerb verb, IItem item, IBodyPart bodyPart, uint dmg, bool targetPartWasShed);
         void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, uint dmg, bool targetPartWasShed);
+
+        void ReportDeath(Agents.IAgent agent);
     }
 }

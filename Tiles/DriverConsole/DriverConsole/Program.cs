@@ -20,6 +20,7 @@ using Tiles.ScreensImpl;
 using Tiles.Gsm;
 
 using Tiles.ScreensImpl.ContentFactories;
+using Tiles.ScreenImpl;
 
 namespace DriverConsole
 {
@@ -30,11 +31,10 @@ namespace DriverConsole
             InitializeConsole();
 
             var screenManager = new GameScreenManager();
-            screenManager.Add(
-                new GameSimulationScreen(
-                    new GameFactory().SetupGenericZombieWorld(),
-                    new ConsoleCanvas(new ConsoleWriter()),
-                    new Box(new Vector2(0, 0), new Vector2(80, 24))));
+
+            var canvas = new ConsoleCanvas(new ConsoleWriter());
+            var screenBox = new Box(new Vector2(0, 0), new Vector2(80, 24));
+            screenManager.Add(new ScreenLoadingMenuScreen(canvas, screenBox));
 
             var source = new ConsoleKeyboardSource(new ConsoleReader());
             source.KeyPressed += screenManager.OnKeyPress;

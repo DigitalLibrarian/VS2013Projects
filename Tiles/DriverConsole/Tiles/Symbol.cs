@@ -12,7 +12,7 @@ namespace Tiles
         None = ' ',
         Terrain_Empty = ' ',
         Terrain_Tree = 'o',
-        Terrain_Floor = '█',
+        Terrain_Floor = ' ',
 
         Liquid_Light = '░',
         Liquid_Medium = '▒',

@@ -21,9 +21,21 @@ namespace Tiles.ScreensImpl.ContentFactories
         public Game SetupGenericZombieWorld(int seed = 42)
         {
             Vector2 siteSize = new Vector2(64, 64);
-
             var random = new RandomWrapper(new System.Random(seed));
             var siteFactory = new ZombieSiteFactory(random);
+            return Setup(siteFactory, siteSize, random);
+        }
+
+        public Game SetupArenaWorld(int seed = 42)
+        {
+            Vector2 siteSize = new Vector2(64, 64);
+            var random = new RandomWrapper(new System.Random(seed));
+            var siteFactory = new ArenaSiteFactory(random);
+            return Setup(siteFactory, siteSize, random);
+        }
+
+        private Game Setup(ISiteFactory siteFactory, Vector2 siteSize, IRandom random)
+        {
             var atlas = new Atlas(siteFactory, siteSize);
 
             var actionLog = new ActionLog(maxLines: 10);

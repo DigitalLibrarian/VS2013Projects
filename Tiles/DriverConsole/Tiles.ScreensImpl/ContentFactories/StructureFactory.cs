@@ -10,15 +10,14 @@ namespace Tiles.ScreensImpl.ContentFactories
 {
     public class StructureFactory
     {
-        public IStructure CreateRectangularBuilding(Vector2 size, CompassDirection door)
+        public IStructure CreateRectangularBuilding(Vector2 size, Color fg = Color.Gray, Color bg = Color.Black)
         {
             var box = new Box(Vector2.Zero, size);
             var structure = new Structure("Rectangular Building", size);
             IStructureCell cell;
-            Color fg = Color.Gray, bg = Color.Black;
-            for(int x = box.Min.X; x <= box.Max.X; x++)
+            for (int x = box.Min.X; x <= box.Max.X; x++)
             {
-                for(int y = box.Min.Y; y <= box.Max.Y; y++)
+                for (int y = box.Min.Y; y <= box.Max.Y; y++)
                 {
                     if (x == box.Min.X && y == box.Min.Y)
                     {
@@ -27,8 +26,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                             StructureCellType.Corner_TopLeft,
                             new Sprite(Symbol.Wall_TopLeft_L_Hollow, fg, bg),
                             canPass: false);
-                    } 
-                    else if( x == box.Max.X && y == box.Min.Y)
+                    }
+                    else if (x == box.Max.X && y == box.Min.Y)
                     {
                         cell = new StructureCell(
                             structure,
@@ -44,7 +43,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                             new Sprite(Symbol.Wall_BottomLeft_L_Hollow, fg, bg),
                             canPass: false);
                     }
-                    else if(x == box.Max.X && y == box.Max.Y)
+                    else if (x == box.Max.X && y == box.Max.Y)
                     {
                         cell = new StructureCell(
                             structure,
@@ -60,7 +59,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                             new Sprite(Symbol.Wall_Vertical_Hollow, fg, bg),
                             canPass: false);
                     }
-                    else if(y == box.Min.Y || y == box.Max.Y)
+                    else if (y == box.Min.Y || y == box.Max.Y)
                     {
                         cell = new StructureCell(
                             structure,
@@ -73,7 +72,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Floor,
-                            new Sprite(Symbol.Terrain_Floor, fg, bg),
+                            new Sprite(Symbol.Terrain_Floor, bg, fg),
                             canPass: true);
                     }
 
@@ -83,6 +82,20 @@ namespace Tiles.ScreensImpl.ContentFactories
                 }
             }
 
+            return structure;
+        }
+        public IStructure CreateRectangularBuilding(Vector2 size, CompassDirection door, Color fg = Color.Gray, Color bg = Color.Black)
+        {
+            var structure = CreateRectangularBuilding(size);
+            
+            var box = new Box(Vector2.Zero, size);
+            AddDoor(structure, box, door, fg, bg);
+
+            return structure;
+        }
+        void AddDoor(IStructure structure, Box box, CompassDirection door, Color fg = Color.Gray, Color bg = Color.Black)
+        {
+            IStructureCell cell = null;
             // add door to middle of the specified wall
             switch (door)
             {
@@ -109,7 +122,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             cell.CanPass = true;
             cell.IsOpen = true;
 
-            return structure;
         }
+
     }
 }

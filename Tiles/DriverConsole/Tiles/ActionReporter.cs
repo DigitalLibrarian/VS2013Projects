@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
 using Tiles.Items;
@@ -69,5 +70,10 @@ namespace Tiles
             Log.AddLine(message);
         }
 
+        public void ReportDeath(IAgent agent)
+        {
+            var message = string.Format("The {0} is struck down!", agent.Name);
+            Log.AddLine(message);
+        }
     }
 }

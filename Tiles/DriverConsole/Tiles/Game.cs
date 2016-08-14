@@ -22,8 +22,9 @@ namespace Tiles
         public IPlayer Player { get; private set; }
         public IAttackConductor AttackConductor { get; private set;}
         public IRandom Random { get; private set; }
-
+        
         public ITile CameraTile { get { return Atlas.GetTileAtPos(Camera.Pos); } }
+        public long DesiredFrameLength { get; set; }
 
         public Game(IAtlas atlas, IPlayer player, ICamera camera, IActionLog log, IRandom random)
         {
@@ -36,7 +37,7 @@ namespace Tiles
 
             var reporter = new ActionReporter(log);
             var damageCalc = new DamageCalc();
-            var reaper = new AgentReaper(Atlas);
+            var reaper = new AgentReaper(Atlas, reporter);
             var evolutions = new List<ICombatEvolution>{
                 new CombatEvolution_MartialArtsStrike(reporter, damageCalc, reaper),
                 new CombatEvolution_StartHold(reporter, damageCalc, reaper),
@@ -44,12 +45,24 @@ namespace Tiles
                 new CombatEvolution_BreakHold(reporter, damageCalc, reaper)
             };
             AttackConductor = new AttackConductor(evolutions);
-                 
-
+            
             Atlas.GetTileAtPos(player.Agent.Pos).SetAgent(player.Agent);
         }
 
+        public void UpdateBox(Box box)
+        {
+            var updatedAgents = new List<IAgent>();
 
-        public long DesiredFrameLength { get; set; }
+            // TODO - limit this to a "working set" of sites
+            foreach (var tile in Atlas.GetTiles(box).ToList())
+            {
+                if (tile.HasAgent && !updatedAgents.Contains(tile.Agent))
+                {
+                    var cTile = Atlas.GetTileAtPos(tile.Agent.Pos);
+                    updatedAgents.Add(tile.Agent);
+                    tile.Agent.Update(this);
+                }
+            }
+        }
     }
 }

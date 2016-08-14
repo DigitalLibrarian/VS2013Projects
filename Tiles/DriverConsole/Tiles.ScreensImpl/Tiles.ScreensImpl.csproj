@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CombatScreen.cs" />
     <Compile Include="ContentFactories\AgentFactory.cs" />
+    <Compile Include="ContentFactories\ArenaSiteFactory.cs" />
     <Compile Include="ContentFactories\BodyFactory.cs" />
     <Compile Include="CanvasScreen.cs" />
     <Compile Include="CommandScreen.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Panels\SimDisplayUiPanelScreen.cs" />
     <Compile Include="GameSimulationViewModel.cs" />
     <Compile Include="ContentFactories\StructureFactory.cs" />
+    <Compile Include="ScreenLoadingMenuScreen.cs" />
     <Compile Include="ThrowingCommandScreen.cs" />
     <Compile Include="YouDiedScreen.cs" />
   </ItemGroup>

@@ -13,10 +13,12 @@ namespace Tiles.Agents
     public class AgentReaper : IAgentReaper
     {
         IAtlas Atlas { get; set; }
+        IActionReporter Reporter { get; set; }
 
-        public AgentReaper(IAtlas atlas)
+        public AgentReaper(IAtlas atlas, IActionReporter reporter)
         {
             Atlas = atlas;
+            Reporter = reporter;
         }
 
         public IEnumerable<IItem> Reap(IAgent agent)
@@ -27,6 +29,7 @@ namespace Tiles.Agents
             }
             var tile = Atlas.GetTileAtPos(agent.Pos);
             tile.RemoveAgent();
+            Reporter.ReportDeath(agent);
             var newItems = CreateCorpse(agent);
             foreach (var item in newItems)
             {
