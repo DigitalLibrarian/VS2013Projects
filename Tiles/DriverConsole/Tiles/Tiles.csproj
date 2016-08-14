@@ -113,7 +113,9 @@
     <Compile Include="Items\ArmorSlot.cs" />
     <Compile Include="Agents\Combat\DamageType.cs" />
     <Compile Include="Items\IArmorClass.cs" />
+    <Compile Include="Items\IItemClass.cs" />
     <Compile Include="Items\IItemFactory.cs" />
+    <Compile Include="Items\ItemClass.cs" />
     <Compile Include="Items\ItemFactory.cs" />
     <Compile Include="Items\Outfits\IOutfit.cs" />
     <Compile Include="Items\IInventory.cs" />
