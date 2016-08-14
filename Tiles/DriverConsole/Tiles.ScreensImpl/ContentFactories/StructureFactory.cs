@@ -10,7 +10,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 {
     public class StructureFactory
     {
-        public IStructure CreateRectangularBuilding(Vector2 size, Color fg = Color.Gray, Color bg = Color.Black)
+        public IStructure CreateRectangularBuilding(Vector2 size, Color buildingColor = Color.Gray, Color notBuildingColor = Color.Black)
         {
             var box = new Box(Vector2.Zero, size);
             var structure = new Structure("Rectangular Building", size);
@@ -24,7 +24,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Corner_TopLeft,
-                            new Sprite(Symbol.Wall_TopLeft_L_Hollow, fg, bg),
+                            new Sprite(Symbol.Wall_TopLeft_L_Hollow, buildingColor, notBuildingColor),
                             canPass: false);
                     }
                     else if (x == box.Max.X && y == box.Min.Y)
@@ -32,7 +32,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Corner_TopRight,
-                            new Sprite(Symbol.Wall_TopRight_L_Hollow, fg, bg),
+                            new Sprite(Symbol.Wall_TopRight_L_Hollow, buildingColor, notBuildingColor),
                             canPass: false);
                     }
                     else if (x == box.Min.X && y == box.Max.Y)
@@ -40,7 +40,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Corner_BottomLeft,
-                            new Sprite(Symbol.Wall_BottomLeft_L_Hollow, fg, bg),
+                            new Sprite(Symbol.Wall_BottomLeft_L_Hollow, buildingColor, notBuildingColor),
                             canPass: false);
                     }
                     else if (x == box.Max.X && y == box.Max.Y)
@@ -48,7 +48,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Corner_BottomRight,
-                            new Sprite(Symbol.Wall_BottomRight_L_Hollow, fg, bg),
+                            new Sprite(Symbol.Wall_BottomRight_L_Hollow, buildingColor, notBuildingColor),
                             canPass: false);
                     }
                     else if (x == box.Min.X || x == box.Max.X)
@@ -56,7 +56,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Wall_Vertical,
-                            new Sprite(Symbol.Wall_Vertical_Hollow, fg, bg),
+                            new Sprite(Symbol.Wall_Vertical_Hollow, buildingColor, notBuildingColor),
                             canPass: false);
                     }
                     else if (y == box.Min.Y || y == box.Max.Y)
@@ -64,7 +64,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Wall_Horizontal,
-                            new Sprite(Symbol.Wall_Horizontal_Hollow, fg, bg),
+                            new Sprite(Symbol.Wall_Horizontal_Hollow, buildingColor, notBuildingColor),
                             canPass: false);
                     }
                     else
@@ -72,7 +72,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                         cell = new StructureCell(
                             structure,
                             StructureCellType.Floor,
-                            new Sprite(Symbol.Terrain_Floor, bg, fg),
+                            new Sprite(Symbol.Terrain_Floor, notBuildingColor, buildingColor),
                             canPass: true);
                     }
 

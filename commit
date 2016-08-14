@@ -1,6 +1,1 @@
-Arena mode beginnings
-
-* Added Arena mode, which is currently just a site factory that generates site-sized rooms without doors.
-* Added reaper death action reporting
-* Changed symbol for floors to space, and modified structure factory to swap foreground and background colors.  It makes more sense to show floors as the background color
-* ScreenLoadingMenuScreen is meant to be the new top level screen.  Currently it just allows a single selection and exits.
+Rename variable for clarity
