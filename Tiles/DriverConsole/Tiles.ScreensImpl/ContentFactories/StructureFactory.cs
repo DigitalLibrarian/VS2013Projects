@@ -21,6 +21,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 {
                     for (int z = box.Min.Z; z <= box.Max.Z; z++)
                     {
+                        cell = null;
                         if (x == box.Min.X && y == box.Min.Y)
                         {
                             cell = new StructureCell(
@@ -69,7 +70,15 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 new Sprite(Symbol.Wall_Horizontal_Hollow, buildingColor, notBuildingColor),
                                 canPass: false);
                         }
-                        else
+                        else if(z == box.Min.Z)
+                        {
+                            cell = new StructureCell(
+                                structure,
+                                StructureCellType.Floor,
+                                new Sprite(Symbol.Terrain_Floor, notBuildingColor, buildingColor),
+                                canPass: true);
+                        }
+                        else if (z == box.Max.Z)
                         {
                             cell = new StructureCell(
                                 structure,
@@ -78,9 +87,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 canPass: true);
                         }
 
-                        var pos = new Vector3(x, y, z);
-                        var relPos = pos - box.Min;
-                        structure.Add(relPos, cell);
+                        if (cell != null)
+                        {
+                            var pos = new Vector3(x, y, z);
+                            var relPos = pos - box.Min;
+                            structure.Add(relPos, cell);
+                        }
                     }
                 }
             }

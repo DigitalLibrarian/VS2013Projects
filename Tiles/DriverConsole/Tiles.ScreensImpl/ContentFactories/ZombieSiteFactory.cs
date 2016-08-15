@@ -31,14 +31,21 @@ namespace Tiles.ScreensImpl.ContentFactories
                 SetupTile(Random, t);
             }
 
+            int groundFloor = 0;
+
             int qW = box.Size.X / 8;
             int qH = box.Size.Y / 8;
             int qD = box.Size.Z / 8;
-            var q = new Vector3(qW, qH, qD);
-            var topLeft = Random.NextInBox(new Box3(Vector3.Zero, box.Size - q));
-            //var buildingBox = new Box2(topLeft, topLeft + q);
-            //var door = Random.NextElement(new List<CompassDirection> { CompassDirection.North, CompassDirection.East, CompassDirection.South, CompassDirection.West });
-            //CreateRectangularBuilding(s, buildingBox, door);
+
+            var q = new Vector3(qW, qH, 0);
+            var rSize = new Vector3(box.Size.X, box.Size.Y, 1);
+            var origin = Random.NextInBox(new Box3(Vector3.Zero, rSize - q));
+
+            var buildingBox = new Box3(origin, origin + new Vector3(qW, qH, qD));
+            
+            var door = Random.NextElement(
+                new List<CompassDirection> { CompassDirection.North, CompassDirection.East, CompassDirection.South, CompassDirection.West });
+            CreateRectangularBuilding(s, buildingBox, door);
             
             for (int i = 0; i < box.Size.X; i++)
             {
@@ -147,8 +154,8 @@ namespace Tiles.ScreensImpl.ContentFactories
             var insertionPoint = box.Min;
             var size = box.Size;
 
-            //var structure = fact.CreateRectangularBuilding(size, door);
-            //site.InsertStructure(insertionPoint, structure);
+            var structure = fact.CreateRectangularBuilding(size, door);
+            site.InsertStructure(insertionPoint, structure);
         }
 
         
