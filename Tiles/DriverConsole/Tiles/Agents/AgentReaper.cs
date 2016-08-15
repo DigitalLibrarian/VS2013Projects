@@ -16,11 +16,11 @@ namespace Tiles.Agents
         IActionReporter Reporter { get; set; }
         IItemFactory ItemFactory { get; set; }
 
-        public AgentReaper(IAtlas atlas, IActionReporter reporter)
+        public AgentReaper(IAtlas atlas, IActionReporter reporter, IItemFactory itemFactory)
         {
             Atlas = atlas;
             Reporter = reporter;
-            ItemFactory = new ItemFactory();
+            ItemFactory = itemFactory;
         }
 
         public IEnumerable<IItem> Reap(IAgent agent)
@@ -32,7 +32,7 @@ namespace Tiles.Agents
             var tile = Atlas.GetTileAtPos(agent.Pos);
             tile.RemoveAgent();
             Reporter.ReportDeath(agent);
-            var newItems = CreateCorpse(agent);
+            var newItems = CreateCorpse(agent).ToList();
             foreach (var item in newItems)
             {
                 tile.Items.Add(item);
@@ -44,7 +44,7 @@ namespace Tiles.Agents
         {
             ClearGrasps(bodyPart);
 
-            var newItems = CreateShedBodyPart(agent, bodyPart);
+            var newItems = CreateShedBodyPart(agent, bodyPart).ToList();
             var tile = Atlas.GetTileAtPos(agent.Pos);
             foreach (var item in newItems)
             {
@@ -105,7 +105,7 @@ namespace Tiles.Agents
 
         IItem CreateShedLimbItem(IAgent defender, IBodyPart part)
         {
-            return ItemFactory.CreateShedLimb(defender, part);;
+            return ItemFactory.CreateShedLimb(defender, part);
         }
     }
 }

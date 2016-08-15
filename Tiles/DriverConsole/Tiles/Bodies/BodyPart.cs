@@ -41,7 +41,7 @@ namespace Tiles.Bodies
         }
 
         public BodyPart(string name, bool isCritical, bool canAmputate, bool canGrasp, ArmorSlot armorSlotType, WeaponSlot weaponSlotType)
-            : this(name, isCritical,canAmputate, canGrasp, armorSlotType, weaponSlotType, null)
+            : this(name, isCritical, canAmputate, canGrasp, armorSlotType, weaponSlotType, null)
         {
 
         }

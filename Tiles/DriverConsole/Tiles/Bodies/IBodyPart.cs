@@ -31,7 +31,6 @@ namespace Tiles.Bodies
         void StartGrasp(IBodyPart part);
         void StopGrasp(IBodyPart part);
 
-
         bool IsWrestling { get; }
     }
 }

@@ -11,6 +11,7 @@ using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Random;
 using Tiles.Agents.Combat.CombatEvolutions;
+using Tiles.Items;
 
 namespace Tiles
 {
@@ -37,7 +38,7 @@ namespace Tiles
 
             var reporter = new ActionReporter(log);
             var damageCalc = new DamageCalc();
-            var reaper = new AgentReaper(Atlas, reporter);
+            var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
             var evolutions = new List<ICombatEvolution>{
                 new CombatEvolution_MartialArtsStrike(reporter, damageCalc, reaper),
                 new CombatEvolution_StartHold(reporter, damageCalc, reaper),
