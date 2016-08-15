@@ -13,6 +13,46 @@ namespace Tiles.Tests.Bodies
     public class BodyTests
     {
         [TestMethod]
+        public void WrestlingProperties()
+        {
+            var partMock1 = new Mock<IBodyPart>();
+            var partMock2 = new Mock<IBodyPart>();
+            var parts = new List<IBodyPart> { partMock1.Object, partMock2.Object };
+
+            var body = new Body(parts);
+
+            Assert.IsFalse(body.IsGrasping);
+            Assert.IsFalse(body.IsBeingGrasped);
+            Assert.IsFalse(body.IsWrestling);
+
+            partMock1.Setup(x => x.IsGrasping).Returns(true);
+            Assert.IsTrue(body.IsGrasping);
+            Assert.IsFalse(body.IsBeingGrasped);
+            Assert.IsFalse(body.IsWrestling);
+
+            partMock1.Setup(x => x.IsGrasping).Returns(false);
+            Assert.IsFalse(body.IsGrasping);
+            Assert.IsFalse(body.IsBeingGrasped);
+            Assert.IsFalse(body.IsWrestling);
+
+            partMock2.Setup(x => x.IsBeingGrasped).Returns(true);
+            Assert.IsFalse(body.IsGrasping);
+            Assert.IsTrue(body.IsBeingGrasped);
+            Assert.IsFalse(body.IsWrestling);
+
+
+            partMock2.Setup(x => x.IsBeingGrasped).Returns(false);
+            Assert.IsFalse(body.IsGrasping);
+            Assert.IsFalse(body.IsBeingGrasped);
+            Assert.IsFalse(body.IsWrestling);
+
+            partMock2.Setup(x => x.IsWrestling).Returns(true);
+            Assert.IsFalse(body.IsGrasping);
+            Assert.IsFalse(body.IsBeingGrasped);
+            Assert.IsTrue(body.IsWrestling);
+        }
+
+        [TestMethod]
         public void TakeDamage_NoPartOutOfHealth()
         {
             var targetHealthMock = new Mock<HealthVector>();
