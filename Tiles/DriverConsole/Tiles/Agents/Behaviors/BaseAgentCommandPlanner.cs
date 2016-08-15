@@ -75,6 +75,7 @@ namespace Tiles.Agents.Behaviors
         {
             for (int i = 0; i <= halfBoxSize; i++)
             {
+
                 var centerWorldPos = new Vector2(
                     centerWorldPos3d.X, centerWorldPos3d.Y
                     );
