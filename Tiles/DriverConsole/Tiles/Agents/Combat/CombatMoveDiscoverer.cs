@@ -37,19 +37,16 @@ namespace Tiles.Agents.Combat
                         foreach (var move in WeaponMoves(attacker, defender, weaponItem))
                             yield return move;
                     }
-                    else
+                    if (mePart.CanGrasp)
                     {
-                        if (mePart.CanGrasp)
-                        {
-                            foreach (var move in GraspMoves(attacker, defender, mePart))
-                                yield return move;
-                        }
+                        foreach (var move in GraspMoves(attacker, defender, mePart))
+                            yield return move;
+                    }
 
-                        if (mePart.IsWrestling)
-                        {
-                            foreach (var move in WrestlingMoves(attacker, defender, mePart))
-                                yield return move;
-                        }
+                    if (mePart.IsWrestling)
+                    {
+                        foreach (var move in WrestlingMoves(attacker, defender, mePart))
+                            yield return move;
                     }
 
                 // TODO - armor, weapon, racial, magic, tech, etc.. other types of abilities

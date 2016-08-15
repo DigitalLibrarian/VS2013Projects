@@ -236,7 +236,7 @@ namespace Tiles.Tests.Agents.Combat
 
             var attackerBodyPartMock1 = AddBodyPart(AttackerBodyParts);
             attackerBodyPartMock1.Setup(x => x.IsWrestling).Returns(false);
-            attackerBodyPartMock1.Setup(x => x.CanGrasp).Returns(true);
+            attackerBodyPartMock1.Setup(x => x.CanGrasp).Returns(false);
 
             var itemMock = MockWeaponItem();
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(attackerBodyPartMock1.Object)).Returns(itemMock.Object);
