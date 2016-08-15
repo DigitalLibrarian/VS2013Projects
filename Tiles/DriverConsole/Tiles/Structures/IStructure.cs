@@ -10,9 +10,8 @@ namespace Tiles.Structures
     public interface IStructure
     {
         string Name { get; set; }
-        Vector2 Size { get; }
-        //Box IndexBox { get; }
+        Vector3 Size { get; }
 
-        IReadOnlyDictionary<Vector2, IStructureCell> Cells { get; }
+        IReadOnlyDictionary<Vector3, IStructureCell> Cells { get; }
     }
 }

@@ -19,7 +19,7 @@ namespace Tiles.Tests.Structures
         public void Constructor()
         {
             string name = "name";
-            var size = new Vector2(2, 2);
+            var size = new Vector3(2, 2, 2);
             var structure = new Structure(name, size);
 
             Assert.AreEqual(name, structure.Name);
@@ -32,13 +32,13 @@ namespace Tiles.Tests.Structures
         public void Add()
         {
             string name = "name";
-            var size = new Vector2(2, 2);
+            var size = new Vector3(2, 2, 2);
             var structure = new Structure(name, size);
 
             Assert.IsFalse(structure.Cells.Any());
 
             var cellMock = new Mock<IStructureCell>();
-            var relPos1 = new Vector2(0, 0);
+            var relPos1 = new Vector3(0, 0, 0);
 
             structure.Add(relPos1, cellMock.Object);
 

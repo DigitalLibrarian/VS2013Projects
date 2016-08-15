@@ -75,14 +75,20 @@ namespace Tiles
             {
                 for (int y = 0; y <= size.Y; y++)
                 {
-                    var cellIndex = new Vector2(x, y);
-                    var cell = structure.Cells[cellIndex];
+                    for (int z = 0; z <= size.Z; z++)
+                    {
+                        var cellIndex = new Vector3(x, y, z);
+                        if (structure.Cells.ContainsKey(cellIndex))
+                        {
+                            var cell = structure.Cells[cellIndex];
 
-                    var siteIndex = new Vector3(cellIndex.X, cellIndex.Y, topLeftIndex.Z);
-                    var tile = GetTileAtSitePos(topLeftIndex + siteIndex);
-                    tile.StructureCell = cell;
-                    tile.Terrain = Terrain.None;
-                    tile.IsTerrainPassable = true;
+                            var siteIndex = topLeftIndex + cellIndex;
+                            var tile = GetTileAtSitePos(siteIndex);
+                            tile.StructureCell = cell;
+                            tile.Terrain = Terrain.None;
+                            tile.IsTerrainPassable = true;
+                        }
+                    }
                 }
             }
         }

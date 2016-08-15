@@ -131,7 +131,6 @@ namespace Tiles.Tests.Agents.Behaviors
             CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, goodMove), Times.Once());
         }
         
-        [Ignore]
         [TestMethod]
         public void Seek_NoMoveFound()
         {
@@ -140,7 +139,7 @@ namespace Tiles.Tests.Agents.Behaviors
             var targetPos = new Vector3(3, 3, 3);
 
             var wanderDir = new Vector3(1, 1, 0);
-            //RandomMock.Setup(x => x.NextElement(It.IsAny<ICollection<Vector2>>())).Returns(wanderDir);
+            RandomMock.Setup(x => x.NextElement(It.IsAny<ICollection<Vector3>>())).Returns(wanderDir);
 
             agentMock.Setup(x => x.Pos).Returns(agentPos);
             agentMock.Setup(x => x.CanMove(It.IsAny<Vector3>())).Returns(false);
@@ -152,13 +151,13 @@ namespace Tiles.Tests.Agents.Behaviors
 
             Assert.AreSame(commandMock.Object, command);
 
-            RandomMock.Verify(x => x.NextElement(It.IsAny<ICollection<Vector2>>()), Times.Once());
+            RandomMock.Verify(x => x.NextElement(It.IsAny<ICollection<Vector3>>()), Times.Once());
 
-            //foreach (var compassDir in CompassVectors.GetAll())
-            //{
-            //    agentMock.Verify(x => x.CanMove(compassDir), Times.Once());
-            //}
-            //CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, wanderDir), Times.Once());
+            foreach (var compassDir in CompassVectors.GetAll())
+            {
+                agentMock.Verify(x => x.CanMove(compassDir), Times.Once());
+            }
+            CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, wanderDir), Times.Once());
         }
 
         [TestMethod]
@@ -177,7 +176,6 @@ namespace Tiles.Tests.Agents.Behaviors
             MoveDiscoMock.Verify(x => x.GetPossibleMoves(agentMock.Object, targetMock.Object), Times.Once());
         }
 
-        [Ignore]
         [TestMethod]
         public void FindNearbyPos_Miss()
         {

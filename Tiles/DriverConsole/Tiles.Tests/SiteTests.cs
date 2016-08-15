@@ -115,23 +115,22 @@ namespace Tiles.Tests
             Assert.IsTrue(site.InBounds(new Vector3(0, 0, 0)));
         }
 
-        [Ignore]
         [TestMethod]
         public void InsertStructure()
         {
-            var cells = new Dictionary<Vector2, IStructureCell>
+            var cells = new Dictionary<Vector3, IStructureCell>
             {
-                {new Vector2(0, 0), new Mock<IStructureCell>().Object},
-                {new Vector2(0, 1), new Mock<IStructureCell>().Object},
-                {new Vector2(1, 0), new Mock<IStructureCell>().Object},
-                {new Vector2(1, 1), new Mock<IStructureCell>().Object},
+                {new Vector3(0, 0, 0), new Mock<IStructureCell>().Object},
+                {new Vector3(0, 1, 0), new Mock<IStructureCell>().Object},
+                {new Vector3(1, 0, 0), new Mock<IStructureCell>().Object},
+                {new Vector3(1, 1, 1), new Mock<IStructureCell>().Object},
             };
             var structureMock = new Mock<IStructure>();
             structureMock.Setup(x => x.Cells).Returns(cells);
-            structureMock.Setup(x => x.Size).Returns(new Vector2(1, 1));
+            structureMock.Setup(x => x.Size).Returns(new Vector3(1, 1, 1));
 
-            var insertionPoint = new Vector3(1, 1, 3);
-            var site =new Site(new Box3(Vector3.Zero, new Vector3(3, 3, 3)));
+            var insertionPoint = new Vector3(1, 1, 1);
+            var site = new Site(new Box3(Vector3.Zero, new Vector3(3, 3, 3)));
             foreach (var tile in site.GetTiles())
             {
                 tile.Terrain = Terrain.Tree;
@@ -143,7 +142,6 @@ namespace Tiles.Tests
             foreach (var tile in site.GetTiles())
             {
                 var cellKey = tile.Index - insertionPoint;
-                /*
                 if (cells.ContainsKey(cellKey))
                 {
                     var expectedCell = cells[cellKey];
@@ -158,9 +156,7 @@ namespace Tiles.Tests
                     Assert.AreEqual(Terrain.Tree, tile.Terrain);
                     Assert.IsFalse(tile.IsTerrainPassable);
                 }
-                 * */
             }
-
         }
     }
 }
