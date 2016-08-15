@@ -38,16 +38,14 @@ namespace Tiles.Agents.Behaviors
             return Nothing(agent);
         }
 
-        protected IAgentCommand Seek(IAgent agent, Vector3 pos3d)
+        protected IAgentCommand Seek(IAgent agent, Vector3 pos)
         {
             // ZHACK
-            var agentPos = new Vector2(agent.Pos.X, agent.Pos.Y);
-            var pos = new Vector2(pos3d.X, pos3d.Y);
-            var diffVector =  pos - agentPos;
-            var choices = new Dictionary<Vector2, double>();
+            var diffVector =  pos - agent.Pos;
+            var choices = new Dictionary<Vector3, double>();
             foreach (var cDir in CompassVectors.GetAll())
             {
-                var dot = Vector2.Dot(diffVector, cDir);
+                var dot = Vector3.Dot(diffVector, cDir);
                 choices.Add(cDir, dot);
             }
 
@@ -57,9 +55,8 @@ namespace Tiles.Agents.Behaviors
                              select pair.Key).ToList();
             while (moveOrder.Any())
             {
-                var move2d = moveOrder.ElementAt(0);
+                var move = moveOrder.ElementAt(0);
                 moveOrder.RemoveAt(0);
-                var move = new Vector3(move2d.X, move2d.Y, 0);
 
                 if (agent.CanMove(move))
                 {

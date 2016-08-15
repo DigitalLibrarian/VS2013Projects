@@ -76,9 +76,11 @@ namespace Tiles.Tests.Agents.Behaviors
 
             Assert.AreEqual(commandMock.Object, command);
 
-            RandomMock.Verify(x => x.NextElement(It.Is<ICollection<Vector2>>(c => 
-                c.Count() == CompassVectors.GetAll().Count()
-                && c.Select(e => CompassVectors.GetAll().Contains(e)).All(b => b)
+            RandomMock.Verify(
+                x => x.NextElement<Vector3>(
+                    It.Is<ICollection<Vector3>>(c => 
+                        c.Count() == CompassVectors.GetAll().Count()
+                        && c.All(v => CompassVectors.GetAll().Contains(v))
                 )), Times.Once());
 
             CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, dir), Times.Once());

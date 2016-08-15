@@ -67,7 +67,7 @@ namespace Tiles.Tests
             var d = 4;
             var site =new Site(new Box3(Vector3.Zero, new Vector3(w, h, d)));
             var tiles = site.GetTiles().ToList();
-            Assert.AreEqual(w * h, tiles.Count());
+            Assert.AreEqual(w * h * d, tiles.Count());
 
             int i = 0;
             for (int x = 0; x < w; x++)

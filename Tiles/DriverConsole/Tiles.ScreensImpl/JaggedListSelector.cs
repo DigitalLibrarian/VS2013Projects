@@ -24,10 +24,10 @@ namespace Tiles.ScreensImpl
             Spacing = new Vector2(1, 1);
         }
 
-        public void MoveUp() { Selected += CompassVectors.FromDirection(CompassDirection.North); }
-        public void MoveDown() { Selected += CompassVectors.FromDirection(CompassDirection.South); }
-        public void MoveRight() { Selected += CompassVectors.FromDirection(CompassDirection.East); }
-        public void MoveLeft() { Selected += CompassVectors.FromDirection(CompassDirection.West); }
+        public void MoveUp() { Selected += Vector2.Truncate(CompassVectors.FromDirection(CompassDirection.North)); }
+        public void MoveDown() { Selected += Vector2.Truncate(CompassVectors.FromDirection(CompassDirection.South)); }
+        public void MoveRight() { Selected += Vector2.Truncate(CompassVectors.FromDirection(CompassDirection.East)); }
+        public void MoveLeft() { Selected += Vector2.Truncate(CompassVectors.FromDirection(CompassDirection.West)); }
 
         #region Clamping
         public void Update(params int[] listCounts)

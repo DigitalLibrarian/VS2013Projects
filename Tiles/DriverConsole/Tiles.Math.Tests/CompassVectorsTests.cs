@@ -14,7 +14,7 @@ namespace Tiles.Math.Tests
         [TestMethod]
         public void FromDirection()
         {
-            var d = new Dictionary<CompassDirection, Vector2>{
+            var d = new Dictionary<CompassDirection, Vector3>{
                 {CompassDirection.North, CompassVectors.North},
                 {CompassDirection.South, CompassVectors.South},
                 {CompassDirection.East, CompassVectors.East},
@@ -55,7 +55,7 @@ namespace Tiles.Math.Tests
                 Assert.IsTrue(CompassVectors.IsCompassVector(v));
             }
 
-            Assert.IsFalse(CompassVectors.IsCompassVector(new Vector2(2, 2)));
+            Assert.IsFalse(CompassVectors.IsCompassVector(new Vector3(2, 2, 0)));
         }
     }
 }

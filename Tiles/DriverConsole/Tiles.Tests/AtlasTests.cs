@@ -74,7 +74,7 @@ namespace Tiles.Tests
             var pos = new Vector3(24, 23, 25);
             var siteIndex = new Vector3(2, 2, 2);
             var box = new Box3(siteIndex * SiteSize, (siteIndex * SiteSize) + SiteSize);
-            var sitePos = new Vector3(4, 3, 2);
+            var sitePos = new Vector3(4, 3, 5);
 
             var tileMock = new Mock<ITile>();
             var siteMock = new Mock<ISite>();

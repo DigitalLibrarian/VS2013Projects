@@ -75,5 +75,10 @@ namespace Tiles.Math
         {
             return new Vector2(System.Math.Max(v1.X, v2.X), System.Math.Max(v1.Y, v2.Y));
         }
+
+        public static Vector2 Truncate(Vector3 v)
+        {
+            return new Vector2(v.X, v.Y);
+        }
     }
 }

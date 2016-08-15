@@ -61,5 +61,12 @@ namespace Tiles.Math
         {
             return string.Format("{0}X={1},Y={2},Z={3}{4}", '{', X, Y, Z, '}');
         }
+
+        public static double Dot(Vector3 v1, Vector3 v2)
+        {
+            return ((double)v1.X * (double)v2.X)
+                + ((double)v1.Y * (double)v2.Y)
+                + ((double)v1.Z * (double)v2.Z);
+        }
     }
 }
