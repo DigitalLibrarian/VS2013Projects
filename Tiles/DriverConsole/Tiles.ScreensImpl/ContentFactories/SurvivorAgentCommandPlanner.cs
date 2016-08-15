@@ -77,7 +77,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             return Wander(agent);
         }
 
-        Vector2? FindNearestItem(IGame game, IAgent agent)
+        Vector3? FindNearestItem(IGame game, IAgent agent)
         {
             return FindNearbyPos(agent.Pos, (worldPos) => game.Atlas.GetTileAtPos(worldPos).Items.Any(), halfBoxSize : SightRange);
         }

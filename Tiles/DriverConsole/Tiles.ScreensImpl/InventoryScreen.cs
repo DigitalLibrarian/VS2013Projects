@@ -20,7 +20,7 @@ namespace Tiles.ScreensImpl
 
         JaggedListSelector Selector { get; set; }
 
-        public InventoryScreen(IPlayer player, IAgentCommandFactory commandFactory, IActionLog log, ICanvas canvas, Box box)
+        public InventoryScreen(IPlayer player, IAgentCommandFactory commandFactory, IActionLog log, ICanvas canvas, Box2 box)
             : base(canvas, box)
         {
             Player = player;

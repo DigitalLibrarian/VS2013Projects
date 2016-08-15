@@ -73,7 +73,7 @@ namespace Tiles.Tests
         {
             var pos = new Vector2(24, 23);
             var siteIndex = new Vector2(2, 2);
-            var box = new Box(siteIndex * SiteSize, (siteIndex * SiteSize) + SiteSize);
+            var box = new Box2(siteIndex * SiteSize, (siteIndex * SiteSize) + SiteSize);
             var sitePos = new Vector2(4, 3);
 
             var tileMock = new Mock<ITile>();
@@ -111,7 +111,7 @@ namespace Tiles.Tests
         {
             var pos = new Vector2(-24, -23);
             var siteIndex = new Vector2(-3, -3);
-            var box = new Box((siteIndex * SiteSize) + SiteSize, siteIndex * SiteSize);
+            var box = new Box2((siteIndex * SiteSize) + SiteSize, siteIndex * SiteSize);
             var sitePos = new Vector2(6, 7);
 
             var tileMock = new Mock<ITile>();
@@ -147,7 +147,7 @@ namespace Tiles.Tests
         {
             var siteMock = new Mock<ISite>();
             var siteIndex = new Vector2(0, 0);
-            var box = new Box(Vector2.Zero, SiteSize);
+            var box = new Box2(Vector2.Zero, SiteSize);
             SiteFactoryMock.Setup(x => x.Create(Atlas, siteIndex, box)).Returns(siteMock.Object);
             var tileMock11 = new Mock<ITile>();
             var tileMock12 = new Mock<ITile>();

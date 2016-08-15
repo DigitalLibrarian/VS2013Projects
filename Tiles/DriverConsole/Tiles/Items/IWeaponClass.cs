@@ -13,7 +13,6 @@ namespace Tiles.Items
         ISprite Sprite { get; }
         
         IEnumerable<WeaponSlot> RequiredSlots { get; }
-
         IList<ICombatMoveClass> AttackMoveClasses { get; }
     }
 }

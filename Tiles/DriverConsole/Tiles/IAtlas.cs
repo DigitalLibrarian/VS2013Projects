@@ -10,15 +10,15 @@ namespace Tiles
 {
     public interface IAtlas
     {
-        Vector2 SiteSize { get; }
+        Vector3 SiteSize { get; }
 
-        void InsertStructure(Vector2 topLeftIndex, IStructure structure);
+        void InsertStructure(Vector3 topLeftIndex, IStructure structure);
 
-        ITile GetTileAtPos(Vector2 pos);
+        ITile GetTileAtPos(Vector3 pos);
 
         IEnumerable<ITile> GetTiles();
         IEnumerable<ISite> GetSites();
 
-        IEnumerable<ITile> GetTiles(Box worldBox);
+        IEnumerable<ITile> GetTiles(Box3 worldBox);
     }
 }

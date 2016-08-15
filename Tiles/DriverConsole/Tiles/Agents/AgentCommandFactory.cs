@@ -22,7 +22,7 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand MoveDirection(IAgent agent, Vector2 direction)
+        public IAgentCommand MoveDirection(IAgent agent, Vector3 direction)
         {
             return new AgentCommand
             {

@@ -39,7 +39,8 @@ namespace Tiles.ScreensImpl
             }
             else if (ConsoleKeyCompassMapping.IsCompassDirection(args.Key))
             {
-                Game.Camera.Move(CompassVectors.FromDirection(ConsoleKeyCompassMapping.ToDirection(args.Key)));
+                var dir2 = CompassVectors.FromDirection(ConsoleKeyCompassMapping.ToDirection(args.Key));
+                Game.Camera.Move(new Vector3(dir2.X, dir2.Y, 0));
             }
             else
             {

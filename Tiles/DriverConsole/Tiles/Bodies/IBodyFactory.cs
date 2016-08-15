@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tiles.Math;
 
-namespace Tiles
+namespace Tiles.Bodies
 {
-    public interface ISiteFactory
+    public interface IBodyFactory
     {
-        ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box);
+        IBody CreateHumanoid();
+        IBody CreateFeralHumanoid();
     }
 }

@@ -24,7 +24,7 @@ namespace Tiles.Agents.Behaviors
 
         protected IAgentCommand Wander(IAgent agent)
         {
-            var wander = Random.NextElement(CompassVectors.GetAll().ToList());
+            var wander = Random.NextElement(CompassVectors.GetAll().Select(x => new Vector3(x.X, x.Y, 0)).ToList());
             return CommandFactory.MoveDirection(agent, wander);
         }
 
@@ -38,9 +38,12 @@ namespace Tiles.Agents.Behaviors
             return Nothing(agent);
         }
 
-        protected IAgentCommand Seek(IAgent agent, Vector2 pos)
+        protected IAgentCommand Seek(IAgent agent, Vector3 pos3d)
         {
-            var diffVector = pos - agent.Pos;
+            // ZHACK
+            var agentPos = new Vector2(agent.Pos.X, agent.Pos.Y);
+            var pos = new Vector2(pos3d.X, pos3d.Y);
+            var diffVector =  pos - agentPos;
             var choices = new Dictionary<Vector2, double>();
             foreach (var cDir in CompassVectors.GetAll())
             {
@@ -54,8 +57,9 @@ namespace Tiles.Agents.Behaviors
                              select pair.Key).ToList();
             while (moveOrder.Any())
             {
-                var move = moveOrder.ElementAt(0);
+                var move2d = moveOrder.ElementAt(0);
                 moveOrder.RemoveAt(0);
+                var move = new Vector3(move2d.X, move2d.Y, 0);
 
                 if (agent.CanMove(move))
                 {
@@ -70,19 +74,22 @@ namespace Tiles.Agents.Behaviors
             return AttackMoveDisco.GetPossibleMoves(agent, target);
         }
 
-        protected Vector2? FindNearbyPos(Vector2 centerWorldPos, Predicate<Vector2> finderPred, int halfBoxSize)
+        protected Vector3? FindNearbyPos(Vector3 centerWorldPos3d, Predicate<Vector3> finderPred, int halfBoxSize)
         {
             for (int i = 0; i <= halfBoxSize; i++)
             {
+                var centerWorldPos = new Vector2(
+                    centerWorldPos3d.X, centerWorldPos3d.Y
+                    );
                 var halfSize = new Vector2(i, i);
-                var box = new Box(centerWorldPos - halfSize, centerWorldPos + halfSize);
+                var box = new Box2(centerWorldPos - halfSize, centerWorldPos + halfSize);
                 for (int x = box.Min.X; x <= box.Max.X; x++)
                 {
                     for (int y = box.Min.Y; y <= box.Max.Y; y++)
                     {
                         if (x == box.Min.X || x == box.Max.X || y == box.Min.Y || y == box.Max.Y)
                         {
-                            var worldPos = new Vector2(x, y);
+                            var worldPos = new Vector3(x, y, centerWorldPos3d.Z);
                             if (finderPred(worldPos))
                             {
                                 return worldPos;

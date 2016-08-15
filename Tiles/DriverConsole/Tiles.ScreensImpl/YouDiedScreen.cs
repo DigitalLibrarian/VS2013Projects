@@ -16,7 +16,7 @@ namespace Tiles.ScreensImpl
         IRandom Random { get; set; }
         string Message { get; set; }
 
-        public YouDiedScreen(IRandom random, ICanvas canvas, Box box) : base(canvas, box)
+        public YouDiedScreen(IRandom random, ICanvas canvas, Box2 box) : base(canvas, box)
         {
             Random = random;
             Message = "You died!";

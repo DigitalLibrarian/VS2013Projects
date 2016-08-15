@@ -16,7 +16,7 @@ namespace Tiles.ScreenImpl
     {
         IDictionary<string, Func<IGameScreen>> Factories { get; set; }
         JaggedListSelector Selector { get; set; }
-        public ScreenLoadingMenuScreen(ICanvas canvas, Box box): base(canvas, box)
+        public ScreenLoadingMenuScreen(ICanvas canvas, Box2 box): base(canvas, box)
         {
             Factories = new Dictionary<string, Func<IGameScreen>>{
                 {

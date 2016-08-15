@@ -20,11 +20,9 @@ namespace Tiles.ScreensImpl
         bool Paused { get; set; }
         bool UnpauseOnUpdate { get; set; }
 
-        Vector2 UpdateBoxHalfSize { get; set; }
-
         IAgentCommandFactory CommandFactory { get; set; }
 
-        public GameSimulationScreen(IGame game, ICanvas canvas, Box box)
+        public GameSimulationScreen(IGame game, ICanvas canvas, Box2 box)
             : base(canvas, box)
         {
             Game = game;
@@ -33,25 +31,25 @@ namespace Tiles.ScreensImpl
             CommandFactory = new AgentCommandFactory();
             
             var padV = new Vector2(1,1);
-            var simDisplayBox = new Box(padV, padV + new Vector2(23, 23));
+            var simDisplayBox = new Box2(padV, padV + new Vector2(23, 23));
             var actionLogPanelWidth = Box.Size.X - (simDisplayBox.Size.X + (padV.X * 3));
             var actionLogPanelHeight = game.ActionLog.MaxLines;
             var infoPanelOrigin = new Vector2(simDisplayBox.Max.X + padV.X, simDisplayBox.Min.Y);
             var infoPanelWidth = actionLogPanelWidth;
             var infoPanelHeight = Box.Max.Y - actionLogPanelHeight - padV.Y - padV.Y;
-            var infoPanelBox = new Box(
+            var infoPanelBox = new Box2(
                 infoPanelOrigin,
                 infoPanelOrigin + new Vector2(infoPanelWidth, infoPanelHeight)
                 );
             var actionLogPanelOrigin = new Vector2(infoPanelBox.Min.X, infoPanelBox.Max.Y + padV.Y);
-            var actionLogPanelBox = new Box(
+            var actionLogPanelBox = new Box2(
                 actionLogPanelOrigin,
                 actionLogPanelOrigin + new Vector2(actionLogPanelWidth, actionLogPanelHeight)
                 );
 
             ViewModel = new GameSimulationViewModel();
 
-            var lookBox = new Box(
+            var lookBox = new Box2(
                 infoPanelBox.Min,
                 infoPanelBox.Max + new Vector2(0, Box.Max.Y - padV.Y - actionLogPanelHeight - padV.Y)
                 );
@@ -61,7 +59,6 @@ namespace Tiles.ScreensImpl
             LookingScreen = new LookingCommandScreen(Game, lookExaminePanel);
             InventoryScreen = new InventoryScreen(Game.Player, CommandFactory, Game.ActionLog, Canvas, Box);
 
-            UpdateBoxHalfSize = game.Atlas.SiteSize;
 
         }
 
@@ -121,7 +118,9 @@ namespace Tiles.ScreensImpl
             if (!Paused)
             {
                 var camPos = Game.Camera.Pos;
-                var updateBox = new Box(camPos - UpdateBoxHalfSize, camPos + UpdateBoxHalfSize);
+                var updateBox = new Box3(
+                    camPos - new Vector3(Game.Atlas.SiteSize.X, Game.Atlas.SiteSize.Y, 0), 
+                    camPos + new Vector3(Game.Atlas.SiteSize.X, Game.Atlas.SiteSize.Y, 1));
                 Game.UpdateBox(updateBox);
             }
             
@@ -176,8 +175,9 @@ namespace Tiles.ScreensImpl
         {
             if (ConsoleKeyCompassMapping.IsCompassDirection(args.Key))
             {
-                var delta = CompassVectors.FromDirection(ConsoleKeyCompassMapping.ToDirection(args.Key));
-                var newTile = Game.Atlas.GetTileAtPos(Game.Player.Pos + delta);
+                var delta2d = CompassVectors.FromDirection(ConsoleKeyCompassMapping.ToDirection(args.Key));
+                var delta3d = new Vector3(delta2d.X, delta2d.Y, 0);
+                var newTile = Game.Atlas.GetTileAtPos(Game.Player.Pos + delta3d);
                 if (newTile.HasAgent && !newTile.Agent.IsDead)
                 {
                     ScreenManager.Add(
@@ -191,8 +191,17 @@ namespace Tiles.ScreensImpl
                 }
                 else if (!Game.Player.Agent.Body.IsWrestling)
                 {
-                    Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, delta));
+                    Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, delta3d));
                 }
+            }
+            else if (args.Key == ConsoleKey.OemComma && args.Shift)
+            {
+                Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, new Vector3(0, 0, 1)));
+            }
+            else if (args.Key == ConsoleKey.OemPeriod && args.Shift)
+            {
+                Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, new Vector3(0, 0, -1)));
+
             }
             else if (args.Key == ConsoleKey.NumPad5)
             {

@@ -17,7 +17,7 @@ namespace Tiles.Agents
         IAgentCommand WieldWeapon(IAgent agent, IItem item);
         IAgentCommand WearArmor(IAgent agent, IItem item);
         IAgentCommand PickUpItemsOnAgentTile(IAgent agent);
-        IAgentCommand MoveDirection(IAgent agent, Vector2 direction);
+        IAgentCommand MoveDirection(IAgent agent, Vector3 direction);
 
         IAgentCommand UnwieldWeapon(IAgent agent, IItem item);
         IAgentCommand TakeOffArmor(IAgent agent, IItem item);

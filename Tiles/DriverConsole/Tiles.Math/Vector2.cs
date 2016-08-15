@@ -50,7 +50,7 @@ namespace Tiles.Math
 
         public override string ToString()
         {
-            return string.Format("{0}X={1}, Y={2}{3}", '{', X, Y, '}');
+            return string.Format("{0}X={1},Y={2}{3}", '{', X, Y, '}');
         }
 
         public static Vector2 Zero { get { return new Vector2(0, 0); } }

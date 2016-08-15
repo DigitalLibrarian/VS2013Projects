@@ -15,7 +15,7 @@ namespace Tiles.Agents
         public IAtlas Atlas { get; private set; }
         public ISprite Sprite { get; private set; }
         public IBody Body { get; private set; }
-        public Vector2 Pos { get; protected set; }
+        public Vector3 Pos { get; protected set; }
         public IInventory Inventory { get; private set; }
         public virtual bool IsPlayer { get { return false; } }
         public IAgentBehavior AgentBehavior { get; set; }
@@ -30,7 +30,7 @@ namespace Tiles.Agents
             } 
         }
 
-        public Agent(IAtlas atlas, ISprite sprite, Vector2 pos, 
+        public Agent(IAtlas atlas, ISprite sprite, Vector3 pos, 
             IBody body, string name, 
             IInventory inventory, 
             IOutfit outfit)
@@ -53,7 +53,7 @@ namespace Tiles.Agents
 
         }
 
-        public bool CanMove(Vector2 delta)
+        public bool CanMove(Vector3 delta)
         {
             if (Body.IsWrestling) return false;
 
@@ -69,7 +69,7 @@ namespace Tiles.Agents
             return newTile.IsTerrainPassable;
         }
 
-        public bool Move(Vector2 move)
+        public bool Move(Vector3 move)
         {
             if (CanMove(move))
             {

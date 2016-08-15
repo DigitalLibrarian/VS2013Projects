@@ -44,7 +44,7 @@ namespace Tiles
         public Terrain Terrain { get; set; }
         public ISprite TerrainSprite { get; set; }
 
-        public Vector2 Index { get; private set; }
+        public Vector3 Index { get; private set; }
 
         public IAgent Agent { get; set; }
         public bool HasAgent { get { return Agent != null; } }
@@ -53,9 +53,9 @@ namespace Tiles
         public bool HasStructureCell { get { return StructureCell != null; } }
         public bool IsTerrainPassable { get; set; }
 
-        public Tile(int x, int y)
+        public Tile(int x, int y, int z)
         {
-            Index = new Vector2(x, y);
+            Index = new Vector3(x, y, z);
             Items = new List<IItem>();
             IsTerrainPassable = true;
         }

@@ -14,9 +14,9 @@ namespace Tiles.Agents
         IAgent Agent { get; }
         // TODO - remove this, it is available via IAgent
         IInventory Inventory { get; }
-        Vector2 Pos { get; }
+        Vector3 Pos { get; }
         
-        bool Move(Vector2 delta);
+        bool Move(Vector3 delta);
 
 
         IAgentCommand LastCommand { get; }

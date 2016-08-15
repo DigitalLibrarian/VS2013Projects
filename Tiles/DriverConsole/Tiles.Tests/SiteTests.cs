@@ -15,7 +15,7 @@ namespace Tiles.Tests
         [TestMethod]
         public void Dimensions()
         {
-            var site =new Site(new Box(Vector2.Zero, new Vector2(1, 2)));
+            var site =new Site(new Box2(Vector2.Zero, new Vector2(1, 2)));
 
             Assert.AreEqual(1, site.Size.X);
             Assert.AreEqual(2, site.Size.Y);
@@ -24,7 +24,7 @@ namespace Tiles.Tests
         [TestMethod]
         public void GetTileAt_OutOfBounds()
         {
-            var site =new Site(new Box(Vector2.Zero, new Vector2(1, 1)));
+            var site =new Site(new Box2(Vector2.Zero, new Vector2(1, 1)));
 
             Assert.IsNull(site.GetTileAtIndex(-1, -1));
             Assert.IsNull(site.GetTileAtIndex(2, 2));
@@ -39,7 +39,7 @@ namespace Tiles.Tests
         [TestMethod]
         public void GetTileAt_Persistence()
         {
-            var site = new Site(new Box(new Vector2(-10, -10), new Vector2(-8, -9)));
+            var site = new Site(new Box2(new Vector2(-10, -10), new Vector2(-8, -9)));
             var firstCall = site.GetTileAtIndex(0, 0);
             var secondCall = site.GetTileAtIndex(0, 0);
 
@@ -63,7 +63,7 @@ namespace Tiles.Tests
         {
             var w = 4;
             var h = 4;
-            var site =new Site(new Box(Vector2.Zero, new Vector2(w, h)));
+            var site =new Site(new Box2(Vector2.Zero, new Vector2(w, h)));
             var tiles = site.GetTiles().ToList();
             Assert.AreEqual(w * h, tiles.Count());
 
@@ -85,7 +85,7 @@ namespace Tiles.Tests
         [TestMethod]
         public void InBounds()
         {
-            var site =new Site(new Box(Vector2.Zero, new Vector2(1, 1)));
+            var site =new Site(new Box2(Vector2.Zero, new Vector2(1, 1)));
 
             Assert.IsFalse(site.InBounds(-1, -1));
             Assert.IsFalse(site.InBounds(new Vector2(-1, -1)));
@@ -124,7 +124,7 @@ namespace Tiles.Tests
             structureMock.Setup(x => x.Size).Returns(new Vector2(1, 1));
 
             var insertionPoint = new Vector2(1, 1);
-            var site =new Site(new Box(Vector2.Zero, new Vector2(3, 3)));
+            var site =new Site(new Box2(Vector2.Zero, new Vector2(3, 3)));
             foreach (var tile in site.GetTiles())
             {
                 tile.Terrain = Terrain.Tree;

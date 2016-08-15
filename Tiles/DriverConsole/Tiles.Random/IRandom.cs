@@ -16,7 +16,9 @@ namespace Tiles.Random
         int Next(int max);
         int Next(int min, int max);
 
+        Vector3 Next(Vector3 max);
+        Vector3 NextInBox(Box3 box);
         Vector2 Next(Vector2 max);
-        Vector2 NextInBox(Box box);
+        Vector2 NextInBox(Box2 box);
     }
 }

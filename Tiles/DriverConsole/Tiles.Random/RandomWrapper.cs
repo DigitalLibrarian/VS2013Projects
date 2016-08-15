@@ -47,10 +47,23 @@ namespace Tiles.Random
             return new Vector2(Next(0, max.X), Next(0, max.Y));
         }
 
+        public Vector3 Next(Vector3 max)
+        {
+            return new Vector3(Next(0, max.X), Next(0, max.Y), Next(0, max.Z));
+        }
 
-        public Vector2 NextInBox(Box box)
+        public Vector2 NextInBox(Box2 box)
         {
             return new Vector2(Next(box.Min.X, box.Max.X), Next(box.Min.Y, box.Max.Y));
+        }
+
+        public Vector3 NextInBox(Box3 box)
+        {
+            return new Vector3(
+                Next(box.Min.X, box.Max.X), 
+                Next(box.Min.Y, box.Max.Y),
+                Next(box.Min.Z, box.Max.Z) 
+                );
         }
     }
 }

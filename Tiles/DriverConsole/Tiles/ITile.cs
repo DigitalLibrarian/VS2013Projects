@@ -12,7 +12,7 @@ namespace Tiles
 {
     public interface ITile
     {
-        Vector2 Index { get;}
+        Vector3 Index { get;}
         IList<IItem> Items { get; }
         Terrain Terrain { get; set; }
         ISprite TerrainSprite { get; set; }

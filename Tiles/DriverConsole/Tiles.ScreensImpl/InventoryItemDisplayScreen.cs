@@ -18,7 +18,7 @@ namespace Tiles.ScreensImpl
         IItem Item { get; set; }
         IActionLog Log { get; set; }
         IAgentCommandFactory CommandFactory { get; set; }
-        public InventoryItemDisplayScreen(IItem item, IPlayer player, IAgentCommandFactory commandFactory, IActionLog log, ICanvas canvas, Box box)
+        public InventoryItemDisplayScreen(IItem item, IPlayer player, IAgentCommandFactory commandFactory, IActionLog log, ICanvas canvas, Box2 box)
             : base(canvas, box)
         {
             Item = item;

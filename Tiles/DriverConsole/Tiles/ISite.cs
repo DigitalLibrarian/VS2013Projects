@@ -10,11 +10,12 @@ namespace Tiles
 {
     public interface ISite
     {
-        Box Box { get; }
-        ITile GetTileAtSitePos(Vector2 sitePos);
-        bool InBounds(int x, int y);
-        bool InBounds(Vector2 index);
-        void InsertStructure(Vector2 topLeftIndex, IStructure structure);
+        Box3 Box { get; }
+
+        void InsertStructure(Vector3 topLeftIndex, IStructure structure);
+
+        ITile GetTileAtSitePos(Vector3 sitePos);
+
         IEnumerable<ITile> GetTiles();
     }
 }

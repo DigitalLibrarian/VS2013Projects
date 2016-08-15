@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tiles.Bodies;
 using Tiles.Items;
 
-namespace Tiles.ScreensImpl.ContentFactories
+namespace Tiles.Bodies
 {
-    public class BodyFactory
+    public class BodyFactory : IBodyFactory
     {
         public IBody CreateHumanoid()
         {

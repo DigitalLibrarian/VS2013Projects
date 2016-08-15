@@ -14,7 +14,7 @@ namespace Tiles.ScreensImpl.Panels
         Color NullTileForegroundColor = Color.Blue;
         Color NullTileBackgroundColor = Color.White;
 
-        public SimDisplayUiPanelScreen(IGameSimulationViewModel viewModel, ICanvas canvas, Box box) : base(viewModel, canvas, box) { }
+        public SimDisplayUiPanelScreen(IGameSimulationViewModel viewModel, ICanvas canvas, Box2 box) : base(viewModel, canvas, box) { }
                 
         public override void Draw()
         {
@@ -24,14 +24,14 @@ namespace Tiles.ScreensImpl.Panels
 
             int leftX = camPos.X - (Box.Size.X / 2);
             int topY = camPos.Y - (Box.Size.Y / 2);
-            Vector2 topLeftWorld = new Vector2(leftX, topY);
+            Vector3 topLeftWorld = new Vector3(leftX, topY, camPos.Z);
 
             Canvas.DrawString(string.Format("Time: {0}", ViewModel.GlobalTime), Vector2.Zero, Color.White, Color.Black);
             for (int x = 0; x < Box.Size.X; x++)
             {
                 for (int y = 0; y < Box.Size.Y; y++)
                 {
-                    var worldPos = topLeftWorld + new Vector2(x, y);
+                    var worldPos = topLeftWorld + new Vector3(x, y, 0);
                     var tile = atlas.GetTileAtPos(worldPos);
                     if (tile != null)
                     {
@@ -75,10 +75,11 @@ namespace Tiles.ScreensImpl.Panels
             return s;
         }
 
-        protected Vector2 AtlasToScreen(Vector2 atlasPos, Vector2 atlasScreenOrigin, Vector2 displaySize, Vector2 camPos)
+        protected Vector2 AtlasToScreen(Vector3 atlasPos, Vector2 atlasScreenOrigin, Vector2 displaySize, Vector3 camPos)
         {
-            var topLeftWorld = camPos - (displaySize * 0.5);
-            return atlasScreenOrigin + atlasPos - topLeftWorld;
+            var camPos2d = new Vector2(camPos.X, camPos.Y);
+            var topLeftWorld = camPos2d - (displaySize * 0.5);
+            return atlasScreenOrigin + new Vector2(atlasPos.X, atlasPos.Y) - topLeftWorld;
         }
 
         private void DrawTile(ITile tile, int screenX, int screenY)

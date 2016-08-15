@@ -80,10 +80,12 @@
     <Compile Include="Agents\IAgentCommandTypeInterpreter.cs" />
     <Compile Include="Agents\IAgentReaper.cs" />
     <Compile Include="Bodies\Body.cs" />
+    <Compile Include="Bodies\BodyFactory.cs" />
     <Compile Include="Bodies\BodyPart.cs" />
     <Compile Include="Bodies\BodyStateChange.cs" />
     <Compile Include="Bodies\HealthVector.cs" />
     <Compile Include="Bodies\IBody.cs" />
+    <Compile Include="Bodies\IBodyFactory.cs" />
     <Compile Include="Bodies\IBodyPart.cs" />
     <Compile Include="Agents\Combat\AttackConductor.cs" />
     <Compile Include="Agents\Combat\CombatMove.cs" />

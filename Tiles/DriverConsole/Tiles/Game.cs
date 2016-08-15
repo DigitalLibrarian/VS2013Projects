@@ -49,7 +49,7 @@ namespace Tiles
             Atlas.GetTileAtPos(player.Agent.Pos).SetAgent(player.Agent);
         }
 
-        public void UpdateBox(Box box)
+        public void UpdateBox(Box3 box)
         {
             var updatedAgents = new List<IAgent>();
 

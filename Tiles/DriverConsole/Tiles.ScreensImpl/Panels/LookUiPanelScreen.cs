@@ -15,7 +15,7 @@ namespace Tiles.ScreensImpl.Panels
         InfoPanelState InfoState { get; set; }
 
         Vector2 InfoLinesOffset = new Vector2(1, 2);
-        public LookUiPanelScreen(IGameSimulationViewModel viewModel, ICanvas canvas, Box box)
+        public LookUiPanelScreen(IGameSimulationViewModel viewModel, ICanvas canvas, Box2 box)
             : base(viewModel, canvas, box)
         {
             PropagateDraw = true;
@@ -101,12 +101,12 @@ namespace Tiles.ScreensImpl.Panels
         {
             var tile = viewModel.CameraTile;
             DrawInfoLines(
-                string.Format("Pos: {0}", tile.Index),
+                string.Format("Tile Index: {0}", tile.Index),
                 string.Format("Terrain Type : {0}", tile.Terrain),
                 string.Format("Is Passable?: {0}", tile.IsTerrainPassable),
                 string.Format("Has Structure: {0}", tile.HasStructureCell),
                 string.Format("Symbol: {0}", tile.TerrainSprite.Symbol),
-                string.Format("Agent: {0}", tile.HasAgent ? tile.Agent.Name : "n/a"),
+                string.Format("Agent: {0}", tile.HasAgent ? string.Format("{0} ({1})", tile.Agent.Name, tile.Agent.Pos) : "n/a"),
                 string.Format("Items: {0}", tile.Items.Count())
                 );
         }

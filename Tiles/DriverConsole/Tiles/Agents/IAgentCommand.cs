@@ -7,8 +7,8 @@ namespace Tiles.Agents
     public interface IAgentCommand
     {
         AgentCommandType CommandType { get; set; }
-        Vector2 Direction { get; set; }
-        Vector2 TileOffset { get; set; }
+        Vector3 Direction { get; set; }
+        Vector3 TileOffset { get; set; }
 
         ICombatMove AttackMove { get; set; }
         IAgent Target { get; set; }

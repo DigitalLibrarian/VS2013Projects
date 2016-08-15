@@ -11,13 +11,17 @@ using Tiles.Math;
 using Tiles.Random;
 using Tiles.Agents.CommandInterpreters;
 using Tiles.Items.Outfits;
+using Tiles.Bodies;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
     public class AgentFactory
     {
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
-        static BodyFactory BodyFactory = new BodyFactory();
+        static IBodyFactory BodyFactory = new BodyFactory();
+
+        static IItemClass ZombieClawClass = new ItemClass { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass };
+        static IItemClass ZombieTeethClass = new ItemClass { Name = ZombieTeeth.WeaponClass.Name, WeaponClass = ZombieTeeth.WeaponClass };
 
         public IRandom Random { get; set; }
         public AgentFactory(IRandom random)
@@ -25,12 +29,91 @@ namespace Tiles.ScreensImpl.ContentFactories
             Random = random;
         }
 
+        IItemFactory ItemFactory = new ItemFactory();
+        public IAgent CreateZombieAgent(IAtlas atlas, Vector3 worldPos)
+        {
+            var body = BodyFactory.CreateFeralHumanoid();
+            var zombie = new Agent(atlas,
+                new Sprite(
+                        symbol: Symbol.Zombie,
+                        foregroundColor: Color.DarkGreen,
+                        backgroundColor: Color.Black
+                        ),
+                worldPos,
+                body,
+                "Shambler",
+                new Inventory(),
+                new Outfit(body, new OutfitLayerFactory())
+                );
+
+            zombie.Outfit.Wield(ItemFactory.Create(ZombieClawClass));
+            zombie.Outfit.Wield(ItemFactory.Create(ZombieClawClass));
+            zombie.Outfit.Wield(ItemFactory.Create(ZombieTeethClass));
+
+            zombie.IsUndead = true;
+
+            zombie.AgentBehavior = CreateBehavior(new ZombieAgentCommandPlanner(Random, new AgentCommandFactory()));
+            return zombie;
+        }
+
+
+        public IPlayer CreatePlayer(IAtlas atlas, Vector3 worldPos)
+        {
+            var body = BodyFactory.CreateHumanoid();
+            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
+            var player = new Player(
+                atlas,
+                new Sprite(
+                        symbol: Symbol.Player,
+                        foregroundColor: Color.Cyan,
+                        backgroundColor: Color.Black
+                        ),
+                worldPos,
+                body,
+                new Inventory(),
+                new Outfit(body, new OutfitLayerFactory()),
+                planner
+            );
+            player.IsUndead = false;
+            player.Agent.AgentBehavior = CreateBehavior(planner);
+            return player;
+        }
+
+
+        public IAgent CreateSurvivor(IAtlas atlas, Vector3 worldPos)
+        {
+            var body = BodyFactory.CreateHumanoid();
+            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
+            var survivor = new Agent(atlas,
+                new Sprite(
+                        symbol: Symbol.Survivor,
+                        foregroundColor: Color.DarkRed,
+                        backgroundColor: Color.Black
+                        ),
+                worldPos,
+                body,
+                "Survivor",
+                new Inventory(),
+                new Outfit(body, new OutfitLayerFactory())
+                );
+
+            survivor.AgentBehavior = CreateBehavior(new SurvivorAgentCommandPlanner(Random, new AgentCommandFactory()));
+            survivor.IsUndead = false;
+            return survivor;
+        }
+
+        IAgentBehavior CreateBehavior(IAgentCommandPlanner planner)
+        {
+            return new CommandAgentBehavior(planner, new AgentCommandExecutionContext(CommandInterpreter));
+        }
+
+        #region Claws and Teeth
         static class ZombieClaw
         {
             public static WeaponClass WeaponClass = new WeaponClass(
                     name: "zombie claws",
                     sprite: null,
-                    slots: new WeaponSlot[] { WeaponSlot.Claw},
+                    slots: new WeaponSlot[] { WeaponSlot.Claw },
                     attackMoveClasses: new ICombatMoveClass[] { 
                        new CombatMoveClass(
                            name: "Scratch",
@@ -113,83 +196,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                     );
 
         }
-
-        IItemFactory ItemFactory = new ItemFactory();
-        public IAgent CreateZombieAgent(IAtlas atlas, Vector2 worldPos)
-        {
-            var body = BodyFactory.CreateFeralHumanoid();
-            var zombie = new Agent(atlas,
-                new Sprite(
-                        symbol: Symbol.Zombie,
-                        foregroundColor: Color.DarkGreen,
-                        backgroundColor: Color.Black
-                        ),
-                worldPos,
-                body,
-                "Shambler",
-                new Inventory(),
-                new Outfit(body, new OutfitLayerFactory())
-                );
-
-            zombie.Outfit.Wield(ItemFactory.Create(new ItemClass { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass }));
-            zombie.Outfit.Wield(ItemFactory.Create(new ItemClass { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass }));
-            zombie.Outfit.Wield(ItemFactory.Create(new ItemClass { Name = ZombieTeeth.WeaponClass.Name, WeaponClass = ZombieTeeth.WeaponClass }));
-
-            zombie.IsUndead = true;
-
-            zombie.AgentBehavior = CreateBehavior(new ZombieAgentCommandPlanner(Random, new AgentCommandFactory()));
-            return zombie;
-        }
-
-
-        public IPlayer CreatePlayer(IAtlas atlas, Vector2 worldPos)
-        {
-            var body = BodyFactory.CreateHumanoid();
-            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
-            var player = new Player(
-                atlas,
-                new Sprite(
-                        symbol: Symbol.Player,
-                        foregroundColor: Color.Cyan,
-                        backgroundColor: Color.Black
-                        ),
-                worldPos,
-                body,
-                new Inventory(),
-                new Outfit(body, new OutfitLayerFactory()),
-                planner
-            );
-            player.IsUndead = false;
-            player.Agent.AgentBehavior = CreateBehavior(planner);
-            return player;
-        }
-
-
-        public IAgent CreateSurvivor(IAtlas atlas, Vector2 worldPos)
-        {
-            var body = BodyFactory.CreateHumanoid();
-            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
-            var survivor = new Agent(atlas,
-                new Sprite(
-                        symbol: Symbol.Survivor,
-                        foregroundColor: Color.DarkRed,
-                        backgroundColor: Color.Black
-                        ),
-                worldPos,
-                body,
-                "Survivor",
-                new Inventory(),
-                new Outfit(body, new OutfitLayerFactory())
-                );
-
-            survivor.AgentBehavior = CreateBehavior(new SurvivorAgentCommandPlanner(Random, new AgentCommandFactory()));
-            survivor.IsUndead = false;
-            return survivor;
-        }
-
-        IAgentBehavior CreateBehavior(IAgentCommandPlanner planner)
-        {
-            return new CommandAgentBehavior(planner, new AgentCommandExecutionContext(CommandInterpreter));
-        }
+        #endregion
     }   
 }

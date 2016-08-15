@@ -22,7 +22,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             ItemFactory = new GearFactory(Random);
         }
 
-        public ISite Create(IAtlas atlas, Vector2 siteIndex, Box box)
+        public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
         {
             var s = new Site(box);
 
@@ -33,16 +33,21 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             int qW = box.Size.X / 8;
             int qH = box.Size.Y / 8;
-            var q = new Vector2(qW, qH);
-            var topLeft = Random.NextInBox(new Box(Vector2.Zero, box.Size - q));
-            var buildingBox = new Box(topLeft, topLeft + q);
-            var door = Random.NextElement(new List<CompassDirection> { CompassDirection.North, CompassDirection.East, CompassDirection.South, CompassDirection.West });
-            CreateRectangularBuilding(s, buildingBox, door);
+            int qD = box.Size.Z / 8;
+            var q = new Vector3(qW, qH, qD);
+            var topLeft = Random.NextInBox(new Box3(Vector3.Zero, box.Size - q));
+            //var buildingBox = new Box2(topLeft, topLeft + q);
+            //var door = Random.NextElement(new List<CompassDirection> { CompassDirection.North, CompassDirection.East, CompassDirection.South, CompassDirection.West });
+            //CreateRectangularBuilding(s, buildingBox, door);
             
             for (int i = 0; i < box.Size.X; i++)
             {
                 var spawnLoc = FindSpawnSitePos(s);
-                s.GetTileAtSitePos(spawnLoc).Items.Add(ItemFactory.CreateRandomItem());
+                if (spawnLoc.HasValue)
+                {
+                    var tile = s.GetTileAtSitePos(spawnLoc.Value);
+                    tile.Items.Add(ItemFactory.CreateRandomItem());
+                }
             }
 
             var agentFactory = new AgentFactory(Random);
@@ -57,14 +62,19 @@ namespace Tiles.ScreensImpl.ContentFactories
             return s;
         }
 
-        Vector2 FindSpawnSitePos(ISite s)
+        Vector3? FindSpawnSitePos(ISite s)
         {
-            Vector2 test = Vector2.Zero;
+            var targetSiteZ = -s.Box.Min.Z;
+            var box = new Box3(
+                Vector3.Zero,
+                new Vector3(s.Box.Size.X, s.Box.Size.Y, 1)
+                );
+            Vector3? test = null;
             bool satisfied = false;
             while(!satisfied)
             {
-                test = Random.Next(s.Box.Size);
-                var tile = s.GetTileAtSitePos(test);
+                test = Random.NextInBox(box);
+                var tile = s.GetTileAtSitePos(test.Value);
 
                 if (!tile.HasAgent)
                 {
@@ -83,6 +93,11 @@ namespace Tiles.ScreensImpl.ContentFactories
                         }
                     }
                 }
+            }
+
+            if (!satisfied)
+            {
+                test = null;
             }
             return test;
         }
@@ -126,33 +141,39 @@ namespace Tiles.ScreensImpl.ContentFactories
             }
         }
 
-        private void CreateRectangularBuilding(ISite site, Box box, CompassDirection door)
+        private void CreateRectangularBuilding(ISite site, Box3 box, CompassDirection door)
         {
             var fact = new StructureFactory();
             var insertionPoint = box.Min;
             var size = box.Size;
 
-            var structure = fact.CreateRectangularBuilding(size, door);
-            site.InsertStructure(insertionPoint, structure);
+            //var structure = fact.CreateRectangularBuilding(size, door);
+            //site.InsertStructure(insertionPoint, structure);
         }
 
         
         void AddZombie(IAtlas atlas, ISite site, AgentFactory agentFactory)
         {
             var sitePos = FindSpawnSitePos(site);
-            var worldPos = site.Box.Min + sitePos;
-            var zombie = agentFactory.CreateZombieAgent(atlas, worldPos);
-            var spawnTile = site.GetTileAtSitePos(sitePos);
-            spawnTile.SetAgent(zombie);
+            if (sitePos.HasValue)
+            {
+                var worldPos = site.Box.Min + sitePos.Value;
+                var zombie = agentFactory.CreateZombieAgent(atlas, worldPos);
+                var spawnTile = site.GetTileAtSitePos(sitePos.Value);
+                spawnTile.SetAgent(zombie);
+            }
         }
 
         void AddSurvivor(IAtlas atlas, ISite site, AgentFactory agentFactory)
         {
             var sitePos = FindSpawnSitePos(site);
-            var worldPos = site.Box.Min + sitePos;
-            var survivor = agentFactory.CreateSurvivor(atlas, worldPos);
-            var spawnTile = site.GetTileAtSitePos(sitePos);
-            spawnTile.SetAgent(survivor);
+            if (sitePos.HasValue)
+            {
+                var worldPos = site.Box.Min + sitePos.Value;
+                var survivor = agentFactory.CreateSurvivor(atlas, worldPos);
+                var spawnTile = site.GetTileAtSitePos(sitePos.Value);
+                spawnTile.SetAgent(survivor);
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Tiles.ScreensImpl
         JaggedListSelector Selector { get; set; }
 
         public CombatScreen(IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
-            IAttackConductor attackConductor, ICombatMoveDiscoverer moveDisco, ICanvas canvas, Box box)
+            IAttackConductor attackConductor, ICombatMoveDiscoverer moveDisco, ICanvas canvas, Box2 box)
             : base(canvas, box) 
         {
             Player = player;

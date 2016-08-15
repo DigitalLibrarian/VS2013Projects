@@ -10,12 +10,10 @@ using Tiles.Math;
 
 namespace Tiles.Items
 {
-
     public interface IItemFactory
     {
         IItem Create(IItemClass itemClass);
         IItem CreateShedLimb(IAgent agent, IBodyPart part);
         IItem CreateCorpse(IAgent agent);
     }
-
 }

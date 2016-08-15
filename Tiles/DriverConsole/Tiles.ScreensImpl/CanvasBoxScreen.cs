@@ -12,8 +12,8 @@ namespace Tiles.ScreensImpl
     {
         protected Color Foreground { get; set; }
         protected Color Background { get; set; }
-        public Box Box { get; private set; }
-        public CanvasBoxScreen(ICanvas canvas, Box box)
+        public Box2 Box { get; private set; }
+        public CanvasBoxScreen(ICanvas canvas, Box2 box)
             : base(canvas)
         {
             Box = box;

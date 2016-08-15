@@ -33,7 +33,7 @@ namespace DriverConsole
             var screenManager = new GameScreenManager();
 
             var canvas = new ConsoleCanvas(new ConsoleWriter());
-            var screenBox = new Box(new Vector2(0, 0), new Vector2(80, 24));
+            var screenBox = new Box2(new Vector2(0, 0), new Vector2(80, 24));
             screenManager.Add(new ScreenLoadingMenuScreen(canvas, screenBox));
 
             var source = new ConsoleKeyboardSource(new ConsoleReader());

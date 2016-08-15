@@ -13,7 +13,7 @@ namespace Tiles.ScreensImpl.Panels
     {
         protected IGameSimulationViewModel ViewModel { get; private set; }
 
-        public UiPanelScreen(IGameSimulationViewModel viewModel, ICanvas canvas, Box box)
+        public UiPanelScreen(IGameSimulationViewModel viewModel, ICanvas canvas, Box2 box)
             : base(canvas, box)
         {
             ViewModel = viewModel;

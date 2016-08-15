@@ -49,5 +49,11 @@ namespace Tiles.Math
         {
             return GetAll().Contains(v);
         }
+
+        static public bool IsCompassVector(Vector3 t)
+        {
+            var v = new Vector2(t.X, t.Y);
+            return GetAll().Contains(v);
+        }
     }
 }

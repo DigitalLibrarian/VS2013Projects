@@ -13,8 +13,8 @@ namespace Tiles.Agents
     {
         public AgentCommandType CommandType { get; set; }
 
-        public Vector2 TileOffset { get; set; }
-        public Vector2 Direction { get; set; }
+        public Vector3 TileOffset { get; set; }
+        public Vector3 Direction { get; set; }
 
         public IAgent Target { get; set; }
         public ICombatMove AttackMove { get; set; }

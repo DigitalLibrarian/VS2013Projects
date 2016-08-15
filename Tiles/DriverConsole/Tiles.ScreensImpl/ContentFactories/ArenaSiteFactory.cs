@@ -17,7 +17,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             // TODO: Complete member initialization
             this.Random = random;
         }
-        public ISite Create(IAtlas atlas, Math.Vector2 siteIndex, Box box)
+        public ISite Create(IAtlas atlas, Math.Vector3 siteIndex, Box3 box)
         {
             var s = new Site(box);
 
@@ -28,8 +28,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                 tile.Terrain = Terrain.None;
             }
             var structureFactory = new StructureFactory();
-            var structure = structureFactory.CreateRectangularBuilding(box.Size - new Vector2(1, 1));
-            s.InsertStructure(Vector2.Zero, structure);
+            //var structure = structureFactory.CreateRectangularBuilding(box.Size - new Vector3(1, 1, 1));
+            //s.InsertStructure(Vector3.Zero, structure);
 
             return s;
         }

@@ -12,7 +12,7 @@ namespace Tiles.ScreensImpl.Panels
     public class ActionLogUiPanelScreen : UiPanelScreen
     {
         public ActionLogUiPanelScreen(IGameSimulationViewModel viewModel,
-            ICanvas canvas, Box box)
+            ICanvas canvas, Box2 box)
             : base(viewModel, canvas, box)
         {
 

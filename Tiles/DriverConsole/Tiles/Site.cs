@@ -11,10 +11,10 @@ namespace Tiles
 {
     public class Site : ISite
     {
-        public Box Box { get; private set; }
-        public Vector2 Size { get { return Box.Size; } }
-        ITile[][] Tiles { get; set; }
-        public Site(Box box)
+        public Box3 Box { get; private set; }
+        public Vector3 Size { get { return Box.Size; } }
+        ITile[][][] Tiles { get; set; }
+        public Site(Box3 box)
         {
             Box = box;
             Allocate();
@@ -22,48 +22,53 @@ namespace Tiles
 
         void Allocate()
         {
-            Tiles = new ITile[Size.X][];
+            Tiles = new ITile[Size.X][][];
             for (int x = 0; x < Size.X; x++)
             {
-                Tiles[x] = new ITile[Size.Y];
+                Tiles[x] = new ITile[Size.Y][];
                 for (int y = 0; y < Size.Y; y++)
                 {
-                    Tiles[x][y] = new Tile(x, y);
+                    Tiles[x][y] = new ITile[Size.Z];
+                    for (int z = 0; z < Size.Z; z++)
+                    {
+                        Tiles[x][y][z] = new Tile(x, y, z);
+                    }
                 }
             }
         }
 
-        public bool InBounds(int x, int y)
+        public bool InBounds(int x, int y, int z)
         {
             return x >= 0 && x < Size.X
-                && y >= 0 && y < Size.Y;
+                && y >= 0 && y < Size.Y
+                && z >= 0 && z < Size.Z;
         }
 
-        public bool InBounds(Vector2 v)
+        public bool InBounds(Vector3 v)
         {
-            return InBounds(v.X, v.Y);
+            return InBounds(v.X, v.Y, v.Z);
         }
 
-        public ITile GetTileAtIndex(int x, int y)
+        public ITile GetTileAtIndex(int x, int y, int z)
         {
-            if (!InBounds(x, y))
+            if (!InBounds(x, y, z))
             {
                 return null;
             }
-            return Tiles[x][y];
+            return Tiles[x][y][z];
         }
 
         public IEnumerable<ITile> GetTiles()
         {
-            return Tiles.SelectMany(x => x);
+            return Tiles.SelectMany(x => x).SelectMany(x => x);
         }
 
-        public ITile GetTileAtSitePos(Vector2 index)
+        public ITile GetTileAtSitePos(Vector3 index)
         {
-            return GetTileAtIndex(index.X, index.Y);
+            return GetTileAtIndex(index.X, index.Y, index.Z);
         }
 
-        public void InsertStructure(Vector2 topLeftIndex, IStructure structure)
+        public void InsertStructure(Vector3 topLeftIndex, IStructure structure)
         {
             var size = structure.Size;
             for (int x = 0; x <= size.X; x++)
@@ -73,7 +78,8 @@ namespace Tiles
                     var cellIndex = new Vector2(x, y);
                     var cell = structure.Cells[cellIndex];
 
-                    var tile = GetTileAtSitePos(topLeftIndex + cellIndex);
+                    var siteIndex = new Vector3(cellIndex.X, cellIndex.Y, topLeftIndex.Z);
+                    var tile = GetTileAtSitePos(topLeftIndex + siteIndex);
                     tile.StructureCell = cell;
                     tile.Terrain = Terrain.None;
                     tile.IsTerrainPassable = true;

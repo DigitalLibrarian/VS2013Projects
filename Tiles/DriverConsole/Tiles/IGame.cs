@@ -21,6 +21,6 @@ namespace Tiles
 
         long DesiredFrameLength { get; set; }
 
-        void UpdateBox(Math.Box updateBox);
+        void UpdateBox(Math.Box3 updateBox);
     }
 }

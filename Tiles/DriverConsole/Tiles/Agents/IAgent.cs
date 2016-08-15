@@ -16,13 +16,13 @@ namespace Tiles.Agents
         string Name { get; }
         IAgentBehavior AgentBehavior { get; set; }
         ISprite Sprite { get; }
-        Vector2 Pos { get; }
+        Vector3 Pos { get; }
         IBody Body { get; }
         bool IsPlayer { get; }
         bool IsDead { get; }
         bool IsUndead { get; }
-        bool CanMove(Vector2 move);
-        bool Move(Vector2 move);
+        bool CanMove(Vector3 move);
+        bool Move(Vector3 move);
         void Update(IGame game);
         IInventory Inventory { get; }
         IOutfit Outfit { get; }
