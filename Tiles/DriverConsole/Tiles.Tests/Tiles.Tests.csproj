@@ -67,6 +67,7 @@
     <Compile Include="Agents\Behaviors\CommandAgentBehaviorTests.cs" />
     <Compile Include="Agents\Behaviors\QueueAgentCommandPlannerTests.cs" />
     <Compile Include="Agents\Combat\CombatMoveDiscovererTests.cs" />
+    <Compile Include="Agents\PlayerTests.cs" />
     <Compile Include="AtlasTests.cs" />
     <Compile Include="ActionLogTests.cs" />
     <Compile Include="Bodies\BodyTests.cs" />

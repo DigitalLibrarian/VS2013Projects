@@ -56,6 +56,15 @@ namespace Tiles.Tests.Agents
         }
 
         [TestMethod]
+        public void CanMove_Wrestling()
+        {
+            BodyMock.Setup(x => x.IsWrestling).Returns(true);
+
+            Assert.IsFalse(Agent.CanMove(new Vector3()));
+            AtlasMock.Verify(x => x.GetTileAtPos(It.IsAny<Vector3>()), Times.Never());
+        }
+
+        [TestMethod]
         public void IsDead()
         {
             // test no parts
