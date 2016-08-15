@@ -90,8 +90,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoAttackerBodyParts()
         {
-            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
-            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
             Assert.IsFalse(
                 Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).Any());
             AssertNoMovesBuilt();
@@ -100,8 +100,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoWeapon()
         {
-            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
-            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
             var partMock = AddBodyPart(AttackerBodyParts);
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns((IItem)null);
 
@@ -116,8 +116,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoAttackMoveClasses()
         {
-            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
-            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
             var partMock = AddBodyPart(AttackerBodyParts);
             var itemMock = MockWeaponItem();
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
@@ -132,8 +132,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NoDefenderBodyParts()
         {
-            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
-            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
             var partMock = AddBodyPart(AttackerBodyParts);
             var itemMock = MockWeaponItem(new Mock<ICombatMoveClass>());
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
@@ -148,8 +148,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void NoPossibleMoves_NotAdjacent()
         {
-            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
-            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(10, 10));
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(10, 10, 0));
 
             AddBodyPart(DefenderBodyParts);
 
@@ -168,8 +168,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestMethod]
         public void PossibleMeleeMoves()
         {
-            AttackerMock.Setup(x => x.Pos).Returns(Vector2.Zero);
-            DefenderMock.Setup(x => x.Pos).Returns(new Vector2(1, 1));
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
             
             var defenderBodyPartMock1 = AddBodyPart(DefenderBodyParts);
             var defenderBodyPartMock2 = AddBodyPart(DefenderBodyParts);

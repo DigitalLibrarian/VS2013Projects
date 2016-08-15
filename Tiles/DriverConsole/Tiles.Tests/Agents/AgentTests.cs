@@ -36,7 +36,7 @@ namespace Tiles.Tests.Agents
             OutfitMock = new Mock<IOutfit>();
             Name = "name";
 
-            Agent = new Agent(AtlasMock.Object, SpriteMock.Object, Vector2.Zero, BodyMock.Object, Name, InventoryMock.Object, OutfitMock.Object);
+            Agent = new Agent(AtlasMock.Object, SpriteMock.Object, Vector3.Zero, BodyMock.Object, Name, InventoryMock.Object, OutfitMock.Object);
         }
 
 
@@ -49,7 +49,7 @@ namespace Tiles.Tests.Agents
             Assert.AreSame(BodyMock.Object, Agent.Body);
             Assert.AreSame(InventoryMock.Object, Agent.Inventory);
             Assert.AreSame(OutfitMock.Object, Agent.Outfit);
-            Assert.AreEqual(Vector2.Zero, Agent.Pos);
+            Assert.AreEqual(Vector3.Zero, Agent.Pos);
             Assert.IsFalse(Agent.IsPlayer);
             Assert.IsNull(Agent.AgentBehavior);
             Assert.AreEqual(Name, Agent.Name);
@@ -108,7 +108,7 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void Move_ImpassableTerrain_NoStructure_NoAgent()
         {
-            var delta = new Vector2(1, 1);
+            var delta = new Vector3(1, 1, 0);
             var originalPos = Agent.Pos;
             var newDest = originalPos + delta;
 
@@ -138,7 +138,7 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void Move_ImpassableTerrain_PassableStructure_NoAgent()
         {
-            var delta = new Vector2(1, 1);
+            var delta = new Vector3(1, 1, 0);
             var originalPos = Agent.Pos;
             var newDest = originalPos + delta;
 
@@ -175,7 +175,7 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void Move_PassableTerrain_ImpassableStructure_NoAgent()
         {
-            var delta = new Vector2(1, 1);
+            var delta = new Vector3(1, 1, 0);
             var originalPos = Agent.Pos;
             var newDest = originalPos + delta;
 
@@ -212,7 +212,7 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void Move_PassableTerrain_PassableStructure_NoAgent()
         {
-            var delta = new Vector2(1, 1);
+            var delta = new Vector3(1, 1, 0);
             var originalPos = Agent.Pos;
             var newDest = originalPos + delta;
 
@@ -250,7 +250,7 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void Move_PassableTerrain_NoStructure_NoAgent()
         {
-            var delta = new Vector2(1, 1);
+            var delta = new Vector3(1, 1, 0);
             var originalPos = Agent.Pos;
             var newDest = originalPos + delta;
 
@@ -284,7 +284,7 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void Move_PassableTerrain_NoStructure_HasAgent()
         {
-            var delta = new Vector2(1, 1);
+            var delta = new Vector3(1, 1, 0);
             var originalPos = Agent.Pos;
             var newDest = originalPos + delta;
 
@@ -317,7 +317,7 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void Move_NewTileDoesntExist()
         {
-            var delta = new Vector2();
+            var delta = new Vector3();
             var originalPos = Agent.Pos;
             var newDest = originalPos + delta;
 

@@ -32,8 +32,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.Nothing(agentMock.Object);
 
             Assert.AreEqual(AgentCommandType.None, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
             Assert.IsNull(command.Item);
@@ -45,11 +45,11 @@ namespace Tiles.Tests.Agents
         public void Move()
         {
             var agentMock = new Mock<IAgent>();
-            var dir = new Vector2(1, 1);
+            var dir = new Vector3(1, 1, 1);
             var command = Factory.MoveDirection(agentMock.Object, dir);
 
             Assert.AreEqual(AgentCommandType.Move, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
             Asserter.AreEqual(dir, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
@@ -65,8 +65,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.PickUpItemsOnAgentTile(agentMock.Object);
 
             Assert.AreEqual(AgentCommandType.PickUpItemsOnAgentTile, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
             Assert.IsNull(command.Item);
@@ -84,8 +84,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.MeleeAttack(agentMock.Object, targetMock.Object, attackMock.Object);
 
             Assert.AreEqual(AgentCommandType.AttackMelee, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.AreSame(targetMock.Object, command.Target);
             Assert.AreSame(attackMock.Object, command.AttackMove);
             Assert.IsNull(command.Item);
@@ -102,8 +102,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.WieldWeapon(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.WieldWeapon, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
             Assert.AreSame(itemMock.Object, command.Weapon);
@@ -120,8 +120,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.WearArmor(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.WearArmor, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
             Assert.AreSame(itemMock.Object, command.Armor);
@@ -138,8 +138,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.UnwieldWeapon(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.UnwieldWeapon, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
             Assert.AreSame(itemMock.Object, command.Weapon);
@@ -156,8 +156,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.TakeOffArmor(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.TakeOffArmor, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
             Assert.AreSame(itemMock.Object, command.Armor);
@@ -174,8 +174,8 @@ namespace Tiles.Tests.Agents
             var command = Factory.DropInventoryItem(agentMock.Object, itemMock.Object);
 
             Assert.AreEqual(AgentCommandType.DropInventoryItem, command.CommandType);
-            Asserter.AreEqual(Vector2.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector2.Zero, command.Direction);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
             Assert.IsNull(command.Target);
             Assert.IsNull(command.AttackMove);
             Assert.AreSame(itemMock.Object, command.Item);

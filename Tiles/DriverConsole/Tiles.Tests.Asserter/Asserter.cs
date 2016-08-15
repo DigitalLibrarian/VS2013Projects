@@ -24,6 +24,19 @@ namespace Tiles.Tests.Assertions
             Assert.AreNotEqual(expected.Y, actual.Y);
         }
 
+        static public void AreEqual(Vector3 expected, Vector3 actual)
+        {
+            Assert.AreEqual(expected.X, actual.X);
+            Assert.AreEqual(expected.Y, actual.Y);
+            Assert.AreEqual(expected.Z, actual.Z);
+        }
+
+        static public void AreNotEqual(Vector3 expected, Vector3 actual)
+        {
+            Assert.AreNotEqual(expected.X, actual.X);
+            Assert.AreNotEqual(expected.Y, actual.Y);
+            Assert.AreNotEqual(expected.Z, actual.Z);
+        }
         static public void AssertException<TException>(Action action) where TException : Exception
         {
             TException caughtException = null;

@@ -15,10 +15,11 @@ namespace Tiles.Tests
         [TestMethod]
         public void Index_Constructor()
         {
-            var t = new Tile(1, 2);
+            var t = new Tile(1, 2, 3);
 
             Assert.AreEqual(1, t.Index.X);
             Assert.AreEqual(2, t.Index.Y);
+            Assert.AreEqual(3, t.Index.Z);
 
             Assert.IsFalse(t.HasStructureCell);
             Assert.IsNull(t.StructureCell);
@@ -31,7 +32,7 @@ namespace Tiles.Tests
         [TestMethod]
         public void IsTerrainPassable_Default()
         {
-            var t = new Tile(1, 1);
+            var t = new Tile(1, 1, 1);
             Assert.IsTrue(t.IsTerrainPassable);
         }
 
@@ -41,7 +42,7 @@ namespace Tiles.Tests
             var objMock1 = new Mock<IItem>();
             var objMock2 = new Mock<IItem>();
 
-            var tile = new Tile(1, 1);
+            var tile = new Tile(1, 1, 1);
 
             Assert.AreEqual(0, tile.Items.Count());
             Assert.IsNull(tile.GetTopItem());
@@ -63,7 +64,7 @@ namespace Tiles.Tests
         [TestMethod]
         public void HasAgent()
         {
-            var tile = new Tile(1, 1);
+            var tile = new Tile(1, 1, 1);
             Assert.IsFalse(tile.HasAgent);
             Assert.IsNull(tile.Agent);
 
