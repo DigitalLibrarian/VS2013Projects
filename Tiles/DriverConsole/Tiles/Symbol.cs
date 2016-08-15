@@ -35,8 +35,7 @@ namespace Tiles
 
         MiscClothing = '&',
         Corpse = 'Ċ',
-        CorpseBodyPart = 'c',
-        Terrain_Roof
+        CorpseBodyPart = 'c'
 
     }
 }

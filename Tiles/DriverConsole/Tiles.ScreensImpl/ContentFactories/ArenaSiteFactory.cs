@@ -28,8 +28,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                 tile.Terrain = Terrain.None;
             }
             var structureFactory = new StructureFactory();
-            //var structure = structureFactory.CreateRectangularBuilding(box.Size - new Vector3(1, 1, 1));
-            //s.InsertStructure(Vector3.Zero, structure);
+            var structure = structureFactory.CreateRectangularBuilding(box.Size - new Vector3(1, 1, 1));
+            s.InsertStructure(Vector3.Zero, structure);
 
             return s;
         }

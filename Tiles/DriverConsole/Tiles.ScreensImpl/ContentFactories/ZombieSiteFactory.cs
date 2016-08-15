@@ -31,8 +31,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                 SetupTile(Random, t);
             }
 
-            int groundFloor = 0;
-
             int qW = box.Size.X / 8;
             int qH = box.Size.Y / 8;
             int qD = box.Size.Z / 8;
@@ -121,6 +119,13 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         private static void SetupTile(IRandom random, ITile tile)
         {
+            if (tile.Index.Z != 0)
+            {
+                tile.Terrain = Terrain.None;
+                tile.IsTerrainPassable = true;
+                tile.TerrainSprite = new Sprite(Symbol.None, Color.White, Color.Black);
+                return;
+            }
             var d = new List<dynamic>{
                 new { Terrain = Terrain.Lava, Frequency = 0.001d, IsPassable = false, FG = Color.DarkRed, BG = Color.Red, Symbol = Symbol.Liquid_Dark},
                 new { Terrain = Terrain.Mud, Frequency = 0.001d, IsPassable = true, FG = Color.DarkGray, BG = Color.Black, Symbol = Symbol.Liquid_Light}, 
