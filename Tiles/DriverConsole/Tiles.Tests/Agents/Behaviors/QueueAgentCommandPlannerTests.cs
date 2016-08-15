@@ -41,6 +41,10 @@ namespace Tiles.Tests.Agents.Behaviors
             Assert.AreSame(commandMock.Object, command);
             
             CommandFactoryMock.Verify(x => x.Nothing(agentMock.Object), Times.Once());
+
+            var queue = Planner as IAgentCommandQueue;
+            Assert.IsNotNull(queue);
+            Assert.IsFalse(queue.Any());
         }
 
         [TestMethod]
@@ -52,8 +56,11 @@ namespace Tiles.Tests.Agents.Behaviors
             var commandMock2 = new Mock<IAgentCommand>();
 
             var queueProducer = Planner as IAgentCommandQueue;
+            Assert.IsFalse(queueProducer.Any());
             queueProducer.Enqueue(commandMock1.Object);
+            Assert.IsTrue(queueProducer.Any());
             queueProducer.Enqueue(commandMock2.Object);
+            Assert.IsTrue(queueProducer.Any());
 
             Assert.AreSame(commandMock1.Object, Planner.PlanBehavior(gameMock.Object, agentMock.Object));
             Assert.AreSame(commandMock2.Object, Planner.PlanBehavior(gameMock.Object, agentMock.Object));

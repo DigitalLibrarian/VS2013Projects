@@ -96,7 +96,15 @@ namespace Tiles.Tests.Agents.Behaviors
         [TestMethod]
         public void Dead()
         {
-            Nothing(); // same case for now
+            var agentMock = new Mock<IAgent>();
+            var commandMock = new Mock<IAgentCommand>();
+
+            CommandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(commandMock.Object);
+
+            var command = Planner.GetNewDeadCommand(agentMock.Object);
+
+            CommandFactoryMock.Verify(x => x.Nothing(agentMock.Object), Times.Once());
+            Assert.AreSame(commandMock.Object, command);
         }
 
         [TestMethod]
