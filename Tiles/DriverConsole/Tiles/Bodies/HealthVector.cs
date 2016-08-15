@@ -30,7 +30,7 @@ namespace Tiles.Bodies
             return new HealthVector(MaxHealth);
         }
 
-        public void TakeDamage(uint dmg)
+        public virtual void TakeDamage(uint dmg)
         {
             _Health -= (int)dmg;
             Clamp();

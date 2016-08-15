@@ -68,6 +68,7 @@
     <Compile Include="Agents\Combat\CombatMoveDiscovererTests.cs" />
     <Compile Include="AtlasTests.cs" />
     <Compile Include="ActionLogTests.cs" />
+    <Compile Include="Bodies\BodyTests.cs" />
     <Compile Include="Bodies\HealthVectorTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />
     <Compile Include="Items\Outfits\OutfitLayerFactoryTests.cs" />
