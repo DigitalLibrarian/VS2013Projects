@@ -83,10 +83,6 @@ namespace Tiles.Tests.Agents.Combat
                     ), Times.Never());
         }
 
-        [Ignore]
-        [TestMethod]
-        public void TODO_WriteTestsForNewDiscoveryFunctionality() { }
-
         [TestMethod]
         public void NoPossibleMoves_NoAttackerBodyParts()
         {
@@ -166,7 +162,7 @@ namespace Tiles.Tests.Agents.Combat
         }
 
         [TestMethod]
-        public void PossibleMeleeMoves()
+        public void PossibleMeleeWeaponStrikeBodyPart()
         {
             AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
             DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
@@ -224,5 +220,140 @@ namespace Tiles.Tests.Agents.Combat
             AttackerOutfitMock.Verify(x => x.GetWeaponItem(partMock.Object), Times.Once());
         }
 
+
+        [TestMethod]
+        public void PossibleGrasp()
+        {
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
+
+            var defenderBodyPartMock1 = AddBodyPart(DefenderBodyParts);
+            defenderBodyPartMock1.Setup(x => x.IsWrestling).Returns(true);
+            var defenderBodyPartMock2 = AddBodyPart(DefenderBodyParts);
+            defenderBodyPartMock2.Setup(x => x.IsWrestling).Returns(false);
+            var defenderBodyPartMock3 = AddBodyPart(DefenderBodyParts);
+            defenderBodyPartMock3.Setup(x => x.IsWrestling).Returns(false);
+
+            var attackerBodyPartMock1 = AddBodyPart(AttackerBodyParts);
+            attackerBodyPartMock1.Setup(x => x.IsWrestling).Returns(false);
+            attackerBodyPartMock1.Setup(x => x.CanGrasp).Returns(true);
+
+            var itemMock = MockWeaponItem();
+            AttackerOutfitMock.Setup(x => x.GetWeaponItem(attackerBodyPartMock1.Object)).Returns(itemMock.Object);
+
+            var attackerBodyPartMock2 = AddBodyPart(AttackerBodyParts);
+            attackerBodyPartMock2.Setup(x => x.IsWrestling).Returns(false);
+            attackerBodyPartMock2.Setup(x => x.CanGrasp).Returns(true);
+            AttackerOutfitMock.Setup(x => x.GetWeaponItem(attackerBodyPartMock2.Object)).Returns((IItem)null);
+
+            var attackerBodyPartMock3 = AddBodyPart(AttackerBodyParts);
+            attackerBodyPartMock3.Setup(x => x.IsWrestling).Returns(false);
+            attackerBodyPartMock3.Setup(x => x.CanGrasp).Returns(true);
+            AttackerOutfitMock.Setup(x => x.GetWeaponItem(attackerBodyPartMock3.Object)).Returns((IItem)null);
+
+            var attackerBodyPartMock4 = AddBodyPart(AttackerBodyParts);
+            attackerBodyPartMock4.Setup(x => x.IsWrestling).Returns(false);
+            attackerBodyPartMock4.Setup(x => x.CanGrasp).Returns(false);
+            AttackerOutfitMock.Setup(x => x.GetWeaponItem(attackerBodyPartMock3.Object)).Returns((IItem)null);
+
+            var spoofedResult = new Mock<ICombatMove>();
+            BuilderMock.Setup(
+                x => x.GraspOpponentBodyPart(
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IBodyPart>(),
+                    It.IsAny<IBodyPart>()
+                    )).Returns(spoofedResult.Object);
+
+            var result = Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).ToList();
+            Assert.AreEqual(4, result.Count());
+            Assert.IsTrue(result.All(x => x == spoofedResult.Object));
+
+            foreach (var defenderPart in new[] { defenderBodyPartMock2.Object, defenderBodyPartMock3.Object })
+            {
+                foreach (var attackerPart in new[] { attackerBodyPartMock2.Object, attackerBodyPartMock3.Object})
+                {
+                    BuilderMock.Verify(x => x.GraspOpponentBodyPart(
+                        AttackerMock.Object, DefenderMock.Object, attackerPart, defenderPart), Times.Once());
+                }
+            }
+        }
+
+        [TestMethod]
+        public void PossibleBreakGrasp()
+        {
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
+
+            DefenderBodyMock.Setup(x => x.IsWrestling).Returns(true);
+
+            var attackerBodyPartMock = AddBodyPart(AttackerBodyParts);
+            attackerBodyPartMock.Setup(x => x.IsWrestling).Returns(true);
+
+            var defenderBodyPartMock = AddBodyPart(DefenderBodyParts);
+            defenderBodyPartMock.Setup(x => x.IsWrestling).Returns(true);
+            defenderBodyPartMock.Setup(x => x.IsGrasping).Returns(true);
+            defenderBodyPartMock.Setup(x => x.Grasped).Returns(attackerBodyPartMock.Object);
+
+            var spoofedResult = new Mock<ICombatMove>();
+            BuilderMock.Setup(
+                x => x.BreakOpponentGrasp(
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IBodyPart>(),
+                    It.IsAny<IBodyPart>()
+                    )).Returns(spoofedResult.Object);
+
+            var result = Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).ToList();
+            Assert.AreEqual(1, result.Count());
+            Assert.IsTrue(result.All(x => x == spoofedResult.Object));
+
+            BuilderMock.Verify(x => x.BreakOpponentGrasp(It.IsAny<IAgent>(), It.IsAny<IAgent>(), attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once);
+        }
+
+        [TestMethod]
+        public void PossiblePullAndReleaseGrasp()
+        {
+            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
+            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
+            
+            var attackerBodyPartMock = AddBodyPart(AttackerBodyParts);
+            attackerBodyPartMock.Setup(x => x.IsWrestling).Returns(true);
+            attackerBodyPartMock.Setup(x => x.IsGrasping).Returns(true);
+
+            var defenderBodyPartMock = AddBodyPart(DefenderBodyParts);
+            defenderBodyPartMock.Setup(x => x.IsWrestling).Returns(true);
+            defenderBodyPartMock.Setup(x => x.IsGrasping).Returns(false);
+
+            attackerBodyPartMock.Setup(x => x.Grasped).Returns(defenderBodyPartMock.Object);
+
+
+            var spoofedResult1 = new Mock<ICombatMove>();
+            BuilderMock.Setup(
+                x => x.PullGraspedBodyPart(
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IBodyPart>(),
+                    It.IsAny<IBodyPart>()
+                    )).Returns(spoofedResult1.Object);
+
+            var spoofedResult2 = new Mock<ICombatMove>();
+            BuilderMock.Setup(
+                x => x.ReleaseGraspedPart(
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IAgent>(),
+                    It.IsAny<IBodyPart>(),
+                    It.IsAny<IBodyPart>()
+                    )).Returns(spoofedResult2.Object);
+
+
+            var result = Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).ToList();
+            Assert.AreEqual(2, result.Count());
+            Assert.AreSame(spoofedResult1.Object, result.ElementAt(0));
+            Assert.AreSame(spoofedResult2.Object, result.ElementAt(1));
+
+            BuilderMock.Verify(x => x.PullGraspedBodyPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
+            BuilderMock.Verify(x => x.ReleaseGraspedPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
+        }
     }
 }

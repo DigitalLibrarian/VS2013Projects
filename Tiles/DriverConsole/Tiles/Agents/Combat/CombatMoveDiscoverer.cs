@@ -26,9 +26,10 @@ namespace Tiles.Agents.Combat
         public IEnumerable<ICombatMove> GetPossibleMoves(IAgent attacker, IAgent defender)
         {
             bool meleeRange = IsMeleeRange(attacker, defender);
-            foreach (var mePart in attacker.Body.Parts)
+
+            if (meleeRange)
             {
-                if (meleeRange)
+                foreach (var mePart in attacker.Body.Parts)
                 {
                     var weaponItem = attacker.Outfit.GetWeaponItem(mePart);
                     if (weaponItem != null)
@@ -36,21 +37,23 @@ namespace Tiles.Agents.Combat
                         foreach (var move in WeaponMoves(attacker, defender, weaponItem))
                             yield return move;
                     }
-                    
-                    if (mePart.CanGrasp)
+                    else
                     {
-                        foreach (var move in GraspMoves(attacker, defender, mePart))
-                            yield return move;
-                    }
+                        if (mePart.CanGrasp)
+                        {
+                            foreach (var move in GraspMoves(attacker, defender, mePart))
+                                yield return move;
+                        }
 
-                    if (attacker.Body.IsWrestling)
-                    {
-                        foreach (var move in WrestlingMoves(attacker, defender, mePart))
-                            yield return move;
+                        if (mePart.IsWrestling)
+                        {
+                            foreach (var move in WrestlingMoves(attacker, defender, mePart))
+                                yield return move;
+                        }
                     }
-                }
 
                 // TODO - armor, weapon, racial, magic, tech, etc.. other types of abilities
+                }
             }
         }
 
@@ -85,10 +88,6 @@ namespace Tiles.Agents.Combat
             {
                 yield return MoveBuilder.PullGraspedBodyPart(attacker, defender, mePart, mePart.Grasped);
                 yield return MoveBuilder.ReleaseGraspedPart(attacker, defender, mePart, mePart.Grasped);
-                // TODO - more mixable verbs
-                // twist, if can
-                // bend, if can
-
             }
 
             if (defender.Body.IsWrestling)
