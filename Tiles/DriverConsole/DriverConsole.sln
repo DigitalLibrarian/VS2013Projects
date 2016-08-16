@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.DriverConsole", "DriverConsole\Tiles.DriverConsole.csproj", "{2AFA0977-9321-4347-9DD0-6A1D54A887CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver.Tiles.Console", "DriverConsole\Driver.Tiles.Console.csproj", "{2AFA0977-9321-4347-9DD0-6A1D54A887CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles", "Tiles\Tiles.csproj", "{DBE6C63C-CD28-4C24-920C-2776DA05FFF4}"
 EndProject
@@ -39,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.StringManipulation.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4A43F31-FF6A-457A-9280-89F8664FFF19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.RawParserConsole", "DwarfFortressNet.RawParserConsole\DwarfFortressNet.RawParserConsole.csproj", "{0688970C-6BBA-430C-AEBE-E96740843111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver.DwarfFortressNet.RawParser.Console", "DwarfFortressNet.RawParserConsole\Driver.DwarfFortressNet.RawParser.Console.csproj", "{0688970C-6BBA-430C-AEBE-E96740843111}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.RawModels", "DwarfFortressNet.RawModels\DwarfFortressNet.RawModels.csproj", "{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}"
 EndProject

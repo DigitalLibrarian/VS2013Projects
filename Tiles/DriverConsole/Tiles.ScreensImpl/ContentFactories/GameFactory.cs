@@ -13,12 +13,15 @@ using Tiles.Bodies;
 using Tiles.Agents.Behaviors;
 using Tiles.Random;
 using Tiles.Structures;
+using DwarfFortressNet.Bridge;
+
+
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
     public class GameFactory
     {
-        public Game SetupGenericZombieWorld(int seed = 42)
+        public IGame SetupGenericZombieWorld(int seed = 42)
         {
             Vector3 siteSize = new Vector3(64, 64, 64);
             var random = new RandomWrapper(new System.Random(seed));
@@ -26,12 +29,24 @@ namespace Tiles.ScreensImpl.ContentFactories
             return Setup(siteFactory, siteSize, random);
         }
 
-        public Game SetupArenaWorld(int seed = 42)
+        public IGame SetupArenaWorld(int seed = 42)
         {
             var siteSize = new Vector3(64, 64, 64);
             var random = new RandomWrapper(new System.Random(seed));
             var siteFactory = new ArenaSiteFactory(random);
             return Setup(siteFactory, siteSize, random);
+        }
+
+        public IGame SetupDfTestWorld(string dfRawDir, int seed = 42)
+        {
+            var fab = new DfFabricator();
+            fab.ReadDfRawDir(dfRawDir);
+
+            var siteSize = new Vector3(64, 64, 64);
+            var random = new RandomWrapper(new System.Random(seed));
+            var siteFactory = new DfTestSiteFactory(fab, random);
+            return Setup(siteFactory, siteSize, random);
+
         }
 
         private Game Setup(ISiteFactory siteFactory, Vector3 siteSize, IRandom random)
@@ -83,5 +98,6 @@ namespace Tiles.ScreensImpl.ContentFactories
             }
             return test;
         }
+
     }
 }

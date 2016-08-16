@@ -20,6 +20,12 @@ namespace Tiles.ScreenImpl
         {
             Factories = new Dictionary<string, Func<IGameScreen>>{
                 {
+                    "Dwarf Fortress Content",  () => new GameSimulationScreen(
+                        new GameFactory().SetupDfTestWorld(System.Configuration.ConfigurationManager.AppSettings.Get(@"DwarfFortressRawsDirectory")),
+                        canvas,
+                        box)
+                },
+                {
                     "Zombie World", () => new GameSimulationScreen(
                         new GameFactory().SetupGenericZombieWorld(),
                         canvas,
@@ -30,7 +36,7 @@ namespace Tiles.ScreenImpl
                         new GameFactory().SetupArenaWorld(),
                         canvas,
                         box)
-                },
+                }
 
             };
             Selector = new JaggedListSelector()

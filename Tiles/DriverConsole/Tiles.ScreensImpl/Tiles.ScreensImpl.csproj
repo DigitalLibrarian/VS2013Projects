@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,7 @@
     <Compile Include="ContentFactories\ArenaSiteFactory.cs" />
     <Compile Include="CanvasScreen.cs" />
     <Compile Include="CommandScreen.cs" />
+    <Compile Include="ContentFactories\DfTestSiteFactory.cs" />
     <Compile Include="ContentFactories\GameFactory.cs" />
     <Compile Include="ContentFactories\SurvivorAgentCommandPlanner.cs" />
     <Compile Include="ContentFactories\ZombieAgentCommandPlanner.cs" />
@@ -68,6 +70,14 @@
     <Compile Include="YouDiedScreen.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DwarfFortressNet.Bridge\DwarfFortressNet.Bridge.csproj">
+      <Project>{8abc709e-d52b-4519-bf89-b5e225752de4}</Project>
+      <Name>DwarfFortressNet.Bridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DwarfFortressNet.RawModels\DwarfFortressNet.RawModels.csproj">
+      <Project>{3d15a54e-fbdd-4e4e-83aa-70c1e295c4e2}</Project>
+      <Name>DwarfFortressNet.RawModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tiles.Control\Tiles.Control.csproj">
       <Project>{da61f81d-cd5c-4b0e-b6d2-bc1e444cffd6}</Project>
       <Name>Tiles.Control</Name>
