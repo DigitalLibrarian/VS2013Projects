@@ -82,6 +82,7 @@
     <Compile Include="Bodies\Body.cs" />
     <Compile Include="Bodies\BodyFactory.cs" />
     <Compile Include="Bodies\BodyPart.cs" />
+    <Compile Include="Bodies\BodyPartClass.cs" />
     <Compile Include="Bodies\BodyStateChange.cs" />
     <Compile Include="Bodies\HealthVector.cs" />
     <Compile Include="Bodies\IBody.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Agents\Combat\DamageVector.cs" />
     <Compile Include="Agents\Combat\IAttackConductor.cs" />
     <Compile Include="Atlas.cs" />
+    <Compile Include="Bodies\IBodyPartClass.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IPlayer.cs" />

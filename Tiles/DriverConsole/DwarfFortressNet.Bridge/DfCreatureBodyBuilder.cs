@@ -114,12 +114,14 @@ namespace DwarfFortressNet.Bridge
         IBodyPart CreatePart(Df.BodyPart part, IBodyPart parentBP = null)
         {
             return new Tiles.Bodies.BodyPart(
-                    name: part.Name,
-                    isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
-                    canAmputate: false,
-                    canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
-                    armorSlotType: Tiles.Items.ArmorSlot.None,
-                    weaponSlotType: Tiles.Items.WeaponSlot.None,
+                    new BodyPartClass(
+                        name: part.Name,
+                        isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
+                        canAmputate: false,
+                        canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
+                        armorSlotType: Tiles.Items.ArmorSlot.None,
+                        weaponSlotType: Tiles.Items.WeaponSlot.None
+                        ),
                     parent: parentBP
                     ); ;
         }
