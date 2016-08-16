@@ -10,6 +10,7 @@ namespace DwarfFortressNet.RawModels
     {
         public const string TokenName = "MATERIAL_TEMPLATE";
 
+        public bool IsMetal { get; set; }
         public string ReferenceName { get; set; }
         public List<Tag> Tokens { get; set; }
 
@@ -49,7 +50,7 @@ namespace DwarfFortressNet.RawModels
             var mt = new MaterialTemplate
             {
                 StateInfo = new Dictionary<string, IDictionary<string, string>>(),
-                Tokens = new List<Tag>()
+                Tokens = new List<Tag>(),
             };
 
             foreach (var tag in ele.Tags)
@@ -64,10 +65,16 @@ namespace DwarfFortressNet.RawModels
                     mt.ReferenceName = tag.Words[1];
                 }
 
+                if (tag.IsSingleWord("IS_METAL"))
+                {
+                    mt.IsMetal = true;
+                }
+
                 mt.Tokens.Add(tag);
             }
 
             return mt;
         }
+
     }
 }

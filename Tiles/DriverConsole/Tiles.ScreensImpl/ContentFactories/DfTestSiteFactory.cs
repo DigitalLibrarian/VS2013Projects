@@ -40,14 +40,25 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             int numItems = box.Size.X;
 
+            var metals = Fab.Inorganics.Where(x =>
+            {
+                if (x.UseMaterialTemplate == null) return false;
+                var mt = Fab.MaterialTemplates.Single(temp => temp.ReferenceName.Equals(x.UseMaterialTemplate));
+
+                return mt.IsMetal;
+            }).ToList();
+            var weapons = Fab.ItemWeapons.ToList();
+
             for (int i = 0; i < numItems; i++)
             {
                 var spawnLoc = FindSpawnSitePos(s);
                 if (spawnLoc.HasValue)
                 {
                     var tile = s.GetTileAtSitePos(spawnLoc.Value);
-                    var m = Random.NextElement(Fab.Inorganics.ToList());
-                    var w = Random.NextElement(Fab.ItemWeapons.ToList());
+                    
+
+                    var m = Random.NextElement(metals);
+                    var w = Random.NextElement(weapons);
 
                     tile.Items.Add(Fab.CreateWeapon(m, w));
                 }

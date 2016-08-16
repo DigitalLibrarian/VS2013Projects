@@ -37,6 +37,11 @@ namespace DwarfFortressNet.Bridge
             get { return Db.Get<Creature>(); }
         }
 
+        public IEnumerable<MaterialTemplate> MaterialTemplates
+        {
+            get { return Db.Get<MaterialTemplate>(); }
+        }
+
         public void ReadDfRawDir(string dir)
         {
             foreach (var file in AllFiles(dir))
@@ -173,10 +178,12 @@ namespace DwarfFortressNet.Bridge
 
         IEnumerable<Element> ExtractElements(string elementName, IEnumerable<Tag> tags)
         {
+            var eles = new List<Element>();
+
             Element currEle = null;
             foreach (var tag in tags)
             {
-                var tagName = tag.Words[0];
+                var tagName = tag.Name;
                 if (tagName.Equals(elementName))
                 {
                     if (currEle == null)
@@ -184,34 +191,39 @@ namespace DwarfFortressNet.Bridge
                         currEle = new Element
                         {
                             Name = elementName,
-                            Tags = new List<Tag> { tag }
+                            Tags = new List<Tag> { }
                         };
                     }
                     else
                     {
-                        yield return currEle;
+                        eles.Add(currEle);
 
                         currEle = new Element
                         {
                             Name = elementName,
-                            Tags = new List<Tag> { tag }
+                            Tags = new List<Tag> { }
                         };
+
                     }
                 }
-                else if (currEle != null)
+
+                if (currEle != null)
                 {
                     currEle.Tags.Add(tag);
                 }
+                
             }
             if (currEle != null && currEle.Tags.Any())
             {
-                yield return currEle;
+                eles.Add(currEle);
             }
+
+            return eles;
         }
 
         Regex TagRegex()
         {
-            return new Regex(Regex.Escape("[") + "((.+):)+(.+)]");
+            return new Regex(Regex.Escape("[") + ".+?]");
         }
 
         bool HasTag(string line)

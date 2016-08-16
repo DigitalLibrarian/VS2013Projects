@@ -16,6 +16,8 @@ namespace DwarfFortressNet.RawModels
         public string AllSolidAdjective { get;  set; }
         public string UseMaterialTemplate { get; set; }
 
+        public bool IsMetal { get; set; }
+
         public static Inorganic FromElement(Element ele)
         {
             var i = new Inorganic
