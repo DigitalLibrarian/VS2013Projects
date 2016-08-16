@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles;
+using Tiles.Agents.Combat;
 using Tiles.Items;
 using Tiles.Math;
 using Df = DwarfFortressNet.RawModels;
@@ -34,7 +35,33 @@ namespace DwarfFortressNet.Bridge
 
             var weaponSlots = new WeaponSlot[]{WeaponSlot.Main};
 
-            var weaponClass = new WeaponClass(name, sprite, weaponSlots, new Tiles.Agents.Combat.ICombatMoveClass[0]);
+            var moves = Weapon.Attacks.Select(attack => {
+
+                var verb = new Verb(new Dictionary<VerbConjugation, string>{
+                    {VerbConjugation.SecondPerson, attack.VerbSecondPerson},
+                    {VerbConjugation.ThirdPerson, attack.VerbThirdPerson}
+                }, false);
+                var damageVector = new DamageVector();
+                if (attack.AttackType == "BLUNT")
+                {
+                    damageVector.SetComponent(DamageType.Blunt, 20);
+                }
+                else if (attack.AttackType == "EDGE")
+                {
+                    damageVector.SetComponent(DamageType.Slash, 10);
+                    damageVector.SetComponent(DamageType.Pierce, 10);
+                }
+                var moveClass = new CombatMoveClass(attack.VerbSecondPerson, verb, damageVector)
+                {
+                    IsStrike = true,
+                    IsMartialArts = true,
+                    IsItem = true,
+                    IsDefenderPartSpecific = true
+                };
+                return moveClass;
+            });
+
+            var weaponClass = new WeaponClass(name, sprite, weaponSlots, moves.ToArray());
 
 
             var itemClass = new ItemClass
