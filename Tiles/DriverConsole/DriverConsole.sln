@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Tests.Assertions", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Control.Console.Tests", "Tiles.Control.Console.Tests\Tiles.Control.Console.Tests.csproj", "{65AD652A-1ADE-42C3-B9CA-35B94A7A6883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Sim", "Tiles.Sim\Tiles.Sim.csproj", "{8B2046D8-37C4-4D29-8A15-EFB297FE0B82}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Math", "Tiles.Math\Tiles.Math.csproj", "{49E4B040-9DDF-4120-87CA-9D296F4F01B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Math.Tests", "Tiles.Math.Tests\Tiles.Math.Tests.csproj", "{7E49399A-C316-4ABA-8180-E164C0E0C212}"
@@ -81,10 +79,6 @@ Global
 		{65AD652A-1ADE-42C3-B9CA-35B94A7A6883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65AD652A-1ADE-42C3-B9CA-35B94A7A6883}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65AD652A-1ADE-42C3-B9CA-35B94A7A6883}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B2046D8-37C4-4D29-8A15-EFB297FE0B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B2046D8-37C4-4D29-8A15-EFB297FE0B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B2046D8-37C4-4D29-8A15-EFB297FE0B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B2046D8-37C4-4D29-8A15-EFB297FE0B82}.Release|Any CPU.Build.0 = Release|Any CPU
 		{49E4B040-9DDF-4120-87CA-9D296F4F01B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49E4B040-9DDF-4120-87CA-9D296F4F01B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49E4B040-9DDF-4120-87CA-9D296F4F01B9}.Release|Any CPU.ActiveCfg = Release|Any CPU

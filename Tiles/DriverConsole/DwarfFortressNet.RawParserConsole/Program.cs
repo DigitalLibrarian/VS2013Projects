@@ -51,11 +51,8 @@ namespace DwarfFortressNet.RawParserConsole
                         var creature = Creature.FromElement(ele);
                         objDb.Add(creature.ReferenceName, creature);
                     }
-
                 }
             }
-
-
 
             var c = objDb.Get<Creature>("GOBLIN");
             var body = CreateBody(c, objDb);
@@ -90,16 +87,34 @@ namespace DwarfFortressNet.RawParserConsole
 
                     if (firstWord == "OBJECT")
                     {
-                        var eles = ExtractElements(secondWord, tags).ToList();
-                        foreach (var ele in eles)
+                        var scanList = new List<string> {secondWord};
+                        if (secondWord == "ITEM")
                         {
-                            if (!Elements.ContainsKey(secondWord))
+                            scanList = new List<string>{
+                                "ITEM_ARMOR",
+                                "ITEM_TOOL",
+                                "ITEM_PANTS",
+                                "ITEM_TOOL",
+                                "ITEM_SHIELD",
+                                "ITEM_GLOVES",
+                                "ITEM_WEAPON",
+                                "ITEM_HELM"
+                            };
+                        }
+
+                        foreach (var scanWord in scanList)
+                        {
+                            var eles = ExtractElements(scanWord, tags).ToList();
+                            foreach (var ele in eles)
                             {
-                                Elements.Add(secondWord, new List<Element> { ele });
-                            }
-                            else
-                            {
-                                Elements[ele.Name].Add(ele);
+                                if (!Elements.ContainsKey(scanWord))
+                                {
+                                    Elements.Add(scanWord, new List<Element> { ele });
+                                }
+                                else
+                                {
+                                    Elements[scanWord].Add(ele);
+                                }
                             }
                         }
                     }
@@ -130,7 +145,8 @@ namespace DwarfFortressNet.RawParserConsole
             Element currEle = null;
             foreach (var tag in tags)
             {
-                if (tag.Words[0].Equals(elementName))
+                var tagName = tag.Words[0];
+                if (tagName.Equals(elementName))
                 {
                     if (currEle == null)
                     {
