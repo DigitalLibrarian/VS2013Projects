@@ -20,234 +20,29 @@ namespace DwarfFortressNet.RawParserConsole
         {
             var dirStr = System.Configuration.ConfigurationManager.AppSettings.Get(_DirKey);
 
-            foreach (var file in AllFiles(dirStr))
+            var fab = new DfFabricator();
+            fab.ReadDfRawDir(dirStr);
+            
+            
+            foreach (var inorg in fab.Inorganics)
             {
-                Consume(AllLinesInFile(file.FullName));
-            }
-
-            var objDb = new ObjectDb();
-            foreach (var pair in Elements)
-            {
-                Console.WriteLine(string.Format("{0}: {1}", pair.Key, pair.Value.Count()));
-                if (pair.Key == BodyPartSet.TokenName)
+                foreach (var weapon in fab.ItemWeapons)
                 {
-                    foreach (var ele in pair.Value)
-                    {
-                        var bodyPartSet = BodyPartSet.FromElement(ele);
-                        objDb.Add(bodyPartSet.ReferenceName, bodyPartSet);
-                    }
-                }
-                else if (pair.Key == BodyDetailPlan.TokenName)
-                {
-                    foreach (var ele in pair.Value)
-                    {
-                        var plan = BodyDetailPlan.FromElement(ele);
-                        objDb.Add(plan.ReferenceName, plan);
-                    }
-                }
-                else if (pair.Key == Creature.TokenName)
-                {
-                    foreach (var ele in pair.Value)
-                    {
-                        var creature = Creature.FromElement(ele);
-                        objDb.Add(creature.ReferenceName, creature);
-                    }
-                }
-                else if (pair.Key == MaterialTemplate.TokenName)
-                {
-                    foreach (var ele in pair.Value)
-                    {
-                        var matTemplate = MaterialTemplate.FromElement(ele);
-                        objDb.Add(matTemplate.ReferenceName, matTemplate);
-                    }
-                }
-                else if (pair.Key == ItemWeapon.TokenName)
-                {
-                    foreach (var ele in pair.Value)
-                    {
-                        var obj = ItemWeapon.FromElement(ele);
-                        objDb.Add(obj.ReferenceName, obj);
-                    }
+                    fab.CreateWeapon(inorg, weapon);
                 }
             }
 
-            foreach(var ele in Elements.Where(pair => pair.Key == Inorganic.TokenName).SelectMany(x => x.Value))
-            {
-                var inorg = Inorganic.FromElement(ele);
-                objDb.Add(inorg.ReferenceName, inorg);
-            }
 
-            foreach (var inorg in objDb.Get<Inorganic>())
-            {
-                foreach (var weapon in objDb.Get<ItemWeapon>())
-                {
-                    CreateWeapon(inorg, weapon, objDb);
-                }
-            }
+            var c = fab.Creatures.Single(x => x.ReferenceName == "GOBLIN");
+            fab.CreateBody(c);
 
-            var c = objDb.Get<Creature>("GOBLIN");
-            var body = CreateBody(c, objDb);
             System.Console.ReadKey();
         }
 
-        static IBody CreateBody(Creature c, ObjectDb objDb)
-        {
-            return DfCreatureBodyBuilder.FromCreatureDefinition(c, objDb);
-        }
 
         static IItem CreateWeapon(Inorganic inorg, ItemWeapon weapon, ObjectDb objDb)
         {
             return DfWeaponItemBuilder.FromDefinition(inorg, weapon, objDb);
         }
-
-        static Dictionary<string, List<Element>> Elements = new Dictionary<string, List<Element>>();
-
-        static void Consume(IEnumerable<string> lines)
-        {
-            var tags = new List<Tag>();
-            foreach (var line in lines)
-            {
-                if (HasTag(line))
-                {
-                    tags.AddRange(ExtractTags(line));
-                }
-            }
-
-            if (tags.Any())
-            {
-                var firstTag = tags.First();
-                if (firstTag.Words.Count() == 2)
-                {
-                    var firstWord = firstTag.Words[0];
-                    var secondWord = firstTag.Words[1];
-
-                    if (firstWord == "OBJECT")
-                    {
-                        var scanList = new List<string> {secondWord};
-                        if (secondWord == "ITEM")
-                        {
-                            scanList = new List<string>{
-                                "ITEM_ARMOR",
-                                "ITEM_TOOL",
-                                "ITEM_PANTS",
-                                "ITEM_TOOL",
-                                "ITEM_SHIELD",
-                                "ITEM_GLOVES",
-                                "ITEM_WEAPON",
-                                "ITEM_HELM"
-                            };
-                        }
-
-                        foreach (var scanWord in scanList)
-                        {
-                            var eles = ExtractElements(scanWord, tags).ToList();
-                            foreach (var ele in eles)
-                            {
-                                if (!Elements.ContainsKey(scanWord))
-                                {
-                                    Elements.Add(scanWord, new List<Element> { ele });
-                                }
-                                else
-                                {
-                                    Elements[scanWord].Add(ele);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        static IEnumerable<Tag> ExtractTags(string line)
-        {
-            while (line.Contains('['))
-            {
-                var leftBracket = line.IndexOf('[');
-                var rightBracket = line.IndexOf(']');
-                var diff = rightBracket - leftBracket;
-                var dataStr = line.Substring(leftBracket + 1, diff - 1);
-
-                yield return new Tag
-                {
-                    Words = dataStr.Split(':').ToList()
-                };
-
-                line = line.Substring(rightBracket+1);
-            }
-        }
-
-        static IEnumerable<Element> ExtractElements(string elementName, IEnumerable<Tag> tags)
-        {
-            Element currEle = null;
-            foreach (var tag in tags)
-            {
-                var tagName = tag.Words[0];
-                if (tagName.Equals(elementName))
-                {
-                    if (currEle == null)
-                    {
-                        currEle = new Element
-                        {
-                            Name = elementName,
-                            Tags = new List<Tag> { tag }
-                        };
-                    }
-                    else
-                    {
-                        yield return currEle;
-
-                        currEle = new Element
-                        {
-                            Name = elementName,
-                            Tags = new List<Tag> {  tag}
-                        };
-                    }
-                }
-                else if(currEle != null)
-                {
-                    currEle.Tags.Add(tag);
-                }
-            }
-            if (currEle != null && currEle.Tags.Any())
-            {
-                yield return currEle;
-            }
-        }
-
-        static Regex TagRegex()
-        {
-            return new Regex(Regex.Escape("[") + "((.+):)+(.+)]");
-        }
-
-        static bool HasTag(string line)
-        {
-            //[APPLY_CREATURE_VARIATION:STANDARD_CLIMBING_GAITS:6561:6115:5683:1755:7456:8567] 5 kph
-            return TagRegex().IsMatch(line);
-        }
-
-
-        static IEnumerable<FileInfo> AllFiles(string dirStr)
-        {
-            var dirInfo = new DirectoryInfo(dirStr);
-            foreach (var fileInfo in dirInfo.GetFiles())
-            {
-                yield return fileInfo;
-            }
-
-            foreach (var babyDirInfo in dirInfo.GetDirectories())
-            {
-                foreach (var babyFileInfo in AllFiles(babyDirInfo.FullName))
-                {
-                    yield return babyFileInfo;
-                }
-            }
-        }
-
-        static IEnumerable<string> AllLinesInFile(string file)
-        {
-            return File.ReadLines(file);
-        }
-
-        public static object Dictionary { get; set; }
     }
 }

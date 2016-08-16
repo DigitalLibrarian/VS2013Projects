@@ -47,7 +47,6 @@
     <Compile Include="Inorganic.cs" />
     <Compile Include="ItemWeapon.cs" />
     <Compile Include="MaterialTemplate.cs" />
-    <Compile Include="ObjectDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tag.cs" />
   </ItemGroup>

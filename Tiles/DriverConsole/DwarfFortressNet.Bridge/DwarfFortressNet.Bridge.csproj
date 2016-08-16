@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DfCreatureBodyBuilder.cs" />
+    <Compile Include="Fabricator.cs" />
     <Compile Include="DfMaterialBuilder.cs" />
     <Compile Include="DfWeaponItemBuilder.cs" />
+    <Compile Include="ObjectDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
