@@ -9,40 +9,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using DwarfFortressNet.RawModels;
 using Tiles.Bodies;
+using DwarfFortressNet.Bridge;
 namespace DwarfFortressNet.RawParserConsole
 {
-    public class ObjectDb
-    {
-        Dictionary<Type, Dictionary<string, object>> DB { get; set; }
-        public ObjectDb()
-        {
-            DB = new Dictionary<Type, Dictionary<string, object>>();
-        }
-
-        public T Get<T>(string referenceName)
-        {
-            var type = typeof(T);
-            if (DB.ContainsKey(type))
-            {
-                if (DB[type].ContainsKey(referenceName))
-                {
-                    return (T) DB[type][referenceName];
-                }
-            }
-            return default(T);
-        }
-
-        public void Add<T>(string referenceName, T t)
-        {
-            var type = typeof(T);
-            if (!DB.ContainsKey(type))
-            {
-                DB[type] = new Dictionary<string, object>();
-            }
-            DB[type][referenceName] = t;
-        }
-    }
-
     class Program
     {
         private static readonly string _DirKey = @"DwarfFortressRawsDirectory";
@@ -95,146 +64,8 @@ namespace DwarfFortressNet.RawParserConsole
 
         static IBody CreateBody(Creature c, ObjectDb objDb)
         {
-            
-            var bodyParts = new List<IBodyPart>();
-            var rootPartSets = new List<RawModels.BodyPart>();
-            var categoryPartSets = new Dictionary<string, List<RawModels.BodyPart>>();
-            var namedPartSets = new Dictionary<string, RawModels.BodyPart>();
-            var conTypeParts = new List<RawModels.BodyPart>();
-            var conParts = new List<RawModels.BodyPart>();
-
-            var madePartsByName = new Dictionary<string, IBodyPart>();
-            var madePartsByCategory = new Dictionary<string, List<IBodyPart>>();
-
-            foreach (var bpsName in c.BodyPartSets)
-            {
-                var set = objDb.Get<BodyPartSet>(bpsName);
-
-                foreach (var part in objDb.Get<BodyPartSet>(bpsName).BodyParts)
-                {
-                    if(part.Con != null)
-                    {
-                        conParts.Add(part);
-                    }
-
-                    if(part.ConType != null)
-                    {
-                        conTypeParts.Add(part);
-                    }
-                    if (part.Con == null && part.ConType == null)
-                    {
-                        rootPartSets.Add(part);
-                    }
-
-                    if(part.Category != null)
-                    {
-                        if (categoryPartSets.ContainsKey(part.Category))
-                        {
-                            categoryPartSets[part.Category].Add(part);
-                        }
-                        else
-                        {
-                            categoryPartSets.Add(part.Category, new List<RawModels.BodyPart> { part });
-                        }
-                    }
-
-                    namedPartSets.Add(part.ReferenceName, part);
-                }
-            }
-
-            foreach(var part in rootPartSets)
-            {
-                var bp = new Tiles.Bodies.BodyPart(
-                    name: part.Name,
-                    isCritical: false,
-                    canAmputate: false,
-                    canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
-                    armorSlotType: Tiles.Items.ArmorSlot.None,
-                    weaponSlotType: Tiles.Items.WeaponSlot.None
-                    );
-
-                bodyParts.Add(bp);
-                madePartsByName.Add(part.ReferenceName, bp);
-                foreach (var category in part.Tokens.Where(x => x.IsSingleWord()).Select(x => x.Words.First()))
-                {
-                    if (madePartsByCategory.ContainsKey(category))
-                    {
-                        madePartsByCategory[category].Add(bp);
-                    }
-                    else
-                    {
-                        madePartsByCategory[category] = new List<IBodyPart> { bp };
-                    }
-                }
-            }
-
-            foreach(var part in conParts)
-            {
-                var parentBP = madePartsByName[part.Con];
-                    
-                var bp = new Tiles.Bodies.BodyPart(
-                    name: part.Name,
-                    isCritical: false,
-                    canAmputate: false,
-                    canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
-                    armorSlotType: Tiles.Items.ArmorSlot.None,
-                    weaponSlotType: Tiles.Items.WeaponSlot.None,
-                    parent: parentBP
-                    );
-
-                bodyParts.Add(bp);
-                madePartsByName.Add(part.ReferenceName, bp);
-                foreach (var category in part.Tokens.Where(x => x.IsSingleWord()).Select(x => x.Words.First()))
-                {
-                    if (madePartsByCategory.ContainsKey(category))
-                    {
-                        madePartsByCategory[category].Add(bp);
-                    }
-                    else
-                    {
-                        madePartsByCategory[category] = new List<IBodyPart> { bp };
-                    }
-                }
-            }
-
-            foreach (var part in conTypeParts)
-            {
-                foreach (var targetParent in madePartsByCategory[part.ConType])
-                {
-                    var bp = new Tiles.Bodies.BodyPart(
-                        name: part.Name,
-                        isCritical: false,
-                        canAmputate: false,
-                        canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
-                        armorSlotType: Tiles.Items.ArmorSlot.None,
-                        weaponSlotType: Tiles.Items.WeaponSlot.None,
-                        parent: targetParent
-                        );
-
-                    foreach(var category in part.Tokens.Where(x => x.IsSingleWord()).Select(x => x.Words.First()))
-                    {
-                        if (madePartsByCategory.ContainsKey(category))
-                        {
-                            madePartsByCategory[category].Add(bp);
-                        }
-                        else
-                        {
-                            madePartsByCategory[category] = new List<IBodyPart> { bp };
-                        }
-                    }
-                }
-            }
-
-            var bdps = new List<BodyDetailPlan>();
-            foreach (var plan in c.BodyDetailPlans)
-            {
-                bdps.Add(objDb.Get<BodyDetailPlan>(plan));
-            }
-
-            var body = new Body(bodyParts);
-            return body;
+            return DfBodyBuilder.FromCreatureDefinition(c, objDb);
         }
-
 
         static Dictionary<string, List<Element>> Elements = new Dictionary<string, List<Element>>();
 

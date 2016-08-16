@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.RawParserC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.RawModels", "DwarfFortressNet.RawModels\DwarfFortressNet.RawModels.csproj", "{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.Bridge", "DwarfFortressNet.Bridge\DwarfFortressNet.Bridge.csproj", "{8ABC709E-D52B-4519-BF89-B5E225752DE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,10 @@ Global
 		{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
