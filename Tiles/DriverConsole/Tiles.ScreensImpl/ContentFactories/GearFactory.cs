@@ -307,8 +307,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Slash, 1 },
                                     { DamageType.Pierce, 1 },
-                                    { DamageType.Blunt, 1 },
-                                    { DamageType.Burn, 1 }
+                                    { DamageType.Blunt, 1 }
                                 }
                            )
                        )

@@ -10,7 +10,6 @@ namespace Tiles.Agents.Combat
     {
         Blunt,
         Slash,
-        Pierce,
-        Burn
+        Pierce
     }
 }
