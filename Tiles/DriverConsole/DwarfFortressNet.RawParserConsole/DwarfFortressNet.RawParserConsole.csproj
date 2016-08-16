@@ -53,6 +53,10 @@
       <Project>{3d15a54e-fbdd-4e4e-83aa-70c1e295c4e2}</Project>
       <Name>DwarfFortressNet.RawModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tiles\Tiles.csproj">
+      <Project>{dbe6c63c-cd28-4c24-920c-2776da05fff4}</Project>
+      <Name>Tiles</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

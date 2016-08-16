@@ -15,7 +15,6 @@ namespace DwarfFortressNet.RawModels
 
         public static BodyPartSet FromElement(Element ele)
         {
-
             var referenceName = ele.Tags.First().Words[1];
 
             List<Tag> bodyPartTags = null;

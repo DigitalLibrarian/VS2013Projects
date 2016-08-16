@@ -10,5 +10,15 @@ namespace DwarfFortressNet.RawModels
     {
         public string Name { get { return Words.First(); } }
         public IList<string> Words { get; set; }
+
+        public bool IsSingleWord(string p)
+        {
+             return IsSingleWord() && Words.Single().Equals(p);
+        }
+
+        public bool IsSingleWord()
+        {
+            return Words.Count() == 1;
+        }
     }
 }

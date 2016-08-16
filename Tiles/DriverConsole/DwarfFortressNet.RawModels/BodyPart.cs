@@ -56,10 +56,8 @@ namespace DwarfFortressNet.RawModels
                     case "DEFAULT_RELSIZE":
                         bp.DefaultRelativeSize = int.Parse(tag.Words[1]);
                         break;
-                    default:
-                        bp.Tokens.Add(tag);
-                        break;
                 }
+                bp.Tokens.Add(tag);
             }
             return bp;
         }
