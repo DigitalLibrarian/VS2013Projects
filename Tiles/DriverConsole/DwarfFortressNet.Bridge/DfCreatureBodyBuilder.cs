@@ -91,14 +91,7 @@ namespace DwarfFortressNet.Bridge
         {
             foreach (var part in RootPartDefns)
             {
-                var bp = new Tiles.Bodies.BodyPart(
-                    name: part.Name,
-                    isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
-                    canAmputate: false,
-                    canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
-                    armorSlotType: Tiles.Items.ArmorSlot.None,
-                    weaponSlotType: Tiles.Items.WeaponSlot.None
-                    );
+                var bp = CreatePart(part);
 
                 RecordPart(part, bp);
                 BodyParts.Add(bp);
@@ -111,7 +104,16 @@ namespace DwarfFortressNet.Bridge
             {
                 var parentBP = CreatedPartsByName[part.Con];
 
-                var bp = new Tiles.Bodies.BodyPart(
+                var bp = CreatePart(part, parentBP);
+
+                RecordPart(part, bp);
+                BodyParts.Add(bp);
+            }
+        }
+
+        IBodyPart CreatePart(Df.BodyPart part, IBodyPart parentBP = null)
+        {
+            return new Tiles.Bodies.BodyPart(
                     name: part.Name,
                     isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
                     canAmputate: false,
@@ -119,11 +121,7 @@ namespace DwarfFortressNet.Bridge
                     armorSlotType: Tiles.Items.ArmorSlot.None,
                     weaponSlotType: Tiles.Items.WeaponSlot.None,
                     parent: parentBP
-                    );
-
-                RecordPart(part, bp);
-                BodyParts.Add(bp);
-            }
+                    ); ;
         }
 
         public void AddTokenConnectedParts()
@@ -132,15 +130,7 @@ namespace DwarfFortressNet.Bridge
             {
                 foreach (var targetParent in CreatedPartsByToken[part.ConType])
                 {
-                    var bp = new Tiles.Bodies.BodyPart(
-                        name: part.Name,
-                        isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
-                        canAmputate: false,
-                        canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
-                        armorSlotType: Tiles.Items.ArmorSlot.None,
-                        weaponSlotType: Tiles.Items.WeaponSlot.None,
-                        parent: targetParent
-                        );
+                    var bp = CreatePart(part, targetParent);
 
                     BodyParts.Add(bp);
                 }
