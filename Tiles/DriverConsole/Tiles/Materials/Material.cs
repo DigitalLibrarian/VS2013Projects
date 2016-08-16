@@ -9,6 +9,11 @@ namespace Tiles.Materials
     public class Material : IMaterial
     {
         public string Adjective { get; private set; }
+
+        public Material(string adjective)
+        {
+            Adjective = adjective;
+        }
     }
 
     public interface IMaterial
@@ -19,11 +24,13 @@ namespace Tiles.Materials
     public class TissueLayer : ITissueLayer
     {
         public IMaterial Material { get; private set; }
+        public int RelativeThickness { get; private set; }
     }
 
     public interface ITissueLayer
     {
         IMaterial Material { get; }
+        int RelativeThickness { get; }
     }
 
     public interface ITissue

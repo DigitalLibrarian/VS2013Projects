@@ -25,7 +25,8 @@ namespace DwarfFortressNet.RawModels
 
             foreach (var tag in ele.Tags)
             {
-                if (tag.Name.Equals("STATE_NAME_ADJ") && tag.Words[1].Equals("ALL_SOLID"))
+                if ((tag.Name.Equals("STATE_NAME_ADJ")|| tag.Name.Equals("STATE_ADJ")) 
+                    && (tag.Words[1].Equals("ALL_SOLID") || tag.Words[1].Equals("SOLID")))
                 {
                     i.AllSolidAdjective = tag.Words[2];
                 }

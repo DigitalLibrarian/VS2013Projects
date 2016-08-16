@@ -13,6 +13,21 @@ namespace DwarfFortressNet.RawModels
         public string ReferenceName { get; set; }
         public List<Tag> Tokens { get; set; }
 
+        public string AllSolidAdjective
+        {
+            get
+            {
+                if (StateInfo.ContainsKey("STATE_NAME_ADJ"))
+                {
+                    if (StateInfo["STATE_NAME_ADJ"].ContainsKey("ALL_SOLID"))
+                    {
+                        return StateInfo["STATE_NAME_ADJ"]["ALL_SOLID"];
+                    }
+                }
+                return null;
+            }
+        }
+
         public IDictionary<string, IDictionary<string, string>> StateInfo { get; set; }
 
         void Add(string tag, string name, string value)

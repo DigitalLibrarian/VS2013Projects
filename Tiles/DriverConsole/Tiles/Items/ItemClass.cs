@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Materials;
 
 namespace Tiles.Items
 {
@@ -12,5 +13,7 @@ namespace Tiles.Items
         public ISprite Sprite { get; set; }
         public IWeaponClass WeaponClass { get; set; }
         public IArmorClass ArmorClass { get; set; }
+
+        public IMaterial Material { get; set; }
     }
 }

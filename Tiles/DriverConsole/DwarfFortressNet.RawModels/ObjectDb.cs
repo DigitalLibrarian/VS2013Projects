@@ -27,6 +27,16 @@ namespace DwarfFortressNet.RawModels
             return default(T);
         }
 
+        public IEnumerable<T> Get<T>()
+        {
+            var type = typeof(T);
+            if (DB.ContainsKey(type))
+            {
+                return DB[type].Values.Select(x => (T) x);
+            }
+            return Enumerable.Empty<T>();
+        }
+
         public void Add<T>(string referenceName, T t)
         {
             var type = typeof(T);

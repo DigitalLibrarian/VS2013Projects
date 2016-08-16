@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using DwarfFortressNet.RawModels;
 using Tiles.Bodies;
 using DwarfFortressNet.Bridge;
+using Tiles.Items;
 namespace DwarfFortressNet.RawParserConsole
 {
     class Program
@@ -60,12 +61,28 @@ namespace DwarfFortressNet.RawParserConsole
                         objDb.Add(matTemplate.ReferenceName, matTemplate);
                     }
                 }
+                else if (pair.Key == ItemWeapon.TokenName)
+                {
+                    foreach (var ele in pair.Value)
+                    {
+                        var obj = ItemWeapon.FromElement(ele);
+                        objDb.Add(obj.ReferenceName, obj);
+                    }
+                }
             }
 
             foreach(var ele in Elements.Where(pair => pair.Key == Inorganic.TokenName).SelectMany(x => x.Value))
             {
                 var inorg = Inorganic.FromElement(ele);
                 objDb.Add(inorg.ReferenceName, inorg);
+            }
+
+            foreach (var inorg in objDb.Get<Inorganic>())
+            {
+                foreach (var weapon in objDb.Get<ItemWeapon>())
+                {
+                    CreateWeapon(inorg, weapon, objDb);
+                }
             }
 
             var c = objDb.Get<Creature>("GOBLIN");
@@ -76,6 +93,11 @@ namespace DwarfFortressNet.RawParserConsole
         static IBody CreateBody(Creature c, ObjectDb objDb)
         {
             return DfCreatureBodyBuilder.FromCreatureDefinition(c, objDb);
+        }
+
+        static IItem CreateWeapon(Inorganic inorg, ItemWeapon weapon, ObjectDb objDb)
+        {
+            return DfWeaponItemBuilder.FromDefinition(inorg, weapon, objDb);
         }
 
         static Dictionary<string, List<Element>> Elements = new Dictionary<string, List<Element>>();
