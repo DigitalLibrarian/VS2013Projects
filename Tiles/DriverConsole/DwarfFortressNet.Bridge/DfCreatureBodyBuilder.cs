@@ -28,6 +28,7 @@ namespace DwarfFortressNet.Bridge
 
             Clear();
         }
+
         public void Clear()
         {
             PartDefsByToken = new Dictionary<string, List<Df.BodyPart>>();

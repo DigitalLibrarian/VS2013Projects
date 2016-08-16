@@ -52,6 +52,20 @@ namespace DwarfFortressNet.RawParserConsole
                         objDb.Add(creature.ReferenceName, creature);
                     }
                 }
+                else if (pair.Key == MaterialTemplate.TokenName)
+                {
+                    foreach (var ele in pair.Value)
+                    {
+                        var matTemplate = MaterialTemplate.FromElement(ele);
+                        objDb.Add(matTemplate.ReferenceName, matTemplate);
+                    }
+                }
+            }
+
+            foreach(var ele in Elements.Where(pair => pair.Key == Inorganic.TokenName).SelectMany(x => x.Value))
+            {
+                var inorg = Inorganic.FromElement(ele);
+                objDb.Add(inorg.ReferenceName, inorg);
             }
 
             var c = objDb.Get<Creature>("GOBLIN");

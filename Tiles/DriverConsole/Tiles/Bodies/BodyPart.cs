@@ -29,21 +29,8 @@ namespace Tiles.Bodies
         public IBodyPart Parent { get; set; }
         public HealthVector Health { get; private set; }
 
-        public BodyPart(
-            IBodyPartClass bodyPartClass,
-            /*string name, bool isCritical, bool canAmputate, bool canGrasp,
-            ArmorSlot armorSlotType, WeaponSlot weaponSlotType, */
-             IBodyPart parent) 
+        public BodyPart(IBodyPartClass bodyPartClass,IBodyPart parent) 
         {
-            /*
-            Name = name;
-            ArmorSlot = armorSlotType;
-            WeaponSlot = weaponSlotType;
-            IsLifeCritical = isCritical;
-            CanAmputate = canAmputate;
-            _canGrasp = canGrasp;
-
-            */
             Class = bodyPartClass;
             Parent = parent;
 
@@ -51,17 +38,6 @@ namespace Tiles.Bodies
         }
 
         public BodyPart(IBodyPartClass bodyPartClass) : this(bodyPartClass, null) { }
-
-
-        /*
-        public BodyPart(string name, bool isCritical, bool canAmputate, bool canGrasp, ArmorSlot armorSlotType, WeaponSlot weaponSlotType)
-            : this(name, isCritical, canAmputate, canGrasp, armorSlotType, weaponSlotType, null)
-        {
-
-        }
-         * */
-
-
         public void StartGrasp(IBodyPart part)
         {
             Grasped = part;

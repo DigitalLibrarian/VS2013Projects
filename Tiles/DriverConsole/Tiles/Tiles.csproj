@@ -137,6 +137,7 @@
     <Compile Include="ITile.cs" />
     <Compile Include="Agents\Player.cs" />
     <Compile Include="IVerb.cs" />
+    <Compile Include="Materials\Material.cs" />
     <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Items\IItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
