@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
+using DwarfFortressNet.RawModels;
 namespace DwarfFortressNet.RawParserConsole
 {
     class Program
@@ -24,6 +25,13 @@ namespace DwarfFortressNet.RawParserConsole
             foreach (var pair in Elements)
             {
                 Console.WriteLine(string.Format("{0}: {1}", pair.Key, pair.Value.Count()));
+                if (pair.Key == BodyPartSet.TokenName)
+                {
+                    foreach (var ele in pair.Value)
+                    {
+                        BodyPartSet.FromElement(ele);
+                    }
+                }
             }
             System.Console.ReadKey();
         }
@@ -91,14 +99,14 @@ namespace DwarfFortressNet.RawParserConsole
             Element currEle = null;
             foreach (var tag in tags)
             {
-                if (tag.Words[0].StartsWith(elementName))
+                if (tag.Words[0].Equals(elementName))
                 {
                     if (currEle == null)
                     {
                         currEle = new Element
                         {
                             Name = elementName,
-                            Tags = new List<Tag>()
+                            Tags = new List<Tag> { }
                         };
                     }
                     else
@@ -117,7 +125,7 @@ namespace DwarfFortressNet.RawParserConsole
                     currEle.Tags.Add(tag);
                 }
             }
-            if (currEle != null)
+            if (currEle != null && currEle.Tags.Any())
             {
                 yield return currEle;
             }
@@ -132,18 +140,6 @@ namespace DwarfFortressNet.RawParserConsole
         {
             //[APPLY_CREATURE_VARIATION:STANDARD_CLIMBING_GAITS:6561:6115:5683:1755:7456:8567] 5 kph
             return TagRegex().IsMatch(line);
-        }
-
-        class Tag
-        {
-            public IList<string> Words { get; set; }
-        }
-
-
-        class Element
-        {
-            public string Name { get; set; }
-            public List<Tag> Tags { get; set; }
         }
 
 

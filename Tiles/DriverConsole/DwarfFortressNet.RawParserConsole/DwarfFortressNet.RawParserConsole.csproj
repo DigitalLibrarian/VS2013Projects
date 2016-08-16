@@ -48,6 +48,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DwarfFortressNet.RawModels\DwarfFortressNet.RawModels.csproj">
+      <Project>{3d15a54e-fbdd-4e4e-83aa-70c1e295c4e2}</Project>
+      <Name>DwarfFortressNet.RawModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
