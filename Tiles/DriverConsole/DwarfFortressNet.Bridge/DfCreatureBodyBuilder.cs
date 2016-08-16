@@ -10,7 +10,7 @@ using Df = DwarfFortressNet.RawModels;
 
 namespace DwarfFortressNet.Bridge
 {
-    public class DfBodyBuilder
+    public class DfCreatureBodyBuilder
     {
         Dictionary<string, List<Df.BodyPart>> PartDefsByToken { get; set; }
 
@@ -21,11 +21,15 @@ namespace DwarfFortressNet.Bridge
 
         Creature Creature { get; set; }
         ObjectDb Db { get; set; }
-        public DfBodyBuilder(Creature creature, ObjectDb objDb)
+        public DfCreatureBodyBuilder(Creature creature, ObjectDb objDb)
         {
             Creature = creature;
             Db = objDb;
 
+            Clear();
+        }
+        public void Clear()
+        {
             PartDefsByToken = new Dictionary<string, List<Df.BodyPart>>();
             CreatedPartsByName = new Dictionary<string, IBodyPart>();
             CreatedPartsByToken = new Dictionary<string, List<IBodyPart>>();
@@ -89,7 +93,7 @@ namespace DwarfFortressNet.Bridge
             {
                 var bp = new Tiles.Bodies.BodyPart(
                     name: part.Name,
-                    isCritical: false,
+                    isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
                     canAmputate: false,
                     canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
                     armorSlotType: Tiles.Items.ArmorSlot.None,
@@ -109,7 +113,7 @@ namespace DwarfFortressNet.Bridge
 
                 var bp = new Tiles.Bodies.BodyPart(
                     name: part.Name,
-                    isCritical: false,
+                    isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
                     canAmputate: false,
                     canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
                     armorSlotType: Tiles.Items.ArmorSlot.None,
@@ -130,7 +134,7 @@ namespace DwarfFortressNet.Bridge
                 {
                     var bp = new Tiles.Bodies.BodyPart(
                         name: part.Name,
-                        isCritical: false,
+                        isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
                         canAmputate: false,
                         canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
                         armorSlotType: Tiles.Items.ArmorSlot.None,
@@ -151,7 +155,7 @@ namespace DwarfFortressNet.Bridge
 
         public static IBody FromCreatureDefinition(Creature c, ObjectDb objDb)
         {
-            var builder = new DfBodyBuilder(c, objDb);
+            var builder = new DfCreatureBodyBuilder(c, objDb);
             builder.AddRootParts();
             builder.AddSpecificallyConnectedParts();
             builder.AddTokenConnectedParts();

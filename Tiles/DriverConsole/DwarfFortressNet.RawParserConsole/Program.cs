@@ -64,7 +64,7 @@ namespace DwarfFortressNet.RawParserConsole
 
         static IBody CreateBody(Creature c, ObjectDb objDb)
         {
-            return DfBodyBuilder.FromCreatureDefinition(c, objDb);
+            return DfCreatureBodyBuilder.FromCreatureDefinition(c, objDb);
         }
 
         static Dictionary<string, List<Element>> Elements = new Dictionary<string, List<Element>>();
