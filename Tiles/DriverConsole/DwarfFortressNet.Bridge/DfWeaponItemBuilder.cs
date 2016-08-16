@@ -64,7 +64,7 @@ namespace DwarfFortressNet.Bridge
             var weaponClass = new WeaponClass(name, sprite, weaponSlots, moves.ToArray());
             var itemClass = new ItemClass
             {
-                Name = name,
+                Name = string.Format("{0} {1}",Inorganic.AllSolidAdjective, name),
                 Sprite = sprite,
                 Material = material,
                 WeaponClass = weaponClass
