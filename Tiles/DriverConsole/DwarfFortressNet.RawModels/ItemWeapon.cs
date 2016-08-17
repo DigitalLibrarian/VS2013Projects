@@ -71,6 +71,10 @@ namespace DwarfFortressNet.RawModels
             public string Noun { get; set; }
             public string AttackType { get; set; }
 
+            public int ContactArea { get; set; }
+            public int PenetrationSize { get; set; }
+            public int VelocityMultiplier { get; set; }
+
             public List<Tag> Tokens { get; set; }
 
             public static WeaponAttack FromTags(IList<Tag> tags)
@@ -79,10 +83,13 @@ namespace DwarfFortressNet.RawModels
                 var wa = new WeaponAttack
                 {
                     AttackType = firstTag.Words[1],
+                    ContactArea = int.Parse(firstTag.Words[2]),
+                    PenetrationSize = int.Parse(firstTag.Words[3]),
                     VerbSecondPerson = firstTag.Words[4],
                     VerbThirdPerson = firstTag.Words[5],
                     Noun = firstTag.Words[6],
-                    Tokens = new List<Tag>()
+                    VelocityMultiplier = int.Parse(firstTag.Words[7]),
+                    Tokens = new List<Tag> { firstTag}
                 };
 
                 foreach (var tag in tags.Skip(1))
