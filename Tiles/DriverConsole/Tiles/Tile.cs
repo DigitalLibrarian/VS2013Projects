@@ -24,18 +24,6 @@ namespace Tiles
         Building
     }
 
-    public enum Material
-    {
-        None,
-        Water,
-        Air,
-        Dirt,
-        Wood,
-        Stone,
-        Magma,
-        Bio
-    }
-
     public class Tile : ITile
     {
         public Symbol Background { get; set; }
