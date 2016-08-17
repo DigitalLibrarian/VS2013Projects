@@ -25,7 +25,6 @@ namespace Tiles.Agents.Combat
 
         public bool Evolve(ICombatMoveContext session)
         {
-            var move = session.Move;
             if (!Should(session)) return false;
             Run(session);
             return true;
