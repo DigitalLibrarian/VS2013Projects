@@ -37,7 +37,7 @@ namespace Tiles.Tests.Items
         }
 
         [TestMethod]
-        public void RemoveItem()
+        public void RemoveItem_RegularInventory()
         {
             var itemMock1 = new Mock<IItem>();
             var inv = new Inventory();
@@ -52,6 +52,24 @@ namespace Tiles.Tests.Items
             inv.RemoveItem(itemMock1.Object);
             inv.RemoveItem(itemMock2.Object);
 
+            Assert.IsFalse(inv.GetItems().Any());
+            Assert.IsFalse(inv.GetWorn().Any());
+        }
+
+        [TestMethod]
+        public void RemoveItem_WornItem()
+        {
+            var itemMock1 = new Mock<IItem>();
+            var inv = new Inventory();
+
+            inv.AddItem(itemMock1.Object);
+            inv.AddToWorn(itemMock1.Object, itemMock1.Object);
+
+            Assert.IsFalse(inv.GetItems().Any());
+            Assert.AreEqual(1, inv.GetWorn().Count());
+            Assert.AreSame(itemMock1.Object, inv.GetWorn().Single());
+
+            inv.RemoveItem(itemMock1.Object);
             Assert.IsFalse(inv.GetItems().Any());
             Assert.IsFalse(inv.GetWorn().Any());
         }
