@@ -71,6 +71,7 @@
     <Compile Include="Agents\PlayerTests.cs" />
     <Compile Include="AtlasTests.cs" />
     <Compile Include="ActionLogTests.cs" />
+    <Compile Include="Bodies\BodyPartTests.cs" />
     <Compile Include="Bodies\BodyTests.cs" />
     <Compile Include="Bodies\HealthVectorTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />

@@ -29,7 +29,7 @@ namespace Tiles.Bodies
         public IBodyPart Parent { get; set; }
         public HealthVector Health { get; private set; }
 
-        public BodyPart(IBodyPartClass bodyPartClass,IBodyPart parent) 
+        public BodyPart(IBodyPartClass bodyPartClass, IBodyPart parent) 
         {
             Class = bodyPartClass;
             Parent = parent;
