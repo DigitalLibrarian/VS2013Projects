@@ -15,13 +15,18 @@ namespace Tiles.Agents.Combat
 
         BodyStateChange AttackerBodyStateChange { get; }
 
-        bool IsDefenderPartSpecific { get; set; }
+        bool IsDefenderPartSpecific { get; }
 
-        bool IsMartialArts { get; set; }
+        bool IsMartialArts { get; }
 
-        bool IsStrike { get; set; }
+        bool IsStrike { get; }
 
-        bool IsItem { get; set; }
+        bool IsItem { get; }
+
+
+
+        int PrepTime { get; }
+        int RecoveryTime { get; }
     }
 
 }

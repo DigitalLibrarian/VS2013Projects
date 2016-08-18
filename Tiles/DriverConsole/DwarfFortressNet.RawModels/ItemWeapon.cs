@@ -75,6 +75,9 @@ namespace DwarfFortressNet.RawModels
             public int PenetrationSize { get; set; }
             public int VelocityMultiplier { get; set; }
 
+            public int PrepTime { get; set; }
+            public int RecoveryTime { get; set; }
+
             public List<Tag> Tokens { get; set; }
 
             public static WeaponAttack FromTags(IList<Tag> tags)
@@ -94,6 +97,12 @@ namespace DwarfFortressNet.RawModels
 
                 foreach (var tag in tags.Skip(1))
                 {
+                    if (tag.Name.Equals("ATTACK_PREPARE_AND_RECOVER"))
+                    {
+                        wa.PrepTime = int.Parse(tag.Words[1]);
+                        wa.RecoveryTime = int.Parse(tag.Words[2]);
+                    }
+
                     if (tag.Name.Equals("ATTACK")) break;
                     wa.Tokens.Add(tag);
                 }

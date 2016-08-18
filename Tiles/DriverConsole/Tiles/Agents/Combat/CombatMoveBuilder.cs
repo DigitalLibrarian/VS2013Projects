@@ -38,7 +38,9 @@ namespace Tiles.Agents.Combat
                     { VerbConjugation.SecondPerson, "grab"},
                     { VerbConjugation.ThirdPerson, "grabs"},
                 }, true),
-            damage: new DamageVector()
+            damage: new DamageVector(),
+            prepTime: 1,
+            recoveryTime: 1
             )
         {
             IsMartialArts = true,
@@ -55,7 +57,9 @@ namespace Tiles.Agents.Combat
                     { VerbConjugation.SecondPerson, "release"},
                     { VerbConjugation.ThirdPerson, "releases"},
                 }, true),
-            damage: new DamageVector()
+            damage: new DamageVector(),
+            prepTime: 1,
+            recoveryTime: 1
             )
         {
             IsMartialArts = true,
@@ -73,7 +77,9 @@ namespace Tiles.Agents.Combat
                 }, true),
             damage: new DamageVector(new Dictionary<DamageType, uint>{
                     {DamageType.Blunt, 20}
-                })
+                }),
+            prepTime: 1,
+            recoveryTime: 1
             )
         {
             IsMartialArts = true,
@@ -91,7 +97,9 @@ namespace Tiles.Agents.Combat
                     { VerbConjugation.SecondPerson, "break away from"},
                     { VerbConjugation.ThirdPerson, "breaks away from"},
                 }, true),
-            damage: new DamageVector()
+            damage: new DamageVector(),
+            prepTime: 1,
+            recoveryTime: 1
             )
         {
             IsMartialArts = true,

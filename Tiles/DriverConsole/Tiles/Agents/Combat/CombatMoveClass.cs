@@ -9,7 +9,7 @@ namespace Tiles.Agents.Combat
 {
     public class CombatMoveClass : ICombatMoveClass
     {
-        public CombatMoveClass(string name, IVerb meleeVerb, IDamageVector damage)
+        public CombatMoveClass(string name, IVerb meleeVerb, IDamageVector damage, int prepTime, int recoveryTime)
         {
             Name = name;
             Verb = meleeVerb;
@@ -21,6 +21,8 @@ namespace Tiles.Agents.Combat
         public string Name { get; set; }
         public IVerb Verb { get; set; }
         public IDamageVector DamageVector { get; set; }
+        public int PrepTime { get; set; }
+        public int RecoveryTime { get; set; }
         
         public BodyStateChange AttackerBodyStateChange { get; set; }
 

@@ -21,7 +21,7 @@ namespace Tiles.Agents
                 RequiredTime = MinTime * 1
             };
         }
-
+        
         public IEnumerable<IAgentCommand> MoveDirection(IAgent agent, Vector3 direction)
         {
             yield return new AgentCommand
@@ -39,7 +39,7 @@ namespace Tiles.Agents
                 yield return new AgentCommand
                 {
                     CommandType = AgentCommandType.PickUpItemOnAgentTile,
-                    RequiredTime = 1,
+                    RequiredTime = MinTime,
                     Item = item
                 };
             }
@@ -49,10 +49,20 @@ namespace Tiles.Agents
         {
             yield return new AgentCommand
             {
+                CommandType = AgentCommandType.None,
+                RequiredTime = attackMove.Class.PrepTime
+            };
+            yield return new AgentCommand
+            {
                 CommandType = AgentCommandType.AttackMelee,
-                RequiredTime = MinTime * 20,
+                RequiredTime = MinTime,
                 Target = target,
                 AttackMove = attackMove
+            };
+            yield return new AgentCommand
+            {
+                CommandType = AgentCommandType.None,
+                RequiredTime = attackMove.Class.RecoveryTime
             };
         }
 

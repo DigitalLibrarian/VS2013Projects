@@ -101,16 +101,35 @@ namespace Tiles.Tests.Agents
             }
         }
 
-        [Ignore] // TODO - make it enqueue 3 moves, prep, exec, and recovery
         [TestMethod]
         public void MeleeAttack()
         {
             var agentMock = new Mock<IAgent>();
             var targetMock = new Mock<IAgent>();
             var attackMock = new Mock<ICombatMove>();
+            var classMock = new Mock<ICombatMoveClass>();
+            attackMock.Setup(x => x.Class).Returns(classMock.Object);
+            int prepTime = 1;
+            int recoveryTime = 2;
+            classMock.Setup(x => x.PrepTime).Returns(prepTime);
+            classMock.Setup(x => x.RecoveryTime).Returns(recoveryTime);
 
             var commands = Factory.MeleeAttack(agentMock.Object, targetMock.Object, attackMock.Object);
-            var command = commands.Single();
+            Assert.AreEqual(3, commands.Count());
+
+            var command = commands.ElementAt(0);
+
+            Assert.AreEqual(AgentCommandType.None, command.CommandType);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
+            Assert.IsNull(command.Target);
+            Assert.IsNull(command.AttackMove);
+            Assert.IsNull(command.Item);
+            Assert.IsNull(command.Weapon);
+            Assert.IsNull(command.Armor);
+            Assert.IsTrue(command.RequiredTime > 0);
+
+            command = commands.ElementAt(1);
 
             Assert.AreEqual(AgentCommandType.AttackMelee, command.CommandType);
             Asserter.AreEqual(Vector3.Zero, command.TileOffset);
@@ -120,6 +139,19 @@ namespace Tiles.Tests.Agents
             Assert.IsNull(command.Item);
             Assert.IsNull(command.Weapon);
             Assert.IsNull(command.Armor);
+            Assert.IsTrue(command.RequiredTime > 0);
+
+            command = commands.ElementAt(2);
+
+            Assert.AreEqual(AgentCommandType.None, command.CommandType);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
+            Assert.IsNull(command.Target);
+            Assert.IsNull(command.AttackMove);
+            Assert.IsNull(command.Item);
+            Assert.IsNull(command.Weapon);
+            Assert.IsNull(command.Armor);
+            Assert.IsTrue(command.RequiredTime > 0);
         }
         
         [TestMethod]

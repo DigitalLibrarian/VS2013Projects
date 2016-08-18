@@ -56,7 +56,9 @@ namespace Tiles.Items
                                             { DamageType.Pierce, 1 },
                                             { DamageType.Blunt, 1 }
                                         }
-                                   )
+                                   ),
+                               prepTime: 1,
+                               recoveryTime: 1
                                )
                            {
                                IsMartialArts = true,

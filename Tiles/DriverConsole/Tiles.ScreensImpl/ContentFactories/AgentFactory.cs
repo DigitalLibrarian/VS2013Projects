@@ -134,7 +134,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                         { DamageType.Slash, 12 },
                                         { DamageType.Pierce, 2},
                                     }
-                               )
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
                            )
                            {
                                IsMartialArts = true,
@@ -156,7 +158,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                         { DamageType.Slash, 18 },
                                         { DamageType.Pierce, 5},
                                     }
-                               )
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
                            )
                            {
                                IsMartialArts = true,
@@ -189,7 +193,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                         { DamageType.Slash, 12 },
                                         { DamageType.Pierce, 2},
                                     }
-                               )
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
                            )
                            {
                                IsMartialArts = true,

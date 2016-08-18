@@ -34,7 +34,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Blunt, 1 }
                                 }
-                           )
+                           ),
+                      prepTime: 1,
+                      recoveryTime: 1
                        ){
                        IsDefenderPartSpecific = true,
                        IsMartialArts = true,
@@ -54,7 +56,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Slash, 1 }
                                 }
-                           )
+                           ),
+                      prepTime: 1,
+                      recoveryTime: 1
                        ){
                        IsDefenderPartSpecific = true,
                        IsMartialArts = true,
@@ -81,7 +85,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Slash, 55 }
                                 }
-                           )
+                           ),
+                      prepTime: 1,
+                      recoveryTime: 1
                        ){
                        IsDefenderPartSpecific = true,
                        IsMartialArts = true,
@@ -102,7 +108,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Pierce, 63 },
                                     { DamageType.Slash, 11 }
                                 }
-                           )
+                           ),
+                      prepTime: 1,
+                      recoveryTime: 1
                        ){
                        IsDefenderPartSpecific = true,
                        IsMartialArts = true,
@@ -129,7 +137,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 new Dictionary<DamageType,uint>{
                                     { DamageType.Blunt, 25 }
                                 }
-                           )
+                           ),
+                      prepTime: 1,
+                      recoveryTime: 1
                        ){
                        IsDefenderPartSpecific = true,
                        IsMartialArts = true,
@@ -309,7 +319,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { DamageType.Pierce, 1 },
                                     { DamageType.Blunt, 1 }
                                 }
-                           )
+                           ),
+                          prepTime: 1,
+                          recoveryTime: 1
                        )
                         {
                        IsDefenderPartSpecific = true,

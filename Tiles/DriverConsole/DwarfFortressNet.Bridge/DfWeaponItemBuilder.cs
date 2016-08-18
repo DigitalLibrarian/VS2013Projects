@@ -51,7 +51,12 @@ namespace DwarfFortressNet.Bridge
                     damageVector.SetComponent(DamageType.Slash, 10);
                     damageVector.SetComponent(DamageType.Pierce, 10);
                 }
-                var moveClass = new CombatMoveClass(attack.VerbSecondPerson, verb, damageVector)
+                var moveClass = new CombatMoveClass(
+                    attack.VerbSecondPerson, 
+                    verb, 
+                    damageVector,
+                    attack.PrepTime,
+                    attack.RecoveryTime)
                 {
                     IsStrike = true,
                     IsMartialArts = true,
