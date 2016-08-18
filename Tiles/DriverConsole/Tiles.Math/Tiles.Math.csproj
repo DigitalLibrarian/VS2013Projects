@@ -39,7 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Box.cs" />
+    <Compile Include="Box2.cs" />
+    <Compile Include="Box3.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="CompassDirection.cs" />
     <Compile Include="CompassVectors.cs" />

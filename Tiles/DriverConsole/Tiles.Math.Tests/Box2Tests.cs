@@ -7,7 +7,7 @@ using Tiles.Tests.Assertions;
 namespace Tiles.Math.Tests
 {
     [TestClass]
-    public class BoxTests
+    public class Box2Tests
     {
         [TestMethod]
         public void PointBox()
