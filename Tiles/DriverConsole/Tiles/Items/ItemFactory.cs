@@ -26,11 +26,21 @@ namespace Tiles.Items
             });
         }
 
+        public IItem CreateCorpse(IAgent agent)
+        {
+            return Create(new ItemClass
+            {
+                Name = string.Format("{0}'s corpse", agent.Name),
+                Sprite = new Sprite(Symbol.Corpse, Color.DarkGray, Color.Black),
+                WeaponClass = DefaultWeaponClass
+            });
+        }
+
         private static IWeaponClass DefaultWeaponClass = new WeaponClass(
-                    name: "Strike",
-                    sprite: null,
-                    slots: new WeaponSlot[] { WeaponSlot.Main },
-                    attackMoveClasses: new ICombatMoveClass[] { 
+            name: "Strike",
+            sprite: null,
+            slots: new WeaponSlot[] { WeaponSlot.Main },
+            attackMoveClasses: new ICombatMoveClass[] { 
                            new CombatMoveClass(
                                name: "Strike",
                                meleeVerb: new Verb(
@@ -56,15 +66,5 @@ namespace Tiles.Items
                            },
 
                     });
-
-
-        public IItem CreateCorpse(IAgent agent)
-        {
-            return Create(new ItemClass
-            {
-                Name = string.Format("{0}'s corpse", agent.Name),
-                Sprite = new Sprite(Symbol.Corpse, Color.DarkGray, Color.Black)
-            });
-        }
     }
 }
