@@ -125,6 +125,7 @@ namespace DwarfFortressNet.Bridge
                     foreach (var part in PlannedBodyParts.Values
                         .Where(x => x.Category.Equals(bpLayers.Category)))
                     {
+                        var bpTissueOrder = new List<string>();
                         foreach (var tissueRef in bpLayers.Thicknesses)
                         {
                             var tissueName = tissueRef.IsArg
@@ -133,10 +134,11 @@ namespace DwarfFortressNet.Bridge
 
                             SetBodyPartTissueThickness(part.ReferenceName,
                                 tissueName, relThick);
-                            SetBodyPartTissueOrder(
-                                part.ReferenceName,
-                                tissueOrder.ToList());
+                            bpTissueOrder.Add(tissueName);
                         }
+                        SetBodyPartTissueOrder(
+                            part.ReferenceName,
+                            bpTissueOrder);
                     }
                 }
                 else
@@ -236,18 +238,21 @@ namespace DwarfFortressNet.Bridge
                 }
 
                 bBuilder.AddPart(part, layers);
-                Console.WriteLine(part.ReferenceName + "\t" + layers.Count());
+                Console.WriteLine(part.ReferenceName + "\t" + part.Name + "\t" + string.Join(", ", layers.Select(x => x.Material.Adjective)));
             }
 
 
             return null;
         }
 
-        private IEnumerable<string> GetBodyPartTissueOrder(string p)
+        private IEnumerable<string> GetBodyPartTissueOrder(string bodyPartName)
         {
-            if (BodyPartTissueOrder.ContainsKey(p))
+            if (BodyPartTissueOrder.ContainsKey(bodyPartName))
             {
-                return BodyPartTissueOrder[p];
+                if (BodyPartTissueThickness.ContainsKey(bodyPartName))
+                {
+                    return BodyPartTissueOrder[bodyPartName];
+                }
             }
             return Enumerable.Empty<string>();
         }
