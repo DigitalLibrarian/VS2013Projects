@@ -16,7 +16,7 @@ namespace Tiles.Agents.Combat
             return CalculateBodyPartDmg(moveClass.DamageVector, bodyPart);
         }
 
-        uint CalculateBodyPartDmg(DamageVector damageV, IBodyPart bodyPart)
+        uint CalculateBodyPartDmg(IDamageVector damageV, IBodyPart bodyPart)
         {
             int total = 0;
 

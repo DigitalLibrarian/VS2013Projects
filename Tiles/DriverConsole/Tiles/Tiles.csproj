@@ -79,6 +79,7 @@
     <Compile Include="Agents\IAgentCommandInterpreter.cs" />
     <Compile Include="Agents\IAgentCommandTypeInterpreter.cs" />
     <Compile Include="Agents\IAgentReaper.cs" />
+    <Compile Include="Agents\Combat\IDamageVector.cs" />
     <Compile Include="Bodies\Body.cs" />
     <Compile Include="Bodies\BodyFactory.cs" />
     <Compile Include="Bodies\BodyPart.cs" />

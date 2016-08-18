@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Agents.Combat
 {
-    public class DamageVector
+    public class DamageVector : IDamageVector
     {
         IDictionary<DamageType, uint> Data { get; set; }
 
@@ -18,12 +18,6 @@ namespace Tiles.Agents.Combat
         public DamageVector()
         {
             Data = new Dictionary<DamageType, uint>();
-        }
-
-        public void AddComponent(DamageType damageType, uint damage)
-        {
-            var d = GetComponent(damageType);
-            SetComponent(damageType, d + damage);
         }
 
         public uint GetComponent(DamageType damageType)
