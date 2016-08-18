@@ -105,8 +105,6 @@ namespace Tiles.ScreensImpl.ContentFactories
             return agent.Outfit.GetItems().Where(x => x.IsWeapon).Any();
         }
 
-
-
         private IAgent FindTarget(IGame game, IAgent agent)
         {
             var pos = FindNearbyPos(agent.Pos, worldPos =>
