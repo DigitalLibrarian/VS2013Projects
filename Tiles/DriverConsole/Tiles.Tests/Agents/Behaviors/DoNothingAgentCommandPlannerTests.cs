@@ -16,12 +16,13 @@ namespace Tiles.Tests.Agents.Behaviors
         [TestMethod]
         public void Plan()
         {
-            var commandFactoryMock = new Mock<IAgentCommandFactory>();
-            var commandsMock = new Mock<IEnumerable<IAgentCommand>>();
-
-            var planner = new DoNothingAgentCommandPlanner(commandFactoryMock.Object);
             var gameMock = new Mock<IGame>();
             var agentMock = new Mock<IAgent>();
+            var commandsMock = new Mock<IEnumerable<IAgentCommand>>();
+            var commandFactoryMock = new Mock<IAgentCommandFactory>();
+            commandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(commandsMock.Object);
+
+            var planner = new DoNothingAgentCommandPlanner(commandFactoryMock.Object);
             var result = planner.PlanBehavior(gameMock.Object, agentMock.Object);
 
             Assert.AreSame(commandsMock.Object, result);
