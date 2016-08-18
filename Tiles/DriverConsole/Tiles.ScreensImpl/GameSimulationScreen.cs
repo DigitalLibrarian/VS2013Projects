@@ -212,7 +212,7 @@ namespace Tiles.ScreensImpl
         {
             if (args.Key == ConsoleKey.G)
             {
-                Game.Player.EnqueueCommands(CommandFactory.PickUpItemsOnAgentTile(Game.Player.Agent));
+                Game.Player.EnqueueCommands(CommandFactory.PickUpItemsOnAgentTile(Game, Game.Player.Agent));
             }
         }
         #endregion

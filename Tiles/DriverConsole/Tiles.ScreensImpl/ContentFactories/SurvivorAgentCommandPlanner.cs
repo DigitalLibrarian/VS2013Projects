@@ -65,7 +65,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             }
             else if(game.Atlas.GetTileAtPos(agent.Pos).Items.Any())
             {
-                return CommandFactory.PickUpItemsOnAgentTile(agent);
+                return CommandFactory.PickUpItemsOnAgentTile(game, agent);
             }
 
             var itemPos = FindNearestItem(game, agent);

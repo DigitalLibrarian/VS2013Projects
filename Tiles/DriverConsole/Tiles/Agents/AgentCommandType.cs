@@ -9,7 +9,7 @@ namespace Tiles.Agents
     public enum AgentCommandType
     {
         None,
-        PickUpItemsOnAgentTile,
+        PickUpItemOnAgentTile,
         Move,
         AttackMelee,
         WieldWeapon,

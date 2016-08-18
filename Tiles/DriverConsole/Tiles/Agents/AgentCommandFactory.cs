@@ -32,14 +32,17 @@ namespace Tiles.Agents
             };
         }
 
-        public IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IAgent agent) 
+        public IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IGame game, IAgent agent) 
         {
-            // TODO - axe this command and replace with a single item pick up command (easier to handle time req.)
-            yield return new AgentCommand
+            foreach (var item in game.Atlas.GetTileAtPos(agent.Pos).Items)
             {
-                CommandType = AgentCommandType.PickUpItemsOnAgentTile,
-                RequiredTime = MinTime * 30
-            };
+                yield return new AgentCommand
+                {
+                    CommandType = AgentCommandType.PickUpItemOnAgentTile,
+                    RequiredTime = 1,
+                    Item = item
+                };
+            }
         }
 
         public IEnumerable<IAgentCommand> MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove)

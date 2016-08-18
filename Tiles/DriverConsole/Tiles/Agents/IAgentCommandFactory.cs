@@ -16,7 +16,7 @@ namespace Tiles.Agents
         IEnumerable<IAgentCommand> MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove);
         IEnumerable<IAgentCommand> WieldWeapon(IAgent agent, IItem item);
         IEnumerable<IAgentCommand> WearArmor(IAgent agent, IItem item);
-        IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IAgent agent);
+        IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IGame game, IAgent agent);
         IEnumerable<IAgentCommand> MoveDirection(IAgent agent, Vector3 direction);
 
         IEnumerable<IAgentCommand> UnwieldWeapon(IAgent agent, IItem item);

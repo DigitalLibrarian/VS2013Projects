@@ -60,24 +60,45 @@ namespace Tiles.Tests.Agents
             Assert.IsNull(command.Weapon);
             Assert.IsNull(command.Armor);
         }
-        
-        [Ignore] // TODO - make it enqueue a command for each item
+
         [TestMethod]
         public void PickUpItemsOnAgentTile()
         {
-            var agentMock = new Mock<IAgent>();
-            var commands = Factory.PickUpItemsOnAgentTile(agentMock.Object);
-            Assert.AreEqual(1, commands.Count());
-            var command = commands.Single();
+            var gameMock = new Mock<IGame>();
+            var atlasMock = new Mock<IAtlas>();
+            gameMock.Setup(x => x.Atlas).Returns(atlasMock.Object);
 
-            Assert.AreEqual(AgentCommandType.PickUpItemsOnAgentTile, command.CommandType);
-            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
-            Asserter.AreEqual(Vector3.Zero, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
-            Assert.IsNull(command.Item);
-            Assert.IsNull(command.Weapon);
-            Assert.IsNull(command.Armor);
+            var agentMock = new Mock<IAgent>();
+            var agentPos = new Vector3(2, 3, 4);
+            agentMock.Setup(x => x.Pos).Returns(agentPos);
+
+            var items = new List<IItem>{
+                new Mock<IItem>().Object,
+                new Mock<IItem>().Object,
+                new Mock<IItem>().Object
+            };
+            var tileMock = new Mock<ITile>();
+            tileMock.Setup(x => x.Items).Returns(items);
+            atlasMock.Setup(x => x.GetTileAtPos(agentPos)).Returns(tileMock.Object);
+
+            var commands = Factory.PickUpItemsOnAgentTile(gameMock.Object, agentMock.Object);
+            Assert.AreEqual(items.Count(), commands.Count());
+
+            for (int i = 0; i < items.Count();i++ )
+            {
+                IItem item = items[i];
+                var command = commands.Single(x => x.Item == item);
+
+                Assert.AreEqual(AgentCommandType.PickUpItemOnAgentTile, command.CommandType);
+                Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+                Asserter.AreEqual(Vector3.Zero, command.Direction);
+                Assert.IsNull(command.Target);
+                Assert.IsNull(command.AttackMove);
+                Assert.AreSame(item, command.Item);
+                Assert.IsNull(command.Weapon);
+                Assert.IsNull(command.Armor);
+                Assert.AreNotEqual(0, command.RequiredTime);
+            }
         }
 
         [Ignore] // TODO - make it enqueue 3 moves, prep, exec, and recovery
