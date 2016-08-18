@@ -167,5 +167,12 @@ namespace Tiles.Math.Tests
 
             Asserter.AreEqual(new Vector2(-1, 2), Vector2.Max(v1, v3));
         }
+        
+        [TestMethod]
+        public void Truncate()
+        {
+            var v = new Vector3(1, 2, 3);
+            Asserter.AreEqual(new Vector2(1, 2), Vector2.Truncate(v));
+        }
     }
 }
