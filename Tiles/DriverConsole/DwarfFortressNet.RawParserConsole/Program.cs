@@ -33,8 +33,10 @@ namespace DwarfFortressNet.RawParserConsole
             }
 
 
-            var c = fab.Creatures.Single(x => x.ReferenceName == "GOBLIN");
+            var c = fab.Creatures.Single(x => x.ReferenceName == "DWARF");
             fab.CreateBody(c);
+            fab.CreateAgent(c);
+
 
             System.Console.ReadKey();
         }

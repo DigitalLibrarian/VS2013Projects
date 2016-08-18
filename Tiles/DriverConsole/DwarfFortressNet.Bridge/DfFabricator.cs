@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Tiles.Agents;
 using Tiles.Bodies;
 using Tiles.Items;
 
@@ -51,7 +52,6 @@ namespace DwarfFortressNet.Bridge
 
             foreach (var pair in Elements)
             {
-                Console.WriteLine(string.Format("{0}: {1}", pair.Key, pair.Value.Count()));
                 if (pair.Key == BodyPartSet.TokenName)
                 {
                     foreach (var ele in pair.Value)
@@ -92,6 +92,15 @@ namespace DwarfFortressNet.Bridge
                         Db.Add(obj.ReferenceName, obj);
                     }
                 }
+                else if (pair.Key == TissueTemplate.TokenName)
+                {
+                    foreach (var ele in pair.Value)
+                    {
+                        var obj = TissueTemplate.FromElement(ele);
+                        Db.Add(obj.ReferenceName, obj);
+                    }
+                }
+
             }
 
             foreach (var ele in Elements.Where(pair => pair.Key == Inorganic.TokenName).SelectMany(x => x.Value))
@@ -263,6 +272,12 @@ namespace DwarfFortressNet.Bridge
         public IItem CreateWeapon(Inorganic inorg, ItemWeapon weapon)
         {
             return DfWeaponItemBuilder.FromDefinition(inorg, weapon, Db);
+        }
+
+        public IAgent CreateAgent(Creature c)
+        {
+            var b = new DfAgentBuilder(Db, c);
+            return b.Build();
         }
     }
 }

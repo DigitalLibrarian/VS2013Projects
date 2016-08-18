@@ -41,7 +41,7 @@
   <ItemGroup>
     <Compile Include="DfCreatureBodyBuilder.cs" />
     <Compile Include="DfFabricator.cs" />
-    <Compile Include="DfMaterialBuilder.cs" />
+    <Compile Include="DfMaterialFactory.cs" />
     <Compile Include="DfWeaponItemBuilder.cs" />
     <Compile Include="ObjectDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

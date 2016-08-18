@@ -27,8 +27,8 @@ namespace DwarfFortressNet.Bridge
 
         public IItem Build()
         {
-            var matBuilder = new DfMaterialBuilder(Inorganic, Db);
-            var material = matBuilder.Build();
+            var matBuilder = new DfMaterialFactory(Db);
+            var material = matBuilder.Create(Inorganic);
 
             var name = Weapon.Name;
             var sprite = new Sprite(Symbol.MeleeSword, Color.White, Color.Black);

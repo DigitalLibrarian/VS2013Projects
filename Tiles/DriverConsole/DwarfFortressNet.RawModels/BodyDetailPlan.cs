@@ -6,6 +6,21 @@ using System.Threading.Tasks;
 
 namespace DwarfFortressNet.RawModels
 {
+
+    public class TissueThickness
+    {
+        public string Name { get; set; }
+        public int Thickness { get; set; }
+        public bool IsArg { get { return Name.StartsWith("ARG"); } }
+        public int Index
+        {
+            get
+            {
+                if (!IsArg) return -1;
+                return int.Parse(Name.Substring(3)) - 1;
+            }
+        }
+    }
     
 	//[ADD_MATERIAL:MUSCLE:MUSCLE_TEMPLATE]
     public class BodyDetailPlan_AddMaterial
@@ -49,8 +64,9 @@ namespace DwarfFortressNet.RawModels
 
         public string Strategy { get; set; }
         public string Category { get; set; }
-        public Dictionary<string, int> ArgumentThickness { get; set; }
 
+        public List<TissueThickness> Thicknesses { get; set; }
+        
         public static BodyDetailPlan_BpLayers FromTag(Tag tag)
         {
             var tokenName = tag.Words[0];
@@ -61,7 +77,7 @@ namespace DwarfFortressNet.RawModels
             {
                 Strategy = strategy,
                 Category = category,
-                ArgumentThickness = new Dictionary<string,int>()
+                Thicknesses = new List<TissueThickness>()
             };
             var leftOvers = tag.Words.Skip(3).ToList();
             // The mod 2 is hack.  These parameter lists might have 2 or 3 element sublists, with no syntactic way to tell. I just ignore 3s until it is a problem.
@@ -70,7 +86,11 @@ namespace DwarfFortressNet.RawModels
                 var argName = leftOvers.ElementAt(0);
                 var argValue = int.Parse(leftOvers.ElementAt(1));
                 leftOvers.RemoveRange(0, 2);
-                bpLayers.ArgumentThickness.Add(argName, argValue);
+                bpLayers.Thicknesses.Add(new TissueThickness
+                {
+                    Name = argName,
+                    Thickness = argValue
+                });
             }
 
             return bpLayers;
@@ -184,6 +204,8 @@ namespace DwarfFortressNet.RawModels
         public List<BodyDetailPlan_BpPosition> BpPositions { get; set; }
         public List<BodyDetailPlan_BpRelation> BpRelations { get; set; }
         public List<BodyDetailPlan_BpRelSize> BpRelSizes { get; set; }
+
+        public List<string> TissueNames { get; set; }
 
         public static BodyDetailPlan FromElement(Element ele)
         {
