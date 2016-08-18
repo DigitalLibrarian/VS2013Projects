@@ -76,6 +76,7 @@
     <Compile Include="Bodies\BodyPartTests.cs" />
     <Compile Include="Bodies\BodyTests.cs" />
     <Compile Include="Bodies\HealthVectorTests.cs" />
+    <Compile Include="ConjugatedWordTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />
     <Compile Include="Items\ItemFactoryTests.cs" />
     <Compile Include="Items\Outfits\OutfitLayerFactoryTests.cs" />

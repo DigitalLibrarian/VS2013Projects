@@ -104,6 +104,7 @@
     <Compile Include="Agents\Combat\ICombatMoveBuilder.cs" />
     <Compile Include="Agents\Combat\ICombatMoveDiscoverer.cs" />
     <Compile Include="Agents\Combat\IDamageCalc.cs" />
+    <Compile Include="ConjugatedWord.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Agents\IAgentCommandFactory.cs" />
     <Compile Include="IActionReporter.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Agents\Player.cs" />
     <Compile Include="IVerb.cs" />
     <Compile Include="Materials\Material.cs" />
+    <Compile Include="MissingVerbConjugationException.cs" />
     <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Items\IItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
