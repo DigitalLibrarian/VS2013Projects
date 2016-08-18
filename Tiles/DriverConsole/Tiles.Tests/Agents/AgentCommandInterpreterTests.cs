@@ -14,7 +14,7 @@ using System.Collections.Generic;
 namespace Tiles.Tests.Agents
 {
     [TestClass]
-    public class AgentCommandInterpeterTests
+    public class AgentCommandInterpreterTests
     {
         [TestMethod]
         public void Dispatch()
