@@ -145,7 +145,9 @@ namespace Tiles.Tests
         [TestMethod]
         public void InsertStructure()
         {
+            var siteTiles = new List<ITile> { new Mock<ITile>().Object};
             var siteMock = new Mock<ISite>();
+            siteMock.Setup(x => x.GetTiles()).Returns(siteTiles);
             var siteIndex = new Vector3(0, 0, 0);
             var box = new Box3(Vector3.Zero, SiteSize);
             SiteFactoryMock.Setup(x => x.Create(Atlas, siteIndex, box)).Returns(siteMock.Object);
@@ -173,6 +175,15 @@ namespace Tiles.Tests
             var atlas = Atlas;
 
             atlas.GetTileAtPos(new Vector3(0, 0, 0));// prime it to generate a site
+            SiteFactoryMock.Verify(x => x.Create(Atlas, Vector3.Zero, box), Times.Once());
+
+            foreach (var tile in siteTiles)
+            {
+                Assert.IsTrue(Atlas.GetTiles().Contains(tile));
+            }
+            Assert.AreEqual(siteTiles.Count, Atlas.GetTiles().Count());
+            Assert.AreEqual(1, Atlas.GetSites().Count());
+
             foreach (var tile in atlas.GetTiles())
             {
                 tile.Terrain = Terrain.Tree;
@@ -195,11 +206,12 @@ namespace Tiles.Tests
                 else
                 {
                     Assert.IsNull(tile.StructureCell);
-                    Assert.AreEqual(Terrain.Tree, tile.Terrain);
+                    Assert.AreEqual(Terrain.None, tile.Terrain);
                     Assert.IsFalse(tile.IsTerrainPassable);
                 }
             }
 
+            Assert.AreEqual(1, Atlas.GetSites().Count());
         }
     }
 }
