@@ -12,6 +12,7 @@ using Tiles.Tests.Assertions;
 using Tiles.Structures;
 using System.Collections.Generic;
 using Tiles.Items.Outfits;
+using Tiles.Agents.Behaviors;
 
 namespace Tiles.Tests.Agents
 {
@@ -23,6 +24,7 @@ namespace Tiles.Tests.Agents
         Mock<IBody> BodyMock { get; set; }
         Mock<IInventory> InventoryMock { get; set; }
         Mock<IOutfit> OutfitMock { get; set; }
+        Mock<IAgentCommandQueue> CommandQueueMock { get; set; }
         string Name { get; set; }
 
         Agent Agent { get; set; }
@@ -34,9 +36,18 @@ namespace Tiles.Tests.Agents
             BodyMock = new Mock<IBody>();
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();
+            CommandQueueMock = new Mock<IAgentCommandQueue>();
             Name = "name";
 
-            Agent = new Agent(AtlasMock.Object, SpriteMock.Object, Vector3.Zero, BodyMock.Object, Name, InventoryMock.Object, OutfitMock.Object);
+            Agent = new Agent(
+                AtlasMock.Object, 
+                SpriteMock.Object, 
+                Vector3.Zero, 
+                BodyMock.Object, 
+                Name, 
+                InventoryMock.Object, 
+                OutfitMock.Object,
+                CommandQueueMock.Object);
         }
 
 

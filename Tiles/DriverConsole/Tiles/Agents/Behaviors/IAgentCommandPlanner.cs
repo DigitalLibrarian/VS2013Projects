@@ -16,6 +16,6 @@ namespace Tiles.Agents.Behaviors
 {
     public interface IAgentCommandPlanner
     {
-        IAgentCommand PlanBehavior(IGame game, IAgent agent);
+        IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent);
     }
 }

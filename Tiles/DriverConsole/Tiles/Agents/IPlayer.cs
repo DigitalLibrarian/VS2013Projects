@@ -18,10 +18,7 @@ namespace Tiles.Agents
         
         bool Move(Vector3 delta);
 
-
-        IAgentCommand LastCommand { get; }
-        void EnqueueCommand(IAgentCommand command);
-
+        void EnqueueCommands(IEnumerable<IAgentCommand> commands);
         bool HasCommands { get; }
     }
 

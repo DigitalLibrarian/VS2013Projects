@@ -63,18 +63,19 @@ namespace Tiles.Tests.Agents
             Assert.IsTrue(Player.HasCommands);
         }
 
-
         [TestMethod]
-        public void EnqueueCommand()
+        public void EnqueueCommands()
         {
-            Assert.IsNull(Player.LastCommand);
+            var commandMock1 = new Mock<IAgentCommand>();
+            var commandMock2 = new Mock<IAgentCommand>();
+            var commandMock3 = new Mock<IAgentCommand>();
+            var commands = new List<IAgentCommand>{ commandMock1.Object, commandMock2.Object, commandMock3.Object };
+            Player.EnqueueCommands(commands);
 
-            var commandMock = new Mock<IAgentCommand>();
-
-            Player.EnqueueCommand(commandMock.Object);
-
-            CommandQueueMock.Verify(x => x.Enqueue(commandMock.Object));
-            Assert.AreSame(commandMock.Object, Player.LastCommand);
+            foreach (var command in commands)
+            {
+                CommandQueueMock.Verify(x => x.Enqueue(command));
+            }
         }
     }
 }

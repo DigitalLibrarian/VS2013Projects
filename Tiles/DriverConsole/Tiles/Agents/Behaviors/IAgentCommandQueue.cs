@@ -9,6 +9,7 @@ namespace Tiles.Agents.Behaviors
     public interface IAgentCommandQueue
     {
         void Enqueue(IAgentCommand command);
+        IAgentCommand Next();
 
         bool Any();
     }

@@ -12,16 +12,15 @@ namespace Tiles.Agents
 {
     public interface IAgentCommandFactory
     {
-        IAgentCommand Nothing(IAgent agent);
-        IAgentCommand MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove);
-        IAgentCommand WieldWeapon(IAgent agent, IItem item);
-        IAgentCommand WearArmor(IAgent agent, IItem item);
-        IAgentCommand PickUpItemsOnAgentTile(IAgent agent);
-        IAgentCommand MoveDirection(IAgent agent, Vector3 direction);
+        IEnumerable<IAgentCommand> Nothing(IAgent agent);
+        IEnumerable<IAgentCommand> MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove);
+        IEnumerable<IAgentCommand> WieldWeapon(IAgent agent, IItem item);
+        IEnumerable<IAgentCommand> WearArmor(IAgent agent, IItem item);
+        IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IAgent agent);
+        IEnumerable<IAgentCommand> MoveDirection(IAgent agent, Vector3 direction);
 
-        IAgentCommand UnwieldWeapon(IAgent agent, IItem item);
-        IAgentCommand TakeOffArmor(IAgent agent, IItem item);
-        IAgentCommand DropInventoryItem(IAgent agent, IItem item);
-
+        IEnumerable<IAgentCommand> UnwieldWeapon(IAgent agent, IItem item);
+        IEnumerable<IAgentCommand> TakeOffArmor(IAgent agent, IItem item);
+        IEnumerable<IAgentCommand> DropInventoryItem(IAgent agent, IItem item);
     }
 }

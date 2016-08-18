@@ -65,7 +65,8 @@
     <Compile Include="Agents\Behaviors\AgentExecutionContextTests.cs" />
     <Compile Include="Agents\Behaviors\BaseAgentCommandPlannerTests.cs" />
     <Compile Include="Agents\Behaviors\CommandAgentBehaviorTests.cs" />
-    <Compile Include="Agents\Behaviors\QueueAgentCommandPlannerTests.cs" />
+    <Compile Include="Agents\Behaviors\AgentCommandQueueTests.cs" />
+    <Compile Include="Agents\Behaviors\DoNothingAgentCommandPlannerTests.cs" />
     <Compile Include="Agents\Combat\AttackConductorTests.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolutionTests.cs" />
     <Compile Include="Agents\Combat\CombatMoveDiscovererTests.cs" />

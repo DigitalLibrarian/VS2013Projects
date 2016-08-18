@@ -17,22 +17,34 @@ namespace Tiles.Tests.Agents.Behaviors
         Mock<IAgentCommandExecutionContext> ContextMock { get; set; }
         CommandAgentBehavior Behavior { get; set; }
 
+        Mock<IAgent> AgentMock { get; set; }
+        Mock<IAgentCommandQueue> CommandQueueMock { get; set; }
+        Queue<IAgentCommand> _Queue { get; set; }
+
         [TestInitialize]
         public void Initialize()
         {
             PlannerMock = new Mock<IAgentCommandPlanner>();
             ContextMock = new Mock<IAgentCommandExecutionContext>();
             Behavior = new CommandAgentBehavior(PlannerMock.Object, ContextMock.Object);
+
+            CommandQueueMock = new Mock<IAgentCommandQueue>();
+            _Queue = new Queue<IAgentCommand>();
+            CommandQueueMock.Setup(x => x.Any()).Returns(() => _Queue.Any());
+            CommandQueueMock.Setup(x => x.Enqueue(It.IsAny<IAgentCommand>())).Callback((IAgentCommand c) => _Queue.Enqueue(c));
+            CommandQueueMock.Setup(x => x.Next()).Returns(() => _Queue.Dequeue());
+            
+            AgentMock = new Mock<IAgent>();
+            AgentMock.Setup(x => x.CommandQueue).Returns(CommandQueueMock.Object);
         }
 
-
+        
         [TestMethod]
         public void Update_QueueSpillOver()
         {
             long timeSlice = 100;
             var gameMock = new Mock<IGame>();
             gameMock.Setup(x => x.DesiredFrameLength).Returns(timeSlice);
-            var agentMock = new Mock<IAgent>();
 
             // Update numbers are labeled
             var commandMock1 = new Mock<IAgentCommand>();
@@ -45,10 +57,10 @@ namespace Tiles.Tests.Agents.Behaviors
             IAgentCommand currentCommand = null;
             Mock<IAgentCommand> nextCommandMock = commandMock1;
 
-            PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, agentMock.Object)).Returns(
+            PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, AgentMock.Object)).Returns(
                 (IGame game, IAgent agent) =>
                 {
-                    return nextCommandMock.Object;
+                    return new List<IAgentCommand> {nextCommandMock.Object};
                 }
                 );
 
@@ -107,7 +119,7 @@ namespace Tiles.Tests.Agents.Behaviors
             };
             int execIndex = 0;
 
-            ContextMock.Setup(x => x.Execute(gameMock.Object, agentMock.Object, It.IsAny<long>())).Returns(
+            ContextMock.Setup(x => x.Execute(gameMock.Object, AgentMock.Object, It.IsAny<long>())).Returns(
                 (IGame game, IAgent agent, long t) =>
                 {
                     var exec = execs[execIndex++];
@@ -122,67 +134,66 @@ namespace Tiles.Tests.Agents.Behaviors
             );
 
             // First update should finish command #1 and start command #2
-            Behavior.Update(gameMock.Object, agentMock.Object);
+            Behavior.Update(gameMock.Object, AgentMock.Object);
 
-            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, agentMock.Object), Times.Exactly(2));
+            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, AgentMock.Object), Times.Exactly(2));
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock1.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock2.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock3.Object), Times.Never());
 
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, timeSlice), Times.Once());
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, timeSlice), Times.Once());
 
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, It.IsAny<long>()), Times.Exactly(2));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, It.IsAny<long>()), Times.Exactly(2));
 
             // Second update should contin=ue on command #2
-            Behavior.Update(gameMock.Object, agentMock.Object);
+            Behavior.Update(gameMock.Object, AgentMock.Object);
 
-            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, agentMock.Object), Times.Exactly(2));
+            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, AgentMock.Object), Times.Exactly(2));
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock1.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock2.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock3.Object), Times.Never());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, It.IsAny<IAgentCommand>()), Times.Exactly(2));
 
 
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[2].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, It.IsAny<long>()), Times.Exactly(3));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[2].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, It.IsAny<long>()), Times.Exactly(3));
 
             // Third update continues
-            Behavior.Update(gameMock.Object, agentMock.Object);
+            Behavior.Update(gameMock.Object, AgentMock.Object);
 
-            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, agentMock.Object), Times.Exactly(2));
+            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, AgentMock.Object), Times.Exactly(2));
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock1.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock2.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock3.Object), Times.Never());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, It.IsAny<IAgentCommand>()), Times.Exactly(2));
 
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[2].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[3].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, It.IsAny<long>()), Times.Exactly(4));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[2].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[3].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, It.IsAny<long>()), Times.Exactly(4));
 
             // Forth update continues
-            Behavior.Update(gameMock.Object, agentMock.Object);
+            Behavior.Update(gameMock.Object, AgentMock.Object);
 
-            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, agentMock.Object), Times.Exactly(3));
+            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, AgentMock.Object), Times.Exactly(3));
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock1.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock2.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock3.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, It.IsAny<IAgentCommand>()), Times.Exactly(3));
 
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[2].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[3].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[4].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, execs[5].ExpectedTime), Times.AtLeast(1));
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, It.IsAny<long>()), Times.Exactly(6));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[0].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[1].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[2].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[3].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[4].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, execs[5].ExpectedTime), Times.AtLeast(1));
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, It.IsAny<long>()), Times.Exactly(6));
         }
-
 
         [TestMethod]
         public void Update_QueueFits()
@@ -190,7 +201,6 @@ namespace Tiles.Tests.Agents.Behaviors
             long timeSlice = 100;
             var gameMock = new Mock<IGame>();
             gameMock.Setup(x => x.DesiredFrameLength).Returns(timeSlice);
-            var agentMock = new Mock<IAgent>();
 
             var commandMock1 = new Mock<IAgentCommand>();
             commandMock1.Setup(x => x.RequiredTime).Returns(51);
@@ -200,9 +210,9 @@ namespace Tiles.Tests.Agents.Behaviors
             IAgentCommand currentCommand = null;
             Mock<IAgentCommand> nextCommandMock = commandMock1;
 
-            PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, agentMock.Object)).Returns(
+            PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, AgentMock.Object)).Returns(
                 (IGame game, IAgent agent) => {
-                    return nextCommandMock.Object;
+                    return new List<IAgentCommand>{nextCommandMock.Object};
                     }
                 );
 
@@ -217,29 +227,36 @@ namespace Tiles.Tests.Agents.Behaviors
             long pump2Time = timeSlice - commandMock1.Object.RequiredTime;
 
 
-            ContextMock.Setup(x => x.Execute(gameMock.Object, agentMock.Object, pump1Time)).Returns(
+            ContextMock.Setup(x => x.Execute(gameMock.Object, AgentMock.Object, pump1Time)).Returns(
                 (IGame game, IAgent agent, long t) =>
                 {
                     currentCommand = null;
                     nextCommandMock = commandMock2;
                     return commandMock1.Object.RequiredTime;
                 });
-            ContextMock.Setup(x => x.Execute(gameMock.Object, agentMock.Object, pump2Time)).Returns(
+            ContextMock.Setup(x => x.Execute(gameMock.Object, AgentMock.Object, pump2Time)).Returns(
                 (IGame game, IAgent agent, long t) =>
                 {
                     currentCommand = null;
                     return commandMock2.Object.RequiredTime;
                 });
             
-            Behavior.Update(gameMock.Object, agentMock.Object);
+            Behavior.Update(gameMock.Object, AgentMock.Object);
 
-            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, agentMock.Object), Times.Exactly(2));
+            PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, AgentMock.Object), Times.Exactly(2));
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock1.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock2.Object), Times.Once());
 
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, pump1Time), Times.Once());
-            ContextMock.Verify(x => x.Execute(gameMock.Object, agentMock.Object, pump2Time), Times.Once());
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, pump1Time), Times.Once());
+            ContextMock.Verify(x => x.Execute(gameMock.Object, AgentMock.Object, pump2Time), Times.Once());
         }
 
+        [Ignore]
+        [TestMethod]
+        public void PlannerFailsToPlan() { }
+
+        [Ignore]
+        [TestMethod]
+        public void PlannerPlansMultipleCommands() { }
     }
 }

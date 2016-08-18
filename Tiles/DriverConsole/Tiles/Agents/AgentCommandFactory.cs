@@ -13,18 +13,18 @@ namespace Tiles.Agents
     public class AgentCommandFactory : IAgentCommandFactory
     {
         long MinTime = 1;
-        public IAgentCommand Nothing(IAgent agent)
+        public IEnumerable<IAgentCommand> Nothing(IAgent agent)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.None,
                 RequiredTime = MinTime * 1
             };
         }
 
-        public IAgentCommand MoveDirection(IAgent agent, Vector3 direction)
+        public IEnumerable<IAgentCommand> MoveDirection(IAgent agent, Vector3 direction)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.Move,
                 RequiredTime = MinTime * 10,
@@ -32,19 +32,19 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand PickUpItemsOnAgentTile(IAgent agent) 
+        public IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IAgent agent) 
         {
             // TODO - axe this command and replace with a single item pick up command (easier to handle time req.)
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.PickUpItemsOnAgentTile,
                 RequiredTime = MinTime * 30
             };
         }
 
-        public IAgentCommand MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove)
+        public IEnumerable<IAgentCommand> MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.AttackMelee,
                 RequiredTime = MinTime * 20,
@@ -53,9 +53,9 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand WieldWeapon(IAgent agent, IItem item)
+        public IEnumerable<IAgentCommand> WieldWeapon(IAgent agent, IItem item)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.WieldWeapon,
                 RequiredTime = MinTime * 5,
@@ -63,9 +63,9 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand WearArmor(IAgent agent, IItem item)
+        public IEnumerable<IAgentCommand> WearArmor(IAgent agent, IItem item)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.WearArmor,
                 RequiredTime = MinTime * 5,
@@ -73,9 +73,9 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand UnwieldWeapon(IAgent agent, IItem item)
+        public IEnumerable<IAgentCommand> UnwieldWeapon(IAgent agent, IItem item)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.UnwieldWeapon,
                 RequiredTime = MinTime * 5,
@@ -83,9 +83,9 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand TakeOffArmor(IAgent agent, IItem item)
+        public IEnumerable<IAgentCommand> TakeOffArmor(IAgent agent, IItem item)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.TakeOffArmor,
                 RequiredTime = MinTime * 5,
@@ -93,9 +93,9 @@ namespace Tiles.Agents
             };
         }
 
-        public IAgentCommand DropInventoryItem(IAgent agent, IItem item)
+        public IEnumerable<IAgentCommand> DropInventoryItem(IAgent agent, IItem item)
         {
-            return new AgentCommand
+            yield return new AgentCommand
             {
                 CommandType = AgentCommandType.DropInventoryItem,
                 RequiredTime = MinTime,

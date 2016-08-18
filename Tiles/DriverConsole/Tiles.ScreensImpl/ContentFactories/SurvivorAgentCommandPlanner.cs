@@ -19,7 +19,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         public SurvivorAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory) 
             : base(random, commandFactory, new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc()))) { }
 
-        public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
+        public override IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent)
         {
             if (agent.IsDead) return Dead(agent);
 
@@ -48,7 +48,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             return Nothing(agent);
         }
 
-        private IAgentCommand HuntLoot(IGame game, IAgent agent)
+        private IEnumerable<IAgentCommand> HuntLoot(IGame game, IAgent agent)
         {
             if (CanEquipAny(agent))
             {

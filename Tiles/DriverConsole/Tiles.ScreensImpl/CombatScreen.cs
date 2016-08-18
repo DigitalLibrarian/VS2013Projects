@@ -85,7 +85,7 @@ namespace Tiles.ScreensImpl
                 var moves = MoveDisco.GetPossibleMoves(Player.Agent, Target).ToList();
                 if (Selector.Selected.Y < moves.Count())
                 {
-                    Player.EnqueueCommand(CommandFactory.MeleeAttack(Player.Agent, Target, moves.ElementAt(Selector.Selected.Y)));
+                    Player.EnqueueCommands(CommandFactory.MeleeAttack(Player.Agent, Target, moves.ElementAt(Selector.Selected.Y)));
                 }
                 Exit();
             }

@@ -8,6 +8,7 @@ using Tiles.Items;
 using Tiles.Math;
 using Tiles.Bodies;
 using Tiles.Items.Outfits;
+using Tiles.Agents.Behaviors;
 
 namespace Tiles.Agents
 {
@@ -26,5 +27,7 @@ namespace Tiles.Agents
         void Update(IGame game);
         IInventory Inventory { get; }
         IOutfit Outfit { get; }
+
+        IAgentCommandQueue CommandQueue { get; }
     }
 }

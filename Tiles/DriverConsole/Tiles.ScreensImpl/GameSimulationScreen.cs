@@ -106,9 +106,9 @@ namespace Tiles.ScreensImpl
         long GlobalTime = 0;
         public override void Update()
         {
-            if (Game.Player.LastCommand != null)
+            if (Game.Player.Agent.AgentBehavior.Context.HasCommand)
             {
-                Game.DesiredFrameLength = Game.Player.LastCommand.RequiredTime;
+                Game.DesiredFrameLength = Game.Player.Agent.AgentBehavior.Context.TimeRemaining;
             }
             else
             {
@@ -137,7 +137,7 @@ namespace Tiles.ScreensImpl
             }
 
             GlobalTime += Game.DesiredFrameLength;
-            BlockForInput = !Game.Player.HasCommands;
+            BlockForInput = !Game.Player.Agent.CommandQueue.Any() && !Game.Player.Agent.AgentBehavior.Context.HasCommand;
         }
 
         #region Controls
@@ -191,28 +191,28 @@ namespace Tiles.ScreensImpl
                 }
                 else if (!Game.Player.Agent.Body.IsWrestling)
                 {
-                    Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, delta3d));
+                    Game.Player.EnqueueCommands(CommandFactory.MoveDirection(Game.Player.Agent, delta3d));
                 }
             }
             else if (args.Key == ConsoleKey.OemComma && args.Shift)
             {
-                Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, new Vector3(0, 0, 1)));
+                Game.Player.EnqueueCommands(CommandFactory.MoveDirection(Game.Player.Agent, new Vector3(0, 0, 1)));
             }
             else if (args.Key == ConsoleKey.OemPeriod && args.Shift)
             {
-                Game.Player.EnqueueCommand(CommandFactory.MoveDirection(Game.Player.Agent, new Vector3(0, 0, -1)));
+                Game.Player.EnqueueCommands(CommandFactory.MoveDirection(Game.Player.Agent, new Vector3(0, 0, -1)));
 
             }
             else if (args.Key == ConsoleKey.NumPad5)
             {
-                Game.Player.EnqueueCommand(CommandFactory.Nothing(Game.Player.Agent));
+                Game.Player.EnqueueCommands(CommandFactory.Nothing(Game.Player.Agent));
             }
         }
         void Key_Get(KeyPressEventArgs args)
         {
             if (args.Key == ConsoleKey.G)
             {
-                Game.Player.EnqueueCommand(CommandFactory.PickUpItemsOnAgentTile(Game.Player.Agent));
+                Game.Player.EnqueueCommands(CommandFactory.PickUpItemsOnAgentTile(Game.Player.Agent));
             }
         }
         #endregion

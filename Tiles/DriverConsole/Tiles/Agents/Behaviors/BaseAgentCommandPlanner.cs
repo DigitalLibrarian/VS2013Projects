@@ -22,23 +22,23 @@ namespace Tiles.Agents.Behaviors
             AttackMoveDisco = moveDisco;
         }
 
-        protected IAgentCommand Wander(IAgent agent)
+        protected IEnumerable<IAgentCommand> Wander(IAgent agent)
         {
             var wander = Random.NextElement(CompassVectors.GetAll().Select(x => new Vector3(x.X, x.Y, 0)).ToList());
             return CommandFactory.MoveDirection(agent, wander);
         }
 
-        protected IAgentCommand Nothing(IAgent agent)
+        protected IEnumerable<IAgentCommand> Nothing(IAgent agent)
         {
             return CommandFactory.Nothing(agent);
         }
 
-        protected IAgentCommand Dead(IAgent agent)
+        protected IEnumerable<IAgentCommand> Dead(IAgent agent)
         {
             return Nothing(agent);
         }
 
-        protected IAgentCommand Seek(IAgent agent, Vector3 pos)
+        protected IEnumerable<IAgentCommand> Seek(IAgent agent, Vector3 pos)
         {
             // ZHACK
             var diffVector =  pos - agent.Pos;
@@ -99,6 +99,6 @@ namespace Tiles.Agents.Behaviors
             return null;
         }
 
-        public abstract IAgentCommand PlanBehavior(IGame game, IAgent agent);
+        public abstract IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent);
     }
 }

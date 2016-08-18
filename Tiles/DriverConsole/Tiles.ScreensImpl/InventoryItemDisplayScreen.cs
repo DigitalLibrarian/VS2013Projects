@@ -107,32 +107,32 @@ namespace Tiles.ScreensImpl
                 
         void Wield()
         {
-            Player.EnqueueCommand(CommandFactory.WieldWeapon(Player.Agent, Item));
+            Player.EnqueueCommands(CommandFactory.WieldWeapon(Player.Agent, Item));
             Exit();
         }
 
         void Unwield()
         {
-            Player.EnqueueCommand(CommandFactory.UnwieldWeapon(Player.Agent, Item));
+            Player.EnqueueCommands(CommandFactory.UnwieldWeapon(Player.Agent, Item));
             Exit();
         }
 
         void Wear()
         {
-            Player.EnqueueCommand(CommandFactory.WearArmor(Player.Agent , Item));
+            Player.EnqueueCommands(CommandFactory.WearArmor(Player.Agent , Item));
             Exit();
         }
 
 
         void TakeOff()
         {
-            Player.EnqueueCommand(CommandFactory.TakeOffArmor(Player.Agent, Item));
+            Player.EnqueueCommands(CommandFactory.TakeOffArmor(Player.Agent, Item));
             Exit();
         }
 
         void Drop()
         {
-            Player.EnqueueCommand(CommandFactory.DropInventoryItem(Player.Agent, Item));
+            Player.EnqueueCommands(CommandFactory.DropInventoryItem(Player.Agent, Item));
             Exit();
         }
 

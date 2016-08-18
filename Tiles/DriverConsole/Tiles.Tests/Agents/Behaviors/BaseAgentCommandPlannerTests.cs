@@ -26,15 +26,15 @@ namespace Tiles.Tests.Agents.Behaviors
             public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, ICombatMoveDiscoverer moveDisco) 
                 : base(random, commandFactory, moveDisco) { }
 
-            public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
+            public override IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent)
             {
                 throw new NotImplementedException();
             }
 
-            public IAgentCommand GetNewNothingCommand(IAgent agent) { return Nothing(agent); }
-            public IAgentCommand GetNewWanderCommand(IAgent agent) { return Wander(agent); }
-            public IAgentCommand GetNewDeadCommand(IAgent agent) { return Dead(agent); }
-            public IAgentCommand GetNewSeekCommand(IAgent agent, Vector3 pos) { return Seek(agent, pos); }
+            public IEnumerable<IAgentCommand> GetNewNothingCommand(IAgent agent) { return Nothing(agent); }
+            public IEnumerable<IAgentCommand> GetNewWanderCommand(IAgent agent) { return Wander(agent); }
+            public IEnumerable<IAgentCommand> GetNewDeadCommand(IAgent agent) { return Dead(agent); }
+            public IEnumerable<IAgentCommand> GetNewSeekCommand(IAgent agent, Vector3 pos) { return Seek(agent, pos); }
             public IEnumerable<ICombatMove> GetAttackMoves(IAgent agent, IAgent target) { return AttackMoves(agent, target); }
             public Vector3? RunFindNearbyPos(Vector3 center, Predicate<Vector3> finderPred, int halfBoxSize) { return FindNearbyPos(center, finderPred, halfBoxSize); }
 
@@ -44,7 +44,7 @@ namespace Tiles.Tests.Agents.Behaviors
         Mock<IAgentCommandFactory> CommandFactoryMock { get; set; }
         Mock<ICombatMoveDiscoverer> MoveDiscoMock { get; set; }
         TestPlanner Planner { get; set; }
-
+        
         [TestInitialize]
         public void Initialize()
         {
@@ -53,7 +53,7 @@ namespace Tiles.Tests.Agents.Behaviors
             MoveDiscoMock = new Mock<ICombatMoveDiscoverer>();
             Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveDiscoMock.Object);
         }
-
+        
         [TestMethod]
         public void Wander()
         {
@@ -61,7 +61,7 @@ namespace Tiles.Tests.Agents.Behaviors
             var dir = new Vector3(1, 1, 1);
             RandomMock.Setup(x => x.NextElement(It.IsAny<ICollection<Vector3>>())).Returns(dir);
 
-            var commandMock = new Mock<IAgentCommand>();
+            var commandMock = new Mock<IEnumerable<IAgentCommand>>();
             CommandFactoryMock.Setup(x => x.MoveDirection(agentMock.Object, dir)).Returns(commandMock.Object);
 
             var command = Planner.GetNewWanderCommand(agentMock.Object);
@@ -77,12 +77,12 @@ namespace Tiles.Tests.Agents.Behaviors
 
             CommandFactoryMock.Verify(x => x.MoveDirection(agentMock.Object, dir), Times.Once());
         }
-
+        
         [TestMethod]
         public void Nothing()
         {
             var agentMock = new Mock<IAgent>();
-            var commandMock = new Mock<IAgentCommand>();
+            var commandMock = new Mock<IEnumerable<IAgentCommand>>();
 
             CommandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(commandMock.Object);
 
@@ -97,7 +97,7 @@ namespace Tiles.Tests.Agents.Behaviors
         public void Dead()
         {
             var agentMock = new Mock<IAgent>();
-            var commandMock = new Mock<IAgentCommand>();
+            var commandMock = new Mock<IEnumerable<IAgentCommand>>();
 
             CommandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(commandMock.Object);
 
@@ -117,8 +117,8 @@ namespace Tiles.Tests.Agents.Behaviors
 
             agentMock.Setup(x => x.Pos).Returns(agentPos);
             agentMock.Setup(x => x.CanMove(goodMove)).Returns(true);
-
-            var commandMock = new Mock<IAgentCommand>();
+            
+            var commandMock = new Mock<IEnumerable<IAgentCommand>>();
             CommandFactoryMock.Setup(x => x.MoveDirection(agentMock.Object, goodMove)).Returns(commandMock.Object);
 
             var command = Planner.GetNewSeekCommand(agentMock.Object, targetPos);
@@ -143,8 +143,8 @@ namespace Tiles.Tests.Agents.Behaviors
 
             agentMock.Setup(x => x.Pos).Returns(agentPos);
             agentMock.Setup(x => x.CanMove(It.IsAny<Vector3>())).Returns(false);
-
-            var commandMock = new Mock<IAgentCommand>();
+            
+            var commandMock = new Mock<IEnumerable<IAgentCommand>>();
             CommandFactoryMock.Setup(x => x.MoveDirection(agentMock.Object, wanderDir)).Returns(commandMock.Object);
 
             var command = Planner.GetNewSeekCommand(agentMock.Object, targetPos);

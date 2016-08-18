@@ -15,7 +15,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         public ZombieAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory) 
             : base(random, commandFactory, new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc()))) { }
 
-        public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
+        public override IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent)
         {
             if (agent.IsDead) return Dead(agent);
 

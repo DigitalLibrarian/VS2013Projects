@@ -11,7 +11,9 @@ namespace Tiles.Agents.Behaviors
     {
         IAgentCommandPlanner Planner { get; set; }
         public IAgentCommandExecutionContext Context { get; set; }
-        public CommandAgentBehavior(IAgentCommandPlanner planner, IAgentCommandExecutionContext context)
+        public CommandAgentBehavior(
+            IAgentCommandPlanner planner, 
+            IAgentCommandExecutionContext context)
         {
             Planner = planner;
             Context = context;
@@ -28,8 +30,7 @@ namespace Tiles.Agents.Behaviors
             {
                 if (!Context.HasCommand)
                 {
-                    var command = Planner.PlanBehavior(game, agent);
-                    Context.StartNewCommand(game, command);
+                    Context.StartNewCommand(game, GetNextCommand(game, agent));
                 }
 
                 var timeUsed = Context.Execute(game, agent, timeLeft);
@@ -38,6 +39,26 @@ namespace Tiles.Agents.Behaviors
                     break;
                 }
                 timeLeft -= timeUsed;
+            }
+        }
+
+        private IAgentCommand GetNextCommand(IGame game, IAgent agent)
+        {
+            if (agent.CommandQueue.Any())
+            {
+                return agent.CommandQueue.Next();
+            }
+            else
+            {
+                foreach (var command in Planner.PlanBehavior(game, agent))
+                {
+                    agent.CommandQueue.Enqueue(command);
+                }
+                if (!agent.CommandQueue.Any())
+                {
+                    throw new InvalidOperationException("Planner failed to plan any commands");
+                }
+                return agent.CommandQueue.Next();
             }
         }
     }

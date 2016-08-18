@@ -15,6 +15,9 @@ using Tiles.Bodies;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
+
+
+
     public class AgentFactory
     {
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
@@ -43,7 +46,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                 body,
                 "Shambler",
                 new Inventory(),
-                new Outfit(body, new OutfitLayerFactory())
+                new Outfit(body, new OutfitLayerFactory()),
+                new AgentCommandQueue()
                 );
 
             zombie.Outfit.Wield(ItemFactory.Create(ZombieClawClass));
@@ -60,7 +64,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         public IPlayer CreatePlayer(IAtlas atlas, Vector3 worldPos)
         {
             var body = BodyFactory.CreateHumanoid();
-            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
+            var planner = new DoNothingAgentCommandPlanner(new AgentCommandFactory());
             var player = new Player(
                 atlas,
                 new Sprite(
@@ -72,7 +76,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 body,
                 new Inventory(),
                 new Outfit(body, new OutfitLayerFactory()),
-                planner
+                new AgentCommandQueue()
             );
             player.IsUndead = false;
             player.Agent.AgentBehavior = CreateBehavior(planner);
@@ -83,7 +87,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         public IAgent CreateSurvivor(IAtlas atlas, Vector3 worldPos)
         {
             var body = BodyFactory.CreateHumanoid();
-            var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
+            //var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
             var survivor = new Agent(atlas,
                 new Sprite(
                         symbol: Symbol.Survivor,
@@ -94,7 +98,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                 body,
                 "Survivor",
                 new Inventory(),
-                new Outfit(body, new OutfitLayerFactory())
+                new Outfit(body, new OutfitLayerFactory()),
+                new AgentCommandQueue()
                 );
 
             survivor.AgentBehavior = CreateBehavior(new SurvivorAgentCommandPlanner(Random, new AgentCommandFactory()));

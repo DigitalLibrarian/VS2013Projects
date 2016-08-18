@@ -20,9 +20,9 @@ namespace Tiles.Agents
             IInventory inventory,
             IOutfit outfit,
             IAgentCommandQueue commandQueue
-            ) : base(atlas, sprite, pos, body, "Player", inventory, outfit)
+            ) : base(atlas, sprite, pos, body, "Player", inventory, outfit, commandQueue)
         {
-            CommandQueue = commandQueue;
+
         }
 
         public IAgent Agent
@@ -30,12 +30,12 @@ namespace Tiles.Agents
             get { return this; }
         }
 
-        IAgentCommandQueue CommandQueue { get; set; }
-        public IAgentCommand LastCommand { get; private set; }
-        public void EnqueueCommand(IAgentCommand command)
+        public void EnqueueCommands(IEnumerable<IAgentCommand> commands)
         {
-            CommandQueue.Enqueue(command);
-            LastCommand = command;
+            foreach(var command in commands)
+            {
+                CommandQueue.Enqueue(command);
+            }
         }
 
         public bool HasCommands { get { return CommandQueue.Any(); } }

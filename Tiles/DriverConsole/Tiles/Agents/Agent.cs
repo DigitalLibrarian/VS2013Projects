@@ -7,6 +7,7 @@ using Tiles.Math;
 using Tiles.Bodies;
 using Tiles.Items;
 using Tiles.Items.Outfits;
+using Tiles.Agents.Behaviors;
 namespace Tiles.Agents
 {
     public class Agent : IAgent
@@ -22,6 +23,8 @@ namespace Tiles.Agents
         public IOutfit Outfit { get; private set; }
         public bool IsUndead { get; set; }
 
+        public IAgentCommandQueue CommandQueue { get; private set; }
+
         public bool IsDead { 
             get 
             {  
@@ -33,7 +36,8 @@ namespace Tiles.Agents
         public Agent(IAtlas atlas, ISprite sprite, Vector3 pos, 
             IBody body, string name, 
             IInventory inventory, 
-            IOutfit outfit)
+            IOutfit outfit,
+            IAgentCommandQueue commandQueue)
         {
             Atlas = atlas;
             Sprite = sprite;
@@ -42,6 +46,8 @@ namespace Tiles.Agents
             Name = name;
             Inventory = inventory;
             Outfit = outfit;
+
+            CommandQueue = commandQueue;
         }
 
         public virtual void Update(IGame game)

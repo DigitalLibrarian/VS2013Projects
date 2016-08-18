@@ -8,37 +8,27 @@ using Tiles.Random;
 
 namespace Tiles.Agents.Behaviors
 {
-    public class QueueAgentCommandPlanner : BaseAgentCommandPlanner, IAgentCommandQueue
+    public class AgentCommandQueue : IAgentCommandQueue
     {
         Queue<IAgentCommand> Queue { get; set; }
-        public QueueAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory)
-            : base(random, commandFactory, new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc())))
+        public AgentCommandQueue()
         {
             Queue = new Queue<IAgentCommand>();
         }
 
-        void IAgentCommandQueue.Enqueue(IAgentCommand command)
+        public void Enqueue(IAgentCommand command)
         {
             Queue.Enqueue(command);
         }
 
-        bool IAgentCommandQueue.Any()
+        public bool Any()
         {
             return Queue.Any();
         }
 
-        IAgentCommand Next(IAgent agent)
+        public IAgentCommand Next()
         {
-            if (Queue.Any())
-            {
-                return Queue.Dequeue();
-            }
-            return Nothing(agent);
-        }
-
-        public override IAgentCommand PlanBehavior(IGame game, IAgent agent)
-        {
-            return Next(agent);
+            return Queue.Dequeue();
         }
     }
 }
