@@ -296,7 +296,11 @@ namespace Tiles.Tests.Agents.Behaviors
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock1.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, It.IsAny<IAgentCommand>()), Times.Once());
 
-            Assert.AreSame(commandMock2.Object, _Queue.Dequeue());
+            Behavior.Update(gameMock.Object, AgentMock.Object);
+
+            ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock2.Object), Times.Once());
+            ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, It.IsAny<IAgentCommand>()), Times.Exactly(2));
+
             Assert.AreSame(commandMock3.Object, _Queue.Dequeue());
         }
 
