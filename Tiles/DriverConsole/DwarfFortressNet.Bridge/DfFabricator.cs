@@ -59,6 +59,7 @@ namespace DwarfFortressNet.Bridge
                 Consume(AllLinesInFile(file.FullName));
             }
 
+            // TODO - jesus fuck
             foreach (var pair in Elements)
             {
                 if (pair.Key == BodyPartSet.TokenName)
@@ -283,7 +284,7 @@ namespace DwarfFortressNet.Bridge
 
         public IBody CreateBody(Df.Creature c, string casteName)
         {
-            var b = new DfAgentBuilder(Db, c, casteName);
+            var b = new DfBodyConstructor(Db, c, casteName);
 
             return b.Build();
         }

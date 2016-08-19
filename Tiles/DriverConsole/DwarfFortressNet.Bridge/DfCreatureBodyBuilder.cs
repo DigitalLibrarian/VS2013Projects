@@ -33,7 +33,7 @@ namespace DwarfFortressNet.Bridge
         }
     }
 
-    public class DfAgentBuilder
+    public class DfBodyConstructor
     {
         ObjectDb Db { get; set;}
         DfMaterialFactory MaterialFactory { get; set;}
@@ -42,7 +42,7 @@ namespace DwarfFortressNet.Bridge
         Df.Creature Creature { get; set; }
 
         string CasteName { get; set; }
-        public DfAgentBuilder(ObjectDb db, Df.Creature creature, string casteName)
+        public DfBodyConstructor(ObjectDb db, Df.Creature creature, string casteName)
         {
             Db = db;
             Creature = Creature.FromElement(creature.Element, casteName);
@@ -147,7 +147,7 @@ namespace DwarfFortressNet.Bridge
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    throw new NotImplementedException(string.Format("Unknown BPLAYERS strategy: {0}", bpLayers.Strategy);
                 }
             }
             
@@ -283,6 +283,8 @@ namespace DwarfFortressNet.Bridge
                         break;
                     case "TISSUE_LAYER":
                         // TODO - figure this command out
+                        // I think it allows for different sides of a body part to have different tissues
+                        //[TISSUE_LAYER:BY_CATEGORY:HEAD:EYEBROW:ABOVE:BY_CATEGORY:EYE]
                         //Tag_TissueLayer(tag.Words[1], tag.Words[2], tag.Words[3], tag.Words[4]);
                         break;
                     case "BODY":
@@ -375,33 +377,42 @@ namespace DwarfFortressNet.Bridge
         public IBody Build()
         {
             var parts = new List<IBodyPart>();
-            if (!BodyPartDefns.Any()) return new Body(parts);
-            var defn = BodyPartDefns.Single(IsRoot);
-
-            var part = Create(defn);
-            parts.Add(part);
-            var partMap = new Dictionary<IBodyPart, Df.BodyPart>();
-            partMap.Add( part, defn);
-
-            for (int i = 0; i < parts.Count(); i++)
+            if (BodyPartDefns.Any())
             {
-                part = parts[i];
-                defn = partMap[part];
+                var defn = BodyPartDefns.Single(IsRoot);
 
-                var toLoad = new List<Df.BodyPart>();
-                if (defn.Category != null)
+                var part = Create(defn);
+                parts.Add(part);
+                var partMap = new Dictionary<IBodyPart, Df.BodyPart>{{part, defn}};
+                // dependency resolve from root part
+                for (int i = 0; i < parts.Count(); i++)
                 {
-                    toLoad.AddRange(BodyPartDefns.Where(x => x.ConCat == defn.Category));
-                }
+                    // we just created part, and are looking for things that connect to it
+                    part = parts[i];
+                    defn = partMap[part];
 
-                toLoad.AddRange(BodyPartDefns.Where(x => x.ConType != null && defn.Tokens.Any(t => t.IsSingleWord(x.ConType))));
-                toLoad.AddRange(BodyPartDefns.Where(x => x.Con == defn.ReferenceName));
+                    var toLoad = new List<Df.BodyPart>();
+                    // if we have a category, then we look for parts that connect to that category
+                    if (defn.Category != null)
+                    {
+                        toLoad.AddRange(BodyPartDefns.Where(x => x.ConCat == defn.Category));
+                    }
 
-                foreach (var partDefn in toLoad)
-                {
-                    var newPart = Create(part, partDefn);
-                    parts.Add(newPart);
-                    partMap.Add(newPart, partDefn);
+                    // Look for any that connect to use via a ConType
+                    toLoad.AddRange(
+                        BodyPartDefns.Where(
+                            x => x.ConType != null 
+                                && defn.Tokens.Any(t => t.IsSingleWord(x.ConType))));
+
+                    // Look for any that are directly connected to the part
+                    toLoad.AddRange(BodyPartDefns.Where(x => x.Con == defn.ReferenceName));
+
+                    foreach (var partDefn in toLoad)
+                    {
+                        var newPart = Create(part, partDefn);
+                        parts.Add(newPart);
+                        partMap.Add(newPart, partDefn);
+                    }
                 }
             }
 
