@@ -43,6 +43,7 @@
     <Compile Include="BodyPart.cs" />
     <Compile Include="BodyPartSet.cs" />
     <Compile Include="Creature.cs" />
+    <Compile Include="CreatureVariation.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Inorganic.cs" />
     <Compile Include="ItemWeapon.cs" />

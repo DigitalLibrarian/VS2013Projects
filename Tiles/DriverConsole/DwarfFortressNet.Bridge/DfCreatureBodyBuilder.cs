@@ -40,12 +40,15 @@ namespace DwarfFortressNet.Bridge
 
         DfCreaturePallete Pallete { get; set; }
         Df.Creature Creature { get; set; }
-        public DfAgentBuilder(ObjectDb db, Df.Creature creature)
+
+        string CasteName { get; set; }
+        public DfAgentBuilder(ObjectDb db, Df.Creature creature, string casteName)
         {
             Db = db;
-            Creature = creature;
+            Creature = Creature.FromElement(creature.Element, casteName);
             MaterialFactory = new DfMaterialFactory(db);
             Pallete = new DfCreaturePallete();
+            CasteName = casteName;
         }
         
         IMaterial BuildMaterial(string materialTemplateName)
@@ -199,8 +202,72 @@ namespace DwarfFortressNet.Bridge
             }
         }
 
+        //[APPLY_CREATURE_VARIATION:STANDARD_BIPED_GAITS:900:711:521:293:1900:2900] 30 kph
+        //[APPLY_CREATURE_VARIATION:STANDARD_CLIMBING_GAITS:5951:5419:4898:1463:6944:8233] 6 kph
+        //[APPLY_CREATURE_VARIATION:STANDARD_SWIMMING_GAITS:5951:5419:4898:1463:6944:8233] 6 kph
+        //[APPLY_CREATURE_VARIATION:STANDARD_CRAWLING_GAITS:2990:2257:1525:731:4300:6100] 12 kph
+        public void Tag_ApplyCreatureVariation(string variation, params string[] args) 
+        {
+            var cv = Db.Get<CreatureVariation>(variation);
+
+            Creature.Tokens.AddRange(cv.CvNewTags.ToList());
+            foreach (var removeTag in cv.CvRemoveTags)
+            {
+                foreach (var token in Creature.Tokens.Where(x => removeTag == x.Name).ToList())
+                {
+                    Creature.Tokens.Remove(token);
+                }
+            }
+
+            foreach (var convertTag in cv.CvConvertTags)
+            {
+                var paramPattern = convertTag.Target;
+                var master = convertTag.Master;
+                var targets = Creature.Tokens.Where(x => x.Name.Equals(master));
+                if (convertTag.Replacement.Any())
+                {
+                    foreach (var token in targets)
+                    {
+                        Creature.Tokens.Remove(token);
+                    }
+                }
+                else
+                {
+                    foreach (var token in targets)
+                    {
+                        var newWords = new List<string>();
+                        foreach (var word in token.Words)
+                        {
+                            if (word.Contains(paramPattern))
+                            {
+                                newWords.AddRange(convertTag.Replacement);
+                            }
+                            else
+                            {
+                                newWords.Add(word);
+                            }
+                        }
+
+                        int index = Creature.Tokens.FindIndex(x => x == token);
+                        Creature.Tokens.RemoveAt(index);
+                        Creature.Tokens.Add(new Tag { Words = newWords });
+                    }
+                }
+            }
+        }
+
+
         public Tiles.Bodies.IBody Build()
         {
+            var firstPass = Creature.Tokens.ToList();
+            foreach (var tag in firstPass)
+            {
+                if (tag.Name == "APPLY_CREATURE_VARIATION")
+                {
+                    Tag_ApplyCreatureVariation(tag.Words[1], tag.Words.Skip(2).ToArray());
+                }
+            }
+
             foreach (var tag in Creature.Tokens)
             {
                 switch (tag.Name)
@@ -231,11 +298,14 @@ namespace DwarfFortressNet.Bridge
                 var layers = new List<DfBodyBuilder.TissueLayer>();
                 foreach (var tissueName in GetBodyPartTissueOrder(part.ReferenceName))
                 {
-                    layers.Add(new DfBodyBuilder.TissueLayer
+                    if (!tissueName.Equals("NONE"))
                     {
-                        RelativeThickness = GetBodyPartTissueThickness(part.ReferenceName, tissueName),
-                        Material = GetBodyPartTissueMaterial(part.ReferenceName, tissueName)
-                    });
+                        layers.Add(new DfBodyBuilder.TissueLayer
+                        {
+                            RelativeThickness = GetBodyPartTissueThickness(part.ReferenceName, tissueName),
+                            Material = GetBodyPartTissueMaterial(part.ReferenceName, tissueName)
+                        });
+                    }
                 }
 
                 bBuilder.AddPart(part, layers);
@@ -278,7 +348,6 @@ namespace DwarfFortressNet.Bridge
             }
             return 0;
         }
-
     }
 
     public class DfBodyBuilder
@@ -305,9 +374,10 @@ namespace DwarfFortressNet.Bridge
         
         public IBody Build()
         {
+            var parts = new List<IBodyPart>();
+            if (!BodyPartDefns.Any()) return new Body(parts);
             var defn = BodyPartDefns.Single(IsRoot);
 
-            var parts = new List<IBodyPart>();
             var part = Create(defn);
             parts.Add(part);
             var partMap = new Dictionary<IBodyPart, Df.BodyPart>();

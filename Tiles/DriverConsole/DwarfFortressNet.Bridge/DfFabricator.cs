@@ -12,6 +12,8 @@ using Tiles.Bodies;
 using Tiles.Items;
 using Tiles.Math;
 
+using Df = DwarfFortressNet.RawModels;
+
 namespace DwarfFortressNet.Bridge
 {
     public class DfFabricator
@@ -43,6 +45,11 @@ namespace DwarfFortressNet.Bridge
         public IEnumerable<MaterialTemplate> MaterialTemplates
         {
             get { return Db.Get<MaterialTemplate>(); }
+        }
+
+        public IEnumerable<CreatureVariation> CreatureVariations
+        {
+            get { return Db.Get<CreatureVariation>(); }
         }
 
         public void ReadDfRawDir(string dir)
@@ -99,6 +106,14 @@ namespace DwarfFortressNet.Bridge
                     foreach (var ele in pair.Value)
                     {
                         var obj = TissueTemplate.FromElement(ele);
+                        Db.Add(obj.ReferenceName, obj);
+                    }
+                }
+                else if (pair.Key == CreatureVariation.TokenName)
+                {
+                    foreach (var ele in pair.Value)
+                    {
+                        var obj = CreatureVariation.FromElement(ele);
                         Db.Add(obj.ReferenceName, obj);
                     }
                 }
@@ -266,9 +281,9 @@ namespace DwarfFortressNet.Bridge
         }
 
 
-        public IBody CreateBody(Creature c)
+        public IBody CreateBody(Df.Creature c, string casteName)
         {
-            var b = new DfAgentBuilder(Db, c);
+            var b = new DfAgentBuilder(Db, c, casteName);
 
             return b.Build();
         }
@@ -277,6 +292,5 @@ namespace DwarfFortressNet.Bridge
         {
             return DfWeaponItemBuilder.FromDefinition(inorg, weapon, Db);
         }
-
     }
 }

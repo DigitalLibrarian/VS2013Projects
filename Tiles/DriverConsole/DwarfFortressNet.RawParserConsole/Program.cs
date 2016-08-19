@@ -32,7 +32,17 @@ namespace DwarfFortressNet.RawParserConsole
                     fab.CreateWeapon(inorg, weapon);
                 }
             }
-
+            var possCreatures = 
+                fab.Creatures.Where(possCreature => !possCreature.Tokens.Any(
+                    token => token.IsSingleWord("FANCIFUL")
+                    || token.Name.Equals("COPY_TAGS_FROM")
+                    
+                    )).Where(x => x.HasBody);
+            foreach (var creature in possCreatures)
+            {
+                Console.WriteLine(creature.ReferenceName);
+            }
+            Console.WriteLine(string.Format("Total: {0}", possCreatures.Count()));
             while (true)
             {
                 Console.Write(":");
@@ -41,11 +51,27 @@ namespace DwarfFortressNet.RawParserConsole
                 var c = fab.Creatures.SingleOrDefault(x => x.ReferenceName == referenceName);
                 if (c == null)
                 {
-                    Console.WriteLine("Not found");
+                    if (referenceName == "ALL")
+                    {
+                        foreach (var possCreature in possCreatures)
+                        {
+                            foreach (var caste in possCreature.Castes)
+                            {
+                                fab.CreateBody(possCreature, caste);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not found");
+                    }
                 }
                 else
                 {
-                    var body = fab.CreateBody(c);
+                    foreach (var caste in c.Castes)
+                    {
+                        fab.CreateBody(c, caste);
+                    }
                 }
             }
 

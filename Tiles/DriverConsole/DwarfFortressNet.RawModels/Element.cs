@@ -10,5 +10,13 @@ namespace DwarfFortressNet.RawModels
     {
         public string Name { get; set; }
         public List<Tag> Tags { get; set; }
+
+        public Element Clone()
+        {
+            return new Element{
+                Name = Name,
+                Tags = Tags.Select(x => x.Clone()).ToList()
+            };
+        }
     }
 }

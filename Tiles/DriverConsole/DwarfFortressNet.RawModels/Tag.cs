@@ -20,5 +20,13 @@ namespace DwarfFortressNet.RawModels
         {
             return Words.Count() == 1;
         }
+
+        internal Tag Clone()
+        {
+            return new Tag
+            {
+                Words = Words.ToList()
+            };
+        }
     }
 }
