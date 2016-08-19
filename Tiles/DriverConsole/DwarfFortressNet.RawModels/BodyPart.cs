@@ -24,6 +24,8 @@ namespace DwarfFortressNet.RawModels
         /// A category of body parts that this is connected to
         /// </summary>
         public string ConType { get; set; }
+
+        public string ConCat { get; set; }
         public int DefaultRelativeSize { get; set; }
         public string Category { get; set; }
 
@@ -52,6 +54,9 @@ namespace DwarfFortressNet.RawModels
                         break;
                     case "CATEGORY":
                         bp.Category = tag.Words[1];
+                        break;
+                    case "CON_CAT":
+                        bp.ConCat = tag.Words[1];
                         break;
                     case "DEFAULT_RELSIZE":
                         bp.DefaultRelativeSize = int.Parse(tag.Words[1]);

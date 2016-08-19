@@ -6,9 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Tiles;
 using Tiles.Agents;
 using Tiles.Bodies;
 using Tiles.Items;
+using Tiles.Math;
 
 namespace DwarfFortressNet.Bridge
 {
@@ -266,7 +268,10 @@ namespace DwarfFortressNet.Bridge
 
         public IBody CreateBody(Creature c)
         {
-            return DfCreatureBodyBuilder.FromCreatureDefinition(c, Db);
+
+            var b = new DfAgentBuilder(Db, c);
+
+            return b.Build();
         }
 
         public IItem CreateWeapon(Inorganic inorg, ItemWeapon weapon)
@@ -274,10 +279,5 @@ namespace DwarfFortressNet.Bridge
             return DfWeaponItemBuilder.FromDefinition(inorg, weapon, Db);
         }
 
-        public IAgent CreateAgent(Creature c)
-        {
-            var b = new DfAgentBuilder(Db, c);
-            return b.Build();
-        }
     }
 }

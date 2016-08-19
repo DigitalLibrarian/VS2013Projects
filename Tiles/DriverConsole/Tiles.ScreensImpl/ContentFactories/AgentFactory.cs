@@ -15,9 +15,6 @@ using Tiles.Bodies;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
-
-
-
     public class AgentFactory
     {
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
@@ -27,6 +24,11 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IItemClass ZombieTeethClass = new ItemClass { Name = ZombieTeeth.WeaponClass.Name, WeaponClass = ZombieTeeth.WeaponClass };
 
         public IRandom Random { get; set; }
+        public AgentFactory() : this(new RandomWrapper(new System.Random()))
+        {
+
+        }
+
         public AgentFactory(IRandom random)
         {
             Random = random;
@@ -87,7 +89,6 @@ namespace Tiles.ScreensImpl.ContentFactories
         public IAgent CreateSurvivor(IAtlas atlas, Vector3 worldPos)
         {
             var body = BodyFactory.CreateHumanoid();
-            //var planner = new QueueAgentCommandPlanner(Random, new AgentCommandFactory());
             var survivor = new Agent(atlas,
                 new Sprite(
                         symbol: Symbol.Survivor,
@@ -106,6 +107,21 @@ namespace Tiles.ScreensImpl.ContentFactories
             survivor.IsUndead = false;
             return survivor;
         }
+
+        public IAgent Create(IAtlas atlas, Vector3 worldPos, ISprite sprite, string name, IBody body)
+        {
+            return new Agent(
+                atlas: atlas,
+                sprite: sprite,
+                pos: worldPos,
+                body: body,
+                name: name,
+                inventory: new Inventory(),
+                outfit: new Outfit(body, new OutfitLayerFactory()),
+                commandQueue: new AgentCommandQueue()
+                );
+        }
+
 
         IAgentBehavior CreateBehavior(IAgentCommandPlanner planner)
         {

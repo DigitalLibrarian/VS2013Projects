@@ -11,6 +11,7 @@ using DwarfFortressNet.RawModels;
 using Tiles.Bodies;
 using DwarfFortressNet.Bridge;
 using Tiles.Items;
+using Tiles.Math;
 namespace DwarfFortressNet.RawParserConsole
 {
     class Program
@@ -32,14 +33,25 @@ namespace DwarfFortressNet.RawParserConsole
                 }
             }
 
+            while (true)
+            {
+                Console.Write(":");
+                var referenceName = Console.ReadLine();
+                if (referenceName.ToLower().Equals("q")) break;
+                var c = fab.Creatures.SingleOrDefault(x => x.ReferenceName == referenceName);
+                if (c == null)
+                {
+                    Console.WriteLine("Not found");
+                }
+                else
+                {
+                    var body = fab.CreateBody(c);
+                    int br = 9;
+                }
+            }
 
-            var c = fab.Creatures.Single(x => x.ReferenceName == "DWARF");
-            fab.CreateBody(c);
-            fab.CreateAgent(c);
-
-
-            System.Console.ReadKey();
         }
+
 
 
         static IItem CreateWeapon(Inorganic inorg, ItemWeapon weapon, ObjectDb objDb)

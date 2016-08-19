@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles;
 using Tiles.Bodies;
 using Tiles.Materials;
 using Df = DwarfFortressNet.RawModels;
@@ -198,7 +199,7 @@ namespace DwarfFortressNet.Bridge
             }
         }
 
-        public Tiles.Agents.IAgent Build()
+        public Tiles.Bodies.IBody Build()
         {
             foreach (var tag in Creature.Tokens)
             {
@@ -238,11 +239,10 @@ namespace DwarfFortressNet.Bridge
                 }
 
                 bBuilder.AddPart(part, layers);
-                Console.WriteLine(part.ReferenceName + "\t" + part.Name + "\t" + string.Join(", ", layers.Select(x => x.Material.Adjective)));
             }
 
 
-            return null;
+            return bBuilder.Build();
         }
 
         private IEnumerable<string> GetBodyPartTissueOrder(string bodyPartName)
@@ -289,113 +289,63 @@ namespace DwarfFortressNet.Bridge
             public IMaterial Material { get; set; }
         }
 
-        public void AddPart(Df.BodyPart bp, List<TissueLayer> layers) {}
-    }
+        Dictionary<Df.BodyPart, List<TissueLayer>> BpLayers = new Dictionary<Df.BodyPart, List<TissueLayer>>();
 
-
-    public class DfCreatureBodyBuilder
-    {
-        Dictionary<string, List<Df.BodyPart>> PartDefsByToken { get; set; }
-
-        Dictionary<string, List<IBodyPart>> CreatedPartsByToken { get; set; }
-        Dictionary<string, IBodyPart> CreatedPartsByName { get; set; }
-
-        IList<IBodyPart> BodyParts { get; set; }
-
-        Creature Creature { get; set; }
-        ObjectDb Db { get; set; }
-        public DfCreatureBodyBuilder(Creature creature, ObjectDb objDb)
+        public void AddPart(Df.BodyPart bp, List<TissueLayer> layers) 
         {
-            Creature = creature;
-            Db = objDb;
-
-            Clear();
+            BpLayers[bp] = layers;
         }
 
-        public void Clear()
+        bool IsRoot(Df.BodyPart bodyPart)
         {
-            PartDefsByToken = new Dictionary<string, List<Df.BodyPart>>();
-            CreatedPartsByName = new Dictionary<string, IBodyPart>();
-            CreatedPartsByToken = new Dictionary<string, List<IBodyPart>>();
-
-            BodyParts = new List<IBodyPart>();
+            return bodyPart.Con == null && bodyPart.ConType == null && bodyPart.ConCat == null;
         }
 
-        #region Data View
-        public IEnumerable<Df.BodyPart> AllPartDefns
+        ICollection<Df.BodyPart> BodyPartDefns { get { return BpLayers.Keys; } }
+        
+        public IBody Build()
         {
-            get
+            var defn = BodyPartDefns.Single(IsRoot);
+
+            var parts = new List<IBodyPart>();
+            var part = Create(defn);
+            parts.Add(part);
+            var partMap = new Dictionary<IBodyPart, Df.BodyPart>();
+            partMap.Add( part, defn);
+
+            for (int i = 0; i < parts.Count(); i++)
             {
-                return Creature.BodyPartSets.Select(refName => Db.Get<Df.BodyPartSet>(refName)).SelectMany(set => set.BodyParts);
-            }
-        }
+                part = parts[i];
+                defn = partMap[part];
 
-        public IEnumerable<Df.BodyPart> RootPartDefns
-        {
-            get
-            {
-                return AllPartDefns.Where(part => part.Con == null && part.ConType == null);
-            }
-        }
-
-        public IEnumerable<Df.BodyPart> SpecificallyConnectedPartDefns
-        {
-            get
-            {
-                return AllPartDefns.Where(part => part.Con != null);
-            }
-        }
-
-        public IEnumerable<Df.BodyPart> TokenConnectedPartDefns
-        {
-            get
-            {
-                return AllPartDefns.Where(part => part.ConType != null);
-            }
-        }
-
-        #endregion
-
-        void RecordPart(Df.BodyPart dfPart, IBodyPart part)
-        {
-            var refName = dfPart.ReferenceName;
-            CreatedPartsByName.Add(refName, part);
-
-            foreach (var tokenName in dfPart.Tokens.Where(x => x.IsSingleWord()).Select(x => x.Words.First()))
-            {
-                if (CreatedPartsByToken.ContainsKey(tokenName))
+                var toLoad = new List<Df.BodyPart>();
+                if (defn.Category != null)
                 {
-                    CreatedPartsByToken[tokenName].Add(part);
+                    toLoad.AddRange(BodyPartDefns.Where(x => x.ConCat == defn.Category));
                 }
-                else
+
+                toLoad.AddRange(BodyPartDefns.Where(x => x.ConType != null && defn.Tokens.Any(t => t.IsSingleWord(x.ConType))));
+                toLoad.AddRange(BodyPartDefns.Where(x => x.Con == defn.ReferenceName));
+
+                foreach (var partDefn in toLoad)
                 {
-                    CreatedPartsByToken[tokenName] = new List<IBodyPart> { part };
+                    var newPart = Create(part, partDefn);
+                    parts.Add(newPart);
+                    partMap.Add(newPart, partDefn);
                 }
             }
+
+            return new Body(parts);
         }
 
-        public void AddRootParts()
+        IBodyPart Create(IBodyPart parent, Df.BodyPart partDefn)
         {
-            foreach (var part in RootPartDefns)
-            {
-                var bp = CreatePart(part);
-
-                RecordPart(part, bp);
-                BodyParts.Add(bp);
-            }
+            return CreatePart(partDefn, parent);
         }
 
-        public void AddSpecificallyConnectedParts()
+        IBodyPart Create(Df.BodyPart partDefn)
         {
-            foreach (var part in SpecificallyConnectedPartDefns)
-            {
-                var parentBP = CreatedPartsByName[part.Con];
-
-                var bp = CreatePart(part, parentBP);
-
-                RecordPart(part, bp);
-                BodyParts.Add(bp);
-            }
+            return CreatePart(partDefn);
         }
 
         IBodyPart CreatePart(Df.BodyPart part, IBodyPart parentBP = null)
@@ -411,34 +361,6 @@ namespace DwarfFortressNet.Bridge
                         ),
                     parent: parentBP
                     ); ;
-        }
-
-        public void AddTokenConnectedParts()
-        {
-            foreach (var part in TokenConnectedPartDefns)
-            {
-                foreach (var targetParent in CreatedPartsByToken[part.ConType])
-                {
-                    var bp = CreatePart(part, targetParent);
-
-                    BodyParts.Add(bp);
-                }
-            }
-        }
-
-        public IBody Build()
-        {
-            return new Body(BodyParts);
-        }
-        
-
-        public static IBody FromCreatureDefinition(Creature c, ObjectDb objDb)
-        {
-            var builder = new DfCreatureBodyBuilder(c, objDb);
-            builder.AddRootParts();
-            builder.AddSpecificallyConnectedParts();
-            builder.AddTokenConnectedParts();
-            return builder.Build();
         }
     }
 }
