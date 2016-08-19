@@ -147,7 +147,7 @@ namespace DwarfFortressNet.Bridge
                 }
                 else
                 {
-                    throw new NotImplementedException(string.Format("Unknown BPLAYERS strategy: {0}", bpLayers.Strategy);
+                    throw new NotImplementedException(string.Format("Unknown BPLAYERS strategy: {0}", bpLayers.Strategy));
                 }
             }
             
@@ -429,19 +429,26 @@ namespace DwarfFortressNet.Bridge
             return CreatePart(partDefn);
         }
 
-        IBodyPart CreatePart(Df.BodyPart part, IBodyPart parentBP = null)
+        IBodyPart CreatePart(Df.BodyPart partDefn, IBodyPart parentBP = null)
         {
             return new Tiles.Bodies.BodyPart(
                     new BodyPartClass(
-                        name: part.Name,
-                        isCritical: part.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
+                        name: partDefn.Name,
+                        isCritical: partDefn.Tokens.Any(x => x.IsSingleWord("THOUGHT")),
                         canAmputate: false,
-                        canGrasp: part.Tokens.Any(token => token.IsSingleWord("GRASP")),
+                        canGrasp: partDefn.Tokens.Any(token => token.IsSingleWord("GRASP")),
                         armorSlotType: Tiles.Items.ArmorSlot.None,
                         weaponSlotType: Tiles.Items.WeaponSlot.None
                         ),
+                    tissue: CreateTissue(partDefn),
                     parent: parentBP
                     ); ;
+        }
+
+        ITissue CreateTissue(Df.BodyPart partDefn)
+        {
+            var layers = BpLayers[partDefn].Select<TissueLayer, ITissueLayer>(x => new Tiles.Bodies.TissueLayer(x.Material, x.RelativeThickness)).ToList();
+            return new Tissue(layers);
         }
     }
 }

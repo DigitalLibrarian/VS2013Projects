@@ -15,31 +15,4 @@ namespace Tiles.Materials
             Adjective = adjective;
         }
     }
-
-    public interface IMaterial
-    {
-        string Adjective { get; }
-    }
-
-    public class TissueLayer : ITissueLayer
-    {
-        public IMaterial Material { get; private set; }
-        public int RelativeThickness { get; private set; }
-    }
-
-    public interface ITissueLayer
-    {
-        IMaterial Material { get; }
-        int RelativeThickness { get; }
-    }
-
-    public interface ITissue
-    {
-        IList<ITissueLayer> TissueLayers { get; }
-    }
-
-    public class Tissue : ITissue
-    {
-        public IList<ITissueLayer> TissueLayers { get; private set; }
-    }
 }

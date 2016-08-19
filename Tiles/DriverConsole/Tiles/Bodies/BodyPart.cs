@@ -29,15 +29,18 @@ namespace Tiles.Bodies
         public IBodyPart Parent { get; set; }
         public HealthVector Health { get; private set; }
 
-        public BodyPart(IBodyPartClass bodyPartClass, IBodyPart parent) 
+        public ITissue Tissue { get; private set; }
+
+        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, IBodyPart parent) 
         {
             Class = bodyPartClass;
+            Tissue = tissue;
             Parent = parent;
 
             Health = HealthVector.Create();
         }
 
-        public BodyPart(IBodyPartClass bodyPartClass) : this(bodyPartClass, null) { }
+        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue) : this(bodyPartClass, tissue, null) { }
         public void StartGrasp(IBodyPart part)
         {
             Grasped = part;
