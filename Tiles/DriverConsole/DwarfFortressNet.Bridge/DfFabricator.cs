@@ -268,7 +268,6 @@ namespace DwarfFortressNet.Bridge
 
         public IBody CreateBody(Creature c)
         {
-
             var b = new DfAgentBuilder(Db, c);
 
             return b.Build();

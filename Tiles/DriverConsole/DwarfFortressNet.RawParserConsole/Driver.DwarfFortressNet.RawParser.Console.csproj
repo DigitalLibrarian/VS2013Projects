@@ -61,10 +61,6 @@
       <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
       <Name>Tiles.Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tiles.ScreensImpl\Tiles.ScreensImpl.csproj">
-      <Project>{1a551a35-8e59-4a0d-b2c0-b87ca7fcb57f}</Project>
-      <Name>Tiles.ScreensImpl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tiles\Tiles.csproj">
       <Project>{dbe6c63c-cd28-4c24-920c-2776da05fff4}</Project>
       <Name>Tiles</Name>

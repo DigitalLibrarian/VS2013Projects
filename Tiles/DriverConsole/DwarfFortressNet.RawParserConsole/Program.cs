@@ -46,7 +46,6 @@ namespace DwarfFortressNet.RawParserConsole
                 else
                 {
                     var body = fab.CreateBody(c);
-                    int br = 9;
                 }
             }
 
