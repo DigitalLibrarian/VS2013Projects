@@ -32,12 +32,7 @@ namespace DwarfFortressNet.RawParserConsole
                     fab.CreateWeapon(inorg, weapon);
                 }
             }
-            var possCreatures = 
-                fab.Creatures.Where(possCreature => !possCreature.Tokens.Any(
-                    token => token.IsSingleWord("FANCIFUL")
-                    || token.Name.Equals("COPY_TAGS_FROM")
-                    
-                    )).Where(x => x.HasBody);
+            var possCreatures = fab.Creatures.Where(x => x.HasBody);
             foreach (var creature in possCreatures)
             {
                 Console.WriteLine(creature.ReferenceName);
@@ -74,7 +69,6 @@ namespace DwarfFortressNet.RawParserConsole
                     }
                 }
             }
-
         }
 
 
