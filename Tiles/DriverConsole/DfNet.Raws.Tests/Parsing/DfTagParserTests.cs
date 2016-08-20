@@ -35,6 +35,8 @@ namespace DfNet.Raws.Tests.Parsing
             var tag = tags.Single();
             Assert.AreEqual("OBJECT", tag.Name);
             Assert.AreEqual("NINJA_DUCK", tag.GetWord(1));
+
+            Assert.IsFalse(tag.IsSingleWord("NOPE"));
         }
 
 

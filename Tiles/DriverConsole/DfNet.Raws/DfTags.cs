@@ -17,7 +17,7 @@ namespace DfNet.Raws
         public static readonly string TISSUE_TEMPLATE = "TISSUE_TEMPLATE";
         public static readonly string ITEM_WEAPON = "ITEM_WEAPON";
 
-        public static IEnumerable<string> GetAllObjectTypes()
+        public static string[] GetAllObjectTypes()
         {
             return new string[]{
                 CREATURE,

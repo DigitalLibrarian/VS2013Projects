@@ -49,6 +49,15 @@ namespace DfNet.Raws.Tests.Parsing
             }
         }
 
+        [TestMethod]
+        public void ParseAllTypes()
+        {
+            var lines = Raws.SelectMany(x => x.Value);
+            var all = Parser.Parse(lines, DfTags.GetAllObjectTypes()).ToList();
+            Assert.IsTrue(all.Any());
+        }
+
+        
         void TestCount(string objectType)
         {
             var expected = ExpectedCounts[objectType];
