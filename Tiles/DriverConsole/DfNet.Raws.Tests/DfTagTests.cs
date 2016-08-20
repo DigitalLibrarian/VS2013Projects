@@ -32,6 +32,24 @@ namespace DfNet.Raws.Tests
         }
 
         [TestMethod]
+        public void WordWithParams()
+        {
+            var tag = new DfTag("TAG", new string[] { "p1", "p2" });
+
+            Assert.IsFalse(tag.IsSingleWord());
+            Assert.IsFalse(tag.IsSingleWord("TAG"));
+            Assert.AreEqual(3, tag.NumWords);
+            Assert.AreEqual("TAG", tag.GetWord(0));
+            Assert.AreEqual("p1", tag.GetParam(0));
+            Assert.AreEqual("p1", tag.GetWord(1));
+            Assert.AreEqual("p2", tag.GetParam(1));
+            Assert.AreEqual("p2", tag.GetWord(2));
+
+            Asserter.AssertException<IndexOutOfRangeException>(() => tag.GetParam(2));
+            Asserter.AssertException<IndexOutOfRangeException>(() => tag.GetWord(3));
+        }
+
+        [TestMethod]
         public void SeveralWords()
         {
             var words = new string[]
@@ -72,7 +90,7 @@ namespace DfNet.Raws.Tests
             };
 
             var tag = new DfTag(words);
-            var clone = tag.CloneTag();
+            var clone = tag.CloneDfTag();
 
             Assert.AreEqual(tag.Name, clone.Name);
 

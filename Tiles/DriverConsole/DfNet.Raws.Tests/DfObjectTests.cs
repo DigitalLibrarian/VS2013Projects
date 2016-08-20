@@ -34,13 +34,38 @@ namespace DfNet.Raws.Tests
         [TestMethod]
         public void TypeAndName()
         {
-            var o = new DfObject(new List<DfTag>
-            {
-                new DfTag("TURD", "SANDWICH")
-            });
+            var o = new DfObject(new DfTag("TURD", "SANDWICH"));
 
             Assert.AreEqual("TURD", o.Type);
             Assert.AreEqual("SANDWICH", o.Name);
+        }
+
+        [TestMethod]
+        public void CloneDfObject()
+        {
+            var o = new DfObject(new List<DfTag>
+            {
+                new DfTag("TURD", "SANDWICH"),
+                new DfTag("ONE", "1", "2"),
+                new DfTag("TWO"),
+                new DfTag("THREE", "kick", "kicks")
+            });
+
+
+            var clone = o.CloneDfObject();
+
+            Assert.AreNotSame(o, clone);
+            int i = 0;
+            foreach (var tag in o.Tags)
+            {
+                Assert.AreNotSame(o.Tags[i], clone.Tags[i]);
+                Assert.AreEqual(o.Tags.Count(), clone.Tags.Count());
+                for (int j = 0; j < o.Tags[i].NumWords; j++)
+                {
+                    Assert.AreEqual(o.Tags[i].GetWord(j), clone.Tags[i].GetWord(j));
+                }
+                i++;
+            }
         }
     }
 }

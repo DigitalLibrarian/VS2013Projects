@@ -11,6 +11,7 @@ using Tiles.Tests.Assertions;
 
 namespace DfNet.Raws.Tests.Parsing
 {
+    // TODO - label this as integration test and make true unit tests for the parser
     [TestClass]
     public class DfObjectParserTests
     {

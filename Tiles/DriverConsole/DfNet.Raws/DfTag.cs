@@ -9,6 +9,10 @@ namespace DfNet.Raws
     public class DfTag
     {
         string[] Words { get; set; }
+        public DfTag(string name, params string[] parameters)
+            : this(new List<string>{name}.Concat(parameters).ToArray()){
+
+        }
         public DfTag(params string[] words)
         {
             if (!words.Any()) throw new NoWordsException();
@@ -24,12 +28,32 @@ namespace DfNet.Raws
             return Words[i];
         }
 
+        public string[] GetParams()
+        {
+            var p = new List<string>();
+            for (int i = 0; i < NumWords - 1; i++)
+            {
+                p.Add(GetParam(i));
+            }
+            return p.ToArray();
+        }
+
+        public string[] GetWords()
+        {
+            var w = new List<string>();
+            for (int i = 0; i < NumWords; i++)
+            {
+                w.Add(GetWord(i));
+            }
+            return w.ToArray();
+        }
+
         public string GetParam(int i)
         {
             return GetWord(i + 1);
         }
 
-        public DfTag CloneTag()
+        public DfTag CloneDfTag()
         {
             return new DfTag(Words.Select(x => x.Clone() as string).ToArray());
         }
@@ -47,6 +71,7 @@ namespace DfNet.Raws
         public bool IsSingleWord()
         { 
             return NumWords == 1; 
-        } 
+        }
+
     }
 }
