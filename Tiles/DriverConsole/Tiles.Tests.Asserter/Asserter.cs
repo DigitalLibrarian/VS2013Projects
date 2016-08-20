@@ -37,7 +37,8 @@ namespace Tiles.Tests.Assertions
             Assert.AreNotEqual(expected.Y, actual.Y);
             Assert.AreNotEqual(expected.Z, actual.Z);
         }
-        static public void AssertException<TException>(Action action) where TException : Exception
+        static public void AssertException<TException>(Action action) 
+            where TException : Exception
         {
             TException caughtException = null;
             try

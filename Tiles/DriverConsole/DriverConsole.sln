@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.RawModels"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.Bridge", "DwarfFortressNet.Bridge\DwarfFortressNet.Bridge.csproj", "{8ABC709E-D52B-4519-BF89-B5E225752DE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfNet.Raws", "DfNet.Raws\DfNet.Raws.csproj", "{559E9C2C-01CA-4665-83BF-6A757E71818B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfNet.Raws.Tests", "DfNet.Raws.Tests\DfNet.Raws.Tests.csproj", "{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +135,14 @@ Global
 		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{559E9C2C-01CA-4665-83BF-6A757E71818B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559E9C2C-01CA-4665-83BF-6A757E71818B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559E9C2C-01CA-4665-83BF-6A757E71818B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559E9C2C-01CA-4665-83BF-6A757E71818B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

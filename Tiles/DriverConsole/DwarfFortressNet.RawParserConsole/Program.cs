@@ -37,6 +37,7 @@ namespace DwarfFortressNet.RawParserConsole
                 Console.WriteLine(creature.ReferenceName);
             }
             Console.WriteLine(string.Format("Total: {0}/{1}", possCreatures.Count(), fab.Creatures.Count()));
+
             while (true)
             {
                 Console.Write(":");
