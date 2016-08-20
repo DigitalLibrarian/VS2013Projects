@@ -52,12 +52,15 @@ namespace DfNet.Raws.Tests.Parsing
         [TestMethod]
         public void ParseAllTypes()
         {
+            var allTypes = DfTags.GetAllObjectTypes();
             var lines = Raws.SelectMany(x => x.Value);
-            var all = Parser.Parse(lines, DfTags.GetAllObjectTypes()).ToList();
+            var all = Parser.Parse(lines, allTypes).ToList();
             Assert.IsTrue(all.Any());
-        }
 
-        
+            int distinctTypes = allTypes.Count();
+            Assert.AreEqual(distinctTypes, all.Select(x => x.Type).Distinct().Count());
+        }
+                
         void TestCount(string objectType)
         {
             var expected = ExpectedCounts[objectType];
