@@ -42,6 +42,7 @@
     <Compile Include="DfCreatureBodyBuilder.cs" />
     <Compile Include="DfFabricator.cs" />
     <Compile Include="DfMaterialFactory.cs" />
+    <Compile Include="DfMaterialPallete.cs" />
     <Compile Include="DfWeaponItemBuilder.cs" />
     <Compile Include="ObjectDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

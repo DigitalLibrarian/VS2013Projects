@@ -19,6 +19,6 @@ namespace Tiles.Bodies
         }
 
         // TODO - need some way to track damage
-
+        // It is likely we will create an IWound type that gets added here
     }
 }

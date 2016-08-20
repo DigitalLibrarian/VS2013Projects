@@ -118,15 +118,24 @@ namespace DwarfFortressNet.Bridge
                         Db.Add(obj.ReferenceName, obj);
                     }
                 }
-
             }
+
 
             foreach (var ele in Elements.Where(pair => pair.Key == Inorganic.TokenName).SelectMany(x => x.Value))
             {
                 var inorg = Inorganic.FromElement(ele);
                 Db.Add(inorg.ReferenceName, inorg);
             }
-
+            /*
+            foreach (var subCreature in Creatures.Where(x => x.Tokens.Any(t => t.Name.Equals("COPY_TAGS_FROM"))))
+            {
+                foreach (var token in subCreature.Tokens.Where(x => x.Name.Equals("COPY_TAGS_FROM")))
+                {
+                    var parentCreature = Db.Get<Creature>(token.Words[1]);
+                    subCreature.Castes.AddRange(parentCreature.Castes);
+                }
+            }
+             * */
         }
 
         void Consume(IEnumerable<string> lines)
@@ -284,7 +293,15 @@ namespace DwarfFortressNet.Bridge
 
         public IBody CreateBody(Df.Creature c, string casteName)
         {
-            var b = new DfBodyConstructor(Db, c, casteName);
+            c = Creature.FromElement(c.Element, casteName);
+            var b = new DfBodyConstructor(Db, c);
+
+            return b.Build();
+        }
+
+        public IBody CreateBody(Df.Creature c)
+        {
+            var b = new DfBodyConstructor(Db, c);
 
             return b.Build();
         }

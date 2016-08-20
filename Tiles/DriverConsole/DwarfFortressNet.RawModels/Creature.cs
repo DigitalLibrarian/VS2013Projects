@@ -146,7 +146,7 @@ namespace DwarfFortressNet.RawModels
                 NameAdjective = NameAdjective,
                 Description = Description,
                 CopyTagsFrom = CopyTagsFrom,
-                Castes = new List<string>(),
+                Castes = Castes.ToList(),
                 Element = Element.Clone()
             };
         }

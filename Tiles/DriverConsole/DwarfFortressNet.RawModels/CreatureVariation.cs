@@ -87,7 +87,7 @@ namespace DwarfFortressNet.RawModels
         {
             public string Target { get; set; }
             public string Master { get; set; }
-            public List<string> Replacement { get; set; }
+            public List<string> Replacement = new List<string>();
         }
     }
 }

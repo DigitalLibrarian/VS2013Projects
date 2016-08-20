@@ -24,7 +24,6 @@ namespace DwarfFortressNet.RawParserConsole
             var fab = new DfFabricator();
             fab.ReadDfRawDir(dirStr);
             
-            
             foreach (var inorg in fab.Inorganics)
             {
                 foreach (var weapon in fab.ItemWeapons)
@@ -32,27 +31,34 @@ namespace DwarfFortressNet.RawParserConsole
                     fab.CreateWeapon(inorg, weapon);
                 }
             }
-            var possCreatures = fab.Creatures.Where(x => x.HasBody);
+            var possCreatures = fab.Creatures;
             foreach (var creature in possCreatures)
             {
                 Console.WriteLine(creature.ReferenceName);
             }
-            Console.WriteLine(string.Format("Total: {0}", possCreatures.Count()));
+            Console.WriteLine(string.Format("Total: {0}/{1}", possCreatures.Count(), fab.Creatures.Count()));
             while (true)
             {
                 Console.Write(":");
                 var referenceName = Console.ReadLine();
                 if (referenceName.ToLower().Equals("q")) break;
                 var c = fab.Creatures.SingleOrDefault(x => x.ReferenceName == referenceName);
+                int total = 0;
                 if (c == null)
                 {
                     if (referenceName == "ALL")
                     {
                         foreach (var possCreature in possCreatures)
                         {
+                            if (!possCreature.Castes.Any())
+                            {
+                                //var body = fab.CreateBody(possCreature);
+                                // total++;
+                            }
                             foreach (var caste in possCreature.Castes)
                             {
-                                fab.CreateBody(possCreature, caste);
+                                var body = fab.CreateBody(possCreature, caste);
+                                total++;
                             }
                         }
                     }
@@ -63,11 +69,18 @@ namespace DwarfFortressNet.RawParserConsole
                 }
                 else
                 {
+                    if (!c.Castes.Any())
+                    {
+                        //fab.CreateBody(c);
+                        //total++;
+                    }
                     foreach (var caste in c.Castes)
                     {
                         fab.CreateBody(c, caste);
+                        total++;
                     }
                 }
+                Console.WriteLine(string.Format("Created {0}", total));
             }
         }
 

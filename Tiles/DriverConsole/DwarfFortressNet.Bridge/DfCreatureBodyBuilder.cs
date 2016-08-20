@@ -11,44 +11,21 @@ using Df = DwarfFortressNet.RawModels;
 
 namespace DwarfFortressNet.Bridge
 {
-    public class DfCreaturePallete
-    {
-        ObjectDb Db { get; set; }
-
-        Dictionary<string, IMaterial> Materials { get; set;}
-
-        public DfCreaturePallete()
-        {
-            Db = new ObjectDb();
-            Materials = new Dictionary<string, IMaterial>();
-        }
-
-        public void AddMaterial(string name, IMaterial material)
-        {
-            Materials[name] = material;
-        }
-        public IMaterial GetMaterial(string name)
-        {
-            return Materials[name];
-        }
-    }
-
     public class DfBodyConstructor
     {
         ObjectDb Db { get; set;}
         DfMaterialFactory MaterialFactory { get; set;}
 
-        DfCreaturePallete Pallete { get; set; }
+        DfMaterialPallete Pallete { get; set; }
         Df.Creature Creature { get; set; }
 
         string CasteName { get; set; }
-        public DfBodyConstructor(ObjectDb db, Df.Creature creature, string casteName)
+        public DfBodyConstructor(ObjectDb db, Df.Creature creature)
         {
             Db = db;
-            Creature = Creature.FromElement(creature.Element, casteName);
+            Creature = creature;
             MaterialFactory = new DfMaterialFactory(db);
-            Pallete = new DfCreaturePallete();
-            CasteName = casteName;
+            Pallete = new DfMaterialPallete();
         }
         
         IMaterial BuildMaterial(string materialTemplateName)
@@ -171,26 +148,26 @@ namespace DwarfFortressNet.Bridge
         }
         
 	    //[USE_MATERIAL_TEMPLATE:NAIL:NAIL_TEMPLATE]
-        public void Tag_UseMaterialTemplate(string name, string template)
+        void Tag_UseMaterialTemplate(string name, string template)
         {
             AddMaterialFromMaterialTemplate(name, template);
         }
 
 	    //[USE_TISSUE_TEMPLATE:EYEBROW:EYEBROW_TEMPLATE]
-        public void Tag_UseTissueTemplate(string name, string template)
+        void Tag_UseTissueTemplate(string name, string template)
         {
             AddMaterialFromTissueTemplate(name, template);
         }
 
         //[TISSUE_LAYER:BY_CATEGORY:FINGER:NAIL:FRONT]
-        public void Tag_TissueLayer(string strategy, string bodyPart, string tissueName, string side)
+        void Tag_TissueLayer(string strategy, string bodyPart, string tissueName, string side)
         {
             SetTissueForBodyPart(bodyPart, tissueName, side);
         }
 
         Dictionary<string, Df.BodyPart> PlannedBodyParts = new Dictionary<string, Df.BodyPart>();
         //[BODY:HUMANOID_NECK:2EYES:2EARS:NOSE:2LUNGS:HEART:GUTS:ORGANS:HUMANOID_JOINTS:THROAT:NECK:SPINE:BRAIN:SKULL:5FINGERS:5TOES:MOUTH:TONGUE:FACIAL_FEATURES:TEETH:RIBCAGE]
-        public void Tag_Body(params string[] bodyPartSetNames)
+        void Tag_Body(params string[] bodyPartSetNames)
         {
             foreach (var bodyPartSetName in bodyPartSetNames)
             {
@@ -202,11 +179,12 @@ namespace DwarfFortressNet.Bridge
             }
         }
 
+        //[APPLY_CREATURE_VARIATION:ANIMAL_PERSON]
         //[APPLY_CREATURE_VARIATION:STANDARD_BIPED_GAITS:900:711:521:293:1900:2900] 30 kph
         //[APPLY_CREATURE_VARIATION:STANDARD_CLIMBING_GAITS:5951:5419:4898:1463:6944:8233] 6 kph
         //[APPLY_CREATURE_VARIATION:STANDARD_SWIMMING_GAITS:5951:5419:4898:1463:6944:8233] 6 kph
         //[APPLY_CREATURE_VARIATION:STANDARD_CRAWLING_GAITS:2990:2257:1525:731:4300:6100] 12 kph
-        public void Tag_ApplyCreatureVariation(string variation, params string[] args) 
+        void Tag_ApplyCreatureVariation(string variation, params string[] args) 
         {
             var cv = Db.Get<CreatureVariation>(variation);
 
@@ -256,17 +234,179 @@ namespace DwarfFortressNet.Bridge
             }
         }
 
+        void Tag_CopyTagsFrom(string creatureName)
+        {
+            var otherCreature = Db.Get<Creature>(creatureName);
+            foreach (var tag in otherCreature.Tokens.Skip(1))
+            {
+                Creature.Tokens.Add(tag.Clone());
+            }
+        }
 
+        public int Insert(List<Tag> list, int index, params Tag[] tags)
+        {
+            foreach (var tag in tags)
+            {
+                list.Insert(index++, tag);
+            }
+            return index;
+        }
+
+        public IEnumerable<Tag> GetTagsFrom(string creature)
+        {
+            var c = Db.Get<Creature>(creature);
+            return c.Tokens.Select(x => x.Clone());
+        }
+
+
+        int CopyTagsFrom(List<Tag> list, string creature, int index) 
+        {
+            foreach (var fTag in GetTagsFrom(creature).Where(x => x.Name != "CREATURE"))
+            {
+                index = Insert(list, index++, fTag);
+            }
+            return index;
+        }
+
+        int FindTag(List<Tag> list, params string[] words)
+        {
+            return list.FindIndex(tag => tag.Name.Equals(words[0]));
+        }
+
+        int CvRemoveTag(List<Tag> working, int index, string tagName)
+        {
+            foreach (var token in working.Where(x => tagName == x.Name).ToList())
+            {
+                if (index > working.IndexOf(token)) index--;
+                working.Remove(token);
+            }
+            return index;
+        }
+
+        int CvAddTag(List<Tag> working, int index, params string[] tagWords)
+        {
+            var newTag = new Tag { Words = tagWords.ToList() };
+            return Insert(working, index, newTag);
+        }
+
+        int ApplyCreatureVariation(List<Tag> working, int startIndex, string cvName, params string[] args)
+        {
+            var cv = Db.Get<CreatureVariation>(cvName);
+
+            int index = startIndex;
+
+            foreach (var removeTag in cv.CvRemoveTags)
+            {
+                index = CvRemoveTag(working, index, removeTag);
+            }
+
+            foreach (var convertTag in cv.CvConvertTags)
+            {
+                var paramPattern = convertTag.Target;
+                var master = convertTag.Master;
+                var targets = working.Where(x => x.Name.Equals(master)).ToList();
+                if (convertTag.Replacement.Any())
+                {
+                    foreach (var token in targets)
+                    {
+                        if (index > working.IndexOf(token)) index--;
+                        working.Remove(token);
+                    }
+                }
+                else
+                {
+                    foreach (var token in targets)
+                    {
+                        var newWords = new List<string>();
+                        foreach (var word in token.Words)
+                        {
+                            if (word.Contains(paramPattern))
+                            {
+                                newWords.AddRange(convertTag.Replacement);
+                            }
+                            else
+                            {
+                                newWords.Add(word);
+                            }
+                        }
+
+                        int removeIndex = Creature.Tokens.FindIndex(x => x == token);
+                        working.RemoveAt(removeIndex);
+                        working.Add(new Tag { Words = newWords });
+                    }
+                }
+            }
+            index = Insert(working, index, cv.CvNewTags.ToArray());
+
+            return index;
+        }
+
+//[CREATURE:LEOPARD_GECKO_MAN]
+//    [COPY_TAGS_FROM:GECKO_LEOPARD]
+//    [APPLY_CREATURE_VARIATION:ANIMAL_PERSON]
+//    [GO_TO_END]
+//    [SELECT_CASTE:MALE]
+//        [CASTE_NAME:leopard gecko man:leopard gecko men:leopard gecko man]
+//    [SELECT_CASTE:FEMALE]
+//        [CASTE_NAME:leopard gecko woman:leopard gecko women:leopard gecko woman]
+//    [SELECT_CASTE:ALL]
+//    [APPLY_CREATURE_VARIATION:PUNCH_ATTACK]
+//    [APPLY_CREATURE_VARIATION:KICK_ATTACK]
+//    [APPLY_CREATURE_VARIATION:MOUTH_BITE_ATTACK]
+//    [APPLY_CREATURE_VARIATION:STANDARD_BIPED_GAITS:900:711:521:293:1900:2900] 30 kph
+//    [APPLY_CREATURE_VARIATION:STANDARD_CLIMBING_GAITS:2990:2257:1525:731:4300:6100] 12 kph
+//    [APPLY_CREATURE_VARIATION:STANDARD_SWIMMING_GAITS:2990:2257:1525:731:4300:6100] 12 kph
+//    [APPLY_CREATURE_VARIATION:STANDARD_CRAWLING_GAITS:2990:2257:1525:731:4300:6100] 12 kph
+//    [GO_TO_START]
+//    [NAME:leopard gecko man:leopard gecko men:leopard gecko man]
+//    [DESCRIPTION:A person with the head and fingers of a gecko.]
+//    [POPULATION_NUMBER:5:10]
+//    [CLUSTER_NUMBER:1:5]
+//    [MAXAGE:60:80]
+//    [CREATURE_TILE:'g']
+//    [COLOR:6:0:1]
         public Tiles.Bodies.IBody Build()
         {
             var firstPass = Creature.Tokens.ToList();
-            foreach (var tag in firstPass)
+            var varied = new List<Tag>();
+            int index = 0;
+            foreach(var tag in firstPass)
             {
-                if (tag.Name == "APPLY_CREATURE_VARIATION")
+                switch (tag.Name)
                 {
-                    Tag_ApplyCreatureVariation(tag.Words[1], tag.Words.Skip(2).ToArray());
+                    case "COPY_TAGS_FROM":
+                        index = CopyTagsFrom(varied, tag.Words[1], index);
+                        break;
+                    case "APPLY_CREATURE_VARIATION":
+                        index = ApplyCreatureVariation(varied, index, tag.Words[1], tag.Words.Skip(2).ToArray());
+                        break;
+                    case "GO_TO_START":
+                        index = 1;
+                        break;
+                    case "GO_TO_END":
+                        index = Math.Max(varied.Count() - 1, 0);
+                        break;
+                    case "GO_TO_TAG":
+                        var f = FindTag(varied, tag.Words.Skip(1).ToArray());
+                        if (f != -1)
+                        {
+                            index = f;
+                        }
+                        break;
+                    case "CV_REMOVE_TAG":
+                        index = CvRemoveTag(varied, index, tag.Words[1]);
+                        break;
+                    case "CV_ADD_TAG":
+                        index = CvAddTag(varied, index, tag.Words.Skip(2).ToArray());
+                        break;
+                    default:
+                        index = Insert(varied, index, tag);
+                        break;
                 }
             }
+
+            var newEle = new Element { Tags = varied };
+            Creature = Creature.FromElement(newEle);
 
             foreach (var tag in Creature.Tokens)
             {
