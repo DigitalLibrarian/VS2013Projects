@@ -23,5 +23,7 @@ namespace DfNet.Raws.Interpreting
         void EndPass();
 
         void CopyTagsFrom(DfObject creatureDf);
+
+        void Remove(params DfTag[] dfTag);
     }
 }

@@ -53,7 +53,19 @@ namespace DfNet.Raws
 
             public const string BP = "BP";
             public const string BP_LAYERS = "BP_LAYERS";
+            public const string BY_CATEGORY = "BY_CATEGORY";
 
+            public const string USE_MATERIAL_TEMPLATE = "USE_MATERIAL_TEMPLATE";
+            public const string ADD_MATERIAL = "ADD_MATERIAL";
+            public const string START_MATERIAL = "DfNet.START_MATERIAL";
+            public const string END_MATERIAL = "DfNet.END_MATERIAL";
+            public const string REMOVE_MATERIAL = "REMOVE_MATERIAL";
+
+            public const string START_TISSUE = "DfNet.START_TISSUE";
+            public const string END_TISSUE = "DfNet.END_TISSUE";
+            public const string ADD_TISSUE = "ADD_TISSUE";
+            public const string REMOVE_TISSUE = "REMOVE_TISSUE";
+            public const string USE_TISSUE_TEMPLATE = "USE_TISSUE_TEMPLATE";
         }
 
     }

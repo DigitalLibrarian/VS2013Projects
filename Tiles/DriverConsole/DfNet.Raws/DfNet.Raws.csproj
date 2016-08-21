@@ -49,8 +49,10 @@
     <Compile Include="Interpreting\DfCasteApplicator.cs" />
     <Compile Include="Interpreting\DfCreatureApplicator.cs" />
     <Compile Include="Interpreting\DfCreatureVariationApplicator.cs" />
+    <Compile Include="Interpreting\DfMaterialTemplateApplicator.cs" />
     <Compile Include="Interpreting\DfObjectContext.cs" />
     <Compile Include="Interpreting\DfObjectInterpreter.cs" />
+    <Compile Include="Interpreting\DfTissueTemplateApplicator.cs" />
     <Compile Include="Interpreting\IDfObjectContext.cs" />
     <Compile Include="Interpreting\IDfObjectInterpreter.cs" />
     <Compile Include="Interpreting\IDfTagInterpreter.cs" />

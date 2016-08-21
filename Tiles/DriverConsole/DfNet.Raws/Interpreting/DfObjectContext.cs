@@ -103,5 +103,15 @@ namespace DfNet.Raws.Interpreting
 
             InsertTags(tags.ToArray());
         }
+
+
+        public void Remove(params DfTag[] dfTags)
+        {
+            foreach (var token in dfTags)
+            {
+                if (Cursor >= Working.IndexOf(token)) Cursor--;
+                Working.Remove(token);
+            }
+        }
     }
 }

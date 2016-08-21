@@ -21,7 +21,7 @@ namespace DfNet.Raws.Interpreting
             return new IDfTagInterpreter[]{};
         }
 
-
+        // TODO - this is duplicated in creature variations, move to DfTag
         string[] ApplyArgs(string[] p)
         {
             var newParams = new List<string>();

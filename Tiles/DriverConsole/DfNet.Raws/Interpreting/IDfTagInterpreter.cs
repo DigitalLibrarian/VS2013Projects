@@ -206,13 +206,134 @@ namespace DfNet.Raws.Interpreting
 
         public void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags)
         {
-            foreach (var p in tag.GetParams())
+            var bdpName = tag.GetParam(0);
+            var defn = store.Get(DfTags.BODY_DETAIL_PLAN, bdpName);
+            var app = new DfBodyDetailPlanApplicator(defn, tag.GetParams().ToArray());
+            app.Apply(store, context);
+        }
+    }
+
+
+    public class TagInterpreter_RemoveMaterial : IDfTagInterpreter
+    {
+        public string TagName
+        {
+            get { return DfTags.MiscTags.REMOVE_MATERIAL; }
+        }
+
+        public void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags)
+        {
+            var working = context.WorkingSet.ToList();
+            var matIndex = working.FindIndex(t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
+                     && t.GetParam(0).Equals(tag.GetParam(0)));
+            var runLength = working.FindIndex(matIndex, 
+                t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL)
+                     && t.GetParam(0).Equals(tag.GetParam(0)));
+            var removals = working.GetRange(matIndex, runLength - matIndex);
+
+            context.Remove(removals.ToArray());
+        }
+    }
+
+
+    public class TagInterpreter_UseMaterialTemplate : IDfTagInterpreter
+    {
+        public virtual string TagName
+        {
+            get { return DfTags.MiscTags.USE_MATERIAL_TEMPLATE; }
+        }
+        
+        public void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags)
+        {
+            var numParams = tag.NumWords - 1;
+            string templateName = null;
+            string matName = null;
+            if (numParams == 2)
             {
-                var bdpName = tag.GetParam(0);
-                var defn = store.Get(DfTags.BODY_DETAIL_PLAN, bdpName);
-                var app = new DfBodyDetailPlanApplicator(defn, tag.GetParams().ToArray());
-                app.Apply(store, context);
+                matName = tag.GetParam(0);
+                templateName = tag.GetParam(1);
+
             }
+            else
+            {
+                templateName = tag.GetParam(0);
+            }
+            var defn = store.Get(DfTags.MATERIAL_TEMPLATE, templateName);
+            var app = new DfMaterialTemplateApplicator(defn, matName);
+            app.Apply(store, context);
+        }
+    }
+    
+    public class TagInterpreter_AddMaterial : TagInterpreter_UseMaterialTemplate
+    {
+        public override string TagName
+        {
+            get { return DfTags.MiscTags.ADD_MATERIAL; }
+        }
+    }
+
+
+
+    public class TagInterpreter_UseTissueTemplate : IDfTagInterpreter
+    {
+        public virtual string TagName
+        {
+            get { return DfTags.MiscTags.USE_TISSUE_TEMPLATE; }
+        }
+
+        public void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags)
+        {
+            var numParams = tag.NumWords - 1;
+            string templateName = null;
+            string matName = null;
+            if (numParams == 2)
+            {
+                matName = tag.GetParam(0);
+                templateName = tag.GetParam(1);
+
+            }
+            else
+            {
+                templateName = tag.GetParam(0);
+            }
+            var defn = store.Get(DfTags.TISSUE_TEMPLATE, templateName);
+            var app = new DfTissueTemplateApplicator(defn, matName);
+            app.Apply(store, context);
+        }
+    }
+
+    public class TagInterpreter_AddTissue : TagInterpreter_UseTissueTemplate
+    {
+        public override string TagName
+        {
+            get
+            {
+                return DfTags.MiscTags.ADD_TISSUE;
+            }
+        }
+    }
+
+
+
+
+    public class TagInterpreter_RemoveTissue : IDfTagInterpreter
+    {
+        public string TagName
+        {
+            get { return DfTags.MiscTags.REMOVE_TISSUE; }
+        }
+
+        public void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags)
+        {
+            var working = context.WorkingSet.ToList();
+            var tissueIndex = working.FindIndex(t => t.Name.Equals(DfTags.MiscTags.START_TISSUE)
+                     && t.GetParam(0).Equals(tag.GetParam(0)));
+            var runLength = working.FindIndex(tissueIndex,
+                t => t.Name.Equals(DfTags.MiscTags.END_TISSUE)
+                     && t.GetParam(0).Equals(tag.GetParam(0)));
+            var removals = working.GetRange(tissueIndex, runLength - tissueIndex);
+
+            context.Remove(removals.ToArray());
         }
     }
 }

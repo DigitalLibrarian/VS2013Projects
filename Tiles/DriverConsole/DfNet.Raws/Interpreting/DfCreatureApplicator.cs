@@ -30,4 +30,72 @@ namespace DfNet.Raws.Interpreting
             Interpreter.Interpret(store, context,  context.Source.Tags, true);
         }
     }
+
+
+    public class DfBodyApplicator : IContextApplicator
+    {
+        IDfObjectInterpreter Interpreter { get; set; }
+        public DfBodyApplicator()
+        {
+            Interpreter = new DfObjectInterpreter(
+                new TagInterpreter_CreatureBodyPartInclude(),
+                new TagInterpreter_BodyDetailPlanInclude()
+                );
+        }
+
+        public void Apply(IDfObjectStore store, IDfObjectContext context)
+        {
+            Interpreter.Interpret(store, context, context.Source.Tags, true);
+        }
+    }
+
+
+
+    public class DfMaterialApplicator : IContextApplicator
+    {
+        IDfObjectInterpreter Interpreter { get; set; }
+
+        
+        public DfMaterialApplicator()
+        {
+            Interpreter = new DfObjectInterpreter(
+                new TagInterpreter_UseMaterialTemplate(),
+                new TagInterpreter_AddMaterial(),
+                new TagInterpreter_RemoveMaterial()
+                );
+        }
+
+        public void Apply(IDfObjectStore store, IDfObjectContext context)
+        {
+            Interpreter.Interpret(store, context, context.Source.Tags, true);
+            
+
+
+        }
+    }
+
+
+
+    public class DfTissueApplicator : IContextApplicator
+    {
+        IDfObjectInterpreter Interpreter { get; set; }
+
+
+        public DfTissueApplicator()
+        {
+            Interpreter = new DfObjectInterpreter(
+                new TagInterpreter_UseTissueTemplate(),
+                new TagInterpreter_AddTissue(),
+                new TagInterpreter_RemoveTissue()
+                );
+        }
+
+        public void Apply(IDfObjectStore store, IDfObjectContext context)
+        {
+            Interpreter.Interpret(store, context, context.Source.Tags, true);
+
+
+
+        }
+    }
 }

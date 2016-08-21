@@ -204,13 +204,105 @@ namespace DfNet.Raws.Tests
                     && t.GetParam(2).Equals("731")
                 );
 
+            // copy tags, creture variations and castes have been handled
+
+            // what remains is body parts, tissues, and materials
+
+            var bdpTags = result.Tags.Where(t => t.Name.Equals(DfTags.BODY_DETAIL_PLAN));
+            var dbpNames = bdpTags.Select(x => x.GetParam(0));
+            Assert.IsTrue(dbpNames.SequenceEqual<string>(new string[]{
+                "STANDARD_MATERIALS",
+                "STANDARD_TISSUES",
+                "VERTEBRATE_TISSUE_LAYERS",
+                "STANDARD_HEAD_POSITIONS",
+                "HUMANOID_RIBCAGE_POSITIONS"
+            }));
+
+
             AssertTagCount(result, t => t.Name.Equals(DfTags.BODY_DETAIL_PLAN), 5);
             AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.BP_LAYERS));
             AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.BP));
 
-            // copy tags, creture variations and castes have been handled
+            ApplyPass(new DfBodyApplicator(), context);
+            result = context.Create();
 
-            // what remains is body parts, tissues, and materials
+
+            AssertTagCount(result, t => t.Name.Equals(DfTags.BODY_DETAIL_PLAN), 0);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.BP_LAYERS), 65);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.BP), 16);
+
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL), 0);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL), 0);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE), 4);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE), 0);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE), 0);
+
+            ApplyPass(new DfMaterialApplicator(), context);
+            result = context.Create();
+
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL), 23);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL), 27);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE), 0);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE), 0);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE), 0);
+
+            // this one should have been removed in base class
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
+                    && t.GetParam(0).Equals("SKIN"));
+
+            // added by base class
+            AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
+                    && t.GetParam(0).Equals("SCALE"));
+
+            ApplyPass(new DfTissueApplicator(), context);
+            result = context.Create();
+
+
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL), 23);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL), 27);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE), 0);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE), 18);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE), 20);
+
+
+            AssertSingleTag(result,
+                t => t.Name.Equals(DfTags.MiscTags.BP)
+                    && t.GetParam(0).Equals("LLL"));
+            
+            var bpLayers = AssertSingleTag(result, 
+                t => t.Name.Equals(DfTags.MiscTags.BP_LAYERS)
+                    && t.GetParam(0).Equals(DfTags.MiscTags.BY_CATEGORY)
+                    && t.GetParam(1).Equals("LEG_UPPER"));
+            
+	        //[BODY_DETAIL_PLAN:VERTEBRATE_TISSUE_LAYERS:SCALE:FAT:MUSCLE:BONE:CARTILAGE]
+            //[BP_LAYERS:BY_CATEGORY:LEG_UPPER:ARG4:25:ARG3:25:ARG2:5:ARG1:1]
+            Assert.IsTrue(bpLayers.GetParams().Skip(2).SequenceEqual
+               (
+               new string[] { 
+                        "BONE", "25",
+                        "MUSCLE", "25",
+                        "FAT", "5",
+                        "SCALE", "1"
+                    }
+               ));
+
+            foreach (var tissueName in new[] { "BONE", "MUSCLE", "FAT", "SCALE" })
+            {
+                AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE)
+                    && t.GetParam(0).Equals(tissueName));
+
+                AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE)
+                    && t.GetParam(0).Equals(tissueName));
+
+                AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
+                        && t.GetParam(0).Equals(tissueName));
+
+                AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL)
+                        && t.GetParam(0).Equals(tissueName));
+            }
+            
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
+                    && t.GetParam(0).Equals("SKIN"));
         }
 
 
@@ -260,9 +352,10 @@ namespace DfNet.Raws.Tests
             context.EndPass();
         }
 
-        void AssertSingleTag(DfObject o, Predicate<DfTag> pred)
+        DfTag AssertSingleTag(DfObject o, Predicate<DfTag> pred)
         {
-            AssertTagCount(o, pred, 1);
+            var result = AssertTagCount(o, pred, 1);
+            return result.Single();
         }
 
         void AssertNoTag(DfObject o, Predicate<DfTag> pred)
@@ -270,12 +363,12 @@ namespace DfNet.Raws.Tests
             AssertTagCount(o, pred, 0);
         }
 
-        void AssertTagCount(DfObject o, Predicate<DfTag> pred, int count)
+        IEnumerable<DfTag> AssertTagCount(DfObject o, Predicate<DfTag> pred, int count)
         {
             var gaitTags = o.Tags.Where((tag) => pred(tag));
 
             Assert.AreEqual(count, gaitTags.Count());
-
+            return gaitTags;
         }
 
         void AssertCastes(DfObject o, params string[] casteNames)

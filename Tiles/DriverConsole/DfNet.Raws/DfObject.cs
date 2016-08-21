@@ -26,5 +26,15 @@ namespace DfNet.Raws
         {
             return new DfObject(Tags.Select(x => x.CloneDfTag()).ToList());
         }
+
+        public DfTag Next(DfTag t)
+        {
+            if (Tags.Contains(t) && Tags.Last() != t)
+            {
+                var index = Tags.IndexOf(t);
+                return Tags[index + 1];
+            }
+            return null;
+        }
     }
 }
