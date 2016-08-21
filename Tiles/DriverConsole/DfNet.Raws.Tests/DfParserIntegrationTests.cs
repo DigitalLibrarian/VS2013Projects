@@ -160,12 +160,6 @@ namespace DfNet.Raws.Tests
             Assert.AreEqual(DfTags.CREATURE, result.Type);
             Assert.AreEqual(creatureType, result.Name);
 
-            castes = DfCasteApplicator.FindCastes(result);
-
-            Assert.IsTrue(castes.SequenceEqual(new string[]{
-                DfTags.MiscTags.FEMALE,
-                DfTags.MiscTags.MALE
-            }));
 
 
             var bodyTag = result.Tags.SingleOrDefault(tag => tag.Name.Equals(DfTags.BODY));
@@ -174,6 +168,12 @@ namespace DfNet.Raws.Tests
             Assert.IsFalse(bodyTag.GetWords().Any(word => word.Equals("QUADRUPED_NECK")));
             Assert.IsTrue(bodyTag.GetWords().Any(word => word.Equals("HUMANOID_NECK")));
 
+
+            castes = DfCasteApplicator.FindCastes(result);
+            Assert.IsTrue(castes.SequenceEqual(new string[]{
+                DfTags.MiscTags.FEMALE,
+                DfTags.MiscTags.MALE
+            }));
 
             context.StartPass();
             casteApp.Apply(Store, context);
@@ -191,13 +191,42 @@ namespace DfNet.Raws.Tests
             castes = DfCasteApplicator.FindCastes(result);
             Assert.AreEqual(0, castes.Count());
 
-
             Assert.IsTrue(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.MALE)));
             Assert.IsFalse(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.FEMALE)));
 
             Assert.AreEqual(DfTags.CREATURE, result.Type);
             Assert.AreEqual(creatureType, result.Name);
-            Assert.AreEqual(118, result.Tags.Count());
+            Assert.AreEqual(114, result.Tags.Count());
+
+            
+            creatureApp = new DfCreatureApplicator(result);
+            context.StartPass();
+            creatureApp.Apply(Store, context);
+            context.EndPass();
+            result = context.Create();
+
+            context.StartPass();
+            casteApp.Apply(Store, context);
+            context.EndPass();
+            result = context.Create();
+
+
+            castes = DfCasteApplicator.FindCastes(result);
+            Assert.AreEqual(0, castes.Count());
+
+            Assert.IsTrue(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.MALE)));
+            Assert.IsFalse(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.FEMALE)));
+
+            Assert.IsFalse(result.Tags.Any(tag => tag.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION)));
+
+            var gaitTags = result.Tags.Where(
+                t => t.Name.Equals("GAIT")
+                    && t.GetParam(0).Equals("CLIMB")
+                    && t.GetParam(1).Equals("Scramble")
+                    );
+            Assert.AreEqual(1, gaitTags.Count());
+            Assert.AreEqual("731", gaitTags.Single().GetParam(2));
+            
         }
 
 

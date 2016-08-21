@@ -98,7 +98,8 @@ namespace DfNet.Raws.Interpreting
         public void CopyTagsFrom(DfObject creatureDf)
         {
             var tags = creatureDf.Tags.Where(tag => !tag.Name.Equals(DfTags.CREATURE))
-                .Select(t => t.CloneDfTag());
+                .Select(t => t.CloneDfTag())
+                .Where(t => !t.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION));
 
             InsertTags(tags.ToArray());
         }

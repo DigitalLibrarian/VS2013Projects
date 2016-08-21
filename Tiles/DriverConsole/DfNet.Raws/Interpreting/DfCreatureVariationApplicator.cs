@@ -19,11 +19,11 @@ namespace DfNet.Raws.Interpreting
             Interpreter = new DfObjectInterpreter(GetCreatureVariationTagInterpreters());
         }
 
-        private static IDfTagInterpreter[] GetCreatureVariationTagInterpreters()
+        private IDfTagInterpreter[] GetCreatureVariationTagInterpreters()
         {
             return new IDfTagInterpreter[]{
                 new TagInterpreter_CvRemoveTag(),
-                new TagInterpreter_CvNewTag(),
+                new TagInterpreter_CvNewTag(Args),
                 new TagInterpreter_CvConvertTag()
             };
         }
