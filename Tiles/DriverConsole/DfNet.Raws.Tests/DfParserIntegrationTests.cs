@@ -60,6 +60,13 @@ namespace DfNet.Raws.Tests
         }
 
         [TestMethod]
+        public void SpotCheckBodyDetailPlans()
+        {
+            var o = Store.Get(DfTags.BODY_DETAIL_PLAN, "STANDARD_MATERIALS");
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
         public void ParseAllTypes()
         {
             var allTypes = DfTags.GetAllObjectTypes();
@@ -90,8 +97,10 @@ namespace DfNet.Raws.Tests
 
             var creatureType = "LEOPARD_GECKO_MAN";
             var parsedLeo = Store.Get(DfTags.CREATURE, creatureType);
+            AssertCastes(parsedLeo);
 
             Assert.AreEqual(expectedTags, parsedLeo.Tags.Count());
+            AssertTagCount(parsedLeo, tag => tag.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION), 8);
 
             var headerTag = parsedLeo.Tags.First();
             Assert.AreEqual(DfTags.CREATURE, headerTag.Name);
@@ -106,12 +115,7 @@ namespace DfNet.Raws.Tests
             var requiredCvs = DfCreatureVariationApplicator.FindRequiredCVs(parsedLeo);
             Assert.AreEqual(8, requiredCvs.Count());
 
-            var variationNames = requiredCvs.Select(
-                name => Parser.Parse(lines, DfTags.CREATURE_VARIATION)
-                    .Single(x => x.Name.Equals(name)));
-            Assert.AreEqual(8, variationNames.Count());
-
-
+            
             var reqCreatureNames = DfCreatureVariationApplicator.FindRequiredCreature(parsedLeo);
             Assert.AreEqual(1, reqCreatureNames.Count());
             Assert.AreEqual("GECKO_LEOPARD", reqCreatureNames.First());
@@ -129,104 +133,84 @@ namespace DfNet.Raws.Tests
 
 
             var context = new DfObjectContext(parsedLeo);
-            var casteApp = new DfCasteApplicator(DfTags.MiscTags.MALE);
+            //var casteApp = new DfCasteApplicator(DfTags.MiscTags.MALE);
             DfObject result = parsedLeo;
 
+            AssertCastes(result);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.SELECT_CASTE), 3);
 
-            castes = DfCasteApplicator.FindCastes(result);
-            Assert.AreEqual(0, castes.Count());
+            AssertSingleTag(result,
+                t => t.Name.Equals("NAME")
+                    && t.GetParam(0).Equals("leopard gecko man"));
+
+            AssertTagCount(result, tag => tag.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION), 8);
+            AssertNoTag(result, tag => tag.Name.Equals(DfTags.BODY));
+            AssertNoTag(result, tag => tag.Name.Equals(DfTags.MiscTags.BP));
             
-            context.StartPass();
-            casteApp.Apply(Store, context);
-            context.EndPass();
 
+            
+            // Apply copy to inheritance and creature variants
+            ApplyPass(new DfCreatureApplicator(result), context);
             result = context.Create();
 
-            castes = DfCasteApplicator.FindCastes(result);
-            Assert.AreEqual(0, castes.Count());
-            Assert.AreEqual("leopard gecko man",
-                result.Tags.Single(x => x.Name.Equals("NAME")).GetParam(0));
-
-
-            var creatureApp = new DfCreatureApplicator(result);
-
-            context.StartPass();
-            creatureApp.Apply(Store, context);
-            context.EndPass();
-
-            result = context.Create();
-
-            Assert.IsNotNull(result);
             Assert.AreEqual(DfTags.CREATURE, result.Type);
             Assert.AreEqual(creatureType, result.Name);
 
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION));
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.BP_LAYERS));
 
+            AssertSingleTag(result, tag => tag.Name.Equals(DfTags.BODY));
 
-            var bodyTag = result.Tags.SingleOrDefault(tag => tag.Name.Equals(DfTags.BODY));
-            Assert.IsNotNull(bodyTag);
+            AssertNoTag(result,
+                t => t.GetWords()
+                    .Any(word => word.Contains("QUADRUPED")));
 
-            Assert.IsFalse(bodyTag.GetWords().Any(word => word.Equals("QUADRUPED_NECK")));
-            Assert.IsTrue(bodyTag.GetWords().Any(word => word.Equals("HUMANOID_NECK")));
+            AssertSingleTag(result, 
+                t => t.Name.Equals(DfTags.BODY) 
+                        && t.GetWords().Any(word => word.Equals("HUMANOID_NECK")));
 
-
-            castes = DfCasteApplicator.FindCastes(result);
-            Assert.IsTrue(castes.SequenceEqual(new string[]{
+            AssertCastes(result,
                 DfTags.MiscTags.FEMALE,
                 DfTags.MiscTags.MALE
-            }));
+            );
 
-            context.StartPass();
-            casteApp.Apply(Store, context);
-            context.EndPass();
-            result = context.Create();
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.SELECT_CASTE), 5);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(DfTags.CREATURE, result.Type);
-            Assert.AreEqual(creatureType, result.Name);
+            ApplyPass(new DfCasteApplicator(DfTags.MiscTags.MALE), context);
+            result = context.Create();            
 
+            AssertSingleTag(result, t => t.Name.Equals("NAME"));
 
-            Assert.AreEqual("leopard gecko man", 
-                result.Tags.Single(x => x.Name.Equals("NAME")).GetParam(0));
+            AssertCastes(result);
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.SELECT_CASTE));
+            AssertSingleTag(result, t => t.IsSingleWord(DfTags.MiscTags.MALE));
+            AssertNoTag(result, t => t.IsSingleWord(DfTags.MiscTags.FEMALE));
 
-            castes = DfCasteApplicator.FindCastes(result);
-            Assert.AreEqual(0, castes.Count());
-
-            Assert.IsTrue(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.MALE)));
-            Assert.IsFalse(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.FEMALE)));
-
-            Assert.AreEqual(DfTags.CREATURE, result.Type);
-            Assert.AreEqual(creatureType, result.Name);
             Assert.AreEqual(114, result.Tags.Count());
 
-            
-            creatureApp = new DfCreatureApplicator(result);
-            context.StartPass();
-            creatureApp.Apply(Store, context);
-            context.EndPass();
-            result = context.Create();
+            Assert.AreEqual(DfTags.CREATURE, result.Type);
+            Assert.AreEqual(creatureType, result.Name);
 
-            context.StartPass();
-            casteApp.Apply(Store, context);
-            context.EndPass();
-            result = context.Create();
+            AssertSingleTag(result, t => t.IsSingleWord(DfTags.MiscTags.MALE));
+            AssertNoTag(result, t => t.IsSingleWord(DfTags.MiscTags.FEMALE));
 
+            AssertNoTag(result, tag => tag.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION));
 
-            castes = DfCasteApplicator.FindCastes(result);
-            Assert.AreEqual(0, castes.Count());
-
-            Assert.IsTrue(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.MALE)));
-            Assert.IsFalse(result.Tags.Any(tag => tag.IsSingleWord(DfTags.MiscTags.FEMALE)));
-
-            Assert.IsFalse(result.Tags.Any(tag => tag.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION)));
-
-            var gaitTags = result.Tags.Where(
+            AssertSingleTag(
+                result,
                 t => t.Name.Equals("GAIT")
                     && t.GetParam(0).Equals("CLIMB")
                     && t.GetParam(1).Equals("Scramble")
-                    );
-            Assert.AreEqual(1, gaitTags.Count());
-            Assert.AreEqual("731", gaitTags.Single().GetParam(2));
-            
+                    && t.GetParam(2).Equals("731")
+                );
+
+            AssertTagCount(result, t => t.Name.Equals(DfTags.BODY_DETAIL_PLAN), 5);
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.BP_LAYERS));
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.BP));
+
+            // copy tags, creture variations and castes have been handled
+
+            // what remains is body parts, tissues, and materials
         }
 
 
@@ -267,6 +251,37 @@ namespace DfNet.Raws.Tests
                 var parent = Store.Get(DfTags.CREATURE, copyTag.GetParam(0));
                 Assert.IsNotNull(parent);
             }
+        }
+
+        void ApplyPass(IContextApplicator app, IDfObjectContext context)
+        {
+            context.StartPass();
+            app.Apply(Store, context);
+            context.EndPass();
+        }
+
+        void AssertSingleTag(DfObject o, Predicate<DfTag> pred)
+        {
+            AssertTagCount(o, pred, 1);
+        }
+
+        void AssertNoTag(DfObject o, Predicate<DfTag> pred)
+        {
+            AssertTagCount(o, pred, 0);
+        }
+
+        void AssertTagCount(DfObject o, Predicate<DfTag> pred, int count)
+        {
+            var gaitTags = o.Tags.Where((tag) => pred(tag));
+
+            Assert.AreEqual(count, gaitTags.Count());
+
+        }
+
+        void AssertCastes(DfObject o, params string[] casteNames)
+        {
+            var castes = DfCasteApplicator.FindCastes(o);
+            Assert.IsTrue(castes.SequenceEqual(casteNames));
         }
     }
 }

@@ -33,13 +33,13 @@ namespace DfNet.Raws.Interpreting
 
                 switch (tag.Name)
                 {
-                    case "CASTE":
+                    case DfTags.MiscTags.CASTE:
                         parseCaste = tag.GetParam(0);
                         break;
-                    case "SELECT_CASTE":
+                    case DfTags.MiscTags.SELECT_CASTE:
                         parseCaste = tag.GetParam(0);
                         break;
-                    case "SELECT_ADDITIONAL_CASTE":
+                    case DfTags.MiscTags.SELECT_ADDITIONAL_CASTE:
                         addCastes.Add(tag.GetParam(0));
                         break;
                     default:

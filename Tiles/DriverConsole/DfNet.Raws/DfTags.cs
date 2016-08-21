@@ -46,10 +46,14 @@ namespace DfNet.Raws
 
             public const string APPLY_CREATURE_VARIATION = "APPLY_CREATURE_VARIATION";
             public const string CASTE = "CASTE";
+            public const string SELECT_CASTE = "SELECT_CASTE";
+            public const string SELECT_ADDITIONAL_CASTE = "SELECT_ADDITIONAL_CASTE";
             public const string MALE = "MALE";
             public const string FEMALE = "FEMALE";
 
-            public const string BODY = "BODY";
+            public const string BP = "BP";
+            public const string BP_LAYERS = "BP_LAYERS";
+
         }
 
     }
