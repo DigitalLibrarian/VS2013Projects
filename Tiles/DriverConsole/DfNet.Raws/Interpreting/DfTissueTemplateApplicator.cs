@@ -21,13 +21,13 @@ namespace DfNet.Raws.Interpreting
 
         public void Apply(IDfObjectStore store, IDfObjectContext context)
         {
-            DfTag startTag = Name == null ? new DfTag(DfTags.MiscTags.START_TISSUE)
-                : new DfTag(DfTags.MiscTags.START_TISSUE, Name);
+            DfTag startTag = new DfTag(DfTags.MiscTags.START_TISSUE, Name);
             var newTags = new List<DfTag> { startTag };
-            newTags.AddRange(Defn.Tags.Where(x => !x.Name.Equals(DfTags.TISSUE_TEMPLATE)));
 
-            DfTag endTag = Name == null ? new DfTag(DfTags.MiscTags.END_TISSUE)
-                : new DfTag(DfTags.MiscTags.END_TISSUE, Name);
+            newTags.AddRange(Defn.Tags.Where(x => !(x.Name.Equals(DfTags.TISSUE_TEMPLATE)
+                && x.GetParam(0).Equals(Name))));
+
+            DfTag endTag =  new DfTag(DfTags.MiscTags.END_TISSUE, Name);
             newTags.Add(endTag);
 
             Interpreter.Interpret(store, context, newTags, true);

@@ -133,7 +133,6 @@ namespace DfNet.Raws.Tests
 
 
             var context = new DfObjectContext(parsedLeo);
-            //var casteApp = new DfCasteApplicator(DfTags.MiscTags.MALE);
             DfObject result = parsedLeo;
 
             AssertCastes(result);
@@ -241,7 +240,7 @@ namespace DfNet.Raws.Tests
             result = context.Create();
 
             AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL), 23);
-            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL), 27);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL), 23);
             AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE), 0);
             AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE), 0);
             AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE), 0);
@@ -259,10 +258,10 @@ namespace DfNet.Raws.Tests
 
 
             AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL), 23);
-            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL), 27);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL), 23);
             AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE), 0);
             AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE), 18);
-            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE), 20);
+            AssertTagCount(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE), 18);
 
 
             AssertSingleTag(result,
@@ -300,9 +299,29 @@ namespace DfNet.Raws.Tests
                 AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL)
                         && t.GetParam(0).Equals(tissueName));
             }
-            
-            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
-                    && t.GetParam(0).Equals("SKIN"));
+
+            foreach (var tissueName in new[] { "SKIN", "HAIR" })
+            {
+                AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE)
+                    && t.GetParam(0).Equals(tissueName));
+
+                AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.END_TISSUE)
+                    && t.GetParam(0).Equals(tissueName));
+
+                AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
+                        && t.GetParam(0).Equals(tissueName));
+
+                AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL)
+                        && t.GetParam(0).Equals(tissueName));
+            }
+
+            AssertSingleTag(
+                result,
+                t => t.Name.Equals("GAIT")
+                    && t.GetParam(0).Equals("CLIMB")
+                    && t.GetParam(1).Equals("Scramble")
+                    && t.GetParam(2).Equals("731")
+                );
         }
 
 

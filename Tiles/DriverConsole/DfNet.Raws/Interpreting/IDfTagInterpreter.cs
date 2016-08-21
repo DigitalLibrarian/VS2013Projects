@@ -229,7 +229,7 @@ namespace DfNet.Raws.Interpreting
             var runLength = working.FindIndex(matIndex, 
                 t => t.Name.Equals(DfTags.MiscTags.END_MATERIAL)
                      && t.GetParam(0).Equals(tag.GetParam(0)));
-            var removals = working.GetRange(matIndex, runLength - matIndex);
+            var removals = working.GetRange(matIndex, runLength - matIndex + 1);
 
             context.Remove(removals.ToArray());
         }
@@ -331,7 +331,11 @@ namespace DfNet.Raws.Interpreting
             var runLength = working.FindIndex(tissueIndex,
                 t => t.Name.Equals(DfTags.MiscTags.END_TISSUE)
                      && t.GetParam(0).Equals(tag.GetParam(0)));
-            var removals = working.GetRange(tissueIndex, runLength - tissueIndex);
+            if (runLength == -1)
+            {
+                int br = 0;
+            }
+            var removals = working.GetRange(tissueIndex, runLength - tissueIndex + 1);
 
             context.Remove(removals.ToArray());
         }
