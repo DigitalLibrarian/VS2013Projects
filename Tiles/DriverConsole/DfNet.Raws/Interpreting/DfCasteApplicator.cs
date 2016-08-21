@@ -49,31 +49,9 @@ namespace DfNet.Raws.Interpreting
                         }
                         break;
                 }
-                /*
-                if (parseCaste == CasteName || addCastes.Contains(parseCaste))
-                {
-                    if (nextLineCasteOnly != null)
-                    {
-                        if (hit || CasteName == nextLineCasteOnly)
-                        {
-                            if (!hit)
-                            {
-                                newTags.Add(tag.CloneDfTag());
-                                nextLineCasteOnly = null;
-                            }
-                            hit = false;
-                        }
-                    }
-                    else
-                    {
-                        newTags.Add(tag.CloneDfTag());
-                    }
-                }
-                 * */
 
             }
 
-            newTags.Add(new DfTag(DfTags.MiscTags.CASTE, CasteName));
             context.InsertTags(newTags.ToArray());
         }
 

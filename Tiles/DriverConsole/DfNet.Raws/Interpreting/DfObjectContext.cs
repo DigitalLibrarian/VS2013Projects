@@ -13,6 +13,8 @@ namespace DfNet.Raws.Interpreting
 
         public List<DfTag> Working { get; private set; }
 
+        public IEnumerable<DfTag> WorkingSet { get { return Working.ToArray(); } }
+
         public DfObjectContext(DfObject source, int cursor = 0)
         {
             Source = source;
@@ -90,6 +92,15 @@ namespace DfNet.Raws.Interpreting
                 return true;
             }
             return false;
+        }
+
+
+        public void CopyTagsFrom(DfObject creatureDf)
+        {
+            var tags = creatureDf.Tags.Where(tag => !tag.Name.Equals(DfTags.CREATURE))
+                .Select(t => t.CloneDfTag());
+
+            InsertTags(tags.ToArray());
         }
     }
 }

@@ -4,6 +4,8 @@ namespace DfNet.Raws.Interpreting
 {
     public interface IDfObjectContext
     {
+        IEnumerable<DfTag> WorkingSet { get; }
+
         DfObject Source { get; }
         int Cursor { get; }
 
@@ -19,5 +21,7 @@ namespace DfNet.Raws.Interpreting
 
         void StartPass();
         void EndPass();
+
+        void CopyTagsFrom(DfObject creatureDf);
     }
 }

@@ -92,29 +92,31 @@ namespace DfNet.Raws.Interpreting
             var replacementWords = replaceTag.GetParams();
 
             foreach (var master in 
-                context.Source.Tags.Where(t => t.Name.Equals(masterTag.GetParam(0))))
+                context.WorkingSet.Where(t => t.Name.Equals(masterTag.GetParam(0))
+                    && t.GetWords().Any(word => targetWords.Contains(word))))
             {
-                var newWords = new List<string>();
-                int hits = 0;
-                foreach (var word in master.GetWords())
+
+                var newParams = new List<string>();
+                bool once = true;
+                foreach (var word in master.GetParams())
                 {
                     if (targetWords.Contains(word))
                     {
-                        hits++;
-                    }
-                    
-                    if(hits == 1)
-                    {
-                        newWords.AddRange(replacementWords);
+                        if (once) 
+                        {
+                            newParams.AddRange(replacementWords);
+                            once = false;
+                        }
                     }
                     else
                     {
-                        newWords.Add(word);
+                        newParams.Add(word);
                     }
                 }
-                if (newWords.Any())
+                
+                if(newParams.Any())
                 {
-                    context.ReplaceTag(master, new DfTag(newWords.ToArray()));
+                    context.ReplaceTag(master, new DfTag(master.Name, newParams.ToArray()));
                 }
             }
         }
@@ -129,7 +131,7 @@ namespace DfNet.Raws.Interpreting
             var creatureType = triggerTag.GetParam(0);
             var creatureDf = store.Get(DfTags.CREATURE, creatureType);
 
-            context.InsertTags(creatureDf.Tags.Skip(1).ToArray());
+            context.CopyTagsFrom(creatureDf);
         }
     }
 
@@ -146,7 +148,7 @@ namespace DfNet.Raws.Interpreting
             var app = new DfCreatureVariationApplicator(cvDefn, tag.GetParams().ToArray());
             app.Apply(store, context);
         }
-}
+    }
 
     
 }

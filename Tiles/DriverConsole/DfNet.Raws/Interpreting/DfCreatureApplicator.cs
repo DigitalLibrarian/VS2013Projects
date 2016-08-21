@@ -27,6 +27,5 @@ namespace DfNet.Raws.Interpreting
         {
             Interpreter.Interpret(store, context,  context.Source.Tags, true);
         }
-
     }
 }
