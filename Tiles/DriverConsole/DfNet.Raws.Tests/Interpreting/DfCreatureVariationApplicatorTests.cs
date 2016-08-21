@@ -105,27 +105,29 @@ namespace DfNet.Raws.Tests.Interpreting
         public void ConvertTag()
         {
             var convertChickenTag = CvConvertTag();
-            var convertOddballTag = CvConvertTag();
+            var convertAdjTag = CvConvertTag();
             var cvDefn = new DfObject(
                 CreatureVariationTag("NO_VARIATION"),
                 convertChickenTag,
-                CvCt_Master("CHICKEN"),
-                CvCt_Target("LITTLE"),
-                CvCt_Replacement("PECK", "FAIL_TO_FLY"),
-                convertOddballTag,
-                CvCt_Master("ODDBALL"),
-                CvCt_Target("ODDBALL"),
-                CvCt_Replacement("COOLNESS", "SUPER")
+                    CvCt_Master("CHICKEN"),
+                    CvCt_Target("LITTLE"),
+                    CvCt_Replacement("PECK", "FAIL_TO_FLY"),
+                convertAdjTag,
+                    CvCt_Master("ADJ"),
+                    CvCt_Target("ODDBALL"),
+                    CvCt_Replacement("COOL", "SUPER")
                 );
 
             var chickenTag = new DfTag("CHICKEN", "LITTLE");
-            var oddBallTag = new DfTag("ODDBALL");
+            var adjTag = new DfTag("ADJ", "ODDBALL", "ODDBALL");
             var source = new DfObject(
                 CreatureTag("POOP_MONSTER"),
                 chickenTag,
-                oddBallTag
+                adjTag
             );
+            var workingSet = new List<DfTag>(source.Tags.ToList());
             ContextMock.Setup(x => x.Source).Returns(source);
+            ContextMock.Setup(x => x.WorkingSet).Returns(workingSet);
 
             var cv = new DfCreatureVariationApplicator(cvDefn);
 
@@ -146,9 +148,9 @@ namespace DfNet.Raws.Tests.Interpreting
 
             ContextMock.Verify(
                 x => x.ReplaceTag(
-                    oddBallTag,
+                    adjTag,
                     It.Is<DfTag>(t => t.GetWords().SequenceEqual(
-                        new []{"COOLNESS", "SUPER"}
+                        new []{"ADJ", "COOL", "SUPER"}
                         ))),
                 Times.Once());
         }
