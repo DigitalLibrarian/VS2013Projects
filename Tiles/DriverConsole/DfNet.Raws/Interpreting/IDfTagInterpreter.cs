@@ -164,7 +164,7 @@ namespace DfNet.Raws.Interpreting
         }
     }
 
-    public class Taginterpreter_ApplyCreatureVariation : IDfTagInterpreter
+    public class TagInterpreter_ApplyCreatureVariation : IDfTagInterpreter
     {
         public string TagName
         {
@@ -179,5 +179,22 @@ namespace DfNet.Raws.Interpreting
         }
     }
 
+    public class TagInterpreter_CreatureBodyPartInclude : IDfTagInterpreter
+    {
+        public string TagName
+        {
+            get { return DfTags.MiscTags.BODY; }
+        }
+
+        public void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags)
+        {
+            foreach (var p in tag.GetParams())
+            {
+                var defn = store.Get(DfTags.BODY, tag.GetParam(0));
+                var app = new DfBodyPartIncludeApplicator(defn);
+                app.Apply(store, context);
+            }
+        }
+    }
     
 }

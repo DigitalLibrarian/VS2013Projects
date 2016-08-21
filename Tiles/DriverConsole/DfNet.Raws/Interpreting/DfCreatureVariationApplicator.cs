@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace DfNet.Raws.Interpreting
 {
-
     public class DfCreatureVariationApplicator : IContextApplicator
     {
         DfObject CvDefn { get; set; }

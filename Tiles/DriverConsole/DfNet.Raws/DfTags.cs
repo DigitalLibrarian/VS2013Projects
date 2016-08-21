@@ -48,6 +48,8 @@ namespace DfNet.Raws
             public const string CASTE = "CASTE";
             public const string MALE = "MALE";
             public const string FEMALE = "FEMALE";
+
+            public const string BODY = "BODY";
         }
 
     }
