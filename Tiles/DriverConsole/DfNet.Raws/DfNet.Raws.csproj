@@ -44,12 +44,15 @@
     <Compile Include="DfTag.cs" />
     <Compile Include="DfTags.cs" />
     <Compile Include="IDfObjectStore.cs" />
-    <Compile Include="Interpreting\DfCreatureVariation.cs" />
+    <Compile Include="Interpreting\DfCasteApplicator.cs" />
+    <Compile Include="Interpreting\DfCreatureApplicator.cs" />
+    <Compile Include="Interpreting\DfCreatureVariationApplicator.cs" />
     <Compile Include="Interpreting\DfObjectContext.cs" />
     <Compile Include="Interpreting\DfObjectInterpreter.cs" />
     <Compile Include="Interpreting\IDfObjectContext.cs" />
     <Compile Include="Interpreting\IDfObjectInterpreter.cs" />
     <Compile Include="Interpreting\IDfTagInterpreter.cs" />
+    <Compile Include="Interpreting\IContextApplicator.cs" />
     <Compile Include="Parsing\DfTagParser.cs" />
     <Compile Include="Parsing\DfObjectParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

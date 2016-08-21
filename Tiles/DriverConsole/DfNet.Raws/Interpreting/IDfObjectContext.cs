@@ -16,5 +16,8 @@ namespace DfNet.Raws.Interpreting
         DfObject Create();
 
         void InsertTags(params DfTag[] newTags);
+
+        void StartPass();
+        void EndPass();
     }
 }

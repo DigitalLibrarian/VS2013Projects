@@ -13,12 +13,24 @@ namespace DfNet.Raws.Interpreting
 
         public List<DfTag> Working { get; private set; }
 
-        public DfObjectContext(DfObject source, int cursor)
+        public DfObjectContext(DfObject source, int cursor = 0)
         {
             Source = source;
             Cursor = cursor;
 
-            Working = Source.Tags.Select(x => x.CloneDfTag()).ToList();
+            Working = new List<DfTag>();
+
+        }
+
+        public void StartPass()
+        {
+            Working = new List<DfTag>();
+            Cursor = 0;
+        }
+        public void EndPass()
+        {
+            Source = new DfObject(Working);
+            Cursor = 0;
         }
 
         public int RemoveTagsByName(string tagName)
@@ -26,7 +38,7 @@ namespace DfNet.Raws.Interpreting
             int total = 0;
             foreach (var token in Working.Where(x => tagName == x.Name).ToList())
             {
-                if (Cursor > Working.IndexOf(token)) Cursor--;
+                if (Cursor >= Working.IndexOf(token)) Cursor--;
                 Working.Remove(token);
                 total++;
             }
@@ -35,14 +47,7 @@ namespace DfNet.Raws.Interpreting
 
         public void GoToStart()
         {
-            if (GoToTag(Working.First().Name))
-            {
-                Cursor++;
-            }
-            else
-            {
-                Cursor = 0;
-            }
+            Cursor = 1;
         }
 
         public void GoToEnd()
@@ -71,7 +76,7 @@ namespace DfNet.Raws.Interpreting
 
         public DfObject Create()
         {
-            return new DfObject(Working);
+            return Source.CloneDfObject();
         }
 
 

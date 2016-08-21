@@ -26,15 +26,19 @@ namespace DfNet.Raws.Tests.Interpreting
         public void RemoveTag()
         {
             var source = new DfObject(
-                new DfTag("A", "B"), 
-                new DfTag("TARGET2"),
-                new DfTag("TARGET3"),
-                new DfTag("INIT_CURSOR"),
-                new DfTag("TARGET1")
+                new DfTag("A", "B"),        // 0 
+                new DfTag("TARGET2"),       // 1
+                new DfTag("TARGET3"),       // 2
+                new DfTag("INIT_CURSOR"),   // 3
+                new DfTag("TARGET1")        // 4
                 );
             var b = new DfObjectContext(source, 2);
 
+            b.StartPass();
+            b.InsertTags(b.Source.Tags.ToArray());
+            b.GoToTag("TARGET3");
             Assert.AreEqual(0, b.RemoveTagsByName("NOT_THERE"));
+            Assert.AreEqual(2, b.Cursor);
 
             Assert.AreEqual(1, b.RemoveTagsByName("TARGET1"));
             Assert.AreEqual(2, b.Cursor);
@@ -43,10 +47,12 @@ namespace DfNet.Raws.Tests.Interpreting
             Assert.AreEqual(1, b.Cursor);
 
             Assert.AreEqual(1, b.RemoveTagsByName("TARGET3"));
-            Assert.AreEqual(1, b.Cursor);
+            Assert.AreEqual(0, b.Cursor);
 
             Assert.AreEqual(1, b.RemoveTagsByName("INIT_CURSOR"));
-            Assert.AreEqual(1, b.Cursor);
+            Assert.AreEqual(0, b.Cursor);
+            b.EndPass();
+
         }
     }
 }

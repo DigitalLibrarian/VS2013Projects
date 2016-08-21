@@ -13,6 +13,7 @@ namespace DfNet.Raws.Interpreting
         void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags);
     }
 
+
     public class TagInterpreter_GoToStart : IDfTagInterpreter
     {
         public string TagName { get { return DfTags.MiscTags.GO_TO_START; } }
@@ -128,7 +129,24 @@ namespace DfNet.Raws.Interpreting
             var creatureType = triggerTag.GetParam(0);
             var creatureDf = store.Get(DfTags.CREATURE, creatureType);
 
-            context.InsertTags(creatureDf.Tags.ToArray());
+            context.InsertTags(creatureDf.Tags.Skip(1).ToArray());
         }
     }
+
+    public class Taginterpreter_ApplyCreatureVariation : IDfTagInterpreter
+    {
+        public string TagName
+        {
+            get { return DfTags.MiscTags.APPLY_CREATURE_VARIATION; }
+        }
+
+        public void Run(IDfObjectStore store, IDfObjectContext context, DfTag tag, IList<DfTag> tags)
+        {
+            var cvDefn = store.Get(DfTags.CREATURE_VARIATION, tag.GetParam(0));
+            var app = new DfCreatureVariationApplicator(cvDefn, tag.GetParams().ToArray());
+            app.Apply(store, context);
+        }
+}
+
+    
 }

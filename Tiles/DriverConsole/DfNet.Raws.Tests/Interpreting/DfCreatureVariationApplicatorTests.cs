@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace DfNet.Raws.Tests.Interpreting
 {
     [TestClass]
-    public class DfCreatureVariationTests
+    public class DfCreatureVariationApplicatorTests
     {
         Mock<IDfObjectStore> StoreMock { get; set; }
         Mock<IDfObjectContext> ContextMock { get; set; }
@@ -33,7 +33,7 @@ namespace DfNet.Raws.Tests.Interpreting
             var source = new DfObject(CreatureTag("POOP_MONSTER"));
             ContextMock.Setup(x => x.Source).Returns(source);
 
-            var cv = new DfCreatureVariation(cvDefn);
+            var cv = new DfCreatureVariationApplicator(cvDefn);
 
             cv.Apply(StoreMock.Object, ContextMock.Object);
 
@@ -56,7 +56,7 @@ namespace DfNet.Raws.Tests.Interpreting
             );
             ContextMock.Setup(x => x.Source).Returns(source);
 
-            var cv = new DfCreatureVariation(cvDefn);
+            var cv = new DfCreatureVariationApplicator(cvDefn);
 
             cv.Apply(StoreMock.Object, ContextMock.Object);
 
@@ -90,7 +90,7 @@ namespace DfNet.Raws.Tests.Interpreting
             );
             ContextMock.Setup(x => x.Source).Returns(source);
 
-            var cv = new DfCreatureVariation(cvDefn);
+            var cv = new DfCreatureVariationApplicator(cvDefn);
 
             cv.Apply(StoreMock.Object, ContextMock.Object);
 
@@ -127,7 +127,7 @@ namespace DfNet.Raws.Tests.Interpreting
             );
             ContextMock.Setup(x => x.Source).Returns(source);
 
-            var cv = new DfCreatureVariation(cvDefn);
+            var cv = new DfCreatureVariationApplicator(cvDefn);
 
             cv.Apply(StoreMock.Object, ContextMock.Object);
 

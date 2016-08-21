@@ -22,16 +22,23 @@ namespace DfNet.Raws.Interpreting
                 .Select(tag => tag.GetParam(0));
         }
 
-        public void Interpret(IDfObjectStore store, IDfObjectContext context, IList<DfTag> tags)
+        public void Interpret(IDfObjectStore store, IDfObjectContext context, IList<DfTag> tags, bool insertMisses)
         {
             foreach (var tag in tags)
             {
+                bool anyMatches = false;
                 foreach (var tagInt in TagInterpreters)
                 {
                     if (tag.Name.Equals(tagInt.TagName))
                     {
                         tagInt.Run(store, context, tag, tags);
+                        anyMatches = true;
                     }
+                }
+
+                if(insertMisses && !anyMatches)
+                {
+                    context.InsertTags(tag);
                 }
             }
         }

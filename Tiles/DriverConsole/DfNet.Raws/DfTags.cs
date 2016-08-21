@@ -29,7 +29,7 @@ namespace DfNet.Raws
                 ITEM_WEAPON
             };
         }
-
+        
         public static class MiscTags
         {
             public const string CV_REMOVE_TAG = "CV_REMOVE_TAG";
@@ -43,6 +43,12 @@ namespace DfNet.Raws
             public const string GO_TO_START = "GO_TO_START";
             public const string GO_TO_END = "GO_TO_END";
             public const string GO_TO_TAG = "GO_TO_TAG";
+
+            public const string APPLY_CREATURE_VARIATION = "APPLY_CREATURE_VARIATION";
+            public const string CASTE = "CASTE";
+            public const string MALE = "MALE";
+            public const string FEMALE = "FEMALE";
         }
+
     }
 }

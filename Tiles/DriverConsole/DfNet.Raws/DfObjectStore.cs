@@ -48,11 +48,17 @@ namespace DfNet.Raws
             }
             else if(Db[o.Type].ContainsKey(o.Name))
             {
-                throw new DuplicateDfObjectNameException();
+                throw new DuplicateDfObjectNameException(o.Name, o.Type);
             }
             Db[o.Type][o.Name] = o;
         }
     }
 
-    public class DuplicateDfObjectNameException : Exception { }
+    public class DuplicateDfObjectNameException : Exception {
+        public DuplicateDfObjectNameException(string type, string name)
+            :base(string.Format("Duplicate type, name ({0}, {1})", type, name))
+        {
+
+        }
+    }
 }
