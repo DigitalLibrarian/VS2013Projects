@@ -66,6 +66,8 @@ namespace DfNet.Raws
             public const string ADD_TISSUE = "ADD_TISSUE";
             public const string REMOVE_TISSUE = "REMOVE_TISSUE";
             public const string USE_TISSUE_TEMPLATE = "USE_TISSUE_TEMPLATE";
+
+            public const string CASTE_NAME = "CASTE_NAME";
         }
 
     }

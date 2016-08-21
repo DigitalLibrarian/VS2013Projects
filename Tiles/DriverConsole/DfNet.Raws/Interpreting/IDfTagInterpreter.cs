@@ -115,10 +115,10 @@ namespace DfNet.Raws.Interpreting
 
             var masterTag = rest.Single(t => t.Name.Equals(DfTags.MiscTags.CVCT_MASTER));
             var targetTag = rest.Single(t => t.Name.Equals(DfTags.MiscTags.CVCT_TARGET));
-            var replaceTag = rest.Single(t => t.Name.Equals(DfTags.MiscTags.CVCT_REPLACEMENT));
+            var replaceTag = rest.SingleOrDefault(t => t.Name.Equals(DfTags.MiscTags.CVCT_REPLACEMENT));
 
             var targetWords = targetTag.GetParams();
-            var replacementWords = replaceTag.GetParams();
+            var replacementWords = replaceTag == null ? new string[]{} : replaceTag.GetParams();
 
             foreach (var master in 
                 context.WorkingSet.Where(t => t.Name.Equals(masterTag.GetParam(0))
@@ -133,7 +133,10 @@ namespace DfNet.Raws.Interpreting
                     {
                         if (once) 
                         {
-                            newParams.AddRange(replacementWords);
+                            if (replacementWords.Any())
+                            {
+                                newParams.AddRange(replacementWords);
+                            }
                             once = false;
                         }
                     }
@@ -331,10 +334,6 @@ namespace DfNet.Raws.Interpreting
             var runLength = working.FindIndex(tissueIndex,
                 t => t.Name.Equals(DfTags.MiscTags.END_TISSUE)
                      && t.GetParam(0).Equals(tag.GetParam(0)));
-            if (runLength == -1)
-            {
-                int br = 0;
-            }
             var removals = working.GetRange(tissueIndex, runLength - tissueIndex + 1);
 
             context.Remove(removals.ToArray());

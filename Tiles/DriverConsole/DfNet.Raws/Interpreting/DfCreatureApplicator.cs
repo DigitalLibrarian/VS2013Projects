@@ -19,7 +19,8 @@ namespace DfNet.Raws.Interpreting
                 new TagInterpreter_GoToStart(),
                 new TagInterpreter_GoToEnd(),
                 new TagInterpreter_GoToTag(),
-                new TagInterpreter_ApplyCreatureVariation()
+                new TagInterpreter_ApplyCreatureVariation(),
+                new TagInterpreter_CvConvertTag()
                 //new TagInterpreter_CreatureBodyPartInclude(),
                 //new TagInterpreter_BodyDetailPlanInclude()
                 );

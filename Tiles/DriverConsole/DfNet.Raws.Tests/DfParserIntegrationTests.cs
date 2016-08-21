@@ -89,6 +89,66 @@ namespace DfNet.Raws.Tests
                 objectType, expected, actual));
         }
 
+        DfObject RunCreaturePipeline(string creatureType, string caste = null)
+        {
+            var parsedLeo = Store.Get(DfTags.CREATURE, creatureType);
+
+            var context = new DfObjectContext(parsedLeo);
+            ApplyPass(new DfCreatureApplicator(parsedLeo), context);
+
+            if (caste != null)
+            {
+                ApplyPass(new DfCasteApplicator(caste), context);
+            }
+
+            ApplyPass(new DfBodyApplicator(), context);
+            ApplyPass(new DfMaterialApplicator(), context);
+            ApplyPass(new DfTissueApplicator(), context);
+
+
+            return context.Create();
+        }
+
+        [TestMethod]
+        public void PenquinWoman()
+        {
+            var result = RunCreaturePipeline("PENGUIN MAN", DfTags.MiscTags.FEMALE);
+
+            AssertSingleTag(result, t => t.IsSingleWord(DfTags.MiscTags.FEMALE));
+            AssertNoTag(result, t => t.IsSingleWord(DfTags.MiscTags.MALE));
+
+            var casteNameTag = AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.CASTE_NAME));
+            Assert.AreEqual(casteNameTag.GetParam(0), "penguin woman");
+            Assert.AreEqual(casteNameTag.GetParam(1), "penguin women");
+
+        }
+
+
+        [TestMethod]
+        public void BushmasterMan()
+        {
+            var result = RunCreaturePipeline("BUSHMASTER_MAN", DfTags.MiscTags.MALE);
+
+            AssertSingleTag(result, t => t.IsSingleWord(DfTags.MiscTags.MALE));
+            AssertNoTag(result, t => t.IsSingleWord(DfTags.MiscTags.FEMALE));
+
+            var casteNameTag = AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.CASTE_NAME));
+            Assert.AreEqual(casteNameTag.GetParam(0), "bushmaster man");
+            Assert.AreEqual(casteNameTag.GetParam(1), "bushmaster men");
+
+            var selfImmunityTag = AssertSingleTag(result, t => t.Name.Equals("SYN_IMMUNE_CREATURE"));
+            Assert.AreEqual("BUSHMASTER_MAN", selfImmunityTag.GetParam(0));
+            Assert.AreEqual("ALL", selfImmunityTag.GetParam(1));
+
+
+            var venomStart = AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.START_MATERIAL)
+                    && t.GetParam(0).Equals("VENOM"));
+
+            var syndromeTag = AssertSingleTag(result, t => t.IsSingleWord("SYNDROME"));
+            Assert.AreEqual("bushmaster bite", result.Next(syndromeTag).GetParam(0));
+            AssertSingleTag(result, t => t.IsSingleWord("ENTERS_BLOOD"));
+        }
+
         [TestMethod]
         public void LeopardGeckoMan()
         {
@@ -300,7 +360,7 @@ namespace DfNet.Raws.Tests
                         && t.GetParam(0).Equals(tissueName));
             }
 
-            foreach (var tissueName in new[] { "SKIN", "HAIR" })
+            foreach (var tissueName in new[] { "SKIN", "HAIR", "LEATHER", "PARCHMENT" })
             {
                 AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.START_TISSUE)
                     && t.GetParam(0).Equals(tissueName));
@@ -322,6 +382,14 @@ namespace DfNet.Raws.Tests
                     && t.GetParam(1).Equals("Scramble")
                     && t.GetParam(2).Equals("731")
                 );
+
+            var pipeLined = RunCreaturePipeline(creatureType, DfTags.MiscTags.MALE);
+            Assert.AreEqual(pipeLined.Tags.Count(), result.Tags.Count());
+            for(int i = 0; i < result.Tags.Count(); i++)
+            {
+                Assert.IsTrue(
+                    result.Tags[i].GetWords().SequenceEqual(pipeLined.Tags[i].GetWords()));
+            }
         }
 
 
