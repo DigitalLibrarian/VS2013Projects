@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DfNet.Raws.Interpreting
+namespace DfNet.Raws.Interpreting.Applicators
 {
     public class DfMaterialTemplateApplicator : IContextApplicator
     {

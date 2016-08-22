@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DfNet.Raws.Interpreting
+namespace DfNet.Raws.Interpreting.Applicators
 {
     public class DfCasteApplicator : IContextApplicator
     {

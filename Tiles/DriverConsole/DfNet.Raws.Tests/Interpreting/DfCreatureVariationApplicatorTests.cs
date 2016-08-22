@@ -1,4 +1,5 @@
 ﻿using DfNet.Raws.Interpreting;
+using DfNet.Raws.Interpreting.Applicators;
 using DfNet.Raws.Parsing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

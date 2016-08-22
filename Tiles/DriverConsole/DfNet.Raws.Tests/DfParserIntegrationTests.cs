@@ -9,8 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Tests.Assertions;
-using DfNet.Raws.Parsing;
-using DfNet.Raws.Interpreting;
+using DfNet.Raws.Interpreting.Applicators;
 namespace DfNet.Raws.Tests
 {
     // TODO - label this as integration test and make true unit tests for the parser
@@ -122,6 +121,9 @@ namespace DfNet.Raws.Tests
             Assert.AreEqual(casteNameTag.GetParam(0), "worm");
             Assert.AreEqual(casteNameTag.GetParam(1), "worms");
 
+            AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.BP_LAYERS)
+                && t.GetParam(0).Equals(DfTags.MiscTags.BY_CATEGORY)
+                && t.GetParam(1).Equals("PINCER"));
         }
 
         [TestMethod]
