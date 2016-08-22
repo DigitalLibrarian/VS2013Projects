@@ -110,6 +110,21 @@ namespace DfNet.Raws.Tests
         }
 
         [TestMethod]
+        public void Worm()
+        {
+            var result = RunCreaturePipeline("WORM");
+
+            AssertNoTag(result, t => t.IsSingleWord(DfTags.MiscTags.FEMALE));
+            AssertNoTag(result, t => t.IsSingleWord(DfTags.MiscTags.MALE));
+            AssertNoTag(result, t => t.Name.Equals(DfTags.MiscTags.CASTE));
+
+            var casteNameTag = AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.CASTE_NAME));
+            Assert.AreEqual(casteNameTag.GetParam(0), "worm");
+            Assert.AreEqual(casteNameTag.GetParam(1), "worms");
+
+        }
+
+        [TestMethod]
         public void PenquinWoman()
         {
             var result = RunCreaturePipeline("PENGUIN MAN", DfTags.MiscTags.FEMALE);
@@ -120,7 +135,6 @@ namespace DfNet.Raws.Tests
             var casteNameTag = AssertSingleTag(result, t => t.Name.Equals(DfTags.MiscTags.CASTE_NAME));
             Assert.AreEqual(casteNameTag.GetParam(0), "penguin woman");
             Assert.AreEqual(casteNameTag.GetParam(1), "penguin women");
-
         }
 
 
