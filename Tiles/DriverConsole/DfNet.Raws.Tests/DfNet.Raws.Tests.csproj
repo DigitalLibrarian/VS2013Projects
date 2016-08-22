@@ -59,8 +59,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DfObjectInterpreterTests.cs" />
     <Compile Include="DfObjectStoreTests.cs" />
     <Compile Include="DfObjectTests.cs" />
+    <Compile Include="DfTagsTests.cs" />
     <Compile Include="DfTagTests.cs" />
     <Compile Include="Interpreting\DfCreatureVariationApplicatorTests.cs" />
     <Compile Include="Interpreting\DfObjectContextTests.cs" />

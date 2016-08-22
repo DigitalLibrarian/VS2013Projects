@@ -100,5 +100,12 @@ namespace DfNet.Raws.Tests
                 Assert.AreEqual(words[i], clone.GetWord(i));
             }
         }
+
+        [TestMethod]
+        public void ToString_Formatting()
+        {
+            var tag = new DfTag("NAME", "W1", "W2", "W3");
+            Assert.AreEqual("[NAME:W1:W2:W3]", tag.ToString());
+        }
     }
 }

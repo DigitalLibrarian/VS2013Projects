@@ -67,5 +67,33 @@ namespace DfNet.Raws.Tests
                 i++;
             }
         }
+
+        [TestMethod]
+        public void Next()
+        {
+            var firstTag = new DfTag("ONE", "a");
+            var secondTag = new DfTag("TWO");
+            var o = new DfObject(firstTag, secondTag);
+
+            Assert.AreSame(secondTag, o.Next(firstTag));
+        }
+
+        [TestMethod]
+        public void Next_LastOne()
+        {
+            var firstTag = new DfTag("ONE", "a");
+            var o = new DfObject(firstTag);
+
+            Assert.IsNull(o.Next(firstTag));
+        }
+
+        [TestMethod]
+        public void Next_Unknown()
+        {
+            var firstTag = new DfTag("ONE", "a");
+            var o = new DfObject(firstTag);
+
+            Assert.IsNull(o.Next(new DfTag("UNKNOWN")));
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace DfNet.Raws.Interpreting
                     {
                         tagInt.Run(store, context, tag, tags);
                         anyMatches = true;
+                        break;
                     }
                 }
 
