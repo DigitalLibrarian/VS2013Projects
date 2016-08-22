@@ -108,6 +108,29 @@ namespace DfNet.Raws.Tests
         }
 
         [TestMethod]
+        public void PipelineAllCreatures()
+        {
+            DfObject o = null;
+            foreach (var creatureDf in Store.Get(DfTags.CREATURE))
+            {
+                var castes = DfCasteApplicator.FindCastes(creatureDf);
+                if (!castes.Any())
+                {
+                    o = RunCreaturePipeline(creatureDf.Name);
+                    Assert.AreEqual(creatureDf.Name, o.Name);
+                }
+                else
+                {
+                    foreach (var caste in castes)
+                    {
+                        o = RunCreaturePipeline(creatureDf.Name, caste);
+                        Assert.AreEqual(creatureDf.Name, o.Name);
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
         public void Worm()
         {
             var result = RunCreaturePipeline("WORM");

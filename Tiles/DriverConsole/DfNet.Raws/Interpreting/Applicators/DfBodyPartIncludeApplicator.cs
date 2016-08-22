@@ -12,7 +12,6 @@ namespace DfNet.Raws.Interpreting.Applicators
         Dictionary<string, List<DfTag>> BPTags { get; set; }
         Dictionary<string, int> BPRelSize { get; set; }
 
-
         public DfBodyPartIncludeApplicator(DfObject defn) 
         {
             Defn = defn;
