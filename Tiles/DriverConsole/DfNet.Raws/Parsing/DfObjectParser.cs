@@ -50,45 +50,7 @@ namespace DfNet.Raws.Parsing
                 {
                     workingSet.Add(tag);
                 }
-
             }
-
-
-
-            /*
-            List<DfTag> workingSet = null;
-            var scannerWord = "";
-            foreach (var line in lines)
-            {
-                foreach (var tag in TagParser.Parse(line))
-                {
-                    
-                    if (IsObjectTag(tag))
-                    {
-                        workingSet = null;
-                    }
-                    else
-                    {
-                        if(tag.Name.StartsWith(scannerWord)
-                            && tag.NumWords == 2
-                            && objectTagNames.Contains(tag.Name))
-                        {
-                            scannerWord = tag.Name;
-                            if (workingSet != null)
-                            {
-                                yield return new DfObject(workingSet);
-                                workingSet = null;
-                            }
-
-                            workingSet = new List<DfTag> { tag };
-                        } else if (workingSet != null)
-                        {
-                            workingSet.Add(tag);
-                        }
-                    }
-                }
-            }
-             * */
         }
     }
 }

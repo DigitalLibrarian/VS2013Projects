@@ -58,11 +58,6 @@ namespace DfNet.Raws
             return new DfTag(Words.Select(x => x.Clone() as string).ToArray());
         }
         
-        public class NoWordsException : Exception
-        {
-            public NoWordsException() : base() { }
-        }
-
         public bool IsSingleWord(string name)
         {
             return IsSingleWord() && Name.Equals(name);
@@ -77,6 +72,11 @@ namespace DfNet.Raws
         public override string ToString()
         {
             return string.Format("[{0}]", string.Join(":", Words));
+        }
+
+        public class NoWordsException : Exception
+        {
+            public NoWordsException() : base() { }
         }
     }
 }

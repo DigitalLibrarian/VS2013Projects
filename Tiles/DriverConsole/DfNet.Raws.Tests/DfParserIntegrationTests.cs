@@ -103,8 +103,7 @@ namespace DfNet.Raws.Tests
             ApplyPass(new DfBodyApplicator(), context);
             ApplyPass(new DfMaterialApplicator(), context);
             ApplyPass(new DfTissueApplicator(), context);
-
-
+            
             return context.Create();
         }
 
