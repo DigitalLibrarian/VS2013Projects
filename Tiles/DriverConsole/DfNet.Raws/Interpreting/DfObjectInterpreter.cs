@@ -14,14 +14,7 @@ namespace DfNet.Raws.Interpreting
         {
             TagInterpreters = tagInts.ToList();
         }
-
-        // TODO - i don't like this here
-        IEnumerable<string> FindCasteNames(DfObject dfObject)
-        {
-            return dfObject.Tags.Where(tag => tag.Name.Equals("CASTE"))
-                .Select(tag => tag.GetParam(0));
-        }
-
+        
         public void Interpret(IDfObjectStore store, IDfObjectContext context, IList<DfTag> tags, bool insertMisses)
         {
             foreach (var tag in tags)

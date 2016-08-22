@@ -22,13 +22,13 @@ namespace DfNet.Raws.Tests
         Dictionary<string, IEnumerable<string>> Raws { get; set; }
         Dictionary<string, int> ExpectedCounts = new Dictionary<string, int>
         {
-            {DfTags.CREATURE, 780},
-            {DfTags.CREATURE_VARIATION, 31},
-            {DfTags.BODY, 624},
-            {DfTags.BODY_DETAIL_PLAN, 2251},
-            {DfTags.MATERIAL_TEMPLATE, 69},
-            {DfTags.ITEM_WEAPON, 23},
-            {DfTags.TISSUE_TEMPLATE, 37}
+            {DfTags.CREATURE, 781},
+            {DfTags.CREATURE_VARIATION, 32},
+            {DfTags.BODY, 625},
+            {DfTags.BODY_DETAIL_PLAN, 2252},
+            {DfTags.MATERIAL_TEMPLATE, 70},
+            {DfTags.ITEM_WEAPON, 24},
+            {DfTags.TISSUE_TEMPLATE, 38}
         };
 
 
@@ -37,7 +37,7 @@ namespace DfNet.Raws.Tests
         [TestInitialize]
         public void Initialize()
         {
-            Parser = new DfObjectParser();
+            Parser = new DfObjectParser(new DfTagParser());
             var rawDirPath = ConfigurationManager.AppSettings.Get(DirKey);
             Raws = Directory.GetFiles(rawDirPath, "*", SearchOption.AllDirectories)
                 .ToDictionary(

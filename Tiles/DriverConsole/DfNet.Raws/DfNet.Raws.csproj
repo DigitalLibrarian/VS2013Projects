@@ -78,6 +78,7 @@
     <Compile Include="Interpreting\TagInterpreters\TagInterpreter_UseTissueTemplate.cs" />
     <Compile Include="Parsing\DfTagParser.cs" />
     <Compile Include="Parsing\DfObjectParser.cs" />
+    <Compile Include="Parsing\IDfTagParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

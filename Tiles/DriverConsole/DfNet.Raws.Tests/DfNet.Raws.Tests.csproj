@@ -66,6 +66,7 @@
     <Compile Include="Interpreting\DfObjectContextTests.cs" />
     <Compile Include="Interpreting\DfObjectInterpreterTests.cs" />
     <Compile Include="DfParserIntegrationTests.cs" />
+    <Compile Include="Parsing\DfObjectParserTests.cs" />
     <Compile Include="Parsing\DfTagParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DfNet.Raws.Parsing
 {
-    public class DfTagParser
+    public class DfTagParser : IDfTagParser
     {
         private static char TagEnd = ']';
         private static char ParamSeparator = ':';

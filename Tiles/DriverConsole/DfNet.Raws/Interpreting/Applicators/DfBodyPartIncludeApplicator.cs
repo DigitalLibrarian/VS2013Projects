@@ -18,15 +18,12 @@ namespace DfNet.Raws.Interpreting.Applicators
             Defn = defn;
         }
 
-
-
         public void Apply(IDfObjectStore store, IDfObjectContext context)
         {
             bool keeper = false;
 
             foreach (var tag in Defn.Tags)
             {
-
                 if (tag.Name.Equals(DfTags.MiscTags.BP))
                 {
                     if (!context.WorkingSet.Any(
@@ -42,13 +39,11 @@ namespace DfNet.Raws.Interpreting.Applicators
                     }
                 }
 
-
                 if (keeper)
                 {
                     context.InsertTags(tag);
                 }
             }
-
         }
     }
 }

@@ -9,11 +9,11 @@ namespace DfNet.Raws.Parsing
 {
     public class DfObjectParser
     {
-        DfTagParser TagParser { get; set; }
+        IDfTagParser TagParser { get; set; }
 
-        public DfObjectParser() 
+        public DfObjectParser(IDfTagParser tagParser) 
         {
-            TagParser = new DfTagParser();
+            TagParser = tagParser;
         }
 
         bool IsObjectTag(DfTag tag)
@@ -28,14 +28,14 @@ namespace DfNet.Raws.Parsing
 
             var scannerWord = "nerp";
             List<DfTag> workingSet = null;
-            for (int i = 0; i < tags.Count(); i++)
+            foreach(var tag in tags)
             {
-                var tag = tags[i];
                 if (IsObjectTag(tag) 
                     && objectTagNames.Any(name => name.StartsWith(tag.GetParam(0))))
                 {
                     scannerWord = tag.GetParam(0);
-                }else if(objectTagNames.Contains(tag.Name)
+                }
+                else if(objectTagNames.Contains(tag.Name)
                     && tag.Name.StartsWith(scannerWord))
                 {
                     if (workingSet != null)
@@ -44,12 +44,16 @@ namespace DfNet.Raws.Parsing
                         workingSet = null;
                     }
                     workingSet = new List<DfTag> { tag };
-
                 }
                 else if (workingSet != null)
                 {
                     workingSet.Add(tag);
                 }
+            }
+
+            if (workingSet != null && workingSet.Any())
+            {
+                yield return new DfObject(workingSet);
             }
         }
     }
