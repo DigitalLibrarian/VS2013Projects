@@ -11,7 +11,7 @@ namespace DfNet.Raws.Interpreting
         public int Cursor { get; private set; }
         public DfObject Source { get; private set; }
 
-        public List<DfTag> Working { get; private set; }
+        List<DfTag> Working { get; set; }
 
         public IEnumerable<DfTag> WorkingSet { get { return Working.ToArray(); } }
 
@@ -21,7 +21,6 @@ namespace DfNet.Raws.Interpreting
             Cursor = cursor;
 
             Working = new List<DfTag>();
-
         }
 
         public void StartPass()
@@ -33,6 +32,7 @@ namespace DfNet.Raws.Interpreting
         {
             Source = new DfObject(Working);
             Cursor = 0;
+            Working = new List<DfTag>();
         }
 
         public int RemoveTagsByName(string tagName)
@@ -104,13 +104,15 @@ namespace DfNet.Raws.Interpreting
             InsertTags(tags.ToArray());
         }
 
-
         public void Remove(params DfTag[] dfTags)
         {
             foreach (var token in dfTags)
             {
-                if (Cursor >= Working.IndexOf(token)) Cursor--;
-                Working.Remove(token);
+                if (Working.Contains(token))
+                {
+                    if (Cursor >= Working.IndexOf(token)) Cursor--;
+                    Working.Remove(token);
+                }
             }
         }
     }
