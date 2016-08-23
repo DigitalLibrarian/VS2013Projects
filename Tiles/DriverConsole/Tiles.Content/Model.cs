@@ -33,7 +33,7 @@ namespace Tiles.Content
     {
         public string NameSingular { get; set; }
         public string NamePlural { get; set; }
-        BodyPart Parent { get; set; }
+        public BodyPart Parent { get; set; }
 
         public bool CanBeAmputated { get; set; }
         public bool CanGrasp { get; set; }
@@ -41,7 +41,7 @@ namespace Tiles.Content
 
     public class Body
     {
-        List<BodyPart> Parts { get; set; }
+        public List<BodyPart> Parts { get; set; }
     }
 
 
@@ -85,6 +85,6 @@ namespace Tiles.Content
 
     public class Agent
     {
-        Body Body { get; set; }
+        public Body Body { get; set; }
     }
 }

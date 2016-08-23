@@ -55,6 +55,9 @@ namespace DfNet.Raws
 
             public const string BP = "BP";
             public const string BP_LAYERS = "BP_LAYERS";
+            public const string BP_RELSIZE = "BP_RELSIZE";
+            public const string BP_RELATION = "BP_RELATION";
+            public const string BP_POSITION = "BP_POSITION";
             public const string BY_CATEGORY = "BY_CATEGORY";
 
             public const string USE_MATERIAL_TEMPLATE = "USE_MATERIAL_TEMPLATE";
@@ -68,8 +71,17 @@ namespace DfNet.Raws
             public const string ADD_TISSUE = "ADD_TISSUE";
             public const string REMOVE_TISSUE = "REMOVE_TISSUE";
             public const string USE_TISSUE_TEMPLATE = "USE_TISSUE_TEMPLATE";
+            public const string TISSUE_LAYER = "TISSUE_LAYER";
+            public const string SELECT_TISSUE_LAYER = "SELECT_TISSUE_LAYER";
+            public const string PLUS_TISSUE_LAYER = "PLUS_TISSUE_LAYER";
 
             public const string CASTE_NAME = "CASTE_NAME";
+            public const string ATTACK = "ATTACK";
+            public const string CATEGORY = "CATEGORY";
+
+            public const string CON = "CON";
+            public const string CONCAT = "CONCAT";
+            public const string CONTYPE = "CONTYPE";
         }
 
     }

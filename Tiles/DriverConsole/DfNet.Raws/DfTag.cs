@@ -66,7 +66,6 @@ namespace DfNet.Raws
         string[] ApplyArgs(string argPrefix, string[] args, string[] p)
         {
             var newParams = new List<string>();
-
             foreach (var pIn in p)
             {
                 if (pIn.StartsWith(argPrefix) )
@@ -103,5 +102,7 @@ namespace DfNet.Raws
         {
             public NoWordsException() : base() { }
         }
+
+        public int NumParams { get { return NumWords - 1; } }
     }
 }

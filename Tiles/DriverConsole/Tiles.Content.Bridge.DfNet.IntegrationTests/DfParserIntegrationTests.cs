@@ -10,27 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Tests.Assertions;
 using DfNet.Raws.Interpreting.Applicators;
-namespace DfNet.Raws.Tests
+using DfNet.Raws;
+namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 {
     // TODO - label this as integration test and make true unit tests for the parser
     [TestClass]
     public class DfParserIntegrationTests
     {
-        private const string DirKey = @"DwarfFortressRawsDirectory";
         DfObjectParser Parser { get; set; }
-
-        Dictionary<string, IEnumerable<string>> Raws { get; set; }
-        Dictionary<string, int> ExpectedCounts = new Dictionary<string, int>
-        {
-            {DfTags.CREATURE, 781},
-            {DfTags.CREATURE_VARIATION, 32},
-            {DfTags.BODY, 625},
-            {DfTags.BODY_DETAIL_PLAN, 2252},
-            {DfTags.MATERIAL_TEMPLATE, 70},
-            {DfTags.ITEM_WEAPON, 24},
-            {DfTags.TISSUE_TEMPLATE, 38}
-        };
-
 
         IDfObjectStore Store { get; set; }
         IDfObjectPipeline CreaturePipeLine { get; set; }
@@ -39,57 +26,16 @@ namespace DfNet.Raws.Tests
         public void Initialize()
         {
             Parser = new DfObjectParser(new DfTagParser());
-            var rawDirPath = ConfigurationManager.AppSettings.Get(DirKey);
-            Raws = Directory.GetFiles(rawDirPath, "*", SearchOption.AllDirectories)
-                .ToDictionary(
-                    fileName => fileName,
-                    fileName => File.ReadLines(fileName));
-
-            Store = new DfObjectStore(
-                Parser.Parse(Raws.SelectMany(x => x.Value), 
-                DfTags.GetAllObjectTypes()));
-
+            Store = TestContentStore.Get();
             CreaturePipeLine = new CreaturePipeline(Store);
         }
 
-
-        [TestMethod]
-        public void TestDbCounts()
-        {
-            foreach (var objType in ExpectedCounts.Keys)
-            {
-                TestCount(objType);
-            }
-        }
 
         [TestMethod]
         public void SpotCheckBodyDetailPlans()
         {
             var o = Store.Get(DfTags.BODY_DETAIL_PLAN, "STANDARD_MATERIALS");
             Assert.IsNotNull(o);
-        }
-
-        [TestMethod]
-        public void ParseAllTypes()
-        {
-            var allTypes = DfTags.GetAllObjectTypes();
-            var lines = Raws.SelectMany(x => x.Value);
-            var all = Parser.Parse(lines, allTypes).ToList();
-            Assert.IsTrue(all.Any());
-
-            int distinctTypes = allTypes.Count();
-            Assert.AreEqual(distinctTypes, all.Select(x => x.Type).Distinct().Count());
-        }
-                
-        void TestCount(string objectType)
-        {
-            var expected = ExpectedCounts[objectType];
-            var lines = Raws.SelectMany(x => x.Value);
-            var objects = Parser.Parse(lines, objectType);
-            var actual = objects.Count();
-            Assert.AreEqual(expected, actual,
-                string.Format("{0} - expected {1}, actual {2}", 
-                objectType, expected, actual));
         }
 
         DfObject RunCreaturePipeline(string creatureType, string caste = null)
@@ -189,8 +135,6 @@ namespace DfNet.Raws.Tests
         public void LeopardGeckoMan()
         {
             int expectedTags = 24;
-            var lines = Raws.SelectMany(x => x.Value);
-
             var creatureType = "LEOPARD_GECKO_MAN";
             var parsedLeo = Store.Get(DfTags.CREATURE, creatureType);
             AssertCastes(parsedLeo);

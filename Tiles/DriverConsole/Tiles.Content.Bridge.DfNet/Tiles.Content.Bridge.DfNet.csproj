@@ -39,6 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DfAgentBuilder.cs" />
+    <Compile Include="DfAgentBuilderFactory.cs" />
+    <Compile Include="DfAgentFactory.cs" />
+    <Compile Include="IDfAgentBuilder.cs" />
+    <Compile Include="IDfAgentBuilderFactory.cs" />
+    <Compile Include="IDfAgentFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

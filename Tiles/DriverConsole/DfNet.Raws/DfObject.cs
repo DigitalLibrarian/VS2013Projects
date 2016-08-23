@@ -15,12 +15,16 @@ namespace DfNet.Raws
         public DfObject(params DfTag[] tags) : this(new List<DfTag>(tags)) { }
         public DfObject(IList<DfTag> tags)
         {
-            if(!tags.Any()) throw new InvalidHeaderException();
-            if (tags.First().NumWords < 2) throw new InvalidHeaderException();
+            if(!tags.Any()) throw new InvalidHeaderException(tags);
+            if (tags.First().NumWords < 2) throw new InvalidHeaderException(tags);
             Tags = tags;
         }
 
-        public class InvalidHeaderException : Exception { }
+        public class InvalidHeaderException : Exception 
+        {
+            public InvalidHeaderException(IEnumerable<DfTag> tags) :
+                base(string.Format("Invalid object header: {0}", string.Join("", tags.Select(t => t.ToString())))) { }
+        }
 
         public DfObject CloneDfObject()
         {
