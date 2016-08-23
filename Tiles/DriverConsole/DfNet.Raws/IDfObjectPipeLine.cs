@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DfNet.Raws
 {
-    public interface IDfObjectStore
+    public interface IDfObjectPipeline
     {
-        DfObject Get(string type, string name);
-        IEnumerable<DfObject> Get(string type);
+        DfObject Run(string creatureName);
+        DfObject Run(string creatureName, string caste = null);
     }
 }

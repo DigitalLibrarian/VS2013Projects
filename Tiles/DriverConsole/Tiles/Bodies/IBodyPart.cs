@@ -16,7 +16,7 @@ namespace Tiles.Bodies
         ITissue Tissue { get; }
 
         bool IsLifeCritical { get; }
-        bool CanAmputate { get; }
+        bool CanBeAmputated { get; }
         bool CanGrasp { get; }
 
         ArmorSlot ArmorSlot { get; }

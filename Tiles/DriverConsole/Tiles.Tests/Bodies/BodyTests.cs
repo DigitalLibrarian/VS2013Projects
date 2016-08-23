@@ -84,7 +84,7 @@ namespace Tiles.Tests.Bodies
             targetHealthMock.Setup(x => x.OutOfHealth).Returns(true);
             var targetBodyPartMock = new Mock<IBodyPart>();
             targetBodyPartMock.Setup(x => x.Health).Returns(targetHealthMock.Object);
-            targetBodyPartMock.Setup(x => x.CanAmputate).Returns(false);
+            targetBodyPartMock.Setup(x => x.CanBeAmputated).Returns(false);
 
             var junkPartMock = new Mock<IBodyPart>();
             var parts = new List<IBodyPart>{
@@ -111,7 +111,7 @@ namespace Tiles.Tests.Bodies
             targetHealthMock.Setup(x => x.OutOfHealth).Returns(true);
             var targetBodyPartMock = new Mock<IBodyPart>();
             targetBodyPartMock.Setup(x => x.Health).Returns(targetHealthMock.Object);
-            targetBodyPartMock.Setup(x => x.CanAmputate).Returns(true);
+            targetBodyPartMock.Setup(x => x.CanBeAmputated).Returns(true);
 
             var childPartMock = new Mock<IBodyPart>();
             childPartMock.Setup(x => x.Parent).Returns(targetBodyPartMock.Object);

@@ -33,6 +33,7 @@ namespace DfNet.Raws.Tests
 
 
         IDfObjectStore Store { get; set; }
+        IDfObjectPipeline CreaturePipeLine { get; set; }
         
         [TestInitialize]
         public void Initialize()
@@ -47,7 +48,10 @@ namespace DfNet.Raws.Tests
             Store = new DfObjectStore(
                 Parser.Parse(Raws.SelectMany(x => x.Value), 
                 DfTags.GetAllObjectTypes()));
+
+            CreaturePipeLine = new CreaturePipeline(Store);
         }
+
 
         [TestMethod]
         public void TestDbCounts()
@@ -90,21 +94,14 @@ namespace DfNet.Raws.Tests
 
         DfObject RunCreaturePipeline(string creatureType, string caste = null)
         {
-            var parsedLeo = Store.Get(DfTags.CREATURE, creatureType);
-
-            var context = new DfObjectContext(parsedLeo);
-            ApplyPass(new DfCreatureApplicator(parsedLeo), context);
-
-            if (caste != null)
+            if (caste == null)
             {
-                ApplyPass(new DfCasteApplicator(caste), context);
+                return CreaturePipeLine.Run(creatureType);
             }
-
-            ApplyPass(new DfBodyApplicator(), context);
-            ApplyPass(new DfMaterialApplicator(), context);
-            ApplyPass(new DfTissueApplicator(), context);
-            
-            return context.Create();
+            else
+            {
+                return CreaturePipeLine.Run(creatureType, caste);
+            }
         }
 
         [TestMethod]
@@ -185,6 +182,7 @@ namespace DfNet.Raws.Tests
             var syndromeTag = AssertSingleTag(result, t => t.IsSingleWord("SYNDROME"));
             Assert.AreEqual("bushmaster bite", result.Next(syndromeTag).GetParam(0));
             AssertSingleTag(result, t => t.IsSingleWord("ENTERS_BLOOD"));
+
         }
 
         [TestMethod]

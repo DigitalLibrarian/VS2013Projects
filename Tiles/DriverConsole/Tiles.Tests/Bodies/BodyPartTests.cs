@@ -84,9 +84,9 @@ namespace Tiles.Tests.Bodies
         [TestMethod]
         public void CanAmputate_ClassProperty()
         {
-            Assert.IsFalse(Part.CanAmputate);
+            Assert.IsFalse(Part.CanBeAmputated);
             ClassMock.Setup(x => x.CanAmputate).Returns(true);
-            Assert.IsTrue(Part.CanAmputate);
+            Assert.IsTrue(Part.CanBeAmputated);
         }
 
 

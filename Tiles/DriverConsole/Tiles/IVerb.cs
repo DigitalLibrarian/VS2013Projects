@@ -18,6 +18,4 @@ namespace Tiles
         bool IsProper { get; }
         string Conjugate(VerbConjugation conjugation);
     }
-
-
 }

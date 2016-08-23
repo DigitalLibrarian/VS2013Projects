@@ -26,8 +26,7 @@ namespace DfNet.Raws.Parsing
                     {
                         var tagGuts = chunk.Substring(0, tagEndIndex);
                         yield return
-                            new DfTag(tagGuts.
-                                Split(ParamSeparator).ToArray());
+                            new DfTag(tagGuts.Split(ParamSeparator).ToArray());
                     }
                 }
             }

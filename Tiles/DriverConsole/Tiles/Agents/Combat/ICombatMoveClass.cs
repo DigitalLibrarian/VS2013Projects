@@ -23,8 +23,6 @@ namespace Tiles.Agents.Combat
 
         bool IsItem { get; }
 
-
-
         int PrepTime { get; }
         int RecoveryTime { get; }
     }

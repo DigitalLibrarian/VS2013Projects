@@ -16,6 +16,7 @@ namespace DfNet.Raws
         public const string MATERIAL_TEMPLATE = "MATERIAL_TEMPLATE";
         public const string TISSUE_TEMPLATE = "TISSUE_TEMPLATE";
         public const string ITEM_WEAPON = "ITEM_WEAPON";
+        public const string INORGANIC = "INORGANIC";
 
         public static string[] GetAllObjectTypes()
         {
@@ -26,6 +27,7 @@ namespace DfNet.Raws
                 BODY_DETAIL_PLAN,
                 MATERIAL_TEMPLATE,
                 TISSUE_TEMPLATE,
+                INORGANIC,
                 ITEM_WEAPON
             };
         }

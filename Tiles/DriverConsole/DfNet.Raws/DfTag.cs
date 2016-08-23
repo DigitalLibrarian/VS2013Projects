@@ -57,7 +57,32 @@ namespace DfNet.Raws
         {
             return new DfTag(Words.Select(x => x.Clone() as string).ToArray());
         }
-        
+
+        public DfTag CloneWithArgs(string argPrefix, string[] args)
+        {
+            return new DfTag(Name, ApplyArgs(argPrefix, args, GetParams()));
+        }
+
+        string[] ApplyArgs(string argPrefix, string[] args, string[] p)
+        {
+            var newParams = new List<string>();
+
+            foreach (var pIn in p)
+            {
+                if (pIn.StartsWith(argPrefix) )
+                {
+                    int index = int.Parse(pIn.Substring(argPrefix.Length))-1;
+                    newParams.Add(args[index]);
+                }
+                else
+                {
+                    newParams.Add(pIn);
+                }
+            }
+
+            return newParams.ToArray();
+        }
+
         public bool IsSingleWord(string name)
         {
             return IsSingleWord() && Name.Equals(name);

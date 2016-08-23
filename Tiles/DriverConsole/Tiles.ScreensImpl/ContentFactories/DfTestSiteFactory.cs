@@ -56,7 +56,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                 {
                     var tile = s.GetTileAtSitePos(spawnLoc.Value);
                     
-
                     var m = Random.NextElement(metals);
                     var w = Random.NextElement(weapons);
 

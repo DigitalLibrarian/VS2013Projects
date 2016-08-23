@@ -49,6 +49,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfNet.Raws", "DfNet.Raws\Df
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfNet.Raws.Tests", "DfNet.Raws.Tests\DfNet.Raws.Tests.csproj", "{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Content", "Tiles.Content\Tiles.Content.csproj", "{CC16A028-84D2-4018-9D6C-D282B01BD00C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Content.Bridge.DfNet", "Tiles.Content.Bridge.DfNet\Tiles.Content.Bridge.DfNet.csproj", "{EA837AF3-7951-4923-B5DF-98259C0D3454}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Content.Bridge.DfNet.Tests", "Tiles.Content.Bridge.DfNet.Tests\Tiles.Content.Bridge.DfNet.Tests.csproj", "{C4BC2AFB-B2EA-461E-9F07-BC4D86E8F5C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +149,18 @@ Global
 		{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC16A028-84D2-4018-9D6C-D282B01BD00C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC16A028-84D2-4018-9D6C-D282B01BD00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC16A028-84D2-4018-9D6C-D282B01BD00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC16A028-84D2-4018-9D6C-D282B01BD00C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA837AF3-7951-4923-B5DF-98259C0D3454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA837AF3-7951-4923-B5DF-98259C0D3454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA837AF3-7951-4923-B5DF-98259C0D3454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA837AF3-7951-4923-B5DF-98259C0D3454}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4BC2AFB-B2EA-461E-9F07-BC4D86E8F5C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4BC2AFB-B2EA-461E-9F07-BC4D86E8F5C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4BC2AFB-B2EA-461E-9F07-BC4D86E8F5C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4BC2AFB-B2EA-461E-9F07-BC4D86E8F5C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

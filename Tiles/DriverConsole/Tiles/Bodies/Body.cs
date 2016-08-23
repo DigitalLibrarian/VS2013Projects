@@ -23,7 +23,7 @@ namespace Tiles.Bodies
             part.Health.TakeDamage(dmg);
             if (part.Health.OutOfHealth)
             {
-                if (part.CanAmputate)
+                if (part.CanBeAmputated)
                 {
                     foreach (var subPart in Parts.ToList())
                     {

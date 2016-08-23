@@ -79,7 +79,7 @@ namespace DfNet.Raws.Tests
         }
 
         [TestMethod]
-        public void CloneTag()
+        public void CloneDfTag()
         {
             var words = new string[]
             {
@@ -99,6 +99,33 @@ namespace DfNet.Raws.Tests
                 Assert.AreEqual(words[i], tag.GetWord(i));
                 Assert.AreEqual(words[i], clone.GetWord(i));
             }
+        }
+
+        [TestMethod]
+        public void CloneDfTagWithArgs()
+        {
+            string[] args = new string[]{
+                "V1",
+                "V2",
+                "V3",
+                "V4"
+            };
+
+            var tag = new DfTag(
+                "TAG",
+                "ARG1",
+                "ARG2",
+                "ARG3",
+                "ARG4"
+                );
+
+            var clone = tag.CloneWithArgs("ARG", args);
+
+            Assert.AreEqual("TAG", clone.GetWord(0));
+            Assert.AreEqual("V1", clone.GetWord(1));
+            Assert.AreEqual("V2", clone.GetWord(2));
+            Assert.AreEqual("V3", clone.GetWord(3));
+            Assert.AreEqual("V4", clone.GetWord(4));
         }
 
         [TestMethod]

@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreaturePipeline.cs" />
     <Compile Include="DfObject.cs" />
     <Compile Include="DfObjectStore.cs" />
     <Compile Include="DfTag.cs" />
     <Compile Include="DfTags.cs" />
+    <Compile Include="IDfObjectPipeLine.cs" />
     <Compile Include="IDfObjectStore.cs" />
     <Compile Include="Interpreting\Applicators\DfBodyApplicator.cs" />
     <Compile Include="Interpreting\Applicators\DfBodyDetailPlanApplicator.cs" />
