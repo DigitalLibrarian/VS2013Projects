@@ -10,11 +10,17 @@ namespace Tiles.Content.Bridge.DfNet
     public class DfAgentBuilder : IDfAgentBuilder
     {
         Dictionary<string, DfObject> BodyPartsDefn { get; set; }
+        Dictionary<string, DfObject> MaterialDefns { get; set; }
+        Dictionary<string, List<string>> BodyPartCategoryTissues { get; set; }
+        Dictionary<string, Dictionary<string, int>> BodyPartCategoryTissueThickness { get; set; }
 
 
         public DfAgentBuilder()
         {
             BodyPartsDefn = new Dictionary<string, DfObject>();
+            MaterialDefns = new Dictionary<string, DfObject>();
+            BodyPartCategoryTissues = new Dictionary<string, List<string>>();
+            BodyPartCategoryTissueThickness = new Dictionary<string, Dictionary<string, int>>();
         }
 
         #region Lookups
@@ -25,30 +31,48 @@ namespace Tiles.Content.Bridge.DfNet
                 .Select(t => t.GetParam(0));
         }
 
-        IEnumerable<DfObject> GetRootPartDefns()
+        DfObject GetRootPartDefn()
         {
             var parts =  BodyPartsDefn.Values.Where(o => !o.Tags.Any(
                 t => t.Name.Equals(DfTags.MiscTags.CONTYPE)
                 || t.Name.Equals(DfTags.MiscTags.CON)
-                || t.Name.Equals(DfTags.MiscTags.CONCAT)
+                || t.Name.Equals(DfTags.MiscTags.CON_CAT)
                 ));
 
-            return parts;
+            return parts.Single();
+        }
+
+        private bool ConnectsToCategory(DfObject o, string cat)
+        {
+            return o.Tags.Any(t => t.Name.Equals(DfTags.MiscTags.CON_CAT)
+                && t.GetParam(0).Equals(cat));
+        }
+
+        IEnumerable<DfObject> FindPartsForDirectConnection(string partName)
+        {
+            return BodyPartsDefn.Values.Where(o => o.Tags.Any(
+                t => t.Name.Equals(DfTags.MiscTags.CON)
+                    && t.GetParam(0).Equals(partName)));
+        }
+
+        private IEnumerable<DfObject> FindPartsForConnTypes(DfObject defn)
+        {
+            return BodyPartsDefn.Values.Where(
+                o => o.Tags.Any(
+                    t => t.Name.Equals(DfTags.MiscTags.CONTYPE)
+                    && defn.Tags.Any(dT => dT.IsSingleWord(t.GetParam(0)))));
+        }
+
+        private IEnumerable<DfObject> FindPartsForCategories(DfObject defn)
+        {
+            return GetBodyPartCategories(defn)
+                .SelectMany(cat => BodyPartsDefn.Values.Where(o => ConnectsToCategory(o, cat)));
         }
         #endregion
 
 
         public void AddBody(string name, DfObject bpObject)
         {
-//
-//[BODY:RCP_TWO_PART_ARMS]
-//    [BP:RUA:right upper arm:STP][CONTYPE:UPPERBODY][LIMB][RIGHT][CATEGORY:ARM_UPPER]
-//        [DEFAULT_RELSIZE:200]
-//    [BP:LUA:left upper arm:STP][CONTYPE:UPPERBODY][LIMB][LEFT][CATEGORY:ARM_UPPER]
-//        [DEFAULT_RELSIZE:200]
-//    [BP:RLA:right lower arm:STP][CON:RUA][LIMB][RIGHT][CATEGORY:ARM_LOWER]
-//    [DEFAULT_RELSIZE:1000]
-
             var tags = bpObject.Tags.Skip(1);
 
             var bodyPartDefns = tags
@@ -73,30 +97,118 @@ namespace Tiles.Content.Bridge.DfNet
             }
         }
 
-        public void AddMaterialFromTemplate(string matName, DfObject matObj)
-        {
+        
 
+        public void AddMaterialFromTemplate(string matName, DfObject matTemplateObj)
+        {
+            MaterialDefns[matName] =  matTemplateObj;
         }
 
         public void RemoveMaterial(string matName)
         {
-
+            MaterialDefns.Remove(matName);
+            foreach (var bpName in BodyPartCategoryTissueThickness.Keys.ToList())
+            {
+                if (BodyPartCategoryTissueThickness[bpName].ContainsKey(matName))
+                {
+                    BodyPartCategoryTissueThickness[bpName].Remove(matName);
+                }
+            }
         }
 
-        public void AddTissueToBodyPart(string bpName, string tisName)
+        public void AddTissueToBodyPart(string bpCategory, string tisName)
         {
+            if (!BodyPartCategoryTissues.ContainsKey(bpCategory))
+            {
+                BodyPartCategoryTissues[bpCategory] = new List<string>();
+            }
+            BodyPartCategoryTissues[bpCategory].Add(tisName);
 
         }
 
-        public void SetBodyPartTissueThickness(string bpName, string tisName, int relThick)
+        public void SetBodyPartTissueThickness(string bpCategory, string tisName, int relThick)
         {
-            throw new NotImplementedException();
+            if (!BodyPartCategoryTissueThickness.ContainsKey(bpCategory))
+            {
+                BodyPartCategoryTissueThickness[bpCategory] = new Dictionary<string, int>();
+            }
+            BodyPartCategoryTissueThickness[bpCategory][tisName] = relThick;
         }
 
-        BodyPart Create(DfObject defn)
+        string GetMaterialAdj(DfObject matDefn)
+        {
+            var adjTag = matDefn.Tags.SingleOrDefault(t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
+                && t.GetParam(0).Equals(DfTags.MiscTags.ALL_SOLID));
+
+            string adj = null;
+            if (adjTag != null)
+            {
+                adj = adjTag.GetParam(1);
+            }
+
+            if (adj == null)
+            {
+                adj = matDefn.Tags.SingleOrDefault(t => t.Name.Equals(DfTags.MiscTags.TISSUE_NAME))
+                        .GetParam(0);
+            }
+
+            return adj;
+        }
+
+        Material GetTissueMaterial(string tisName)
+        {
+            var matDefn = MaterialDefns[tisName];
+            return new Material
+            {
+                Adjective = GetMaterialAdj(matDefn)
+            };
+        }
+
+        Tissue CreateTissueForPart(string bpName)
+        {
+            var layers = new List<TissueLayer>();
+
+            foreach (var bpCat in GetBodyPartCategories(BodyPartsDefn[bpName]))
+            {
+
+                if (BodyPartCategoryTissueThickness.ContainsKey(bpCat))
+                {
+                    foreach(var tisName in BodyPartCategoryTissueThickness[bpCat].Keys)
+                    {
+                        var thickness = BodyPartCategoryTissueThickness[bpCat][tisName];
+                        layers.Add(new TissueLayer
+                        {
+                            Material = GetTissueMaterial(tisName),
+                            RelativeThickness = thickness
+                        });
+                    }
+
+                }
+
+                if (BodyPartCategoryTissues.ContainsKey(bpCat))
+                {
+                    foreach (var tisName in BodyPartCategoryTissues[bpCat])
+                    {
+                        layers.Add(new TissueLayer
+                        {
+                            Material = GetTissueMaterial(tisName),
+                            RelativeThickness = 1
+                        });
+                    }
+                }
+            }
+            return new Tissue
+            {
+                Layers = layers
+            };
+        }
+
+        BodyPart CreateBodyPart(DfObject defn, BodyPart parent)
         {
             return new BodyPart
             {
+                Parent = parent,
+                Tissue = CreateTissueForPart(defn.Name),
                 NameSingular = defn.Tags.First().GetParam(1),
                 NamePlural = defn.Tags.First().GetParam(2)
             };
@@ -105,8 +217,31 @@ namespace Tiles.Content.Bridge.DfNet
 
         public Agent Build()
         {
-            var parts = BodyPartsDefn.Values.Select(Create)
-                .ToList();
+            var parts = new List<BodyPart>();
+            var rootPartDefn = GetRootPartDefn();
+
+            var rootPart = CreateBodyPart(rootPartDefn, null);
+            parts.Add(rootPart);
+
+            var toLoad = new List<DfObject>();
+            var partMap = new Dictionary<BodyPart, DfObject>{{rootPart, rootPartDefn}};
+            for (int i = 0; i < parts.Count(); i++)
+            {
+                var part = parts[i];
+                var defn = partMap[part];
+                toLoad.Clear();
+
+                toLoad.AddRange(FindPartsForCategories(defn));
+                toLoad.AddRange(FindPartsForConnTypes(defn));
+                toLoad.AddRange(FindPartsForDirectConnection(defn.Name));
+
+                foreach (var partDefn in toLoad)
+                {
+                    var newPart = CreateBodyPart(partDefn, part);
+                    parts.Add(newPart);
+                    partMap[newPart] = partDefn;
+                }
+            }
 
             return new Agent
             {
@@ -116,5 +251,8 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             };
         }
+
+
+
     }
 }

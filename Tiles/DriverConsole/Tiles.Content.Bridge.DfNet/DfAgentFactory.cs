@@ -46,15 +46,25 @@ namespace Tiles.Content.Bridge.DfNet
             // 4. Return as nested Agent model
             string strategy, bpName, tisName;
             var agentContext = BuilderFactory.Create();
-            foreach (var tag in creatureDf.Tags)
+            var tags = creatureDf.Tags.ToList();
+            for (int i = 0; i < tags.Count(); i++) 
             {
+                var tag = tags[i];
+
+               
                 switch (tag.Name)
                 {
                     case DfTags.MiscTags.USE_MATERIAL_TEMPLATE:
                         var matObj = GetMaterialFromTemplate(tag, DfTags.MATERIAL_TEMPLATE);
                         agentContext.AddMaterialFromTemplate(
-                            tag.GetParam(0), 
+                            tag.GetParam(0),
                             matObj);
+                        break;
+
+                    case DfTags.MiscTags.ADD_MATERIAL:
+                        agentContext.AddMaterialFromTemplate(
+                            tag.GetParam(0),
+                            GetMaterialFromTemplate(tag, DfTags.MATERIAL_TEMPLATE));
                         break;
                     case DfTags.MiscTags.REMOVE_MATERIAL:
                         agentContext.RemoveMaterial(tag.GetParam(0));
@@ -64,6 +74,12 @@ namespace Tiles.Content.Bridge.DfNet
                         agentContext.AddMaterialFromTemplate(
                             tag.GetParam(0),
                             tisObj);
+                        break;
+
+                    case DfTags.MiscTags.ADD_TISSUE:
+                        agentContext.AddMaterialFromTemplate(
+                            tag.GetParam(0),
+                            GetMaterialFromTemplate(tag, DfTags.TISSUE_TEMPLATE));
                         break;
                     case DfTags.MiscTags.REMOVE_TISSUE:
                         agentContext.RemoveMaterial(tag.GetParam(0));
@@ -78,22 +94,54 @@ namespace Tiles.Content.Bridge.DfNet
                         tisName = tag.GetParam(2);
                         agentContext.AddTissueToBodyPart(bpName, tisName);
                         break;
-                    case DfTags.MiscTags.BP_LAYERS: 
+                    case DfTags.MiscTags.BP_LAYERS:
                         strategy = tag.GetParam(0);
                         if (!strategy.Equals(DfTags.MiscTags.BY_CATEGORY))
                         {
                             throw new NotImplementedException();
                         }
+                        if (tag.GetParams().Where(t => t.Equals(DfTags.MiscTags.BY_CATEGORY)).Count() > 1)
+                        {
+                            // HACK, this shit is fucked up
+                            break;
+                        }
                         bpName = tag.GetParam(1);
-                        tisName = tag.GetParam(2);
-                        int relThick = int.Parse(tag.GetParam(3));
-                        agentContext.SetBodyPartTissueThickness(bpName, tisName, relThick);
-
-                        break;
+                        var sets = tag.GetParams().Skip(2).ToList();
+                        var half = sets.Count() / 2;
+                        for (int j = 0; j < half; j++)
+                        {
+                            var index = (j * 2);
+                            tisName = sets[index];
+                            var thickStr = sets[index + 1];
+                            int thick = 1;
+                            if (!int.TryParse(thickStr, out thick))
+                            {
+                                int br = 0;
+                            }
+                            agentContext.SetBodyPartTissueThickness(bpName, tisName, thick);
+                        }
+                            break;
                     case DfTags.BODY:
                         foreach (var bodyName in tag.GetParams())
                         {
                             agentContext.AddBody(bodyName, Store.Get(DfTags.BODY, bodyName));
+                        }
+                        break;
+                    case DfTags.BODY_DETAIL_PLAN:
+                        var bdp = Store.Get(DfTags.BODY_DETAIL_PLAN, tag.GetParam(0));
+
+                        var clone = bdp.CloneDfObjectWithArgs(
+                                "ARG",
+                                tag.GetParams().Skip(1).ToArray());
+                        var newTags = clone.Tags.Skip(1);
+
+                        if (tag != tags.Last())
+                        {
+                            tags.InsertRange(i+1, newTags);
+                        }
+                        else 
+                        {
+                            tags.AddRange(newTags);
                         }
                         break;
 

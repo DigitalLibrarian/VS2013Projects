@@ -74,14 +74,18 @@ namespace DfNet.Raws
             public const string TISSUE_LAYER = "TISSUE_LAYER";
             public const string SELECT_TISSUE_LAYER = "SELECT_TISSUE_LAYER";
             public const string PLUS_TISSUE_LAYER = "PLUS_TISSUE_LAYER";
+            public const string TISSUE_NAME = "TISSUE_NAME";
 
             public const string CASTE_NAME = "CASTE_NAME";
             public const string ATTACK = "ATTACK";
             public const string CATEGORY = "CATEGORY";
 
             public const string CON = "CON";
-            public const string CONCAT = "CONCAT";
+            public const string CON_CAT = "CON_CAT";
             public const string CONTYPE = "CONTYPE";
+
+            public const string STATE_NAME_ADJ = "STATE_NAME_ADJ";
+            public const string ALL_SOLID = "ALL_SOLID";
         }
 
     }

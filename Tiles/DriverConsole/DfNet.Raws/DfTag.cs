@@ -68,7 +68,7 @@ namespace DfNet.Raws
             var newParams = new List<string>();
             foreach (var pIn in p)
             {
-                if (pIn.StartsWith(argPrefix) )
+                if (args.Any() && pIn.StartsWith(argPrefix) )
                 {
                     int index = int.Parse(pIn.Substring(argPrefix.Length))-1;
                     newParams.Add(args[index]);

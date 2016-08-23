@@ -20,13 +20,13 @@ namespace Tiles.Content
     
     public class TissueLayer
     {
-        Material Material { get; set; }
-        int RelativeThickness { get; set; }
+        public Material Material { get; set; }
+        public int RelativeThickness { get; set; }
     }
 
     public class Tissue
     {
-        List<TissueLayer> Layers { get; set; }
+        public List<TissueLayer> Layers { get; set; }
     }
 
     public class BodyPart
@@ -37,6 +37,8 @@ namespace Tiles.Content
 
         public bool CanBeAmputated { get; set; }
         public bool CanGrasp { get; set; }
+
+        public Tissue Tissue { get; set; }
     }
 
     public class Body
