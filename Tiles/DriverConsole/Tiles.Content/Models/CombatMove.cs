@@ -15,6 +15,8 @@ namespace Tiles.Content.Models
         public string Name { get; set; }
         public Verb Verb { get; set; }
 
+        public BodyStateChange BodyStateChange { get; set; }
+
         public int PrepTime { get; set; }
         public int RecoveryTime { get; set; }
 

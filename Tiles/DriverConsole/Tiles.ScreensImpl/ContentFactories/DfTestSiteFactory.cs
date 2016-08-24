@@ -15,20 +15,26 @@ using Tiles.Random;
 using Tiles.Structures;
 using DfNet.Raws;
 using Tiles.Content.Bridge.DfNet;
+using Tiles.Content.Map;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
     public class DfTestSiteFactory : ISiteFactory
     {
         IDfObjectStore Store { get; set; }
-        IDfMaterialFactory MaterialFactory { get; set; }
-        IDfItemFactory ItemFactory { get; set; }
+        IDfMaterialFactory DfMaterialFactory { get; set; }
+        IDfItemFactory DfItemFactory { get; set; }
+        IItemFactory ItemFactory { get; set; }
         IRandom Random { get; set; }
+        IContentMapper ContentMapper { get; set; }
         public DfTestSiteFactory(IDfObjectStore store, IRandom random)
         {
             Store = store;
             Random = random;
-            ItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory());
+            ItemFactory = new ItemFactory();
+            DfMaterialFactory = new DfMaterialFactory(Store);
+            DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory());
+            ContentMapper = new ContentMapper();
         }
 
         public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
@@ -66,39 +72,14 @@ namespace Tiles.ScreensImpl.ContentFactories
                     var m = Random.NextElement(metals);
                     var w = Random.NextElement(weapons);
 
-
-
-
-                    // Now to map to engine types from the model types
-
-                    //tile.Items.Add(Fab.CreateWeapon(m, w));
-                }
-            }
-
-            /*
-            var metals = Fab.Inorganics.Where(x =>
-            {
-                if (x.UseMaterialTemplate == null) return false;
-                var mt = Fab.MaterialTemplates.Single(temp => temp.ReferenceName.Equals(x.UseMaterialTemplate));
-
-                return mt.IsMetal;
-            }).ToList();
-            var weapons = Fab.ItemWeapons.ToList();
-
-            for (int i = 0; i < numItems; i++)
-            {
-                var spawnLoc = FindSpawnSitePos(s);
-                if (spawnLoc.HasValue)
-                {
-                    var tile = s.GetTileAtSitePos(spawnLoc.Value);
+                    var materialContent = DfMaterialFactory.CreateInorganic(m);
+                    var weaponItemContent = DfItemFactory.Create(DfTags.ITEM_WEAPON, w, materialContent);
+                    var engineItemClass = ContentMapper.Map(weaponItemContent);
                     
-                    var m = Random.NextElement(metals);
-                    var w = Random.NextElement(weapons);
 
-                    tile.Items.Add(Fab.CreateWeapon(m, w));
+                    tile.Items.Add(ItemFactory.Create(engineItemClass));
                 }
             }
-             * */
             return s;
         }
 

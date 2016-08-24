@@ -40,12 +40,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentMapper.cs" />
+    <Compile Include="IContentMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tiles.Content\Tiles.Content.csproj">
       <Project>{cc16a028-84d2-4018-9d6c-d282b01bd00c}</Project>
       <Name>Tiles.Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
+      <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
+      <Name>Tiles.Math</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tiles\Tiles.csproj">
       <Project>{dbe6c63c-cd28-4c24-920c-2776da05fff4}</Project>

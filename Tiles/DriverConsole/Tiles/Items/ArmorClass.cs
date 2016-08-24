@@ -15,7 +15,8 @@ namespace Tiles.Items
         public ISprite Sprite { get; private set; }
         public IReadOnlyList<ArmorSlot> RequiredSlots { get; private set; }
 
-        public ArmorClass(string name, ISprite sprite, IDamageVector damage, params ArmorSlot[] slots)
+        public ArmorClass(string name, ISprite sprite, 
+            IDamageVector damage, params ArmorSlot[] slots)
         {
             Name = name;
             Sprite = sprite;

@@ -337,12 +337,13 @@ namespace Tiles.ScreensImpl.ContentFactories
             IWeaponClass weaponClass = null, IArmorClass armorClass = null)
         {
             return ItemFactory.Create(new ItemClass
-            {
-                Name = name,
-                Sprite = sprite,
-                ArmorClass = armorClass,
-                WeaponClass = weaponClass ?? DefaultWeaponClass
-            });
+            (
+                name: name,
+                sprite: sprite,
+                weaponClass: weaponClass ?? DefaultWeaponClass,
+                armorClass: armorClass,
+                material: null
+            ));
         }
 
         public IItem CreateRandomItem()

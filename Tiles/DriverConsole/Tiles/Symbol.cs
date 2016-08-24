@@ -37,5 +37,7 @@ namespace Tiles
         public static readonly int Corpse = 'Ċ';
         public static readonly int CorpseBodyPart = 'c';
 
+        public static readonly int MiscItem = 'î';
+
     }
 }

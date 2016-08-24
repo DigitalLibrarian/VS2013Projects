@@ -15,5 +15,18 @@ namespace Tiles.Items
         public IArmorClass ArmorClass { get; set; }
 
         public IMaterial Material { get; set; }
+
+        public ItemClass(string name,
+            ISprite sprite, 
+            IWeaponClass weaponClass,
+            IArmorClass armorClass,
+            IMaterial material)
+        {
+            Name = name;
+            Sprite = sprite;
+            WeaponClass = weaponClass;
+            ArmorClass = armorClass;
+            Material = material;
+        }
     }
 }

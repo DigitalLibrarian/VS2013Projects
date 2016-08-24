@@ -20,8 +20,20 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
         static IBodyFactory BodyFactory = new BodyFactory();
 
-        static IItemClass ZombieClawClass = new ItemClass { Name = ZombieClaw.WeaponClass.Name, WeaponClass = ZombieClaw.WeaponClass };
-        static IItemClass ZombieTeethClass = new ItemClass { Name = ZombieTeeth.WeaponClass.Name, WeaponClass = ZombieTeeth.WeaponClass };
+        static IItemClass ZombieClawClass = new ItemClass(
+            name: ZombieClaw.WeaponClass.Name,
+            sprite: null,
+            weaponClass: ZombieClaw.WeaponClass,
+            armorClass: null,
+            material: null
+            );
+        static IItemClass ZombieTeethClass = new ItemClass ( 
+            name:  ZombieTeeth.WeaponClass.Name, 
+            sprite: null,
+            weaponClass:  ZombieTeeth.WeaponClass,
+            armorClass: null,
+            material: null
+            );
 
         public IRandom Random { get; set; }
         public AgentFactory() : this(new RandomWrapper(new System.Random()))
