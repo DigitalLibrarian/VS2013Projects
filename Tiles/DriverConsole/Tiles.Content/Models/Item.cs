@@ -8,9 +8,12 @@ namespace Tiles.Content.Models
 {
     public class Item
     {
-        Weapon Weapon { get; set; }
-        Armor Armor { get; set; }
+        public string NameSingular { get; set; }
+        public string NamePlural { get; set; }
 
-        Material Material { get; set; }
+        public Weapon Weapon { get; set; }
+        public Armor Armor { get; set; }
+
+        public Material Material { get; set; }
     }
 }

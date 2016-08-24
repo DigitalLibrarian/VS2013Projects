@@ -78,6 +78,7 @@ namespace DfNet.Raws
 
             public const string CASTE_NAME = "CASTE_NAME";
             public const string ATTACK = "ATTACK";
+            public const string ATTACK_PREPARE_AND_RECOVER = "ATTACK_PREPARE_AND_RECOVER";
             public const string CATEGORY = "CATEGORY";
 
             public const string CON = "CON";
@@ -92,6 +93,8 @@ namespace DfNet.Raws
             public const string HEAD = "HEAD";
             public const string LIMB = "LIMB";
             public const string DIGIT = "DIGIT";
+
+            public const string NAME = "NAME";
         }
 
     }

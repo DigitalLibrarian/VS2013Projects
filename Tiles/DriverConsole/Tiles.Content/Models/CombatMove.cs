@@ -8,18 +8,19 @@ namespace Tiles.Content.Models
 {
     public class CombatMove
     {
-        string Name { get; set; }
+        public string Name { get; set; }
+        public Verb Verb { get; set; }
 
-        int PrepTime { get; set; }
-        int RecoveryTime { get; set; }
+        public int PrepTime { get; set; }
+        public int RecoveryTime { get; set; }
 
-        bool IsDefenderPartSpecific { get; set; }
-        bool IsMartialArts { get; set; }
-        bool IsStrike { get; set; }
-        bool IsItem { get; set; }
+        public bool IsDefenderPartSpecific { get; set; }
+        public bool IsMartialArts { get; set; }
+        public bool IsStrike { get; set; }
+        public bool IsItem { get; set; }
 
-        int ContactArea { get; set; }
-        int MaxPenetration { get; set; }
-        int VelocityMultiplier { get; set; }
+        public int ContactArea { get; set; }
+        public int MaxPenetration { get; set; }
+        public int VelocityMultiplier { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace Tiles.Content.Models
 {
     public class Verb
     {
-        bool IsTransitive { get; set; }
-        string SecondPerson { get; set; }
-        string ThirdPerson { get; set; }
+        public bool IsTransitive { get; set; }
+        public string SecondPerson { get; set; }
+        public string ThirdPerson { get; set; }
     }
 }

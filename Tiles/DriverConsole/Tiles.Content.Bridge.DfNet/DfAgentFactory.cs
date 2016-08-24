@@ -114,11 +114,7 @@ namespace Tiles.Content.Bridge.DfNet
                             var index = (j * 2);
                             tisName = sets[index];
                             var thickStr = sets[index + 1];
-                            int thick = 1;
-                            if (!int.TryParse(thickStr, out thick))
-                            {
-                                int br = 0;
-                            }
+                            int thick = int.Parse(thickStr);
                             agentContext.SetBodyPartTissueThickness(bpName, tisName, thick);
                         }
                             break;

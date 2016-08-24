@@ -98,8 +98,6 @@ namespace Tiles.Content.Bridge.DfNet
             }
         }
 
-        
-
         public void AddMaterialFromTemplate(string matName, DfObject matTemplateObj)
         {
             MaterialDefns[matName] =  matTemplateObj;

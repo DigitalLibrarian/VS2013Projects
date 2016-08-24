@@ -8,7 +8,7 @@ namespace Tiles.Content.Models
 {
     public class Weapon
     {
-        List<string> SlotRequirements { get; set; }
-        List<CombatMove> Moves { get; set; }
+        public List<string> SlotRequirements { get; set; }
+        public List<CombatMove> Moves { get; set; }
     }
 }
