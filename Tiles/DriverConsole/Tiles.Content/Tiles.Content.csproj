@@ -39,8 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model.cs" />
+    <Compile Include="Agent.cs" />
+    <Compile Include="Armor.cs" />
+    <Compile Include="Body.cs" />
+    <Compile Include="BodyPart.cs" />
+    <Compile Include="CombatMove.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="Verb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tissue.cs" />
+    <Compile Include="TissueLayer.cs" />
+    <Compile Include="Weapon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
