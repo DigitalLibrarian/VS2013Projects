@@ -32,7 +32,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var leftHand = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("left hand"));
             Assert.IsNotNull(leftHand);
             Assert.IsNotNull(leftHand.Tissue);
-                   
+            Assert.IsTrue(leftHand.CanGrasp);
+            Assert.IsFalse(leftHand.CanBeAmputated);
             
             var leftHandParts = agent.Body.Parts.Where(p => p.Parent == leftHand);
             Assert.AreEqual(6, leftHandParts.Count());
@@ -58,9 +59,10 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 var leftHandPart = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals(partName));
                 Assert.IsNotNull(leftHandPart);
                 Assert.IsNotNull(leftHandPart.Tissue);
-                Assert.IsTrue(
-                    expectedTissueAdj.SequenceEqual(leftHandPart.Tissue.Layers.Select(x => x.Material.Adjective))
-                    );
+                Assert.IsTrue(expectedTissueAdj.SequenceEqual(leftHandPart.Tissue.Layers.Select(x => x.Material.Adjective)));
+
+                Assert.IsFalse(leftHandPart.CanGrasp);
+                Assert.IsTrue(leftHandPart.CanBeAmputated);
             }
             var leftWrist = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist"));
             Assert.IsNotNull(leftWrist);

@@ -86,6 +86,12 @@ namespace DfNet.Raws
 
             public const string STATE_NAME_ADJ = "STATE_NAME_ADJ";
             public const string ALL_SOLID = "ALL_SOLID";
+
+            public const string GRASP = "GRASP";
+
+            public const string HEAD = "HEAD";
+            public const string LIMB = "LIMB";
+            public const string DIGIT = "DIGIT";
         }
 
     }

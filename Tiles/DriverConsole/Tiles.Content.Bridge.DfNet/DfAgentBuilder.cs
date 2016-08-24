@@ -210,7 +210,13 @@ namespace Tiles.Content.Bridge.DfNet
                 Parent = parent,
                 Tissue = CreateTissueForPart(defn.Name),
                 NameSingular = defn.Tags.First().GetParam(1),
-                NamePlural = defn.Tags.First().GetParam(2)
+                NamePlural = defn.Tags.First().GetParam(2),
+                CanGrasp = defn.Tags.Any(t => t.IsSingleWord(DfTags.MiscTags.GRASP)),
+                CanBeAmputated = defn.Tags.Any(t =>
+                        t.IsSingleWord(DfTags.MiscTags.LIMB)
+                     || t.IsSingleWord(DfTags.MiscTags.HEAD)
+                     || t.IsSingleWord(DfTags.MiscTags.DIGIT)
+                     )
             };
         }
 
