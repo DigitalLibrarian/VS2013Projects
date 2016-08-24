@@ -37,32 +37,38 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var leftHandParts = agent.Body.Parts.Where(p => p.Parent == leftHand);
             Assert.AreEqual(6, leftHandParts.Count());
 
-
             //[BODY_DETAIL_PLAN:VERTEBRATE_TISSUE_LAYERS:SKIN:FAT:MUSCLE:BONE:CARTILAGE]
 	        //[BP_LAYERS:BY_CATEGORY:FINGER:ARG4:25:ARG3:25:ARG2:5:ARG1:1]
             var expectedTissueAdj = new string[]{
-                "cartilage",
                 "bone",
                 "muscle",
                 "fat",
                 "skin",
+                "nail"
             };
+
             foreach (var partName in new string[]{
                 "first finger",
                 "second finger",
                 "third finger",
                 "fourth finger",
                 "thumb",
-
             })
             {
                 var leftHandPart = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals(partName));
                 Assert.IsNotNull(leftHandPart);
                 Assert.IsNotNull(leftHandPart.Tissue);
-                Assert.AreEqual(expectedTissueAdj.Count(), leftHandPart.Tissue.Layers.Count());
+                Assert.IsTrue(
+                    expectedTissueAdj.SequenceEqual(leftHandPart.Tissue.Layers.Select(x => x.Material.Adjective))
+                    );
             }
+            var leftWrist = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist"));
+            Assert.IsNotNull(leftWrist);
+            Assert.AreEqual(2, leftWrist.Tissue.Layers.Count());
 
-            Assert.IsNotNull(leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist")));
+            Assert.IsTrue(
+                new string[]{"bone", "muscle"}.SequenceEqual(leftWrist.Tissue.Layers.Select(x => x.Material.Adjective))
+                );
         }
     }
 }
