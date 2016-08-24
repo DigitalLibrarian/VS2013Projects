@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Content
+namespace Tiles.Content.Models
 {
     public class Tissue
     {

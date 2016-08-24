@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Content
+namespace Tiles.Content.Models
 {
-    public class Material
+    public class Agent
     {
-        public string Adjective { get; set; }
+        public Body Body { get; set; }
     }
 }

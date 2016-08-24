@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Content
+namespace Tiles.Content.Models
 {
-    public class Armor
+    public class Material
     {
-        List<string> SlotRequirements { get; set; }
+        public string Adjective { get; set; }
     }
 }
