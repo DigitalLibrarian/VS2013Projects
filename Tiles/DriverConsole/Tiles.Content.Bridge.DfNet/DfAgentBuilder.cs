@@ -158,13 +158,6 @@ namespace Tiles.Content.Bridge.DfNet
         Material GetTissueMaterial(string tisName)
         {
             return Materials[tisName];
-            /*
-            var matDefn = MaterialDefns[tisName];
-            return new Material
-            {
-                Adjective = GetMaterialAdj(matDefn)
-            };
-             * */
         }
 
         Tissue CreateTissueForPart(string bpName)
@@ -252,13 +245,12 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             }
 
-            return new Agent
+            var agent = new Agent();
+            agent.Body = new Body
             {
-                Body = new Body
-                {
-                    Parts = parts
-                }
+                Parts = parts
             };
+            return agent;
         }
 
 

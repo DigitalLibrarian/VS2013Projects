@@ -8,6 +8,10 @@ namespace Tiles.Content.Models
 {
     public class Agent
     {
+        public Agent()
+        {
+            Body = new Body();
+        }
         public Body Body { get; set; }
     }
 }

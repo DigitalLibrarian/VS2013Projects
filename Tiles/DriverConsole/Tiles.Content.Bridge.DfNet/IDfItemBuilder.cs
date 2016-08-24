@@ -11,8 +11,11 @@ namespace Tiles.Content.Bridge.DfNet
     {
         void SetMaterial(Material material);
         void AddCombatMove(CombatMove move);
+        void SetArmorLayer(string layer);
 
         void SetName(string singular, string plural);
+        void AddSlotRequirement(ArmorSlot slot);
+        void AddSlotRequirement(WeaponSlot slot);
 
         Item Build();
     }

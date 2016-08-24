@@ -20,11 +20,27 @@ namespace Tiles.Content.Bridge.DfNet
             BuilderFactory = builderFactory;
         }
 
+        void AddTypeSpecificSlots(string type, IDfItemBuilder b)
+        {
+            switch (type)
+            {
+                case DfTags.ITEM_WEAPON:
+                    b.AddSlotRequirement(WeaponSlot.Main);
+                    break;
+                case DfTags.ITEM_SHOES:
+                    b.AddSlotRequirement(ArmorSlot.LeftFoot);
+                    b.AddSlotRequirement(ArmorSlot.RightFoot);
+                    break;
+            }
+        }
+
         public Item Create(string type, string itemName, Material material)
         {
             var df = Store.Get(type, itemName);
             var tags = df.Tags.ToList();
             var b = BuilderFactory.Create();
+
+            AddTypeSpecificSlots(type, b);
 
             for (int i = 0; i < tags.Count(); i++)
             {
@@ -33,6 +49,9 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     case DfTags.MiscTags.NAME:
                         b.SetName(tag.GetParam(0), tag.GetParam(1));
+                        break;
+                    case DfTags.MiscTags.LAYER:
+                        b.SetArmorLayer(tag.GetParam(0));
                         break;
                 }
             }

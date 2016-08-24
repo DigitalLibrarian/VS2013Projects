@@ -8,6 +8,10 @@ namespace Tiles.Content.Models
 {
     public class BodyPart
     {
+        public BodyPart() 
+        {
+            Tissue = new Tissue();
+        }
         public string NameSingular { get; set; }
         public string NamePlural { get; set; }
         public BodyPart Parent { get; set; }

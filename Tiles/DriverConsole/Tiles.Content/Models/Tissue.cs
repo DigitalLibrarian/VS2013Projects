@@ -8,6 +8,10 @@ namespace Tiles.Content.Models
 {
     public class Tissue
     {
+        public Tissue()
+        {
+            Layers = new List<TissueLayer>();
+        }
         public List<TissueLayer> Layers { get; set; }
     }
 }

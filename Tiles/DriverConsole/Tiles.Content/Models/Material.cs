@@ -8,6 +8,10 @@ namespace Tiles.Content.Models
 {
     public class Material
     {
+        public Material()
+        {
+
+        }
         public string Adjective { get; set; }
     }
 }

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Tiles.Content.Models
 {
-    public class Body
+    public enum WeaponSlot
     {
-        public Body()
-        {
-            Parts = new List<BodyPart>();
-        }
-        public List<BodyPart> Parts { get; set; }
+        None,
+        Main,
+        Claw,
+        Teeth
     }
 }

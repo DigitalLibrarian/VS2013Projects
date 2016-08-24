@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Content.Models;
 
 namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 {
@@ -37,6 +38,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual("short swords", swordItem.NamePlural);
 
             var weapon = swordItem.Weapon;
+
+            Assert.IsTrue(weapon.SlotRequirements.SequenceEqual(new WeaponSlot[] { WeaponSlot.Main }));
+
             Assert.AreEqual(4, weapon.Moves.Count());
             var move = weapon.Moves[0];
 
@@ -49,7 +53,6 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(move.Verb);
             Assert.AreEqual("slash", move.Verb.SecondPerson);
             Assert.AreEqual("slashes", move.Verb.ThirdPerson);
-
 
             move = weapon.Moves[1];
 
@@ -87,6 +90,28 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual("strike", move.Verb.SecondPerson);
             Assert.AreEqual("strikes", move.Verb.ThirdPerson);
 
+        }
+
+        [TestMethod]
+        public void SpongeSandals()
+        {
+            var sponge = MaterialsFactory.CreateTissue("SPONGE_TEMPLATE");
+            var shoeItem = ItemFactory.Create(DfTags.ITEM_SHOES, "ITEM_SHOES_SANDAL", sponge);
+            Assert.IsNotNull(shoeItem);
+
+            Assert.AreEqual("sandal", shoeItem.NameSingular);
+            Assert.AreEqual("sandals", shoeItem.NamePlural);
+
+            Assert.IsNotNull(shoeItem.Armor);
+            Assert.AreEqual("OVER", shoeItem.Armor.ArmorLayer);
+
+            Assert.IsTrue(shoeItem.Armor.SlotRequirements.SequenceEqual(
+                new ArmorSlot[] { 
+                    ArmorSlot.LeftFoot,
+                    ArmorSlot.RightFoot,
+                }));
+
+            Assert.AreEqual("sponge", shoeItem.Material.Adjective);
         }
 
     }

@@ -8,6 +8,12 @@ namespace Tiles.Content.Models
 {
     public class Armor
     {
-        List<string> SlotRequirements { get; set; }
+        public Armor()
+        {
+            SlotRequirements = new List<ArmorSlot>();
+        }
+        public List<ArmorSlot> SlotRequirements { get; set; }
+
+        public string ArmorLayer { get; set; }
     }
 }

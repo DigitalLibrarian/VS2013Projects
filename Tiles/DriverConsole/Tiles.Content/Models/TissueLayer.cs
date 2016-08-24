@@ -8,6 +8,10 @@ namespace Tiles.Content.Models
 {
     public class TissueLayer
     {
+        public TissueLayer()
+        {
+            Material = new Material();
+        }
         public Material Material { get; set; }
         public int RelativeThickness { get; set; }
     }

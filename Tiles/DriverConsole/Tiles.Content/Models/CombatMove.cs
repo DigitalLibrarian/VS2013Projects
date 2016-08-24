@@ -8,6 +8,10 @@ namespace Tiles.Content.Models
 {
     public class CombatMove
     {
+        public CombatMove()
+        {
+            Verb = new Verb();
+        }
         public string Name { get; set; }
         public Verb Verb { get; set; }
 
