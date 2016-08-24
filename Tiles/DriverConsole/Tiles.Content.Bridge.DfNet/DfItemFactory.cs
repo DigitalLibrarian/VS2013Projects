@@ -8,18 +8,21 @@ using Tiles.Content.Models;
 
 namespace Tiles.Content.Bridge.DfNet
 {
-
-
-
-    public class DfItemFactory
+    public class DfItemFactory : IDfItemFactory
     {
         IDfItemBuilderFactory BuilderFactory { get; set; }
-        IDfObjectStore Store { get; set; }
-        public string Type { get; set; }
 
-        public Item Create(string itemName, Material material)
+        IDfObjectStore Store { get; set; }
+
+        public DfItemFactory(IDfObjectStore store, IDfItemBuilderFactory builderFactory)
         {
-            var df = Store.Get(Type, itemName);
+            Store = store;
+            BuilderFactory = builderFactory;
+        }
+
+        public Item Create(string type, string itemName, Material material)
+        {
+            var df = Store.Get(type, itemName);
             var tags = df.Tags.ToList();
             var b = BuilderFactory.Create();
 
@@ -73,46 +76,12 @@ namespace Tiles.Content.Bridge.DfNet
         }
     }
 
-    public interface IDfItemBuilderFactory
-    {
-        IDfItemBuilder Create();
-    }
 
 
 
-    public interface IDfItemBuilder
-    {
-        void SetMaterial(Material material);
-        void AddCombatMove(CombatMove move);
-
-        void SetName(string singular, string plural);
-
-        Item Build();
-    }
 
 
-    public class DfItemBuilder : IDfItemBuilder
-    {
-        Item Item { get; set; }
-        public void SetMaterial(Material material)
-        {
-            Item.Material = material;
-        }
 
-        public void AddCombatMove(CombatMove move)
-        {
-            Item.Weapon.Moves.Add(move);
-        }
 
-        public void SetName(string singular, string plural)
-        {
-            Item.NameSingular = singular;
-            Item.NamePlural = plural;
-        }
-
-        public Item Build()
-        {
-            return Item;
-        }
-    }
+    
 }

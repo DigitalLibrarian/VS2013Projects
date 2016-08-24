@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 {
     [TestClass]
-    public class AgentParsingContentTests
+    public class ContentParsing_AgentTests
     {
         IDfObjectStore Store { get; set; }
         IDfAgentFactory DfAgentFactory { get; set; }
@@ -19,8 +19,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             Store = TestContentStore.Get();
             DfAgentFactory = new DfAgentFactory(Store, 
-                new DfMaterialFactory(Store),
-                new DfAgentBuilderFactory());
+                new DfAgentBuilderFactory(),
+                new DfMaterialFactory(Store)
+                );
         }
 
         [TestMethod]

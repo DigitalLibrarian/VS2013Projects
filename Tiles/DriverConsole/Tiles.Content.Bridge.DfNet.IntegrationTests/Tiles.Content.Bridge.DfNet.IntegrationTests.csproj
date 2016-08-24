@@ -59,8 +59,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AgentParsingContentTests.cs" />
-    <Compile Include="DfParserIntegrationTests.cs" />
+    <Compile Include="ContentParsing_ItemTests.cs" />
+    <Compile Include="ContentParsing_AgentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestContentStore.cs" />
   </ItemGroup>

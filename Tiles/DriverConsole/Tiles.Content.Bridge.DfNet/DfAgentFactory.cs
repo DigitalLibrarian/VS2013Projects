@@ -17,8 +17,8 @@ namespace Tiles.Content.Bridge.DfNet
         IDfMaterialFactory MaterialsFactory { get; set; }
 
         public DfAgentFactory(IDfObjectStore store, 
-            IDfMaterialFactory materialsFactory,
-            IDfAgentBuilderFactory builderFactory)
+            IDfAgentBuilderFactory builderFactory,
+            IDfMaterialFactory materialsFactory)
         {
             Store = store;
             BuilderFactory = builderFactory;
