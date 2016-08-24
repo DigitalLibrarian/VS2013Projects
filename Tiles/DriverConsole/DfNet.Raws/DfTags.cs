@@ -109,6 +109,8 @@ namespace DfNet.Raws
 
             public const string NAME = "NAME";
             public const string LAYER = "LAYER";
+
+            public const string IS_METAL = "IS_METAL";
         }
 
     }

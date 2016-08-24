@@ -13,7 +13,7 @@ using Tiles.Bodies;
 using Tiles.Agents.Behaviors;
 using Tiles.Random;
 using Tiles.Structures;
-using DwarfFortressNet.Bridge;
+using DfNet.Raws;
 
 
 
@@ -39,12 +39,11 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         public IGame SetupDfTestWorld(string dfRawDir, int seed = 42)
         {
-            var fab = new DfFabricator();
-            fab.ReadDfRawDir(dfRawDir);
+            var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
 
             var siteSize = new Vector3(64, 64, 64);
             var random = new RandomWrapper(new System.Random(seed));
-            var siteFactory = new DfTestSiteFactory(fab, random);
+            var siteFactory = new DfTestSiteFactory(dfStore, random);
             return Setup(siteFactory, siteSize, random);
 
         }

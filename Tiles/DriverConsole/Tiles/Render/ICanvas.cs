@@ -10,9 +10,9 @@ namespace Tiles.Render
     public interface ICanvas
     {
         void DrawSprite(ISprite sprite, Vector2 screenPos);
-        void DrawSymbol(Symbol s, Vector2 screenPos, Color fg, Color bg);
+        void DrawSymbol(int s, Vector2 screenPos, Color fg, Color bg);
 
-        void FillBox(Symbol s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor);
+        void FillBox(int s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor);
 
         void DrawString(string s, Vector2 screenPos);
         void DrawString(string s, Vector2 screenPos, int width); 

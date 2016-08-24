@@ -9,18 +9,20 @@ namespace Tiles
 {
     public interface ISprite
     {
-        Symbol Symbol { get; set; }
+        //Symbol Symbol { get; set; }
+        int Symbol { get; set; }
         Color ForegroundColor { get; set; }
         Color BackgroundColor { get; set; }
     }
 
     public class Sprite : ISprite
     {
-        public Symbol Symbol { get; set; }
+        //public Symbol Symbol { get; set; }
+        public int Symbol { get; set; }
         public Color ForegroundColor { get; set; }
         public Color BackgroundColor { get; set; }
 
-        public Sprite(Symbol symbol, Color foregroundColor, Color backgroundColor)
+        public Sprite(int symbol, Color foregroundColor, Color backgroundColor)
         {
             Symbol = symbol;
             ForegroundColor = foregroundColor;

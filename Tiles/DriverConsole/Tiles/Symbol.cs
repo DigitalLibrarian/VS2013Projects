@@ -7,35 +7,35 @@ using System.Threading.Tasks;
 namespace Tiles
 {
     // TODO - should probably base this off the int code or something
-    public enum Symbol
+    public static class Symbol
     {
-        None = ' ',
-        Terrain_Empty = ' ',
-        Terrain_Tree = 'o',
-        Terrain_Floor = ' ',
+        public static readonly int None = ' ';
+        public static readonly int Terrain_Empty = ' ';
+        public static readonly int Terrain_Tree = 'o';
+        public static readonly int Terrain_Floor = (int) ' ';
 
-        Liquid_Light = '░',
-        Liquid_Medium = '▒',
-        Liquid_Dark = '▓',
+        public static readonly int Liquid_Light = '░';
+        public static readonly int Liquid_Medium = '▒';
+        public static readonly int Liquid_Dark = '▓';
 
-        Player = '☺',
-        Survivor = '☻',
-        Zombie = 'z',
+        public static readonly int Player = '☺';
+        public static readonly int Survivor = '☻';
+        public static readonly int Zombie = 'z';
 
-        Wall_BottomLeft_L_Hollow = '╚',
-        Wall_BottomRight_L_Hollow = '╝',
-        Wall_TopLeft_L_Hollow = '╔',
-        Wall_TopRight_L_Hollow = '╗',
-        Wall_Vertical_Hollow = '║',
-        Wall_Horizontal_Hollow = '═',
-        Stone = '*',
+        public static readonly int Wall_BottomLeft_L_Hollow = '╚';
+        public static readonly int Wall_BottomRight_L_Hollow = '╝';
+        public static readonly int Wall_TopLeft_L_Hollow = '╔';
+        public static readonly int Wall_TopRight_L_Hollow = '╗';
+        public static readonly int Wall_Vertical_Hollow = '║';
+        public static readonly int Wall_Horizontal_Hollow = '═';
+        public static readonly int Stone = '*';
 
-        MeleeClub = '|',
-        MeleeSword = '/',
+        public static readonly int MeleeClub = '|';
+        public static readonly int MeleeSword = '/';
 
-        MiscClothing = '&',
-        Corpse = 'Ċ',
-        CorpseBodyPart = 'c'
+        public static readonly int MiscClothing = '&';
+        public static readonly int Corpse = 'Ċ';
+        public static readonly int CorpseBodyPart = 'c';
 
     }
 }

@@ -15,5 +15,7 @@ namespace Tiles.Content.Models
         public Armor Armor { get; set; }
 
         public Material Material { get; set; }
+
+        public int Symbol { get; set; }
     }
 }

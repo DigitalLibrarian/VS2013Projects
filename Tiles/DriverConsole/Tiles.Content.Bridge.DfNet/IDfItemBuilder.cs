@@ -17,6 +17,8 @@ namespace Tiles.Content.Bridge.DfNet
         void AddSlotRequirement(ArmorSlot slot);
         void AddSlotRequirement(WeaponSlot slot);
 
+        void SetSymbol(int symbol);
+
         Item Build();
     }
 }

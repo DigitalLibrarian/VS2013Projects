@@ -23,7 +23,7 @@ namespace Tiles.Render.Console
             DrawSymbol(sprite.Symbol, screenPos, sprite.ForegroundColor, sprite.BackgroundColor);
         }
 
-        public void DrawSymbol(Tiles.Symbol s, Vector2 screenPos, Color fg, Color bg)
+        public void DrawSymbol(int s, Vector2 screenPos, Color fg, Color bg)
         {
             SetCursorPosition(screenPos);
             SetColors(fg, bg);
@@ -64,7 +64,7 @@ namespace Tiles.Render.Console
             Writer.SetColors(ToConsoleColor(fg), ToConsoleColor(bg));
         }
 
-        char ToChar(Symbol s)
+        char ToChar(int s)
         {
             return (char)s;
         }
@@ -84,7 +84,7 @@ namespace Tiles.Render.Console
         }
 
 
-        public void FillBox(Symbol s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor)
+        public void FillBox(int s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor)
         {
             SetColors(foregroundColor, backgroundColor);
 

@@ -72,5 +72,10 @@ namespace Tiles.Content.Bridge.DfNet
             AutovivWeapon();
             Item.Weapon.SlotRequirements.Add(slot);
         }
+
+        public void SetSymbol(int symbol)
+        {
+            Item.Symbol = symbol;
+        }
     }
 }

@@ -106,17 +106,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             }
             return test;
         }
-
-        static Dictionary<Terrain, Symbol> TerrainSymbolMap = new Dictionary<Terrain, Symbol>
-        {
-            {Terrain.None, Symbol.Terrain_Empty },
-            {Terrain.Rock, Symbol.Terrain_Floor },
-            {Terrain.Water, Symbol.Liquid_Medium},
-            {Terrain.Lava, Symbol.Liquid_Dark},
-            {Terrain.Mud, Symbol.Liquid_Light },
-            {Terrain.Tree, Symbol.Terrain_Tree}
-        };
-
+        
         private static void SetupTile(IRandom random, ITile tile)
         {
             if (tile.Index.Z != 0)

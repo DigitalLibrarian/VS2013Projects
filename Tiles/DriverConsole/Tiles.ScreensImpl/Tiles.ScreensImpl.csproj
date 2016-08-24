@@ -70,13 +70,13 @@
     <Compile Include="YouDiedScreen.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DwarfFortressNet.Bridge\DwarfFortressNet.Bridge.csproj">
-      <Project>{8abc709e-d52b-4519-bf89-b5e225752de4}</Project>
-      <Name>DwarfFortressNet.Bridge</Name>
+    <ProjectReference Include="..\DfNet.Raws\DfNet.Raws.csproj">
+      <Project>{559e9c2c-01ca-4665-83bf-6a757e71818b}</Project>
+      <Name>DfNet.Raws</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DwarfFortressNet.RawModels\DwarfFortressNet.RawModels.csproj">
-      <Project>{3d15a54e-fbdd-4e4e-83aa-70c1e295c4e2}</Project>
-      <Name>DwarfFortressNet.RawModels</Name>
+    <ProjectReference Include="..\Tiles.Content.Bridge.DfNet\Tiles.Content.Bridge.DfNet.csproj">
+      <Project>{ea837af3-7951-4923-b5df-98259c0d3454}</Project>
+      <Name>Tiles.Content.Bridge.DfNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tiles.Control\Tiles.Control.csproj">
       <Project>{da61f81d-cd5c-4b0e-b6d2-bc1e444cffd6}</Project>

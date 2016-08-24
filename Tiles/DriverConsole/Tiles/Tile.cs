@@ -26,7 +26,6 @@ namespace Tiles
 
     public class Tile : ITile
     {
-        public Symbol Background { get; set; }
         public IList<IItem> Items { get; set; }
 
         public Terrain Terrain { get; set; }

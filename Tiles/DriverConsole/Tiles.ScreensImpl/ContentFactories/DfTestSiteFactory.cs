@@ -13,18 +13,22 @@ using Tiles.Bodies;
 using Tiles.Agents.Behaviors;
 using Tiles.Random;
 using Tiles.Structures;
-using DwarfFortressNet.Bridge;
+using DfNet.Raws;
+using Tiles.Content.Bridge.DfNet;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
     public class DfTestSiteFactory : ISiteFactory
     {
-        DfFabricator Fab { get; set; }
+        IDfObjectStore Store { get; set; }
+        IDfMaterialFactory MaterialFactory { get; set; }
+        IDfItemFactory ItemFactory { get; set; }
         IRandom Random { get; set; }
-        public DfTestSiteFactory(DfFabricator fab, IRandom random)
+        public DfTestSiteFactory(IDfObjectStore store, IRandom random)
         {
-            Fab = fab;
+            Store = store;
             Random = random;
+            ItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory());
         }
 
         public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
@@ -40,6 +44,38 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             int numItems = box.Size.X;
 
+            var metals = Store.Get(DfTags.MATERIAL_TEMPLATE)
+                            .Where(o => o.Tags.Any(t => t.IsSingleWord(DfTags.MiscTags.IS_METAL)))
+                            .SelectMany(matTemp =>
+                            {
+                                return Store.Get(DfTags.INORGANIC)
+                                        .Where(inOrg => inOrg.Tags.Any(
+                                                    t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE)
+                                                        && t.GetParam(0).Equals(matTemp.Name)));
+                            }).Select(t => t.Name).ToList();
+
+            var weapons = Store.Get(DfTags.ITEM_WEAPON).Select(t => t.Name).ToList();
+
+            for (int i = 0; i < numItems; i++)
+            {
+                var spawnLoc = FindSpawnSitePos(s);
+                if (spawnLoc.HasValue)
+                {
+                    var tile = s.GetTileAtSitePos(spawnLoc.Value);
+
+                    var m = Random.NextElement(metals);
+                    var w = Random.NextElement(weapons);
+
+
+
+
+                    // Now to map to engine types from the model types
+
+                    //tile.Items.Add(Fab.CreateWeapon(m, w));
+                }
+            }
+
+            /*
             var metals = Fab.Inorganics.Where(x =>
             {
                 if (x.UseMaterialTemplate == null) return false;
@@ -62,6 +98,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                     tile.Items.Add(Fab.CreateWeapon(m, w));
                 }
             }
+             * */
             return s;
         }
 

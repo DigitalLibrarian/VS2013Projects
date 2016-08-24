@@ -39,12 +39,12 @@ namespace Tiles.ScreensImpl
             Inner.DrawSprite(sprite, Translate(screenPos));
         }
 
-        public void DrawSymbol(Symbol s, Vector2 screenPos, Color fg, Color bg)
+        public void DrawSymbol(int s, Vector2 screenPos, Color fg, Color bg)
         {
             Inner.DrawSymbol(s, Translate(screenPos), fg, bg);
         }
 
-        public void FillBox(Symbol s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor)
+        public void FillBox(int s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor)
         {
             Inner.FillBox(s, Translate(topLeft), size, foregroundColor, backgroundColor);
         }
