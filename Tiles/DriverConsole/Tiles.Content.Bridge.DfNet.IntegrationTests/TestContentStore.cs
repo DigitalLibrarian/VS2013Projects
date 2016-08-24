@@ -16,14 +16,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         static TestContentStore()
         {
             var rawDirPath = ConfigurationManager.AppSettings.Get(DirKey);
-            var raws = Directory.GetFiles(rawDirPath, "*", SearchOption.AllDirectories)
-                .ToDictionary(
-                    fileName => fileName,
-                    fileName => File.ReadLines(fileName));
-            var parser = new DfObjectParser(new DfTagParser());
-            Store = new DfObjectStore(
-                parser.Parse(raws.SelectMany(x => x.Value),
-                DfTags.GetAllObjectTypes()));
+            Store = DfObjectStore.CreateFromDirectory(rawDirPath);
         }
 
         private static IDfObjectStore Store { get; set; }

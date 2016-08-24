@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DfNet.Raws.Parsing;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +53,18 @@ namespace DfNet.Raws
                 throw new DuplicateDfObjectNameException(o.Name, o.Type);
             }
             Db[o.Type][o.Name] = o;
+        }
+
+        public static IDfObjectStore CreateFromDirectory(string path)
+        {
+            var raws = Directory.GetFiles(path, "*", SearchOption.AllDirectories)
+                   .ToDictionary(
+                       fileName => fileName,
+                       fileName => File.ReadLines(fileName));
+            var parser = new DfObjectParser(new DfTagParser());
+            return new DfObjectStore(
+                parser.Parse(raws.SelectMany(x => x.Value),
+                DfTags.GetAllObjectTypes()));
         }
     }
 
