@@ -31,6 +31,20 @@ namespace Tiles.Content.Bridge.DfNet
                     b.AddSlotRequirement(ArmorSlot.LeftFoot);
                     b.AddSlotRequirement(ArmorSlot.RightFoot);
                     break;
+                case DfTags.ITEM_ARMOR:
+                    b.AddSlotRequirement(ArmorSlot.Torso);
+                    break;
+                case DfTags.ITEM_GLOVES:
+                    b.AddSlotRequirement(ArmorSlot.LeftHand);
+                    b.AddSlotRequirement(ArmorSlot.RightHand);
+                    break;
+                case DfTags.ITEM_HELM:
+                    b.AddSlotRequirement(ArmorSlot.Head);
+                    break;
+                case DfTags.ITEM_PANTS:
+                    b.AddSlotRequirement(ArmorSlot.LeftLeg);
+                    b.AddSlotRequirement(ArmorSlot.RightLeg);
+                    break;
             }
         }
 

@@ -96,23 +96,44 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         public void SpongeSandals()
         {
             var sponge = MaterialsFactory.CreateTissue("SPONGE_TEMPLATE");
-            var shoeItem = ItemFactory.Create(DfTags.ITEM_SHOES, "ITEM_SHOES_SANDAL", sponge);
-            Assert.IsNotNull(shoeItem);
+            var item = ItemFactory.Create(DfTags.ITEM_SHOES, "ITEM_SHOES_SANDAL", sponge);
+            Assert.IsNotNull(item);
 
-            Assert.AreEqual("sandal", shoeItem.NameSingular);
-            Assert.AreEqual("sandals", shoeItem.NamePlural);
+            Assert.AreEqual("sandal", item.NameSingular);
+            Assert.AreEqual("sandals", item.NamePlural);
 
-            Assert.IsNotNull(shoeItem.Armor);
-            Assert.AreEqual("OVER", shoeItem.Armor.ArmorLayer);
+            Assert.IsNotNull(item.Armor);
+            Assert.AreEqual("OVER", item.Armor.ArmorLayer);
 
-            Assert.IsTrue(shoeItem.Armor.SlotRequirements.SequenceEqual(
+            Assert.IsTrue(item.Armor.SlotRequirements.SequenceEqual(
                 new ArmorSlot[] { 
                     ArmorSlot.LeftFoot,
                     ArmorSlot.RightFoot,
                 }));
 
-            Assert.AreEqual("sponge", shoeItem.Material.Adjective);
+            Assert.AreEqual("sponge", item.Material.Adjective);
         }
 
+        [TestMethod]
+        public void LeatherLoincloth()
+        {
+            var leather = MaterialsFactory.CreateFromMaterialTemplate("LEATHER_TEMPLATE");
+            var item = ItemFactory.Create(DfTags.ITEM_PANTS, "ITEM_PANTS_LOINCLOTH", leather);
+            Assert.IsNotNull(item);
+
+            Assert.AreEqual("loincloth", item.NameSingular);
+            Assert.AreEqual("loincloths", item.NamePlural);
+
+            Assert.IsNotNull(item.Armor);
+            Assert.AreEqual("UNDER", item.Armor.ArmorLayer);
+
+            Assert.IsTrue(item.Armor.SlotRequirements.SequenceEqual(
+                new ArmorSlot[] { 
+                    ArmorSlot.LeftLeg,
+                    ArmorSlot.RightLeg,
+                }));
+
+            Assert.AreEqual("leather", item.Material.Adjective);
+        }
     }
 }

@@ -15,9 +15,13 @@ namespace DfNet.Raws
         public const string BODY_DETAIL_PLAN = "BODY_DETAIL_PLAN";
         public const string MATERIAL_TEMPLATE = "MATERIAL_TEMPLATE";
         public const string TISSUE_TEMPLATE = "TISSUE_TEMPLATE";
+        public const string INORGANIC = "INORGANIC";
         public const string ITEM_WEAPON = "ITEM_WEAPON";
         public const string ITEM_SHOES = "ITEM_SHOES";
-        public const string INORGANIC = "INORGANIC";
+        public const string ITEM_ARMOR = "ITEM_ARMOR";
+        public const string ITEM_PANTS = "ITEM_PANTS";
+        public const string ITEM_GLOVES = "ITEM_GLOVES";
+        public const string ITEM_HELM = "ITEM_HELM";
 
         public static string[] GetAllObjectTypes()
         {
@@ -30,7 +34,12 @@ namespace DfNet.Raws
                 TISSUE_TEMPLATE,
                 INORGANIC,
                 ITEM_WEAPON,
-                ITEM_SHOES
+                ITEM_SHOES,
+                ITEM_ARMOR,
+                ITEM_SHOES,
+                ITEM_PANTS,
+                ITEM_GLOVES,
+                ITEM_HELM
             };
         }
         
