@@ -18,7 +18,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         public void Initialize()
         {
             Store = TestContentStore.Get();
-            DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory());
+            DfAgentFactory = new DfAgentFactory(Store, 
+                new DfMaterialFactory(Store),
+                new DfAgentBuilderFactory());
         }
 
         [TestMethod]

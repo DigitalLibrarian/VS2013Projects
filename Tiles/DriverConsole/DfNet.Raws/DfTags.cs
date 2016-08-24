@@ -86,7 +86,9 @@ namespace DfNet.Raws
             public const string CONTYPE = "CONTYPE";
 
             public const string STATE_NAME_ADJ = "STATE_NAME_ADJ";
+            public const string STATE_ADJ = "STATE_ADJ";
             public const string ALL_SOLID = "ALL_SOLID";
+            public const string SOLID = "SOLID";
 
             public const string GRASP = "GRASP";
 

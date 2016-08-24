@@ -11,7 +11,7 @@ namespace Tiles.Content.Bridge.DfNet
     public class DfAgentBuilder : IDfAgentBuilder
     {
         Dictionary<string, DfObject> BodyPartsDefn { get; set; }
-        Dictionary<string, DfObject> MaterialDefns { get; set; }
+        Dictionary<string, Material> Materials { get; set; }
         Dictionary<string, List<string>> BodyPartCategoryTissues { get; set; }
         Dictionary<string, Dictionary<string, int>> BodyPartCategoryTissueThickness { get; set; }
 
@@ -19,7 +19,7 @@ namespace Tiles.Content.Bridge.DfNet
         public DfAgentBuilder()
         {
             BodyPartsDefn = new Dictionary<string, DfObject>();
-            MaterialDefns = new Dictionary<string, DfObject>();
+            Materials = new Dictionary<string, Material>();
             BodyPartCategoryTissues = new Dictionary<string, List<string>>();
             BodyPartCategoryTissueThickness = new Dictionary<string, Dictionary<string, int>>();
         }
@@ -98,14 +98,15 @@ namespace Tiles.Content.Bridge.DfNet
             }
         }
 
-        public void AddMaterialFromTemplate(string matName, DfObject matTemplateObj)
+
+        public void AddMaterial(string matName, Material material)
         {
-            MaterialDefns[matName] =  matTemplateObj;
+            Materials[matName] = material;
         }
 
         public void RemoveMaterial(string matName)
         {
-            MaterialDefns.Remove(matName);
+            Materials.Remove(matName);
             foreach (var bpName in BodyPartCategoryTissueThickness.Keys.ToList())
             {
                 if (BodyPartCategoryTissueThickness[bpName].ContainsKey(matName))
@@ -156,11 +157,14 @@ namespace Tiles.Content.Bridge.DfNet
 
         Material GetTissueMaterial(string tisName)
         {
+            return Materials[tisName];
+            /*
             var matDefn = MaterialDefns[tisName];
             return new Material
             {
                 Adjective = GetMaterialAdj(matDefn)
             };
+             * */
         }
 
         Tissue CreateTissueForPart(string bpName)

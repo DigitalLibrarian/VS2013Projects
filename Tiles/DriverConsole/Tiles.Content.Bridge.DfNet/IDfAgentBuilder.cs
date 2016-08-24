@@ -12,8 +12,10 @@ namespace Tiles.Content.Bridge.DfNet
     {
         void AddBody(string name, DfObject bpObject);
 
-        void AddMaterialFromTemplate(string matName, DfObject matObj);
+
+        void AddMaterial(string matName, Material material);
         void RemoveMaterial(string matName);
+
         void AddTissueToBodyPart(string bpName, string tisName);
 
         void SetBodyPartTissueThickness(string bpName, string tisName, int relThick);

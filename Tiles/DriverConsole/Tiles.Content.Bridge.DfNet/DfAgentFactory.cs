@@ -14,11 +14,15 @@ namespace Tiles.Content.Bridge.DfNet
     {
         IDfObjectStore Store { get; set; }
         IDfAgentBuilderFactory BuilderFactory { get; set; }
+        IDfMaterialFactory MaterialsFactory { get; set; }
 
-        public DfAgentFactory(IDfObjectStore store, IDfAgentBuilderFactory builderFactory)
+        public DfAgentFactory(IDfObjectStore store, 
+            IDfMaterialFactory materialsFactory,
+            IDfAgentBuilderFactory builderFactory)
         {
             Store = store;
             BuilderFactory = builderFactory;
+            MaterialsFactory = materialsFactory;
         }
 
         public Agent Create(string name, string caste)
@@ -45,7 +49,7 @@ namespace Tiles.Content.Bridge.DfNet
             // 2. Create the tissues
             // 3. Create the materials
             // 4. Return as nested Agent model
-            string strategy, bpName, tisName;
+            string strategy, bpName, tisName, tempName;
             var agentContext = BuilderFactory.Create();
             var tags = creatureDf.Tags.ToList();
             for (int i = 0; i < tags.Count(); i++) 
@@ -56,31 +60,36 @@ namespace Tiles.Content.Bridge.DfNet
                 switch (tag.Name)
                 {
                     case DfTags.MiscTags.USE_MATERIAL_TEMPLATE:
-                        var matObj = GetMaterialFromTemplate(tag, DfTags.MATERIAL_TEMPLATE);
-                        agentContext.AddMaterialFromTemplate(
-                            tag.GetParam(0),
-                            matObj);
+                        tisName = tag.GetParam(0);
+                        tempName = tag.GetParam(1);
+
+                        agentContext.AddMaterial(tisName,
+                            MaterialsFactory.CreateFromMaterialTemplate(tempName));
                         break;
 
                     case DfTags.MiscTags.ADD_MATERIAL:
-                        agentContext.AddMaterialFromTemplate(
-                            tag.GetParam(0),
-                            GetMaterialFromTemplate(tag, DfTags.MATERIAL_TEMPLATE));
+                        
+                        tisName = tag.GetParam(0);
+                        tempName = tag.GetParam(1);
+                        agentContext.AddMaterial(tisName,
+                            MaterialsFactory.CreateFromMaterialTemplate(tempName));
                         break;
                     case DfTags.MiscTags.REMOVE_MATERIAL:
                         agentContext.RemoveMaterial(tag.GetParam(0));
                         break;
                     case DfTags.MiscTags.USE_TISSUE_TEMPLATE:
-                        var tisObj = GetMaterialFromTemplate(tag, DfTags.TISSUE_TEMPLATE);
-                        agentContext.AddMaterialFromTemplate(
-                            tag.GetParam(0),
-                            tisObj);
+                        
+                        tisName = tag.GetParam(0);
+                        tempName = tag.GetParam(1);
+                        agentContext.AddMaterial(tisName,
+                            MaterialsFactory.CreateTissue(tempName));
                         break;
 
                     case DfTags.MiscTags.ADD_TISSUE:
-                        agentContext.AddMaterialFromTemplate(
-                            tag.GetParam(0),
-                            GetMaterialFromTemplate(tag, DfTags.TISSUE_TEMPLATE));
+                        tisName = tag.GetParam(0);
+                        tempName = tag.GetParam(1);
+                        agentContext.AddMaterial(tisName,
+                            MaterialsFactory.CreateTissue(tempName));
                         break;
                     case DfTags.MiscTags.REMOVE_TISSUE:
                         agentContext.RemoveMaterial(tag.GetParam(0));

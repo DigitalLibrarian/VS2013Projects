@@ -8,10 +8,7 @@ using Tiles.Content.Models;
 
 namespace Tiles.Content.Bridge.DfNet
 {
-    public interface IDfMaterialFactory
-    {
-        Material CreateTissue(string tissueTemplate);
-    }
+
 
 
     public class DfItemFactory

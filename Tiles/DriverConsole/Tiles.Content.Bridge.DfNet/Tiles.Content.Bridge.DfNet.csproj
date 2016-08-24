@@ -43,9 +43,11 @@
     <Compile Include="DfAgentBuilderFactory.cs" />
     <Compile Include="DfAgentFactory.cs" />
     <Compile Include="DfItemFactory.cs" />
+    <Compile Include="DfMaterialFactory.cs" />
     <Compile Include="IDfAgentBuilder.cs" />
     <Compile Include="IDfAgentBuilderFactory.cs" />
     <Compile Include="IDfAgentFactory.cs" />
+    <Compile Include="IDfMaterialFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
