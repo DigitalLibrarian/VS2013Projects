@@ -39,12 +39,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.StringManipulation.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4A43F31-FF6A-457A-9280-89F8664FFF19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver.DwarfFortressNet.RawParser.Console", "DwarfFortressNet.RawParserConsole\Driver.DwarfFortressNet.RawParser.Console.csproj", "{0688970C-6BBA-430C-AEBE-E96740843111}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.RawModels", "DwarfFortressNet.RawModels\DwarfFortressNet.RawModels.csproj", "{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwarfFortressNet.Bridge", "DwarfFortressNet.Bridge\DwarfFortressNet.Bridge.csproj", "{8ABC709E-D52B-4519-BF89-B5E225752DE4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfNet.Raws", "DfNet.Raws\DfNet.Raws.csproj", "{559E9C2C-01CA-4665-83BF-6A757E71818B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfNet.Raws.Tests", "DfNet.Raws.Tests\DfNet.Raws.Tests.csproj", "{A4C2573E-4B4C-4ABC-98D6-4FA2AA85AE5E}"
@@ -133,18 +127,6 @@ Global
 		{105B71A6-9C2A-4F9F-BBDA-37241B851D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{105B71A6-9C2A-4F9F-BBDA-37241B851D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{105B71A6-9C2A-4F9F-BBDA-37241B851D9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0688970C-6BBA-430C-AEBE-E96740843111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0688970C-6BBA-430C-AEBE-E96740843111}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0688970C-6BBA-430C-AEBE-E96740843111}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0688970C-6BBA-430C-AEBE-E96740843111}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D15A54E-FBDD-4E4E-83AA-70C1E295C4E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8ABC709E-D52B-4519-BF89-B5E225752DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{559E9C2C-01CA-4665-83BF-6A757E71818B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{559E9C2C-01CA-4665-83BF-6A757E71818B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{559E9C2C-01CA-4665-83BF-6A757E71818B}.Release|Any CPU.ActiveCfg = Release|Any CPU
