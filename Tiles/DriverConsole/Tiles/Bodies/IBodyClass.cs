@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tiles.Bodies
 {
-    public interface IBodyFactory
+    public interface IBodyClass
     {
-        IBody Create(IBodyClass bodyClass);
+        IEnumerable<IBodyPartClass> Parts { get; set; }
     }
 }

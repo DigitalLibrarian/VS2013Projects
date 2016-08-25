@@ -15,10 +15,11 @@ using Tiles.Bodies;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
-    public class AgentFactory
+    public class HardCodedAgentFactory
     {
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
-        static IBodyFactory BodyFactory = new BodyFactory();
+        static IBodyFactory BodyFactory = new BodyFactory(new TissueFactory());
+        static IBodyClassFactory BodyClassFactory = new BodyClassFactory();
 
         static IItemClass ZombieClawClass = new ItemClass(
             name: ZombieClaw.WeaponClass.Name,
@@ -36,12 +37,12 @@ namespace Tiles.ScreensImpl.ContentFactories
             );
 
         public IRandom Random { get; set; }
-        public AgentFactory() : this(new RandomWrapper(new System.Random()))
+        public HardCodedAgentFactory() : this(new RandomWrapper(new System.Random()))
         {
 
         }
 
-        public AgentFactory(IRandom random)
+        public HardCodedAgentFactory(IRandom random)
         {
             Random = random;
         }
@@ -49,16 +50,20 @@ namespace Tiles.ScreensImpl.ContentFactories
         IItemFactory ItemFactory = new ItemFactory();
         public IAgent CreateZombieAgent(IAtlas atlas, Vector3 worldPos)
         {
-            var body = BodyFactory.CreateFeralHumanoid();
-            var zombie = new Agent(atlas,
-                new Sprite(
-                        symbol: Symbol.Zombie,
-                        foregroundColor: Color.DarkGreen,
-                        backgroundColor: Color.Black
-                        ),
+            var bodyClass = BodyClassFactory.CreateFeralHumanoid();
+            var body = BodyFactory.Create(bodyClass);
+            var zombie = new Agent(
+                atlas,
+                new AgentClass(
+                    "Shambler",
+                    new Sprite(
+                            symbol: Symbol.Zombie,
+                            foregroundColor: Color.DarkGreen,
+                            backgroundColor: Color.Black
+                            ),
+                    bodyClass),
                 worldPos,
                 body,
-                "Shambler",
                 new Inventory(),
                 new Outfit(body, new OutfitLayerFactory()),
                 new AgentCommandQueue()
@@ -77,15 +82,20 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         public IPlayer CreatePlayer(IAtlas atlas, Vector3 worldPos)
         {
-            var body = BodyFactory.CreateHumanoid();
+            var bodyClass = BodyClassFactory.CreateHumanoid();
+            var body = BodyFactory.Create(bodyClass);
             var planner = new DoNothingAgentCommandPlanner(new AgentCommandFactory());
             var player = new Player(
                 atlas,
-                new Sprite(
-                        symbol: Symbol.Player,
-                        foregroundColor: Color.Cyan,
-                        backgroundColor: Color.Black
-                        ),
+                new AgentClass(
+                    "Player",
+                    new Sprite(
+                            symbol: Symbol.Player,
+                            foregroundColor: Color.Cyan,
+                            backgroundColor: Color.Black
+                            ),
+                    bodyClass
+                    ),
                 worldPos,
                 body,
                 new Inventory(),
@@ -100,16 +110,19 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         public IAgent CreateSurvivor(IAtlas atlas, Vector3 worldPos)
         {
-            var body = BodyFactory.CreateHumanoid();
+            var bodyClass = BodyClassFactory.CreateHumanoid();
+            var body = BodyFactory.Create(bodyClass);
             var survivor = new Agent(atlas,
-                new Sprite(
-                        symbol: Symbol.Survivor,
-                        foregroundColor: Color.DarkRed,
-                        backgroundColor: Color.Black
-                        ),
+                new AgentClass(
+                    "Survivor",
+                    new Sprite(
+                            symbol: Symbol.Survivor,
+                            foregroundColor: Color.DarkRed,
+                            backgroundColor: Color.Black
+                            ),
+                    bodyClass),
                 worldPos,
                 body,
-                "Survivor",
                 new Inventory(),
                 new Outfit(body, new OutfitLayerFactory()),
                 new AgentCommandQueue()
@@ -119,21 +132,6 @@ namespace Tiles.ScreensImpl.ContentFactories
             survivor.IsUndead = false;
             return survivor;
         }
-
-        public IAgent Create(IAtlas atlas, Vector3 worldPos, ISprite sprite, string name, IBody body)
-        {
-            return new Agent(
-                atlas: atlas,
-                sprite: sprite,
-                pos: worldPos,
-                body: body,
-                name: name,
-                inventory: new Inventory(),
-                outfit: new Outfit(body, new OutfitLayerFactory()),
-                commandQueue: new AgentCommandQueue()
-                );
-        }
-
 
         IAgentBehavior CreateBehavior(IAgentCommandPlanner planner)
         {

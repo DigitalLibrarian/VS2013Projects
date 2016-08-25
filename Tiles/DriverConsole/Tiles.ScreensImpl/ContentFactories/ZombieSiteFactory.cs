@@ -55,7 +55,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 }
             }
 
-            var agentFactory = new AgentFactory(Random);
+            var agentFactory = new HardCodedAgentFactory(Random);
             var numZombies = 10;
             for (int i = 0; i < numZombies; i++)
                 AddZombie(atlas, s, agentFactory);
@@ -154,7 +154,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         }
 
         
-        void AddZombie(IAtlas atlas, ISite site, AgentFactory agentFactory)
+        void AddZombie(IAtlas atlas, ISite site, HardCodedAgentFactory agentFactory)
         {
             var sitePos = FindSpawnSitePos(site);
             if (sitePos.HasValue)
@@ -166,7 +166,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             }
         }
 
-        void AddSurvivor(IAtlas atlas, ISite site, AgentFactory agentFactory)
+        void AddSurvivor(IAtlas atlas, ISite site, HardCodedAgentFactory agentFactory)
         {
             var sitePos = FindSpawnSitePos(site);
             if (sitePos.HasValue)

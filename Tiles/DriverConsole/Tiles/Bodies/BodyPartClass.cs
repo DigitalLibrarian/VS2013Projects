@@ -11,6 +11,9 @@ namespace Tiles.Bodies
     {
         public string Name { get; set; }
 
+        public IBodyPartClass Parent { get; set; }
+        public ITissueClass Tissue { get; set; }
+
         public ArmorSlot ArmorSlot { get; set; }
         public WeaponSlot WeaponSlot { get; set; }
         public bool IsLifeCritical { get; set; }
@@ -18,8 +21,12 @@ namespace Tiles.Bodies
 
         public bool CanGrasp { get; set; }
 
-        public BodyPartClass(string name, bool isCritical, bool canAmputate, bool canGrasp,
-            ArmorSlot armorSlotType, WeaponSlot weaponSlotType)
+        public BodyPartClass(
+            string name, 
+            bool isCritical, bool canAmputate, bool canGrasp,
+            ITissueClass tissueClass,
+            ArmorSlot armorSlotType, WeaponSlot weaponSlotType, 
+            IBodyPartClass parent = null)
         {
             Name = name;
             IsLifeCritical = isCritical;
@@ -27,6 +34,9 @@ namespace Tiles.Bodies
             CanGrasp = canGrasp;
             ArmorSlot = armorSlotType;
             WeaponSlot = weaponSlotType;
+            Parent = parent;
+
+            Tissue = tissueClass;
         }
     }
 }

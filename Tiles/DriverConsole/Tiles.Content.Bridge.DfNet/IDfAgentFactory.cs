@@ -9,6 +9,7 @@ namespace Tiles.Content.Bridge.DfNet
 {
     public interface IDfAgentFactory
     {
+        Agent Create(string name);
         Agent Create(string name, string caste);
     }
 }

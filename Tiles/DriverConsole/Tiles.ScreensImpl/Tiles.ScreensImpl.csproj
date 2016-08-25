@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CombatScreen.cs" />
-    <Compile Include="ContentFactories\AgentFactory.cs" />
+    <Compile Include="ContentFactories\HardCodedAgentFactory.cs" />
     <Compile Include="ContentFactories\ArenaSiteFactory.cs" />
     <Compile Include="CanvasScreen.cs" />
     <Compile Include="CommandScreen.cs" />

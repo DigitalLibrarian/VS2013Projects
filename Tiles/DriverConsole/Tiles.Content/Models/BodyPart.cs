@@ -12,12 +12,17 @@ namespace Tiles.Content.Models
         {
             Tissue = new Tissue();
         }
-        public string NameSingular { get; set; }
-        public string NamePlural { get; set; }
+
         public BodyPart Parent { get; set; }
 
+        public string NameSingular { get; set; }
+        public string NamePlural { get; set; }
+        
         public bool CanBeAmputated { get; set; }
         public bool CanGrasp { get; set; }
+
+        public ArmorSlot ArmorSlot { get; set; }
+        public WeaponSlot WeapnSlot { get; set; }
 
         public Tissue Tissue { get; set; }
     }

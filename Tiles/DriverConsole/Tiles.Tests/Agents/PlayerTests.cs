@@ -24,6 +24,7 @@ namespace Tiles.Tests.Agents
         Mock<IInventory> InventoryMock { get; set; }
         Mock<IOutfit> OutfitMock { get; set; }
         Mock<IAgentCommandQueue> CommandQueueMock { get; set; }
+        Mock<IAgentClass> AgentClassMock { get; set; }
 
         Player Player { get; set; }
 
@@ -37,8 +38,16 @@ namespace Tiles.Tests.Agents
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();
             CommandQueueMock= new Mock<IAgentCommandQueue>();
+            AgentClassMock = new Mock<IAgentClass>();
 
-            Player = new Player(AtlasMock.Object, SpriteMock.Object, StartPos, BodyMock.Object, InventoryMock.Object, OutfitMock.Object, CommandQueueMock.Object);
+            Player = new Player(
+                AtlasMock.Object,  
+                AgentClassMock.Object,
+                StartPos, 
+                BodyMock.Object, 
+                InventoryMock.Object,
+                OutfitMock.Object, 
+                CommandQueueMock.Object);
         }
 
         [TestMethod]

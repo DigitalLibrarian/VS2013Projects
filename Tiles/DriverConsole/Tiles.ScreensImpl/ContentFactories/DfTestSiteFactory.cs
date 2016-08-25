@@ -24,6 +24,8 @@ namespace Tiles.ScreensImpl.ContentFactories
         IDfObjectStore Store { get; set; }
         IDfMaterialFactory DfMaterialFactory { get; set; }
         IDfItemFactory DfItemFactory { get; set; }
+        IDfAgentFactory DfAgentFactory { get; set; }
+        IAgentFactory AgentFactory { get; set;}
         IItemFactory ItemFactory { get; set; }
         IRandom Random { get; set; }
         IContentMapper ContentMapper { get; set; }
@@ -32,8 +34,10 @@ namespace Tiles.ScreensImpl.ContentFactories
             Store = store;
             Random = random;
             ItemFactory = new ItemFactory();
+            AgentFactory = new AgentFactory(new BodyFactory(new TissueFactory()));
             DfMaterialFactory = new DfMaterialFactory(Store);
             DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory());
+            DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), DfMaterialFactory);
             ContentMapper = new ContentMapper();
         }
 
@@ -48,8 +52,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                 tile.Terrain = Terrain.None;
             }
 
-            int numItems = box.Size.X;
+            if (!box.Contains(new Vector3(box.Min.X, box.Min.Y, 0)))
+            {
+                return s;
+            }
 
+            int numItems = box.Size.X;
             var metals = Store.Get(DfTags.MATERIAL_TEMPLATE)
                             .Where(o => o.Tags.Any(t => t.IsSingleWord(DfTags.MiscTags.IS_METAL)))
                             .SelectMany(matTemp =>
@@ -79,6 +87,33 @@ namespace Tiles.ScreensImpl.ContentFactories
 
                     tile.Items.Add(ItemFactory.Create(engineItemClass));
                 }
+            }
+
+            int numAgents = box.Size.X / 2;
+            var creatures = Store.Get(DfTags.CREATURE).ToList();
+            for (int i = 0; i < numAgents; i++)
+            {
+                var spawnLoc = FindSpawnSitePos(s);
+                if (spawnLoc.HasValue)
+                {
+                    var tile = s.GetTileAtSitePos(spawnLoc.Value);
+                    var creatureDf = Random.NextElement(creatures);
+                    var castes = creatureDf.Tags
+                        .Where(t => t.Name.Equals(DfTags.MiscTags.CASTE))
+                        .Select(t => t.GetParam(0))
+                        .ToList();
+
+                    string caste = null;
+                    if(castes.Any())
+                    {
+                        caste = Random.NextElement(castes);
+                    }
+                    var agentContent = DfAgentFactory.Create(creatureDf.Name);
+                    var engineAgentClass = ContentMapper.Map(agentContent);
+                    var agent = AgentFactory.Create(atlas, engineAgentClass, spawnLoc.Value);
+                    tile.SetAgent(agent);
+                }
+
             }
             return s;
         }
@@ -115,7 +150,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                     }
                 }
             }
-
+            
             if (!satisfied)
             {
                 test = null;

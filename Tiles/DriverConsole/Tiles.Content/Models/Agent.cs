@@ -8,10 +8,12 @@ namespace Tiles.Content.Models
 {
     public class Agent
     {
-        public Agent()
+        public Agent(string name, Body body)
         {
-            Body = new Body();
+            Name = name;
+            Body = body;
         }
+        public string Name { get; set; }
         public Body Body { get; set; }
     }
 }

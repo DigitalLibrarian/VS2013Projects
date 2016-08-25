@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Tiles.Bodies
 {
-    public interface IBodyFactory
+    public interface IBodyClassFactory
     {
-        IBody Create(IBodyClass bodyClass);
+        IBodyClass CreateHumanoid();
+        IBodyClass CreateFeralHumanoid();
     }
 }

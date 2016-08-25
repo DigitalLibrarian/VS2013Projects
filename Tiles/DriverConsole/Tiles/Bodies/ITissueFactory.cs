@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tiles.Bodies
 {
-    public interface IBodyFactory
+    public interface ITissueFactory
     {
-        IBody Create(IBodyClass bodyClass);
+        ITissue Create(ITissueClass tissueClass);
     }
 }

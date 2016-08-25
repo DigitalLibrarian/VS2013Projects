@@ -12,9 +12,10 @@ namespace Tiles.Agents
 {
     public class Agent : IAgent
     {
-        public string Name { get; private set; }
         public IAtlas Atlas { get; private set; }
-        public ISprite Sprite { get; private set; }
+        public IAgentClass Class { get; private set; }
+        public string Name { get { return Class.Name; } }
+        public ISprite Sprite { get { return Class.Sprite; } }
         public IBody Body { get; private set; }
         public Vector3 Pos { get; protected set; }
         public IInventory Inventory { get; private set; }
@@ -33,17 +34,18 @@ namespace Tiles.Agents
             } 
         }
 
-        public Agent(IAtlas atlas, ISprite sprite, Vector3 pos, 
-            IBody body, string name, 
+        public Agent(IAtlas atlas, 
+            IAgentClass agentClass,
+            Vector3 pos, 
+            IBody body, 
             IInventory inventory, 
             IOutfit outfit,
             IAgentCommandQueue commandQueue)
         {
             Atlas = atlas;
-            Sprite = sprite;
+            Class = agentClass;
             Pos = pos;
             Body = body;
-            Name = name;
             Inventory = inventory;
             Outfit = outfit;
 
@@ -56,7 +58,6 @@ namespace Tiles.Agents
             {
                 AgentBehavior.Update(game, this);
             }
-
         }
 
         public bool CanMove(Vector3 delta)

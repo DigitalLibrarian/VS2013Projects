@@ -25,6 +25,11 @@ namespace Tiles.Content.Bridge.DfNet
             MaterialsFactory = materialsFactory;
         }
 
+        public Agent Create(string name)
+        {
+            return Create(name, null);
+        }
+
         public Agent Create(string name, string caste)
         {
             var creatureDf = Store.Get(DfTags.CREATURE, name);
@@ -55,10 +60,13 @@ namespace Tiles.Content.Bridge.DfNet
             for (int i = 0; i < tags.Count(); i++) 
             {
                 var tag = tags[i];
-
-               
                 switch (tag.Name)
                 {
+                    case DfTags.MiscTags.NAME:
+                        agentContext.SetName(
+                            tag.GetParam(0),
+                            tag.GetParam(0));
+                        break;
                     case DfTags.MiscTags.USE_MATERIAL_TEMPLATE:
                         tisName = tag.GetParam(0);
                         tempName = tag.GetParam(1);
@@ -122,9 +130,12 @@ namespace Tiles.Content.Bridge.DfNet
                         {
                             var index = (j * 2);
                             tisName = sets[index];
-                            var thickStr = sets[index + 1];
-                            int thick = int.Parse(thickStr);
-                            agentContext.SetBodyPartTissueThickness(bpName, tisName, thick);
+                            if (!tisName.Equals(DfTags.MiscTags.NONE))
+                            {
+                                var thickStr = sets[index + 1];
+                                int thick = int.Parse(thickStr);
+                                agentContext.SetBodyPartTissueThickness(bpName, tisName, thick);
+                            }
                         }
                             break;
                     case DfTags.BODY:

@@ -25,6 +25,7 @@ namespace Tiles.Tests.Agents
         Mock<IInventory> InventoryMock { get; set; }
         Mock<IOutfit> OutfitMock { get; set; }
         Mock<IAgentCommandQueue> CommandQueueMock { get; set; }
+        Mock<IAgentClass> AgentClassMock { get; set; }
         string Name { get; set; }
 
         Agent Agent { get; set; }
@@ -38,13 +39,15 @@ namespace Tiles.Tests.Agents
             OutfitMock = new Mock<IOutfit>();
             CommandQueueMock = new Mock<IAgentCommandQueue>();
             Name = "name";
+            AgentClassMock = new Mock<IAgentClass>();
+            AgentClassMock.Setup(x => x.Name).Returns(Name);
+            AgentClassMock.Setup(x => x.Sprite).Returns(SpriteMock.Object);
 
             Agent = new Agent(
                 AtlasMock.Object, 
-                SpriteMock.Object, 
+                AgentClassMock.Object,
                 Vector3.Zero, 
                 BodyMock.Object, 
-                Name, 
                 InventoryMock.Object, 
                 OutfitMock.Object,
                 CommandQueueMock.Object);

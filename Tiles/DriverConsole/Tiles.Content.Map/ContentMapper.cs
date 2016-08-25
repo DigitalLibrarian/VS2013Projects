@@ -10,6 +10,7 @@ using EngineMaterials = Tiles.Materials;
 using EngineCombat = Tiles.Agents.Combat;
 using EngineItems = Tiles.Items;
 using EngineBodies = Tiles.Bodies;
+using EngineAgents = Tiles.Agents;
 using Tiles.Math;
 
 namespace Tiles.Content.Map
@@ -97,6 +98,57 @@ namespace Tiles.Content.Map
         ISprite MapSprite(int c, Color fg = Color.White, Color bg = Color.Black)
         {
             return new Sprite(c, fg, bg);
+        }
+
+        public EngineAgents.IAgentClass Map(ContentModel.Agent agent)
+        {
+            return new EngineAgents.AgentClass(
+                agent.Name,
+                MapSprite(Symbol.Zombie),
+                Map(agent.Body)
+                );
+        }
+
+        public EngineBodies.IBodyClass Map(ContentModel.Body body)
+        {
+            var partMap = body.Parts
+                .ToDictionary(x => x, x => Map(x) );
+            foreach (var part in body.Parts)
+            {
+                if (part.Parent != null)
+                {
+                    partMap[part].Parent = partMap[part.Parent];
+                }
+            }
+
+            return new EngineBodies.BodyClass(body.Parts.Select(x => partMap[x]));
+        }
+
+        EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)
+        {
+            return new EngineBodies.BodyPartClass(
+                bodyPart.NameSingular,
+                true,
+                bodyPart.CanBeAmputated,
+                bodyPart.CanGrasp,
+                Map(bodyPart.Tissue),
+                Map(bodyPart.ArmorSlot),
+                Map(bodyPart.WeapnSlot)
+                );
+        }
+
+        EngineBodies.ITissueClass Map(ContentModel.Tissue tissue)
+        {
+            var layers = new List<EngineBodies.ITissueLayerClass>();
+            foreach (var layer in tissue.Layers)
+            {
+                layers.Add(new EngineBodies.TissueLayerClass(
+                    Map(layer.Material), 
+                    layer.RelativeThickness
+                    ));
+            }
+
+            return new EngineBodies.TissueClass(layers);
         }
     }
 

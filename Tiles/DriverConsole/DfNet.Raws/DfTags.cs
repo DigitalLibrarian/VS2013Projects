@@ -96,6 +96,7 @@ namespace DfNet.Raws
             public const string CON_CAT = "CON_CAT";
             public const string CONTYPE = "CONTYPE";
 
+            public const string STATE_NAME = "STATE_NAME";
             public const string STATE_NAME_ADJ = "STATE_NAME_ADJ";
             public const string STATE_ADJ = "STATE_ADJ";
             public const string ALL_SOLID = "ALL_SOLID";
@@ -111,6 +112,7 @@ namespace DfNet.Raws
             public const string LAYER = "LAYER";
 
             public const string IS_METAL = "IS_METAL";
+            public const string NONE = "NONE";
         }
 
     }

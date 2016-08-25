@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionReporter.cs" />
+    <Compile Include="Agents\AgentClass.cs" />
     <Compile Include="Agents\AgentCommandFactory.cs" />
     <Compile Include="Agents\AgentCommandType.cs" />
+    <Compile Include="Agents\AgentFactory.cs" />
     <Compile Include="Agents\AgentReaper.cs" />
     <Compile Include="Agents\Behaviors\AgentCommandExecutionContext.cs" />
     <Compile Include="Agents\Behaviors\BaseAgentCommandPlanner.cs" />
@@ -76,18 +78,24 @@
     <Compile Include="Agents\Combat\ICombatMove.cs" />
     <Compile Include="Agents\Combat\ICombatMoveClass.cs" />
     <Compile Include="Agents\IAgentBehavior.cs" />
+    <Compile Include="Agents\IAgentClass.cs" />
     <Compile Include="Agents\IAgentCommand.cs" />
     <Compile Include="Agents\IAgentCommandInterpreter.cs" />
     <Compile Include="Agents\IAgentCommandTypeInterpreter.cs" />
+    <Compile Include="Agents\IAgentFactory.cs" />
     <Compile Include="Agents\IAgentReaper.cs" />
     <Compile Include="Agents\Combat\IDamageVector.cs" />
     <Compile Include="Bodies\Body.cs" />
+    <Compile Include="Bodies\BodyClass.cs" />
+    <Compile Include="Bodies\BodyClassFactory.cs" />
     <Compile Include="Bodies\BodyFactory.cs" />
     <Compile Include="Bodies\BodyPart.cs" />
     <Compile Include="Bodies\BodyPartClass.cs" />
     <Compile Include="Bodies\BodyStateChange.cs" />
     <Compile Include="Bodies\HealthVector.cs" />
     <Compile Include="Bodies\IBody.cs" />
+    <Compile Include="Bodies\IBodyClass.cs" />
+    <Compile Include="Bodies\IBodyClassFactory.cs" />
     <Compile Include="Bodies\IBodyFactory.cs" />
     <Compile Include="Bodies\IBodyPart.cs" />
     <Compile Include="Agents\Combat\AttackConductor.cs" />
@@ -100,8 +108,10 @@
     <Compile Include="Atlas.cs" />
     <Compile Include="Bodies\IBodyPartClass.cs" />
     <Compile Include="Bodies\ITissue.cs" />
+    <Compile Include="Bodies\ITissueFactory.cs" />
     <Compile Include="Bodies\ITissueLayer.cs" />
     <Compile Include="Bodies\Tissue.cs" />
+    <Compile Include="Bodies\TissueFactory.cs" />
     <Compile Include="Bodies\TissueLayer.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Agents\IAgent.cs" />

@@ -68,7 +68,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         private IPlayer CreatePlayer(IRandom random, IAtlas atlas, Vector3 spawnPos)
         {
-            return new AgentFactory(random).CreatePlayer(atlas, spawnPos);
+            return new HardCodedAgentFactory(random).CreatePlayer(atlas, spawnPos);
         }
 
         Vector3 FindSpawnLocation(IAtlas atlas, IRandom random, Box3 spawnBox)

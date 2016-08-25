@@ -30,6 +30,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var agent = DfAgentFactory.Create("DWARF", "MALE");
             Assert.IsNotNull(agent);
             Assert.IsNotNull(agent.Body);
+            Assert.AreNotSame("dwarf", agent.Name);
             Assert.AreEqual(89, agent.Body.Parts.Count());
 
             var leftHand = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("left hand"));
@@ -74,6 +75,31 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsTrue(
                 new string[]{"bone", "muscle"}.SequenceEqual(leftWrist.Tissue.Layers.Select(x => x.Material.Adjective))
                 );
+        }
+
+        [TestMethod]
+        public void GreenDevourer()
+        {
+            var agent = DfAgentFactory.Create("GREEN_DEVOURER");
+            Assert.IsNotNull(agent);
+
+            Assert.IsTrue(
+                agent.Body.Parts
+                .Where(p => p.Tissue.Layers.Any())
+                .Any());
+
+            Assert.IsFalse(
+                agent.Body.Parts
+                .Where(p => p.Tissue.Layers.Any(
+                    layer => layer.Material.Adjective.Equals("bone")))
+                .Any());
+
+
+            Assert.IsTrue(
+                agent.Body.Parts
+                .Where(p => p.Tissue.Layers.Any(
+                    layer => layer.Material.Adjective.Equals("skin")))
+                .Any());
         }
     }
 }

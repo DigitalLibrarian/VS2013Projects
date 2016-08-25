@@ -78,6 +78,13 @@ namespace Tiles.Content.Bridge.DfNet
                 return adjTag.GetParam(1);
             }
 
+            adjTag = matDefn.Tags.LastOrDefault(
+                t => t.Name.Equals(DfTags.MiscTags.STATE_NAME));
+
+            if (adjTag != null)
+            {
+                return adjTag.GetParam(1);
+            }
             throw new InvalidOperationException("Count not come up with adject for " + matDefn.Tags.First().ToString());
         }
     }

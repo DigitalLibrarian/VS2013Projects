@@ -10,9 +10,9 @@ namespace Tiles.Content.Bridge.DfNet
 {
     public interface IDfAgentBuilder
     {
+        void SetName(string singular, string plural);
+
         void AddBody(string name, DfObject bpObject);
-
-
         void AddMaterial(string matName, Material material);
         void RemoveMaterial(string matName);
 

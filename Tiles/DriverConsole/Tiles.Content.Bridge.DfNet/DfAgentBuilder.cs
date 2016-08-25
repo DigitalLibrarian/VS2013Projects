@@ -244,16 +244,20 @@ namespace Tiles.Content.Bridge.DfNet
                     partMap[newPart] = partDefn;
                 }
             }
-
-            var agent = new Agent();
-            agent.Body = new Body
+            var body = new Body
             {
                 Parts = parts
             };
+            var agent = new Agent(Name, body);
             return agent;
         }
 
 
 
+        string Name { get; set; }
+        public void SetName(string singular, string plural)
+        {
+            Name = singular;
+        }
     }
 }
