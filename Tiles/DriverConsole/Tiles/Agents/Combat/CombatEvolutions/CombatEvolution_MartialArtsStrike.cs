@@ -29,15 +29,14 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             bool isWeaponBased = move.Class.IsItem;
             uint dmg = 0;
-
+            
             if (isWeaponBased)
             {
                 dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Weapon);
             }
             else
             {
-                dmg = DamageCalc.MeleeStrikeBodyPartAttackDamage(move.Class,
-                    attacker, defender, move.AttackerBodyPart, move.DefenderBodyPart);
+                dmg = DamageCalc.MeleeStrikeBodyPartAttackDamage(move.Class, attacker, defender, move.AttackerBodyPart, move.DefenderBodyPart);
             }
 
             var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);

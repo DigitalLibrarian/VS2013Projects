@@ -78,6 +78,9 @@
     <Compile Include="Agents\CommandInterpreters\DefaultAgentCommandInterpreter.cs" />
     <Compile Include="Agents\Combat\ICombatMove.cs" />
     <Compile Include="Agents\Combat\ICombatMoveClass.cs" />
+    <Compile Include="Bodies\Health\HealthState.cs" />
+    <Compile Include="Bodies\Health\IInjury.cs" />
+    <Compile Include="Bodies\Health\IInjuryClass.cs" />
     <Compile Include="Agents\IAgentBehavior.cs" />
     <Compile Include="Agents\IAgentClass.cs" />
     <Compile Include="Agents\IAgentCommand.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Bodies\BodyPartClass.cs" />
     <Compile Include="Bodies\BodyStateChange.cs" />
     <Compile Include="Bodies\HealthVector.cs" />
+    <Compile Include="Bodies\Health\Injury.cs" />
     <Compile Include="Bodies\IBody.cs" />
     <Compile Include="Bodies\IBodyClass.cs" />
     <Compile Include="Bodies\IBodyClassFactory.cs" />
@@ -108,6 +112,7 @@
     <Compile Include="Agents\Combat\IAttackConductor.cs" />
     <Compile Include="Atlas.cs" />
     <Compile Include="Bodies\IBodyPartClass.cs" />
+    <Compile Include="Bodies\Health\IHealthState.cs" />
     <Compile Include="Bodies\ITissue.cs" />
     <Compile Include="Bodies\ITissueFactory.cs" />
     <Compile Include="Bodies\ITissueLayer.cs" />
