@@ -8,146 +8,156 @@ using Tiles.Items;
 using Tiles.Math;
 using Tiles.Random;
 using Tiles.Agents.Combat;
+using Tiles.Materials;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
     public class GearFactory
     {
         #region static defns
-        private static IList<IWeaponClass> _WeaponClasses = new List<IWeaponClass>
+        private static IList<IItemClass> _ItemClasses = new List<IItemClass>
         {
-            new WeaponClass(
-               name: "plastic flyswatter", 
-               sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black), 
-               slots: new WeaponSlot[] { WeaponSlot.Main },
-               attackMoveClasses: new ICombatMoveClass[] {
-                   new CombatMoveClass(
-                       name: "Swat",
-                       meleeVerb: new Verb(
-                            new Dictionary<VerbConjugation, string>()
-                            {
-                                { VerbConjugation.FirstPerson, "swat"},
-                                { VerbConjugation.SecondPerson, "swat"},
-                                { VerbConjugation.ThirdPerson, "swats"},
-                            }, true),
-                       damage: new DamageVector(
-                                new Dictionary<DamageType,uint>{
-                                    { DamageType.Blunt, 1 }
-                                }
-                           ),
-                      prepTime: 1,
-                      recoveryTime: 1
-                       ){
-                       IsDefenderPartSpecific = true,
-                       IsMartialArts = true,
-                       IsStrike = true,
-                       IsItem = true,
-                   },
-                   new CombatMoveClass(
-                       name: "Swish",
-                       meleeVerb: new Verb(
-                            new Dictionary<VerbConjugation, string>()
-                            {
-                                { VerbConjugation.FirstPerson, "swish"},
-                                { VerbConjugation.SecondPerson, "swish"},
-                                { VerbConjugation.ThirdPerson, "swishes"},
-                            }, true),
-                       damage: new DamageVector(
-                                new Dictionary<DamageType,uint>{
-                                    { DamageType.Slash, 1 }
-                                }
-                           ),
-                      prepTime: 1,
-                      recoveryTime: 1
-                       ){
-                       IsDefenderPartSpecific = true,
-                       IsMartialArts = true,
-                       IsStrike = true,
-                       IsItem = true,
-                   },
-               }
-            ),
-            new WeaponClass(
+            new ItemClass(
+                name: "plastic flyswatter", 
+                sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black), 
+               material: new Material("plastic"),
+                weaponClass:
+                new WeaponClass(
+                   slots: new WeaponSlot[] { WeaponSlot.Main },
+                   attackMoveClasses: new ICombatMoveClass[] {
+                       new CombatMoveClass(
+                           name: "Swat",
+                           meleeVerb: new Verb(
+                                new Dictionary<VerbConjugation, string>()
+                                {
+                                    { VerbConjugation.FirstPerson, "swat"},
+                                    { VerbConjugation.SecondPerson, "swat"},
+                                    { VerbConjugation.ThirdPerson, "swats"},
+                                }, true),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Blunt, 1 }
+                                    }
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
+                           ){
+                           IsDefenderPartSpecific = true,
+                           IsMartialArts = true,
+                           IsStrike = true,
+                           IsItem = true,
+                       },
+                       new CombatMoveClass(
+                           name: "Swish",
+                           meleeVerb: new Verb(
+                                new Dictionary<VerbConjugation, string>()
+                                {
+                                    { VerbConjugation.FirstPerson, "swish"},
+                                    { VerbConjugation.SecondPerson, "swish"},
+                                    { VerbConjugation.ThirdPerson, "swishes"},
+                                }, true),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Slash, 1 }
+                                    }
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
+                           ){
+                           IsDefenderPartSpecific = true,
+                           IsMartialArts = true,
+                           IsStrike = true,
+                           IsItem = true,
+                       },
+                   }
+                )),
+            new ItemClass(
                name: "steel sword", 
                sprite: new Sprite(Symbol.MeleeSword, Color.White, Color.Black), 
-               slots: new WeaponSlot[] { WeaponSlot.Main },
-               attackMoveClasses: new ICombatMoveClass[] {
-                   new CombatMoveClass(
-                       name: "Slash",
-                       meleeVerb: new Verb(
-                            new Dictionary<VerbConjugation, string>()
-                            {
-                                { VerbConjugation.FirstPerson, "slash"},
-                                { VerbConjugation.SecondPerson, "slash"},
-                                { VerbConjugation.ThirdPerson, "slashes"},
-                            }, true),
-                       damage: new DamageVector(
-                                new Dictionary<DamageType,uint>{
-                                    { DamageType.Slash, 55 }
-                                }
-                           ),
-                      prepTime: 1,
-                      recoveryTime: 1
-                       ){
-                       IsDefenderPartSpecific = true,
-                       IsMartialArts = true,
-                       IsStrike = true,
-                       IsItem = true,
-                   },
-                   new CombatMoveClass(
-                       name: "Stab",
-                       meleeVerb: new Verb(
-                            new Dictionary<VerbConjugation, string>()
-                            {
-                                { VerbConjugation.FirstPerson, "stab"},
-                                { VerbConjugation.SecondPerson, "stab"},
-                                { VerbConjugation.ThirdPerson, "stabs"},
-                            }, true),
-                       damage: new DamageVector(
-                                new Dictionary<DamageType,uint>{
-                                    { DamageType.Pierce, 63 },
-                                    { DamageType.Slash, 11 }
-                                }
-                           ),
-                      prepTime: 1,
-                      recoveryTime: 1
-                       ){
-                       IsDefenderPartSpecific = true,
-                       IsMartialArts = true,
-                       IsStrike = true,
-                       IsItem = true,
-                   },
-               }
-            ),
-            new WeaponClass(
+               material: new Material("steel"),
+               weaponClass: 
+                new WeaponClass(
+                   slots: new WeaponSlot[] { WeaponSlot.Main },
+                   attackMoveClasses: new ICombatMoveClass[] {
+                       new CombatMoveClass(
+                           name: "Slash",
+                           meleeVerb: new Verb(
+                                new Dictionary<VerbConjugation, string>()
+                                {
+                                    { VerbConjugation.FirstPerson, "slash"},
+                                    { VerbConjugation.SecondPerson, "slash"},
+                                    { VerbConjugation.ThirdPerson, "slashes"},
+                                }, true),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Slash, 55 }
+                                    }
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
+                           ){
+                           IsDefenderPartSpecific = true,
+                           IsMartialArts = true,
+                           IsStrike = true,
+                           IsItem = true,
+                       },
+                       new CombatMoveClass(
+                           name: "Stab",
+                           meleeVerb: new Verb(
+                                new Dictionary<VerbConjugation, string>()
+                                {
+                                    { VerbConjugation.FirstPerson, "stab"},
+                                    { VerbConjugation.SecondPerson, "stab"},
+                                    { VerbConjugation.ThirdPerson, "stabs"},
+                                }, true),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Pierce, 63 },
+                                        { DamageType.Slash, 11 }
+                                    }
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
+                           ){
+                           IsDefenderPartSpecific = true,
+                           IsMartialArts = true,
+                           IsStrike = true,
+                           IsItem = true,
+                       },
+                   }
+                )),
+            new ItemClass(
                 name: "baseball bat", 
                 sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
-                slots: new WeaponSlot[] { WeaponSlot.Main },
-                attackMoveClasses: new ICombatMoveClass[] {
-                   new CombatMoveClass(
-                       name: "Bash",
-                       meleeVerb: new Verb(
-                            new Dictionary<VerbConjugation, string>()
-                            {
-                                { VerbConjugation.FirstPerson, "bash"},
-                                { VerbConjugation.SecondPerson, "bash"},
-                                { VerbConjugation.ThirdPerson, "bashes"},
-                            }, true),
-                       damage: new DamageVector(
-                                new Dictionary<DamageType,uint>{
-                                    { DamageType.Blunt, 25 }
-                                }
-                           ),
-                      prepTime: 1,
-                      recoveryTime: 1
-                       ){
-                       IsDefenderPartSpecific = true,
-                       IsMartialArts = true,
-                       IsStrike = true,
-                       IsItem = true,
+               material: new Material("wood"),
+                weaponClass:
+                new WeaponClass(
+                    slots: new WeaponSlot[] { WeaponSlot.Main },
+                    attackMoveClasses: new ICombatMoveClass[] {
+                       new CombatMoveClass(
+                           name: "Bash",
+                           meleeVerb: new Verb(
+                                new Dictionary<VerbConjugation, string>()
+                                {
+                                    { VerbConjugation.FirstPerson, "bash"},
+                                    { VerbConjugation.SecondPerson, "bash"},
+                                    { VerbConjugation.ThirdPerson, "bashes"},
+                                }, true),
+                           damage: new DamageVector(
+                                    new Dictionary<DamageType,uint>{
+                                        { DamageType.Blunt, 25 }
+                                    }
+                               ),
+                          prepTime: 1,
+                          recoveryTime: 1
+                           ){
+                           IsDefenderPartSpecific = true,
+                           IsMartialArts = true,
+                           IsStrike = true,
+                           IsItem = true,
+                       }
                    }
-               }
-            ),
+                ))
         };
 
         private static IList<IArmorClass> _ArmorClasses = new List<IArmorClass>
@@ -276,32 +286,9 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         IItemFactory ItemFactory = new ItemFactory();
         
-        public IEnumerable<IItem> CreateAllWeapons()
-        {
-            foreach (var weaponClass in _WeaponClasses)
-            {
-                yield return CreateItem(
-                    name: weaponClass.Name,
-                    sprite: weaponClass.Sprite,
-                    weaponClass: weaponClass);
-
-            }
-        }
-
-        public IEnumerable<IItem> CreateAllArmors()
-        {
-            foreach (var armorClass in _ArmorClasses)
-            {
-                yield return CreateItem(
-                    name: armorClass.Name,
-                    sprite: armorClass.Sprite,
-                    armorClass: armorClass);
-            }
-        }
+        
 
         static IWeaponClass DefaultWeaponClass = new WeaponClass(
-            name: "Strike",
-            sprite: null,
             slots: new WeaponSlot[] {  WeaponSlot.Main},
             attackMoveClasses: new ICombatMoveClass[] { 
                    new CombatMoveClass(
@@ -333,21 +320,13 @@ namespace Tiles.ScreensImpl.ContentFactories
             });
 
         IItem CreateItem(
-            string name, ISprite sprite,
-            IWeaponClass weaponClass = null, IArmorClass armorClass = null)
+            string name, ISprite sprite, IItemClass itemClass)
         {
-            return ItemFactory.Create(new ItemClass
-            (
-                name: name,
-                sprite: sprite,
-                weaponClass: weaponClass ?? DefaultWeaponClass,
-                armorClass: armorClass,
-                material: null
-            ));
+            return ItemFactory.Create(itemClass);
         }
-
         public IItem CreateRandomItem()
         {
+            /*
             var wc = _WeaponClasses.Count();
             var ac = _ArmorClasses.Count();
             var tot = wc + ac;
@@ -370,6 +349,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                        sprite: armorClass.Sprite,
                        armorClass: armorClass);
             }
+             * */
+
+            return ItemFactory.Create(Random.NextElement(_ItemClasses));
         }
     }
 }

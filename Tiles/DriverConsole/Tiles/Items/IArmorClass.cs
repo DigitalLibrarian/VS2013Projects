@@ -10,9 +10,6 @@ namespace Tiles.Items
 {
     public interface IArmorClass
     {
-        string Name { get; }
-        ISprite Sprite { get; }
-
         IReadOnlyList<ArmorSlot> RequiredSlots { get;}
         IDamageVector ResistVector { get; }
     }

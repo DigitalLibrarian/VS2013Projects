@@ -36,8 +36,6 @@ namespace Tiles.Content.Map
         {
             if (weapon == null) return null;
             return new WeaponClass(
-                "",
-                MapSprite(Symbol.MiscItem),
                 weapon.SlotRequirements.Select(Map).ToArray(),
                 weapon.Moves.Select(Map).ToArray());
         }
@@ -45,11 +43,11 @@ namespace Tiles.Content.Map
         public EngineItems.IItemClass Map(ContentModel.Item item)
         {
             return new ItemClass(
-                string.Format("{0} {1}", item.Material.Adjective, item.NameSingular),
-                MapSprite(Symbol.MiscItem),
-                Map(item.Weapon),
-                Map(item.Armor),
-                Map(item.Material));
+                string.Format("{0} {1}", item.Material.Adjective, item.NameSingular), 
+                MapSprite(Symbol.MiscItem), 
+                Map(item.Material), 
+                Map(item.Weapon), 
+                Map(item.Armor));
         }
 
         public EngineItems.ArmorSlot Map(ContentModel.ArmorSlot slot)

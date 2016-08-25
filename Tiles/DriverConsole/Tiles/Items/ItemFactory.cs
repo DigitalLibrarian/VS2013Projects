@@ -19,30 +19,16 @@ namespace Tiles.Items
         public IItem CreateShedLimb(IAgent agent, IBodyPart part)
         {
             return Create(new ItemClass
-            (
-                name: string.Format("{0}'s {1}", agent.Name, part.Name),
-                sprite: new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black),
-                weaponClass: DefaultWeaponClass,
-                armorClass: null,
-                material: null
-            ));
+            (name: string.Format("{0}'s {1}", agent.Name, part.Name), sprite: new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black), material: null, weaponClass: DefaultWeaponClass, armorClass: null));
         }
 
         public IItem CreateCorpse(IAgent agent)
         {
             return Create(new ItemClass
-            (
-                name: string.Format("{0}'s corpse", agent.Name),
-                sprite: new Sprite(Symbol.Corpse, Color.DarkGray, Color.Black),
-                weaponClass: DefaultWeaponClass,
-                armorClass: null,
-                material: null
-            ));
+            (name: string.Format("{0}'s corpse", agent.Name), sprite: new Sprite(Symbol.Corpse, Color.DarkGray, Color.Black), material: null, weaponClass: DefaultWeaponClass, armorClass: null));
         }
 
         private static IWeaponClass DefaultWeaponClass = new WeaponClass(
-            name: "Strike",
-            sprite: null,
             slots: new WeaponSlot[] { WeaponSlot.Main },
             attackMoveClasses: new ICombatMoveClass[] { 
                            new CombatMoveClass(

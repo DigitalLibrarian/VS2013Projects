@@ -95,7 +95,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                 }
             }
 
-            int numAgents = box.Size.X / 2;
+            int numAgents = numItems/2;
             var creatures = Store.Get(DfTags.CREATURE).ToList();
             for (int i = 0; i < numAgents; i++)
             {
@@ -116,7 +116,13 @@ namespace Tiles.ScreensImpl.ContentFactories
                     }
                     var agentContent = DfAgentFactory.Create(creatureDf.Name);
                     var engineAgentClass = ContentMapper.Map(agentContent);
-                    var agent = AgentFactory.Create(atlas, engineAgentClass, spawnLoc.Value, DefaultPlanner);
+                    var agent = AgentFactory.Create(atlas, engineAgentClass, 
+                        new Vector3(
+                            s.Box.Min.X, 
+                            s.Box.Min.Y,
+                            0
+                            )
+                        + spawnLoc.Value, DefaultPlanner);
                     tile.SetAgent(agent);
                 }
 

@@ -9,9 +9,6 @@ namespace Tiles.Items
 {
     public interface IWeaponClass
     {
-        string Name { get; }
-        ISprite Sprite { get; }
-        
         IEnumerable<WeaponSlot> RequiredSlots { get; }
         IList<ICombatMoveClass> AttackMoveClasses { get; }
     }

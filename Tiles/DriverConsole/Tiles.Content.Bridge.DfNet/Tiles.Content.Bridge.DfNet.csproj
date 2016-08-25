@@ -42,6 +42,7 @@
     <Compile Include="DfAgentBuilder.cs" />
     <Compile Include="DfAgentBuilderFactory.cs" />
     <Compile Include="DfAgentFactory.cs" />
+    <Compile Include="DfCombatMoveFactory.cs" />
     <Compile Include="DfItemBuilder.cs" />
     <Compile Include="DfItemBuilderFactory.cs" />
     <Compile Include="DfItemFactory.cs" />

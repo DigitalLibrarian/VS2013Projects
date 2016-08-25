@@ -21,20 +21,8 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IBodyFactory BodyFactory = new BodyFactory(new TissueFactory());
         static IBodyClassFactory BodyClassFactory = new BodyClassFactory();
 
-        static IItemClass ZombieClawClass = new ItemClass(
-            name: ZombieClaw.WeaponClass.Name,
-            sprite: null,
-            weaponClass: ZombieClaw.WeaponClass,
-            armorClass: null,
-            material: null
-            );
-        static IItemClass ZombieTeethClass = new ItemClass ( 
-            name:  ZombieTeeth.WeaponClass.Name, 
-            sprite: null,
-            weaponClass:  ZombieTeeth.WeaponClass,
-            armorClass: null,
-            material: null
-            );
+        static IItemClass ZombieClawClass = new ItemClass(name: "zombie claw", sprite: null, material: null, weaponClass: ZombieClaw.WeaponClass, armorClass: null);
+        static IItemClass ZombieTeethClass = new ItemClass(name: "zombie teeth", sprite: null, material: null, weaponClass: ZombieTeeth.WeaponClass, armorClass: null);
 
         public IRandom Random { get; set; }
         public HardCodedAgentFactory() : this(new RandomWrapper(new System.Random()))
@@ -142,8 +130,6 @@ namespace Tiles.ScreensImpl.ContentFactories
         static class ZombieClaw
         {
             public static WeaponClass WeaponClass = new WeaponClass(
-                    name: "zombie claws",
-                    sprite: null,
                     slots: new WeaponSlot[] { WeaponSlot.Claw },
                     attackMoveClasses: new ICombatMoveClass[] { 
                        new CombatMoveClass(
@@ -201,8 +187,6 @@ namespace Tiles.ScreensImpl.ContentFactories
         static class ZombieTeeth
         {
             public static WeaponClass WeaponClass = new WeaponClass(
-                    name: "zombie teeth",
-                    sprite: null,
                     slots: new WeaponSlot[] { WeaponSlot.Teeth },
                     attackMoveClasses: new ICombatMoveClass[] { 
                        new CombatMoveClass(
