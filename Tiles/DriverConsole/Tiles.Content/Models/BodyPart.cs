@@ -8,12 +8,9 @@ namespace Tiles.Content.Models
 {
     public class BodyPart
     {
-        public BodyPart() 
-        {
-            Tissue = new Tissue();
-        }
-
         public BodyPart Parent { get; set; }
+        
+        public List<CombatMove> Moves { get; set; }
 
         public string NameSingular { get; set; }
         public string NamePlural { get; set; }

@@ -70,6 +70,7 @@ namespace DfNet.Raws
             public const string BP_RELATION = "BP_RELATION";
             public const string BP_POSITION = "BP_POSITION";
             public const string BY_CATEGORY = "BY_CATEGORY";
+            public const string BY_TYPE= "BY_TYPE";
 
             public const string USE_MATERIAL_TEMPLATE = "USE_MATERIAL_TEMPLATE";
             public const string ADD_MATERIAL = "ADD_MATERIAL";

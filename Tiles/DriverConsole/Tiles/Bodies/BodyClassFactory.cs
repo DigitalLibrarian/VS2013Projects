@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Agents.Combat;
 using Tiles.Items;
 using Tiles.Materials;
 
@@ -27,13 +28,15 @@ namespace Tiles.Bodies
                 "torso",
                 false, false, false,
                 tissueClass,
-                ArmorSlot.Torso, WeaponSlot.None);
+                ArmorSlot.Torso, WeaponSlot.None,
+                new List<ICombatMoveClass>());
 
             var head = new BodyPartClass(
                 "head",
                 true, true, false,
                 tissueClass,
                 ArmorSlot.Head, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var leftArm = new BodyPartClass(
@@ -41,6 +44,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.LeftArm, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var leftHand = new BodyPartClass(
@@ -48,6 +52,7 @@ namespace Tiles.Bodies
                 false, true, true,
                 tissueClass,
                 ArmorSlot.LeftHand, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 leftArm);
 
             var rightArm = new BodyPartClass(
@@ -55,6 +60,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.RightArm, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var rightHand = new BodyPartClass(
@@ -62,6 +68,7 @@ namespace Tiles.Bodies
                 false, true, true,
                 tissueClass,
                 ArmorSlot.RightHand, WeaponSlot.Main,
+                new List<ICombatMoveClass>(),
                 rightArm);
 
             var leftLeg = new BodyPartClass(
@@ -69,6 +76,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.LeftLeg, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var leftFoot = new BodyPartClass(
@@ -76,6 +84,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.LeftFoot, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 leftLeg);
 
             var rightLeg = new BodyPartClass(
@@ -83,6 +92,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.RightLeg, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var rightFoot = new BodyPartClass(
@@ -90,6 +100,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.RightFoot, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 rightLeg);
 
             var bodyParts = new List<IBodyPartClass>{
@@ -114,19 +125,23 @@ namespace Tiles.Bodies
                 "torso",
                 false, false, false,
                 tissueClass,
-                ArmorSlot.Torso, WeaponSlot.None);
+                ArmorSlot.Torso, WeaponSlot.None,
+                new List<ICombatMoveClass>());
 
             var head = new BodyPartClass(
                 "head",
                 true, true, false,
                 tissueClass,
-                ArmorSlot.Head, WeaponSlot.Teeth, torso);
+                ArmorSlot.Head, WeaponSlot.Teeth,
+                new List<ICombatMoveClass>(),
+                torso);
 
             var leftArm = new BodyPartClass(
                 "left arm",
                 false, true, false,
                 tissueClass,
                 ArmorSlot.LeftArm, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var leftHand = new BodyPartClass(
@@ -134,6 +149,7 @@ namespace Tiles.Bodies
                 false, true, true,
                 tissueClass,
                 ArmorSlot.LeftHand, WeaponSlot.Claw,
+                new List<ICombatMoveClass>(),
                 leftArm);
 
             var rightArm = new BodyPartClass(
@@ -141,6 +157,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.RightArm, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var rightHand = new BodyPartClass(
@@ -148,6 +165,7 @@ namespace Tiles.Bodies
                 false, true, true,
                 tissueClass,
                 ArmorSlot.RightHand, WeaponSlot.Claw,
+                new List<ICombatMoveClass>(),
                 rightArm);
 
             var leftLeg = new BodyPartClass(
@@ -155,19 +173,23 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.LeftLeg, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var leftFoot = new BodyPartClass(
                 "left foot",
                 false, true, false,
                 tissueClass,
-                ArmorSlot.LeftFoot, WeaponSlot.None, leftLeg);
+                ArmorSlot.LeftFoot, WeaponSlot.None,
+                new List<ICombatMoveClass>(), 
+                leftLeg);
 
             var rightLeg = new BodyPartClass(
                 "right leg",
                 false, true, false,
                 tissueClass,
                 ArmorSlot.RightLeg, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 torso);
 
             var rightFoot = new BodyPartClass(
@@ -175,6 +197,7 @@ namespace Tiles.Bodies
                 false, true, false,
                 tissueClass,
                 ArmorSlot.RightFoot, WeaponSlot.None,
+                new List<ICombatMoveClass>(),
                 rightLeg);
 
             var bodyParts = new List<IBodyPartClass>{

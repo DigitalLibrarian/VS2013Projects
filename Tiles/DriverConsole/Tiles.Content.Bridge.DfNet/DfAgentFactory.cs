@@ -15,14 +15,18 @@ namespace Tiles.Content.Bridge.DfNet
         IDfObjectStore Store { get; set; }
         IDfAgentBuilderFactory BuilderFactory { get; set; }
         IDfMaterialFactory MaterialsFactory { get; set; }
+        IDfCombatMoveFactory CombatMoveFactory { get; set; }
 
         public DfAgentFactory(IDfObjectStore store, 
             IDfAgentBuilderFactory builderFactory,
-            IDfMaterialFactory materialsFactory)
+            IDfMaterialFactory materialsFactory,
+            IDfCombatMoveFactory combatMoveFactory
+            )
         {
             Store = store;
             BuilderFactory = builderFactory;
             MaterialsFactory = materialsFactory;
+            CombatMoveFactory = combatMoveFactory;
         }
 
         public Agent Create(string name)
@@ -161,6 +165,9 @@ namespace Tiles.Content.Bridge.DfNet
                             tags.AddRange(newTags);
                         }
                         break;
+                    case DfTags.MiscTags.ATTACK:
+                        HandleAttackTag(tag, tags, agentContext);
+                        break;
 
 
                     //case DfTags.MiscTags.BP_RELSIZE:
@@ -186,6 +193,37 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleAttackTag(DfTag tag, List<DfTag> tags, IDfAgentBuilder agentContext)
+        {
+            var attackIndex = tags.IndexOf(tag);
+            var nextIndex = tags.FindIndex(attackIndex + 1, t => t.Name.Equals(DfTags.MiscTags.ATTACK));
+            if (nextIndex == -1)
+            {
+                nextIndex = tags.Count();
+            }
+            if (tag.GetParams().Contains(DfTags.MiscTags.BY_CATEGORY))
+            {
+                var pIndex = tag.GetParams().ToList().IndexOf(DfTags.MiscTags.BY_CATEGORY);
+                string category = tag.GetParam(pIndex + 1);
+                var attackTags = tags.GetRange(attackIndex, nextIndex - attackIndex);
+
+                var attackDf = new DfObject(attackTags);
+                var move = CombatMoveFactory.Create(attackDf);
+                agentContext.AddCombatMoveToCategory(move, category);
+            }
+            
+            if (tag.GetParams().Contains(DfTags.MiscTags.BY_TYPE))
+            {
+                var pIndex = tag.GetParams().ToList().IndexOf(DfTags.MiscTags.BY_TYPE);
+                string type = tag.GetParam(pIndex + 1);
+                var attackTags = tags.GetRange(attackIndex, nextIndex - attackIndex);
+
+                var attackDf = new DfObject(attackTags);
+                var move = CombatMoveFactory.Create(attackDf);
+                agentContext.AddCombatMoveToType(move, type);
+            }
         }
                 
         private DfObject GetMaterialFromTemplate(DfTag tag, string type)

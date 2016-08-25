@@ -133,7 +133,8 @@ namespace Tiles.Content.Map
                 bodyPart.CanGrasp,
                 Map(bodyPart.Tissue),
                 Map(bodyPart.ArmorSlot),
-                Map(bodyPart.WeapnSlot)
+                Map(bodyPart.WeapnSlot),
+                bodyPart.Moves.Select(Map)
                 );
         }
 

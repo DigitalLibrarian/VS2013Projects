@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Agents.Combat;
 using Tiles.Items;
 
 namespace Tiles.Bodies
@@ -13,6 +14,7 @@ namespace Tiles.Bodies
 
         public IBodyPartClass Parent { get; set; }
         public ITissueClass Tissue { get; set; }
+        public IEnumerable<ICombatMoveClass> Moves { get; set; }
 
         public ArmorSlot ArmorSlot { get; set; }
         public WeaponSlot WeaponSlot { get; set; }
@@ -26,6 +28,7 @@ namespace Tiles.Bodies
             bool isCritical, bool canAmputate, bool canGrasp,
             ITissueClass tissueClass,
             ArmorSlot armorSlotType, WeaponSlot weaponSlotType, 
+            IEnumerable<ICombatMoveClass> moves,
             IBodyPartClass parent = null)
         {
             Name = name;
@@ -34,6 +37,7 @@ namespace Tiles.Bodies
             CanGrasp = canGrasp;
             ArmorSlot = armorSlotType;
             WeaponSlot = weaponSlotType;
+            Moves = moves;
             Parent = parent;
 
             Tissue = tissueClass;

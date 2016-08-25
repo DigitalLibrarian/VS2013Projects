@@ -29,6 +29,9 @@ namespace Tiles.ScreensImpl.ContentFactories
         IItemFactory ItemFactory { get; set; }
         IRandom Random { get; set; }
         IContentMapper ContentMapper { get; set; }
+
+        IAgentCommandPlanner DefaultPlanner { get; set; }
+
         public DfTestSiteFactory(IDfObjectStore store, IRandom random)
         {
             Store = store;
@@ -36,9 +39,12 @@ namespace Tiles.ScreensImpl.ContentFactories
             ItemFactory = new ItemFactory();
             AgentFactory = new AgentFactory(new BodyFactory(new TissueFactory()));
             DfMaterialFactory = new DfMaterialFactory(Store);
-            DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory());
-            DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), DfMaterialFactory);
+            var moveFactory = new DfCombatMoveFactory();
+            DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory(), moveFactory);
+            DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), DfMaterialFactory, moveFactory);
             ContentMapper = new ContentMapper();
+
+            DefaultPlanner = new DefaultAgentCommandPlanner(random, new AgentCommandFactory());
         }
 
         public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
@@ -110,7 +116,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                     }
                     var agentContent = DfAgentFactory.Create(creatureDf.Name);
                     var engineAgentClass = ContentMapper.Map(agentContent);
-                    var agent = AgentFactory.Create(atlas, engineAgentClass, spawnLoc.Value);
+                    var agent = AgentFactory.Create(atlas, engineAgentClass, spawnLoc.Value, DefaultPlanner);
                     tile.SetAgent(agent);
                 }
 

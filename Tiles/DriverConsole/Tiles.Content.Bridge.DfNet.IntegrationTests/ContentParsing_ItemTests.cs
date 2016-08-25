@@ -21,7 +21,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             Store = TestContentStore.Get();
             MaterialsFactory = new DfMaterialFactory(Store);
-            ItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory());
+            ItemFactory = new DfItemFactory(Store, 
+                new DfItemBuilderFactory(),
+                new DfCombatMoveFactory());
         }
 
         [TestMethod]

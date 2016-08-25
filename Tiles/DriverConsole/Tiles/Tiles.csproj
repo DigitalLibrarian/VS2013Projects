@@ -48,6 +48,7 @@
     <Compile Include="Agents\Behaviors\AgentCommandExecutionContext.cs" />
     <Compile Include="Agents\Behaviors\BaseAgentCommandPlanner.cs" />
     <Compile Include="Agents\Behaviors\CommandAgentBehavior.cs" />
+    <Compile Include="Agents\Behaviors\DefaultAgentCommandPlanner.cs" />
     <Compile Include="Agents\Behaviors\DoNothingAgentCommandPlanner.cs" />
     <Compile Include="Agents\Behaviors\IAgentCommandExecutionContext.cs" />
     <Compile Include="Agents\Behaviors\IAgentCommandPlanner.cs" />

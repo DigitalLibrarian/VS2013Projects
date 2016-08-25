@@ -14,7 +14,8 @@ namespace Tiles.Content.Bridge.DfNet
         Dictionary<string, Material> Materials { get; set; }
         Dictionary<string, List<string>> BodyPartCategoryTissues { get; set; }
         Dictionary<string, Dictionary<string, int>> BodyPartCategoryTissueThickness { get; set; }
-
+        Dictionary<string, List<CombatMove>> MovesByCategory { get; set; }
+        Dictionary<string, List<CombatMove>> MovesByType { get; set; }
 
         public DfAgentBuilder()
         {
@@ -22,6 +23,8 @@ namespace Tiles.Content.Bridge.DfNet
             Materials = new Dictionary<string, Material>();
             BodyPartCategoryTissues = new Dictionary<string, List<string>>();
             BodyPartCategoryTissueThickness = new Dictionary<string, Dictionary<string, int>>();
+            MovesByCategory = new Dictionary<string, List<CombatMove>>();
+            MovesByType = new Dictionary<string, List<CombatMove>>();
         }
 
         #region Lookups
@@ -56,7 +59,8 @@ namespace Tiles.Content.Bridge.DfNet
                     && t.GetParam(0).Equals(partName)));
         }
 
-        private IEnumerable<DfObject> FindPartsForConnTypes(DfObject defn)
+
+        private IEnumerable<DfObject> FindPartsForTypes(DfObject defn)
         {
             return BodyPartsDefn.Values.Where(
                 o => o.Tags.Any(
@@ -199,7 +203,7 @@ namespace Tiles.Content.Bridge.DfNet
             };
         }
 
-        BodyPart CreateBodyPart(DfObject defn, BodyPart parent)
+        BodyPart CreateBodyPart(DfObject defn, BodyPart parent, List<CombatMove> moves)
         {
             return new BodyPart
             {
@@ -212,19 +216,52 @@ namespace Tiles.Content.Bridge.DfNet
                         t.IsSingleWord(DfTags.MiscTags.LIMB)
                      || t.IsSingleWord(DfTags.MiscTags.HEAD)
                      || t.IsSingleWord(DfTags.MiscTags.DIGIT)
-                     )
+                     ),
+                Moves = moves.ToList()
             };
         }
 
+        List<CombatMove> GetMovesForPart(DfObject defn)
+        {
+            return GetBodyPartCategories(defn).SelectMany(cat =>
+                {
+                    if (MovesByCategory.ContainsKey(cat))
+                    {
+                        return MovesByCategory[cat];
+                    }
+                    else
+                    {
+                        return Enumerable.Empty<CombatMove>();
+                    }
+                })
+                .Concat(
+                    defn.Tags.Where(t => t.IsSingleWord())
+                    .Select(t=> t.Name)
+                    .SelectMany(type =>
+                    {
+                        if (MovesByType.ContainsKey(type))
+                        {
+                            return MovesByType[type];
+                        }
+                        else
+                        {
+                            return Enumerable.Empty<CombatMove>();
+                        }
+
+                    })
+                )
+                .ToList();
+        }
 
         public Agent Build()
         {
             var parts = new List<BodyPart>();
             var rootPartDefn = GetRootPartDefn();
 
-            var rootPart = CreateBodyPart(rootPartDefn, null);
+            var rootPart = CreateBodyPart(rootPartDefn, null, GetMovesForPart(rootPartDefn));
             parts.Add(rootPart);
 
+            var partMoves = new List<CombatMove>();
             var toLoad = new List<DfObject>();
             var partMap = new Dictionary<BodyPart, DfObject>{{rootPart, rootPartDefn}};
             for (int i = 0; i < parts.Count(); i++)
@@ -232,23 +269,29 @@ namespace Tiles.Content.Bridge.DfNet
                 var part = parts[i];
                 var defn = partMap[part];
                 toLoad.Clear();
+                partMoves.Clear();
 
                 toLoad.AddRange(FindPartsForCategories(defn));
-                toLoad.AddRange(FindPartsForConnTypes(defn));
+                toLoad.AddRange(FindPartsForTypes(defn));
                 toLoad.AddRange(FindPartsForDirectConnection(defn.Name));
+                                
+                foreach (var move in GetMovesForPart(defn))
+                {
+                    partMoves.Add(move);
+                }
 
                 foreach (var partDefn in toLoad)
                 {
-                    var newPart = CreateBodyPart(partDefn, part);
+                    var newPart = CreateBodyPart(partDefn, part, partMoves);
                     parts.Add(newPart);
                     partMap[newPart] = partDefn;
                 }
             }
-            var body = new Body
+
+            var agent = new Agent(Name, new Body
             {
                 Parts = parts
-            };
-            var agent = new Agent(Name, body);
+            });
             return agent;
         }
 
@@ -258,6 +301,26 @@ namespace Tiles.Content.Bridge.DfNet
         public void SetName(string singular, string plural)
         {
             Name = singular;
+        }
+
+        public void AddCombatMoveToCategory(CombatMove move, string category)
+        {
+            if (!MovesByCategory.ContainsKey(category))
+            {
+                MovesByCategory[category] = new List<CombatMove>();
+            }
+            MovesByCategory[category].Add(move);
+        }
+
+
+        public void AddCombatMoveToType(CombatMove move, string type)
+        {
+            if (!MovesByType.ContainsKey(type))
+            {
+                MovesByType[type] = new List<CombatMove>();
+            }
+
+            MovesByType[type].Add(move);
         }
     }
 }

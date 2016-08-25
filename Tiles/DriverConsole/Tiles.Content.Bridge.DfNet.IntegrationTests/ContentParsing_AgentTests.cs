@@ -20,7 +20,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Store = TestContentStore.Get();
             DfAgentFactory = new DfAgentFactory(Store, 
                 new DfAgentBuilderFactory(),
-                new DfMaterialFactory(Store)
+                new DfMaterialFactory(Store),
+                new DfCombatMoveFactory()
                 );
         }
 
@@ -38,7 +39,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(leftHand.Tissue);
             Assert.IsTrue(leftHand.CanGrasp);
             Assert.IsFalse(leftHand.CanBeAmputated);
-            
+
+            Assert.IsTrue(agent.Body.Parts.Any(p => p.Moves.Any()));
             var leftHandParts = agent.Body.Parts.Where(p => p.Parent == leftHand);
             Assert.AreEqual(6, leftHandParts.Count());
 
@@ -60,20 +62,26 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 "thumb",
             })
             {
-                var leftHandPart = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals(partName));
-                Assert.IsNotNull(leftHandPart);
-                Assert.IsNotNull(leftHandPart.Tissue);
-                Assert.IsTrue(expectedTissueAdj.SequenceEqual(leftHandPart.Tissue.Layers.Select(x => x.Material.Adjective)));
+                var finger = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals(partName));
+                Assert.IsNotNull(finger);
+                Assert.IsNotNull(finger.Tissue);
+                Assert.IsTrue(expectedTissueAdj.SequenceEqual(finger.Tissue.Layers.Select(x => x.Material.Adjective)));
 
-                Assert.IsFalse(leftHandPart.CanGrasp);
-                Assert.IsTrue(leftHandPart.CanBeAmputated);
+                Assert.IsFalse(finger.CanGrasp);
+                Assert.IsTrue(finger.CanBeAmputated);
+
+                var moves = finger.Moves;
+                Assert.IsNotNull(moves);
+                Assert.AreEqual(1, moves.Where(m => m.Name.Equals("SCRATCH")).Count());
             }
             var leftWrist = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist"));
             Assert.IsNotNull(leftWrist);
             Assert.AreEqual(2, leftWrist.Tissue.Layers.Count());
 
             Assert.IsTrue(
-                new string[]{"bone", "muscle"}.SequenceEqual(leftWrist.Tissue.Layers.Select(x => x.Material.Adjective))
+                new string[]{"bone", "muscle"}
+                .SequenceEqual(
+                    leftWrist.Tissue.Layers.Select(x => x.Material.Adjective))
                 );
         }
 

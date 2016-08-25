@@ -49,6 +49,7 @@
     <Compile Include="IDfAgentBuilder.cs" />
     <Compile Include="IDfAgentBuilderFactory.cs" />
     <Compile Include="IDfAgentFactory.cs" />
+    <Compile Include="IDfCombatMoveFactory.cs" />
     <Compile Include="IDfItemBuilder.cs" />
     <Compile Include="IDfItemBuilderFactory.cs" />
     <Compile Include="IDfItemFactory.cs" />

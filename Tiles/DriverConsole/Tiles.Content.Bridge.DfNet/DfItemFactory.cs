@@ -11,13 +11,17 @@ namespace Tiles.Content.Bridge.DfNet
     public class DfItemFactory : IDfItemFactory
     {
         IDfItemBuilderFactory BuilderFactory { get; set; }
+        IDfCombatMoveFactory CombatMoveFactory { get; set; }
 
         IDfObjectStore Store { get; set; }
 
-        public DfItemFactory(IDfObjectStore store, IDfItemBuilderFactory builderFactory)
+        public DfItemFactory(IDfObjectStore store, 
+            IDfItemBuilderFactory builderFactory,
+            IDfCombatMoveFactory combatMoveFactory)
         {
             Store = store;
             BuilderFactory = builderFactory;
+            CombatMoveFactory = combatMoveFactory;
         }
 
         void AddTypeSpecificSlots(string type, IDfItemBuilder b)
@@ -78,29 +82,11 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     nextIndex = tags.Count();
                 }
+                var attackTags = tags.GetRange(index, nextIndex - index);
 
-                var move = new CombatMove
-                {
-                    Verb = new Verb
-                    {
-                        SecondPerson = attackTag.GetParam(3),
-                        ThirdPerson = attackTag.GetParam(4),
-                        IsTransitive = false
-                    },
-                    ContactArea = int.Parse(attackTag.GetParam(1)),
-                    MaxPenetration = int.Parse(attackTag.GetParam(2)),
-                    VelocityMultiplier = int.Parse(attackTag.GetParam(6))
-                };
-                foreach (var subTag in tags.GetRange(index, nextIndex - index))
-                {
-                    switch (subTag.Name)
-                    {
-                        case DfTags.MiscTags.ATTACK_PREPARE_AND_RECOVER:
-                            move.PrepTime = int.Parse(subTag.GetParam(0));
-                            move.RecoveryTime = int.Parse(subTag.GetParam(1));
-                            break;
-                    }
-                }
+                var attackDf = new DfObject(attackTags);
+                var move = CombatMoveFactory.Create(attackDf);
+
                 b.AddCombatMove(move);
             }
 
@@ -108,13 +94,4 @@ namespace Tiles.Content.Bridge.DfNet
             return b.Build();
         }
     }
-
-
-
-
-
-
-
-
-    
 }

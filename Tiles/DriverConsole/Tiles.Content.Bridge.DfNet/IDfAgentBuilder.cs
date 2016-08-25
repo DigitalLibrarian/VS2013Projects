@@ -21,5 +21,9 @@ namespace Tiles.Content.Bridge.DfNet
         void SetBodyPartTissueThickness(string bpName, string tisName, int relThick);
 
         Agent Build();
+
+        void AddCombatMoveToCategory(CombatMove move, string bpCategory);
+
+        void AddCombatMoveToType(CombatMove move, string type);
     }
 }
