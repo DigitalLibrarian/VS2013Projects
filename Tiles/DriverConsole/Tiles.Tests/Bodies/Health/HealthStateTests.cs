@@ -59,15 +59,11 @@ namespace Tiles.Tests.Bodies.Health
         }
 
         [TestMethod]
-        public void WoundCausesInstantDeath()
+        public void InjuryCausesInstantDeath()
         {
             int ticks = 42;
             var injuryMock = new Mock<IInjury>();
             bool mockInstDeath = false;
-            injuryMock.Setup(i => i.Update(ticks)).Callback(() =>
-            {
-                mockInstDeath = true;
-            });
             injuryMock.Setup(i => i.IsInstantDeath).Returns(() => mockInstDeath);
 
             HealthState.Add(injuryMock.Object);
@@ -75,10 +71,25 @@ namespace Tiles.Tests.Bodies.Health
             Assert.IsFalse(HealthState.InstantDeath);
 
             HealthState.Update(ticks);
+            Assert.IsFalse(HealthState.IsDead);
+            Assert.IsFalse(HealthState.InstantDeath);
 
-            Assert.IsTrue(mockInstDeath);
+            mockInstDeath = true;
+            HealthState.Update(ticks);
+
             Assert.IsTrue(HealthState.IsDead);
             Assert.IsTrue(HealthState.InstantDeath);
+
+            Assert.IsTrue(HealthState.GetInjuries().Contains(injuryMock.Object));
+
+            // turning it back off has no effect
+            mockInstDeath = false;
+            HealthState.Update(ticks);
+
+            Assert.IsTrue(HealthState.IsDead);
+            Assert.IsTrue(HealthState.InstantDeath);
+
+            Assert.IsTrue(HealthState.GetInjuries().Contains(injuryMock.Object));
         }
 
 
@@ -95,28 +106,28 @@ namespace Tiles.Tests.Bodies.Health
         public void WoundsCanHaveSuddenEnd()
         {
             int ticks = 42;
-            var injuryMock = new Mock<IInjury>();
+            var injuryMock1 = new Mock<IInjury>();
             bool mockIsOver = false;
-            injuryMock.Setup(i => i.Update(ticks)).Callback(() =>
+            injuryMock1.Setup(i => i.Update(ticks)).Callback(() =>
             {
                 mockIsOver = true;
             });
-            injuryMock.Setup(i => i.IsOver).Returns(() => mockIsOver);
+            injuryMock1.Setup(i => i.IsOver).Returns(() => mockIsOver);
 
-            HealthState.Add(injuryMock.Object);
+            HealthState.Add(injuryMock1.Object);
             Assert.IsFalse(HealthState.IsDead);
             Assert.IsFalse(HealthState.InstantDeath);
             Assert.IsFalse(mockIsOver);
 
             HealthState.Update(ticks);
-            injuryMock.Verify(i => i.Update(It.IsAny<int>()), Times.Exactly(1));
-            Assert.IsFalse(HealthState.GetInjuries().Contains(injuryMock.Object));
+            injuryMock1.Verify(i => i.Update(It.IsAny<int>()), Times.Exactly(1));
+            Assert.IsFalse(HealthState.GetInjuries().Contains(injuryMock1.Object));
 
             Assert.IsFalse(HealthState.IsDead);
             Assert.IsFalse(HealthState.InstantDeath);
 
             HealthState.Update(ticks);
-            injuryMock.Verify(i => i.Update(It.IsAny<int>()), Times.Exactly(1));
+            injuryMock1.Verify(i => i.Update(It.IsAny<int>()), Times.Exactly(1));
         }
     }
 }

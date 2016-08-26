@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Agents\AgentCommandFactoryTests.cs" />
     <Compile Include="Agents\AgentCommandInterpreterTests.cs" />
+    <Compile Include="Agents\AgentFactoryTests.cs" />
     <Compile Include="Agents\AgentReaperTests.cs" />
     <Compile Include="Agents\AgentTests.cs" />
     <Compile Include="Agents\Behaviors\AgentExecutionContextTests.cs" />

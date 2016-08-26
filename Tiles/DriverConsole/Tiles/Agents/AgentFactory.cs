@@ -20,7 +20,6 @@ namespace Tiles.Agents
             BodyFactory = bodyFactory;
         }
 
-
         public IAgent Create(IAtlas atlas, IAgentClass agentClass, Vector3 pos, IAgentCommandPlanner planner)
         {
             var body = BodyFactory.Create(agentClass.BodyClass);
