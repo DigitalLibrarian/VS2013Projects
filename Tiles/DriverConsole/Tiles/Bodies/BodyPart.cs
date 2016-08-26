@@ -25,7 +25,7 @@ namespace Tiles.Bodies
         public bool IsBreathe { get { return Class.IsBreathe; } }
         public bool IsSight { get { return Class.IsSight; } }
 
-        public bool IsStanding { get { return Class.IsStance; } }
+        public bool IsStance { get { return Class.IsStance; } }
         public bool IsInternal { get { return Class.IsInternal; } }
 
         public IBodyPart Grasped { get; private set; }

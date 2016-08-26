@@ -46,7 +46,7 @@ namespace Tiles.Tests.Bodies
         }
 
         [TestMethod]
-        public void Name_ClassProperty()
+        public void ClassProperty_Name()
         {
             var name = "boo";
             Assert.IsNull(Part.Name);
@@ -55,7 +55,7 @@ namespace Tiles.Tests.Bodies
         }
 
         [TestMethod]
-        public void ArmorSlot_ClassProperty()
+        public void ClassProperty_ArmorSlot()
         {
             var slot = ArmorSlot.RightHand;
             Assert.AreNotEqual(slot, Part.ArmorSlot);
@@ -64,7 +64,7 @@ namespace Tiles.Tests.Bodies
         }
 
         [TestMethod]
-        public void WeaponSlot_ClassProperty()
+        public void ClassProperty_WeaponSlot()
         {
             var slot = WeaponSlot.Main;
             Assert.AreNotEqual(slot, Part.WeaponSlot);
@@ -74,7 +74,7 @@ namespace Tiles.Tests.Bodies
 
 
         [TestMethod]
-        public void IsLifeCritical_ClassProperty()
+        public void ClassProperty_IsLifeCritical()
         {
             Assert.IsFalse(Part.IsLifeCritical);
             ClassMock.Setup(x => x.IsLifeCritical).Returns(true);
@@ -82,13 +82,76 @@ namespace Tiles.Tests.Bodies
         }
 
         [TestMethod]
-        public void CanAmputate_ClassProperty()
+        public void ClassProperty_CanAmputate()
         {
             Assert.IsFalse(Part.CanBeAmputated);
             ClassMock.Setup(x => x.CanBeAmputated).Returns(true);
             Assert.IsTrue(Part.CanBeAmputated);
         }
 
+        [TestMethod]
+        public void ClassProperty_IsNervous()
+        {
+            Assert.IsFalse(Part.IsNervous);
+            ClassMock.Setup(x => x.IsNervous).Returns(true);
+            Assert.IsTrue(Part.IsNervous);
+        }
+
+        [TestMethod]
+        public void ClassProperty_IsCirculatory()
+        {
+            Assert.IsFalse(Part.IsCirculatory);
+            ClassMock.Setup(x => x.IsCirculatory).Returns(true);
+            Assert.IsTrue(Part.IsCirculatory);
+        }
+
+        [TestMethod]
+        public void ClassProperty_IsSkeletal()
+        {
+            Assert.IsFalse(Part.IsSkeletal);
+            ClassMock.Setup(x => x.IsSkeletal).Returns(true);
+            Assert.IsTrue(Part.IsSkeletal);
+        }
+
+        [TestMethod]
+        public void ClassProperty_IsDigit()
+        {
+            Assert.IsFalse(Part.IsDigit);
+            ClassMock.Setup(x => x.IsDigit).Returns(true);
+            Assert.IsTrue(Part.IsDigit);
+        }
+
+        [TestMethod]
+        public void ClassProperty_IsBreathe()
+        {
+            Assert.IsFalse(Part.IsBreathe);
+            ClassMock.Setup(x => x.IsBreathe).Returns(true);
+            Assert.IsTrue(Part.IsBreathe);
+        }
+
+        [TestMethod]
+        public void ClassProperty_IsSight()
+        {
+            Assert.IsFalse(Part.IsSight);
+            ClassMock.Setup(x => x.IsSight).Returns(true);
+            Assert.IsTrue(Part.IsSight);
+        }
+
+        [TestMethod]
+        public void ClassProperty_IsStance()
+        {
+            Assert.IsFalse(Part.IsStance);
+            ClassMock.Setup(x => x.IsStance).Returns(true);
+            Assert.IsTrue(Part.IsStance);
+        }
+
+        [TestMethod]
+        public void ClassProperty_IsInternal()
+        {
+            Assert.IsFalse(Part.IsInternal);
+            ClassMock.Setup(x => x.IsInternal).Returns(true);
+            Assert.IsTrue(Part.IsInternal);
+        }
 
         [TestMethod]
         public void CanGrasp()

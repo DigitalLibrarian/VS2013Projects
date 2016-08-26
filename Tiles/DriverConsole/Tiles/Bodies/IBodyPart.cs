@@ -28,7 +28,7 @@ namespace Tiles.Bodies
         bool IsBreathe { get; }
         bool IsSight { get; }
 
-        bool IsStanding { get; }
+        bool IsStance { get; }
         bool IsInternal { get; }
 
         ArmorSlot ArmorSlot { get; }
