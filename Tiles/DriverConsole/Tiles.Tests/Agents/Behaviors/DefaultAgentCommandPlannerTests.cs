@@ -9,6 +9,7 @@ using Tiles.Random;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Agents.Behaviors;
+using Tiles.Math;
 
 namespace Tiles.Tests.Agents.Behaviors
 {
@@ -22,6 +23,9 @@ namespace Tiles.Tests.Agents.Behaviors
 
         DefaultAgentCommandPlanner Planner { get; set; }
 
+        Mock<IGame> GameMock { get; set; }
+        Mock<IAgent> AgentMock { get; set; }
+
         [TestInitialize]
         public void Initialize()
         {
@@ -31,29 +35,46 @@ namespace Tiles.Tests.Agents.Behaviors
             PosFinderMock = new Mock<IPositionFinder>();
 
             Planner = new DefaultAgentCommandPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveDiscoMock.Object, PosFinderMock.Object);
+
+            GameMock = new Mock<IGame>();
+            AgentMock = new Mock<IAgent>();
         }
 
         [TestMethod]
         public void AgentIsDead()
         {
-            var gameMock = new Mock<IGame>();
-            var agentMock = new Mock<IAgent>();
-            agentMock.Setup(x => x.IsDead).Returns(true);
+            AgentMock.Setup(x => x.IsDead).Returns(true);
 
             var nothingCommandMock = new Mock<IAgentCommand>();
-            CommandFactoryMock.Setup(x => x.Nothing(agentMock.Object)).Returns(new IAgentCommand[] {nothingCommandMock.Object});
+            CommandFactoryMock.Setup(x => x.Nothing(AgentMock.Object)).Returns(new IAgentCommand[] {nothingCommandMock.Object});
 
-            var result = Planner.PlanBehavior(gameMock.Object, agentMock.Object);
+            var result = Planner.PlanBehavior(GameMock.Object, AgentMock.Object);
 
             Assert.AreEqual(1, result.Count());
             Assert.AreSame(nothingCommandMock.Object, result.ElementAt(0));
         }
 
-        [Ignore]
         [TestMethod]
         public void CannotFindTarget()
         {
+            var agentPos = new Vector3(42, 42, 42);
+            AgentMock.Setup(x => x.Pos).Returns(agentPos);
 
+            PosFinderMock.Setup(x => x.FindNearbyPos(agentPos, It.IsAny<Predicate<Vector3>>(), It.IsAny<int>())).Returns((Vector3?)null);
+
+            var wanderDir = new Vector3(-1, 0, 0);
+            RandomMock.Setup(x => x.NextElement(It.Is<ICollection<Vector3>>(col => col.SequenceEqual(CompassVectors.GetAll().Select(v => new Vector3(v.X, v.Y, 0))))))
+                .Returns(wanderDir);
+
+            var commandMock = new Mock<IAgentCommand>();
+
+            CommandFactoryMock.Setup(x => x.MoveDirection(AgentMock.Object, wanderDir)).Returns(new IAgentCommand[]{commandMock.Object});
+
+            var result = Planner.PlanBehavior(GameMock.Object, AgentMock.Object);
+
+            Assert.AreEqual(1, result.Count());
+            Assert.AreSame(commandMock.Object, result.First());
+            CommandFactoryMock.Verify(x => x.MoveDirection(AgentMock.Object, wanderDir), Times.Once());
         }
 
         [Ignore]
@@ -66,6 +87,13 @@ namespace Tiles.Tests.Agents.Behaviors
         [Ignore]
         [TestMethod]
         public void PossibleMovesFound()
+        {
+
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void RandomWander()
         {
 
         }
