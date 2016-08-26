@@ -23,8 +23,8 @@ namespace Tiles.Tests.Agents.Behaviors
         // class is used via inheritance
         class TestPlanner : BaseAgentCommandPlanner
         {
-            public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, ICombatMoveDiscoverer moveDisco) 
-                : base(random, commandFactory, moveDisco) { }
+            public TestPlanner(IRandom random, IAgentCommandFactory commandFactory, ICombatMoveDiscoverer moveDisco, IPositionFinder posFinder) 
+                : base(random, commandFactory, moveDisco, posFinder) { }
 
             public override IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent)
             {
@@ -43,6 +43,7 @@ namespace Tiles.Tests.Agents.Behaviors
         Mock<IRandom> RandomMock { get; set; }
         Mock<IAgentCommandFactory> CommandFactoryMock { get; set; }
         Mock<ICombatMoveDiscoverer> MoveDiscoMock { get; set; }
+        Mock<IPositionFinder> PosFinderMock { get; set; }
         TestPlanner Planner { get; set; }
         
         [TestInitialize]
@@ -51,7 +52,8 @@ namespace Tiles.Tests.Agents.Behaviors
             RandomMock = new Mock<IRandom>();
             CommandFactoryMock = new Mock<IAgentCommandFactory>();
             MoveDiscoMock = new Mock<ICombatMoveDiscoverer>();
-            Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveDiscoMock.Object);
+            PosFinderMock = new Mock<IPositionFinder>();
+            Planner = new TestPlanner(RandomMock.Object, CommandFactoryMock.Object, MoveDiscoMock.Object, PosFinderMock.Object);
         }
         
         [TestMethod]
@@ -177,38 +179,20 @@ namespace Tiles.Tests.Agents.Behaviors
         }
 
         [TestMethod]
-        public void FindNearbyPos_Miss()
+        public void FindNearbyPos()
         {
             var center = new Vector3(20, 20, 20);
             var halfBoxSize = 1;
+            var mockedResult = new Vector3(99, 91, 101);
 
-            var testedVectors = new List<Vector3>();
-            Predicate<Vector3> finderPred = new Predicate<Vector3>((v) =>
-            {
-                testedVectors.Add(v);
-                return false;
-            });
+            Mock<Predicate<Vector3>> predMock = new Mock<Predicate<Vector3>>();
+            PosFinderMock.Setup(x => x.FindNearbyPos(center, predMock.Object, halfBoxSize))
+                .Returns(mockedResult);
 
-            var result = Planner.RunFindNearbyPos(center, finderPred, halfBoxSize);
+            var result = Planner.RunFindNearbyPos(center, predMock.Object, halfBoxSize);
 
-            Assert.IsFalse(result.HasValue);
-            Assert.AreEqual(9, testedVectors.Count());
-
-            // TOOD - assert tested vectors
-        }
-
-        [TestMethod]
-        public void FindNearbyPos_Hit()
-        {
-            var center = new Vector3(20, 20, 20);
-            var halfBoxSize = 1;
-
-            var winner = new Vector3(20, 20, 20);
-            Predicate<Vector3> finderPred = new Predicate<Vector3>((v) => v.X == winner.X && v.Y == winner.Y);
-            var result = Planner.RunFindNearbyPos(center, finderPred, halfBoxSize);
-
-            Assert.IsTrue(result.HasValue);
-            Asserter.AreEqual(winner, result.Value);
+            PosFinderMock.Verify(x => x.FindNearbyPos(center, predMock.Object, halfBoxSize), Times.Once());
+            Asserter.AreEqual(mockedResult, result.Value);
         }
     }
 }

@@ -134,6 +134,7 @@
     <Compile Include="IGame.cs" />
     <Compile Include="IActionLog.cs" />
     <Compile Include="ActionLog.cs" />
+    <Compile Include="IPositionFinder.cs" />
     <Compile Include="ISite.cs" />
     <Compile Include="ISiteFactory.cs" />
     <Compile Include="ISprite.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="Materials\IMaterial.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="MissingVerbConjugationException.cs" />
+    <Compile Include="PositionFinder.cs" />
     <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Items\IItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

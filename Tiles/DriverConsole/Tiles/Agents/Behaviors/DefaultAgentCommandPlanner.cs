@@ -10,8 +10,8 @@ namespace Tiles.Agents.Behaviors
 {
     public class DefaultAgentCommandPlanner : BaseAgentCommandPlanner
     {
-        public DefaultAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory) 
-            : base(random, commandFactory, new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc()))) { }
+        public DefaultAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory, ICombatMoveDiscoverer moveDisco, IPositionFinder posFinder) 
+            : base(random, commandFactory, moveDisco, posFinder) { }
 
         public override IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent)
         {
@@ -39,6 +39,7 @@ namespace Tiles.Agents.Behaviors
         // TODO - move into base class and test
         private IAgent FindTarget(IGame game, IAgent agent)
         {
+            // TODO - the sight radius should depend on agent class data (skills, vision, etc..)
             var pos = FindNearbyPos(agent.Pos, worldPos =>
             {
                 var tile = game.Atlas.GetTileAtPos(worldPos);

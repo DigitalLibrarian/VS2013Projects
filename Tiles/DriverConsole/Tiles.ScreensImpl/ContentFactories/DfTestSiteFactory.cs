@@ -16,6 +16,7 @@ using Tiles.Structures;
 using DfNet.Raws;
 using Tiles.Content.Bridge.DfNet;
 using Tiles.Content.Map;
+using Tiles.Agents.Combat;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
@@ -44,7 +45,10 @@ namespace Tiles.ScreensImpl.ContentFactories
             DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), DfMaterialFactory, moveFactory);
             ContentMapper = new ContentMapper();
 
-            DefaultPlanner = new DefaultAgentCommandPlanner(random, new AgentCommandFactory());
+            DefaultPlanner = new DefaultAgentCommandPlanner(random, 
+                new AgentCommandFactory(), 
+                new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc())),
+                new PositionFinder());
         }
 
         public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
