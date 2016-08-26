@@ -123,7 +123,24 @@ namespace Tiles.Content.Map
 
         EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)
         {
-            return new EngineBodies.BodyPartClass(bodyPart.NameSingular, Map(bodyPart.Tissue), Map(bodyPart.ArmorSlot), Map(bodyPart.WeapnSlot), bodyPart.Moves.Select(Map), true, bodyPart.CanGrasp, bodyPart.CanBeAmputated);
+            return new EngineBodies.BodyPartClass(
+                bodyPart.NameSingular, 
+                Map(bodyPart.Tissue), 
+                Map(bodyPart.ArmorSlot), 
+                Map(bodyPart.WeapnSlot), 
+                bodyPart.Moves.Select(Map), 
+                isCritical: true, 
+                canGrasp: bodyPart.CanGrasp,
+                canBeAmputated: bodyPart.CanBeAmputated,
+                isNervous: bodyPart.IsNervous,
+                isCirc: bodyPart.IsCirculatory,
+                isSkeletal: bodyPart.IsSkeletal,
+                isDigit: bodyPart.IsDigit,
+                isBreathe: bodyPart.IsBreathe,
+                isSight: bodyPart.IsSight,
+                isStance: bodyPart.IsStance,
+                isInternal: bodyPart.IsInternal
+                );
         }
 
         EngineBodies.ITissueClass Map(ContentModel.Tissue tissue)

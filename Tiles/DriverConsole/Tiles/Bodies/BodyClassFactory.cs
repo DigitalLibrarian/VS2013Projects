@@ -27,42 +27,42 @@ namespace Tiles.Bodies
 
             var head = new BodyPartClass("head", tissueClass, ArmorSlot.Head, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: torso,
-                canAmputate: true,
+                canBeAmputated: true,
                 isCritical: true);
 
             var leftArm = new BodyPartClass("left arm", tissueClass, ArmorSlot.LeftArm, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: torso,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var leftHand = new BodyPartClass("left hand", tissueClass, ArmorSlot.LeftHand, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: leftArm,
                 canGrasp: true,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var rightArm = new BodyPartClass("right arm", tissueClass, ArmorSlot.RightArm, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: torso,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var rightHand = new BodyPartClass("right hand", tissueClass, ArmorSlot.RightHand, WeaponSlot.Main, new List<ICombatMoveClass>(),
                 parent: rightArm,
                 canGrasp: true,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var leftLeg = new BodyPartClass("left leg", tissueClass, ArmorSlot.LeftLeg, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: torso,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var leftFoot = new BodyPartClass("left foot", tissueClass, ArmorSlot.LeftFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: leftLeg,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var rightLeg = new BodyPartClass("right leg", tissueClass, ArmorSlot.RightLeg, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: torso,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var rightFoot = new BodyPartClass("right foot", tissueClass, ArmorSlot.RightFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: rightLeg,
-                canAmputate: true);
+                canBeAmputated: true);
 
             var pD = new Dictionary<string, BodyPartClass>();
 

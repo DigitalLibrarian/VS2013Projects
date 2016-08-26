@@ -9,7 +9,11 @@ namespace Tiles.Content.Models
     public class BodyPart
     {
         public BodyPart Parent { get; set; }
-        
+
+        public Tissue Tissue { get; set; }
+        public ArmorSlot ArmorSlot { get; set; }
+        public WeaponSlot WeapnSlot { get; set; }
+
         public List<CombatMove> Moves { get; set; }
 
         public string NameSingular { get; set; }
@@ -17,11 +21,6 @@ namespace Tiles.Content.Models
         
         public bool CanBeAmputated { get; set; }
         public bool CanGrasp { get; set; }
-
-        public ArmorSlot ArmorSlot { get; set; }
-        public WeaponSlot WeapnSlot { get; set; }
-
-        public Tissue Tissue { get; set; }
 
         public bool IsNervous { get; set; }
         public bool IsCirculatory { get; set; }
@@ -32,7 +31,7 @@ namespace Tiles.Content.Models
         public bool IsBreathe { get; set; }
         public bool IsSight { get; set; }
 
-        public bool IsStanding { get; set; }
+        public bool IsStance { get; set; }
         public bool IsInternal { get; set; }
     }
 

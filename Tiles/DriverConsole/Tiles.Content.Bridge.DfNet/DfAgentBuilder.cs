@@ -207,6 +207,7 @@ namespace Tiles.Content.Bridge.DfNet
         {
             var singleWords = defn.Tags.Where(t => t.IsSingleWord())
                 .Select(t => t.Name).ToList();
+
             return new BodyPart
             {
                 Parent = parent,
@@ -220,13 +221,15 @@ namespace Tiles.Content.Bridge.DfNet
                      || t.IsSingleWord(DfTags.MiscTags.DIGIT)
                      ),
                 Moves = moves.ToList(),
-                IsNervous = singleWords.Contains("NERVOUS"),
+                IsNervous = 
+                        singleWords.Contains("NERVOUS")
+                    ||  singleWords.Contains("THOUGHT"),
                 IsCirculatory = singleWords.Contains("CIRCULATION"),
                 IsSkeletal = singleWords.Contains("SKELETAL"),
                 IsDigit = singleWords.Contains("DIGIT"),
                 IsBreathe = singleWords.Contains("BREATHE"),
                 IsSight = singleWords.Contains("SIGHT"),
-                IsStanding = singleWords.Contains("STANCE"),
+                IsStance = singleWords.Contains("STANCE"),
                 IsInternal = singleWords.Contains("INTERNAL")
             };
         }

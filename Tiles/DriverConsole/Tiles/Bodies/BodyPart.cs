@@ -13,8 +13,20 @@ namespace Tiles.Bodies
         public ArmorSlot ArmorSlot { get { return Class.ArmorSlot; } }
         public WeaponSlot WeaponSlot { get { return Class.WeaponSlot; } }
         public bool IsLifeCritical { get { return Class.IsLifeCritical; } }
-        public bool CanBeAmputated { get { return Class.CanAmputate; } }
+        public bool CanBeAmputated { get { return Class.CanBeAmputated; } }
         public bool CanGrasp { get { return Class.CanGrasp && !IsGrasping && Weapon == null; } }
+
+        public bool IsNervous { get { return Class.IsNervous; } }
+        public bool IsCirculatory { get { return Class.IsCirculatory; } }
+        public bool IsSkeletal { get { return Class.IsSkeletal; } }
+
+        public bool IsDigit { get { return Class.IsDigit; } }
+
+        public bool IsBreathe { get { return Class.IsBreathe; } }
+        public bool IsSight { get { return Class.IsSight; } }
+
+        public bool IsStanding { get { return Class.IsStance; } }
+        public bool IsInternal { get { return Class.IsInternal; } }
 
         public IBodyPart Grasped { get; private set; }
         public IBodyPart GraspedBy { get; set; }

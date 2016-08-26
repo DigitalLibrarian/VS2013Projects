@@ -54,13 +54,17 @@ namespace Tiles.Agents.Combat
             }
         }
 
+        bool AcceptableTargetPart(IBodyPart part)
+        {
+            return !part.IsInternal;
+        }
 
 
         IEnumerable<ICombatMove> WeaponMoves(IAgent attacker, IAgent defender, IItem weaponItem)
         {
             foreach (var attackMoveClass in weaponItem.Class.WeaponClass.AttackMoveClasses)
             {
-                foreach (var youPart in defender.Body.Parts)
+                foreach (var youPart in defender.Body.Parts.Where(AcceptableTargetPart))
                 {
                     yield return MoveBuilder.AttackBodyPartWithWeapon(attacker, defender, attackMoveClass, youPart, weaponItem);
                 }
@@ -70,7 +74,7 @@ namespace Tiles.Agents.Combat
 
         IEnumerable<ICombatMove> GraspMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
         {
-            foreach (var youPart in defender.Body.Parts)
+            foreach (var youPart in defender.Body.Parts.Where(AcceptableTargetPart))
             {
                 if (!youPart.IsWrestling)
                 {

@@ -15,7 +15,7 @@ namespace Tiles.Bodies
         ArmorSlot ArmorSlot { get; }
         WeaponSlot WeaponSlot { get; }
         bool IsLifeCritical { get; }
-        bool CanAmputate { get; }
+        bool CanBeAmputated { get; }
         bool CanGrasp { get; }
 
         ITissueClass Tissue { get; }
@@ -30,7 +30,7 @@ namespace Tiles.Bodies
         bool IsBreathe { get; }
         bool IsSight { get; }
 
-        bool IsStanding { get; }
+        bool IsStance { get; }
         bool IsInternal { get; }
 
     }

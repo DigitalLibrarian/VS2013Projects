@@ -9,6 +9,7 @@ using Tiles.Items;
 
 namespace Tiles.Agents.Combat
 {
+    // TODO - rename as *Factory.  this is not a builder
     public interface ICombatMoveBuilder
     {
         ICombatMove AttackBodyPartWithWeapon(IAgent attacker, IAgent defender, ICombatMoveClass moveClass, IBodyPart targetBodyPart, IItem weapon);

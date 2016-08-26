@@ -19,6 +19,18 @@ namespace Tiles.Bodies
         bool CanBeAmputated { get; }
         bool CanGrasp { get; }
 
+        bool IsNervous { get; }
+        bool IsCirculatory { get; }
+        bool IsSkeletal { get; }
+
+        bool IsDigit { get; }
+
+        bool IsBreathe { get; }
+        bool IsSight { get; }
+
+        bool IsStanding { get; }
+        bool IsInternal { get; }
+
         ArmorSlot ArmorSlot { get; }
         IItem Armor { get; set; }
         WeaponSlot WeaponSlot { get; }

@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreaturePipeline.cs" />
     <Compile Include="DfObject.cs" />
     <Compile Include="DfObjectStore.cs" />
     <Compile Include="DfTag.cs" />

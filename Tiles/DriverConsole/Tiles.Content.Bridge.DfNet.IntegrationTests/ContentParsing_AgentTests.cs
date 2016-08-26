@@ -84,6 +84,15 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 .SequenceEqual(
                     leftWrist.Tissue.Layers.Select(x => x.Material.Adjective))
                 );
+
+            var brain = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("brain"));
+            Assert.IsNotNull(brain);
+            Assert.IsTrue(brain.IsNervous);
+
+            var spleen = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("spleen"));
+            Assert.IsNotNull(spleen);
+            Assert.IsTrue(spleen.IsInternal);
+            Assert.IsFalse(spleen.IsNervous);
         }
 
         [TestMethod]
@@ -102,7 +111,6 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 .Where(p => p.Tissue.Layers.Any(
                     layer => layer.Material.Adjective.Equals("bone")))
                 .Any());
-
 
             Assert.IsTrue(
                 agent.Body.Parts

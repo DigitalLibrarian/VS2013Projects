@@ -185,10 +185,6 @@ namespace Tiles.Content.Bridge.DfNet
                     //case DfTags.MiscTags.PLUS_TISSUE_LAYER:
 
                     //    break;
-
-                    // TODO - these are unarmed attacks built-in to the body
-                    //case DfTags.MiscTags.ATTACK:
-                    //    break;
                 }
             }
 

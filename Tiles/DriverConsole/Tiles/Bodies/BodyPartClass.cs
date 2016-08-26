@@ -19,7 +19,7 @@ namespace Tiles.Bodies
         public ArmorSlot ArmorSlot { get; set; }
         public WeaponSlot WeaponSlot { get; set; }
         public bool IsLifeCritical { get; set; }
-        public bool CanAmputate { get; set; }
+        public bool CanBeAmputated { get; set; }
 
         public bool CanGrasp { get; set; }
 
@@ -33,7 +33,7 @@ namespace Tiles.Bodies
         public bool IsBreathe { get; set; }
         public bool IsSight { get; set; }
 
-        public bool IsStanding { get; set; }
+        public bool IsStance { get; set; }
         public bool IsInternal { get; set; }
 
         public BodyPartClass(
@@ -41,25 +41,34 @@ namespace Tiles.Bodies
             ITissueClass tissueClass, 
             ArmorSlot armorSlotType, WeaponSlot weaponSlotType, 
             IEnumerable<ICombatMoveClass> moves, 
-            bool isCritical = false, bool canGrasp = false, bool canAmputate = false, 
-            bool isNervous = false, bool isCirc = false, bool IsSkeletal = false,
+            bool isCritical = false, bool canGrasp = false, bool canBeAmputated = false, 
+            bool isNervous = false, bool isCirc = false, bool isSkeletal = false,
             bool isDigit = false, 
             bool isBreathe = false,
             bool isSight = false,
-            bool IsStance = false,
-            bool IsInternal = false,
+            bool isStance = false,
+            bool isInternal = false,
             IBodyPartClass parent = null)
         {
             Name = name;
-            IsLifeCritical = isCritical;
-            CanAmputate = canAmputate;
-            CanGrasp = canGrasp;
             ArmorSlot = armorSlotType;
             WeaponSlot = weaponSlotType;
             Moves = moves;
             Parent = parent;
 
             Tissue = tissueClass;
+
+            IsLifeCritical = isCritical;
+            CanBeAmputated = canBeAmputated;
+            CanGrasp = canGrasp;
+            IsNervous = IsNervous;
+            IsCirculatory = isCirc;
+            IsSkeletal = isSkeletal;
+            IsDigit = isDigit;
+            IsBreathe = isBreathe;
+            IsSight = isSight;
+            IsStance = isStance;
+            IsInternal = isInternal;
         }
     }
 }
