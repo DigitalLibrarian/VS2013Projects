@@ -81,6 +81,7 @@
     <Compile Include="Bodies\HealthVectorTests.cs" />
     <Compile Include="Bodies\Health\HealthStateTests.cs" />
     <Compile Include="Bodies\Health\InjuryTests.cs" />
+    <Compile Include="Bodies\TissueFactoryTests.cs" />
     <Compile Include="ConjugatedWordTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />
     <Compile Include="Items\ItemFactoryTests.cs" />

@@ -84,7 +84,6 @@ namespace Tiles.Bodies
             return pD;
         }
 
-
         public IBodyClass CreateHumanoid()
         {
             var tissueClass = CreateTissues();
@@ -94,7 +93,6 @@ namespace Tiles.Bodies
 
         public IBodyClass CreateFeralHumanoid()
         {
-
             var tissueClass = CreateTissues();
             var bodyParts = Human(tissueClass);
             bodyParts["head"].WeaponSlot = WeaponSlot.Teeth;
