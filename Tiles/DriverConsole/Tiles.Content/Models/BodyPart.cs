@@ -18,9 +18,23 @@ namespace Tiles.Content.Models
         public bool CanBeAmputated { get; set; }
         public bool CanGrasp { get; set; }
 
+
         public ArmorSlot ArmorSlot { get; set; }
         public WeaponSlot WeapnSlot { get; set; }
 
         public Tissue Tissue { get; set; }
+
+        public bool IsNervous { get; set; }
+        public bool IsCircularatory { get; set; }
+        public bool IsSkeletal { get; set; }
+
+        public bool IsDigit { get; set; }
+
+        public bool IsBreathe { get; set; }
+        public bool IsSight { get; set; }
+
+        public bool IsStanding { get; set; }
+        public bool IsInternal { get; set; }
     }
+
 }

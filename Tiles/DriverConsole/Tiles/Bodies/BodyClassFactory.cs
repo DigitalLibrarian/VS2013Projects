@@ -24,84 +24,46 @@ namespace Tiles.Bodies
         public IBodyClass CreateHumanoid()
         {
             var tissueClass = CreateTissues();
-            var torso = new BodyPartClass(
-                "torso",
-                false, false, false,
-                tissueClass,
-                ArmorSlot.Torso, WeaponSlot.None,
-                new List<ICombatMoveClass>());
+            var torso = new BodyPartClass("torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<ICombatMoveClass>());
 
-            var head = new BodyPartClass(
-                "head",
-                true, true, false,
-                tissueClass,
-                ArmorSlot.Head, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var head = new BodyPartClass("head", tissueClass, ArmorSlot.Head, WeaponSlot.None, new List<ICombatMoveClass>(), 
+                parent: torso,
+                canAmputate: true,
+                isCritical: true);
 
-            var leftArm = new BodyPartClass(
-                "left arm",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.LeftArm, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var leftArm = new BodyPartClass("left arm", tissueClass, ArmorSlot.LeftArm, WeaponSlot.None, new List<ICombatMoveClass>(), 
+                parent: torso,
+                canAmputate: true);
 
-            var leftHand = new BodyPartClass(
-                "left hand",
-                false, true, true,
-                tissueClass,
-                ArmorSlot.LeftHand, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                leftArm);
+            var leftHand = new BodyPartClass("left hand", tissueClass, ArmorSlot.LeftHand, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: leftArm,
+                canGrasp: true,
+                canAmputate: true);
 
-            var rightArm = new BodyPartClass(
-                "right arm",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.RightArm, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var rightArm = new BodyPartClass("right arm", tissueClass, ArmorSlot.RightArm, WeaponSlot.None, new List<ICombatMoveClass>(), 
+                parent: torso, 
+                canAmputate: true);
 
-            var rightHand = new BodyPartClass(
-                "right hand",
-                false, true, true,
-                tissueClass,
-                ArmorSlot.RightHand, WeaponSlot.Main,
-                new List<ICombatMoveClass>(),
-                rightArm);
+            var rightHand = new BodyPartClass("right hand", tissueClass, ArmorSlot.RightHand, WeaponSlot.Main, new List<ICombatMoveClass>(),
+                parent: rightArm,
+                canGrasp: true,
+                canAmputate: true);
 
-            var leftLeg = new BodyPartClass(
-                "left leg",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.LeftLeg, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var leftLeg = new BodyPartClass("left leg", tissueClass, ArmorSlot.LeftLeg, WeaponSlot.None, new List<ICombatMoveClass>(), 
+                parent:torso,
+                canAmputate:true);
 
-            var leftFoot = new BodyPartClass(
-                "left foot",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.LeftFoot, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                leftLeg);
+            var leftFoot = new BodyPartClass("left foot", tissueClass, ArmorSlot.LeftFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: leftLeg,
+                canAmputate: true);
 
-            var rightLeg = new BodyPartClass(
-                "right leg",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.RightLeg, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var rightLeg = new BodyPartClass("right leg", tissueClass, ArmorSlot.RightLeg, WeaponSlot.None, new List<ICombatMoveClass>(), 
+                parent: torso,
+                canAmputate: true);
 
-            var rightFoot = new BodyPartClass(
-                "right foot",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.RightFoot, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                rightLeg);
+            var rightFoot = new BodyPartClass("right foot", tissueClass, ArmorSlot.RightFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: rightLeg,
+                canAmputate: true);
 
             var bodyParts = new List<IBodyPartClass>{
                 head,
@@ -121,84 +83,47 @@ namespace Tiles.Bodies
         public IBodyClass CreateFeralHumanoid()
         {
             var tissueClass = CreateTissues();
-            var torso = new BodyPartClass(
-                "torso",
-                false, false, false,
-                tissueClass,
-                ArmorSlot.Torso, WeaponSlot.None,
-                new List<ICombatMoveClass>());
 
-            var head = new BodyPartClass(
-                "head",
-                true, true, false,
-                tissueClass,
-                ArmorSlot.Head, WeaponSlot.Teeth,
-                new List<ICombatMoveClass>(),
-                torso);
+            var torso = new BodyPartClass("torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<ICombatMoveClass>());
 
-            var leftArm = new BodyPartClass(
-                "left arm",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.LeftArm, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var head = new BodyPartClass("head", tissueClass, ArmorSlot.Head, WeaponSlot.Teeth, new List<ICombatMoveClass>(),
+                parent: torso,
+                canAmputate: true,
+                isCritical: true);
 
-            var leftHand = new BodyPartClass(
-                "left hand",
-                false, true, true,
-                tissueClass,
-                ArmorSlot.LeftHand, WeaponSlot.Claw,
-                new List<ICombatMoveClass>(),
-                leftArm);
+            var leftArm = new BodyPartClass("left arm", tissueClass, ArmorSlot.LeftArm, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: torso,
+                canAmputate: true);
 
-            var rightArm = new BodyPartClass(
-                "right arm",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.RightArm, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var leftHand = new BodyPartClass("left hand", tissueClass, ArmorSlot.LeftHand, WeaponSlot.Claw, new List<ICombatMoveClass>(),
+                parent: leftArm,
+                canGrasp: true,
+                canAmputate: true);
 
-            var rightHand = new BodyPartClass(
-                "right hand",
-                false, true, true,
-                tissueClass,
-                ArmorSlot.RightHand, WeaponSlot.Claw,
-                new List<ICombatMoveClass>(),
-                rightArm);
+            var rightArm = new BodyPartClass("right arm", tissueClass, ArmorSlot.RightArm, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: torso,
+                canAmputate: true);
 
-            var leftLeg = new BodyPartClass(
-                "left leg",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.LeftLeg, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var rightHand = new BodyPartClass("right hand", tissueClass, ArmorSlot.RightHand, WeaponSlot.Claw, new List<ICombatMoveClass>(),
+                parent: rightArm,
+                canGrasp: true,
+                canAmputate: true);
 
-            var leftFoot = new BodyPartClass(
-                "left foot",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.LeftFoot, WeaponSlot.None,
-                new List<ICombatMoveClass>(), 
-                leftLeg);
+            var leftLeg = new BodyPartClass("left leg", tissueClass, ArmorSlot.LeftLeg, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: torso,
+                canAmputate: true);
 
-            var rightLeg = new BodyPartClass(
-                "right leg",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.RightLeg, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                torso);
+            var leftFoot = new BodyPartClass("left foot", tissueClass, ArmorSlot.LeftFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: leftLeg,
+                canAmputate: true);
 
-            var rightFoot = new BodyPartClass(
-                "right foot",
-                false, true, false,
-                tissueClass,
-                ArmorSlot.RightFoot, WeaponSlot.None,
-                new List<ICombatMoveClass>(),
-                rightLeg);
+            var rightLeg = new BodyPartClass("right leg", tissueClass, ArmorSlot.RightLeg, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: torso,
+                canAmputate: true);
+
+            var rightFoot = new BodyPartClass("right foot", tissueClass, ArmorSlot.RightFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
+                parent: rightLeg,
+                canAmputate: true);
 
             var bodyParts = new List<IBodyPartClass>{
                 head,

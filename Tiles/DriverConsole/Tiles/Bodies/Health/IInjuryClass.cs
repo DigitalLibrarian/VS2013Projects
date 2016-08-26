@@ -18,7 +18,7 @@ namespace Tiles.Bodies.Health
         bool IsPermanant { get; }
         bool CanBeHealed { get; }
 
-        bool CripplesBodyPart { get; set; }
+        bool CripplesBodyPart { get; }
 
         bool UsesTtl { get; }
         int Ttl { get; }

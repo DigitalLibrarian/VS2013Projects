@@ -109,8 +109,7 @@ namespace Tiles.Content.Map
 
         public EngineBodies.IBodyClass Map(ContentModel.Body body)
         {
-            var partMap = body.Parts
-                .ToDictionary(x => x, x => Map(x) );
+            var partMap = body.Parts.ToDictionary(x => x, x => Map(x) );
             foreach (var part in body.Parts)
             {
                 if (part.Parent != null)
@@ -124,16 +123,7 @@ namespace Tiles.Content.Map
 
         EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)
         {
-            return new EngineBodies.BodyPartClass(
-                bodyPart.NameSingular,
-                true,
-                bodyPart.CanBeAmputated,
-                bodyPart.CanGrasp,
-                Map(bodyPart.Tissue),
-                Map(bodyPart.ArmorSlot),
-                Map(bodyPart.WeapnSlot),
-                bodyPart.Moves.Select(Map)
-                );
+            return new EngineBodies.BodyPartClass(bodyPart.NameSingular, Map(bodyPart.Tissue), Map(bodyPart.ArmorSlot), Map(bodyPart.WeapnSlot), bodyPart.Moves.Select(Map), true, bodyPart.CanGrasp, bodyPart.CanBeAmputated);
         }
 
         EngineBodies.ITissueClass Map(ContentModel.Tissue tissue)

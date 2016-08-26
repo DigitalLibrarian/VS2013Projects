@@ -98,6 +98,7 @@
     <Compile Include="Bodies\BodyStateChange.cs" />
     <Compile Include="Bodies\HealthVector.cs" />
     <Compile Include="Bodies\Health\Injury.cs" />
+    <Compile Include="Bodies\Health\InjuryClass.cs" />
     <Compile Include="Bodies\IBody.cs" />
     <Compile Include="Bodies\IBodyClass.cs" />
     <Compile Include="Bodies\IBodyClassFactory.cs" />

@@ -41,6 +41,10 @@ namespace Tiles.Tests.Bodies.Health
         [TestMethod]
         public void ClassInvariants()
         {
+            Assert.AreSame(ClassMock.Object, Injury.Class);
+            Assert.AreSame(PartMock.Object, Injury.BodyPart);
+            Assert.AreSame(LayerMock.Object, Injury.TissueLayer);
+
             Assert.AreEqual(DefaultAdjective, Injury.Adjective);
             ClassMock.Verify(ic => ic.Adjective, Times.Once());
 
@@ -107,6 +111,20 @@ namespace Tiles.Tests.Bodies.Health
             Injury.Update(step);
             Assert.AreEqual(0, Injury.Ttl);
             Assert.IsTrue(Injury.IsOver);
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void GetDisplayLabel_TissueLayer()
+        {
+
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void GetDisplayLabel_NoTissueLayer()
+        {
+
         }
     }
 }

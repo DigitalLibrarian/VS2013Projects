@@ -33,7 +33,7 @@ namespace Tiles.Bodies.Health
         public bool IsOver { get; private set; }
         public int Ttl { get; private set; }
 
-        public void Update(int ticks)
+        public virtual void Update(int ticks)
         {
             if (Class.UsesTtl)
             {
@@ -42,9 +42,27 @@ namespace Tiles.Bodies.Health
             }
         }
 
-        public string GetDisplayLabel()
+        StringBuilder SB = new StringBuilder();
+        public virtual string GetDisplayLabel()
         {
-            throw new NotImplementedException();
+            SB.Clear();
+            SB.Append(Adjective);
+            if (BodyPart != null)
+            {
+                SB.AppendFormat(" {0} ", BodyPart.Name);
+            }
+            
+            if (TissueLayer != null)
+            {
+                SB.AppendFormat(" {0} ", TissueLayer.Material.Adjective);
+            }
+
+            if (Class.UsesTtl)
+            {
+                SB.AppendFormat(" {0}/{1} ", Ttl, Class.Ttl);
+            }
+
+            return SB.ToString();
         }
     }
 }

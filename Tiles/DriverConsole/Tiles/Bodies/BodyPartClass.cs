@@ -23,12 +23,31 @@ namespace Tiles.Bodies
 
         public bool CanGrasp { get; set; }
 
+
+        public bool IsNervous { get; set; }
+        public bool IsCircularatory { get; set; }
+        public bool IsSkeletal { get; set; }
+
+        public bool IsDigit { get; set; }
+
+        public bool IsBreathe { get; set; }
+        public bool IsSight { get; set; }
+
+        public bool IsStanding { get; set; }
+        public bool IsInternal { get; set; }
+
         public BodyPartClass(
             string name, 
-            bool isCritical, bool canAmputate, bool canGrasp,
-            ITissueClass tissueClass,
+            ITissueClass tissueClass, 
             ArmorSlot armorSlotType, WeaponSlot weaponSlotType, 
-            IEnumerable<ICombatMoveClass> moves,
+            IEnumerable<ICombatMoveClass> moves, 
+            bool isCritical = false, bool canGrasp = false, bool canAmputate = false, 
+            bool isNervous = false, bool isCirc = false, bool IsSkeletal = false,
+            bool isDigit = false, 
+            bool isBreathe = false,
+            bool isSight = false,
+            bool IsStance = false,
+            bool IsInternal = false,
             IBodyPartClass parent = null)
         {
             Name = name;

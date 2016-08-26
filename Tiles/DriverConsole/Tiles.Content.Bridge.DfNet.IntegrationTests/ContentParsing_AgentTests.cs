@@ -70,6 +70,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 Assert.IsFalse(finger.CanGrasp);
                 Assert.IsTrue(finger.CanBeAmputated);
 
+                Assert.IsTrue(finger.IsDigit);
                 var moves = finger.Moves;
                 Assert.IsNotNull(moves);
                 Assert.AreEqual(1, moves.Where(m => m.Name.Equals("SCRATCH")).Count());

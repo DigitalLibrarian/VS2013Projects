@@ -19,5 +19,19 @@ namespace Tiles.Bodies
         bool CanGrasp { get; }
 
         ITissueClass Tissue { get; }
+
+
+        bool IsNervous { get; }
+        bool IsCircularatory { get; }
+        bool IsSkeletal { get;}
+
+        bool IsDigit { get; }
+
+        bool IsBreathe { get; }
+        bool IsSight { get; }
+
+        bool IsStanding { get; }
+        bool IsInternal { get; }
+
     }
 }

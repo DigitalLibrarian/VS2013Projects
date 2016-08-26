@@ -205,6 +205,8 @@ namespace Tiles.Content.Bridge.DfNet
 
         BodyPart CreateBodyPart(DfObject defn, BodyPart parent, List<CombatMove> moves)
         {
+            var singleWords = defn.Tags.Where(t => t.IsSingleWord())
+                .Select(t => t.Name).ToList();
             return new BodyPart
             {
                 Parent = parent,
@@ -217,7 +219,15 @@ namespace Tiles.Content.Bridge.DfNet
                      || t.IsSingleWord(DfTags.MiscTags.HEAD)
                      || t.IsSingleWord(DfTags.MiscTags.DIGIT)
                      ),
-                Moves = moves.ToList()
+                Moves = moves.ToList(),
+                IsNervous = singleWords.Contains("NERVOUS"),
+                IsCircularatory = singleWords.Contains("CIRCULATION"),
+                IsSkeletal = singleWords.Contains("SKELETAL"),
+                IsDigit = singleWords.Contains("DIGIT"),
+                IsBreathe = singleWords.Contains("BREATHE"),
+                IsSight = singleWords.Contains("SIGHT"),
+                IsStanding = singleWords.Contains("STANCE"),
+                IsInternal = singleWords.Contains("INTERNAL")
             };
         }
 
