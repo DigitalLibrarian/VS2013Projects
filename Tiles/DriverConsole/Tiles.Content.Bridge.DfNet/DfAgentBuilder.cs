@@ -221,7 +221,7 @@ namespace Tiles.Content.Bridge.DfNet
                      ),
                 Moves = moves.ToList(),
                 IsNervous = singleWords.Contains("NERVOUS"),
-                IsCircularatory = singleWords.Contains("CIRCULATION"),
+                IsCirculatory = singleWords.Contains("CIRCULATION"),
                 IsSkeletal = singleWords.Contains("SKELETAL"),
                 IsDigit = singleWords.Contains("DIGIT"),
                 IsBreathe = singleWords.Contains("BREATHE"),

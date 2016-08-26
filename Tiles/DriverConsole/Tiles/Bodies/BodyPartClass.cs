@@ -25,7 +25,7 @@ namespace Tiles.Bodies
 
 
         public bool IsNervous { get; set; }
-        public bool IsCircularatory { get; set; }
+        public bool IsCirculatory { get; set; }
         public bool IsSkeletal { get; set; }
 
         public bool IsDigit { get; set; }

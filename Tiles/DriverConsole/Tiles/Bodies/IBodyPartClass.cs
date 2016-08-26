@@ -22,7 +22,7 @@ namespace Tiles.Bodies
 
 
         bool IsNervous { get; }
-        bool IsCircularatory { get; }
+        bool IsCirculatory { get; }
         bool IsSkeletal { get;}
 
         bool IsDigit { get; }
