@@ -168,7 +168,9 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.ATTACK:
                         HandleAttackTag(tag, tags, agentContext);
                         break;
-
+                    case DfTags.MiscTags.CREATURE_TILE:
+                        HandleTileTag(tag, agentContext);
+                        break;
 
                     //case DfTags.MiscTags.BP_RELSIZE:
                     //    break;
@@ -189,6 +191,27 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleTileTag(DfTag tag, IDfAgentBuilder agentContext)
+        {
+            var p = tag.GetParam(0);
+
+            int result = 0;
+            if (int.TryParse(p, out result))
+            {
+
+            }
+            else if(p.Count() == 3)
+            {
+                result = (int)p[1];
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+            agentContext.SetSymbol(result);
+
         }
 
         private void HandleAttackTag(DfTag tag, List<DfTag> tags, IDfAgentBuilder agentContext)

@@ -114,6 +114,9 @@ namespace DfNet.Raws
 
             public const string IS_METAL = "IS_METAL";
             public const string NONE = "NONE";
+
+            public const string TILE = "TILE";
+            public const string CREATURE_TILE = "CREATURE_TILE";
         }
 
     }

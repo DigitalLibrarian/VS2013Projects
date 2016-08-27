@@ -17,6 +17,9 @@ namespace Tiles.Content.Bridge.DfNet
         Dictionary<string, List<CombatMove>> MovesByCategory { get; set; }
         Dictionary<string, List<CombatMove>> MovesByType { get; set; }
 
+        string Name { get; set; }
+        int Symbol { get; set; }
+
         public DfAgentBuilder()
         {
             BodyPartsDefn = new Dictionary<string, DfObject>();
@@ -301,19 +304,26 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             }
 
-            var agent = new Agent(Name, new Body
-            {
-                Parts = parts
-            });
+            var agent = new Agent(
+                Name, 
+                new Body
+                {
+                    Parts = parts
+                },
+                Symbol);
             return agent;
         }
 
 
 
-        string Name { get; set; }
         public void SetName(string singular, string plural)
         {
             Name = singular;
+        }
+
+        public void SetSymbol(int symbol)
+        {
+            Symbol = symbol;
         }
 
         public void AddCombatMoveToCategory(CombatMove move, string category)

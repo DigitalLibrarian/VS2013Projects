@@ -34,6 +34,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreNotSame("dwarf", agent.Name);
             Assert.AreEqual(89, agent.Body.Parts.Count());
 
+            Assert.AreEqual(1, agent.Symbol);
+
             var leftHand = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("left hand"));
             Assert.IsNotNull(leftHand);
             Assert.IsNotNull(leftHand.Tissue);
@@ -100,7 +102,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             var agent = DfAgentFactory.Create("GREEN_DEVOURER");
             Assert.IsNotNull(agent);
-
+            Assert.AreEqual((int)'G', agent.Symbol);
             Assert.IsTrue(
                 agent.Body.Parts
                 .Where(p => p.Tissue.Layers.Any())
