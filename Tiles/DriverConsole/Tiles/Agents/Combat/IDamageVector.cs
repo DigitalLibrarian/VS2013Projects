@@ -9,6 +9,8 @@ namespace Tiles.Agents.Combat
 {
     public interface IDamageVector
     {
+        bool AnyPositive { get; }
+
         IEnumerable<DamageType> GetComponentTypes();
         uint GetComponent(DamageType damageType);
         void SetComponent(DamageType damageType, uint damage);

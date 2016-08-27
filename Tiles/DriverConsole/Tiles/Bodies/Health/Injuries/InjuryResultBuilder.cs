@@ -121,7 +121,6 @@ namespace Tiles.Bodies.Health.Injuries
                 }
             }
 
-
             if (!absorbed)
             {
                 yield return InjuryFactory.Create(
@@ -129,7 +128,5 @@ namespace Tiles.Bodies.Health.Injuries
                     BodyPart);
             }
         }
-
-
     }
 }

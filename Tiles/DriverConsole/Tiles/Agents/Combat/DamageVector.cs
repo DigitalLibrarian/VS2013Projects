@@ -10,6 +10,11 @@ namespace Tiles.Agents.Combat
     {
         IDictionary<DamageType, uint> Data { get; set; }
 
+        public bool AnyPositive
+        {
+            get { return Data.Values.Any(v => v > 0) && Data.Values.Any(); }
+        }
+
         public DamageVector(IDictionary<DamageType, uint> data)
         {
             Data = data;

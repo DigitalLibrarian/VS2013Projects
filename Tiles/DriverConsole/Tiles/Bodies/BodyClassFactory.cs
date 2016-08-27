@@ -23,7 +23,8 @@ namespace Tiles.Bodies
 
         Dictionary<string, BodyPartClass> Human(ITissueClass tissueClass)
         {
-            var torso = new BodyPartClass("torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<ICombatMoveClass>());
+            var torso = new BodyPartClass("torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<ICombatMoveClass>(),
+                canBeAmputated: false);
 
             var head = new BodyPartClass("head", tissueClass, ArmorSlot.Head, WeaponSlot.None, new List<ICombatMoveClass>(),
                 parent: torso,

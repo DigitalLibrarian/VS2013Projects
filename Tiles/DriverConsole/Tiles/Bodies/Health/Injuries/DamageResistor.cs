@@ -17,7 +17,23 @@ namespace Tiles.Bodies.Health.Injuries
 
         bool IDamageResistor.Resist(IDamageVector damage)
         {
-            return false;
+            var allDamageTypes = Resist.GetComponentTypes()
+                .Concat(damage.GetComponentTypes())
+                .ToList();
+
+            foreach(var dt in allDamageTypes)
+            {
+                var dComp = damage.GetComponent(dt);
+                var rComp = Resist.GetComponent(dt);
+                double scale = ((rComp) / 100d);
+                if (scale > 0)
+                {
+                    var newComp = dComp - (uint)((dComp * scale));
+                    damage.SetComponent(dt, newComp);
+                }
+            }
+
+            return !damage.AnyPositive;
         }
     }
 }
