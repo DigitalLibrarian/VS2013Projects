@@ -102,7 +102,7 @@ namespace Tiles.Content.Map
         {
             return new EngineAgents.AgentClass(
                 agent.Name,
-                MapSprite(Symbol.Zombie),
+                MapSprite(agent.Symbol),
                 Map(agent.Body)
                 );
         }
