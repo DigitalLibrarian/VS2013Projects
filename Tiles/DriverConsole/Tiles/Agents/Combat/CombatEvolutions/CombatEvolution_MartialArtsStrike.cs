@@ -4,14 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
+using Tiles.Bodies.Health.Injuries;
 using Tiles.Math;
 
 namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_MartialArtsStrike : CombatEvolution
     {
-        public CombatEvolution_MartialArtsStrike(IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper) 
-            : base(reporter, damageCalc, reaper) { }
+        IInjuryCalc InjuryCalc { get; set; }
+        public CombatEvolution_MartialArtsStrike(
+            IInjuryCalc injuryCalc,
+            IActionReporter reporter, 
+            IDamageCalc damageCalc, 
+            IAgentReaper reaper) 
+            : base(reporter, damageCalc, reaper) 
+        {
+            InjuryCalc = injuryCalc;
+        }
 
         protected override bool Should(ICombatMoveContext session)
         {
@@ -29,21 +38,35 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             bool isWeaponBased = move.Class.IsItem;
             uint dmg = 0;
-            
+
+            bool targetPartWasShed = false;
             if (isWeaponBased)
             {
-                dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Weapon);
+                //dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Weapon);
+                foreach(var injury in InjuryCalc.MeleeWeaponStrike(
+                    move.Class, 
+                    attacker,
+                    defender,
+                    move.DefenderBodyPart,
+                    move.Weapon))
+                {
+                    defender.Body.Health.Add(injury);
+
+                    targetPartWasShed = injury.RemovesBodyPart;
+                    defender.Body.Amputate(move.DefenderBodyPart);
+                }
             }
             else
             {
                 dmg = DamageCalc.MeleeStrikeBodyPartAttackDamage(move.Class, attacker, defender, move.AttackerBodyPart, move.DefenderBodyPart);
             }
 
-            var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);
-            bool targetPartWasShed = shedPart != null;
+            //var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);
+
+
             if (targetPartWasShed)
             {
-                HandleShedPart(attacker, defender, move, shedPart);
+                HandleShedPart(attacker, defender, move, move.DefenderBodyPart);
             }
 
             if (isWeaponBased)

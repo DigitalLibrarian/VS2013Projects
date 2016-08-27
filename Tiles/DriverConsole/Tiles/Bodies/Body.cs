@@ -29,30 +29,15 @@ namespace Tiles.Bodies
             Health = healthState;
         }
 
-        public IBodyPart DamagePart(IBodyPart part, uint dmg)
+        public void Amputate(IBodyPart part)
         {
-            // TODO - DELETE THIS METHOD
-            /*
-            part.Health.TakeDamage(dmg);
-            if (part.Health.OutOfHealth)
+            foreach (var subPart in Parts.ToList())
             {
-                if (part.CanBeAmputated)
+                if (subPart.Parent == part || subPart == part)
                 {
-                    foreach (var subPart in Parts.ToList())
-                    {
-                        if (subPart.Parent == part || subPart == part)
-                        {
-                            Parts.Remove(subPart);
-                        }
-                    }
-                    return part;
+                    Parts.Remove(subPart);
                 }
             }
-            return null;
-             * */
-
-
-            return null;
         }
 
 

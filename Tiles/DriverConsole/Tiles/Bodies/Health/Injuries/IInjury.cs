@@ -24,5 +24,7 @@ namespace Tiles.Bodies.Health.Injuries
         void Update(int ticks);
 
         string GetDisplayLabel();
+
+        bool RemovesBodyPart { get; }
     }
 }

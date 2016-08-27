@@ -55,7 +55,7 @@ namespace Tiles.Bodies.Health.Injuries
             IBodyPart targetPart
             )
         {
-            var armorItems = defender.Outfit.GetItems(targetPart);
+            var armorItems = defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor);
             var tissueLayers = targetPart.Tissue.TissueLayers;
             var totalTissueThick = targetPart.Tissue.TotalThickness;
 

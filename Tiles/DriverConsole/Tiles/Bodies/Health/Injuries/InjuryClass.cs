@@ -17,6 +17,7 @@ namespace Tiles.Bodies.Health.Injuries
         public bool IsPermanant { get; set; }
         public bool CanBeHealed { get; set; }
 
+        public bool RemovesBodyPart { get; set; }
         public bool CripplesBodyPart { get; set; }
 
         public bool UsesTtl { get; set; }

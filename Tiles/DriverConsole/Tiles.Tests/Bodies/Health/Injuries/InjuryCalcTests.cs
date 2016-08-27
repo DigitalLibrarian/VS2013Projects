@@ -88,6 +88,8 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
         Mock<IDamageResistor> Setup(Mock<IItem> armorMock)
         {
+            armorMock.Setup(x => x.IsArmor)
+                .Returns(true);
             ArmorMocks.Add(armorMock);
             var resistMock = new Mock<IDamageResistor>();
             ResistorFactoryMock.Setup(x => x.Create(armorMock.Object))

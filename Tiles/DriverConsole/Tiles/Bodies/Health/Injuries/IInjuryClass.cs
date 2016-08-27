@@ -22,5 +22,7 @@ namespace Tiles.Bodies.Health.Injuries
 
         bool UsesTtl { get; }
         int Ttl { get; }
+
+        bool RemovesBodyPart { get; }
     }
 }

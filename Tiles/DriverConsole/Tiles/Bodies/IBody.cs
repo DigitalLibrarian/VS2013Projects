@@ -15,8 +15,7 @@ namespace Tiles.Bodies
         bool IsWrestling { get; }
         IList<IBodyPart> Parts { get; }
 
-        // TODO - remove
-        IBodyPart DamagePart(IBodyPart part, uint dmg);
+        void Amputate(IBodyPart part);
 
         void AddInjuries(IEnumerable<IInjury> injuries);
 

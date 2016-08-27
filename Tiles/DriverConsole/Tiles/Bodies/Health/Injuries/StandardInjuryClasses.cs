@@ -46,7 +46,8 @@ namespace Tiles.Bodies.Health.Injuries
             Adjective = "missing",
             IsBodyPartSpecific = true,
             IsPermanant = true,
-            CripplesBodyPart = true
+            CripplesBodyPart = true,
+            RemovesBodyPart = true
         };
     }
 }

@@ -37,6 +37,7 @@ namespace Tiles.Bodies.Health.Injuries
         public bool CanBeHealed { get { return Class.CanBeHealed; } }
         public bool CripplesBodyPart { get { return Class.CripplesBodyPart; } }
 
+        public bool RemovesBodyPart { get { return Class.RemovesBodyPart; } }
         public bool IsOver { get; private set; }
         public int Ttl { get; private set; }
 
