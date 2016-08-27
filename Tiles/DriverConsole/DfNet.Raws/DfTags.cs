@@ -22,6 +22,7 @@ namespace DfNet.Raws
         public const string ITEM_PANTS = "ITEM_PANTS";
         public const string ITEM_GLOVES = "ITEM_GLOVES";
         public const string ITEM_HELM = "ITEM_HELM";
+        public const string ITEM_TOOL = "ITEM_TOOL";
 
         public static string[] GetAllObjectTypes()
         {
@@ -39,7 +40,8 @@ namespace DfNet.Raws
                 ITEM_SHOES,
                 ITEM_PANTS,
                 ITEM_GLOVES,
-                ITEM_HELM
+                ITEM_HELM,
+                ITEM_TOOL
             };
         }
         

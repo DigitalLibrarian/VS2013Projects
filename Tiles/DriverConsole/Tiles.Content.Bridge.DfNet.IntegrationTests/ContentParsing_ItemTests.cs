@@ -36,6 +36,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(swordItem.Weapon);
             Assert.IsNull(swordItem.Armor);
 
+            Assert.AreNotEqual(0, swordItem.Symbol);
+
             Assert.AreEqual("short sword", swordItem.NameSingular);
             Assert.AreEqual("short swords", swordItem.NamePlural);
 
@@ -101,6 +103,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var item = ItemFactory.Create(DfTags.ITEM_SHOES, "ITEM_SHOES_SANDAL", sponge);
             Assert.IsNotNull(item);
 
+            Assert.AreNotEqual(0, item.Symbol);
+
             Assert.AreEqual("sandal", item.NameSingular);
             Assert.AreEqual("sandals", item.NamePlural);
 
@@ -123,6 +127,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var item = ItemFactory.Create(DfTags.ITEM_PANTS, "ITEM_PANTS_LOINCLOTH", leather);
             Assert.IsNotNull(item);
 
+            Assert.AreNotEqual(0, item.Symbol);
+
             Assert.AreEqual("loincloth", item.NameSingular);
             Assert.AreEqual("loincloths", item.NamePlural);
 
@@ -136,6 +142,15 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 }));
 
             Assert.AreEqual("leather", item.Material.Adjective);
+        }
+
+        [TestMethod]
+        public void IronLaddle()
+        {
+            var iron = MaterialsFactory.CreateInorganic("IRON");
+            var item = ItemFactory.Create(DfTags.ITEM_TOOL, "ITEM_TOOL_LADLE", iron);
+
+            Assert.AreEqual((int)'/', item.Symbol);
         }
     }
 }

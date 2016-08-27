@@ -71,6 +71,9 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.LAYER:
                         b.SetArmorLayer(tag.GetParam(0));
                         break;
+                    case DfTags.MiscTags.TILE:
+                        HandleTileTag(tag, b);
+                        break;
                 }
             }
 
@@ -92,6 +95,27 @@ namespace Tiles.Content.Bridge.DfNet
 
             b.SetMaterial(material);
             return b.Build();
+        }
+
+        private void HandleTileTag(DfTag tag, IDfItemBuilder b)
+        {
+            var p = tag.GetParam(0);
+
+            int result = 0;
+            if (int.TryParse(p, out result))
+            {
+
+            }
+            else if (p.Count() == 3)
+            {
+                result = (int)p[1];
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+            b.SetSymbol(result);
+
         }
     }
 }
