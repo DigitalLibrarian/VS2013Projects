@@ -42,7 +42,7 @@ namespace Tiles.Content.Map
         {
             return new ItemClass(
                 string.Format("{0} {1}", item.Material.Adjective, item.NameSingular), 
-                MapSprite(Symbol.MiscItem), 
+                MapSprite(item.Symbol), 
                 Map(item.Material), 
                 Map(item.Weapon), 
                 Map(item.Armor));

@@ -34,10 +34,11 @@ namespace Tiles
         public static readonly int MeleeSword = '/';
 
         public static readonly int MiscClothing = '&';
+        public static readonly int MiscItem = 157;
+        public static readonly int MiscWeapon = 173;
         public static readonly int Corpse = 'Ċ';
         public static readonly int CorpseBodyPart = 'c';
 
-        public static readonly int MiscItem = 'î';
 
     }
 }

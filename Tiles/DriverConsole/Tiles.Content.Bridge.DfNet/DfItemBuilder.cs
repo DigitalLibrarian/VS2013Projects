@@ -9,11 +9,13 @@ namespace Tiles.Content.Bridge.DfNet
 {
     public class DfItemBuilder : IDfItemBuilder
     {
+        public static readonly int MiscItemSymbol = 157;
         Item Item { get; set; }
 
         public DfItemBuilder()
         {
             Item = new Item();
+            Item.Symbol = MiscItemSymbol;
         }
 
         public void SetMaterial(Material material)
