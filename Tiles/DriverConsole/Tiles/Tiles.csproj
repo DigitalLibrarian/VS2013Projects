@@ -66,6 +66,8 @@
     <Compile Include="Agents\Combat\ICombatEvolution.cs" />
     <Compile Include="Agents\Combat\ICombatMoveContext.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
+    <Compile Include="Bodies\Health\Injuries\DamageResistor.cs" />
+    <Compile Include="Bodies\Health\Injuries\DamageResistorFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\IDamageResistor.cs" />
     <Compile Include="Bodies\Health\Injuries\IDamageResistorFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\IInjuryCalc.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Bodies\Health\Injuries\InjuryClass.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryResultBuilder.cs" />
+    <Compile Include="Bodies\Health\Injuries\InjuryResultBuilderFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\StandardInjuryClasses.cs" />
     <Compile Include="Bodies\IBody.cs" />
     <Compile Include="Bodies\IBodyClass.cs" />

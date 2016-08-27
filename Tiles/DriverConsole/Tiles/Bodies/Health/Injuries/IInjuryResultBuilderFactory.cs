@@ -11,19 +11,4 @@ namespace Tiles.Bodies.Health.Injuries
     {
         IInjuryResultBuilder Create();
     }
-
-    public class InjuryResultBuilderFactory : IInjuryResultBuilderFactory
-    {
-        IInjuryFactory InjuryFactory { get; set; }
-        public InjuryResultBuilderFactory(IInjuryFactory injuryFactory)
-        {
-            InjuryFactory = injuryFactory;
-        }
-        public IInjuryResultBuilder Create()
-        {
-            var damage = new DamageVector();
-            return new InjuryResultBuilder(
-                InjuryFactory, damage);
-        }
-    }
 }
