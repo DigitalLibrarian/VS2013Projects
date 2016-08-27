@@ -13,6 +13,7 @@ using Tiles.Structures;
 using System.Collections.Generic;
 using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
+using Tiles.Bodies.Health;
 
 namespace Tiles.Tests.Agents
 {
@@ -26,6 +27,7 @@ namespace Tiles.Tests.Agents
         Mock<IOutfit> OutfitMock { get; set; }
         Mock<IAgentCommandQueue> CommandQueueMock { get; set; }
         Mock<IAgentClass> AgentClassMock { get; set; }
+        Mock<IHealthState> HealthMock { get; set; }
         string Name { get; set; }
 
         Agent Agent { get; set; }
@@ -35,6 +37,8 @@ namespace Tiles.Tests.Agents
             AtlasMock = new Mock<IAtlas>();
             SpriteMock = new Mock<ISprite>();
             BodyMock = new Mock<IBody>();
+            HealthMock = new Mock<IHealthState>();
+            BodyMock.Setup(x => x.Health).Returns(HealthMock.Object);
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();
             CommandQueueMock = new Mock<IAgentCommandQueue>();
@@ -83,34 +87,11 @@ namespace Tiles.Tests.Agents
         {
             // test no parts
             BodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart>());
-            Assert.IsTrue(Agent.IsDead);
-
-            var partMock1 = new Mock<IBodyPart>();
-            var partMock2 = new Mock<IBodyPart>();
-            BodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart> { partMock1.Object, partMock2.Object });
-
-            // test only non-critical parts
-            var healthMock1 = new Mock<HealthVector>();
-            healthMock1.Setup(x => x.OutOfHealth).Returns(false);
-            partMock1.Setup(x => x.Health).Returns(healthMock1.Object);
-            partMock1.Setup(x => x.IsLifeCritical).Returns(false);
-
-            var healthMock2 = new Mock<HealthVector>();
-            healthMock2.Setup(x => x.OutOfHealth).Returns(false);
-            partMock2.Setup(x => x.Health).Returns(healthMock2.Object);
-            partMock2.Setup(x => x.IsLifeCritical).Returns(false);
-
+            HealthMock.Setup(x => x.IsDead).Returns(true);
             Assert.IsTrue(Agent.IsDead);
             
-            // Test with one critical, but not out of health part
-            partMock1.Setup(x => x.IsLifeCritical).Returns(true);
-            partMock2.Setup(x => x.IsLifeCritical).Returns(false);
-
+            HealthMock.Setup(x => x.IsDead).Returns(false);
             Assert.IsFalse(Agent.IsDead);
-
-            healthMock1.Setup(x => x.OutOfHealth).Returns(true);
-
-            Assert.IsTrue(Agent.IsDead);
         }
 
         [TestMethod]

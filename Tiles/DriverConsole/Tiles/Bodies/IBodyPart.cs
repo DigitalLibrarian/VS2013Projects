@@ -12,7 +12,7 @@ namespace Tiles.Bodies
     {
         string Name { get; }
         IBodyPart Parent { get; }
-        HealthVector Health { get; }
+
         ITissue Tissue { get; }
 
         bool IsLifeCritical { get; }

@@ -11,5 +11,9 @@ namespace Tiles.Bodies
     {
         IMaterial Material { get; }
         int RelativeThickness { get; }
+
+        bool CanBeBruised { get; }
+        bool CanBeTorn { get; }
+        bool CanBePunctured { get; }
     }
 }

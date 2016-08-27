@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents;
+using Tiles.Bodies.Health.Injuries;
 
 namespace Tiles.Bodies.Health
 {
@@ -12,9 +13,8 @@ namespace Tiles.Bodies.Health
         IBody Body { get; set; }
         public bool InstantDeath { get; private set; }
         List<IInjury> Injuries { get; set; }
-        public HealthState(IBody body)
+        public HealthState()
         {
-            Body = body;
             Injuries = new List<IInjury>();
         }
 

@@ -4,13 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Bodies.Health
+namespace Tiles.Bodies.Health.Injuries
 {
     public class Injury : IInjury
     {
         public IInjuryClass Class { get; set; }
         public IBodyPart BodyPart { get; set; }
         public ITissueLayer TissueLayer { get; set; }
+
+        
+        public Injury(IInjuryClass injuryClass, IBodyPart bodyPart)
+            : this(injuryClass, bodyPart, null)
+        {
+
+        }
 
         public Injury(IInjuryClass injuryClass, IBodyPart bodyPart, ITissueLayer layer)
         {

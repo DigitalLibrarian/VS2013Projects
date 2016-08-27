@@ -71,7 +71,11 @@ namespace Tiles.Content.Map
                     IsMartialArts = move.IsMartialArts,
                     IsStrike = move.IsStrike,
                     IsItem = move.IsItem,
-                    AttackerBodyStateChange = Map(move.BodyStateChange)
+                    AttackerBodyStateChange = Map(move.BodyStateChange),
+                    ContactType = Map(move.ContactType),
+                    ContactArea = move.ContactArea,
+                    MaxPenetration = move.MaxPenetration,
+                    VelocityMultiplier = move.VelocityMultiplier
                 };
         }
 
@@ -153,6 +157,12 @@ namespace Tiles.Content.Map
             }
 
             return new EngineBodies.TissueClass(layers);
+        }
+
+
+        public EngineCombat.ContactType Map(ContentModel.ContactType ct)
+        {
+            return (EngineCombat.ContactType)(int)ct;
         }
     }
 

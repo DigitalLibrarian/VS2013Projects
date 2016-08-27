@@ -39,7 +39,6 @@ namespace Tiles.Bodies
 
         public IBodyPartClass Class { get; private set; }
         public IBodyPart Parent { get; set; }
-        public HealthVector Health { get; private set; }
 
         public ITissue Tissue { get; private set; }
 
@@ -48,8 +47,6 @@ namespace Tiles.Bodies
             Class = bodyPartClass;
             Tissue = tissue;
             Parent = parent;
-
-            Health = HealthVector.Create();
         }
 
         public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue) : this(bodyPartClass, tissue, null) { }

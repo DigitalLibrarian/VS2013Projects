@@ -7,9 +7,20 @@ using Tiles.Bodies;
 
 namespace Tiles.Agents.Combat
 {
+    public enum ContactType 
+    {
+        None,
+        Edge,
+        Blunt,
+        Point
+    }
+
     public class CombatMoveClass : ICombatMoveClass
     {
-        public CombatMoveClass(string name, IVerb meleeVerb, IDamageVector damage, int prepTime, int recoveryTime)
+        public CombatMoveClass(string name, 
+            IVerb meleeVerb, 
+            IDamageVector damage, 
+            int prepTime, int recoveryTime)
         {
             Name = name;
             Verb = meleeVerb;
@@ -33,5 +44,10 @@ namespace Tiles.Agents.Combat
         public bool IsStrike { get; set; }
 
         public bool IsItem { get; set; }
+
+        public ContactType ContactType { get; set; }
+        public int ContactArea { get; set; }
+        public int MaxPenetration { get; set; }
+        public int VelocityMultiplier { get; set; }
     }
 }

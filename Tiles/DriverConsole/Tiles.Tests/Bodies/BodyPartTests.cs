@@ -36,7 +36,6 @@ namespace Tiles.Tests.Bodies
             Assert.AreSame(ClassMock.Object, part.Class);
             Assert.AreSame(TissueMock.Object, part.Tissue);
             Assert.IsNull(part.Parent);
-            Assert.IsNotNull(part.Health);
         }
 
         [TestMethod]

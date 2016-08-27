@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Bodies.Health
+namespace Tiles.Bodies.Health.Injuries
 {
     public class InjuryClass : IInjuryClass
     {

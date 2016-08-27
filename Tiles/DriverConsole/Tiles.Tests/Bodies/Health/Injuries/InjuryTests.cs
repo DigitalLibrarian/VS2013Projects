@@ -7,8 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
 using Tiles.Bodies.Health;
+using Tiles.Bodies.Health.Injuries;
 
-namespace Tiles.Tests.Bodies.Health
+namespace Tiles.Tests.Bodies.Health.Injuries
 {
     [TestClass]
     public class InjuryTests

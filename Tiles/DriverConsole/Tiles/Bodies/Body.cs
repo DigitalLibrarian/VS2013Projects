@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Bodies.Health;
+using Tiles.Bodies.Health.Injuries;
 
 namespace Tiles.Bodies
 {
@@ -12,14 +14,25 @@ namespace Tiles.Bodies
         public bool IsBeingGrasped { get { return Parts.Any(x => x.IsBeingGrasped); } }
         public bool IsWrestling { get {  return Parts.Any(x => x.IsWrestling);} }
         public IList<IBodyPart> Parts { get; private set; }
+
+        public IHealthState Health { get; set; }
+
         public Body(IList<IBodyPart> parts)
+            : this(parts, new HealthState())
+        {
+
+        }
+
+        public Body(IList<IBodyPart> parts, IHealthState healthState)
         {
             Parts = parts;
+            Health = healthState;
         }
 
         public IBodyPart DamagePart(IBodyPart part, uint dmg)
         {
-            // TODO - handle foreign parts
+            // TODO - DELETE THIS METHOD
+            /*
             part.Health.TakeDamage(dmg);
             if (part.Health.OutOfHealth)
             {
@@ -36,6 +49,19 @@ namespace Tiles.Bodies
                 }
             }
             return null;
+             * */
+
+
+            return null;
+        }
+
+
+        public void AddInjuries(IEnumerable<IInjury> injuries)
+        {
+            foreach (var injury in injuries)
+            {
+                Health.Add(injury);
+            }
         }
     }
 }

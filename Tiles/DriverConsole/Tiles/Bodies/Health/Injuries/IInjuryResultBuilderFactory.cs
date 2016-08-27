@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Bodies
+namespace Tiles.Bodies.Health.Injuries
 {
-    public interface ITissue
+    public interface IInjuryResultBuilderFactory
     {
-        int TotalThickness { get; }
-        IList<ITissueLayer> TissueLayers { get; }
+        IInjuryResultBuilder Create();
     }
 }

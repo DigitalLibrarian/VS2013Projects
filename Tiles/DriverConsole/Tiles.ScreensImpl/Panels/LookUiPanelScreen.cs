@@ -88,7 +88,8 @@ namespace Tiles.ScreensImpl.Panels
                 }
                 foreach (var bodyPart in agent.Body.Parts)
                 {
-                    lines.Add(string.Format("{0}: {1}", bodyPart.Name, bodyPart.Health));
+                    // TODO - wound display
+                    lines.Add(string.Format("{0}", bodyPart.Name));
 
                     foreach (var item in agent.Outfit.GetItems(bodyPart))
                     {

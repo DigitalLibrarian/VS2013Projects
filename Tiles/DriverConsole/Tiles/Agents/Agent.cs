@@ -28,9 +28,13 @@ namespace Tiles.Agents
 
         public bool IsDead { 
             get 
-            {  
-                return !Body.Parts.Where(x => x.IsLifeCritical).Any() 
+            {
+                /*
+                return !Body.Parts.Where(x => x.IsLifeCritical).Any()
                     || Body.Parts.Where(x => x.IsLifeCritical).Any(x => x.Health.OutOfHealth);
+                */
+
+                return Body.Health.IsDead;
             } 
         }
 

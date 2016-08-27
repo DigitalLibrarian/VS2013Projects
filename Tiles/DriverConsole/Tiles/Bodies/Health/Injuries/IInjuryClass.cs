@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tiles.Bodies;
 
-namespace Tiles.Bodies.Health
+namespace Tiles.Bodies.Health.Injuries
 {
-    // a living injury with dynamic state, configured by IInjuryClass injection
-    public interface IInjury
+    // these get configured via content
+    public interface IInjuryClass
     {
         string Adjective { get; }
-        
+
         bool IsInstantDeath { get; }
+        bool IsBodyPartSpecific { get; }
+        bool IsTissueLayerSpecific { get; }
+
         bool IsPermanant { get; }
         bool CanBeHealed { get; }
 
-        bool IsOver { get; }
         bool CripplesBodyPart { get; }
 
-        void Update(int ticks);
-
-        string GetDisplayLabel();
+        bool UsesTtl { get; }
+        int Ttl { get; }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Content.Models
 {
+    // This will likely be for non-engine defined injuries
     class Injury
     {
         string Adjective { get; set; }

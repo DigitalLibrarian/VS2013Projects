@@ -17,8 +17,9 @@ namespace Tiles.Bodies
             Material = material;
             RelativeThickness = relativeThickness;
         }
-
-        // TODO - need some way to track damage
-        // It is likely we will create an IWound type that gets added here
+        
+        public bool CanBeBruised { get; set; }
+        public bool CanBeTorn { get; set; }
+        public bool CanBePunctured { get; set; }
     }
 }

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Bodies
+namespace Tiles.Content.Models
 {
-    public interface ITissue
+    public enum ContactType
     {
-        int TotalThickness { get; }
-        IList<ITissueLayer> TissueLayers { get; }
+        None,
+        Edge,
+        Blunt,
+        Point
     }
 }

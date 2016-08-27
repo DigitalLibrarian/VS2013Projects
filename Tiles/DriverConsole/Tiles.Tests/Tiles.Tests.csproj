@@ -73,6 +73,7 @@
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolutionTests.cs" />
     <Compile Include="Agents\Combat\CombatMoveDiscovererTests.cs" />
     <Compile Include="Agents\Combat\DamageVectorTests.cs" />
+    <Compile Include="Bodies\Health\Injuries\InjuryCalcTests.cs" />
     <Compile Include="Agents\PlayerTests.cs" />
     <Compile Include="AtlasTests.cs" />
     <Compile Include="ActionLogTests.cs" />
@@ -81,7 +82,8 @@
     <Compile Include="Bodies\BodyTests.cs" />
     <Compile Include="Bodies\HealthVectorTests.cs" />
     <Compile Include="Bodies\Health\HealthStateTests.cs" />
-    <Compile Include="Bodies\Health\InjuryTests.cs" />
+    <Compile Include="Bodies\Health\Injuries\InjuryResultBuilderTests.cs" />
+    <Compile Include="Bodies\Health\Injuries\InjuryTests.cs" />
     <Compile Include="Bodies\TissueFactoryTests.cs" />
     <Compile Include="ConjugatedWordTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />

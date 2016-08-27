@@ -25,6 +25,14 @@ namespace Tiles.Agents.Combat
 
         int PrepTime { get; }
         int RecoveryTime { get; }
+
+
+        // I dont' think I need contact type
+        ContactType ContactType { get; }
+
+        int ContactArea { get; }
+        int MaxPenetration { get; }
+        int VelocityMultiplier { get; }
     }
 
 }

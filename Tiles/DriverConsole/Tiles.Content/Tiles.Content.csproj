@@ -46,6 +46,7 @@
     <Compile Include="Models\BodyPart.cs" />
     <Compile Include="Models\BodyStateChange.cs" />
     <Compile Include="Models\CombatMove.cs" />
+    <Compile Include="Models\ContactType.cs" />
     <Compile Include="Models\Injury.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Material.cs" />

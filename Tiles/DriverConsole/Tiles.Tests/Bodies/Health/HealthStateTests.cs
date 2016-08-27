@@ -7,22 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
 using Tiles.Bodies.Health;
+using Tiles.Bodies.Health.Injuries;
 
 namespace Tiles.Tests.Bodies.Health
 {
     [TestClass]
     public class HealthStateTests
     {
-        Mock<IBody> BodyMock { get; set; }
-
         HealthState HealthState { get; set; }
 
         [TestInitialize]
         public void Initialize()
         {
-            BodyMock = new Mock<IBody>();
-
-            HealthState = new HealthState(BodyMock.Object);
+            HealthState = new HealthState();
         }
 
         [TestMethod]

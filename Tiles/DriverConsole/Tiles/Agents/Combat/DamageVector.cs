@@ -60,5 +60,14 @@ namespace Tiles.Agents.Combat
                 yield return (DamageType)dtObj;
             }
         }
+
+
+        public void Add(IDamageVector damage)
+        {
+            foreach (var dt in damage.GetComponentTypes())
+            {
+                SetComponent(dt, GetComponent(dt) + damage.GetComponent(dt));
+            }
+        }
     }
 }
