@@ -9,7 +9,7 @@ using Tiles.Math;
 using Tiles.Random;
 using Tiles.Render;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     public class YouDiedScreen : CanvasBoxScreen
     {

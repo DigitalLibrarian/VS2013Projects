@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Control;
 using Tiles.Items;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     // TODO - this sucks
     public class ThrowingCommandScreen : CommandScreen

@@ -40,34 +40,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CombatScreen.cs" />
+    <Compile Include="UI\CombatScreen.cs" />
     <Compile Include="ContentFactories\HardCodedAgentFactory.cs" />
     <Compile Include="SiteFactories\ArenaSiteFactory.cs" />
-    <Compile Include="CanvasScreen.cs" />
-    <Compile Include="CommandScreen.cs" />
+    <Compile Include="UI\CanvasScreen.cs" />
+    <Compile Include="UI\CommandScreen.cs" />
     <Compile Include="SiteFactories\DfTestSiteFactory.cs" />
     <Compile Include="ContentFactories\GameFactory.cs" />
     <Compile Include="ContentFactories\SurvivorAgentCommandPlanner.cs" />
     <Compile Include="ContentFactories\ZombieAgentCommandPlanner.cs" />
     <Compile Include="SiteFactories\ZombieSiteFactory.cs" />
-    <Compile Include="GameSimulationScreen.cs" />
+    <Compile Include="UI\GameSimulationScreen.cs" />
     <Compile Include="ContentFactories\GearFactory.cs" />
-    <Compile Include="InventoryItemDisplayScreen.cs" />
-    <Compile Include="InventoryScreen.cs" />
+    <Compile Include="UI\InventoryItemDisplayScreen.cs" />
+    <Compile Include="UI\InventoryScreen.cs" />
     <Compile Include="JaggedListSelector.cs" />
-    <Compile Include="LookingCommandScreen.cs" />
+    <Compile Include="UI\LookingCommandScreen.cs" />
     <Compile Include="Panels\ActionLogPanel.cs" />
     <Compile Include="Panels\LookUiPanelScreen.cs" />
-    <Compile Include="IGameSimulationViewModel.cs" />
-    <Compile Include="CanvasBoxScreen.cs" />
+    <Compile Include="UI\IGameSimulationViewModel.cs" />
+    <Compile Include="UI\CanvasBoxScreen.cs" />
     <Compile Include="Panels\UiPanelScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Panels\SimDisplayUiPanelScreen.cs" />
-    <Compile Include="GameSimulationViewModel.cs" />
+    <Compile Include="UI\GameSimulationViewModel.cs" />
     <Compile Include="ContentFactories\StructureFactory.cs" />
-    <Compile Include="ScreenLoadingMenuScreen.cs" />
-    <Compile Include="ThrowingCommandScreen.cs" />
-    <Compile Include="YouDiedScreen.cs" />
+    <Compile Include="UI\ScreenLoadingMenuScreen.cs" />
+    <Compile Include="UI\ThrowingCommandScreen.cs" />
+    <Compile Include="UI\YouDiedScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DfNet.Raws\DfNet.Raws.csproj">

@@ -21,6 +21,7 @@ using Tiles.Gsm;
 
 using Tiles.ScreensImpl.ContentFactories;
 using Tiles.ScreenImpl;
+using Tiles.ScreenImpl.UI;
 
 namespace DriverConsole
 {

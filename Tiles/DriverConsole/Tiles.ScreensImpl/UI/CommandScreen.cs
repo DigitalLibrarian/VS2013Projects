@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Gsm;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     public abstract class CommandScreen : GameScreen
     {

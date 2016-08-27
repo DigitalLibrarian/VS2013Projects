@@ -9,8 +9,9 @@ using Tiles.Math;
 using Tiles.Render;
 using Tiles.ScreensImpl;
 using Tiles.ScreensImpl.ContentFactories;
+using Tiles.ScreensImpl.UI;
 
-namespace Tiles.ScreenImpl
+namespace Tiles.ScreenImpl.UI
 {
     public class ScreenLoadingMenuScreen : CanvasBoxScreen
     {

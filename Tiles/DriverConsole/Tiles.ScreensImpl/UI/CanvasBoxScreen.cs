@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Math;
 using Tiles.Render;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     public abstract class CanvasBoxScreen : CanvasScreen
     {

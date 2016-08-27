@@ -9,7 +9,7 @@ using Tiles.Math;
 using Tiles.Render;
 using Tiles.ScreensImpl.Panels;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     public class LookingCommandScreen : CommandScreen
     {

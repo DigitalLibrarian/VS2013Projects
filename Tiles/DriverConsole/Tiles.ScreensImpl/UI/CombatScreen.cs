@@ -9,7 +9,7 @@ using Tiles.Control;
 using Tiles.Math;
 using Tiles.Render;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     public class CombatScreen : CanvasBoxScreen
     {

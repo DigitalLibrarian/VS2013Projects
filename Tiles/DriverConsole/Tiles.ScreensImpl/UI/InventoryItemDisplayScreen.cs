@@ -10,7 +10,7 @@ using Tiles.Math;
 using Tiles.Render;
 using Tiles.Agents.Combat;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     public class InventoryItemDisplayScreen : CanvasBoxScreen
     {

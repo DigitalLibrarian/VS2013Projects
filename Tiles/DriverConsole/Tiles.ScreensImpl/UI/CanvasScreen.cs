@@ -7,7 +7,7 @@ using Tiles.Gsm;
 using Tiles.Math;
 using Tiles.Render;
 
-namespace Tiles.ScreensImpl
+namespace Tiles.ScreensImpl.UI
 {
     public abstract class CanvasScreen : GameScreen
     {
