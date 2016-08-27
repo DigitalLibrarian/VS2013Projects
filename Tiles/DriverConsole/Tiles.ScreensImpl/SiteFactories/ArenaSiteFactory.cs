@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Math;
 using Tiles.Random;
+using Tiles.ScreensImpl.ContentFactories;
 
-namespace Tiles.ScreensImpl.ContentFactories
+namespace Tiles.ScreensImpl.SiteFactories
 {
     class ArenaSiteFactory : ISiteFactory
     {

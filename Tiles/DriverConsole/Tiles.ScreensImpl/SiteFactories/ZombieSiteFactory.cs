@@ -8,8 +8,9 @@ using Tiles.Agents;
 using Tiles.Items;
 using Tiles.Math;
 using Tiles.Random;
+using Tiles.ScreensImpl.ContentFactories;
 
-namespace Tiles.ScreensImpl.ContentFactories
+namespace Tiles.ScreensImpl.SiteFactories
 {
     public class ZombieSiteFactory : ISiteFactory
     {

@@ -18,7 +18,7 @@ using Tiles.Content.Bridge.DfNet;
 using Tiles.Content.Map;
 using Tiles.Agents.Combat;
 
-namespace Tiles.ScreensImpl.ContentFactories
+namespace Tiles.ScreensImpl.SiteFactories
 {
     public class DfTestSiteFactory : ISiteFactory
     {

@@ -42,14 +42,14 @@
   <ItemGroup>
     <Compile Include="CombatScreen.cs" />
     <Compile Include="ContentFactories\HardCodedAgentFactory.cs" />
-    <Compile Include="ContentFactories\ArenaSiteFactory.cs" />
+    <Compile Include="SiteFactories\ArenaSiteFactory.cs" />
     <Compile Include="CanvasScreen.cs" />
     <Compile Include="CommandScreen.cs" />
-    <Compile Include="ContentFactories\DfTestSiteFactory.cs" />
+    <Compile Include="SiteFactories\DfTestSiteFactory.cs" />
     <Compile Include="ContentFactories\GameFactory.cs" />
     <Compile Include="ContentFactories\SurvivorAgentCommandPlanner.cs" />
     <Compile Include="ContentFactories\ZombieAgentCommandPlanner.cs" />
-    <Compile Include="ContentFactories\ZombieSiteFactory.cs" />
+    <Compile Include="SiteFactories\ZombieSiteFactory.cs" />
     <Compile Include="GameSimulationScreen.cs" />
     <Compile Include="ContentFactories\GearFactory.cs" />
     <Compile Include="InventoryItemDisplayScreen.cs" />
