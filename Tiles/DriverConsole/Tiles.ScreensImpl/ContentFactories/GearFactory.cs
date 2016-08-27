@@ -15,6 +15,7 @@ namespace Tiles.ScreensImpl.ContentFactories
     public class GearFactory
     {
         #region static defns
+        static IMaterial Leather = new Material("leather");
         private static IList<IItemClass> _ItemClasses = new List<IItemClass>
         {
             new ItemClass(
@@ -157,123 +158,166 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsItem = true,
                        }
                    }
-                ))
-        };
-
-        private static IList<IArmorClass> _ArmorClasses = new List<IArmorClass>
-        {
-            new ArmorClass("cotton hat",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 25},
-                    { DamageType.Pierce, 1},
-                    { DamageType.Blunt, 1},
-                }),
-                ArmorSlot.Head
-            ),
-            new ArmorClass("leather arm pad (L)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 80},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.LeftArm
-            ),
-            new ArmorClass("leather arm pad (R)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 80},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.RightArm
-            ),
-            new ArmorClass("leather leg pad (L)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 80},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.LeftLeg
-            ),
-            new ArmorClass("leather leg pad (R)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 80},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.RightLeg
-            ),            
-            new ArmorClass("leather vest",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 95},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.Torso
-            ),
-            new ArmorClass("leather cap",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 75},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.Head
-            ),
-            new ArmorClass("leather shoe (R)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 90},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.RightFoot
-            ),
-            new ArmorClass("leather shoe (L)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 90},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.LeftFoot
-            ),
-            new ArmorClass("leather glove (R)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 45},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.RightHand
-            ),
-            new ArmorClass("leather glove (L)",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 45},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.LeftHand
-            ),
-            new ArmorClass("leather trenchcoat",
-                new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                new DamageVector(new Dictionary<DamageType,uint>{
-                    { DamageType.Slash, 45},
-                    { DamageType.Pierce, 7},
-                    { DamageType.Blunt, 2},
-                }),
-                ArmorSlot.Torso,
-                ArmorSlot.LeftArm,
-                ArmorSlot.RightArm,
-                ArmorSlot.LeftLeg,
-                ArmorSlot.RightLeg
-            ),
+                )),
+            new ItemClass(
+                name: "cotton hat",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: new Material("cotton"),
+                armorClass: new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 25},
+                            { DamageType.Pierce, 1},
+                            { DamageType.Blunt, 1},
+                        }),
+                        ArmorSlot.Head
+                    )),
+            new ItemClass(
+                name: "leather arm pad (L)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass:
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 80},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.LeftArm
+                    )),
+            new ItemClass(
+                name: "leather arm pad (R)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass:
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 80},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.RightArm
+                    )),
+            new ItemClass(
+                name: "leather leg pad (L)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass:
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 80},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.LeftLeg
+                    )),
+            new ItemClass(
+                name: "leather leg pad (R)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass:
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 80},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.RightLeg
+                    )),
+            new ItemClass(
+                name: "leather vest",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass: 
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 95},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.Torso
+                    )),
+            new ItemClass(
+                name: "leather cap",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass: 
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 75},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.Head
+                    )),
+            new ItemClass(
+                name: "leather shoe (R)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass: 
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 90},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.RightFoot
+                    )),
+            new ItemClass(
+                name: "leather shoe (L)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass: 
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 90},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.LeftFoot
+                    )),
+            new ItemClass(
+                name: "leather glove (R)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass: 
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 45},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.RightHand
+                    )),
+            new ItemClass(
+                name: "leather glove (L)",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass: 
+                new ArmorClass(    
+                    new DamageVector(new Dictionary<DamageType,uint>{
+                        { DamageType.Slash, 45},
+                        { DamageType.Pierce, 7},
+                        { DamageType.Blunt, 2},
+                    }),
+                    ArmorSlot.LeftHand
+                )),
+            new ItemClass(
+                name: "leather trenchcoat",
+                sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                material: Leather,
+                armorClass: 
+                    new ArmorClass(
+                        new DamageVector(new Dictionary<DamageType,uint>{
+                            { DamageType.Slash, 45},
+                            { DamageType.Pierce, 7},
+                            { DamageType.Blunt, 2},
+                        }),
+                        ArmorSlot.Torso,
+                        ArmorSlot.LeftArm,
+                        ArmorSlot.RightArm,
+                        ArmorSlot.LeftLeg,
+                        ArmorSlot.RightLeg
+                    )),
         };
         private IRandom Random;
 
@@ -326,31 +370,6 @@ namespace Tiles.ScreensImpl.ContentFactories
         }
         public IItem CreateRandomItem()
         {
-            /*
-            var wc = _WeaponClasses.Count();
-            var ac = _ArmorClasses.Count();
-            var tot = wc + ac;
-
-            var index = Random.Next(tot);
-
-            if (index < wc)
-            {
-                var weaponClass = _WeaponClasses[index];
-                return CreateItem(
-                    name: weaponClass.Name,
-                    sprite: weaponClass.Sprite,
-                    weaponClass: weaponClass);
-            }
-            else
-            {
-                var armorClass = _ArmorClasses[index - wc]; 
-                return CreateItem(
-                       name: armorClass.Name,
-                       sprite: armorClass.Sprite,
-                       armorClass: armorClass);
-            }
-             * */
-
             return ItemFactory.Create(Random.NextElement(_ItemClasses));
         }
     }

@@ -26,8 +26,6 @@ namespace Tiles.Content.Map
         {
             if (armor == null) return null;
             return new ArmorClass(
-                "",
-                MapSprite(Symbol.MiscClothing),
                 new EngineCombat.DamageVector(),
                 armor.SlotRequirements.Select(Map).ToArray());
         }
