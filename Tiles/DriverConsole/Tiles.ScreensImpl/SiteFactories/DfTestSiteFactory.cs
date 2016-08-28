@@ -22,19 +22,13 @@ namespace Tiles.ScreensImpl.SiteFactories
 {
     public class DfTestSiteFactory : ISiteFactory
     {
-        IDfObjectStore Store { get; set; }
-        IDfMaterialFactory DfMaterialFactory { get; set; }
-        IDfItemFactory DfItemFactory { get; set; }
-        IDfAgentFactory DfAgentFactory { get; set; }
-        IAgentFactory AgentFactory { get; set;}
-        IItemFactory ItemFactory { get; set; }
+        DfTagsFascade Df { get; set; }
         IRandom Random { get; set; }
-        IContentMapper ContentMapper { get; set; }
-
-        IAgentCommandPlanner DefaultPlanner { get; set; }
-
         public DfTestSiteFactory(IDfObjectStore store, IRandom random)
         {
+            Random = random;
+            Df = new DfTagsFascade(store, random);
+            /*
             Store = store;
             Random = random;
             ItemFactory = new ItemFactory();
@@ -49,6 +43,7 @@ namespace Tiles.ScreensImpl.SiteFactories
                 new AgentCommandFactory(), 
                 new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc())),
                 new PositionFinder());
+             * */
         }
 
         public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
@@ -68,17 +63,8 @@ namespace Tiles.ScreensImpl.SiteFactories
             }
 
             int numItems = box.Size.X;
-            var metals = Store.Get(DfTags.MATERIAL_TEMPLATE)
-                            .Where(o => o.Tags.Any(t => t.IsSingleWord(DfTags.MiscTags.IS_METAL)))
-                            .SelectMany(matTemp =>
-                            {
-                                return Store.Get(DfTags.INORGANIC)
-                                        .Where(inOrg => inOrg.Tags.Any(
-                                                    t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE)
-                                                        && t.GetParam(0).Equals(matTemp.Name)));
-                            }).Select(t => t.Name).ToList();
-
-            var weapons = Store.Get(DfTags.ITEM_WEAPON).Select(t => t.Name).ToList();
+            var metals = Df.GetMetalNames().ToList();
+            var weapons = Df.GetWeaponNames().ToList();
 
             for (int i = 0; i < numItems; i++)
             {
@@ -89,44 +75,41 @@ namespace Tiles.ScreensImpl.SiteFactories
 
                     var m = Random.NextElement(metals);
                     var w = Random.NextElement(weapons);
-
-                    var materialContent = DfMaterialFactory.CreateInorganic(m);
-                    var weaponItemContent = DfItemFactory.Create(DfTags.ITEM_WEAPON, w, materialContent);
-                    var engineItemClass = ContentMapper.Map(weaponItemContent);
                     
-
-                    tile.Items.Add(ItemFactory.Create(engineItemClass));
+                    tile.Items.Add(Df.CreateWeapon(w, m));
                 }
             }
 
             int numAgents = numItems/2;
-            var creatures = Store.Get(DfTags.CREATURE).ToList();
+            var creatures = Df.GetCreatureNames().ToList();
             for (int i = 0; i < numAgents; i++)
             {
                 var spawnLoc = FindSpawnSitePos(s);
                 if (spawnLoc.HasValue)
                 {
                     var tile = s.GetTileAtSitePos(spawnLoc.Value);
-                    var creatureDf = Random.NextElement(creatures);
-                    var castes = creatureDf.Tags
-                        .Where(t => t.Name.Equals(DfTags.MiscTags.CASTE))
-                        .Select(t => t.GetParam(0))
-                        .ToList();
+                    var creatureName = Random.NextElement(creatures);
+                    var castes = Df.GetCreatureCastes(creatureName).ToList();
 
                     string caste = null;
                     if(castes.Any())
                     {
                         caste = Random.NextElement(castes);
                     }
-                    var agentContent = DfAgentFactory.Create(creatureDf.Name);
-                    var engineAgentClass = ContentMapper.Map(agentContent);
-                    var agent = AgentFactory.Create(atlas, engineAgentClass, 
-                        new Vector3(
-                            s.Box.Min.X, 
+                    var worldPos = new Vector3(
+                            s.Box.Min.X,
                             s.Box.Min.Y,
                             0
                             )
-                        + spawnLoc.Value, DefaultPlanner);
+                        + spawnLoc.Value;
+
+                    var agent = Df.CreateCreatureAgent(atlas, creatureName, caste, worldPos);
+                    /*
+                    var agentContent = DfAgentFactory.Create(creatureName.Name, caste);
+                    var engineAgentClass = ContentMapper.Map(agentContent);
+                    var agent = AgentFactory.Create(atlas, engineAgentClass, 
+                        , DefaultPlanner);
+                     * */
                     tile.SetAgent(agent);
                 }
 

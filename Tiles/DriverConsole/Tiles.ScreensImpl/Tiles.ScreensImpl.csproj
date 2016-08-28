@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SiteFactories\DfTagsFascade.cs" />
     <Compile Include="UI\CombatScreen.cs" />
     <Compile Include="ContentFactories\HardCodedAgentFactory.cs" />
     <Compile Include="SiteFactories\ArenaSiteFactory.cs" />
