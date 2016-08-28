@@ -26,12 +26,17 @@ namespace Driver.Tiles.WindowsForms
         WindowsFormsKeyboardSource KeyboardSource { get; set; }
         GraphicsCanvas Canvas { get; set; }
 
-        Graphics G;
+        Graphics PanelGraphics;
+        Graphics BackBufferGraphics;
+
+        BufferedGraphicsContext CurrentContext;
+        BufferedGraphics BackBuffer;
+
+        Queue<TilesControls.KeyPressEventArgs> KeyboardQueue = new Queue<TilesControls.KeyPressEventArgs>();
 
         public Form1()
         {
             InitializeComponent();
-
 
             var imagePath = System.Configuration.ConfigurationManager.AppSettings.Get("FontImageFile");
             var image = Image.FromFile(imagePath);
@@ -40,8 +45,18 @@ namespace Driver.Tiles.WindowsForms
             var glyphSize = new Vector2(8, 16);
             FontMap = new SpriteFontMap(image, glyphSize, solidGlyphIndex);
 
-            this.G = panelDisplay.CreateGraphics();
-            Canvas = new GraphicsCanvas(gFunc: () => this.G, fontMap: FontMap);
+            this.PanelGraphics = panelDisplay.CreateGraphics();
+            // Gets a reference to the current BufferedGraphicsContext
+            CurrentContext = BufferedGraphicsManager.Current;
+            // Creates a BufferedGraphics instance associated with Form1, and with 
+            // dimensions the same size as the drawing surface of Form1.
+            BackBuffer = CurrentContext.Allocate(PanelGraphics,
+               this.DisplayRectangle);
+
+            BackBufferGraphics = BackBuffer.Graphics;
+
+
+            Canvas = new GraphicsCanvas(gFunc: () => this.BackBufferGraphics, fontMap: FontMap);
             KeyboardSource = new WindowsFormsKeyboardSource();
 
             ScreenManager = new GameScreenManager();
@@ -59,7 +74,6 @@ namespace Driver.Tiles.WindowsForms
             ScreenManager.Add(new ScreenLoadingMenuScreen(Canvas, screenBox));
         }
 
-        Queue<TilesControls.KeyPressEventArgs> KeyboardQueue = new Queue<TilesControls.KeyPressEventArgs>();
         void KeyboardSource_KeyPressed(object sender, TilesControls.KeyPressEventArgs e)
         {
             if (ScreenManager.BlockForInput)
@@ -75,10 +89,13 @@ namespace Driver.Tiles.WindowsForms
 
         void panelDisplay_Paint(object sender, PaintEventArgs e)
         {
-            G.Clear(System.Drawing.Color.Black);
+            BackBufferGraphics.Clear(System.Drawing.Color.Black);
 
             if (first)
             {
+                // TODO - fix this
+                // has to be done because some screens draw to canvas during their load 
+                // to clear the screen.  This really shouldn't be the screen's problem during Load()
                 first = false;
                 LoadFirstScreen();
             }
@@ -91,6 +108,10 @@ namespace Driver.Tiles.WindowsForms
             {
                 string message = ex.ToString();
             }
+
+            BackBuffer.Render();
+            // Renders the contents of the buffer to the specified drawing surface.
+            BackBuffer.Render(PanelGraphics);
         }
 
         void UpdateGame()

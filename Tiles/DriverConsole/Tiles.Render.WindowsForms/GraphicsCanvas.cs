@@ -137,7 +137,7 @@ namespace Tiles.Render.WindowsForms
         {
             var screenPoint = Point(screenPos);
             var destRect = GlyphRect(screenPoint);
-            DrawGlyph(FontMap.SolidGlyphIndex, destRect, sprite.BackgroundColor);
+            //DrawGlyph(FontMap.SolidGlyphIndex, destRect, sprite.BackgroundColor);
             DrawGlyph(sprite.Symbol, destRect, sprite.ForegroundColor);
         }
 
