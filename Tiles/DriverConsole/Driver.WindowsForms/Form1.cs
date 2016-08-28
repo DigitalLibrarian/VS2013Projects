@@ -18,67 +18,87 @@ namespace Driver.WindowsForms
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
 
-            this.panelDisplay.Paint += panelDisplay_Paint;
-
-            var imagePath = System.Configuration.ConfigurationManager.AppSettings.Get("FontImageFile");
-            var image = Image.FromFile(imagePath);
-
-            var glyphSize = new Vector2(8, 16);
-            var fontMap = new SpriteFontMap(image, glyphSize);
-
-            Canvas = new GraphicsCanvas(gFunc: () => this.G, fontMap: fontMap);
-            KeyboardSource = new WindowsFormsKeyboardSource();
-            this.KeyDown += KeyboardSource.InputKeyPressed;
-            KeyboardSource.KeyPressed += KeyboardSource_KeyPressed;
-
-            var screenBox = new Box2(new Vector2(0, 0), new Vector2(80, 24));
-
-            ScreenManager = new GameScreenManager();
-            ScreenManager.Add(new ScreenLoadingMenuScreen(Canvas, screenBox));
-
-            KeyboardSource.KeyPressed += ScreenManager.OnKeyPress;
-        }
-
-        List<char> Input = new List<char>();
-        void KeyboardSource_KeyPressed(object sender, Tiles.Control.KeyPressEventArgs e)
-        {
-            Input.Add(e.KeyChar);
-            this.Refresh();
-        }
+        ISpriteFontMap FontMap { get; set; }
         IGameScreenManager ScreenManager { get; set; }
         WindowsFormsKeyboardSource KeyboardSource { get; set; }
         GraphicsCanvas Canvas { get; set; }
 
         Graphics G;
+
+        public Form1()
+        {
+            InitializeComponent();
+
+
+            var imagePath = System.Configuration.ConfigurationManager.AppSettings.Get("FontImageFile");
+            var image = Image.FromFile(imagePath);
+
+            var solidGlyphIndex = 219;
+            var glyphSize = new Vector2(8, 16);
+            FontMap = new SpriteFontMap(image, glyphSize, solidGlyphIndex);
+
+            this.G = panelDisplay.CreateGraphics();
+            Canvas = new GraphicsCanvas(gFunc: () => this.G, fontMap: FontMap);
+            KeyboardSource = new WindowsFormsKeyboardSource();
+
+            ScreenManager = new GameScreenManager();
+            KeyboardSource.KeyPressed += KeyboardSource_KeyPressed;
+
+            this.panelDisplay.Paint += panelDisplay_Paint;
+            this.KeyDown += KeyboardSource.InputKeyPressed;
+        }
+
+        void LoadFirstScreen()
+        {
+            var sgW = panelDisplay.Width / FontMap.GlyphSize.X;
+            var sgH = panelDisplay.Height / FontMap.GlyphSize.Y;
+            var screenBox = new Box2(new Vector2(0, 0), new Vector2(sgW, sgH));
+            ScreenManager.Add(new ScreenLoadingMenuScreen(Canvas, screenBox));
+        }
+
+        Queue<Tiles.Control.KeyPressEventArgs> KeyboardQueue = new Queue<Tiles.Control.KeyPressEventArgs>();
+        void KeyboardSource_KeyPressed(object sender, Tiles.Control.KeyPressEventArgs e)
+        {
+            if (ScreenManager.BlockForInput)
+            {
+                KeyboardQueue.Enqueue(e);
+            }
+            this.Refresh();
+        }
+
+        bool first = true;
+
         void panelDisplay_Paint(object sender, PaintEventArgs e)
         {
-            G = e.Graphics;
             G.Clear(System.Drawing.Color.Black);
+
+            if (first)
+            {
+                first = false;
+                LoadFirstScreen();
+            }
+            bool wasInputProcssed = false;
             try
             {
+                if (KeyboardQueue.Any())
+                {
+                    ScreenManager.OnKeyPress(this, KeyboardQueue.Dequeue());
+                    wasInputProcssed = true;
+                }
+
+                ScreenManager.Update();
                 ScreenManager.Draw();
             }
             catch (Exception ex)
             {
                 string message = ex.ToString();
             }
-            /*
-            var bounds = G.VisibleClipBounds;
 
-            int symbolWidth = 10;
-            var symbolsWide = bounds.Width / symbolWidth;
-
-            var b = Brushes.BurlyWood;
-            var font = new Font("Console", symbolWidth);
-            G.DrawString(string.Format("symbols wide : {0}", symbolsWide),
-                font, b, 0, 0);
-            G.DrawString(string.Join("", Input),
-                font, b, 0, symbolWidth);
-             * */
+            if (wasInputProcssed || (ScreenManager.BlockForInput && KeyboardQueue.Any()))
+            {
+                this.Refresh();
+            }
         }
     }
 }

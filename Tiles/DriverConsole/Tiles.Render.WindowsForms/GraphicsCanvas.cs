@@ -13,9 +13,13 @@ namespace Tiles.Render.WindowsForms
 {
     public class GraphicsCanvas : ICanvas
     {
+        private const int PenWidth = 2;
+
         Func<Graphics> GFunc { get; set; }
         ISpriteFontMap FontMap { get; set; }
-        Dictionary<Tiles.Math.Color, ColorMatrix> CCMatrix { get; set; }
+        Dictionary<Tiles.Math.Color, ImageAttributes> ImageAttrs { get; set; }
+
+        Graphics G { get { return GFunc(); } }
 
         Dictionary<Tiles.Math.Color, Drawing.Color> ColorMap = new Dictionary<Tiles.Math.Color, Drawing.Color>
         {
@@ -42,19 +46,27 @@ namespace Tiles.Render.WindowsForms
             GFunc = gFunc;
             FontMap = fontMap;
 
-            CCMatrix = new Dictionary<Tiles.Math.Color, ColorMatrix>();
+            ImageAttrs = new Dictionary<Tiles.Math.Color, ImageAttributes>();
+            DefaultPen = new Pen(Drawing.Color.White, PenWidth);
+            DefaultFont = new Font("Console", FontMap.GlyphSize.X);
         }
 
         #region Pens and Brushes
-        private Pen GetPen(Tiles.Math.Color foregroundColor, Tiles.Math.Color backgroundColor)
+        Dictionary<Tiles.Math.Color, Pen> ColorPens { get; set; }
+        Pen DefaultPen { get; set; }
+        Font DefaultFont { get; set; }
+        private Pen GetPen(Tiles.Math.Color foregroundColor)
         {
-            throw new NotImplementedException();
+            if (ColorPens.ContainsKey(foregroundColor))
+            {
+                return ColorPens[foregroundColor];
+            }
+
+            var pen = new Pen(ColorMap[foregroundColor], PenWidth);
+            ColorPens[foregroundColor] = pen;
+            return pen;
         }
 
-        private Pen GetPen()
-        {
-            throw new NotImplementedException();
-        }
         #endregion
 
         #region Primitive mapping
@@ -63,15 +75,14 @@ namespace Tiles.Render.WindowsForms
             return new Point(v.X * FontMap.GlyphSize.X, v.Y * FontMap.GlyphSize.Y);
         }
 
-        ColorMatrix ColorMatrix(Tiles.Math.Color cc)
+        ImageAttributes GetColorMatrix(Tiles.Math.Color cc)
         {
-            if (CCMatrix.ContainsKey(cc))
+            if (ImageAttrs.ContainsKey(cc))
             {
-                return CCMatrix[cc];
+                return ImageAttrs[cc];
             }
-
             var dc = ColorMap[cc];
-
+            /*
             var rComp = (float)(dc.R) / (float)byte.MaxValue;
             var bComp = (float)(dc.B) / (float)byte.MaxValue;
             var gComp = (float)(dc.G) / (float)byte.MaxValue;
@@ -80,73 +91,130 @@ namespace Tiles.Render.WindowsForms
                new float[] {1f,  0,  0,  0, 0},        // red scaling factor
                new float[] {0,  1f,  0,  0, 0},        // green scaling factor
                new float[] {0,  0,  1f,  0, 0},        // blue scaling factor
-               new float[] {0,  0,  0,  1f, 0},        // alpha scaling factor 
-               new float[] {rComp -1f, bComp - 1f,gComp -1f, 0, 1}};
-
+               new float[] {0,  0,  0,  1f, 0},        // alpha scaling factor
+               new float[] {rComp -1f, bComp - 1f,gComp -1f, 0, 1}
+                                            };
 
             ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
-            CCMatrix[cc] = colorMatrix;
-            return colorMatrix;
+            */
+            var imageAttr = new ImageAttributes();
+            //imageAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+            ColorMap colorMap = new ColorMap();
+
+            colorMap.OldColor = Drawing.Color.White; 
+            colorMap.NewColor = dc;
+
+            ColorMap[] remapTable = { colorMap };
+            imageAttr.SetRemapTable(remapTable, ColorAdjustType.Bitmap);
+            //CCMatrix[cc] = colorMatrix;
+            //return colorMatrix;
+
+            ImageAttrs[cc] = imageAttr;
+            return imageAttr;
         }
 
-        #endregion
-
-
-        void _DrawString(string s, Vector2 screenPos, Tiles.Math.Color fg, Tiles.Math.Color bg)
+        Rectangle GlyphRect(Point p)
         {
-
+            return new Rectangle(p, new Size(FontMap.GlyphSize.X, FontMap.GlyphSize.Y));
         }
+        #endregion
+        void DrawGlyph(int g, Rectangle screenRect, Tiles.Math.Color fg)
+        {
+            //var colorMatrix = GetColorMatrix(fg);
+            //using (var imageAttr = new ImageAttributes())
+            {
+                var imageAttr = GetColorMatrix(fg);
+                //imageAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+                
+                var image = FontMap.Get(g);
+                var graphics = G;
 
+                graphics.DrawImage(image, screenRect, 0, 0, FontMap.GlyphSize.X, FontMap.GlyphSize.Y, GraphicsUnit.Pixel, imageAttr);
+            }
+        }
 
         public void DrawSprite(ISprite sprite, Tiles.Math.Vector2 screenPos)
         {
-            var image = FontMap.Get(sprite.Symbol);
             var screenPoint = Point(screenPos);
-            // Presumably I can use the sprite color information to roduce a ColorMatrix
-
-            var imageAttr = new ImageAttributes();
-            var colorMatrix = ColorMatrix(sprite.ForegroundColor);
-            imageAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-            var destRect = new Rectangle(screenPoint, new Size(FontMap.GlyphSize.X, FontMap.GlyphSize.Y));
-
-            GFunc().DrawImage(image, destRect, 0, 0, FontMap.GlyphSize.X, FontMap.GlyphSize.Y, GraphicsUnit.Pixel, imageAttr);
+            var destRect = GlyphRect(screenPoint);
+            DrawGlyph(FontMap.SolidGlyphIndex, destRect, sprite.BackgroundColor);
+            DrawGlyph(sprite.Symbol, destRect, sprite.ForegroundColor);
         }
 
         public void DrawSymbol(int s, Tiles.Math.Vector2 screenPos, Tiles.Math.Color fg, Tiles.Math.Color bg)
         {
+            var screenPoint = Point(screenPos);
+            var destRect = GlyphRect(screenPoint);
+            DrawGlyph(FontMap.SolidGlyphIndex, destRect, bg);
+            DrawGlyph(s, destRect, fg);
         }
 
-        public void FillBox(int s, Tiles.Math.Vector2 topLeft, Tiles.Math.Vector2 size, Tiles.Math.Color foregroundColor, Tiles.Math.Color backgroundColor)
-        {
-            /*
-            var pen = GetPen(foregroundColor, backgroundColor);
-            GFunc().DrawRectangle(pen, topLeft.X, topLeft.Y, size.X, size.Y);
-             * */
-        }
         
         public void DrawString(string s, Tiles.Math.Vector2 screenPos)
         {
+            var screenPoint = Point(screenPos);
+            G.DrawString(s, DefaultFont, SystemBrushes.Window, screenPoint.X, screenPoint.Y, StringFormat.GenericDefault);
         }
 
         public void DrawString(string s, Tiles.Math.Vector2 screenPos, int width)
         {
+            var p = Point(screenPos);
+            var size = G.MeasureString(s, DefaultFont, width * (int) DefaultFont.Size);
+
+            var destRect = new Rectangle(p, new Size((int)size.Width, (int)size.Height));
+            DrawGlyph(FontMap.SolidGlyphIndex, destRect, Tiles.Math.Color.Black);
+            G.DrawString(s, DefaultFont, SystemBrushes.Window, p.X, p.Y, StringFormat.GenericDefault);
         }
 
         public void DrawString(string s, Tiles.Math.Vector2 screenPos, Tiles.Math.Color fg, Tiles.Math.Color bg)
         {
+            var p = Point(screenPos);
+            var size = G.MeasureString(string.Format("{0}{1}", s, s), DefaultFont);
+
+            var destRect = new Rectangle(p, new Size((int)size.Width, (int)size.Height));
+            DrawGlyph(FontMap.SolidGlyphIndex, destRect, bg);
+            G.DrawString(s, DefaultFont, SystemBrushes.Window, p.X, p.Y);
         }
 
-        public void WriteLinesInALine(Tiles.Math.Vector2 point, Tiles.Math.Vector2 slope, params string[] lines)
+
+        public void FillBox(int s, Vector2 topLeft, Vector2 size, Tiles.Math.Color foregroundColor, Tiles.Math.Color backgroundColor)
         {
+            return;
+            //SetColors(foregroundColor, backgroundColor);
+
+            for (int x = topLeft.X; x < topLeft.X + size.X; x++)
+            {
+                for (int y = topLeft.Y; y < topLeft.Y + size.Y; y++)
+                {
+                    //SetCursorPosition(new Vector2(x, y));
+                    //Writer.Write(ToChar(s));
+
+                    var destRect = GlyphRect(new Point(x * FontMap.GlyphSize.X, y * FontMap.GlyphSize.Y));
+
+                    DrawGlyph(FontMap.SolidGlyphIndex, destRect, backgroundColor);
+                    DrawGlyph(s, destRect, foregroundColor);
+                }
+            }
         }
 
-        public void WriteLineColumn(Tiles.Math.Vector2 topLeft, params string[] lines)
+        public void WriteLinesInALine(Vector2 point, Vector2 slope, params string[] lines)
         {
+            foreach (var line in lines)
+            {
+                DrawString(line, point);
+                point += slope;
+            }
         }
 
-        public void WriteLineColumn(Tiles.Math.Vector2 topLeft, Tiles.Math.Color fg, Tiles.Math.Color bg, params string[] lines)
+        public void WriteLineColumn(Vector2 topLeft, params string[] lines)
         {
+            WriteLinesInALine(topLeft, new Vector2(0, 1), lines);
+        }
+
+        public void WriteLineColumn(Vector2 topLeft, Tiles.Math.Color fg, Tiles.Math.Color bg, params string[] lines)
+        {
+            //SetColors(fg, bg);
+            WriteLineColumn(topLeft, lines);
         }
     }
 }

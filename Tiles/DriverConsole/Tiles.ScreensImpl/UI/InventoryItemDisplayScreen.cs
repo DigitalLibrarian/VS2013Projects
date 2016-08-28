@@ -151,11 +151,11 @@ namespace Tiles.ScreensImpl.UI
             }
 
 
-            if (CanWield && args.KeyChar == 'w') Wield();
-            if (CanUnwield && args.KeyChar == 'u') Unwield();
-            if (CanWear && args.KeyChar == 'W') Wear();
-            if (CanTakeOff && args.KeyChar == 'T') TakeOff();
-            if (CanDrop && args.KeyChar == 'd') Drop();
+            if (CanWield && args.Key == ConsoleKey.W && !args.Shift) Wield();
+            if (CanUnwield && args.Key == ConsoleKey.U && !args.Shift) Unwield();
+            if (CanWear && args.Key == ConsoleKey.W && args.Shift) Wear();
+            if (CanTakeOff && args.Key == ConsoleKey.T && args.Shift) TakeOff();
+            if (CanDrop && args.Key == ConsoleKey.D && !args.Shift) Drop();
         }
     }
 }

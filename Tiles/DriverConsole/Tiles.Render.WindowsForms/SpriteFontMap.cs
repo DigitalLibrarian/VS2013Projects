@@ -10,6 +10,7 @@ namespace Tiles.Render.WindowsForms
 {
     public interface ISpriteFontMap
     {
+        int SolidGlyphIndex { get; }
         Vector2 GlyphSize { get; }
         Image Get(int charCode);
     }
@@ -18,13 +19,15 @@ namespace Tiles.Render.WindowsForms
     {
         Bitmap Image { get; set; }
         public Vector2 GlyphSize { get; private set; }
+        public int SolidGlyphIndex { get; private set; }
         Vector2 GlyphDim { get; set; }
 
         List<Image> Map { get; set; }
 
-        public SpriteFontMap(Image image, Vector2 glyphSize)
+        public SpriteFontMap(Image image, Vector2 glyphSize, int solidGlyphIndex)
         {
             Image = new Bitmap(image);
+            SolidGlyphIndex = solidGlyphIndex;
             GlyphSize = glyphSize;
             GlyphDim = new Vector2(image.Width / glyphSize.X, image.Height / glyphSize.Y);
 
@@ -33,7 +36,7 @@ namespace Tiles.Render.WindowsForms
             { 
                 for(int x = 0; x < GlyphDim.X;x++)
                 {
-                    var cropArea = new RectangleF(x * glyphSize.X, y * glyphSize.Y, glyphSize.X, glyphSize.Y);
+                    var cropArea = new Rectangle(x * glyphSize.X, y * glyphSize.Y, glyphSize.X, glyphSize.Y);
                     var glyphImage = Image.Clone(cropArea, Image.PixelFormat);
                     Map.Add(glyphImage);
                 }

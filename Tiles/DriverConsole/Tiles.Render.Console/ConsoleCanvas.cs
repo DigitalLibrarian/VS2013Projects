@@ -69,19 +69,7 @@ namespace Tiles.Render.Console
             return (char)s;
         }
 
-        public void WriteLinesInALine(Vector2 point, Vector2 slope, params string[] lines)
-        {
-            foreach (var line in lines)
-            {
-                DrawString(line, point);
-                point += slope;
-            }
-        }
-
-        public void WriteLineColumn(Vector2 topLeft, params string[] lines)
-        {
-            WriteLinesInALine(topLeft, new Vector2(0, 1), lines);
-        }
+        
 
 
         public void FillBox(int s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor)
@@ -98,6 +86,19 @@ namespace Tiles.Render.Console
             }
         }
 
+        public void WriteLinesInALine(Vector2 point, Vector2 slope, params string[] lines)
+        {
+            foreach (var line in lines)
+            {
+                DrawString(line, point);
+                point += slope;
+            }
+        }
+
+        public void WriteLineColumn(Vector2 topLeft, params string[] lines)
+        {
+            WriteLinesInALine(topLeft, new Vector2(0, 1), lines);
+        }
 
         public void WriteLineColumn(Vector2 topLeft, Color fg, Color bg, params string[] lines)
         {

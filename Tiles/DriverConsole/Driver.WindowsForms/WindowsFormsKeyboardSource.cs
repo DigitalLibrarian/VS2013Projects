@@ -30,10 +30,18 @@ namespace Driver.WindowsForms
 
         }
 
+        Tiles.Control.KeyPressEventArgs MapEvent(KeyEventArgs e)
+        {
+            return new Tiles.Control.KeyPressEventArgs(
+                (ConsoleKey)(int)e.KeyData, 
+                (char)e.KeyCode, 
+                e.Alt, e.Shift, e.Control);
+        }
+
         public void InputKeyPressed(object sender, KeyEventArgs e)
         {
             _keyAvail = true;
-            OnKeyPressed(new Tiles.Control.KeyPressEventArgs((ConsoleKey)(int)e.KeyData, (char)e.KeyCode, e.Alt, e.Shift, e.Control));
+            OnKeyPressed(MapEvent(e));
             _keyAvail = false;
         }
     }
