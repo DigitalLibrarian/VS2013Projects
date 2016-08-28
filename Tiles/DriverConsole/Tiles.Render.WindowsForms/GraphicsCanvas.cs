@@ -82,23 +82,8 @@ namespace Tiles.Render.WindowsForms
                 return ImageAttrs[cc];
             }
             var dc = ColorMap[cc];
-            /*
-            var rComp = (float)(dc.R) / (float)byte.MaxValue;
-            var bComp = (float)(dc.B) / (float)byte.MaxValue;
-            var gComp = (float)(dc.G) / (float)byte.MaxValue;
 
-            float[][] colorMatrixElements = { 
-               new float[] {1f,  0,  0,  0, 0},        // red scaling factor
-               new float[] {0,  1f,  0,  0, 0},        // green scaling factor
-               new float[] {0,  0,  1f,  0, 0},        // blue scaling factor
-               new float[] {0,  0,  0,  1f, 0},        // alpha scaling factor
-               new float[] {rComp -1f, bComp - 1f,gComp -1f, 0, 1}
-                                            };
-
-            ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
-            */
             var imageAttr = new ImageAttributes();
-            //imageAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
             ColorMap colorMap = new ColorMap();
 
             colorMap.OldColor = Drawing.Color.White; 
@@ -106,9 +91,6 @@ namespace Tiles.Render.WindowsForms
 
             ColorMap[] remapTable = { colorMap };
             imageAttr.SetRemapTable(remapTable, ColorAdjustType.Bitmap);
-            //CCMatrix[cc] = colorMatrix;
-            //return colorMatrix;
-
             ImageAttrs[cc] = imageAttr;
             return imageAttr;
         }
@@ -120,24 +102,19 @@ namespace Tiles.Render.WindowsForms
         #endregion
         void DrawGlyph(int g, Rectangle screenRect, Tiles.Math.Color fg)
         {
-            //var colorMatrix = GetColorMatrix(fg);
-            //using (var imageAttr = new ImageAttributes())
-            {
-                var imageAttr = GetColorMatrix(fg);
-                //imageAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+            var imageAttr = GetColorMatrix(fg);
                 
-                var image = FontMap.Get(g);
-                var graphics = G;
+            var image = FontMap.Get(g);
+            var graphics = G;
 
-                graphics.DrawImage(image, screenRect, 0, 0, FontMap.GlyphSize.X, FontMap.GlyphSize.Y, GraphicsUnit.Pixel, imageAttr);
-            }
+            graphics.DrawImage(image, screenRect, 0, 0, FontMap.GlyphSize.X, FontMap.GlyphSize.Y, GraphicsUnit.Pixel, imageAttr);
         }
 
         public void DrawSprite(ISprite sprite, Tiles.Math.Vector2 screenPos)
         {
             var screenPoint = Point(screenPos);
             var destRect = GlyphRect(screenPoint);
-            //DrawGlyph(FontMap.SolidGlyphIndex, destRect, sprite.BackgroundColor);
+            DrawGlyph(FontMap.SolidGlyphIndex, destRect, sprite.BackgroundColor);
             DrawGlyph(sprite.Symbol, destRect, sprite.ForegroundColor);
         }
 
@@ -179,16 +156,12 @@ namespace Tiles.Render.WindowsForms
 
         public void FillBox(int s, Vector2 topLeft, Vector2 size, Tiles.Math.Color foregroundColor, Tiles.Math.Color backgroundColor)
         {
+            // TODO - fix this
             return;
-            //SetColors(foregroundColor, backgroundColor);
-
             for (int x = topLeft.X; x < topLeft.X + size.X; x++)
             {
                 for (int y = topLeft.Y; y < topLeft.Y + size.Y; y++)
                 {
-                    //SetCursorPosition(new Vector2(x, y));
-                    //Writer.Write(ToChar(s));
-
                     var destRect = GlyphRect(new Point(x * FontMap.GlyphSize.X, y * FontMap.GlyphSize.Y));
 
                     DrawGlyph(FontMap.SolidGlyphIndex, destRect, backgroundColor);
