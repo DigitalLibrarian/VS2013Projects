@@ -63,8 +63,10 @@ namespace Driver.WindowsForms
             if (ScreenManager.BlockForInput)
             {
                 KeyboardQueue.Enqueue(e);
+                UpdateGame();
+                this.Refresh();
             }
-            this.Refresh();
+
         }
 
         bool first = true;
@@ -78,26 +80,29 @@ namespace Driver.WindowsForms
                 first = false;
                 LoadFirstScreen();
             }
-            bool wasInputProcssed = false;
+
             try
             {
-                if (KeyboardQueue.Any())
-                {
-                    ScreenManager.OnKeyPress(this, KeyboardQueue.Dequeue());
-                    wasInputProcssed = true;
-                }
-
-                ScreenManager.Update();
                 ScreenManager.Draw();
             }
             catch (Exception ex)
             {
                 string message = ex.ToString();
             }
+        }
 
-            if (wasInputProcssed || (ScreenManager.BlockForInput && KeyboardQueue.Any()))
+        void UpdateGame()
+        {
+            if (KeyboardQueue.Any())
             {
-                this.Refresh();
+                ScreenManager.OnKeyPress(this, KeyboardQueue.Dequeue());
+            }
+
+            ScreenManager.Update();
+
+            while(!ScreenManager.BlockForInput)
+            {
+                UpdateGame();
             }
         }
     }
