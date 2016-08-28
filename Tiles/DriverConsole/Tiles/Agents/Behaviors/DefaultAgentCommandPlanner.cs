@@ -43,7 +43,8 @@ namespace Tiles.Agents.Behaviors
             var pos = FindNearbyPos(agent.Pos, worldPos =>
             {
                 var tile = game.Atlas.GetTileAtPos(worldPos);
-                return (tile.HasAgent && ((!tile.Agent.IsUndead && !tile.Agent.IsDead) || tile.Agent.IsPlayer));
+                return (tile.HasAgent && ((!tile.Agent.IsUndead && !tile.Agent.IsDead) || tile.Agent.IsPlayer)
+                        && tile.Agent != agent);
             }, 8);
 
             if (pos.HasValue)

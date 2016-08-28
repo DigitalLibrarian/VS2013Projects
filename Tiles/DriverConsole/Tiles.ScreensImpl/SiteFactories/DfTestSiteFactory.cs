@@ -80,12 +80,7 @@ namespace Tiles.ScreensImpl.SiteFactories
                     {
                         caste = Random.NextElement(castes);
                     }
-                    var worldPos = new Vector3(
-                            s.Box.Min.X,
-                            s.Box.Min.Y,
-                            0
-                            )
-                        + spawnLoc.Value;
+                    var worldPos = s.Box.Min + spawnLoc.Value;
 
                     var agent = Df.CreateCreatureAgent(atlas, creatureName, caste, worldPos);
                     tile.SetAgent(agent);

@@ -97,5 +97,12 @@ namespace Tiles.Tests.Agents.Behaviors
         {
 
         }
+
+        [Ignore]
+        [TestMethod]
+        public void DoesNotTargetSelf()
+        {
+
+        }
     }
 }
