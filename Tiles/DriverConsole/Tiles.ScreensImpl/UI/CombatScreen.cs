@@ -39,7 +39,7 @@ namespace Tiles.ScreensImpl.UI
         {
             base.Load();
 
-            Selector = new JaggedListSelector()
+            Selector = new JaggedListSelector(Box)
             {
                 Foreground = this.Foreground,
                 Background = this.Background,

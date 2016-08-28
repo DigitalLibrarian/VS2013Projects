@@ -41,7 +41,7 @@ namespace Tiles.ScreenImpl.UI
                 }
 
             };
-            Selector = new JaggedListSelector()
+            Selector = new JaggedListSelector(box)
             {
                 Foreground = Foreground,
                 Background = Background,

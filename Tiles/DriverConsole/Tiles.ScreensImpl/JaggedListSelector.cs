@@ -18,9 +18,10 @@ namespace Tiles.ScreensImpl
         public Color SelectedBackground { get; set; }
 
         public Vector2 Selected { get; private set; }
-
-        public JaggedListSelector()
+        public Box2 ScreenBox { get; private set; }
+        public JaggedListSelector(Box2 screenBox)
         {
+            ScreenBox = screenBox;
             Spacing = new Vector2(1, 1);
         }
 
@@ -74,6 +75,33 @@ namespace Tiles.ScreensImpl
         }
         #endregion
 
+        int ColumnsPerPage(Box2 box)
+        {
+            return box.Size.X / Spacing.X;
+        }
+
+        int RowsPerPage(Box2 box)
+        {
+            return box.Size.Y;
+        }
+
+        bool IsSelectedInBox(Box2 box)
+        {
+            var screenIndex = box.Min + new Vector2(Spacing.X * Selected.X, Spacing.Y * Selected.Y);
+
+            return(box.Contains(screenIndex));
+        }
+
+        Vector2 SelectedPageIndex(Box2 box)
+        {
+            int cols = ColumnsPerPage(box);
+            int rows = RowsPerPage(box);
+
+            var screenIndex = box.Min + new Vector2(Spacing.X * Selected.X, Spacing.Y * Selected.Y);
+
+            return new Vector2(screenIndex.X / cols, screenIndex.Y / rows);
+        }
+
         public void Draw(ICanvas canvas, Vector2 screenPos, params string[][] labels)
         {
             List<int> counts = new List<int>();
@@ -83,10 +111,43 @@ namespace Tiles.ScreensImpl
             }
             Update(counts.ToArray());
 
+
+            // screenPos should be treated like upper bound.  We have the rest of the screen
+            var box = new Box2(screenPos, ScreenBox.Max);
+            var pageIndex = SelectedPageIndex(box);
+
+
+
             Color fg = Foreground;
             Color bg = Background;
             Vector2 rowDelta = new Vector2(0, Spacing.Y);
             Vector2 columnDelta = new Vector2(Spacing.X, 0);
+
+            var colSize = ColumnsPerPage(box);
+            var rowSize = RowsPerPage(box);
+
+            for (int i = pageIndex.X * colSize; i < (pageIndex.X + 1) * colSize; i++)
+            {
+                for (int j = pageIndex.Y * rowSize; j < (pageIndex.Y + 1) * rowSize; j++)
+                {
+
+                    if (i == Selected.X && j == Selected.Y)
+                    {
+                        fg = SelectedForeground;
+                        bg = SelectedBackground;
+                    }
+                    else
+                    {
+                        fg = Foreground;
+                        bg = Background;
+                    }
+                    canvas.DrawString(labels[i][j], screenPos, fg, bg);
+                    screenPos += rowDelta;
+                }
+                screenPos += columnDelta;
+            }
+
+            /*
             for (int i = 0; i < labels.Count(); i++)
             {
                 for (int j = 0; j < labels[i].Count(); j++)
@@ -106,6 +167,7 @@ namespace Tiles.ScreensImpl
                 }
                 screenPos += columnDelta;
             }
+             * */
         }
     }
 }
