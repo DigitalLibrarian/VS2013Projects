@@ -14,7 +14,9 @@ using Tiles.Math;
 using Tiles.Render.WindowsForms;
 using Tiles.ScreenImpl.UI;
 
-namespace Driver.WindowsForms
+using TilesControls = Tiles.Control;
+
+namespace Driver.Tiles.WindowsForms
 {
     public partial class Form1 : Form
     {
@@ -57,8 +59,8 @@ namespace Driver.WindowsForms
             ScreenManager.Add(new ScreenLoadingMenuScreen(Canvas, screenBox));
         }
 
-        Queue<Tiles.Control.KeyPressEventArgs> KeyboardQueue = new Queue<Tiles.Control.KeyPressEventArgs>();
-        void KeyboardSource_KeyPressed(object sender, Tiles.Control.KeyPressEventArgs e)
+        Queue<TilesControls.KeyPressEventArgs> KeyboardQueue = new Queue<TilesControls.KeyPressEventArgs>();
+        void KeyboardSource_KeyPressed(object sender, TilesControls.KeyPressEventArgs e)
         {
             if (ScreenManager.BlockForInput)
             {

@@ -1,4 +1,4 @@
-﻿namespace Driver.WindowsForms
+﻿namespace Driver.Tiles.WindowsForms
 {
     partial class Form1
     {

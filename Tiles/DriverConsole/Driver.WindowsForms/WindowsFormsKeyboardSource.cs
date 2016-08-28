@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tiles.Control;
 
-namespace Driver.WindowsForms
+using TilesControls = Tiles.Control;
+
+namespace Driver.Tiles.WindowsForms
 {
-    public class WindowsFormsKeyboardSource : IKeyboadSource
+    public class WindowsFormsKeyboardSource : TilesControls.IKeyboadSource
     {
         private bool _keyAvail = false;
         public bool KeyAvailable
@@ -16,8 +17,8 @@ namespace Driver.WindowsForms
             get { return _keyAvail; }
         }
 
-        public event EventHandler<Tiles.Control.KeyPressEventArgs> KeyPressed;
-        protected virtual void OnKeyPressed(Tiles.Control.KeyPressEventArgs e)
+        public event EventHandler<TilesControls.KeyPressEventArgs> KeyPressed;
+        protected virtual void OnKeyPressed(TilesControls.KeyPressEventArgs e)
         {
             if (KeyPressed != null)
             {
@@ -30,9 +31,9 @@ namespace Driver.WindowsForms
 
         }
 
-        Tiles.Control.KeyPressEventArgs MapEvent(KeyEventArgs e)
+        TilesControls.KeyPressEventArgs MapEvent(KeyEventArgs e)
         {
-            return new Tiles.Control.KeyPressEventArgs(
+            return new TilesControls.KeyPressEventArgs(
                 (ConsoleKey)(int)e.KeyData, 
                 (char)e.KeyCode, 
                 e.Alt, e.Shift, e.Control);

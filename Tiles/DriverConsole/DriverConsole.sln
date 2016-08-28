@@ -53,7 +53,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Content.Bridge.DfNet.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Content.Map", "Tiles.Content.Map\Tiles.Content.Map.csproj", "{06E5B290-28D4-4713-B20C-0CB180B69494}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver.WindowsForms", "Driver.WindowsForms\Driver.WindowsForms.csproj", "{54B59ECA-83B7-43F8-9065-C684F690ABC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver.Tiles.WindowsForms", "Driver.WindowsForms\Driver.Tiles.WindowsForms.csproj", "{54B59ECA-83B7-43F8-9065-C684F690ABC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Render.WindowsForms", "Tiles.Render.WindowsForms\Tiles.Render.WindowsForms.csproj", "{FF2BAC87-6727-4CA1-A43D-83288ADA0895}"
 EndProject
