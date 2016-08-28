@@ -50,7 +50,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphicsCanvas.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsFormsKeyboardSource.cs" />
@@ -95,6 +94,10 @@
     <ProjectReference Include="..\Tiles.Random\Tiles.Random.csproj">
       <Project>{604a0f97-f866-4852-9882-0708f88b2ba1}</Project>
       <Name>Tiles.Random</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tiles.Render.WindowsForms\Tiles.Render.WindowsForms.csproj">
+      <Project>{ff2bac87-6727-4ca1-a43d-83288ada0895}</Project>
+      <Name>Tiles.Render.WindowsForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tiles.ScreensImpl\Tiles.ScreensImpl.csproj">
       <Project>{1a551a35-8e59-4a0d-b2c0-b87ca7fcb57f}</Project>

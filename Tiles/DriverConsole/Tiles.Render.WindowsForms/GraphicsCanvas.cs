@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Tiles.Math;
 using Tiles.Render;
 
-namespace Driver.WindowsForms
+namespace Tiles.Render.WindowsForms
 {
     public class GraphicsCanvas : ICanvas
     {

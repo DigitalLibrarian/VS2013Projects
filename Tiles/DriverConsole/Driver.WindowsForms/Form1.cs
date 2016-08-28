@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tiles.Gsm;
 using Tiles.Math;
+using Tiles.Render.WindowsForms;
 using Tiles.ScreenImpl.UI;
 
 namespace Driver.WindowsForms
