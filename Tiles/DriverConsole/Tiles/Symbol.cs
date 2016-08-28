@@ -18,8 +18,8 @@ namespace Tiles
         public static readonly int Liquid_Medium = '▒';
         public static readonly int Liquid_Dark = '▓';
 
-        public static readonly int Player = '☺';
-        public static readonly int Survivor = '☻';
+        public static readonly int Player = 1;
+        public static readonly int Survivor = 2;
         public static readonly int Zombie = 'z';
 
         public static readonly int Wall_BottomLeft_L_Hollow = '╚';

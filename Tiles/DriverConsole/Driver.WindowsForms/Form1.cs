@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using System.Configuration;
 using Tiles.Gsm;
 using Tiles.Math;
 using Tiles.Render.WindowsForms;
@@ -22,17 +24,23 @@ namespace Driver.WindowsForms
 
             this.panelDisplay.Paint += panelDisplay_Paint;
 
-            Canvas = new GraphicsCanvas(gFunc: () => this.G);
+            var imagePath = System.Configuration.ConfigurationManager.AppSettings.Get("FontImageFile");
+            var image = Image.FromFile(imagePath);
+
+            var glyphSize = new Vector2(8, 16);
+            var fontMap = new SpriteFontMap(image, glyphSize);
+
+            Canvas = new GraphicsCanvas(gFunc: () => this.G, fontMap: fontMap);
             KeyboardSource = new WindowsFormsKeyboardSource();
             this.KeyDown += KeyboardSource.InputKeyPressed;
             KeyboardSource.KeyPressed += KeyboardSource_KeyPressed;
 
             var screenBox = new Box2(new Vector2(0, 0), new Vector2(80, 24));
 
-            var screenManager = new GameScreenManager();
-            screenManager.Add(new ScreenLoadingMenuScreen(Canvas, screenBox));
+            ScreenManager = new GameScreenManager();
+            ScreenManager.Add(new ScreenLoadingMenuScreen(Canvas, screenBox));
 
-            KeyboardSource.KeyPressed += screenManager.OnKeyPress;
+            KeyboardSource.KeyPressed += ScreenManager.OnKeyPress;
         }
 
         List<char> Input = new List<char>();
@@ -41,7 +49,7 @@ namespace Driver.WindowsForms
             Input.Add(e.KeyChar);
             this.Refresh();
         }
-
+        IGameScreenManager ScreenManager { get; set; }
         WindowsFormsKeyboardSource KeyboardSource { get; set; }
         GraphicsCanvas Canvas { get; set; }
 
@@ -50,6 +58,15 @@ namespace Driver.WindowsForms
         {
             G = e.Graphics;
             G.Clear(System.Drawing.Color.Black);
+            try
+            {
+                ScreenManager.Draw();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.ToString();
+            }
+            /*
             var bounds = G.VisibleClipBounds;
 
             int symbolWidth = 10;
@@ -61,6 +78,7 @@ namespace Driver.WindowsForms
                 font, b, 0, 0);
             G.DrawString(string.Join("", Input),
                 font, b, 0, symbolWidth);
+             * */
         }
     }
 }
