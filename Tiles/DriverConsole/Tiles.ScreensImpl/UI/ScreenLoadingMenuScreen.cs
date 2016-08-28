@@ -19,10 +19,11 @@ namespace Tiles.ScreenImpl.UI
         JaggedListSelector Selector { get; set; }
         public ScreenLoadingMenuScreen(ICanvas canvas, Box2 box): base(canvas, box)
         {
+            var dfDir = System.Configuration.ConfigurationManager.AppSettings.Get(@"DwarfFortressRawsDirectory");
             Factories = new Dictionary<string, Func<IGameScreen>>{
                 {
                     "Dwarf Fortress Content",  () => new GameSimulationScreen(
-                        new GameFactory().SetupDfTestWorld(System.Configuration.ConfigurationManager.AppSettings.Get(@"DwarfFortressRawsDirectory")),
+                        new GameFactory().SetupDfTestWorld(dfDir),
                         canvas,
                         box)
                 },
@@ -34,7 +35,7 @@ namespace Tiles.ScreenImpl.UI
                 },
                 {
                     "Arena", () => new GameSimulationScreen(
-                        new GameFactory().SetupArenaWorld(),
+                        new GameFactory().SetupArenaWorld(dfDir),
                         canvas,
                         box)
                 }

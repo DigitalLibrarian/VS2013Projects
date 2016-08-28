@@ -74,7 +74,10 @@ namespace Tiles.ScreensImpl.Panels
             }
             else
             {
-                lines.Add(string.Format("Name: {0}", agent.Name));
+                string wounded = (agent.Body.Health.IsWounded)
+                    ? "[WOUND]" : "";
+                lines.Add(string.Format("Name: {0} {1}", agent.Name, wounded));
+                
                 if (agent.Body.IsWrestling)
                 {
                     if (agent.Body.IsGrasping)
@@ -89,11 +92,14 @@ namespace Tiles.ScreensImpl.Panels
                 foreach (var bodyPart in agent.Body.Parts)
                 {
                     // TODO - wound display
-                    lines.Add(string.Format("{0}", bodyPart.Name));
-
-                    foreach (var item in agent.Outfit.GetItems(bodyPart))
+                    if (!bodyPart.IsInternal)
                     {
-                        lines.Add(string.Format(" {0}", item.Class.Name));
+                        lines.Add(string.Format("{0}", bodyPart.Name));
+
+                        foreach (var item in agent.Outfit.GetItems(bodyPart))
+                        {
+                            lines.Add(string.Format(" {0}", item.Class.Name));
+                        }
                     }
                 }
             }

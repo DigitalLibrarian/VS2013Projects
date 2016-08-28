@@ -16,8 +16,6 @@ namespace Tiles
         IList<IItem> Items { get; }
         Terrain Terrain { get; set; }
         ISprite TerrainSprite { get; set; }
-        IAgent Agent { get; }
-        bool HasAgent { get; }
 
         IStructureCell StructureCell { get; set; }
         bool HasStructureCell { get; }
@@ -27,6 +25,10 @@ namespace Tiles
         bool IsTerrainPassable { get; set; }
 
         IItem GetTopItem();
+
+        IAgent Agent { get; }
+        bool HasAgent { get; }
+        bool HasRoomForAgent { get; }
         void RemoveAgent();
         void SetAgent(IAgent agent);
     }

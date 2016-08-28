@@ -74,5 +74,15 @@ namespace Tiles.Agents.Combat
                 SetComponent(dt, GetComponent(dt) + damage.GetComponent(dt));
             }
         }
+
+        public static IDamageVector CreateUnit()
+        {
+            var d = new Dictionary<DamageType, uint>();
+            foreach(var dt in AllDamageTypes())
+            {
+                d.Add(dt, 1);
+            }
+            return new DamageVector(d);
+        }
     }
 }

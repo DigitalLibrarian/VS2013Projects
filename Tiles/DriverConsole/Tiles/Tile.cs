@@ -62,5 +62,30 @@ namespace Tiles
         {
             Agent = agent;
         }
+
+
+        public bool HasRoomForAgent
+        {
+            get {
+                if (!HasAgent)
+                {
+                    if (IsTerrainPassable)
+                    {
+                        if (HasStructureCell)
+                        {
+                            if (StructureCell.CanPass)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
     }
 }

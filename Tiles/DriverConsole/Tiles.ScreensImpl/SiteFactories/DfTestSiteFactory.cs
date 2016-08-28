@@ -28,22 +28,6 @@ namespace Tiles.ScreensImpl.SiteFactories
         {
             Random = random;
             Df = new DfTagsFascade(store, random);
-            /*
-            Store = store;
-            Random = random;
-            ItemFactory = new ItemFactory();
-            AgentFactory = new AgentFactory(new BodyFactory(new TissueFactory()));
-            DfMaterialFactory = new DfMaterialFactory(Store);
-            var moveFactory = new DfCombatMoveFactory();
-            DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory(), moveFactory);
-            DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), DfMaterialFactory, moveFactory);
-            ContentMapper = new ContentMapper();
-
-            DefaultPlanner = new DefaultAgentCommandPlanner(random, 
-                new AgentCommandFactory(), 
-                new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc())),
-                new PositionFinder());
-             * */
         }
 
         public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
@@ -122,25 +106,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             return Random.FindRandomInBox(box, test =>
             {
                 var tile = s.GetTileAtSitePos(test);
-
-                if (!tile.HasAgent)
-                {
-                    if (tile.IsTerrainPassable)
-                    {
-                        if (tile.HasStructureCell)
-                        {
-                            if (tile.StructureCell.CanPass)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                }
-                return false;
+                return tile.HasRoomForAgent;
             });
         }
     }

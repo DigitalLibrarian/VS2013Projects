@@ -36,35 +36,48 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var attacker = session.Attacker;
             var defender = session.Defender;
 
+            if (!defender.Body.Parts.Contains(move.DefenderBodyPart))
+            {
+                return;
+            }
+
             bool isWeaponBased = move.Class.IsItem;
             uint dmg = 0;
 
             bool targetPartWasShed = false;
+            IEnumerable<IInjury> injuries = Enumerable.Empty<IInjury>();
             if (isWeaponBased)
             {
-                //dmg = DamageCalc.MeleeStrikeMoveDamage(move.Class, attacker, defender, move.DefenderBodyPart, move.Weapon);
-                foreach(var injury in InjuryCalc.MeleeWeaponStrike(
-                    move.Class, 
+                injuries = InjuryCalc.MeleeWeaponStrike(
+                    move.Class,
                     attacker,
                     defender,
                     move.DefenderBodyPart,
-                    move.Weapon))
-                {
-                    defender.Body.Health.Add(injury);
-
-                    targetPartWasShed = injury.RemovesBodyPart;
-                    defender.Body.Amputate(move.DefenderBodyPart);
-                }
+                    move.Weapon);
             }
             else
             {
-                dmg = DamageCalc.MeleeStrikeBodyPartAttackDamage(move.Class, attacker, defender, move.AttackerBodyPart, move.DefenderBodyPart);
+                injuries = InjuryCalc.UnarmedStrike(
+                    move.Class,
+                    attacker,
+                    defender,
+                    move.DefenderBodyPart);
             }
 
-            //var shedPart = defender.Body.DamagePart(move.DefenderBodyPart, dmg);
+            bool partRemoveSuccess = false;
+            foreach (var injury in injuries)
+            {
+                defender.Body.Health.Add(injury);
 
+                targetPartWasShed = injury.RemovesBodyPart;
+                if (defender.Body.Parts.Contains(move.DefenderBodyPart))
+                {
+                    defender.Body.Amputate(move.DefenderBodyPart);
+                    partRemoveSuccess = true;
+                }
+            }
 
-            if (targetPartWasShed)
+            if (partRemoveSuccess)
             {
                 HandleShedPart(attacker, defender, move, move.DefenderBodyPart);
             }

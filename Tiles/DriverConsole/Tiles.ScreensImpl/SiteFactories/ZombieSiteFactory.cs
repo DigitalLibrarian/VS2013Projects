@@ -79,25 +79,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             return Random.FindRandomInBox(box, test =>
             {
                 var tile = s.GetTileAtSitePos(test);
-
-                if (!tile.HasAgent)
-                {
-                    if (tile.IsTerrainPassable)
-                    {
-                        if (tile.HasStructureCell)
-                        {
-                            if (tile.StructureCell.CanPass)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                }
-                return false;
+                return tile.HasRoomForAgent;
             });
         }
         

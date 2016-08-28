@@ -20,6 +20,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
     {
         Mock<IInjuryResultBuilderFactory> BuilderFactoryMock { get; set; }
         Mock<IDamageResistorFactory> ResistorFactoryMock { get; set; }
+
         InjuryCalc Calc { get; set; }
 
         Mock<IAgent> AttackerMock { get; set; }

@@ -30,11 +30,13 @@ namespace Tiles.ScreensImpl.ContentFactories
             return Setup(siteFactory, siteSize, random);
         }
 
-        public IGame SetupArenaWorld(int seed = 42)
+        public IGame SetupArenaWorld(string dfRawDir, int seed = 42)
         {
             var siteSize = new Vector3(64, 64, 64);
             var random = new RandomWrapper(new System.Random(seed));
-            var siteFactory = new ArenaSiteFactory(random);
+
+            var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
+            var siteFactory = new ArenaSiteFactory(dfStore, random);
             return Setup(siteFactory, siteSize, random);
         }
 
@@ -74,29 +76,11 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         Vector3 FindSpawnLocation(IAtlas atlas, IRandom random, Box3 spawnBox)
         {
-            bool satisified = false;
-            Vector3 test = Vector3.Zero;
-            while(!satisified)
+            return random.FindRandomInBox(spawnBox, test =>
             {
-                test = random.NextInBox(spawnBox);
                 var tile = atlas.GetTileAtPos(test);
-
-                if (tile.IsTerrainPassable)
-                {
-                    if (tile.HasStructureCell)
-                    {
-                        if (tile.StructureCell.CanPass)
-                        {
-                            satisified = true;
-                        }
-                    }
-                    else
-                    {
-                        satisified = true;
-                    }
-                }
-            }
-            return test;
+                return tile.HasRoomForAgent;
+            }).Value;
         }
 
     }
