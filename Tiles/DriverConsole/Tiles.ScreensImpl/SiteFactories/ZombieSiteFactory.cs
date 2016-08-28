@@ -75,12 +75,10 @@ namespace Tiles.ScreensImpl.SiteFactories
                 Vector3.Zero,
                 new Vector3(s.Box.Size.X, s.Box.Size.Y, 1)
                 );
-            Vector3? test = null;
-            bool satisfied = false;
-            while(!satisfied)
+
+            return Random.FindRandomInBox(box, test =>
             {
-                test = Random.NextInBox(box);
-                var tile = s.GetTileAtSitePos(test.Value);
+                var tile = s.GetTileAtSitePos(test);
 
                 if (!tile.HasAgent)
                 {
@@ -90,22 +88,17 @@ namespace Tiles.ScreensImpl.SiteFactories
                         {
                             if (tile.StructureCell.CanPass)
                             {
-                                satisfied = true;
+                                return true;
                             }
                         }
                         else
                         {
-                            satisfied = true;
+                            return true;
                         }
                     }
                 }
-            }
-
-            if (!satisfied)
-            {
-                test = null;
-            }
-            return test;
+                return false;
+            });
         }
         
         private static void SetupTile(IRandom random, ITile tile)

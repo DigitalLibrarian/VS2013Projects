@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Math;
+using Tiles.Random;
 
 namespace Tiles
 {
     public class PositionFinder : IPositionFinder
     {
-        public Vector3? FindNearbyPos(Vector3 centerWorldPos3d, Predicate<Vector3> finderPred, int halfBoxSize)
+        public Vector3? FindNearbyPos(Vector3 centerWorldPos3d, 
+            Predicate<Vector3> finderPred, int halfBoxSize)
         {
             for (int i = 0; i <= halfBoxSize; i++)
             {
@@ -35,5 +37,7 @@ namespace Tiles
             }
             return null;
         }
+
+        
     }
 }

@@ -65,5 +65,21 @@ namespace Tiles.Random
                 Next(box.Min.Z, box.Max.Z) 
                 );
         }
+
+        public Vector3? FindRandomInBox(Box3 box,
+            Predicate<Vector3> finderPred)
+        {
+            Vector3 test;
+            bool satisfied = false;
+            while (!satisfied)
+            {
+                test = NextInBox(box);
+                if (finderPred(test))
+                {
+                    return test;
+                }
+            }
+            return null;
+        }
     }
 }

@@ -104,12 +104,6 @@ namespace Tiles.ScreensImpl.SiteFactories
                         + spawnLoc.Value;
 
                     var agent = Df.CreateCreatureAgent(atlas, creatureName, caste, worldPos);
-                    /*
-                    var agentContent = DfAgentFactory.Create(creatureName.Name, caste);
-                    var engineAgentClass = ContentMapper.Map(agentContent);
-                    var agent = AgentFactory.Create(atlas, engineAgentClass, 
-                        , DefaultPlanner);
-                     * */
                     tile.SetAgent(agent);
                 }
 
@@ -124,12 +118,10 @@ namespace Tiles.ScreensImpl.SiteFactories
                 Vector3.Zero,
                 new Vector3(s.Box.Size.X, s.Box.Size.Y, 1)
                 );
-            Vector3? test = null;
-            bool satisfied = false;
-            while (!satisfied)
+
+            return Random.FindRandomInBox(box, test =>
             {
-                test = Random.NextInBox(box);
-                var tile = s.GetTileAtSitePos(test.Value);
+                var tile = s.GetTileAtSitePos(test);
 
                 if (!tile.HasAgent)
                 {
@@ -139,22 +131,17 @@ namespace Tiles.ScreensImpl.SiteFactories
                         {
                             if (tile.StructureCell.CanPass)
                             {
-                                satisfied = true;
+                                return true;
                             }
                         }
                         else
                         {
-                            satisfied = true;
+                            return true;
                         }
                     }
                 }
-            }
-            
-            if (!satisfied)
-            {
-                test = null;
-            }
-            return test;
+                return false;
+            });
         }
     }
 }

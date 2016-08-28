@@ -20,5 +20,7 @@ namespace Tiles.Random
         Vector3 NextInBox(Box3 box);
         Vector2 Next(Vector2 max);
         Vector2 NextInBox(Box2 box);
+
+        Vector3? FindRandomInBox(Box3 box, Predicate<Vector3> finderPred);
     }
 }
