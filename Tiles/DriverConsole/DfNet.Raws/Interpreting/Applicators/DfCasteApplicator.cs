@@ -43,7 +43,8 @@ namespace DfNet.Raws.Interpreting.Applicators
                         addCastes.Add(tag.GetParam(0));
                         break;
                     default:
-                        if (parseCaste == CasteName || addCastes.Contains(parseCaste))
+                        if (parseCaste == CasteName || addCastes.Contains(CasteName)
+                            || parseCaste == "ALL")
                         {
                             newTags.Add(tag.CloneDfTag());
                         }

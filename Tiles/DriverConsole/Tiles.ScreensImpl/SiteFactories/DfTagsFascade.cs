@@ -56,7 +56,14 @@ namespace Tiles.ScreensImpl.SiteFactories
 
         public IEnumerable<string> GetCreatureNames()
         {
-            return Store.Get(DfTags.CREATURE).Select(x => x.Name).ToList();
+            return Store.Get(DfTags.CREATURE)
+                .Where(IsValidCreature)
+                .Select(x => x.Name).ToList();
+        }
+
+        bool IsValidCreature(DfObject o)
+        {
+            return o.Tags.Any(t => t.Name.Equals("BODY"));
         }
 
         public IEnumerable<string> GetCreatureCastes(string creatureName)

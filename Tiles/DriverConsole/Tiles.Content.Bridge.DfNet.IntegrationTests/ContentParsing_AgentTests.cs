@@ -120,5 +120,12 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                     layer => layer.Material.Adjective.Equals("skin")))
                 .Any());
         }
+
+        [TestMethod]
+        public void SoldierAntman()
+        {
+            var agent = DfAgentFactory.Create("ANT_MAN", "SOLDIER");
+            Assert.IsNotNull(agent);
+        }
     }
 }
