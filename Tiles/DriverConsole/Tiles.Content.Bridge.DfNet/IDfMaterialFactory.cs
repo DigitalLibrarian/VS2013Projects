@@ -12,5 +12,7 @@ namespace Tiles.Content.Bridge.DfNet
         Material CreateInorganic(string name);
         Material CreateTissue(string tissueTemplate);
         Material CreateFromMaterialTemplate(string materialTemplate);
+
+        Material CreateFromTissueCreatureInline(string creatureName, string tisName);
     }
 }

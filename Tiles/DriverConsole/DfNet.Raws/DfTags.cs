@@ -80,6 +80,7 @@ namespace DfNet.Raws
             public const string END_MATERIAL = "DfNet.END_MATERIAL";
             public const string REMOVE_MATERIAL = "REMOVE_MATERIAL";
 
+            public const string TISSUE = "TISSUE";
             public const string START_TISSUE = "DfNet.START_TISSUE";
             public const string END_TISSUE = "DfNet.END_TISSUE";
             public const string ADD_TISSUE = "ADD_TISSUE";

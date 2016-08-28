@@ -28,6 +28,22 @@ namespace Tiles.Content.Bridge.DfNet
             return Common(df);
         }
 
+        public Material CreateFromTissueCreatureInline(string creatureName, string tisName)
+        {
+            var creatureDf = Store.Get(DfTags.CREATURE, creatureName);
+            var cTags = creatureDf.Tags.ToList();
+
+            int startIndex = cTags.FindIndex(
+                t => t.Name.Equals(DfTags.MiscTags.TISSUE)
+                    && t.GetParam(0).Equals(tisName));
+
+            int endIndex = cTags.FindIndex(startIndex,
+                t => t.Name.Equals(DfTags.MiscTags.TISSUE_LAYER));
+
+            var matTags = cTags.GetRange(startIndex, endIndex - startIndex);
+            var tisO = new DfObject(matTags.ToArray());
+            return Common(tisO);
+        }
 
         public Material CreateFromMaterialTemplate(string materialTemplate)
         {

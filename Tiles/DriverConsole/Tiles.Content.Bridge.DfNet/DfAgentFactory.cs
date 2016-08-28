@@ -86,6 +86,12 @@ namespace Tiles.Content.Bridge.DfNet
                         agentContext.AddMaterial(tisName,
                             MaterialsFactory.CreateFromMaterialTemplate(tempName));
                         break;
+                    case DfTags.MiscTags.TISSUE:
+                        tisName = tag.GetParam(0);
+                        agentContext.AddMaterial(tisName,
+                            MaterialsFactory.CreateFromTissueCreatureInline(name, tisName)
+                            );
+                        break;
                     case DfTags.MiscTags.REMOVE_MATERIAL:
                         agentContext.RemoveMaterial(tag.GetParam(0));
                         break;

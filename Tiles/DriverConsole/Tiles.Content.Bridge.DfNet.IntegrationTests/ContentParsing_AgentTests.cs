@@ -127,5 +127,13 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var agent = DfAgentFactory.Create("ANT_MAN", "SOLDIER");
             Assert.IsNotNull(agent);
         }
+
+        [TestMethod]
+        public void CaveFloater()
+        {
+            var agent = DfAgentFactory.Create("CAVE_FLOATER");
+            Assert.IsNotNull(agent);
+
+        }
     }
 }
