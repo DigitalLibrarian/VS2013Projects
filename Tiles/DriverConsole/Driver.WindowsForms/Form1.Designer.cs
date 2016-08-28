@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panelDisplay = new System.Windows.Forms.Panel();
+            //this.panelDisplay = new System.Windows.Forms.Panel();
+            this.panelDisplay = new CanvasPanel();
             this.SuspendLayout();
             // 
             // panelDisplay

@@ -15,23 +15,19 @@ using Tiles.Render.WindowsForms;
 using Tiles.ScreenImpl.UI;
 
 using TilesControls = Tiles.Control;
+using System.Reflection;
 
 namespace Driver.Tiles.WindowsForms
 {
     public partial class Form1 : Form
     {
-
         ISpriteFontMap FontMap { get; set; }
         IGameScreenManager ScreenManager { get; set; }
         WindowsFormsKeyboardSource KeyboardSource { get; set; }
         GraphicsCanvas Canvas { get; set; }
 
         Graphics PanelGraphics;
-        Graphics BackBufferGraphics;
-
-        BufferedGraphicsContext CurrentContext;
-        BufferedGraphics BackBuffer;
-
+        
         Queue<TilesControls.KeyPressEventArgs> KeyboardQueue = new Queue<TilesControls.KeyPressEventArgs>();
 
         public Form1()
@@ -45,18 +41,7 @@ namespace Driver.Tiles.WindowsForms
             var glyphSize = new Vector2(8, 16);
             FontMap = new SpriteFontMap(image, glyphSize, solidGlyphIndex);
 
-            this.PanelGraphics = panelDisplay.CreateGraphics();
-            // Gets a reference to the current BufferedGraphicsContext
-            CurrentContext = BufferedGraphicsManager.Current;
-            // Creates a BufferedGraphics instance associated with Form1, and with 
-            // dimensions the same size as the drawing surface of Form1.
-            BackBuffer = CurrentContext.Allocate(PanelGraphics,
-               this.DisplayRectangle);
-
-            BackBufferGraphics = BackBuffer.Graphics;
-
-
-            Canvas = new GraphicsCanvas(gFunc: () => this.BackBufferGraphics, fontMap: FontMap);
+            Canvas = new GraphicsCanvas(gFunc: () => this.PanelGraphics, fontMap: FontMap);
             KeyboardSource = new WindowsFormsKeyboardSource();
 
             ScreenManager = new GameScreenManager();
@@ -82,14 +67,14 @@ namespace Driver.Tiles.WindowsForms
                 UpdateGame();
                 this.Refresh();
             }
-
         }
 
         bool first = true;
 
         void panelDisplay_Paint(object sender, PaintEventArgs e)
         {
-            BackBufferGraphics.Clear(System.Drawing.Color.Black);
+            PanelGraphics = e.Graphics;
+            PanelGraphics.Clear(System.Drawing.Color.Black);
 
             if (first)
             {
@@ -108,10 +93,6 @@ namespace Driver.Tiles.WindowsForms
             {
                 string message = ex.ToString();
             }
-
-            BackBuffer.Render();
-            // Renders the contents of the buffer to the specified drawing surface.
-            BackBuffer.Render(PanelGraphics);
         }
 
         void UpdateGame()
