@@ -12,7 +12,7 @@ namespace Tiles
         public static readonly int None = 32;
         public static readonly int Terrain_Empty = 32;
         public static readonly int Terrain_Tree = 15;
-        public static readonly int Terrain_Floor = 20;
+        public static readonly int Terrain_Floor = 32;
 
         public static readonly int Liquid_Light = 176;
         public static readonly int Liquid_Medium = 177;
