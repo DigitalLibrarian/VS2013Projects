@@ -46,7 +46,7 @@ namespace Tiles.Math
             Gray = new Color(0x80, 0x80, 0x80, 0xff);
             DarkGray = new Color(0xa9, 0xa9, 0xa9, 0xff);
             Blue = new Color(0, 0, 0xff, 0xff);
-            Green = new Color(0, 0x80, 0, 0xff);
+            Green = new Color(0, 0xff, 0, 0xff);
             Cyan = new Color(0, 0xff, 0xff, 0xff);
             Red = new Color(0xff, 0, 0, 0xff);
             Magenta = new Color(0xff, 0, 0xff, 0xff);

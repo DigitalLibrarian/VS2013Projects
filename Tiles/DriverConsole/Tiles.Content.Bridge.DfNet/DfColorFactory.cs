@@ -25,7 +25,7 @@ namespace Tiles.Content.Bridge.DfNet
         {
             new Color(0xa9, 0xa9, 0xa9, 0xff),
             new Color(0, 0, 0xff, 0xff),
-            new Color(0, 0x80, 0, 0xff),
+            new Color(0, 0xff, 0, 0xff),
             new Color(0, 0xff, 0xff, 0xff),
             new Color(0xff, 0, 0, 0xff),
             new Color(0xff, 0, 0xff, 0xff),
