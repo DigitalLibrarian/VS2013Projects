@@ -34,16 +34,25 @@ namespace Driver.Tiles.WindowsForms
         TilesControls.KeyPressEventArgs MapEvent(KeyEventArgs e)
         {
             return new TilesControls.KeyPressEventArgs(
-                (ConsoleKey)(int)e.KeyData, 
-                (char)e.KeyCode, 
-                e.Alt, e.Shift, e.Control);
+                    (ConsoleKey)(int)e.KeyCode,
+                    (char)e.KeyCode,
+                    e.Alt, e.Shift, e.Control);
         }
 
         public void InputKeyPressed(object sender, KeyEventArgs e)
         {
-            _keyAvail = true;
-            OnKeyPressed(MapEvent(e));
-            _keyAvail = false;
+            if (!IsSuppressedEvent(e))
+            {
+                _keyAvail = true;
+                OnKeyPressed(MapEvent(e));
+                _keyAvail = false;
+            }
+        }
+
+        bool IsSuppressedEvent(KeyEventArgs e)
+        {
+            return e.KeyCode == Keys.ShiftKey
+                || e.KeyCode == Keys.ControlKey;
         }
     }
 }
