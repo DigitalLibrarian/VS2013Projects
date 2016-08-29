@@ -76,91 +76,60 @@ namespace Tiles.Tests.Bodies
             healthMock.Verify(x => x.Add(It.IsAny<IInjury>()), Times.Exactly(2));
         }
 
-        /*
         [TestMethod]
-        public void TakeDamage_NoPartOutOfHealth()
+        public void Amputate_ChildPart()
         {
-            var targetHealthMock = new Mock<IHeatlh>();
-            targetHealthMock.Setup(x => x.OutOfHealth).Returns(false);
-            var targetBodyPartMock = new Mock<IBodyPart>();
-            targetBodyPartMock.Setup(x => x.Health).Returns(targetHealthMock.Object);
+            var partMock1 = new Mock<IBodyPart>();
+            var partMock2 = new Mock<IBodyPart>();
+            var partMock3 = new Mock<IBodyPart>();
 
+            var body = new Body(new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object });
 
-            var junkPartMock = new Mock<IBodyPart>();
-            var parts = new List<IBodyPart>{
-                junkPartMock.Object,
-                targetBodyPartMock.Object
-            };
+            body.Amputate(partMock2.Object);
 
-            var body = new Body(parts);
-
-            //uint dmg = 9;
-            //var result = body.DamagePart(targetBodyPartMock.Object, dmg);
-            //targetHealthMock.Verify(x => x.TakeDamage(dmg), Times.Once);
-
-            Assert.IsNull(result);
-            Assert.AreEqual(2, parts.Count());
-            Assert.AreSame(junkPartMock.Object, parts.ElementAt(0));
-            Assert.AreSame(targetBodyPartMock.Object, parts.ElementAt(1));
+            Assert.AreEqual(2, body.Parts.Count());
+            Assert.AreSame(partMock1.Object, body.Parts[0]);
+            Assert.AreSame(partMock3.Object, body.Parts[1]);
         }
 
         [TestMethod]
-        public void TakeDamage_OutOfHealth_NoAmputate()
+        public void Amputate_ParentPart()
         {
-            var targetHealthMock = new Mock<HealthVector>();
-            targetHealthMock.Setup(x => x.OutOfHealth).Returns(true);
-            var targetBodyPartMock = new Mock<IBodyPart>();
-            targetBodyPartMock.Setup(x => x.Health).Returns(targetHealthMock.Object);
-            targetBodyPartMock.Setup(x => x.CanBeAmputated).Returns(false);
+            var partMock1 = new Mock<IBodyPart>();
+            var partMock2 = new Mock<IBodyPart>();
+            var partMock3 = new Mock<IBodyPart>();
+            var partMock4 = new Mock<IBodyPart>();
+            var partMock5 = new Mock<IBodyPart>();
 
-            var junkPartMock = new Mock<IBodyPart>();
-            var parts = new List<IBodyPart>{
-                junkPartMock.Object,
-                targetBodyPartMock.Object
-            };
+            partMock3.Setup(x => x.Parent).Returns(partMock2.Object);
+            partMock4.Setup(x => x.Parent).Returns(partMock3.Object);
+            partMock5.Setup(x => x.Parent).Returns(partMock4.Object);
 
-            var body = new Body(parts);
+            var body = new Body(new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object, partMock4.Object, partMock5.Object });
 
-            uint dmg = 9;
-            var result = body.DamagePart(targetBodyPartMock.Object, dmg);
-            targetHealthMock.Verify(x => x.TakeDamage(dmg), Times.Once);
+            body.Amputate(partMock2.Object);
 
-            Assert.IsNull(result);
-            Assert.AreEqual(2, parts.Count());
-            Assert.AreSame(junkPartMock.Object, parts.ElementAt(0));
-            Assert.AreSame(targetBodyPartMock.Object, parts.ElementAt(1));
+            Assert.AreEqual(1, body.Parts.Count());
+            Assert.AreSame(partMock1.Object, body.Parts[0]);
         }
 
         [TestMethod]
-        public void TakeDamage_OutOfHealth_CanAmputate()
+        public void Amputate_UnknownPart()
         {
-            var targetHealthMock = new Mock<HealthVector>();
-            targetHealthMock.Setup(x => x.OutOfHealth).Returns(true);
-            var targetBodyPartMock = new Mock<IBodyPart>();
-            targetBodyPartMock.Setup(x => x.Health).Returns(targetHealthMock.Object);
-            targetBodyPartMock.Setup(x => x.CanBeAmputated).Returns(true);
+            var partMock1 = new Mock<IBodyPart>();
+            var partMock2 = new Mock<IBodyPart>();
+            var partMock3 = new Mock<IBodyPart>();
 
-            var childPartMock = new Mock<IBodyPart>();
-            childPartMock.Setup(x => x.Parent).Returns(targetBodyPartMock.Object);
+            var unknownPartMock = new Mock<IBodyPart>();
 
-            var junkPartMock = new Mock<IBodyPart>();
-            var parts = new List<IBodyPart>{
-                junkPartMock.Object,
-                targetBodyPartMock.Object,
-                childPartMock.Object
-            };
+            var body = new Body(new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object });
 
-            var body = new Body(parts);
+            body.Amputate(unknownPartMock.Object);
 
-            uint dmg = 9;
-            var result = body.DamagePart(targetBodyPartMock.Object, dmg);
-            targetHealthMock.Verify(x => x.TakeDamage(dmg), Times.Once);
-
-            Assert.IsNotNull(result);
-            Assert.AreSame(targetBodyPartMock.Object, result);
-            Assert.AreEqual(1, parts.Count());
-            Assert.AreSame(junkPartMock.Object, parts.ElementAt(0));
+            Assert.AreEqual(3, body.Parts.Count());
+            Assert.AreSame(partMock1.Object, body.Parts[0]);
+            Assert.AreSame(partMock2.Object, body.Parts[1]);
+            Assert.AreSame(partMock3.Object, body.Parts[2]);
         }
-         * */
     }
 }

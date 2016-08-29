@@ -33,7 +33,12 @@ namespace Tiles.Bodies
         {
             foreach (var subPart in Parts.ToList())
             {
-                if (subPart.Parent == part || subPart == part)
+                if (subPart.Parent == part)
+                {
+                    Amputate(subPart);
+                }
+
+                if(subPart == part)
                 {
                     Parts.Remove(subPart);
                 }
