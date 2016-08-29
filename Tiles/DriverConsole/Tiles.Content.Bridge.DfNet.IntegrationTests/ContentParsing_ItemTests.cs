@@ -48,6 +48,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(4, weapon.Moves.Count());
             var move = weapon.Moves[0];
 
+            Assert.AreEqual(ContactType.Edge, move.ContactType);
             Assert.AreEqual(20000, move.ContactArea);
             Assert.AreEqual(4000, move.MaxPenetration);
             Assert.AreEqual(1250, move.VelocityMultiplier);
@@ -60,6 +61,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             move = weapon.Moves[1];
 
+            Assert.AreEqual(ContactType.Edge, move.ContactType);
             Assert.AreEqual(50, move.ContactArea);
             Assert.AreEqual(2000, move.MaxPenetration);
             Assert.AreEqual(1000, move.VelocityMultiplier);
@@ -72,6 +74,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             move = weapon.Moves[2];
 
+            Assert.AreEqual(ContactType.Blunt, move.ContactType);
             Assert.AreEqual(20000, move.ContactArea);
             Assert.AreEqual(4000, move.MaxPenetration);
             Assert.AreEqual(1250, move.VelocityMultiplier);
@@ -84,6 +87,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             move = weapon.Moves[3];
 
+            Assert.AreEqual(ContactType.Blunt, move.ContactType);
             Assert.AreEqual(100, move.ContactArea);
             Assert.AreEqual(1000, move.MaxPenetration);
             Assert.AreEqual(1000, move.VelocityMultiplier);

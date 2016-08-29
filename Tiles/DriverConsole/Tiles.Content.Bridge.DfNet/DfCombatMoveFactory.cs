@@ -15,7 +15,6 @@ namespace Tiles.Content.Bridge.DfNet
             var attackTag = attackDf.Tags.First();
             CombatMove move = null;
 
-
             switch (attackTag.GetParam(0))
             {
                 case "EDGE":
@@ -58,11 +57,25 @@ namespace Tiles.Content.Bridge.DfNet
                 MaxPenetration = int.Parse(attackTag.GetParam(2)),
                 VelocityMultiplier = int.Parse(attackTag.GetParam(6)),
 
+                ContactType = MapContactType(attackTag.GetParam(0)),
                 IsItem = true,
                 IsMartialArts = true,
                 IsStrike = true,
                 IsDefenderPartSpecific = true
             };
+        }
+
+        ContactType MapContactType(string ct)
+        {
+            switch (ct)
+            {
+                case "BLUNT":
+                    return ContactType.Blunt;
+                case "EDGE":
+                    return ContactType.Edge;
+            }
+
+            throw new NotImplementedException();
         }
 
         CombatMove CreateBodyAttack(DfTag attackTag)
