@@ -12,10 +12,16 @@ namespace Tiles.Content.Bridge.DfNet
         public static readonly int MiscItemSymbol = 157;
         Item Item { get; set; }
 
+        int Symbol { get; set; }
+        Color Foreground { get; set; }
+        Color Background { get; set; }
+
         public DfItemBuilder()
         {
             Item = new Item();
-            Item.Symbol = MiscItemSymbol;
+            Symbol = MiscItemSymbol;
+            Foreground = new Color(255, 255, 255, 255);
+            Background = new Color(0, 0, 0, 255);
         }
 
         public void SetMaterial(Material material)
@@ -59,6 +65,7 @@ namespace Tiles.Content.Bridge.DfNet
 
         public Item Build()
         {
+            Item.Sprite = new Sprite(Symbol, Foreground, Background);
             return Item;
         }
 
@@ -75,9 +82,19 @@ namespace Tiles.Content.Bridge.DfNet
             Item.Weapon.SlotRequirements.Add(slot);
         }
 
+        public void SetForegroundColor(Color color)
+        {
+            Foreground = color;
+        }
+
+        public void SetBackgroundColor(Color color)
+        {
+            Background = color;
+        }
+
         public void SetSymbol(int symbol)
         {
-            Item.Symbol = symbol;
+            Symbol = symbol;
         }
     }
 }

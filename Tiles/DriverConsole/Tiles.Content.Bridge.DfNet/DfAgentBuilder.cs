@@ -20,6 +20,9 @@ namespace Tiles.Content.Bridge.DfNet
         string Name { get; set; }
         int Symbol { get; set; }
 
+        Color Foreground { get; set; }
+        Color Background { get; set; }
+
         public DfAgentBuilder()
         {
             BodyPartsDefn = new Dictionary<string, DfObject>();
@@ -28,6 +31,8 @@ namespace Tiles.Content.Bridge.DfNet
             BodyPartCategoryTissueThickness = new Dictionary<string, Dictionary<string, int>>();
             MovesByCategory = new Dictionary<string, List<CombatMove>>();
             MovesByType = new Dictionary<string, List<CombatMove>>();
+            Foreground = new Color(255, 255, 255, 255);
+            Background = new Color(0, 0, 0, 255);
         }
 
         #region Lookups
@@ -304,13 +309,14 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             }
 
+            var sprite = new Sprite(Symbol, Foreground, Background);
             var agent = new Agent(
                 Name, 
                 new Body
                 {
                     Parts = parts
                 },
-                Symbol);
+                sprite);
             return agent;
         }
 
@@ -319,6 +325,16 @@ namespace Tiles.Content.Bridge.DfNet
         public void SetName(string singular, string plural)
         {
             Name = singular;
+        }
+
+        public void SetForegroundColor(Color color)
+        {
+            Foreground = color;
+        }
+
+        public void SetBackgroundColor(Color color)
+        {
+            Background = color;
         }
 
         public void SetSymbol(int symbol)

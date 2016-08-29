@@ -38,7 +38,9 @@ namespace Tiles.ScreensImpl.SiteFactories
             DfMaterialFactory = new DfMaterialFactory(Store);
             var moveFactory = new DfCombatMoveFactory();
             DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory(), moveFactory);
-            DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), DfMaterialFactory, moveFactory);
+            DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), 
+                new DfColorFactory(),
+                DfMaterialFactory, moveFactory);
             ContentMapper = new ContentMapper();
 
             DefaultPlanner = new DefaultAgentCommandPlanner(random,

@@ -130,44 +130,24 @@ namespace Tiles.ScreensImpl
             {
                 for (int j = pageIndex.Y * rowSize; j < (pageIndex.Y + 1) * rowSize; j++)
                 {
-
-                    if (i == Selected.X && j == Selected.Y)
+                    if (labels.Count() > i && labels[i].Count() > j)
                     {
-                        fg = SelectedForeground;
-                        bg = SelectedBackground;
+                        if (i == Selected.X && j == Selected.Y)
+                        {
+                            fg = SelectedForeground;
+                            bg = SelectedBackground;
+                        }
+                        else
+                        {
+                            fg = Foreground;
+                            bg = Background;
+                        }
+                        canvas.DrawString(labels[i][j], screenPos, fg, bg);
                     }
-                    else
-                    {
-                        fg = Foreground;
-                        bg = Background;
-                    }
-                    canvas.DrawString(labels[i][j], screenPos, fg, bg);
                     screenPos += rowDelta;
                 }
                 screenPos += columnDelta;
             }
-
-            /*
-            for (int i = 0; i < labels.Count(); i++)
-            {
-                for (int j = 0; j < labels[i].Count(); j++)
-                {
-                    if (i == Selected.X && j == Selected.Y)
-                    {
-                        fg = SelectedForeground;
-                        bg = SelectedBackground;
-                    }
-                    else
-                    {
-                        fg = Foreground;
-                        bg = Background;
-                    }
-                    canvas.DrawString(labels[i][j], screenPos, fg, bg);
-                    screenPos += rowDelta;
-                }
-                screenPos += columnDelta;
-            }
-             * */
         }
     }
 }

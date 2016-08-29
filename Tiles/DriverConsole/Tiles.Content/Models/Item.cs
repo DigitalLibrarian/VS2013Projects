@@ -16,6 +16,6 @@ namespace Tiles.Content.Models
 
         public Material Material { get; set; }
 
-        public int Symbol { get; set; }
+        public Sprite Sprite { get; set; }
     }
 }

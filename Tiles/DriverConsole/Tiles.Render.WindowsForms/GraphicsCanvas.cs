@@ -20,7 +20,7 @@ namespace Tiles.Render.WindowsForms
         Dictionary<Tiles.Math.Color, ImageAttributes> ImageAttrs { get; set; }
 
         Graphics G { get { return GFunc(); } }
-
+        /*
         Dictionary<Tiles.Math.Color, Drawing.Color> ColorMap = new Dictionary<Tiles.Math.Color, Drawing.Color>
         {
             {Tiles.Math.Color.Black, Drawing.Color.Black},
@@ -40,6 +40,11 @@ namespace Tiles.Render.WindowsForms
             {Tiles.Math.Color.White, Drawing.Color.White},
             {Tiles.Math.Color.Yellow, Drawing.Color.Yellow}
         };
+        */
+        System.Drawing.Color MapColor(Tiles.Math.Color c)
+        {
+            return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
+        }
 
         public GraphicsCanvas(Func<Graphics> gFunc, ISpriteFontMap fontMap)
         {
@@ -62,7 +67,7 @@ namespace Tiles.Render.WindowsForms
                 return ColorPens[foregroundColor];
             }
 
-            var pen = new Pen(ColorMap[foregroundColor], PenWidth);
+            var pen = new Pen(MapColor(foregroundColor), PenWidth);
             ColorPens[foregroundColor] = pen;
             return pen;
         }
@@ -81,7 +86,7 @@ namespace Tiles.Render.WindowsForms
             {
                 return ImageAttrs[cc];
             }
-            var dc = ColorMap[cc];
+            var dc = MapColor(cc);
 
             var imageAttr = new ImageAttributes();
             ColorMap colorMap = new ColorMap();

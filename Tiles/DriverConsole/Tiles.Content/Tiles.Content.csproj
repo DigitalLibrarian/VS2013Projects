@@ -45,11 +45,13 @@
     <Compile Include="Models\Body.cs" />
     <Compile Include="Models\BodyPart.cs" />
     <Compile Include="Models\BodyStateChange.cs" />
+    <Compile Include="Models\Color.cs" />
     <Compile Include="Models\CombatMove.cs" />
     <Compile Include="Models\ContactType.cs" />
     <Compile Include="Models\Injury.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\Sprite.cs" />
     <Compile Include="Models\Verb.cs" />
     <Compile Include="Models\WeaponSlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,7 +10,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 {
     public class StructureFactory
     {
-        public IStructure CreateRectangularBuilding(Vector3 size, Color buildingColor = Color.Gray, Color notBuildingColor = Color.Black)
+        public IStructure CreateRectangularBuilding(Vector3 size, Color buildingColor, Color notBuildingColor)
         {
             var box = new Box3(Vector3.Zero, size);
             var structure = new Structure("Rectangular Building", size);
@@ -99,16 +99,16 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             return structure;
         }
-        public IStructure CreateRectangularBuilding(Vector3 size, CompassDirection door, Color fg = Color.Gray, Color bg = Color.Black)
+        public IStructure CreateRectangularBuilding(Vector3 size, CompassDirection door, Color fg,  Color bg)
         {
-            var structure = CreateRectangularBuilding(size);
+            var structure = CreateRectangularBuilding(size, fg, bg);
             
             var box = new Box3(Vector3.Zero, size);
             AddDoor(structure, box, door, fg, bg);
 
             return structure;
         }
-        void AddDoor(IStructure structure, Box3 box, CompassDirection door, Color fg = Color.Gray, Color bg = Color.Black)
+        void AddDoor(IStructure structure, Box3 box, CompassDirection door, Color fg, Color bg)
         {
             IStructureCell cell = null;
             // add door to middle of the specified wall

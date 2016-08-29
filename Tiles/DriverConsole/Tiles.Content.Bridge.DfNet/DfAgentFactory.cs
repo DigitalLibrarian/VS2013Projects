@@ -15,15 +15,18 @@ namespace Tiles.Content.Bridge.DfNet
         IDfObjectStore Store { get; set; }
         IDfAgentBuilderFactory BuilderFactory { get; set; }
         IDfMaterialFactory MaterialsFactory { get; set; }
+        IDfColorFactory ColorFactory { get; set; }
         IDfCombatMoveFactory CombatMoveFactory { get; set; }
 
         public DfAgentFactory(IDfObjectStore store, 
             IDfAgentBuilderFactory builderFactory,
+            IDfColorFactory colorFactory, 
             IDfMaterialFactory materialsFactory,
             IDfCombatMoveFactory combatMoveFactory
             )
         {
             Store = store;
+            ColorFactory = colorFactory;
             BuilderFactory = builderFactory;
             MaterialsFactory = materialsFactory;
             CombatMoveFactory = combatMoveFactory;
@@ -177,6 +180,9 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.CREATURE_TILE:
                         HandleTileTag(tag, agentContext);
                         break;
+                    case DfTags.MiscTags.COLOR:
+                        HandleColorTag(tag, agentContext);
+                        break;
 
                     //case DfTags.MiscTags.BP_RELSIZE:
                     //    break;
@@ -197,6 +203,19 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleColorTag(DfTag tag, IDfAgentBuilder agentContext)
+        {
+            var fgIndex = int.Parse(tag.GetParam(0));
+            var bgIndex = int.Parse(tag.GetParam(1));
+            var bright = int.Parse(tag.GetParam(2));
+
+            var fg = ColorFactory.Create(fgIndex, bright == 1);
+            agentContext.SetForegroundColor(fg);
+
+            var bg = ColorFactory.Create(bgIndex, false);
+            agentContext.SetBackgroundColor(bg);
         }
 
         private void HandleTileTag(DfTag tag, IDfAgentBuilder agentContext)

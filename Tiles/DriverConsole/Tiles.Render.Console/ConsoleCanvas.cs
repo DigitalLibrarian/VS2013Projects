@@ -13,6 +13,7 @@ namespace Tiles.Render.Console
     public class ConsoleCanvas : ICanvas
     {
         IConsoleWriter Writer { get; set; }
+        ConsoleColorMapper ColorMapper = new ConsoleColorMapper();
         public ConsoleCanvas(IConsoleWriter writer)
         {
             Writer = writer;
@@ -51,8 +52,10 @@ namespace Tiles.Render.Console
 
         protected ConsoleColor ToConsoleColor(Color c)
         {
-            return (ConsoleColor)(int)c;
+            return ColorMapper.Map(c);
         }
+
+        
 
         void SetCursorPosition(Vector2 pos)
         {
@@ -70,8 +73,6 @@ namespace Tiles.Render.Console
         }
 
         
-
-
         public void FillBox(int s, Vector2 topLeft, Vector2 size, Color foregroundColor, Color backgroundColor)
         {
             SetColors(foregroundColor, backgroundColor);

@@ -42,7 +42,7 @@ namespace Tiles.Content.Map
         {
             return new ItemClass(
                 string.Format("{0} {1}", item.Material.Adjective, item.NameSingular), 
-                MapSprite(item.Symbol), 
+                Map(item.Sprite), 
                 Map(item.Material), 
                 Map(item.Weapon), 
                 Map(item.Armor));
@@ -95,16 +95,24 @@ namespace Tiles.Content.Map
             );
         }
 
-        ISprite MapSprite(int c, Color fg = Color.White, Color bg = Color.Black)
+        public ISprite Map(ContentModel.Sprite sprite)
         {
-            return new Sprite(c, fg, bg);
+            return new Sprite(sprite.Symbol, 
+                Map(sprite.Foreground),
+                Map(sprite.Background));
         }
+
+        public Color Map(ContentModel.Color c)
+        {
+            return new Color(c.R, c.B, c.G, c.A);
+        }
+
 
         public EngineAgents.IAgentClass Map(ContentModel.Agent agent)
         {
             return new EngineAgents.AgentClass(
                 agent.Name,
-                MapSprite(agent.Symbol),
+                Map(agent.Sprite),
                 Map(agent.Body)
                 );
         }

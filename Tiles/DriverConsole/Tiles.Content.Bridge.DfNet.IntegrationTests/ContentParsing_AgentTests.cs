@@ -20,6 +20,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Store = TestContentStore.Get();
             DfAgentFactory = new DfAgentFactory(Store, 
                 new DfAgentBuilderFactory(),
+                new DfColorFactory(),
                 new DfMaterialFactory(Store),
                 new DfCombatMoveFactory()
                 );
@@ -34,7 +35,17 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreNotSame("dwarf", agent.Name);
             Assert.AreEqual(89, agent.Body.Parts.Count());
 
-            Assert.AreEqual(1, agent.Symbol);
+            Assert.AreEqual(1, agent.Sprite.Symbol);
+            var fg = agent.Sprite.Foreground;
+            Assert.AreEqual(0x00, fg.R);
+            Assert.AreEqual(0x8b, fg.B);
+            Assert.AreEqual(0x8b, fg.G);
+            Assert.AreEqual(0xff, fg.A);
+            var bg = agent.Sprite.Background;
+            Assert.AreEqual(0x0, bg.R);
+            Assert.AreEqual(0x0, bg.B);
+            Assert.AreEqual(0x0, bg.G);
+            Assert.AreEqual(0xff, bg.A);
 
             var leftHand = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("left hand"));
             Assert.IsNotNull(leftHand);
@@ -102,7 +113,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             var agent = DfAgentFactory.Create("GREEN_DEVOURER");
             Assert.IsNotNull(agent);
-            Assert.AreEqual((int)'G', agent.Symbol);
+            Assert.AreEqual((int)'G', agent.Sprite.Symbol);
             Assert.IsTrue(
                 agent.Body.Parts
                 .Where(p => p.Tissue.Layers.Any())

@@ -18,6 +18,8 @@ namespace Tiles.Content.Bridge.DfNet
         void AddSlotRequirement(WeaponSlot slot);
 
         void SetSymbol(int symbol);
+        void SetForegroundColor(Color color);
+        void SetBackgroundColor(Color color);
 
         Item Build();
     }

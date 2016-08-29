@@ -8,14 +8,14 @@ namespace Tiles.Content.Models
 {
     public class Agent
     {
-        public Agent(string name, Body body, int symbol)
+        public Agent(string name, Body body, Sprite sprite)
         {
             Name = name;
             Body = body;
-            Symbol = symbol;
+            Sprite = sprite;
         }
         public string Name { get; set; }
-        public int Symbol { get; set;}
+        public Sprite Sprite { get; set; }
         public Body Body { get; set; }
     }
 }

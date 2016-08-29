@@ -115,7 +115,6 @@ namespace Tiles.Content.Bridge.DfNet
                 throw new NotImplementedException();
             }
             b.SetSymbol(result);
-
         }
     }
 }

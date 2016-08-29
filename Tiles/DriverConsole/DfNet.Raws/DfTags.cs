@@ -120,6 +120,8 @@ namespace DfNet.Raws
 
             public const string TILE = "TILE";
             public const string CREATURE_TILE = "CREATURE_TILE";
+
+            public const string COLOR = "COLOR";
         }
 
     }

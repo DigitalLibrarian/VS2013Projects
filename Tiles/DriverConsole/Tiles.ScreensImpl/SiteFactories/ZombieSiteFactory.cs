@@ -125,7 +125,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             var insertionPoint = box.Min;
             var size = box.Size;
 
-            var structure = fact.CreateRectangularBuilding(size, door);
+            var structure = fact.CreateRectangularBuilding(size, door, Color.Gray, Color.Black);
             site.InsertStructure(insertionPoint, structure);
         }
 
