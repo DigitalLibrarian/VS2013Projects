@@ -85,9 +85,11 @@
     <Compile Include="Bodies\Health\Injuries\InjuryResultBuilderTests.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryTests.cs" />
     <Compile Include="Bodies\TissueFactoryTests.cs" />
+    <Compile Include="Bodies\TissueTests.cs" />
     <Compile Include="ConjugatedWordTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />
     <Compile Include="Items\ItemFactoryTests.cs" />
+    <Compile Include="Items\ItemTests.cs" />
     <Compile Include="Items\Outfits\OutfitLayerFactoryTests.cs" />
     <Compile Include="Items\Outfits\OutfitLayerTests.cs" />
     <Compile Include="Items\Outfits\OutfitTests.cs" />

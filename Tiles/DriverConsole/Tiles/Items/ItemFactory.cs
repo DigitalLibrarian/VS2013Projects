@@ -10,10 +10,7 @@ namespace Tiles.Items
     {
         public IItem Create(IItemClass itemClass)
         {
-            return new Item
-            {
-                Class = itemClass
-            };
+            return new Item(itemClass);
         }
 
         public IItem CreateShedLimb(IAgent agent, IBodyPart part)

@@ -10,6 +10,11 @@ namespace Tiles.Items
     {
         public IItemClass Class { get; set; }
 
+        public Item(IItemClass itemClass)
+        {
+            Class = itemClass;
+        }
+
         public bool IsWeapon { get { return Class.WeaponClass != null; } }
         public bool IsArmor { get { return Class.ArmorClass != null; } }
     }
