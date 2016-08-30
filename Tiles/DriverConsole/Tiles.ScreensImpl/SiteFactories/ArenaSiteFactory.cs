@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Ecs;
 using Tiles.Math;
 using Tiles.Random;
 using Tiles.ScreensImpl.ContentFactories;
@@ -12,15 +13,16 @@ namespace Tiles.ScreensImpl.SiteFactories
 {
     class ArenaSiteFactory : ISiteFactory
     {
+        IEntityManager EntityManager { get; set; }
         IRandom Random { get; set; }
         DfTagsFascade Df { get; set; }
 
-        public ArenaSiteFactory(IDfObjectStore store, IRandom random)
+        public ArenaSiteFactory(IDfObjectStore store, IEntityManager entityManager, IRandom random)
         {
-            // TODO: Complete member initialization
+            EntityManager = entityManager;
             this.Random = random;
 
-            Df = new DfTagsFascade(store, random);
+            Df = new DfTagsFascade(store, entityManager, random);
         }
 
         public ISite Create(IAtlas atlas, Math.Vector3 siteIndex, Box3 box)
@@ -49,6 +51,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             var pos = Random.FindRandomInBox(buildingBox, test => s.GetTileAtSitePos(test).HasRoomForAgent).Value;
 
             var troll = Df.CreateCreatureAgent(atlas, "TROLL", "MALE", s.Box.Min + pos);
+            EcsBridge.Bridge(troll, EntityManager);
 
             s.GetTileAtSitePos(pos).SetAgent(troll);
 

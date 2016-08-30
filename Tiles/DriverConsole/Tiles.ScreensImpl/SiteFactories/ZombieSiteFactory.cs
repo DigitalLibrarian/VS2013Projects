@@ -9,16 +9,19 @@ using Tiles.Items;
 using Tiles.Math;
 using Tiles.Random;
 using Tiles.ScreensImpl.ContentFactories;
+using Tiles.Ecs;
 
 namespace Tiles.ScreensImpl.SiteFactories
 {
     public class ZombieSiteFactory : ISiteFactory
     {
+        IEntityManager EntityManager { get; set; }
         IRandom Random { get; set; }
         GearFactory ItemFactory { get; set; }
 
-        public ZombieSiteFactory(IRandom random)
+        public ZombieSiteFactory(IEntityManager entityManager, IRandom random)
         {
+            EntityManager = entityManager;
             Random = random;
             ItemFactory = new GearFactory(Random);
         }
@@ -56,7 +59,7 @@ namespace Tiles.ScreensImpl.SiteFactories
                 }
             }
 
-            var agentFactory = new HardCodedAgentFactory(Random);
+            var agentFactory = new HardCodedAgentFactory(EntityManager, Random);
             var numZombies = 10;
             for (int i = 0; i < numZombies; i++)
                 AddZombie(atlas, s, agentFactory);

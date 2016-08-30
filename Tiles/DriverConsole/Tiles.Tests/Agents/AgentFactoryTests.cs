@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Agents.Behaviors;
 using Tiles.Bodies;
+using Tiles.Ecs;
 using Tiles.Math;
 using Tiles.Tests.Assertions;
 
@@ -16,6 +17,7 @@ namespace Tiles.Tests.Agents
     [TestClass]
     public class AgentFactoryTests
     {
+        Mock<IEntityManager> EntityManagerMock { get; set; }
         Mock<IBodyFactory> BodyFactoryMock { get; set; }
 
         AgentFactory Factory { get; set;}
@@ -23,8 +25,12 @@ namespace Tiles.Tests.Agents
         [TestInitialize]
         public void Initialize()
         {
+            EntityManagerMock = new Mock<IEntityManager>();
             BodyFactoryMock = new Mock<IBodyFactory>();
-            Factory = new AgentFactory(BodyFactoryMock.Object);
+            Factory = new AgentFactory(EntityManagerMock.Object, BodyFactoryMock.Object);
+
+            EntityManagerMock.Setup(x => x.CreateEntity())
+                .Returns(() => new Mock<IEntity>().Object);
         }
 
         [TestMethod]

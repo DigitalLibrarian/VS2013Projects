@@ -12,6 +12,7 @@ using Tiles.Random;
 using Tiles.Agents.CommandInterpreters;
 using Tiles.Items.Outfits;
 using Tiles.Bodies;
+using Tiles.Ecs;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
@@ -24,14 +25,16 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IItemClass ZombieClawClass = new ItemClass(name: "zombie claw", sprite: null, material: null, weaponClass: ZombieClaw.WeaponClass, armorClass: null);
         static IItemClass ZombieTeethClass = new ItemClass(name: "zombie teeth", sprite: null, material: null, weaponClass: ZombieTeeth.WeaponClass, armorClass: null);
 
+        IEntityManager EntityManager { get; set; }
         public IRandom Random { get; set; }
-        public HardCodedAgentFactory() : this(new RandomWrapper(new System.Random()))
-        {
 
+        public HardCodedAgentFactory(IEntityManager entityManager) : this(entityManager, new RandomWrapper(new System.Random()))
+        {
         }
 
-        public HardCodedAgentFactory(IRandom random)
+        public HardCodedAgentFactory(IEntityManager entityManager, IRandom random)
         {
+            EntityManager = entityManager;
             Random = random;
         }
 
@@ -64,6 +67,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             zombie.IsUndead = true;
 
             zombie.AgentBehavior = CreateBehavior(new ZombieAgentCommandPlanner(Random, new AgentCommandFactory()));
+            EcsBridge.Bridge(zombie, EntityManager);
             return zombie;
         }
 
@@ -92,6 +96,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             );
             player.IsUndead = false;
             player.Agent.AgentBehavior = CreateBehavior(planner);
+            EcsBridge.Bridge(player, EntityManager);
             return player;
         }
 
@@ -118,6 +123,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             survivor.AgentBehavior = CreateBehavior(new SurvivorAgentCommandPlanner(Random, new AgentCommandFactory()));
             survivor.IsUndead = false;
+            EcsBridge.Bridge(survivor, EntityManager);
             return survivor;
         }
 

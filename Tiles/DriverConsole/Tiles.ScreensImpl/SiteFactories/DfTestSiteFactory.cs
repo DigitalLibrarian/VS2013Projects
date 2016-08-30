@@ -17,17 +17,20 @@ using DfNet.Raws;
 using Tiles.Content.Bridge.DfNet;
 using Tiles.Content.Map;
 using Tiles.Agents.Combat;
+using Tiles.Ecs;
 
 namespace Tiles.ScreensImpl.SiteFactories
 {
     public class DfTestSiteFactory : ISiteFactory
     {
+        IEntityManager EntityManager { get; set; }
         DfTagsFascade Df { get; set; }
         IRandom Random { get; set; }
-        public DfTestSiteFactory(IDfObjectStore store, IRandom random)
+        public DfTestSiteFactory(IDfObjectStore store, IEntityManager entityManager, IRandom random)
         {
+            EntityManager = entityManager;
             Random = random;
-            Df = new DfTagsFascade(store, random);
+            Df = new DfTagsFascade(store, entityManager, random);
         }
 
         public ISite Create(IAtlas atlas, Vector3 siteIndex, Box3 box)
@@ -84,6 +87,7 @@ namespace Tiles.ScreensImpl.SiteFactories
 
                     var agent = Df.CreateCreatureAgent(atlas, creatureName, caste, worldPos);
                     tile.SetAgent(agent);
+                    EcsBridge.Bridge(agent, EntityManager);
                 }
 
             }

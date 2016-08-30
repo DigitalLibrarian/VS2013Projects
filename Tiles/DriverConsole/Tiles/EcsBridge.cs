@@ -25,7 +25,7 @@ namespace Tiles
             entity.AddComponent(
                 new AtlasPositionComponent(
                     new AtlasPosition(() => agent.Pos)));
-
+            agent.EntityId = entity.Id;
             return entity.Id;
         }
     }

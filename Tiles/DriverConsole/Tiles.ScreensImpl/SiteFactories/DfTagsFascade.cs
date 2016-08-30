@@ -10,6 +10,7 @@ using Tiles.Agents.Combat;
 using Tiles.Bodies;
 using Tiles.Content.Bridge.DfNet;
 using Tiles.Content.Map;
+using Tiles.Ecs;
 using Tiles.Items;
 using Tiles.Materials;
 using Tiles.Math;
@@ -29,12 +30,12 @@ namespace Tiles.ScreensImpl.SiteFactories
         IContentMapper ContentMapper { get; set; }
         IAgentCommandPlanner DefaultPlanner { get; set; }
 
-        public DfTagsFascade(IDfObjectStore store, IRandom random)
+        public DfTagsFascade(IDfObjectStore store, IEntityManager entityManager, IRandom random)
         {
             Store = store;
             Random = random;
             ItemFactory = new ItemFactory();
-            AgentFactory = new AgentFactory(new BodyFactory(new TissueFactory()));
+            AgentFactory = new AgentFactory(entityManager, new BodyFactory(new TissueFactory()));
             DfMaterialFactory = new DfMaterialFactory(Store, new DfMaterialBuilderFactory());
             var moveFactory = new DfCombatMoveFactory();
             DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory(), moveFactory);

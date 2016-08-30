@@ -85,13 +85,14 @@ namespace Tiles.Tests.Agents
         [TestMethod]
         public void IsDead()
         {
-            // test no parts
-            BodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart>());
+            BodyMock.Setup(x => x.Parts)
+                .Returns(new List<IBodyPart>{
+                    new Mock<IBodyPart>().Object
+                });
+            Assert.IsFalse(Agent.IsDead);
+
             HealthMock.Setup(x => x.IsDead).Returns(true);
             Assert.IsTrue(Agent.IsDead);
-            
-            HealthMock.Setup(x => x.IsDead).Returns(false);
-            Assert.IsFalse(Agent.IsDead);
         }
 
         [TestMethod]

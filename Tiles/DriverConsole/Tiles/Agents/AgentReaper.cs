@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
+using Tiles.Ecs;
 using Tiles.Items;
 using Tiles.Math;
 
@@ -16,7 +17,8 @@ namespace Tiles.Agents
         IActionReporter Reporter { get; set; }
         IItemFactory ItemFactory { get; set; }
 
-        public AgentReaper(IAtlas atlas, IActionReporter reporter, IItemFactory itemFactory)
+        public AgentReaper(
+            IAtlas atlas, IActionReporter reporter, IItemFactory itemFactory)
         {
             Atlas = atlas;
             Reporter = reporter;

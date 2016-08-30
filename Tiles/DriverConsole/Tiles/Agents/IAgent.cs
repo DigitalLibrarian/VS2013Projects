@@ -14,6 +14,8 @@ namespace Tiles.Agents
 {
     public interface IAgent
     {
+        int EntityId { get; set; }
+
         string Name { get; }
         IAgentBehavior AgentBehavior { get; set; }
         ISprite Sprite { get; }

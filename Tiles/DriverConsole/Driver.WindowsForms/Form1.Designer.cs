@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            //this.panelDisplay = new System.Windows.Forms.Panel();
-            this.panelDisplay = new CanvasPanel();
+            this.components = new System.ComponentModel.Container();
+            this.panelDisplay = new Driver.Tiles.WindowsForms.CanvasPanel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // panelDisplay
@@ -38,6 +39,10 @@
             this.panelDisplay.Name = "panelDisplay";
             this.panelDisplay.Size = new System.Drawing.Size(1168, 748);
             this.panelDisplay.TabIndex = 0;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -53,7 +58,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panelDisplay;
+        private System.Windows.Forms.Timer timer1;
+        private CanvasPanel panelDisplay;
+
     }
 }
 

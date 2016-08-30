@@ -49,6 +49,8 @@ namespace Driver.Tiles.WindowsForms
 
             this.panelDisplay.Paint += panelDisplay_Paint;
             this.KeyDown += KeyboardSource.InputKeyPressed;
+
+            this.timer1.Interval = 10;
         }
 
         void LoadFirstScreen()
@@ -63,7 +65,10 @@ namespace Driver.Tiles.WindowsForms
         {
             if (ScreenManager.BlockForInput)
             {
-                KeyboardQueue.Enqueue(e);
+                lock (KeyboardQueue)
+                {
+                    KeyboardQueue.Enqueue(e);
+                }
                 UpdateGame();
                 this.Refresh();
             }
@@ -85,29 +90,42 @@ namespace Driver.Tiles.WindowsForms
                 LoadFirstScreen();
             }
 
-            try
+            lock (ScreenManager)
             {
                 ScreenManager.Draw();
-            }
-            catch (Exception ex)
-            {
-                string message = ex.ToString();
             }
         }
 
         void UpdateGame()
         {
-            if (KeyboardQueue.Any())
+            lock (KeyboardQueue)
             {
-                ScreenManager.OnKeyPress(this, KeyboardQueue.Dequeue());
+                if (KeyboardQueue.Any())
+                {
+                    ScreenManager.OnKeyPress(this, KeyboardQueue.Dequeue());
+                }
             }
 
-            ScreenManager.Update();
+            lock (ScreenManager)
+            {
+                ScreenManager.Update();
+                this.Refresh();
+            }
 
-            while(!ScreenManager.BlockForInput)
+            if(!ScreenManager.BlockForInput)
+            {
+                timer1.Start();
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lock (ScreenManager)
             {
                 UpdateGame();
             }
+
+            timer1.Stop();
         }
     }
 }

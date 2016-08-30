@@ -13,6 +13,8 @@ using Tiles.Random;
 using Tiles.Agents.Combat.CombatEvolutions;
 using Tiles.Items;
 using Tiles.Bodies.Health.Injuries;
+using Tiles.Ecs;
+using Tiles.EntitySystems;
 
 namespace Tiles
 {
@@ -24,12 +26,18 @@ namespace Tiles
         public IPlayer Player { get; private set; }
         public IAttackConductor AttackConductor { get; private set;}
         public IRandom Random { get; private set; }
+        public IEntityManager EntityManager { get; private set; }
         
         public ITile CameraTile { get { return Atlas.GetTileAtPos(Camera.Pos); } }
         public long DesiredFrameLength { get; set; }
 
-        public Game(IAtlas atlas, IPlayer player, ICamera camera, IActionLog log, IRandom random)
+        List<AtlasBoxSystem> Systems { get; set; }
+
+        public Game(
+            IEntityManager entityManager,
+            IAtlas atlas, IPlayer player, ICamera camera, IActionLog log, IRandom random)
         {
+            EntityManager = entityManager;
             Atlas = atlas;
             Player = player;
             Camera = camera;
@@ -52,12 +60,25 @@ namespace Tiles
             AttackConductor = new AttackConductor(evolutions);
             
             Atlas.GetTileAtPos(player.Agent.Pos).SetAgent(player.Agent);
+
+            Systems = new List<AtlasBoxSystem>
+            {
+                new CommandSystem()
+            };
         }
 
         public void UpdateBox(Box3 box)
         {
             var updatedAgents = new List<IAgent>();
 
+
+            foreach (var system in Systems)
+            {
+                system.SetBox(box);
+                system.Update(EntityManager, this);
+            }
+
+            /*
             // TODO - limit this to a "working set" of sites
             foreach (var tile in Atlas.GetTiles(box).ToList())
             {
@@ -68,6 +89,7 @@ namespace Tiles
                     tile.Agent.Update(this);
                 }
             }
+             * */
         }
     }
 }

@@ -15,6 +15,7 @@ using Tiles.Random;
 using Tiles.Structures;
 using DfNet.Raws;
 using Tiles.ScreensImpl.SiteFactories;
+using Tiles.Ecs;
 
 
 
@@ -24,34 +25,39 @@ namespace Tiles.ScreensImpl.ContentFactories
     {
         public IGame SetupGenericZombieWorld(int seed = 42)
         {
+            var entityManager = new EntityManager();
+
             Vector3 siteSize = new Vector3(64, 64, 64);
             var random = new RandomWrapper(new System.Random(seed));
-            var siteFactory = new ZombieSiteFactory(random);
-            return Setup(siteFactory, siteSize, random);
+            var siteFactory = new ZombieSiteFactory(entityManager, random);
+            return Setup(entityManager, siteFactory, siteSize, random);
         }
 
         public IGame SetupArenaWorld(string dfRawDir, int seed = 42)
         {
+            var entityManager = new EntityManager();
             var siteSize = new Vector3(64, 64, 64);
             var random = new RandomWrapper(new System.Random(seed));
 
             var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
-            var siteFactory = new ArenaSiteFactory(dfStore, random);
-            return Setup(siteFactory, siteSize, random);
+            var siteFactory = new ArenaSiteFactory(dfStore, entityManager, random);
+            return Setup(entityManager, siteFactory, siteSize, random);
         }
 
         public IGame SetupDfTestWorld(string dfRawDir, int seed = 42)
         {
+            var entityManager = new EntityManager();
             var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
 
             var siteSize = new Vector3(64, 64, 64);
             var random = new RandomWrapper(new System.Random(seed));
-            var siteFactory = new DfTestSiteFactory(dfStore, random);
-            return Setup(siteFactory, siteSize, random);
+            var siteFactory = new DfTestSiteFactory(dfStore, entityManager, random);
+            return Setup(entityManager, siteFactory, siteSize, random);
 
         }
 
-        private Game Setup(ISiteFactory siteFactory, Vector3 siteSize, IRandom random)
+        private Game Setup(IEntityManager entityManager,
+            ISiteFactory siteFactory, Vector3 siteSize, IRandom random)
         {
             var atlas = new Atlas(siteFactory, siteSize);
 
@@ -63,15 +69,15 @@ namespace Tiles.ScreensImpl.ContentFactories
                 );
             
             var spawnPos = FindSpawnLocation(atlas, random, spawnBox);
-            var player = CreatePlayer(random, atlas, spawnPos);
+            var player = CreatePlayer(random, entityManager, atlas, spawnPos);
             var camera = new Camera(spawnPos);
 
-            return new Game(atlas, player, camera, actionLog, random);
+            return new Game(entityManager, atlas, player, camera, actionLog, random);
         }
 
-        private IPlayer CreatePlayer(IRandom random, IAtlas atlas, Vector3 spawnPos)
+        private IPlayer CreatePlayer(IRandom random, IEntityManager entityManager, IAtlas atlas, Vector3 spawnPos)
         {
-            return new HardCodedAgentFactory(random).CreatePlayer(atlas, spawnPos);
+            return new HardCodedAgentFactory(entityManager, random).CreatePlayer(atlas, spawnPos);
         }
 
         Vector3 FindSpawnLocation(IAtlas atlas, IRandom random, Box3 spawnBox)

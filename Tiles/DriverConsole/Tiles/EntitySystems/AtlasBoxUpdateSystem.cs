@@ -37,7 +37,7 @@ namespace Tiles.EntitySystems
         {
             if (Box.HasValue)
             {
-                foreach (var entity in entityManager.GetEntities(ComponentIds))
+                foreach (var entity in entityManager.GetEntities(ComponentIds).ToList())
                 {
                     var pos = entity.GetComponent<IAtlasPositionComponent>()
                                 .AtlasPosition

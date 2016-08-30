@@ -12,6 +12,7 @@ namespace Tiles.Agents
 {
     public class Agent : IAgent
     {
+        public int EntityId { get; set; }
         public IAtlas Atlas { get; private set; }
         public IAgentClass Class { get; private set; }
         public string Name { get { return Class.Name; } }
@@ -38,7 +39,8 @@ namespace Tiles.Agents
             } 
         }
 
-        public Agent(IAtlas atlas, 
+        public Agent(
+            IAtlas atlas, 
             IAgentClass agentClass,
             Vector3 pos, 
             IBody body, 
