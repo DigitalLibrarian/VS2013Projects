@@ -19,14 +19,23 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         public void Initialize()
         {
             Store = TestContentStore.Get();
-            DfMaterialFactory = new DfMaterialFactory(Store);
+            DfMaterialFactory = new DfMaterialFactory(Store, new DfMaterialBuilderFactory());
         }
 
         [TestMethod]
         public void FlameTemplate()
         {
             var flame = DfMaterialFactory.CreateFromMaterialTemplate("FLAME_TEMPLATE");
-            Assert.AreNotSame("flames", flame.Adjective);
+            Assert.AreEqual("flames", flame.Name);
+            Assert.AreEqual("flames", flame.Adjective);
+        }
+
+        [TestMethod]
+        public void Iron()
+        {
+            var iron = DfMaterialFactory.CreateInorganic("IRON");
+            Assert.AreEqual("iron", iron.Name);
+            Assert.AreEqual("iron", iron.Adjective);
         }
 
         [TestMethod]
@@ -45,13 +54,14 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             {
                 CheckProps(DfMaterialFactory.CreateFromMaterialTemplate(matTempName));
             }
-
+            /*
             var tissueTemplateNames = Store.Get(DfTags.TISSUE_TEMPLATE).Select(o => o.Name);
             foreach (var tisTempName in tissueTemplateNames)
             {
                 CheckProps(DfMaterialFactory.CreateTissue(tisTempName));
             }
-
+             * */
+            
             foreach (var creatureDf in Store.Get(DfTags.CREATURE))
             {
                 foreach(var inlineTissueTag in creatureDf.Tags.Where(t => t.Name.Equals(DfTags.MiscTags.TISSUE)))
@@ -61,12 +71,24 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             }
         }
 
+        string[] HackedMaterialNames = new string[]{
+            "flames",
+            "mud"
+        };
+
         void CheckProps(Material m)
         {
             Assert.IsNotNull(m);
+            Assert.IsNotNull(m.Name);
             Assert.IsNotNull(m.Adjective);
 
-            //Assert.AreNotEqual(0, m.ImpactFracture, string.Format(m.))
+            Assert.AreNotEqual(0, m.ImpactFracture,
+                string.Format("ImpactFracture == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
+
+            if (m.ImpactFracture == 1)
+            {
+                Assert.IsTrue(HackedMaterialNames.Contains(m.Name), string.Format("Unknown material property hack for Name={0}, Adjective={1}", m.Name, m.Adjective));
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             DfAgentFactory = new DfAgentFactory(Store, 
                 new DfAgentBuilderFactory(),
                 new DfColorFactory(),
-                new DfMaterialFactory(Store),
+                new DfMaterialFactory(Store, new DfMaterialBuilderFactory()),
                 new DfCombatMoveFactory()
                 );
         }

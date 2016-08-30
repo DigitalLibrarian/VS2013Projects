@@ -12,6 +12,8 @@ namespace Tiles.Content.Models
         {
 
         }
+
+        public string Name { get; set; }
         public string Adjective { get; set; }
 
         
@@ -22,5 +24,9 @@ namespace Tiles.Content.Models
         public int ImpactYield { get; set; }
         public int ImpactFracture { get; set; }
         public int ImpactStrainAtYield { get; set; }
+
+        public int ShearYield { get; set; }
+        public int ShearFracture { get; set; }
+        public int ShearStrainAtYield { get; set; }
     }
 }

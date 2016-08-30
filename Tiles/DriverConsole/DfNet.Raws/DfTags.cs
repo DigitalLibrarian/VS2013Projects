@@ -91,6 +91,8 @@ namespace DfNet.Raws
             public const string PLUS_TISSUE_LAYER = "PLUS_TISSUE_LAYER";
             public const string TISSUE_NAME = "TISSUE_NAME";
 
+            public const string TISSUE_MATERIAL = "TISSUE_MATERIAL";
+
             public const string CASTE_NAME = "CASTE_NAME";
             public const string ATTACK = "ATTACK";
             public const string ATTACK_PREPARE_AND_RECOVER = "ATTACK_PREPARE_AND_RECOVER";
@@ -124,6 +126,15 @@ namespace DfNet.Raws
             public const string CREATURE_TILE = "CREATURE_TILE";
 
             public const string COLOR = "COLOR";
+
+
+            public const string IMPACT_YIELD = "IMPACT_YIELD";
+            public const string IMPACT_FRACTURE = "IMPACT_FRACTURE";
+            public const string IMPACT_STRAIN_AT_YIELD = "IMPACT_STRAIN_AT_YIELD";
+
+            public const string SHEAR_YIELD = "SHEAR_YIELD";
+            public const string SHEAR_FRACTURE = "SHEAR_FRACTURE";
+            public const string SHEAR_STRAIN_AT_YIELD = "SHEAR_STRAIN_AT_YIELD";
         }
 
     }

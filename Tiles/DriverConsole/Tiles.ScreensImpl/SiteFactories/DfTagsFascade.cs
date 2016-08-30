@@ -35,7 +35,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             Random = random;
             ItemFactory = new ItemFactory();
             AgentFactory = new AgentFactory(new BodyFactory(new TissueFactory()));
-            DfMaterialFactory = new DfMaterialFactory(Store);
+            DfMaterialFactory = new DfMaterialFactory(Store, new DfMaterialBuilderFactory());
             var moveFactory = new DfCombatMoveFactory();
             DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory(), moveFactory);
             DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), 
