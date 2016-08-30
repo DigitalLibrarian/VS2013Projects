@@ -8,7 +8,7 @@ using Tiles.Bodies;
 using Tiles.Items;
 using Tiles.Materials;
 
-namespace Tiles.ScreenImpl.ContentFactories
+namespace Tiles.ScreensImpl.ContentFactories
 {
     public class BodyClassFactory : IBodyClassFactory
     {
@@ -16,9 +16,9 @@ namespace Tiles.ScreenImpl.ContentFactories
         {
             return new TissueClass(new List<ITissueLayerClass>
             {
-                new TissueLayerClass(new Material("bone"), 25),
-                new TissueLayerClass(new Material("fat"), 15),
-                new TissueLayerClass(new Material("skin"), 5),
+                new TissueLayerClass(new Material("bone", "bone"), 25),
+                new TissueLayerClass(new Material("bone", "fat"), 15),
+                new TissueLayerClass(new Material("bone", "skin"), 5),
             });
         }
 

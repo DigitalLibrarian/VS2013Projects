@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
 
-namespace Tiles.ScreenImpl.ContentFactories
+namespace Tiles.ScreensImpl.ContentFactories
 {
     public interface IBodyClassFactory
     {

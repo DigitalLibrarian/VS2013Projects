@@ -17,9 +17,18 @@ namespace Tiles.Content.Map
 {
     public class ContentMapper : IContentMapper
     {
-        public EngineMaterials.IMaterial Map(ContentModel.Material material)
+        public EngineMaterials.IMaterial Map(ContentModel.Material m)
         {
-            return new EngineMaterials.Material(material.Adjective);
+            return new EngineMaterials.Material(m.Name, m.Adjective)
+            {
+                ImpactFracture = m.ImpactFracture,
+                ImpactYield = m.ImpactYield,
+                ImpactStrainAtYield = m.ImpactStrainAtYield,
+
+                ShearFracture = m.ShearFracture,
+                ShearYield = m.ShearYield,
+                ShearStrainAtYield = m.ShearStrainAtYield
+            };
         }
 
         public EngineItems.IArmorClass Map(ContentModel.Armor armor)

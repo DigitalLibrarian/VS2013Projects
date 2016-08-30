@@ -100,7 +100,6 @@
     <Compile Include="Agents\Combat\IDamageVector.cs" />
     <Compile Include="Bodies\Body.cs" />
     <Compile Include="Bodies\BodyClass.cs" />
-    <Compile Include="Bodies\BodyClassFactory.cs" />
     <Compile Include="Bodies\BodyFactory.cs" />
     <Compile Include="Bodies\BodyPart.cs" />
     <Compile Include="Bodies\BodyPartClass.cs" />
@@ -114,7 +113,6 @@
     <Compile Include="Bodies\Health\Injuries\StandardInjuryClasses.cs" />
     <Compile Include="Bodies\IBody.cs" />
     <Compile Include="Bodies\IBodyClass.cs" />
-    <Compile Include="Bodies\IBodyClassFactory.cs" />
     <Compile Include="Bodies\IBodyFactory.cs" />
     <Compile Include="Bodies\IBodyPart.cs" />
     <Compile Include="Agents\Combat\AttackConductor.cs" />

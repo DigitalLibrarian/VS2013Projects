@@ -15,13 +15,17 @@ namespace Tiles.ScreensImpl.ContentFactories
     public class GearFactory
     {
         #region static defns
-        static IMaterial Leather = new Material("leather");
+        static IMaterial Leather = new Material("leather", "leather");
+        static IMaterial Plastic = new Material("plastic", "plastic");
+        static IMaterial Steel = new Material("steel", "steel");
+        static IMaterial Wood = new Material("wood", "wood");
+        static IMaterial Cotton = new Material("cotton", "cotton");
         private static IList<IItemClass> _ItemClasses = new List<IItemClass>
         {
             new ItemClass(
                 name: "plastic flyswatter", 
                 sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black), 
-               material: new Material("plastic"),
+               material: Plastic,
                 weaponClass:
                 new WeaponClass(
                    slots: new WeaponSlot[] { WeaponSlot.Main },
@@ -75,7 +79,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                name: "steel sword", 
                sprite: new Sprite(Symbol.MeleeSword, Color.White, Color.Black), 
-               material: new Material("steel"),
+               material: Steel,
                weaponClass: 
                 new WeaponClass(
                    slots: new WeaponSlot[] { WeaponSlot.Main },
@@ -130,7 +134,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "baseball bat", 
                 sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
-               material: new Material("wood"),
+               material: Wood,
                 weaponClass:
                 new WeaponClass(
                     slots: new WeaponSlot[] { WeaponSlot.Main },
@@ -162,7 +166,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "cotton hat",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
-                material: new Material("cotton"),
+                material: Cotton,
                 armorClass: new ArmorClass(
                         new DamageVector(new Dictionary<DamageType,uint>{
                             { DamageType.Slash, 25},
