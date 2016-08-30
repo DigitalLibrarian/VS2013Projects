@@ -101,7 +101,25 @@ namespace Tiles.Content.Bridge.DfNet
             {
                 return adjTag.GetParam(1);
             }
-            throw new InvalidOperationException("Count not come up with adject for " + matDefn.Tags.First().ToString());
+
+            adjTag = matDefn.Tags.LastOrDefault(
+                t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
+                && t.GetParam(0).Equals(DfTags.MiscTags.ALL));
+
+            if (adjTag != null)
+            {
+                return adjTag.GetParam(1);
+            }
+
+            adjTag = matDefn.Tags.LastOrDefault(
+                t => t.Name.Equals(DfTags.MiscTags.IS_GEM));
+
+            if (adjTag != null)
+            {
+                return adjTag.GetParam(0);
+            }
+
+            throw new InvalidOperationException("Could not come up with adjective for " + matDefn.Tags.First().ToString());
         }
     }
 }

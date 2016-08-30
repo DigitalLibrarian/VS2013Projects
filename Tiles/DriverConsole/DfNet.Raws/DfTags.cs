@@ -104,6 +104,7 @@ namespace DfNet.Raws
             public const string STATE_NAME_ADJ = "STATE_NAME_ADJ";
             public const string STATE_ADJ = "STATE_ADJ";
             public const string ALL_SOLID = "ALL_SOLID";
+            public const string ALL = "ALL";
             public const string SOLID = "SOLID";
 
             public const string GRASP = "GRASP";
@@ -116,6 +117,7 @@ namespace DfNet.Raws
             public const string LAYER = "LAYER";
 
             public const string IS_METAL = "IS_METAL";
+            public const string IS_GEM = "IS_GEM";
             public const string NONE = "NONE";
 
             public const string TILE = "TILE";
