@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentFactories\BodyClassFactory.cs" />
+    <Compile Include="ContentFactories\IBodyClassFactory.cs" />
     <Compile Include="SiteFactories\DfTagsFascade.cs" />
     <Compile Include="UI\CombatScreen.cs" />
     <Compile Include="ContentFactories\HardCodedAgentFactory.cs" />

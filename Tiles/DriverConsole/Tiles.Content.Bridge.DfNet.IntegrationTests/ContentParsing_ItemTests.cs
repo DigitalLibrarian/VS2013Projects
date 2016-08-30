@@ -31,10 +31,12 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             var adamantine = MaterialsFactory.CreateInorganic("ADAMANTINE");
             Assert.IsNotNull(adamantine);
+
             var swordItem = ItemFactory.Create(DfTags.ITEM_WEAPON, "ITEM_WEAPON_SWORD_SHORT", adamantine);
             Assert.IsNotNull(swordItem);
             Assert.IsNotNull(swordItem.Weapon);
             Assert.IsNull(swordItem.Armor);
+            Assert.AreSame(adamantine, swordItem.Material);
 
             Assert.AreNotEqual(0, swordItem.Sprite.Symbol);
 
@@ -97,7 +99,6 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(move.Verb);
             Assert.AreEqual("strike", move.Verb.SecondPerson);
             Assert.AreEqual("strikes", move.Verb.ThirdPerson);
-
         }
 
         [TestMethod]
