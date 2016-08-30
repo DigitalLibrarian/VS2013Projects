@@ -65,6 +65,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             Assert.IsNotNull(m);
             Assert.IsNotNull(m.Adjective);
+
+            //Assert.AreNotEqual(0, m.ImpactFracture, string.Format(m.))
         }
     }
 }

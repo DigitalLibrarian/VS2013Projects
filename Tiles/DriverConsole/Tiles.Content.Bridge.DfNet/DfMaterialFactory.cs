@@ -60,63 +60,30 @@ namespace Tiles.Content.Bridge.DfNet
         }
         string GetMaterialAdj(DfObject matDefn)
         {
-            var adjTag = matDefn.Tags.LastOrDefault(
-                t => t.Name.Equals(DfTags.MiscTags.TISSUE_NAME));
-            if (adjTag != null)
+
+            Dictionary<Predicate<DfTag>, Func<DfTag, string>> adjectiveChecks = new Dictionary<Predicate<DfTag>, Func<DfTag, string>>
             {
-                return adjTag.GetParam(0);
-            }
+                {t => t.Name.Equals(DfTags.MiscTags.TISSUE_NAME), t => t.GetParam(0)},
+                {t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
+                && t.GetParam(0).Equals(DfTags.MiscTags.ALL_SOLID), t => t.GetParam(1)},
+                {t => t.Name.Equals(DfTags.MiscTags.STATE_ADJ)
+                && t.GetParam(0).Equals(DfTags.MiscTags.ALL_SOLID), t => t.GetParam(1)},
+                {t => t.Name.Equals(DfTags.MiscTags.STATE_ADJ)
+                && t.GetParam(0).Equals(DfTags.MiscTags.SOLID), t => t.GetParam(1)},
+                {t => t.Name.Equals(DfTags.MiscTags.STATE_NAME), t => t.GetParam(1)},
+                {t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
+                && t.GetParam(0).Equals(DfTags.MiscTags.ALL), t => t.GetParam(1)},
+                {t => t.Name.Equals(DfTags.MiscTags.IS_GEM), t => t.GetParam(0)}
+            };
 
-            adjTag = matDefn.Tags.LastOrDefault(
-                t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
-                && t.GetParam(0).Equals(DfTags.MiscTags.ALL_SOLID));
-
-            if (adjTag != null)
+            foreach (var check in adjectiveChecks.Keys)
             {
-                return adjTag.GetParam(1);
-            }
-
-            adjTag = matDefn.Tags.LastOrDefault(
-                t => t.Name.Equals(DfTags.MiscTags.STATE_ADJ)
-                && t.GetParam(0).Equals(DfTags.MiscTags.ALL_SOLID));
-
-            if (adjTag != null)
-            {
-                return adjTag.GetParam(1);
-            }
-
-            adjTag = matDefn.Tags.LastOrDefault(
-                t => t.Name.Equals(DfTags.MiscTags.STATE_ADJ)
-                && t.GetParam(0).Contains(DfTags.MiscTags.SOLID));
-
-            if (adjTag != null)
-            {
-                return adjTag.GetParam(1);
-            }
-
-            adjTag = matDefn.Tags.LastOrDefault(
-                t => t.Name.Equals(DfTags.MiscTags.STATE_NAME));
-
-            if (adjTag != null)
-            {
-                return adjTag.GetParam(1);
-            }
-
-            adjTag = matDefn.Tags.LastOrDefault(
-                t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
-                && t.GetParam(0).Equals(DfTags.MiscTags.ALL));
-
-            if (adjTag != null)
-            {
-                return adjTag.GetParam(1);
-            }
-
-            adjTag = matDefn.Tags.LastOrDefault(
-                t => t.Name.Equals(DfTags.MiscTags.IS_GEM));
-
-            if (adjTag != null)
-            {
-                return adjTag.GetParam(0);
+                var adjTag = matDefn.Tags.LastOrDefault(t => check(t));
+                var valueGetter = adjectiveChecks[check];
+                if (adjTag != null)
+                {
+                    return valueGetter(adjTag);
+                }
             }
 
             throw new InvalidOperationException("Could not come up with adjective for " + matDefn.Tags.First().ToString());
