@@ -14,12 +14,15 @@ namespace Tiles.EntityComponents
 {
     public static class ComponentTypes
     {
-        public static readonly int Particle = 1;
-        public static readonly int Body = 2;
-        public static readonly int Inventory = 3;
-        public static readonly int Outfit = 4;
-        public static readonly int Sprite = 5;
-        public static readonly int Command = 6;
-        public static readonly int Agent = 7;
+        private static int _NextId = 1;
+
+        public static readonly int Body = _NextId++;
+        public static readonly int Inventory = _NextId++;
+        public static readonly int Outfit = _NextId++;
+        public static readonly int Sprite = _NextId++;
+        public static readonly int Command = _NextId++;
+        public static readonly int Agent = _NextId++;
+
+        public static readonly int AtlasPosition = _NextId++;
     }
 }

@@ -8,6 +8,7 @@ namespace Tiles.Ecs
 {
     public interface IEntityManager
     {
+        IEntity CreateEntity();
         IEntity CreateEntity(int entityId);
 
         IEntity GetEntity(int entityId);

@@ -19,5 +19,10 @@ namespace Tiles.EntityComponents
         public int Id { get { return ComponentTypes.Command; } }
 
         public IAgentBehavior Behavior { get; set; }
+
+        public CommandComponent(IAgentBehavior behavior)
+        {
+            Behavior = behavior;
+        }
     }
 }

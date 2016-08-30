@@ -17,5 +17,10 @@ namespace Tiles.EntityComponents
     {
         public int Id { get { return ComponentTypes.Agent; } }
         public IAgent Agent { get; set; }
+
+        public AgentComponent(IAgent agent)
+        {
+            Agent = agent;
+        }
     }
 }

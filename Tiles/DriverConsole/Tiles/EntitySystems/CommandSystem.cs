@@ -9,10 +9,11 @@ using Tiles.EntityComponents;
 
 namespace Tiles.EntitySystems
 {
-    public class CommandSystem : BaseSystem
+    public class CommandSystem : AtlasBoxSystem
     {
         public CommandSystem()
-            : base(ComponentTypes.Agent, ComponentTypes.Command)
+            : base(ComponentTypes.Agent, 
+                    ComponentTypes.Command)
         {
 
         }

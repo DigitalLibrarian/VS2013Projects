@@ -16,7 +16,7 @@ namespace Tiles.EntitySystems
             ComponentIds = requiredComponentIds;
         }
 
-        public void Update(IEntityManager entityManager, IGame game)
+        public virtual void Update(IEntityManager entityManager, IGame game)
         {
             foreach (var entity in entityManager.GetEntities(ComponentIds))
             {
