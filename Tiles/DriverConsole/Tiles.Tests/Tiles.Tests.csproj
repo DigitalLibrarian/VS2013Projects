@@ -87,6 +87,8 @@
     <Compile Include="Bodies\TissueFactoryTests.cs" />
     <Compile Include="Bodies\TissueTests.cs" />
     <Compile Include="ConjugatedWordTests.cs" />
+    <Compile Include="Ecs\EntityManagerTests.cs" />
+    <Compile Include="Ecs\EntityTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />
     <Compile Include="Items\ItemClassTests.cs" />
     <Compile Include="Items\ItemFactoryTests.cs" />

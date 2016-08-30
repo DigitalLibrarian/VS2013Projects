@@ -57,10 +57,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver.Tiles.WindowsForms",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Render.WindowsForms", "Tiles.Render.WindowsForms\Tiles.Render.WindowsForms.csproj", "{FF2BAC87-6727-4CA1-A43D-83288ADA0895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Ecm", "Tiles.Ecm\Tiles.Ecm.csproj", "{DAFF8DC1-7D56-44FF-900F-66A5ED516820}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Ecm.Tests", "Tiles.Ecm.Tests\Tiles.Ecm.Tests.csproj", "{60287479-0D78-4863-A3F0-07FAF13EB8A5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -331,26 +327,6 @@ Global
 		{FF2BAC87-6727-4CA1-A43D-83288ADA0895}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FF2BAC87-6727-4CA1-A43D-83288ADA0895}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FF2BAC87-6727-4CA1-A43D-83288ADA0895}.Release|x86.ActiveCfg = Release|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DAFF8DC1-7D56-44FF-900F-66A5ED516820}.Release|x86.ActiveCfg = Release|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{60287479-0D78-4863-A3F0-07FAF13EB8A5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
