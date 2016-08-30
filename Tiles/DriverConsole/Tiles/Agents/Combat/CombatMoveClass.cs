@@ -12,7 +12,7 @@ namespace Tiles.Agents.Combat
         None,
         Edge,
         Blunt,
-        Point
+        Other
     }
 
     public class CombatMoveClass : ICombatMoveClass

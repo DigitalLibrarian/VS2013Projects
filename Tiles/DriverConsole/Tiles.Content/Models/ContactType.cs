@@ -11,6 +11,6 @@ namespace Tiles.Content.Models
         None,
         Edge,
         Blunt,
-        Point
+        Other
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
+using Tiles.Materials;
 
 namespace Tiles.Bodies.Health.Injuries
 {
@@ -127,6 +128,37 @@ namespace Tiles.Bodies.Health.Injuries
                     StandardInjuryClasses.MissingBodyPart,
                     BodyPart);
             }
+        }
+
+        enum CollisionResult
+        {
+            Elastic,
+            Plastic,
+            Fracture
+        }
+
+        CollisionResult CollideLayer(
+            int forcePerArea,
+            int yieldForce, int fractureForce, int strainAtYield,
+            out int deformDistance)
+        {
+            deformDistance = strainAtYield * forcePerArea;
+            var result = CollisionResult.Plastic;
+
+            if (forcePerArea > fractureForce)
+            {
+                // broken through
+                result = CollisionResult.Fracture;
+
+            } 
+            else if (forcePerArea > yieldForce)
+            {
+                // inelastic (plastic) deformation
+                result = CollisionResult.Plastic;
+
+            }
+
+            return result;
         }
     }
 }

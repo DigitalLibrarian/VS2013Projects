@@ -90,6 +90,7 @@ namespace Tiles.Content.Bridge.DfNet
                     ThirdPerson = attackTag.GetParam(0),
                     IsTransitive = false
                 },
+                ContactType = Models.ContactType.Other,
                 ContactArea = 0,
                 MaxPenetration = 0,
                 VelocityMultiplier = 0,

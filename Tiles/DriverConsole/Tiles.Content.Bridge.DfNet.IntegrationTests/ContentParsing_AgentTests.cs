@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Content.Models;
 
 namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 {
@@ -87,6 +88,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 var moves = finger.Moves;
                 Assert.IsNotNull(moves);
                 Assert.AreEqual(1, moves.Where(m => m.Name.Equals("SCRATCH")).Count());
+                var move = moves.Single(m => m.Name.Equals("SCRATCH"));
+                Assert.AreEqual(ContactType.Other, move.ContactType);
             }
             var leftWrist = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist"));
             Assert.IsNotNull(leftWrist);
