@@ -144,6 +144,7 @@
     <Compile Include="Ecs\IEntity.cs" />
     <Compile Include="Ecs\IEntityManager.cs" />
     <Compile Include="Ecs\ISystem.cs" />
+    <Compile Include="EntityComponents\AgentComponent.cs" />
     <Compile Include="EntityComponents\BodyComponent.cs" />
     <Compile Include="EntityComponents\CommandComponent.cs" />
     <Compile Include="EntityComponents\ComponentTypes.cs" />

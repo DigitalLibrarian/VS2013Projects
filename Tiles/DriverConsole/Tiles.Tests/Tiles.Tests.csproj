@@ -89,6 +89,7 @@
     <Compile Include="ConjugatedWordTests.cs" />
     <Compile Include="Ecs\EntityManagerTests.cs" />
     <Compile Include="Ecs\EntityTests.cs" />
+    <Compile Include="EntitySystems\CommandSystemTests.cs" />
     <Compile Include="Items\InventoryTests.cs" />
     <Compile Include="Items\ItemClassTests.cs" />
     <Compile Include="Items\ItemFactoryTests.cs" />

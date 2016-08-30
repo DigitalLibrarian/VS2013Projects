@@ -12,19 +12,18 @@ namespace Tiles.EntitySystems
     public class CommandSystem : BaseSystem
     {
         public CommandSystem()
-            : base(ComponentTypes.Command)
+            : base(ComponentTypes.Agent, ComponentTypes.Command)
         {
 
         }
 
         protected override void UpdateEntity(IEntity entity, IGame game)
         {
+            var agentComp = entity.GetComponent<IAgentComponent>();
             var commandComp = entity.GetComponent<ICommandComponent>();
 
-            long ticks = game.DesiredFrameLength;
-
-            // TODO - port agent command behavior here
+            var agent = agentComp.Agent;
+            commandComp.Behavior.Update(game, agent);
         }
-
     }
 }

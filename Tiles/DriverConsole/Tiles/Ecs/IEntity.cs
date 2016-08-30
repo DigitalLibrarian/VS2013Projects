@@ -13,23 +13,4 @@ namespace Tiles.Ecs
         void AddComponent(IComponent comp);
         TComponent GetComponent<TComponent>() where TComponent : class;
     }
-
-    /* Components
-     * 
-     *  Pos
-     *  Body
-     *  Inventory
-     *  Outfit
-     *  Sprite
-     *  AgentMetadata
-     *  - IsPlayer
-     *  - AgentClass
-     *  CommandQueue
-     *  CommandPlanner
-     * 
-     *  Systems
-     *  
-     *  Command
-     *      requires queue and planner components
-     * */
 }

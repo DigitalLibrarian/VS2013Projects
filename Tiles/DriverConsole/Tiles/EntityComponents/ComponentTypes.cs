@@ -20,5 +20,6 @@ namespace Tiles.EntityComponents
         public static readonly int Outfit = 4;
         public static readonly int Sprite = 5;
         public static readonly int Command = 6;
+        public static readonly int Agent = 7;
     }
 }
