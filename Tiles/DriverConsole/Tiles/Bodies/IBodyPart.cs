@@ -45,5 +45,7 @@ namespace Tiles.Bodies
         void StopGrasp(IBodyPart part);
 
         bool IsWrestling { get; }
+
+        int RelativeSize { get; }
     }
 }

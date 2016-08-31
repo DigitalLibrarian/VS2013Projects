@@ -10,6 +10,7 @@ namespace Tiles.Items
     public interface IItemClass
     {
         string Name { get; }
+        int Size { get; }
         ISprite Sprite { get; }
         IWeaponClass WeaponClass { get; }
         IArmorClass ArmorClass { get; }

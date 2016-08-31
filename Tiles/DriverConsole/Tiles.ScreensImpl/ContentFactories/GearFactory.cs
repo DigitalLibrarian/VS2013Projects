@@ -25,7 +25,8 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "plastic flyswatter", 
                 sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black), 
-               material: Plastic,
+                size: 100,
+                material: Plastic,
                 weaponClass:
                 new WeaponClass(
                    slots: new WeaponSlot[] { WeaponSlot.Main },
@@ -80,6 +81,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                name: "steel sword", 
                sprite: new Sprite(Symbol.MeleeSword, Color.White, Color.Black), 
                material: Steel,
+               size: 300,
                weaponClass: 
                 new WeaponClass(
                    slots: new WeaponSlot[] { WeaponSlot.Main },
@@ -134,7 +136,8 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "baseball bat", 
                 sprite: new Sprite(Symbol.MeleeClub, Color.White, Color.Black),
-               material: Wood,
+                size: 300,
+                material: Wood,
                 weaponClass:
                 new WeaponClass(
                     slots: new WeaponSlot[] { WeaponSlot.Main },
@@ -166,6 +169,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "cotton hat",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Cotton,
                 armorClass: new ArmorClass(
                         new DamageVector(new Dictionary<DamageType,uint>{
@@ -178,6 +182,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather arm pad (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass:
                     new ArmorClass(
@@ -191,6 +196,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather arm pad (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass:
                     new ArmorClass(
@@ -204,6 +210,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather leg pad (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass:
                     new ArmorClass(
@@ -217,6 +224,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather leg pad (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass:
                     new ArmorClass(
@@ -230,6 +238,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather vest",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass: 
                     new ArmorClass(
@@ -243,6 +252,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather cap",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass: 
                     new ArmorClass(
@@ -256,6 +266,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather shoe (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass: 
                     new ArmorClass(
@@ -269,6 +280,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather shoe (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass: 
                     new ArmorClass(
@@ -282,6 +294,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather glove (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass: 
                     new ArmorClass(
@@ -295,6 +308,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather glove (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass: 
                 new ArmorClass(    
@@ -308,6 +322,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             new ItemClass(
                 name: "leather trenchcoat",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
+                size: 10,
                 material: Leather,
                 armorClass: 
                     new ArmorClass(

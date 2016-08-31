@@ -22,8 +22,21 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IBodyFactory BodyFactory = new BodyFactory(new TissueFactory());
         static IBodyClassFactory BodyClassFactory = new BodyClassFactory();
 
-        static IItemClass ZombieClawClass = new ItemClass(name: "zombie claw", sprite: null, material: null, weaponClass: ZombieClaw.WeaponClass, armorClass: null);
-        static IItemClass ZombieTeethClass = new ItemClass(name: "zombie teeth", sprite: null, material: null, weaponClass: ZombieTeeth.WeaponClass, armorClass: null);
+        static IItemClass ZombieClawClass = new ItemClass(
+            name: "zombie claw", 
+            sprite: null, 
+            size: 100,
+            material: null, 
+            weaponClass: ZombieClaw.WeaponClass, 
+            armorClass: null);
+
+        static IItemClass ZombieTeethClass = new ItemClass(
+            name: "zombie teeth", 
+            sprite: null, 
+            size: 50,
+            material: null, 
+            weaponClass: ZombieTeeth.WeaponClass, 
+            armorClass: null);
 
         IEntityManager EntityManager { get; set; }
         public IRandom Random { get; set; }

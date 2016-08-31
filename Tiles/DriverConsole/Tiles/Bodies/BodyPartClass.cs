@@ -36,7 +36,7 @@ namespace Tiles.Bodies
 
         public bool IsStance { get; set; }
         public bool IsInternal { get; set; }
-
+        
         public BodyPartClass(
             string name, 
             ITissueClass tissueClass, 

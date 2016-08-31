@@ -52,6 +52,7 @@ namespace Tiles.Content.Map
             return new ItemClass(
                 string.Format("{0} {1}", item.Material.Adjective, item.NameSingular), 
                 Map(item.Sprite), 
+                item.Size,
                 Map(item.Material), 
                 Map(item.Weapon), 
                 Map(item.Armor));

@@ -28,8 +28,17 @@ namespace Tiles.Tests.Items
         [TestMethod]
         public void CreateShedLimb()
         {
+            var bodyMock = new Mock<IBody>();
+            int bodySize = 10;
+            bodyMock.Setup(x => x.Size)
+                .Returns(bodySize);
+
             var agentMock = new Mock<IAgent>();
+            agentMock.Setup(x => x.Body).Returns(bodyMock.Object);
             var partMock = new Mock<IBodyPart>();
+            int partSize = 11;
+            partMock.Setup(x => x.RelativeSize)
+                .Returns(partSize);
 
             var agentName = "Waldo";
             agentMock.Setup(x => x.Name).Returns(agentName);
@@ -46,6 +55,7 @@ namespace Tiles.Tests.Items
             Assert.IsNotNull(item.Class.Sprite);
             Assert.IsNotNull(item.Class.WeaponClass);
             Assert.IsTrue(item.Class.WeaponClass.AttackMoveClasses.Any());
+            Assert.AreEqual(bodySize * partSize, item.Class.Size);
         }
 
         [TestMethod]
@@ -54,6 +64,12 @@ namespace Tiles.Tests.Items
             var agentMock = new Mock<IAgent>();
             var agentName = "Waldo";
             agentMock.Setup(x => x.Name).Returns(agentName);
+            
+            var bodyMock = new Mock<IBody>();
+            int bodySize = 10;
+            bodyMock.Setup(x => x.Size)
+                .Returns(bodySize);
+            agentMock.Setup(x => x.Body).Returns(bodyMock.Object);
 
             var factory = new ItemFactory();
             var item = factory.CreateCorpse(agentMock.Object);
@@ -65,6 +81,7 @@ namespace Tiles.Tests.Items
             Assert.IsNotNull(item.Class.Sprite);
             Assert.IsNotNull(item.Class.WeaponClass);
             Assert.IsTrue(item.Class.WeaponClass.AttackMoveClasses.Any());
+            Assert.AreEqual(bodySize, item.Class.Size);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Tiles.Bodies
     {
         IBodyPartClass Parent { get; }
         string Name { get; }
+        int RelativeSize { get; }
 
         ArmorSlot ArmorSlot { get; }
         WeaponSlot WeaponSlot { get; }
@@ -32,6 +33,8 @@ namespace Tiles.Bodies
 
         bool IsStance { get; }
         bool IsInternal { get; }
+
+
 
     }
 }

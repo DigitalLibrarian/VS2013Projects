@@ -16,17 +16,19 @@ namespace Tiles.Bodies
         public IList<IBodyPart> Parts { get; private set; }
 
         public IHealthState Health { get; set; }
+        public int Size { get; set; }
 
-        public Body(IList<IBodyPart> parts)
-            : this(parts, new HealthState())
+        public Body(IList<IBodyPart> parts, int size)
+            : this(parts, size, new HealthState())
         {
 
         }
 
-        public Body(IList<IBodyPart> parts, IHealthState healthState)
+        public Body(IList<IBodyPart> parts, int size, IHealthState healthState)
         {
             Parts = parts;
             Health = healthState;
+            Size = size;
         }
 
         public void Amputate(IBodyPart part)

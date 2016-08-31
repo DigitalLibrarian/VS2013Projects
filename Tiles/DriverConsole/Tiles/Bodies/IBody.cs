@@ -13,6 +13,7 @@ namespace Tiles.Bodies
         bool IsGrasping { get; }
         bool IsBeingGrasped { get; }
         bool IsWrestling { get; }
+        int Size { get; }
         IList<IBodyPart> Parts { get; }
 
         void Amputate(IBodyPart part);

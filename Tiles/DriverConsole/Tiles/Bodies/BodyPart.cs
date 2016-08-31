@@ -15,6 +15,7 @@ namespace Tiles.Bodies
         public bool IsLifeCritical { get { return Class.IsLifeCritical; } }
         public bool CanBeAmputated { get { return Class.CanBeAmputated; } }
         public bool CanGrasp { get { return Class.CanGrasp && !IsGrasping && Weapon == null; } }
+        public int RelativeSize { get { return Class.RelativeSize; } }
 
         public bool IsNervous { get { return Class.IsNervous; } }
         public bool IsCirculatory { get { return Class.IsCirculatory; } }

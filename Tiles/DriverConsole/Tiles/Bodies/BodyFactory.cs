@@ -30,7 +30,7 @@ namespace Tiles.Bodies
                 }
                 parts.Add(partMap[bpc]);
             }
-            return new Body(parts);
+            return new Body(parts, bodyClass.Size);
         }
 
         BodyPart Convert(IBodyPartClass bpClass)
