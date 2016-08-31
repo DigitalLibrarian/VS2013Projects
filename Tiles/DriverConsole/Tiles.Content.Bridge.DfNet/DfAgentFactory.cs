@@ -184,8 +184,14 @@ namespace Tiles.Content.Bridge.DfNet
                         HandleColorTag(tag, agentContext);
                         break;
 
-                    //case DfTags.MiscTags.BP_RELSIZE:
-                    //    break;
+                    case DfTags.MiscTags.BP_RELSIZE:
+                        HandleBpRelsizeOverride(tag, agentContext);
+                        break;
+                    case DfTags.MiscTags.RELSIZE:
+                        HandleBpRelsizeOverride(tag, agentContext);
+                        break;
+
+
                     //case DfTags.MiscTags.BP_POSITION:
                     //    break;
                     //case DfTags.MiscTags.BP_RELATION:
@@ -203,6 +209,18 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleBpRelsizeOverride(DfTag tag, IDfAgentBuilder agentContext)
+        {
+            if(tag.GetParam(0).Equals(DfTags.MiscTags.BY_CATEGORY))
+            {
+                agentContext.OverrideBodyPartCategorySize(tag.GetParam(1), int.Parse(tag.GetParam(2)));
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private void HandleColorTag(DfTag tag, IDfAgentBuilder agentContext)

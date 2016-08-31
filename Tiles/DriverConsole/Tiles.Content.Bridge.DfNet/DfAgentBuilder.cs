@@ -17,6 +17,8 @@ namespace Tiles.Content.Bridge.DfNet
         Dictionary<string, List<CombatMove>> MovesByCategory { get; set; }
         Dictionary<string, List<CombatMove>> MovesByType { get; set; }
 
+        Dictionary<string, int> BpCatSizeOverrides { get; set; }
+
         string Name { get; set; }
         int Symbol { get; set; }
 
@@ -29,6 +31,7 @@ namespace Tiles.Content.Bridge.DfNet
             Materials = new Dictionary<string, Material>();
             BodyPartCategoryTissues = new Dictionary<string, List<string>>();
             BodyPartCategoryTissueThickness = new Dictionary<string, Dictionary<string, int>>();
+            BpCatSizeOverrides = new Dictionary<string, int>();
             MovesByCategory = new Dictionary<string, List<CombatMove>>();
             MovesByType = new Dictionary<string, List<CombatMove>>();
             Foreground = new Color(255, 255, 255, 255);
@@ -175,6 +178,26 @@ namespace Tiles.Content.Bridge.DfNet
             return adj;
         }
 
+        int GetDefaultRelsize(string bpName)
+        {
+            var defn = BodyPartsDefn[bpName];
+            var drTag = defn.Tags.Single(x => x.Name.Equals(DfTags.MiscTags.DEFAULT_RELSIZE));
+            return int.Parse(drTag.GetParam(0));
+        }
+
+        int GetBpSize(string bpName)
+        {
+            var defn = BodyPartsDefn[bpName];
+            foreach (var cat in GetBodyPartCategories(defn))
+            {
+                if (BpCatSizeOverrides.ContainsKey(cat))
+                {
+                    return BpCatSizeOverrides[cat];
+                }
+            }
+            return GetDefaultRelsize(bpName);
+        }
+
         Material GetTissueMaterial(string tisName)
         {
             return Materials[tisName];
@@ -246,7 +269,8 @@ namespace Tiles.Content.Bridge.DfNet
                 IsBreathe = singleWords.Contains("BREATHE"),
                 IsSight = singleWords.Contains("SIGHT"),
                 IsStance = singleWords.Contains("STANCE"),
-                IsInternal = singleWords.Contains("INTERNAL")
+                IsInternal = singleWords.Contains("INTERNAL"),
+                RelativeSize = GetBpSize(defn.Name)
             };
         }
 
@@ -368,6 +392,11 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             MovesByType[type].Add(move);
+        }
+
+        public void OverrideBodyPartCategorySize(string bpCategory, int size)
+        {
+            BpCatSizeOverrides[bpCategory] = size;
         }
     }
 }

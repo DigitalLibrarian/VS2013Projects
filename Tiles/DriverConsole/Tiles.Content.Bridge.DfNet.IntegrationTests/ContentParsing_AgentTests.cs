@@ -48,11 +48,16 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(0x0, bg.G);
             Assert.AreEqual(0xff, bg.A);
 
+            var liver = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("liver"));
+            Assert.IsNotNull(liver);
+            Assert.AreEqual(300, liver.RelativeSize);
+
             var leftHand = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("left hand"));
             Assert.IsNotNull(leftHand);
             Assert.IsNotNull(leftHand.Tissue);
             Assert.IsTrue(leftHand.CanGrasp);
             Assert.IsFalse(leftHand.CanBeAmputated);
+            Assert.AreEqual(80, leftHand.RelativeSize);
 
             Assert.IsTrue(agent.Body.Parts.Any(p => p.Moves.Any()));
             var leftHandParts = agent.Body.Parts.Where(p => p.Parent == leftHand);

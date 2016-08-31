@@ -28,5 +28,7 @@ namespace Tiles.Content.Bridge.DfNet
         void AddCombatMoveToType(CombatMove move, string type);
 
         Agent Build();
+
+        void OverrideBodyPartCategorySize(string bpCategory, int size);
     }
 }

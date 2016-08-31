@@ -33,6 +33,8 @@ namespace Tiles.Content.Models
 
         public bool IsStance { get; set; }
         public bool IsInternal { get; set; }
+
+        public int RelativeSize { get; set; }
     }
 
 }

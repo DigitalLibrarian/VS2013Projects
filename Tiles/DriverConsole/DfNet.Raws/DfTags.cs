@@ -69,6 +69,7 @@ namespace DfNet.Raws
             public const string BP = "BP";
             public const string BP_LAYERS = "BP_LAYERS";
             public const string BP_RELSIZE = "BP_RELSIZE";
+            public const string RELSIZE = "RELSIZE";
             public const string BP_RELATION = "BP_RELATION";
             public const string BP_POSITION = "BP_POSITION";
             public const string BY_CATEGORY = "BY_CATEGORY";
@@ -137,6 +138,8 @@ namespace DfNet.Raws
             public const string SHEAR_YIELD = "SHEAR_YIELD";
             public const string SHEAR_FRACTURE = "SHEAR_FRACTURE";
             public const string SHEAR_STRAIN_AT_YIELD = "SHEAR_STRAIN_AT_YIELD";
+
+            public const string DEFAULT_RELSIZE = "DEFAULT_RELSIZE";
         }
 
     }
