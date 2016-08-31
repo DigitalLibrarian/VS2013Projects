@@ -137,7 +137,7 @@ namespace Tiles.Content.Map
                 }
             }
 
-            return new EngineBodies.BodyClass(body.Parts.Select(x => partMap[x]));
+            return new EngineBodies.BodyClass(body.Parts.Select(x => partMap[x]), body.Size);
         }
 
         EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)
@@ -148,6 +148,7 @@ namespace Tiles.Content.Map
                 Map(bodyPart.ArmorSlot), 
                 Map(bodyPart.WeapnSlot), 
                 bodyPart.Moves.Select(Map), 
+                relSize: bodyPart.RelativeSize,
                 isCritical: true, 
                 canGrasp: bodyPart.CanGrasp,
                 canBeAmputated: bodyPart.CanBeAmputated,

@@ -23,6 +23,7 @@ namespace Tiles.Bodies
 
         public bool CanGrasp { get; set; }
 
+        public int RelativeSize { get; set; }
 
         public bool IsNervous { get; set; }
         public bool IsCirculatory { get; set; }
@@ -41,6 +42,7 @@ namespace Tiles.Bodies
             ITissueClass tissueClass, 
             ArmorSlot armorSlotType, WeaponSlot weaponSlotType, 
             IEnumerable<ICombatMoveClass> moves, 
+            int relSize,
             bool isCritical = false, bool canGrasp = false, bool canBeAmputated = false, 
             bool isNervous = false, bool isCirc = false, bool isSkeletal = false,
             bool isDigit = false, 
@@ -54,6 +56,7 @@ namespace Tiles.Bodies
             ArmorSlot = armorSlotType;
             WeaponSlot = weaponSlotType;
             Moves = moves;
+            RelativeSize = relSize;
             Parent = parent;
 
             Tissue = tissueClass;

@@ -24,45 +24,46 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         Dictionary<string, BodyPartClass> Human(ITissueClass tissueClass)
         {
-            var torso = new BodyPartClass("torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var torso = new BodyPartClass(
+                "torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<ICombatMoveClass>(), 1000,
                 canBeAmputated: false);
 
-            var head = new BodyPartClass("head", tissueClass, ArmorSlot.Head, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var head = new BodyPartClass("head", tissueClass, ArmorSlot.Head, WeaponSlot.None, new List<ICombatMoveClass>(), 300,
                 parent: torso,
                 canBeAmputated: true,
                 isCritical: true);
 
-            var leftArm = new BodyPartClass("left arm", tissueClass, ArmorSlot.LeftArm, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var leftArm = new BodyPartClass("left arm", tissueClass, ArmorSlot.LeftArm, WeaponSlot.None, new List<ICombatMoveClass>(), 400,
                 parent: torso,
                 canBeAmputated: true);
 
-            var leftHand = new BodyPartClass("left hand", tissueClass, ArmorSlot.LeftHand, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var leftHand = new BodyPartClass("left hand", tissueClass, ArmorSlot.LeftHand, WeaponSlot.None, new List<ICombatMoveClass>(), 80,
                 parent: leftArm,
                 canGrasp: true,
                 canBeAmputated: true);
 
-            var rightArm = new BodyPartClass("right arm", tissueClass, ArmorSlot.RightArm, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var rightArm = new BodyPartClass("right arm", tissueClass, ArmorSlot.RightArm, WeaponSlot.None, new List<ICombatMoveClass>(), 400,
                 parent: torso,
                 canBeAmputated: true);
 
-            var rightHand = new BodyPartClass("right hand", tissueClass, ArmorSlot.RightHand, WeaponSlot.Main, new List<ICombatMoveClass>(),
+            var rightHand = new BodyPartClass("right hand", tissueClass, ArmorSlot.RightHand, WeaponSlot.Main, new List<ICombatMoveClass>(), 80,
                 parent: rightArm,
                 canGrasp: true,
                 canBeAmputated: true);
 
-            var leftLeg = new BodyPartClass("left leg", tissueClass, ArmorSlot.LeftLeg, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var leftLeg = new BodyPartClass("left leg", tissueClass, ArmorSlot.LeftLeg, WeaponSlot.None, new List<ICombatMoveClass>(), 900,
                 parent: torso,
                 canBeAmputated: true);
 
-            var leftFoot = new BodyPartClass("left foot", tissueClass, ArmorSlot.LeftFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var leftFoot = new BodyPartClass("left foot", tissueClass, ArmorSlot.LeftFoot, WeaponSlot.None, new List<ICombatMoveClass>(), 120,
                 parent: leftLeg,
                 canBeAmputated: true);
 
-            var rightLeg = new BodyPartClass("right leg", tissueClass, ArmorSlot.RightLeg, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var rightLeg = new BodyPartClass("right leg", tissueClass, ArmorSlot.RightLeg, WeaponSlot.None, new List<ICombatMoveClass>(), 900,
                 parent: torso,
                 canBeAmputated: true);
 
-            var rightFoot = new BodyPartClass("right foot", tissueClass, ArmorSlot.RightFoot, WeaponSlot.None, new List<ICombatMoveClass>(),
+            var rightFoot = new BodyPartClass("right foot", tissueClass, ArmorSlot.RightFoot, WeaponSlot.None, new List<ICombatMoveClass>(), 120,
                 parent: rightLeg,
                 canBeAmputated: true);
 
@@ -90,7 +91,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             var tissueClass = CreateTissues();
             var bodyParts = Human(tissueClass).Values.ToList();
-            return new BodyClass(bodyParts);
+            return new BodyClass(bodyParts, 60000);
         }
 
         public IBodyClass CreateFeralHumanoid()
@@ -100,7 +101,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             bodyParts["head"].WeaponSlot = WeaponSlot.Teeth;
             bodyParts["left hand"].WeaponSlot = WeaponSlot.Claw;
             bodyParts["right hand"].WeaponSlot = WeaponSlot.Claw;
-            return new BodyClass(bodyParts.Values.ToList());
+            return new BodyClass(bodyParts.Values.ToList(), 60000);
         }
     }
 }

@@ -9,10 +9,12 @@ namespace Tiles.Bodies
 {
     public class BodyClass : IBodyClass
     {
-        public BodyClass(IEnumerable<IBodyPartClass> parts)
+        public BodyClass(IEnumerable<IBodyPartClass> parts, int size)
         {
             Parts = parts;
+            Size = size;
         }
         public IEnumerable<IBodyPartClass> Parts { get; set; }
+        public int Size { get; set; }
     }
 }
