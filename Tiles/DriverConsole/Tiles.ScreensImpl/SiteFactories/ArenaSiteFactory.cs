@@ -51,10 +51,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             var pos = Random.FindRandomInBox(buildingBox, test => s.GetTileAtSitePos(test).HasRoomForAgent).Value;
 
             var troll = Df.CreateCreatureAgent(atlas, "TROLL", "MALE", s.Box.Min + pos);
-            EcsBridge.Bridge(troll, EntityManager);
-
             s.GetTileAtSitePos(pos).SetAgent(troll);
-
 
             return s;
         }

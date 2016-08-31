@@ -91,12 +91,18 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(m.Name);
             Assert.IsNotNull(m.Adjective);
 
-            Assert.AreNotEqual(0, m.ImpactFracture,
-                string.Format("ImpactFracture == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
-
-            if (m.ImpactFracture == 1)
+            if(HackedMaterialNames.Contains(m.Name))
             {
-                Assert.IsTrue(HackedMaterialNames.Contains(m.Name), string.Format("Unknown material property hack for Name={0}, Adjective={1}", m.Name, m.Adjective));
+                Assert.AreEqual(1, m.ImpactFracture, string.Format("Unknown material property hack for Name={0}, Adjective={1}", m.Name, m.Adjective));
+                Assert.AreEqual(0, m.SolidDensity);
+            }
+            else
+            {
+                Assert.AreNotEqual(0, m.ImpactFracture,
+                    string.Format("ImpactFracture == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
+
+                Assert.AreNotEqual(0, m.SolidDensity,
+                    string.Format("SolidDensity == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
             }
         }
     }

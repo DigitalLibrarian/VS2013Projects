@@ -130,13 +130,6 @@ namespace Tiles.Content.Bridge.DfNet
             var adjective = GetMaterialAdj(df);
             b.SetName(name);
             b.SetAdjective(adjective);
-            
-//[IMPACT_YIELD:350000]
-//[IMPACT_FRACTURE:595000]
-//[IMPACT_STRAIN_AT_YIELD:350]
-//[SHEAR_YIELD:100000]
-//[SHEAR_FRACTURE:170000]
-//[SHEAR_STRAIN_AT_YIELD:333] 30
 
             foreach (var tag in df.Tags)
             {
@@ -159,6 +152,10 @@ namespace Tiles.Content.Bridge.DfNet
                         break;
                     case DfTags.MiscTags.SHEAR_STRAIN_AT_YIELD:
                         b.SetShearStrainAtYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.SOLID_DENSITY:
+                        b.SetSolidDensity(int.Parse(tag.GetParam(0)));
+                        break;
                         break;
 
                 }
@@ -264,6 +261,8 @@ namespace Tiles.Content.Bridge.DfNet
         void SetShearYield(int shearYield);
         void SetShearFracture(int shearFracture);
         void SetShearStrainAtYield(int shearSay);
+
+        void SetSolidDensity(int p);
     }
 
     public class DfMaterialBuilder : IDfMaterialBuilder
@@ -321,6 +320,11 @@ namespace Tiles.Content.Bridge.DfNet
         public void SetShearStrainAtYield(int shearSay)
         {
             Material.ShearStrainAtYield = shearSay;
+        }
+
+        public void SetSolidDensity(int d)
+        {
+            Material.SolidDensity = d;
         }
     }
 }

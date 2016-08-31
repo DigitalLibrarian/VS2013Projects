@@ -41,7 +41,7 @@ namespace Tiles
             var attackerName = session.Attacker.Name;
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
-            var bodyPartName = graspee.Name;
+            var bodyPartName = grasper.Name;
 
             var message = string.Format("{0} {1} the {2}'s {3}.", attackerName, verbStr, defenderName, bodyPartName);
             Log.AddLine(message);

@@ -109,6 +109,8 @@ namespace DfNet.Raws
             public const string ALL = "ALL";
             public const string SOLID = "SOLID";
 
+            public const string SOLID_DENSITY = "SOLID_DENSITY";
+
             public const string GRASP = "GRASP";
 
             public const string HEAD = "HEAD";
