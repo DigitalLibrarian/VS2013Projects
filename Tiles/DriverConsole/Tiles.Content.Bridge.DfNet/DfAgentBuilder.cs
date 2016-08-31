@@ -25,6 +25,8 @@ namespace Tiles.Content.Bridge.DfNet
         Color Foreground { get; set; }
         Color Background { get; set; }
 
+        int Size { get; set; }
+
         public DfAgentBuilder()
         {
             BodyPartsDefn = new Dictionary<string, DfObject>();
@@ -348,7 +350,8 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     Parts = parts
                 },
-                sprite);
+                sprite,
+                Size);
             return agent;
         }
 
@@ -397,6 +400,13 @@ namespace Tiles.Content.Bridge.DfNet
         public void OverrideBodyPartCategorySize(string bpCategory, int size)
         {
             BpCatSizeOverrides[bpCategory] = size;
+        }
+
+
+        public void AddLifeStageSize(int ageYear, int ageDay, int size)
+        {
+            // TODO - make this part of racial model
+            Size = size;
         }
     }
 }

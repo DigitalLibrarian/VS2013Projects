@@ -30,5 +30,7 @@ namespace Tiles.Content.Bridge.DfNet
         Agent Build();
 
         void OverrideBodyPartCategorySize(string bpCategory, int size);
+
+        void AddLifeStageSize(int ageYear, int ageDay, int size);
     }
 }

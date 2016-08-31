@@ -190,6 +190,13 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.RELSIZE:
                         HandleBpRelsizeOverride(tag, agentContext);
                         break;
+                    case DfTags.MiscTags.BODY_SIZE:
+                        agentContext.AddLifeStageSize(
+                            int.Parse(tag.GetParam(0)),
+                            int.Parse(tag.GetParam(1)),
+                            int.Parse(tag.GetParam(2))
+                            );
+                        break;
 
 
                     //case DfTags.MiscTags.BP_POSITION:
