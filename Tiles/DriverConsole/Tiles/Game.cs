@@ -45,9 +45,13 @@ namespace Tiles
             Random = random;
 
             var injuryFactory = new InjuryFactory();
+            /*
             var injuryCalc = new InjuryCalc(
                 new InjuryResultBuilderFactory(injuryFactory),
                 new DamageResistorFactory());
+             * */
+
+            var injuryCalc = new BetterInjuryCalc(injuryFactory);
             var reporter = new ActionReporter(log);
             var damageCalc = new DamageCalc();
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
@@ -69,27 +73,11 @@ namespace Tiles
 
         public void UpdateBox(Box3 box)
         {
-            var updatedAgents = new List<IAgent>();
-
-
             foreach (var system in Systems)
             {
                 system.SetBox(box);
                 system.Update(EntityManager, this);
             }
-
-            /*
-            // TODO - limit this to a "working set" of sites
-            foreach (var tile in Atlas.GetTiles(box).ToList())
-            {
-                if (tile.HasAgent && !updatedAgents.Contains(tile.Agent))
-                {
-                    var cTile = Atlas.GetTileAtPos(tile.Agent.Pos);
-                    updatedAgents.Add(tile.Agent);
-                    tile.Agent.Update(this);
-                }
-            }
-             * */
         }
     }
 }

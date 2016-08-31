@@ -113,7 +113,15 @@ namespace Tiles.Content.Bridge.DfNet
 
         public void AddMaterial(string matName, Material material)
         {
-            Materials[matName] = material;
+            if (!Materials.ContainsKey(matName))
+            {
+                Materials[matName] = material;
+            }
+            else
+            {
+                var mat = Materials[matName];
+                mat.Name = material.Name;
+            }
         }
 
         public void RemoveMaterial(string matName)

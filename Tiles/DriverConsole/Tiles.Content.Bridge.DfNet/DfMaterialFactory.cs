@@ -205,7 +205,7 @@ namespace Tiles.Content.Bridge.DfNet
             {
                 {t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
                 && t.GetParam(0).Equals(DfTags.MiscTags.ALL_SOLID), t => t.GetParam(1)},
-                {t => t.Name.Equals(DfTags.MiscTags.STATE_NAME), t => t.GetParam(1)},
+                //{t => t.Name.Equals(DfTags.MiscTags.STATE_NAME), t => t.GetParam(1)},
                 {t => t.Name.Equals(DfTags.MiscTags.IS_GEM), t => t.GetParam(0)}
             };
 
@@ -215,7 +215,11 @@ namespace Tiles.Content.Bridge.DfNet
                 var valueGetter = checks[check];
                 if (adjTag != null)
                 {
-                    return valueGetter(adjTag);
+                    var v =  valueGetter(adjTag);
+                    if (!v.Equals("n/a"))
+                    {
+                        return v;
+                    }
                 }
             }
 

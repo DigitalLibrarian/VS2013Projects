@@ -84,11 +84,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             if (isWeaponBased)
             {
-                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, dmg, targetPartWasShed);
+                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, dmg, partRemoveSuccess);
             }
             else
             {
-                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, targetPartWasShed);
+                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, partRemoveSuccess);
             }
 
             var defenderDies = defender.IsDead;

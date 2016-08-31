@@ -60,7 +60,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             //[BODY_DETAIL_PLAN:VERTEBRATE_TISSUE_LAYERS:SKIN:FAT:MUSCLE:BONE:CARTILAGE]
 	        //[BP_LAYERS:BY_CATEGORY:FINGER:ARG4:25:ARG3:25:ARG2:5:ARG1:1]
-            var expectedTissueAdj = new string[]{
+            var expectedTissueName = new string[]{
                 "bone",
                 "muscle",
                 "fat",
@@ -79,7 +79,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 var finger = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals(partName));
                 Assert.IsNotNull(finger);
                 Assert.IsNotNull(finger.Tissue);
-                Assert.IsTrue(expectedTissueAdj.SequenceEqual(finger.Tissue.Layers.Select(x => x.Material.Adjective)));
+                var layerNames = finger.Tissue.Layers.Select(x => x.Material.Name);
+                Assert.IsTrue(expectedTissueName.SequenceEqual(layerNames),
+                    string.Format("Wrong layer names {0}", string.Join(",", layerNames)));
 
                 Assert.IsFalse(finger.CanGrasp);
                 Assert.IsTrue(finger.CanBeAmputated);
@@ -100,6 +102,10 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 .SequenceEqual(
                     leftWrist.Tissue.Layers.Select(x => x.Material.Adjective))
                 );
+
+            var leftWristBoneLayer = leftWrist.Tissue.Layers.Single(x => x.Material.Name.Equals("bone"));
+            Assert.AreEqual(200000, leftWristBoneLayer.Material.ImpactYield);
+
 
             var brain = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("brain"));
             Assert.IsNotNull(brain);
@@ -147,7 +153,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             var agent = DfAgentFactory.Create("CAVE_FLOATER");
             Assert.IsNotNull(agent);
-
         }
+
     }
 }

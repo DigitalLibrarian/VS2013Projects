@@ -31,6 +31,14 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         }
 
         [TestMethod]
+        public void BoneFromMaterialTemplate()
+        {
+            var bone = DfMaterialFactory.CreateFromMaterialTemplate("BONE_TEMPLATE");
+            Assert.AreEqual(200000, bone.ImpactYield);
+        }
+
+
+        [TestMethod]
         public void Iron()
         {
             var iron = DfMaterialFactory.CreateInorganic("IRON");
@@ -54,13 +62,14 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             {
                 CheckProps(DfMaterialFactory.CreateFromMaterialTemplate(matTempName));
             }
+            
             /*
             var tissueTemplateNames = Store.Get(DfTags.TISSUE_TEMPLATE).Select(o => o.Name);
             foreach (var tisTempName in tissueTemplateNames)
             {
                 CheckProps(DfMaterialFactory.CreateTissue(tisTempName));
             }
-             * */
+            */
             
             foreach (var creatureDf in Store.Get(DfTags.CREATURE))
             {
