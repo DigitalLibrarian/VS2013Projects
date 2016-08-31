@@ -35,6 +35,7 @@ namespace Tiles.EntitySystems
 
         public override void Update(IEntityManager entityManager, IGame game)
         {
+            var updatedEntities = new List<IEntity>();
             if (Box.HasValue)
             {
                 foreach (var entity in entityManager.GetEntities(ComponentIds).ToList())
@@ -43,9 +44,10 @@ namespace Tiles.EntitySystems
                                 .AtlasPosition
                                 .Position;
 
-                    if (Box.Value.Contains(pos))
+                    if (Box.Value.Contains(pos) && !updatedEntities.Contains(entity))
                     {
                         UpdateEntity(entity, game);
+                        updatedEntities.Add(entity);
                     }
                 }
             }

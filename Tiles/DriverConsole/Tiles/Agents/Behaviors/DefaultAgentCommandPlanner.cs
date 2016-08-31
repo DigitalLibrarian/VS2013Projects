@@ -45,8 +45,9 @@ namespace Tiles.Agents.Behaviors
                 var tile = game.Atlas.GetTileAtPos(worldPos);
                 return (tile.HasAgent
                         && tile.Agent != agent
-                        && (tile.Agent.IsUndead != agent.IsUndead)
-                        && !tile.Agent.IsDead);
+                        && !tile.Agent.IsDead
+                        && ((agent.IsUndead && !tile.Agent.IsUndead) || (!agent.IsUndead))
+                        );
             }, 8);
 
             if (pos.HasValue)

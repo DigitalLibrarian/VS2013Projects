@@ -295,7 +295,7 @@ namespace Tiles.Bodies.Health.Injuries
 
         public IEnumerable<IInjury> MeleeWeaponStrike(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart targetPart, IItem weapon)
         {
-            int force = 1250 * 6;
+            int force = 1000;
             return Find(
                 moveClass.ContactType, moveClass.ContactArea * force, moveClass.ContactArea,
                 defender, targetPart);
@@ -303,7 +303,7 @@ namespace Tiles.Bodies.Health.Injuries
 
         public IEnumerable<IInjury> UnarmedStrike(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart targetPart)
         {
-            int force = 1250 * 6;
+            int force = 1000;
             return Find(
                 moveClass.ContactType, moveClass.ContactArea * force, moveClass.ContactArea,
                 defender, targetPart);

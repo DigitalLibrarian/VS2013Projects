@@ -87,7 +87,6 @@ namespace Tiles.ScreensImpl.SiteFactories
 
                     var agent = Df.CreateCreatureAgent(atlas, creatureName, caste, worldPos);
                     tile.SetAgent(agent);
-                    EcsBridge.Bridge(agent, EntityManager);
                 }
 
             }
