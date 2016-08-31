@@ -18,5 +18,7 @@ namespace Tiles.Materials
         int ShearYield { get; }
         int ShearFracture { get; }
         int ShearStrainAtYield { get; }
+
+        int SolidDensity { get; }
     }
 }

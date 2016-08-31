@@ -27,7 +27,8 @@ namespace Tiles.Content.Map
 
                 ShearFracture = m.ShearFracture,
                 ShearYield = m.ShearYield,
-                ShearStrainAtYield = m.ShearStrainAtYield
+                ShearStrainAtYield = m.ShearStrainAtYield,
+                SolidDensity = m.SolidDensity
             };
         }
 

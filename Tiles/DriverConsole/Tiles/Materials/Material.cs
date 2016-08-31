@@ -24,5 +24,7 @@ namespace Tiles.Materials
         public int ShearYield { get; set; }
         public int ShearFracture { get; set; }
         public int ShearStrainAtYield { get; set; }
+
+        public int SolidDensity { get; set; }
     }
 }
