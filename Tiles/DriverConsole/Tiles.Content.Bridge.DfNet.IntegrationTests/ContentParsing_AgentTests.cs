@@ -34,7 +34,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(agent);
             Assert.IsNotNull(agent.Body);
             Assert.AreNotSame("dwarf", agent.Name);
-            Assert.AreEqual(60000, agent.Size);
+            Assert.AreEqual(60000, agent.Body.Size);
             Assert.AreEqual(89, agent.Body.Parts.Count());
 
             Assert.AreEqual(1, agent.Sprite.Symbol);

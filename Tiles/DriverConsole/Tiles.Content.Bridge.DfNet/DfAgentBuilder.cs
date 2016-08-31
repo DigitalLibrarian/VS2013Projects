@@ -348,10 +348,10 @@ namespace Tiles.Content.Bridge.DfNet
                 Name, 
                 new Body
                 {
-                    Parts = parts
+                    Parts = parts,
+                    Size = Size
                 },
-                sprite,
-                Size);
+                sprite);
             return agent;
         }
 

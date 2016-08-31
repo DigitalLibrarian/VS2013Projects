@@ -13,5 +13,7 @@ namespace Tiles.Content.Models
             Parts = new List<BodyPart>();
         }
         public List<BodyPart> Parts { get; set; }
+
+        public int Size { get; set; }
     }
 }
