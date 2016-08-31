@@ -21,6 +21,8 @@ namespace Tiles.Content.Bridge.DfNet
         void SetForegroundColor(Color color);
         void SetBackgroundColor(Color color);
 
+        void SetSize(int size);
+
         Item Build();
     }
 }

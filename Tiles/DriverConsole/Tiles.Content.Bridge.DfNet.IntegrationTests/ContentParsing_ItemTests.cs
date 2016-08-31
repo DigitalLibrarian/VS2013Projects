@@ -36,6 +36,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(swordItem);
             Assert.IsNotNull(swordItem.Weapon);
             Assert.IsNull(swordItem.Armor);
+            Assert.AreEqual(300, swordItem.Size);
             Assert.AreSame(adamantine, swordItem.Material);
 
             Assert.AreNotEqual(0, swordItem.Sprite.Symbol);
@@ -109,6 +110,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(item);
 
             Assert.AreNotEqual(0, item.Sprite.Symbol);
+            Assert.AreEqual(25, item.Size);
 
             Assert.AreEqual("sandal", item.NameSingular);
             Assert.AreEqual("sandals", item.NamePlural);
@@ -133,6 +135,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(item);
 
             Assert.AreNotEqual(0, item.Sprite.Symbol);
+            Assert.AreEqual(10, item.Size);
 
             Assert.AreEqual("loincloth", item.NameSingular);
             Assert.AreEqual("loincloths", item.NamePlural);
@@ -156,6 +159,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var item = ItemFactory.Create(DfTags.ITEM_TOOL, "ITEM_TOOL_LADLE", iron);
 
             Assert.AreEqual((int)'/', item.Sprite.Symbol);
+            Assert.AreEqual(100, item.Size);
+            Assert.AreEqual(7850, item.Material.SolidDensity);
         }
     }
 }

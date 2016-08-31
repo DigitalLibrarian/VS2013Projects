@@ -74,6 +74,12 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.TILE:
                         HandleTileTag(tag, b);
                         break;
+                    case DfTags.MiscTags.SIZE:
+                        b.SetSize(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.LAYER_SIZE:
+                        b.SetSize(int.Parse(tag.GetParam(0)));
+                        break;
                 }
             }
 

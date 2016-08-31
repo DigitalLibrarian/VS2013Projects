@@ -96,5 +96,10 @@ namespace Tiles.Content.Bridge.DfNet
         {
             Symbol = symbol;
         }
+
+        public void SetSize(int size)
+        {
+            Item.Size = size;
+        }
     }
 }

@@ -126,6 +126,8 @@ namespace DfNet.Raws
             public const string NONE = "NONE";
 
             public const string TILE = "TILE";
+            public const string SIZE = "SIZE";
+            public const string LAYER_SIZE = "LAYER_SIZE";
             public const string CREATURE_TILE = "CREATURE_TILE";
 
             public const string COLOR = "COLOR";
