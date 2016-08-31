@@ -126,11 +126,15 @@
     <Compile Include="Bodies\IBodyPartClass.cs" />
     <Compile Include="Bodies\Health\IHealthState.cs" />
     <Compile Include="Bodies\ITissue.cs" />
+    <Compile Include="Bodies\ITissueClass.cs" />
     <Compile Include="Bodies\ITissueFactory.cs" />
     <Compile Include="Bodies\ITissueLayer.cs" />
+    <Compile Include="Bodies\ITissueLayerClass.cs" />
     <Compile Include="Bodies\Tissue.cs" />
+    <Compile Include="Bodies\TissueClass.cs" />
     <Compile Include="Bodies\TissueFactory.cs" />
     <Compile Include="Bodies\TissueLayer.cs" />
+    <Compile Include="Bodies\TissueLayerClass.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IPlayer.cs" />
