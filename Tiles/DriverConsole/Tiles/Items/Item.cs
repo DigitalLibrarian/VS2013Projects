@@ -17,5 +17,12 @@ namespace Tiles.Items
 
         public bool IsWeapon { get { return Class.WeaponClass != null; } }
         public bool IsArmor { get { return Class.ArmorClass != null; } }
+
+
+        public double GetMass()
+        {
+            int sizeCm3 = Class.Size;
+            return Class.Material.GetMassForUniformVolume(sizeCm3);
+        }
     }
 }

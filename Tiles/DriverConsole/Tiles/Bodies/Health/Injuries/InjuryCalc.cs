@@ -23,7 +23,7 @@ namespace Tiles.Bodies.Health.Injuries
         }
 
         public IEnumerable<IInjury> MaterialStrike(
-            ContactType attackType, int forcePerArea, int contactArea,
+            ContactType attackType, double forcePerArea, int contactArea,
             IAgent defender, IBodyPart part)
         {
             var armorItems = defender.Outfit.GetItems(part).Where(x => x.IsArmor);
@@ -31,13 +31,13 @@ namespace Tiles.Bodies.Health.Injuries
             var totalTissueThick = part.Tissue.TotalThickness;
 
             var injuries = new List<IInjury>();
-            int force = forcePerArea;
+            double force = forcePerArea;
             foreach (var armor in armorItems)
             {
                 if (force > 0)
                 {
                     int armorThickness = part.Size; // TODO - times coverage ratio
-                    int momentum;
+                    double momentum;
                     ContactType contactType;
                     injuries.AddRange(
                         PerformMaterialLayer(
@@ -57,7 +57,7 @@ namespace Tiles.Bodies.Health.Injuries
             {
                 if (force > 0)
                 {
-                    int momentum;
+                    double momentum;
                     ContactType contactType;
                     injuries.AddRange(
                         PerformMaterialLayer(
@@ -76,14 +76,14 @@ namespace Tiles.Bodies.Health.Injuries
             // TODO - check for conditional injuries on entire body part
             // * pulping
             // * instant death organs
-
+            /*
             if (force > 0)
             {
                 injuries.Add(InjuryFactory.Create(
                     StandardInjuryClasses.MissingBodyPart,
                     part));
             }
-
+            */
 
             return injuries;
         }
@@ -103,6 +103,11 @@ namespace Tiles.Bodies.Health.Injuries
                     fractureForce = material.ShearFracture;
                     strainAtYield = material.ShearStrainAtYield;
                     break;
+                case ContactType.Other:
+                    yield = material.ImpactYield;
+                    fractureForce = material.ImpactFracture;
+                    strainAtYield = material.ImpactStrainAtYield;
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -110,29 +115,34 @@ namespace Tiles.Bodies.Health.Injuries
 
         IEnumerable<IInjury> PerformMaterialLayer(
             IBodyPart part, ITissueLayer layer,
-            IMaterial material, int thickness, 
-            ContactType contactTypeStart, int force, int contactArea,
-            out int momentum, out ContactType contactType)
+            IMaterial material, int thicknessMm, 
+            ContactType contactTypeStart, double force, int contactArea,
+            out double momentum, out ContactType contactType)
         {
             int yield = 0;
             int fractureForce = 0;
             int strainAtYield = 0;
 
             GetModeProperties(contactTypeStart, material, out yield, out fractureForce, out strainAtYield);
+            /*
+            double forceD = (double)force;
+            double contactAreaD = (double)contactArea/ 10000d;
+            double thickD = (double)thicknessMm / 1000d;
 
-            // TODO - make contact area affect unit force
-            int momPerVol = (force * contactArea) /  thickness;
-
-            int deformDist;
+            // contact area in mm3
+            double momD = (forceD / contactAreaD) / thickD;
+            int momPerVol = (int)momD;
+            */
+            double deformDist;
             var collideResult = MaterialStressCalc.StressLayer(
-                momPerVol, 
+                force,  contactArea, thicknessMm,
                 yield, fractureForce, strainAtYield, 
                 out deformDist);
 
             // did not break surface
             if (collideResult == StressResult.Elastic)
             {
-                contactTypeStart = ContactType.Blunt;
+                //contactTypeStart = ContactType.Blunt;
                 force = 0;
 
                 // all elastic collides stop weapon momentum
@@ -155,8 +165,8 @@ namespace Tiles.Bodies.Health.Injuries
 
         IEnumerable<IInjury> DetermineTissueInjury(
             int contactArea, 
-            IBodyPart part, ITissueLayer layer, 
-            ContactType contactType, StressResult collisionResult, int deform)
+            IBodyPart part, ITissueLayer layer,
+            ContactType contactType, StressResult collisionResult, double deform)
         {
             if (layer != null)
             {
@@ -175,31 +185,32 @@ namespace Tiles.Bodies.Health.Injuries
 
         IEnumerable<IInjury> DetermineEdgedInjury(
             int contactArea,
-            IBodyPart part, StressResult collisionResult, int deform)
+            IBodyPart part, StressResult collisionResult, double deform)
         {
             // need to classify as piercing or slash, based on move data
-            bool stab = contactArea <= 50; // magic from wiki
 
-            if (collisionResult != StressResult.Elastic)
+            IInjuryClass injuryClass;
+            switch (collisionResult)
             {
-                // light injury
-                var injuryClass = stab
-                    ? StandardInjuryClasses.CutBodyPart
-                    : StandardInjuryClasses.BadlyGashedBodyPart;
-
-                yield return InjuryFactory.Create(injuryClass, part);
+                case StressResult.Elastic:
+                    injuryClass = StandardInjuryClasses.CutBodyPart;
+                    break;
+                case StressResult.Plastic:
+                    injuryClass = StandardInjuryClasses.BadlyGashedBodyPart;
+                    break;
+                case StressResult.Fracture:
+                    injuryClass = StandardInjuryClasses.MangledBodyPart;
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
-            else
-            {
-                var injuryClass = StandardInjuryClasses.BruisedBodyPart;
 
-                yield return InjuryFactory.Create(injuryClass, part);
-            }
+            yield return InjuryFactory.Create(injuryClass, part);
         }
 
         IEnumerable<IInjury> DetermineBluntInjury(
             int contactArea,
-            IBodyPart part, StressResult collisionResult, int deform)
+            IBodyPart part, StressResult collisionResult, double deform)
         {
             var injuryClass = StandardInjuryClasses.BruisedBodyPart;
 
@@ -207,27 +218,26 @@ namespace Tiles.Bodies.Health.Injuries
         }
 
         public IEnumerable<IInjury> MeleeWeaponStrike(
-            ICombatMoveClass moveClass, int force, 
+            ICombatMoveClass moveClass, double weaponVelo, 
             IAgent attacker, IAgent defender, IBodyPart targetPart, IItem weapon)
         {
             // TODO - this does not take into account attacker stats
-            int weaponMomentum = weapon.Class.Size * weapon.Class.Material.SolidDensity;
 
-            int forcePerArea = weaponMomentum / moveClass.ContactArea;
+            var weaponMass = weapon.GetMass();
+            double force = ((double)weaponVelo * ((double)weaponMass));
 
             return MaterialStrike(
                 moveClass.ContactType, 
-                forcePerArea, 
+                force, 
                 moveClass.ContactArea,
                 defender, targetPart);
         }
 
         public IEnumerable<IInjury> UnarmedStrike(
-            ICombatMoveClass moveClass, int force, 
+            ICombatMoveClass moveClass, double force, 
             IAgent attacker, IAgent defender, IBodyPart targetPart)
         {
-
-            int forcePerArea = force / moveClass.ContactArea;
+            int forcePerArea = 1250;
 
             return MaterialStrike(
                 moveClass.ContactType, 
@@ -237,3 +247,4 @@ namespace Tiles.Bodies.Health.Injuries
         }
     }
 }
+  

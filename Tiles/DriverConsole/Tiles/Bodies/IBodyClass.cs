@@ -9,6 +9,9 @@ namespace Tiles.Bodies
     public interface IBodyClass
     {
         IEnumerable<IBodyPartClass> Parts { get; set; }
+        /// <summary>
+        /// Volume in cm3
+        /// </summary>
         int Size { get; set; }
     }
 }

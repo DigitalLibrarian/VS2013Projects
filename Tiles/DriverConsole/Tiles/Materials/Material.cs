@@ -26,5 +26,13 @@ namespace Tiles.Materials
         public int ShearStrainAtYield { get; set; }
 
         public int SolidDensity { get; set; }
+
+        public double GetMassForUniformVolume(int volumeCubicCm)
+        {
+            //Weight (in Γ) = Density (in kg/m3) * Volume*10 (in cm3) / 1,000,000 (cm3/m3)
+            var density = (double)SolidDensity;
+            double volumeCubicM = ((double)volumeCubicCm / 10000d);
+            return  (volumeCubicM * density);
+        }
     }
 }

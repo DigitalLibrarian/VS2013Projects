@@ -13,5 +13,12 @@ namespace Tiles.Items
         IItemClass Class { get; }
         bool IsWeapon { get; }
         bool IsArmor { get; }
+
+
+        /// <summary>
+        /// Mass in g
+        /// </summary>
+        /// <returns>mass in grams</returns>
+        double GetMass();
     }
 }

@@ -19,6 +19,16 @@ namespace Tiles.Materials
         int ShearFracture { get; }
         int ShearStrainAtYield { get; }
 
+        /// <summary>
+        /// Density of material, in solid state, measured in kg/m^3
+        /// </summary>
         int SolidDensity { get; }
+
+        /// <summary>
+        /// Get mass of a solid uniform density volume
+        /// </summary>
+        /// <param name="volumeCubicCm"></param>
+        /// <returns>mass in kg</returns>
+        double GetMassForUniformVolume(int volumeCubicCm);
     }
 }

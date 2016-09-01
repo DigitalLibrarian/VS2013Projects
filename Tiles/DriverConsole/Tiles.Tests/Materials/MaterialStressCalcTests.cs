@@ -18,12 +18,13 @@ namespace Tiles.Tests.Materials
             int fracture = 20;
             int strainAtYield = 30;
 
-            int momentum = 0;
+            double momentum = 0;
 
-            int deform;
+            double deform;
 
             var result = MaterialStressCalc.StressLayer(
-                momentum, yield, fracture, strainAtYield,
+                momentum, 1, 1,
+                yield, fracture, strainAtYield,
                 out deform);
 
             Assert.AreEqual(StressResult.Elastic, result);
@@ -31,59 +32,25 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void StressLayer_Elastic()
+        public void StressLayer_AdamantineShortSwordonSkin()
         {
-            int thickness = 10;
+            int yield = 20000;
+            int fracture = 20000;
+            int strainAtYield = 50000;
+            int thickness = 1071;
+            int contactArea = 20000;
 
-            int yield = 10;
-            int fracture = 20;
-            int strainAtYield = 30;
+            double momentum = 2820;
 
-            int momentum = yield-1;
-
-            int deform;
+            double deform;
 
             var result = MaterialStressCalc.StressLayer(
-                momentum, yield, fracture, strainAtYield,
-                out deform);
-
-            Assert.AreEqual(StressResult.Elastic, result);
-            Assert.AreEqual(270, deform);
-
-            momentum = yield;
-            result = MaterialStressCalc.StressLayer(
-                momentum, yield, fracture, strainAtYield,
-                out deform);
-
-            Assert.AreEqual(StressResult.Plastic, result);
-            Assert.AreEqual(300, deform);
-        }
-
-        [TestMethod]
-        public void StressLayer_Plastic()
-        {
-            int yield = 10;
-            int fracture = 20;
-            int strainAtYield = 30;
-
-            int momentum = fracture - 1;
-
-            int deform;
-
-            var result = MaterialStressCalc.StressLayer(
-                momentum, yield, fracture, strainAtYield,
-                out deform);
-
-            Assert.AreEqual(StressResult.Plastic, result);
-            Assert.AreEqual(570, deform);
-
-            momentum = fracture;
-            result = MaterialStressCalc.StressLayer(
-                momentum, yield, fracture, strainAtYield,
+                momentum, thickness, contactArea,
+                yield, fracture, strainAtYield,
                 out deform);
 
             Assert.AreEqual(StressResult.Fracture, result);
-            Assert.AreEqual(600, deform);
+            Assert.AreEqual(13165, (int)(deform*100));
         }
     }
 }

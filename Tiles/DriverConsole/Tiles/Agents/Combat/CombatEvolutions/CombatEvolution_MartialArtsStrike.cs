@@ -43,7 +43,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             bool isWeaponBased = move.Class.IsItem;
 
-            int strikeForce = move.Class.ContactArea; // TODO - get agent to produce
+            int weaponVelo = 47;  // TODO - get agent to produce
 
             bool targetPartWasShed = false;
             IEnumerable<IInjury> injuries = Enumerable.Empty<IInjury>();
@@ -51,7 +51,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             {
                 injuries = InjuryCalc.MeleeWeaponStrike(
                     move.Class,
-                    strikeForce,
+                    weaponVelo,
                     attacker,
                     defender,
                     move.DefenderBodyPart,
@@ -61,7 +61,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             {
                 injuries = InjuryCalc.UnarmedStrike(
                     move.Class,
-                    strikeForce,
+                    weaponVelo,
                     attacker,
                     defender,
                     move.DefenderBodyPart);
@@ -91,11 +91,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             if (isWeaponBased)
             {
-                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, dmg, partRemoveSuccess);
+                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, 0, partRemoveSuccess);
             }
             else
             {
-                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, partRemoveSuccess);
+                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, 0, partRemoveSuccess);
             }
 
             var defenderDies = defender.IsDead;
