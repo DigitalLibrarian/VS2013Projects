@@ -28,16 +28,10 @@ namespace Tiles.Tests.Items
         [TestMethod]
         public void CreateShedLimb()
         {
-            var bodyMock = new Mock<IBody>();
-            int bodySize = 10;
-            bodyMock.Setup(x => x.Size)
-                .Returns(bodySize);
-
             var agentMock = new Mock<IAgent>();
-            agentMock.Setup(x => x.Body).Returns(bodyMock.Object);
             var partMock = new Mock<IBodyPart>();
             int partSize = 11;
-            partMock.Setup(x => x.RelativeSize)
+            partMock.Setup(x => x.Size)
                 .Returns(partSize);
 
             var agentName = "Waldo";
@@ -55,7 +49,7 @@ namespace Tiles.Tests.Items
             Assert.IsNotNull(item.Class.Sprite);
             Assert.IsNotNull(item.Class.WeaponClass);
             Assert.IsTrue(item.Class.WeaponClass.AttackMoveClasses.Any());
-            Assert.AreEqual(bodySize * partSize, item.Class.Size);
+            Assert.AreEqual(partSize, item.Class.Size);
         }
 
         [TestMethod]

@@ -10,7 +10,7 @@ namespace Tiles.Bodies
     public interface ITissueLayer
     {
         IMaterial Material { get; }
-        int RelativeThickness { get; }
+        int Thickness { get; }
 
         bool CanBeBruised { get; }
         bool CanBeTorn { get; }

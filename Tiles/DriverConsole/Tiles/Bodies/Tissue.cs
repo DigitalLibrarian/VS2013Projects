@@ -16,7 +16,7 @@ namespace Tiles.Bodies
 
         public int TotalThickness
         {
-            get { return TissueLayers.Select(tl => tl.RelativeThickness).Sum(); }
+            get { return TissueLayers.Select(tl => tl.Thickness).Sum(); }
         }
     }
 }

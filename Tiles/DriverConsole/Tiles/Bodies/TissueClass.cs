@@ -13,5 +13,11 @@ namespace Tiles.Bodies
             TissueLayers = tLClasses;
         }
         public IEnumerable<ITissueLayerClass> TissueLayers { get; set; }
+
+
+        public int TotalRelativeThickness
+        {
+            get { return TissueLayers.Select(x => x.RelativeThickness).Sum(); }
+        }
     }
 }

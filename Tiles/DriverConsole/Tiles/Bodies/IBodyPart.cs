@@ -46,6 +46,6 @@ namespace Tiles.Bodies
 
         bool IsWrestling { get; }
 
-        int RelativeSize { get; }
+        int Size { get; }
     }
 }

@@ -18,7 +18,7 @@ namespace Tiles.Items
             return Create(new ItemClass(
                 name: string.Format("{0}'s {1}", agent.Name, part.Name), 
                 sprite: new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black), 
-                size: part.RelativeSize * agent.Body.Size,
+                size: part.Size,
                 material: null, weaponClass: DefaultWeaponClass, 
                 armorClass: null));
         }

@@ -66,6 +66,8 @@
     <Compile Include="Agents\Combat\ICombatEvolution.cs" />
     <Compile Include="Agents\Combat\ICombatMoveContext.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
+    <Compile Include="Materials\ContactType.cs" />
+    <Compile Include="Bodies\Health\DamageType.cs" />
     <Compile Include="Bodies\Health\Injuries\DamageResistor.cs" />
     <Compile Include="Bodies\Health\Injuries\DamageResistorFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\IDamageResistor.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Bodies\Health\Injuries\InjuryFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryResultBuilder.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryResultBuilderFactory.cs" />
+    <Compile Include="Bodies\Health\Injuries\InjurySeverity.cs" />
     <Compile Include="Bodies\Health\Injuries\StandardInjuryClasses.cs" />
     <Compile Include="Bodies\IBody.cs" />
     <Compile Include="Bodies\IBodyClass.cs" />
@@ -197,6 +200,8 @@
     <Compile Include="IVerb.cs" />
     <Compile Include="Materials\IMaterial.cs" />
     <Compile Include="Materials\Material.cs" />
+    <Compile Include="Materials\MaterialStressCalc.cs" />
+    <Compile Include="Materials\StressResult.cs" />
     <Compile Include="MissingVerbConjugationException.cs" />
     <Compile Include="PositionFinder.cs" />
     <Compile Include="Render\ICanvas.cs" />

@@ -19,22 +19,25 @@ namespace Tiles.Tests.Bodies
 
         BodyPart Part { get; set; }
 
+        int Size = 9;
+
         [TestInitialize]
         public void Initialize()
         {
             ClassMock = new Mock<IBodyPartClass>();
             TissueMock = new Mock<ITissue>();
             ParentMock = new Mock<IBodyPart>();
-            Part = new BodyPart(ClassMock.Object, TissueMock.Object, ParentMock.Object);
+            Part = new BodyPart(ClassMock.Object, TissueMock.Object, Size, ParentMock.Object);
         }
 
         [TestMethod]
         public void RootPartConstructor()
         {
-            var part = new BodyPart(ClassMock.Object, TissueMock.Object);
+            var part = new BodyPart(ClassMock.Object, TissueMock.Object, Size);
 
             Assert.AreSame(ClassMock.Object, part.Class);
             Assert.AreSame(TissueMock.Object, part.Tissue);
+            Assert.AreEqual(Size, part.Size);
             Assert.IsNull(part.Parent);
         }
 

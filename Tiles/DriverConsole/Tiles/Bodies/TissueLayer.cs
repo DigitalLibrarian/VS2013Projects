@@ -10,12 +10,12 @@ namespace Tiles.Bodies
     public class TissueLayer : ITissueLayer
     {
         public IMaterial Material { get; private set; }
-        public int RelativeThickness { get; private set; }
+        public int Thickness { get; private set; }
 
-        public TissueLayer(IMaterial material, int relativeThickness)
+        public TissueLayer(IMaterial material, int thickness)
         {
             Material = material;
-            RelativeThickness = relativeThickness;
+            Thickness = thickness;
         }
         
         public bool CanBeBruised { get; set; }

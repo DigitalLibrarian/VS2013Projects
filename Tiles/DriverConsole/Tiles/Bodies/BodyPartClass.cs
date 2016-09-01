@@ -73,5 +73,7 @@ namespace Tiles.Bodies
             IsStance = isStance;
             IsInternal = isInternal;
         }
+
+
     }
 }

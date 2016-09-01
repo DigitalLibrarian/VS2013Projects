@@ -97,6 +97,7 @@
     <Compile Include="Items\Outfits\OutfitLayerFactoryTests.cs" />
     <Compile Include="Items\Outfits\OutfitLayerTests.cs" />
     <Compile Include="Items\Outfits\OutfitTests.cs" />
+    <Compile Include="Materials\MaterialStressCalcTests.cs" />
     <Compile Include="PositionFinderTests.cs" />
     <Compile Include="SiteTests.cs" />
     <Compile Include="Structures\StructureCellTests.cs" />

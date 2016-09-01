@@ -19,8 +19,13 @@ namespace Tiles.Bodies
 
         public IBody Create(IBodyClass bodyClass)
         {
+            int totalBpRelSize = bodyClass.Parts
+                .Select(x => x.RelativeSize)
+                .Sum();
+
             var partMap = bodyClass.Parts
-                .ToDictionary(x => x, x => Convert(x));
+                .ToDictionary(x => x, x => Convert(x, bodyClass.Size, totalBpRelSize));
+
             var parts = new List<IBodyPart>();
             foreach (var bpc in bodyClass.Parts)
             {
@@ -33,10 +38,11 @@ namespace Tiles.Bodies
             return new Body(parts, bodyClass.Size);
         }
 
-        BodyPart Convert(IBodyPartClass bpClass)
+        BodyPart Convert(IBodyPartClass bpClass, int bodySize, int totalBodyPartRelSize)
         {
-            var tissue = TissueFactory.Create(bpClass.Tissue);
-            return new BodyPart(bpClass, tissue);
+            var tissue = TissueFactory.Create(bpClass.Tissue, bodySize);
+            int partSize = (int) ((double)bodySize * ((double)bpClass.RelativeSize / (double)totalBodyPartRelSize));
+            return new BodyPart(bpClass, tissue, partSize);
         }
     }
 }

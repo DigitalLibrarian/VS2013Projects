@@ -180,9 +180,9 @@ namespace Tiles.Content.Map
         }
 
 
-        public EngineCombat.ContactType Map(ContentModel.ContactType ct)
+        public EngineMaterials.ContactType Map(ContentModel.ContactType ct)
         {
-            return (EngineCombat.ContactType)(int)ct;
+            return (EngineMaterials.ContactType)(int)ct;
         }
     }
 

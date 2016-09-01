@@ -51,7 +51,7 @@ namespace Tiles
                 new DamageResistorFactory());
              * */
 
-            var injuryCalc = new BetterInjuryCalc(injuryFactory);
+            var injuryCalc = new InjuryCalc(injuryFactory);
             var reporter = new ActionReporter(log);
             var damageCalc = new DamageCalc();
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());

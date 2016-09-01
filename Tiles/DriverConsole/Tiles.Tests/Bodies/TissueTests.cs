@@ -16,11 +16,11 @@ namespace Tiles.Tests.Bodies
         public void TotalThickness_HasLayers()
         {
             var layerMock1 = new Mock<ITissueLayer>();
-            layerMock1.Setup(x => x.RelativeThickness).Returns(1);
+            layerMock1.Setup(x => x.Thickness).Returns(1);
             var layerMock2 = new Mock<ITissueLayer>();
-            layerMock2.Setup(x => x.RelativeThickness).Returns(2);
+            layerMock2.Setup(x => x.Thickness).Returns(2);
             var layerMock3 = new Mock<ITissueLayer>();
-            layerMock3.Setup(x => x.RelativeThickness).Returns(3);
+            layerMock3.Setup(x => x.Thickness).Returns(3);
 
             var tissue = new Tissue(new List<ITissueLayer> { layerMock1.Object, layerMock2.Object, layerMock3.Object });
 

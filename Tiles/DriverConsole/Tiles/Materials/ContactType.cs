@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Bodies
+namespace Tiles.Materials
 {
-    public interface ITissueFactory
+    public enum ContactType
     {
-        ITissue Create(ITissueClass tissueClass, int bodySize);
+        None,
+        Edge,
+        Blunt,
+        Other
     }
 }

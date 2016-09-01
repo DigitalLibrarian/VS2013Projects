@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Bodies
+namespace Tiles.Materials
 {
-    public interface ITissueFactory
+    public enum StressResult
     {
-        ITissue Create(ITissueClass tissueClass, int bodySize);
+        Elastic,
+        Plastic,
+        Fracture
     }
 }

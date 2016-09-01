@@ -16,12 +16,14 @@ namespace Tiles.Tests.Bodies
         [TestMethod]
         public void Create()
         {
+            int totalRelThick = 10;
             var tissueClassMock = new Mock<ITissueClass>();
+            tissueClassMock.Setup(x => x.TotalRelativeThickness)
+                .Returns(totalRelThick);
 
             var materialMock1 = new Mock<IMaterial>();
             var materialMock2 = new Mock<IMaterial>();
-
-
+            
             var layerClassMock1 = new Mock<ITissueLayerClass>();
             layerClassMock1.Setup(x => x.Material).Returns(materialMock1.Object);
             layerClassMock1.Setup(x => x.RelativeThickness).Returns(1);
@@ -38,24 +40,24 @@ namespace Tiles.Tests.Bodies
                 layerClassMock1.Object, layerClassMock2.Object, layerClassMock3.Object
             });
 
-
+            int bodySize = 200;
             var factory = new TissueFactory();
-            var result = factory.Create(tissueClassMock.Object);
+            var result = factory.Create(tissueClassMock.Object, bodySize);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result.TissueLayers.Count());
 
             var layer1 = result.TissueLayers.ElementAt(0);
             Assert.AreSame(materialMock1.Object, layer1.Material);
-            Assert.AreEqual(1, layer1.RelativeThickness);
+            Assert.AreEqual(20, layer1.Thickness);
 
             var layer2 = result.TissueLayers.ElementAt(1);
             Assert.AreSame(materialMock1.Object, layer2.Material);
-            Assert.AreEqual(2, layer2.RelativeThickness);
+            Assert.AreEqual(40, layer2.Thickness);
 
             var layer3 = result.TissueLayers.ElementAt(2);
             Assert.AreSame(materialMock1.Object, layer2.Material);
-            Assert.AreEqual(3, layer3.RelativeThickness);
+            Assert.AreEqual(60, layer3.Thickness);
         }
     }
 }

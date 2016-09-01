@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
+using Tiles.Bodies.Health;
+using Tiles.Materials;
 
 namespace Tiles.Agents.Combat
 {
@@ -26,8 +28,6 @@ namespace Tiles.Agents.Combat
         int PrepTime { get; }
         int RecoveryTime { get; }
 
-
-        // I dont' think I need contact type
         ContactType ContactType { get; }
 
         int ContactArea { get; }

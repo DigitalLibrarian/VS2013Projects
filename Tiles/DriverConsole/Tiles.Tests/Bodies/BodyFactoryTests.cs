@@ -26,32 +26,38 @@ namespace Tiles.Tests.Bodies
         [TestMethod]
         public void Create()
         {
+
+            int bodySize = 60;
+            var bodyClassMock = new Mock<IBodyClass>();
+            bodyClassMock.Setup(x => x.Size).Returns(bodySize);
+
             var tissueClassMock1 = new Mock<ITissueClass>();
             var tissueMock1 = new Mock<ITissue>();
-            TissueFactoryMock.Setup(x => x.Create(tissueClassMock1.Object)).Returns(tissueMock1.Object);
 
             var partClassMock1 = new Mock<IBodyPartClass>();
             partClassMock1.Setup(x => x.Tissue).Returns(tissueClassMock1.Object);
+            partClassMock1.Setup(x => x.RelativeSize).Returns(1);
 
             var tissueClassMock2 = new Mock<ITissueClass>();
             var tissueMock2 = new Mock<ITissue>();
-            TissueFactoryMock.Setup(x => x.Create(tissueClassMock2.Object)).Returns(tissueMock2.Object);
 
             var partClassMock2 = new Mock<IBodyPartClass>();
             partClassMock2.Setup(pc => pc.Parent).Returns(partClassMock1.Object);
             partClassMock2.Setup(x => x.Tissue).Returns(tissueClassMock2.Object);
+            partClassMock2.Setup(x => x.RelativeSize).Returns(2);
 
             var tissueClassMock3 = new Mock<ITissueClass>();
             var tissueMock3 = new Mock<ITissue>();
-            TissueFactoryMock.Setup(x => x.Create(tissueClassMock3.Object)).Returns(tissueMock3.Object);
+
+            TissueFactoryMock.Setup(x => x.Create(tissueClassMock1.Object, bodySize)).Returns(tissueMock1.Object);
+            TissueFactoryMock.Setup(x => x.Create(tissueClassMock2.Object, bodySize)).Returns(tissueMock2.Object);
+            TissueFactoryMock.Setup(x => x.Create(tissueClassMock3.Object, bodySize)).Returns(tissueMock3.Object);
 
             var partClassMock3 = new Mock<IBodyPartClass>();
             partClassMock3.Setup(pc => pc.Parent).Returns(partClassMock2.Object);
             partClassMock3.Setup(x => x.Tissue).Returns(tissueClassMock3.Object);
+            partClassMock3.Setup(x => x.RelativeSize).Returns(3);
 
-
-
-            var bodyClassMock = new Mock<IBodyClass>();
             bodyClassMock.Setup(x => x.Parts).Returns(new List<IBodyPartClass>
             {
                 partClassMock1.Object, 
@@ -70,9 +76,15 @@ namespace Tiles.Tests.Bodies
             Assert.IsNull(part1.Parent);
             Assert.AreSame(tissueMock1.Object, part1.Tissue);
             Assert.AreSame(part1, part2.Parent);
+
             Assert.AreSame(tissueMock2.Object, part2.Tissue);
             Assert.AreSame(part2, part3.Parent);
+
             Assert.AreSame(tissueMock3.Object, part3.Tissue);
+
+            Assert.AreEqual(10, part1.Size);
+            Assert.AreEqual(20, part2.Size);
+            Assert.AreEqual(30, part3.Size);
         }
     }
 }

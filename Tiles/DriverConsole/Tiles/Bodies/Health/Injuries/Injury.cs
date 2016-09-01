@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Tiles.Bodies.Health.Injuries
 {
+    // TODO - this need some type of calculated magnitude to allow fuzzy gauging of severity 
     public class Injury : IInjury
     {
         public IInjuryClass Class { get; set; }
         public IBodyPart BodyPart { get; set; }
         public ITissueLayer TissueLayer { get; set; }
-
         
         public Injury(IInjuryClass injuryClass, IBodyPart bodyPart)
             : this(injuryClass, bodyPart, null)

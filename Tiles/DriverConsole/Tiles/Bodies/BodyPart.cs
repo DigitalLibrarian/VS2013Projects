@@ -42,15 +42,19 @@ namespace Tiles.Bodies
         public IBodyPart Parent { get; set; }
 
         public ITissue Tissue { get; private set; }
+        public int Size { get; private set; }
 
-        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, IBodyPart parent) 
+        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, int size, IBodyPart parent) 
         {
             Class = bodyPartClass;
             Tissue = tissue;
+            Size = size;
             Parent = parent;
         }
 
-        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue) : this(bodyPartClass, tissue, null) { }
+        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, int size) 
+            : this(bodyPartClass, tissue, size, null) { }
+
         public void StartGrasp(IBodyPart part)
         {
             Grasped = part;
