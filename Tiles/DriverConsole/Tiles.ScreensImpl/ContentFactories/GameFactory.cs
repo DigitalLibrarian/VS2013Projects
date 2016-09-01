@@ -41,7 +41,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
             var df = new DfTagsFascade(dfStore, entityManager, random);
-            var sword = df.CreateWeapon("ITEM_WEAPON_SWORD_SHORT", "ADAMANTINE");
+            var sword = df.CreateWeapon("ITEM_WEAPON_MACE", "SILVER");
 
             var siteFactory = new ArenaSiteFactory(dfStore, entityManager, random);
             return Setup(entityManager, siteFactory, siteSize, random, sword);

@@ -20,68 +20,22 @@ namespace Tiles.Tests.Bodies.Health.Injuries
     {
         InjuryCalc InjuryCalc { get; set; }
 
-        int ShortSwordContactArea_Slash = 20000;
         int ShortSwordSize = 300;
-        int MaceSize = 800;
+        int ShortSwordContactArea_Slash = 20000;
 
-        int SlowVelo = 1;
-        int MediumVelo = 15;
-        int FastVelo = 28;
-        int ReallyFastVelo = 100;
+        int MaceSize = 800;
+        int MaceContactArea_Bash = 20;
+
+        int Shear_SlowVelo = 1;
+        int Shear_ModerateVelo = 28;
+        int Shear_FastVelo = 100;
+
+        int Impact_SlowVelo = 1;
+        int Impact_ModerateVelo = 4;
+        int Impact_FastVelo = 100;
 
         int BoneLayerThickness = 26315;
-
-        IMaterial Skin = new Material("skin", "skin")
-        {
-            ImpactYield = 10000,
-            ImpactFracture = 10000,
-            ImpactStrainAtYield = 50000,
-
-            ShearYield = 20000,
-            ShearFracture = 20000,
-            ShearStrainAtYield = 50000,
-
-            SolidDensity = 1000
-        };
-
-        IMaterial Muscle = new Material("muscle", "muscle")
-        {
-            ImpactYield = 10000,
-            ImpactFracture = 10000,
-            ImpactStrainAtYield = 50000,
-
-            ShearYield = 20000,
-            ShearFracture = 20000,
-            ShearStrainAtYield = 50000,
-
-            SolidDensity = 1060
-        };
-
-        IMaterial Bone = new Material("bone", "bone")
-        {
-            ImpactYield = 200000,
-            ImpactFracture = 200000,
-            ImpactStrainAtYield = 100,
-
-            ShearYield = 115000,
-            ShearFracture = 130000,
-            ShearStrainAtYield = 100,
-
-            SolidDensity = 500
-        };
-
-        IMaterial Steel = new Material("steel", "steel")
-        {
-            ImpactYield = 1505000,
-            ImpactFracture = 2520000,
-            ImpactStrainAtYield = 940,
-
-            ShearYield = 430000,
-            ShearFracture = 720000,
-            ShearStrainAtYield = 215,
-
-            SolidDensity = 7850
-        };
+                
 
         Mock<IAgent> AttackerMock { get; set; }
         Mock<IAgent> DefenderMock { get; set; }
@@ -97,10 +51,10 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         {
             InjuryCalc = new InjuryCalc(new InjuryFactory());
             
-            var boneLayerMock = MockTissueLayer(BoneLayerThickness, Bone);
+            var boneLayerMock = MockTissueLayer(BoneLayerThickness, TestMaterials.Bone);
             BodyPartMock_SingleBoneLayer = MockBodyPart(boneLayerMock.Object);
 
-            var steelLayerMock = MockTissueLayer(BoneLayerThickness, Steel);
+            var steelLayerMock = MockTissueLayer(BoneLayerThickness, TestMaterials.Steel);
             BodyPartMock_SingleSteelLayer = MockBodyPart(steelLayerMock.Object);
 
             var bodyMock = new Mock<IBody>();
@@ -135,9 +89,9 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
 
         [TestMethod]
-        public void MeleeWeapon_SingleLayer_Edged_Brittle_Weak()
+        public void MeleeWeapon_SingleLayer_Edged_NoInjury()
         {
-            var weaponMat = Steel;
+            var weaponMat = TestMaterials.Steel;
             SetupWeapon(ShortSwordSize, weaponMat);
             
             int contactArea = ShortSwordContactArea_Slash;
@@ -145,7 +99,28 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                SlowVelo,
+                Shear_SlowVelo,
+                AttackerMock.Object,
+                DefenderMock.Object,
+                BodyPartMock_SingleBoneLayer.Object,
+                WeaponItemMock.Object);
+
+            Assert.AreEqual(0, result.Count());
+        }
+
+
+        [TestMethod]
+        public void MeleeWeapon_SingleLayer_Edged_Cut()
+        {
+            var weaponMat = TestMaterials.Steel;
+            SetupWeapon(ShortSwordSize, weaponMat);
+
+            int contactArea = ShortSwordContactArea_Slash;
+            var cmcMock = MockCombat(ContactType.Edge, contactArea);
+
+            var result = InjuryCalc.MeleeWeaponStrike(
+                cmcMock.Object,
+                Shear_ModerateVelo,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -153,22 +128,64 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
             Assert.AreEqual(1, result.Count());
 
-            var injury = result.Single();
-
+            var injury = result.ElementAt(0);
             AssertInjuryClass(StandardInjuryClasses.CutBodyPart, injury.Class);
         }
 
         [TestMethod]
-        public void MeleeWeapon_SingleLayer_Blunt_Brittle_Weak()
+        public void MeleeWeapon_SingleLayer_Edged_BadlyGashed()
         {
-            var weaponMat = Steel;
+            var weaponMat = TestMaterials.Steel;
             SetupWeapon(ShortSwordSize, weaponMat);
-            
+
             int contactArea = ShortSwordContactArea_Slash;
+            var cmcMock = MockCombat(ContactType.Edge, contactArea);
+
+            var result = InjuryCalc.MeleeWeaponStrike(
+                cmcMock.Object,
+                Shear_FastVelo,
+                AttackerMock.Object,
+                DefenderMock.Object,
+                BodyPartMock_SingleBoneLayer.Object,
+                WeaponItemMock.Object);
+
+            Assert.AreEqual(1, result.Count());
+
+            var injury = result.ElementAt(0);
+            AssertInjuryClass(StandardInjuryClasses.BadlyGashedBodyPart, injury.Class);
+        }
+
+        [TestMethod]
+        public void MeleeWeapon_SingleLayer_Blunt_NoInjury()
+        {
+            var weaponMat = TestMaterials.Silver;
+            SetupWeapon(MaceSize, weaponMat);
+
+            int contactArea = MaceContactArea_Bash;
             var cmcMock = MockCombat(ContactType.Blunt, contactArea);
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                SlowVelo,
+                Impact_SlowVelo,
+                AttackerMock.Object,
+                DefenderMock.Object,
+                BodyPartMock_SingleBoneLayer.Object,
+                WeaponItemMock.Object);
+
+            Assert.AreEqual(0, result.Count());
+
+        }
+
+        [TestMethod]
+        public void MeleeWeapon_SingleLayer_Blunt_Bruised()
+        {
+            var weaponMat = TestMaterials.Silver;
+            SetupWeapon(MaceSize, weaponMat);
+            
+            int contactArea = MaceContactArea_Bash;
+            var cmcMock = MockCombat(ContactType.Blunt, contactArea);
+            var result = InjuryCalc.MeleeWeaponStrike(
+                cmcMock.Object,
+                Impact_ModerateVelo,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -183,17 +200,17 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
 
         [TestMethod]
-        public void MeleeWeapon_SingleLayer_Edged_Steel_Moderate()
+        public void MeleeWeapon_SingleLayer_Blunt_Battered()
         {
-            var weaponMat = Steel;
-            SetupWeapon(ShortSwordSize, weaponMat);
+            var weaponMat = TestMaterials.Silver;
+            SetupWeapon(MaceSize, weaponMat);
 
-            int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(ContactType.Edge, contactArea);
+            int contactArea = MaceContactArea_Bash;
+            var cmcMock = MockCombat(ContactType.Blunt, contactArea);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                MediumVelo,
+                Impact_FastVelo,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -202,31 +219,9 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             Assert.AreEqual(1, result.Count());
 
             var injury = result.ElementAt(0);
-            AssertInjuryClass(StandardInjuryClasses.CutBodyPart, injury.Class);
+            AssertInjuryClass(StandardInjuryClasses.BatteredBodyPart, injury.Class);
         }
 
-        [TestMethod]
-        public void MeleeWeapon_SingleLayer_Edged_Steel_High()
-        {
-            var weaponMat = Steel;
-            SetupWeapon(ShortSwordSize, weaponMat);
-
-            int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(ContactType.Edge, contactArea);
-
-            var result = InjuryCalc.MeleeWeaponStrike(
-                cmcMock.Object,
-                FastVelo,
-                AttackerMock.Object,
-                DefenderMock.Object,
-                BodyPartMock_SingleBoneLayer.Object,
-                WeaponItemMock.Object);
-
-            Assert.AreEqual(1, result.Count());
-
-            var injury = result.ElementAt(0);
-            AssertInjuryClass(StandardInjuryClasses.BadlyGashedBodyPart, injury.Class);
-        }
 
 
 

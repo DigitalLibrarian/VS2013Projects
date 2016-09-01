@@ -21,6 +21,8 @@ namespace Tiles.Items
 
         public double GetMass()
         {
+            //Armor size is calculated as underlying body part size times coverage/100%
+
             int sizeCm3 = Class.Size;
             return Class.Material.GetMassForUniformVolume(sizeCm3);
         }

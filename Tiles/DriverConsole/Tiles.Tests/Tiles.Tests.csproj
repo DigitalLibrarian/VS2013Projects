@@ -103,6 +103,7 @@
     <Compile Include="SiteTests.cs" />
     <Compile Include="Structures\StructureCellTests.cs" />
     <Compile Include="Structures\StructureTests.cs" />
+    <Compile Include="TestMaterials.cs" />
     <Compile Include="TileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
