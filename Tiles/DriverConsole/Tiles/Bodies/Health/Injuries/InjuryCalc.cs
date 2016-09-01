@@ -161,25 +161,21 @@ namespace Tiles.Bodies.Health.Injuries
             IBodyPart part, ITissueLayer layer, 
             ContactType contactType, StressResult collisionResult, int deform)
         {
-            if (layer != null)
+            switch (contactType)
             {
-                switch (contactType)
-                {
-                    case ContactType.Edge:
-                        return DetermineEdgedInjury(contactArea, part, layer, collisionResult, deform);
-                    case ContactType.Blunt:
-                        return DetermineBluntInjury(contactArea, part, layer, collisionResult, deform);
-                    case ContactType.Other:
-                        break;
-                }
-                throw new NotImplementedException();
+                case ContactType.Edge:
+                    return DetermineEdgedInjury(contactArea, part, collisionResult, deform);
+                case ContactType.Blunt:
+                    return DetermineBluntInjury(contactArea, part, collisionResult, deform);
+                case ContactType.Other:
+                    break;
             }
             return Enumerable.Empty<IInjury>();
         }
 
         IEnumerable<IInjury> DetermineEdgedInjury(
             int contactArea,
-            IBodyPart part, ITissueLayer layer, StressResult collisionResult, int deform)
+            IBodyPart part, StressResult collisionResult, int deform)
         {
             // need to classify as piercing or slash, based on move data
             bool stab = contactArea <= 50; // magic from wiki
@@ -203,7 +199,7 @@ namespace Tiles.Bodies.Health.Injuries
 
         IEnumerable<IInjury> DetermineBluntInjury(
             int contactArea,
-            IBodyPart part, ITissueLayer layer, StressResult collisionResult, int deform)
+            IBodyPart part, StressResult collisionResult, int deform)
         {
             var injuryClass = StandardInjuryClasses.BruisedBodyPart;
 

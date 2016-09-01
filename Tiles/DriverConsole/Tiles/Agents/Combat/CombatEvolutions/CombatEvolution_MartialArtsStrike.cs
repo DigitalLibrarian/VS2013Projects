@@ -95,8 +95,6 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, partRemoveSuccess);
             }
 
-
-
             var defenderDies = defender.IsDead;
             if (defenderDies)
             {

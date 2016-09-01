@@ -12,6 +12,8 @@ namespace Tiles.Bodies.Health.Injuries
     {
         IInjuryClass Class { get; }
 
+        IBodyPart BodyPart { get; }
+
         string Adjective { get; }
         
         bool IsInstantDeath { get; }
