@@ -68,14 +68,8 @@
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
     <Compile Include="Materials\ContactType.cs" />
     <Compile Include="Bodies\Health\DamageType.cs" />
-    <Compile Include="Bodies\Health\Injuries\DamageResistor.cs" />
-    <Compile Include="Bodies\Health\Injuries\DamageResistorFactory.cs" />
-    <Compile Include="Bodies\Health\Injuries\IDamageResistor.cs" />
-    <Compile Include="Bodies\Health\Injuries\IDamageResistorFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\IInjuryCalc.cs" />
     <Compile Include="Bodies\Health\Injuries\IInjuryFactory.cs" />
-    <Compile Include="Bodies\Health\Injuries\IInjuryResultBuilder.cs" />
-    <Compile Include="Bodies\Health\Injuries\IInjuryResultBuilderFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryCalc.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
@@ -110,8 +104,6 @@
     <Compile Include="Bodies\Health\Injuries\Injury.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryClass.cs" />
     <Compile Include="Bodies\Health\Injuries\InjuryFactory.cs" />
-    <Compile Include="Bodies\Health\Injuries\InjuryResultBuilder.cs" />
-    <Compile Include="Bodies\Health\Injuries\InjuryResultBuilderFactory.cs" />
     <Compile Include="Bodies\Health\Injuries\InjurySeverity.cs" />
     <Compile Include="Bodies\Health\Injuries\StandardInjuryClasses.cs" />
     <Compile Include="Bodies\IBody.cs" />

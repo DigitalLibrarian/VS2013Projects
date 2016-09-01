@@ -12,42 +12,6 @@ namespace Tiles.Bodies.Health.Injuries
         private const int TornTtl = 80;
         private const int PuncturedTtl = 200;
 
-        #region tissue layer injuries
-        public static readonly IInjuryClass BruisedTissueLayer = new InjuryClass()
-        {
-            Adjective = "bruised",
-            IsBodyPartSpecific = true,
-            IsTissueLayerSpecific = true,
-            CanBeHealed = true,
-            UsesTtl = true,
-            Ttl = BruisedTtl,
-            Severity = InjurySeverity.LightlyWounded
-        };
-        
-        public static readonly IInjuryClass TornTissueLayer = new InjuryClass()
-        {
-            Adjective = "torn",
-            IsBodyPartSpecific = true,
-            IsTissueLayerSpecific = true,
-            CanBeHealed = true,
-            UsesTtl = true,
-            Ttl = TornTtl,
-            Severity = InjurySeverity.LightlyWounded
-        };
-
-        public static readonly IInjuryClass PuncturedTissueLayer = new InjuryClass()
-        {
-            Adjective = "punctured",
-            IsBodyPartSpecific = true,
-            IsTissueLayerSpecific = true,
-            CanBeHealed = true,
-            UsesTtl = true,
-            Ttl = PuncturedTtl,
-            Severity = InjurySeverity.LightlyWounded
-        };
-
-        #endregion
-
         #region body part injuries
 
         public static readonly IInjuryClass MissingBodyPart = new InjuryClass()

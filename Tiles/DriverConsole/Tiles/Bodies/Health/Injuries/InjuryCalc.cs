@@ -188,16 +188,16 @@ namespace Tiles.Bodies.Health.Injuries
             {
                 // light injury
                 var injuryClass = stab
-                    ? StandardInjuryClasses.PuncturedTissueLayer
-                    : StandardInjuryClasses.TornTissueLayer;
+                    ? StandardInjuryClasses.CutBodyPart
+                    : StandardInjuryClasses.BadlyGashedBodyPart;
 
-                yield return InjuryFactory.Create(injuryClass, part, layer);
+                yield return InjuryFactory.Create(injuryClass, part);
             }
             else
             {
-                var injuryClass = StandardInjuryClasses.BruisedTissueLayer;
+                var injuryClass = StandardInjuryClasses.BruisedBodyPart;
 
-                yield return InjuryFactory.Create(injuryClass, part, layer);
+                yield return InjuryFactory.Create(injuryClass, part);
             }
         }
 
@@ -205,9 +205,9 @@ namespace Tiles.Bodies.Health.Injuries
             int contactArea,
             IBodyPart part, ITissueLayer layer, StressResult collisionResult, int deform)
         {
-            var injuryClass = StandardInjuryClasses.BruisedTissueLayer;
+            var injuryClass = StandardInjuryClasses.BruisedBodyPart;
 
-            yield return InjuryFactory.Create(injuryClass, part, layer);
+            yield return InjuryFactory.Create(injuryClass, part);
         }
 
         public IEnumerable<IInjury> MeleeWeaponStrike(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart targetPart, IItem weapon)
