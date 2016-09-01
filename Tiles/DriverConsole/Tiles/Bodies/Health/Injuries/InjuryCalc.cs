@@ -9,6 +9,7 @@ using Tiles.Bodies;
 using Tiles.Bodies.Health;
 using Tiles.Items;
 using Tiles.Materials;
+using Tiles.Math;
 
 namespace Tiles.Bodies.Health.Injuries
 {
@@ -33,47 +34,43 @@ namespace Tiles.Bodies.Health.Injuries
             int force = forcePerArea;
             foreach (var armor in armorItems)
             {
-                if (force <= 0)
+                if (force > 0)
                 {
-                    break;
+                    int armorThickness = part.Size; // TODO - times coverage ratio
+                    int momentum;
+                    ContactType contactType;
+                    injuries.AddRange(
+                        PerformMaterialLayer(
+                            part, null,
+                            armor.Class.Material,
+                            armorThickness,
+                            attackType, force, contactArea,
+                            out momentum, out contactType
+                            ));
+
+                    force = momentum;
+                    attackType = contactType;
                 }
-
-                int armorThickness = part.Size; // TODO - times coverage ratio
-                int momentum;
-                ContactType contactType;
-                injuries.AddRange(
-                    PerformMaterialLayer(
-                        part, null,
-                        armor.Class.Material,
-                        armorThickness,
-                        attackType, force, contactArea,
-                        out momentum, out contactType
-                        ));
-
-                force = momentum;
-                attackType = contactType;
             }
 
             foreach (var layer in tissueLayers)
             {
-                if (force <= 0)
+                if (force > 0)
                 {
-                    break;
+                    int momentum;
+                    ContactType contactType;
+                    injuries.AddRange(
+                        PerformMaterialLayer(
+                            part, layer,
+                            layer.Material,
+                            layer.Thickness,
+                            attackType, force, contactArea,
+                            out momentum, out contactType
+                            ));
+
+                    force = momentum;
+                    attackType = contactType;
                 }
-
-                int momentum;
-                ContactType contactType;
-                injuries.AddRange(
-                    PerformMaterialLayer(
-                        part, layer,
-                        layer.Material,
-                        layer.Thickness,
-                        attackType, force, contactArea,
-                        out momentum, out contactType
-                        ));
-
-                force = momentum;
-                attackType = contactType;
             }
 
             // TODO - check for conditional injuries on entire body part
@@ -161,14 +158,17 @@ namespace Tiles.Bodies.Health.Injuries
             IBodyPart part, ITissueLayer layer, 
             ContactType contactType, StressResult collisionResult, int deform)
         {
-            switch (contactType)
+            if (layer != null)
             {
-                case ContactType.Edge:
-                    return DetermineEdgedInjury(contactArea, part, collisionResult, deform);
-                case ContactType.Blunt:
-                    return DetermineBluntInjury(contactArea, part, collisionResult, deform);
-                case ContactType.Other:
-                    break;
+                switch (contactType)
+                {
+                    case ContactType.Edge:
+                        return DetermineEdgedInjury(contactArea, part, collisionResult, deform);
+                    case ContactType.Blunt:
+                        return DetermineBluntInjury(contactArea, part, collisionResult, deform);
+                    case ContactType.Other:
+                        break;
+                }
             }
             return Enumerable.Empty<IInjury>();
         }
@@ -206,23 +206,32 @@ namespace Tiles.Bodies.Health.Injuries
             yield return InjuryFactory.Create(injuryClass, part);
         }
 
-        public IEnumerable<IInjury> MeleeWeaponStrike(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart targetPart, IItem weapon)
+        public IEnumerable<IInjury> MeleeWeaponStrike(
+            ICombatMoveClass moveClass, int force, 
+            IAgent attacker, IAgent defender, IBodyPart targetPart, IItem weapon)
         {
             // TODO - this does not take into account attacker stats
             int weaponMomentum = weapon.Class.Size * weapon.Class.Material.SolidDensity;
+
+            int forcePerArea = weaponMomentum / moveClass.ContactArea;
+
             return MaterialStrike(
                 moveClass.ContactType, 
-                moveClass.ContactArea * weaponMomentum, 
+                forcePerArea, 
                 moveClass.ContactArea,
                 defender, targetPart);
         }
 
-        public IEnumerable<IInjury> UnarmedStrike(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart targetPart)
+        public IEnumerable<IInjury> UnarmedStrike(
+            ICombatMoveClass moveClass, int force, 
+            IAgent attacker, IAgent defender, IBodyPart targetPart)
         {
-            int force = 1000;
+
+            int forcePerArea = force / moveClass.ContactArea;
+
             return MaterialStrike(
                 moveClass.ContactType, 
-                moveClass.ContactArea * force, 
+                forcePerArea, 
                 moveClass.ContactArea,
                 defender, targetPart);
         }

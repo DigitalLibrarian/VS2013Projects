@@ -42,7 +42,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             }
 
             bool isWeaponBased = move.Class.IsItem;
-            uint dmg = 0;
+
+            int strikeForce = move.Class.ContactArea; // TODO - get agent to produce
 
             bool targetPartWasShed = false;
             IEnumerable<IInjury> injuries = Enumerable.Empty<IInjury>();
@@ -50,6 +51,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             {
                 injuries = InjuryCalc.MeleeWeaponStrike(
                     move.Class,
+                    strikeForce,
                     attacker,
                     defender,
                     move.DefenderBodyPart,
@@ -59,6 +61,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             {
                 injuries = InjuryCalc.UnarmedStrike(
                     move.Class,
+                    strikeForce,
                     attacker,
                     defender,
                     move.DefenderBodyPart);

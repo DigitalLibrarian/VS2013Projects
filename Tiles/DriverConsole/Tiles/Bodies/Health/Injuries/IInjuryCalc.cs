@@ -8,6 +8,7 @@ using Tiles.Agents.Combat;
 using Tiles.Bodies;
 using Tiles.Bodies.Health;
 using Tiles.Items;
+using Tiles.Math;
 
 namespace Tiles.Bodies.Health.Injuries
 {
@@ -15,12 +16,14 @@ namespace Tiles.Bodies.Health.Injuries
     {
         IEnumerable<IInjury> MeleeWeaponStrike(
             ICombatMoveClass moveClass,
+            int force,
             IAgent attacker, IAgent defender,
             IBodyPart targetPart, IItem weapon
             );
 
         IEnumerable<IInjury> UnarmedStrike(
             ICombatMoveClass moveClass,
+            int force,
             IAgent attacker, IAgent defender,
             IBodyPart targetPart
             );

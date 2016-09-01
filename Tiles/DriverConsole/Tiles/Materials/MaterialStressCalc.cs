@@ -12,6 +12,8 @@ namespace Tiles.Materials
             int momPerTissueVolume, int yieldForce, int fractureForce, int strainAtYield,
             out int deformDistance)
         {
+            // TODO - decode and make the deform follow
+            //Strain is measured as parts-per-100000, meaning that 100000 strain is 100% deformation
             deformDistance = strainAtYield * momPerTissueVolume;
             var result = StressResult.Elastic;
 
