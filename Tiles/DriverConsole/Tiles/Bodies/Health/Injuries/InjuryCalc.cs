@@ -114,7 +114,7 @@ namespace Tiles.Bodies.Health.Injuries
         IEnumerable<IInjury> PerformMaterialLayer(
             IBodyPart part, ITissueLayer layer,
             IMaterial material, int thickness, 
-            ContactType contactTypeStart, int forcePerArea, int contactArea,
+            ContactType contactTypeStart, int force, int contactArea,
             out int momentum, out ContactType contactType)
         {
             int yield = 0;
@@ -123,10 +123,11 @@ namespace Tiles.Bodies.Health.Injuries
 
             GetModeProperties(contactTypeStart, material, out yield, out fractureForce, out strainAtYield);
 
+            force /= thickness;
+
             int deformDist;
             var collideResult = MaterialStressCalc.StressLayer(
-                forcePerArea,  contactArea,
-                thickness,
+                force,  contactArea,
                 yield, fractureForce, strainAtYield, 
                 out deformDist);
 
@@ -134,20 +135,21 @@ namespace Tiles.Bodies.Health.Injuries
             if (collideResult == StressResult.Elastic)
             {
                 contactTypeStart = ContactType.Blunt;
-                forcePerArea = 0;
+                force = 0;
 
                 // all elastic collides stop weapon momentum
             }
             else
             {
-                forcePerArea = forcePerArea - (forcePerArea / 20);
+                // lose 5%
+                force = force - (force / 20);
             }
 
             var injuries = DetermineTissueInjury(
                 contactArea, part, layer, contactTypeStart,
                 collideResult, deformDist).ToList();
 
-            momentum = forcePerArea * thickness;
+            momentum = force;
             contactType = contactTypeStart;
 
             return injuries;

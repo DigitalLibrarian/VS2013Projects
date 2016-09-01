@@ -10,7 +10,7 @@ namespace Tiles.Materials
     {
         public static StressResult StressLayer(
             int momentum, int contactArea, 
-            int thickness,  int yieldForce, int fractureForce, int strainAtYield,
+            int yieldForce, int fractureForce, int strainAtYield,
             out int deformDistance)
         {
             deformDistance = strainAtYield * momentum;

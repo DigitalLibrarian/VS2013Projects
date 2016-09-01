@@ -40,8 +40,11 @@ namespace Tiles.ScreensImpl.ContentFactories
             var random = new RandomWrapper(new System.Random(seed));
 
             var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
+            var df = new DfTagsFascade(dfStore, entityManager, random);
+            var sword = df.CreateWeapon("ITEM_WEAPON_SWORD_SHORT", "ADAMANTINE");
+
             var siteFactory = new ArenaSiteFactory(dfStore, entityManager, random);
-            return Setup(entityManager, siteFactory, siteSize, random);
+            return Setup(entityManager, siteFactory, siteSize, random, sword);
         }
 
         public IGame SetupDfTestWorld(string dfRawDir, int seed = 42)
@@ -57,7 +60,8 @@ namespace Tiles.ScreensImpl.ContentFactories
         }
 
         private Game Setup(IEntityManager entityManager,
-            ISiteFactory siteFactory, Vector3 siteSize, IRandom random)
+            ISiteFactory siteFactory, Vector3 siteSize, IRandom random, 
+            params IItem[] invItems)
         {
             var atlas = new Atlas(siteFactory, siteSize);
 
@@ -70,6 +74,12 @@ namespace Tiles.ScreensImpl.ContentFactories
             
             var spawnPos = FindSpawnLocation(atlas, random, spawnBox);
             var player = CreatePlayer(random, entityManager, atlas, spawnPos);
+
+            foreach (var item in invItems)
+            {
+                player.Inventory.AddItem(item);
+            }
+
             var camera = new Camera(spawnPos);
 
             return new Game(entityManager, atlas, player, camera, actionLog, random);

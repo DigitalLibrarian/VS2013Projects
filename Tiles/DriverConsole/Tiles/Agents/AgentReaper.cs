@@ -45,6 +45,10 @@ namespace Tiles.Agents
         public IEnumerable<IItem> Reap(IAgent agent, IBodyPart bodyPart)
         {
             ClearGrasps(bodyPart);
+            foreach(var child in GetChildren(agent.Body, bodyPart))
+            {
+                ClearGrasps(child);
+            }
 
             var newItems = CreateShedBodyPart(agent, bodyPart).ToList();
             var tile = Atlas.GetTileAtPos(agent.Pos);
@@ -53,6 +57,21 @@ namespace Tiles.Agents
                 tile.Items.Add(item);
             }
             return newItems;
+        }
+
+        private IEnumerable<IBodyPart> GetChildren(IBody body, IBodyPart parent)
+        {
+            foreach (var part in body.Parts)
+            {
+                if (part.Parent == parent)
+                {
+                    yield return part;
+                    foreach (var c in GetChildren(body, part))
+                    {
+                        yield return c;
+                    }
+                }
+            }
         }
 
         void ClearGrasps(IBodyPart part)

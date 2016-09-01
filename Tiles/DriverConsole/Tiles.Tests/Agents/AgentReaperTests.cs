@@ -97,6 +97,13 @@ namespace Tiles.Tests.Agents
             otherGrasperPartMock.Verify(x => x.StopGrasp(agentGraspeePartMock.Object), Times.Once());
         }
 
+        [Ignore]
+        [TestMethod]
+        public void ReapAgentBodyPart_ChildrenBodyPartGrasps()
+        {
+
+        }
+
         [TestMethod]
         public void ReapAgentBodyPart()
         {
@@ -112,7 +119,12 @@ namespace Tiles.Tests.Agents
 
             var agentMock = new Mock<IAgent>();
             var bodyMock = new Mock<IBody>();
-            bodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart> { agentGrasperPartMock.Object, agentGraspeePartMock.Object });
+            bodyMock.Setup(x => x.Parts)
+                .Returns(
+                new List<IBodyPart> { 
+                    agentGrasperPartMock.Object, 
+                    agentGraspeePartMock.Object });
+
             agentMock.Setup( x => x.Body).Returns(bodyMock.Object);
 
             var agentPos = new Vector3(10, 10, 10);

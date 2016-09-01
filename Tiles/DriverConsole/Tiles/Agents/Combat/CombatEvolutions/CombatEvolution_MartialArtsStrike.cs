@@ -72,7 +72,6 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 targetPartWasShed = injury.RemovesBodyPart;
                 if (defender.Body.Parts.Contains(move.DefenderBodyPart))
                 {
-                    defender.Body.Amputate(move.DefenderBodyPart);
                     partRemoveSuccess = true;
                 }
             }
@@ -80,6 +79,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             if (partRemoveSuccess)
             {
                 HandleShedPart(attacker, defender, move, move.DefenderBodyPart);
+            }
+
+            if (partRemoveSuccess)
+            {
+                defender.Body.Amputate(move.DefenderBodyPart);
             }
 
             if (isWeaponBased)
@@ -90,6 +94,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             {
                 Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, dmg, partRemoveSuccess);
             }
+
+
 
             var defenderDies = defender.IsDead;
             if (defenderDies)
