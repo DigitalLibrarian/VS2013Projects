@@ -123,11 +123,12 @@ namespace Tiles.Bodies.Health.Injuries
 
             GetModeProperties(contactTypeStart, material, out yield, out fractureForce, out strainAtYield);
 
-            force /= thickness;
+            // TODO - make contact area affect unit force
+            int momPerVol = (force * contactArea) /  thickness;
 
             int deformDist;
             var collideResult = MaterialStressCalc.StressLayer(
-                force,  contactArea,
+                momPerVol, 
                 yield, fractureForce, strainAtYield, 
                 out deformDist);
 
@@ -209,29 +210,6 @@ namespace Tiles.Bodies.Health.Injuries
             yield return InjuryFactory.Create(injuryClass, part, layer);
         }
 
-        /*
-        StressResult CollideLayer(
-            int forcePerArea,
-            int yieldForce, int fractureForce, int strainAtYield,
-            out int deformDistance)
-        {
-            deformDistance = strainAtYield * forcePerArea;
-            var result = StressResult.Elastic;
-
-            if (forcePerArea > fractureForce)
-            {
-                // broken through
-                result = StressResult.Fracture;
-            }
-            else if (forcePerArea > yieldForce)
-            {
-                // inelastic (plastic) deformation
-                result = StressResult.Plastic;
-            }
-
-            return result;
-        }
-        */
         public IEnumerable<IInjury> MeleeWeaponStrike(ICombatMoveClass moveClass, IAgent attacker, IAgent defender, IBodyPart targetPart, IItem weapon)
         {
             // TODO - this does not take into account attacker stats

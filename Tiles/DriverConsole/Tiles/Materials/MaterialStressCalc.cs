@@ -9,19 +9,18 @@ namespace Tiles.Materials
     public static class MaterialStressCalc
     {
         public static StressResult StressLayer(
-            int momentum, int contactArea, 
-            int yieldForce, int fractureForce, int strainAtYield,
+            int momPerTissueVolume, int yieldForce, int fractureForce, int strainAtYield,
             out int deformDistance)
         {
-            deformDistance = strainAtYield * momentum;
+            deformDistance = strainAtYield * momPerTissueVolume;
             var result = StressResult.Elastic;
 
-            if (momentum >= fractureForce)
+            if (momPerTissueVolume >= fractureForce)
             {
                 // broken through
                 result = StressResult.Fracture;
             }
-            else if (momentum >= yieldForce)
+            else if (momPerTissueVolume >= yieldForce)
             {
                 // inelastic (plastic) deformation
                 result = StressResult.Plastic;

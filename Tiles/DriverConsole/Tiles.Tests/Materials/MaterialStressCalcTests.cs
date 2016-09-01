@@ -19,13 +19,11 @@ namespace Tiles.Tests.Materials
             int strainAtYield = 30;
 
             int momentum = 0;
-            int contactArea = 10;
 
             int deform;
 
             var result = MaterialStressCalc.StressLayer(
-                momentum, contactArea,
-                yield, fracture, strainAtYield,
+                momentum, yield, fracture, strainAtYield,
                 out deform);
 
             Assert.AreEqual(StressResult.Elastic, result);
@@ -42,13 +40,11 @@ namespace Tiles.Tests.Materials
             int strainAtYield = 30;
 
             int momentum = yield-1;
-            int contactArea = 10;
 
             int deform;
 
             var result = MaterialStressCalc.StressLayer(
-                momentum, contactArea,
-                yield, fracture, strainAtYield,
+                momentum, yield, fracture, strainAtYield,
                 out deform);
 
             Assert.AreEqual(StressResult.Elastic, result);
@@ -56,8 +52,7 @@ namespace Tiles.Tests.Materials
 
             momentum = yield;
             result = MaterialStressCalc.StressLayer(
-                momentum, contactArea,
-                yield, fracture, strainAtYield,
+                momentum, yield, fracture, strainAtYield,
                 out deform);
 
             Assert.AreEqual(StressResult.Plastic, result);
@@ -72,13 +67,11 @@ namespace Tiles.Tests.Materials
             int strainAtYield = 30;
 
             int momentum = fracture - 1;
-            int contactArea = 10;
 
             int deform;
 
             var result = MaterialStressCalc.StressLayer(
-                momentum, contactArea,
-                yield, fracture, strainAtYield,
+                momentum, yield, fracture, strainAtYield,
                 out deform);
 
             Assert.AreEqual(StressResult.Plastic, result);
@@ -86,8 +79,7 @@ namespace Tiles.Tests.Materials
 
             momentum = fracture;
             result = MaterialStressCalc.StressLayer(
-                momentum, contactArea,
-                yield, fracture, strainAtYield,
+                momentum, yield, fracture, strainAtYield,
                 out deform);
 
             Assert.AreEqual(StressResult.Fracture, result);
