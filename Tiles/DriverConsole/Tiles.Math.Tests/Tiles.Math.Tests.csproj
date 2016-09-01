@@ -53,6 +53,7 @@
     <Compile Include="Box2Tests.cs" />
     <Compile Include="Box3Tests.cs" />
     <Compile Include="CompassVectorsTests.cs" />
+    <Compile Include="FractionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector2Tests.cs" />
     <Compile Include="Vector3Tests.cs" />

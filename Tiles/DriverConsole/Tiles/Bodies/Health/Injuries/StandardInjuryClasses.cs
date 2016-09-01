@@ -11,6 +11,7 @@ namespace Tiles.Bodies.Health.Injuries
         private const int BruisedTtl = 50;
         private const int TornTtl = 80;
         private const int PuncturedTtl = 200;
+        #region tissue layer injuries
         public static readonly IInjuryClass BruisedTissueLayer = new InjuryClass()
         {
             Adjective = "bruised",
@@ -20,7 +21,7 @@ namespace Tiles.Bodies.Health.Injuries
             UsesTtl = true,
             Ttl = BruisedTtl
         };
-
+        
         public static readonly IInjuryClass TornTissueLayer = new InjuryClass()
         {
             Adjective = "torn",
@@ -41,6 +42,10 @@ namespace Tiles.Bodies.Health.Injuries
             Ttl = PuncturedTtl
         };
 
+        #endregion
+
+        #region body part injuries
+
         public static readonly IInjuryClass MissingBodyPart = new InjuryClass()
         {
             Adjective = "missing",
@@ -49,5 +54,34 @@ namespace Tiles.Bodies.Health.Injuries
             CripplesBodyPart = true,
             RemovesBodyPart = true
         };
+
+        public static readonly IInjuryClass BatteredBodyPart = new InjuryClass()
+        {
+            Adjective = "battered",
+            IsBodyPartSpecific = true,
+            CanBeHealed = true,
+            UsesTtl = true,
+            Ttl = TornTtl
+        };
+
+        public static readonly IInjuryClass BrokenBodyPart = new InjuryClass()
+        {
+            Adjective = "broken",
+            IsBodyPartSpecific = true,
+            CanBeHealed = true,
+            UsesTtl = true,
+            Ttl = TornTtl
+        };
+
+
+        public static readonly IInjuryClass MangledBodyPart = new InjuryClass()
+        {
+            Adjective = "mangled",
+            IsBodyPartSpecific = true,
+            CanBeHealed = true,
+            UsesTtl = true,
+            Ttl = TornTtl
+        };
+        #endregion
     }
 }

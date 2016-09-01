@@ -49,10 +49,8 @@ namespace Tiles.Tests.Assertions
             {
                 caughtException = e;
             }
-            finally
-            {
-                Assert.IsNotNull(caughtException);
-            }
+            
+            Assert.IsNotNull(caughtException);
         }
 
         static public void AssertException(Action action)
