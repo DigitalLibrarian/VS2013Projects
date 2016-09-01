@@ -22,5 +22,7 @@ namespace Tiles.Bodies.Health.Injuries
 
         public bool UsesTtl { get; set; }
         public int Ttl { get; set; }
+
+        public InjurySeverity Severity { get; set; }
     }
 }

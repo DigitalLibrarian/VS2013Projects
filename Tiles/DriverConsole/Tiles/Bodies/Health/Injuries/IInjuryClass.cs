@@ -12,11 +12,8 @@ namespace Tiles.Bodies.Health.Injuries
         string Adjective { get; }
 
         bool IsInstantDeath { get; }
-        bool IsBodyPartSpecific { get; }
-        bool IsTissueLayerSpecific { get; }
 
         bool IsPermanant { get; }
-        bool CanBeHealed { get; }
 
         bool CripplesBodyPart { get; }
 
@@ -24,5 +21,12 @@ namespace Tiles.Bodies.Health.Injuries
         int Ttl { get; }
 
         bool RemovesBodyPart { get; }
+
+
+        bool IsBodyPartSpecific { get; }
+        bool IsTissueLayerSpecific { get; }
+        bool CanBeHealed { get; }
+
+
     }
 }

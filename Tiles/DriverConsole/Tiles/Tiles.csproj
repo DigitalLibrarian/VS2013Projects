@@ -176,7 +176,7 @@
     <Compile Include="ISprite.cs" />
     <Compile Include="Items\ArmorClass.cs" />
     <Compile Include="Items\ArmorSlot.cs" />
-    <Compile Include="Agents\Combat\DamageType.cs" />
+    <Compile Include="DamageType.cs" />
     <Compile Include="Items\IArmorClass.cs" />
     <Compile Include="Items\IItemClass.cs" />
     <Compile Include="Items\IItemFactory.cs" />
