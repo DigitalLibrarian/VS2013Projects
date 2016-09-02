@@ -19,8 +19,8 @@ namespace Tiles.Tests.Agents.Combat.CombatEvolutions
             Predicate<ICombatMoveContext> ShouldPred { get; set; }
             Action<ICombatMoveContext> RunCallback { get; set; }
             public TestCombatEvolution(Predicate<ICombatMoveContext> shouldPred, Action<ICombatMoveContext> runCallback,
-                IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper)
-                : base(reporter, damageCalc, reaper)
+                IActionReporter reporter, IAgentReaper reaper)
+                : base(reporter, reaper)
             {
                 ShouldPred = shouldPred;
                 RunCallback = runCallback;
@@ -48,7 +48,6 @@ namespace Tiles.Tests.Agents.Combat.CombatEvolutions
         }
 
         Mock<IActionReporter> ReporterMock { get; set; }
-        Mock<IDamageCalc> DamageCalcMock { get; set; }
         Mock<IAgentReaper> ReaperMock { get; set; }
 
         TestCombatEvolution Evo { get; set; }
@@ -64,7 +63,6 @@ namespace Tiles.Tests.Agents.Combat.CombatEvolutions
         public void Initialize()
         {
             ReporterMock = new Mock<IActionReporter>();
-            DamageCalcMock = new Mock<IDamageCalc>();
             ReaperMock = new Mock<IAgentReaper>();
 
             Evo = new TestCombatEvolution(
@@ -80,7 +78,6 @@ namespace Tiles.Tests.Agents.Combat.CombatEvolutions
                     TimesRunCalled++;
                 },
                 ReporterMock.Object,
-                DamageCalcMock.Object,
                 ReaperMock.Object
             );
         }

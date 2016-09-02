@@ -36,7 +36,6 @@ namespace Tiles.Content.Map
         {
             if (armor == null) return null;
             return new ArmorClass(
-                new EngineCombat.DamageVector(),
                 armor.SlotRequirements.Select(Map).ToArray());
         }
 
@@ -74,7 +73,6 @@ namespace Tiles.Content.Map
             return new EngineCombat.CombatMoveClass(
                 move.Verb.SecondPerson,
                 Map(move.Verb),
-                new EngineCombat.DamageVector(),
                 move.PrepTime,
                 move.RecoveryTime)
                 {

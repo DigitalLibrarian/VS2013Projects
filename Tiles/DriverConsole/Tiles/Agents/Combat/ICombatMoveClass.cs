@@ -13,7 +13,6 @@ namespace Tiles.Agents.Combat
     {
         string Name { get; }
         IVerb Verb { get; }
-        IDamageVector DamageVector { get; }
 
         BodyStateChange AttackerBodyStateChange { get; }
 

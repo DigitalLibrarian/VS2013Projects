@@ -11,17 +11,11 @@ namespace Tiles.Agents.Combat
 {
     public class CombatMoveBuilder : ICombatMoveBuilder
     {
-        public IDamageCalc DamageCalc { get; private set; }
-        public CombatMoveBuilder(IDamageCalc damageCalc)
-        {
-            DamageCalc = damageCalc;
-        }
         public ICombatMove AttackBodyPartWithWeapon(IAgent attacker, IAgent defender, ICombatMoveClass moveClass, IBodyPart targetBodyPart, IItem weapon)
         {
-            var dmg = DamageCalc.MeleeStrikeMoveDamage(moveClass, attacker, defender, targetBodyPart, weapon);
             var moveName = string.Format("{0} {1} with {2}", moveClass.Name, targetBodyPart.Name, weapon.Class.Name);
 
-            return new CombatMove(moveClass, moveName, attacker, defender, dmg)
+            return new CombatMove(moveClass, moveName, attacker, defender)
             {
                 Weapon = weapon,
                 DefenderBodyPart = targetBodyPart
@@ -38,7 +32,6 @@ namespace Tiles.Agents.Combat
                     { VerbConjugation.SecondPerson, "grab"},
                     { VerbConjugation.ThirdPerson, "grabs"},
                 }, true),
-            damage: new DamageVector(),
             prepTime: 1,
             recoveryTime: 1
             )
@@ -57,7 +50,6 @@ namespace Tiles.Agents.Combat
                     { VerbConjugation.SecondPerson, "release"},
                     { VerbConjugation.ThirdPerson, "releases"},
                 }, true),
-            damage: new DamageVector(),
             prepTime: 1,
             recoveryTime: 1
             )
@@ -75,9 +67,6 @@ namespace Tiles.Agents.Combat
                     { VerbConjugation.SecondPerson, "pull"},
                     { VerbConjugation.ThirdPerson, "pulls"},
                 }, true),
-            damage: new DamageVector(new Dictionary<DamageType, uint>{
-                    {DamageType.Blunt, 20}
-                }),
             prepTime: 1,
             recoveryTime: 1
             )
@@ -97,7 +86,6 @@ namespace Tiles.Agents.Combat
                     { VerbConjugation.SecondPerson, "break away from"},
                     { VerbConjugation.ThirdPerson, "breaks away from"},
                 }, true),
-            damage: new DamageVector(),
             prepTime: 1,
             recoveryTime: 1
             )
@@ -112,7 +100,7 @@ namespace Tiles.Agents.Combat
         {
             var moveName = string.Format("Break {0}'s {1} grasp on {2}", defender.Name,  defenderBodyPart.Name, attackerBodyPart.Name);
 
-            return new CombatMove(_breakGrasp, moveName, attacker, defender, 0)
+            return new CombatMove(_breakGrasp, moveName, attacker, defender)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -123,7 +111,7 @@ namespace Tiles.Agents.Combat
         {
             var moveName = string.Format("Grab {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
 
-            return new CombatMove(_grasp, moveName, attacker, defender, 0)
+            return new CombatMove(_grasp, moveName, attacker, defender)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -133,8 +121,7 @@ namespace Tiles.Agents.Combat
         public ICombatMove PullGraspedBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Pull {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
-            uint dmg = 20; //TODO - calculate
-            return new CombatMove(_wrestlingPull, moveName, attacker, defender, dmg)
+            return new CombatMove(_wrestlingPull, moveName, attacker, defender)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -145,8 +132,7 @@ namespace Tiles.Agents.Combat
         public ICombatMove ReleaseGraspedPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Release {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
-            uint dmg = 0; //TODO - calculate
-            return new CombatMove(_release, moveName, attacker, defender, dmg)
+            return new CombatMove(_release, moveName, attacker, defender)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart

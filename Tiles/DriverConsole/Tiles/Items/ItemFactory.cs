@@ -46,13 +46,6 @@ namespace Tiles.Items
                                    { VerbConjugation.SecondPerson, "strike"},
                                    { VerbConjugation.ThirdPerson, "strikes"},
                                }, true),
-                               damage: new DamageVector(
-                                        new Dictionary<DamageType,uint>{
-                                            { DamageType.Slash, 1 },
-                                            { DamageType.Pierce, 1 },
-                                            { DamageType.Blunt, 1 }
-                                        }
-                                   ),
                                prepTime: 1,
                                recoveryTime: 1
                                )

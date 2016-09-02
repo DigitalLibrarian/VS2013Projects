@@ -11,13 +11,12 @@ namespace Tiles.Agents.Combat
 {
     public class CombatMove : ICombatMove
     {
-        public CombatMove(ICombatMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender, uint damage)
+        public CombatMove(ICombatMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender)
         {
             Class = attackMoveClass;
             Name = name;
             Attacker = attacker;
             Defender = defender;
-            PredictedDamage = damage;
         }
 
 
@@ -30,6 +29,5 @@ namespace Tiles.Agents.Combat
         public IBodyPart AttackerBodyPart { get; set; }
         public IBodyPart DefenderBodyPart { get; set; }
         public IItem Weapon { get; set; }
-        public uint PredictedDamage { get; set; }
     }
 }

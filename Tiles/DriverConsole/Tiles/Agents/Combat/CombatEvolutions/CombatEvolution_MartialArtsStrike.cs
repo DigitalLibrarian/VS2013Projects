@@ -15,9 +15,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
         public CombatEvolution_MartialArtsStrike(
             IInjuryCalc injuryCalc,
             IActionReporter reporter, 
-            IDamageCalc damageCalc, 
             IAgentReaper reaper) 
-            : base(reporter, damageCalc, reaper) 
+            : base(reporter, reaper) 
         {
             InjuryCalc = injuryCalc;
         }

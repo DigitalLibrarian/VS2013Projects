@@ -11,6 +11,5 @@ namespace Tiles.Items
     public interface IArmorClass
     {
         IReadOnlyList<ArmorSlot> RequiredSlots { get;}
-        IDamageVector ResistVector { get; }
     }
 }

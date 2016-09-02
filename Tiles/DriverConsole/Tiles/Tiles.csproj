@@ -115,7 +115,6 @@
     <Compile Include="Agents\Combat\CombatMove.cs" />
     <Compile Include="Agents\Combat\CombatMoveBuilder.cs" />
     <Compile Include="Agents\Combat\CombatMoveDiscoverer.cs" />
-    <Compile Include="Agents\Combat\DamageCalc.cs" />
     <Compile Include="Agents\Combat\DamageVector.cs" />
     <Compile Include="Agents\Combat\IAttackConductor.cs" />
     <Compile Include="Atlas.cs" />
@@ -136,7 +135,6 @@
     <Compile Include="Agents\IPlayer.cs" />
     <Compile Include="Agents\Combat\ICombatMoveBuilder.cs" />
     <Compile Include="Agents\Combat\ICombatMoveDiscoverer.cs" />
-    <Compile Include="Agents\Combat\IDamageCalc.cs" />
     <Compile Include="ConjugatedWord.cs" />
     <Compile Include="EcsBridge.cs" />
     <Compile Include="Ecs\Entity.cs" />

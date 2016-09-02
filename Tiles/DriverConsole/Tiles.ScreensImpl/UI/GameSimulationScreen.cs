@@ -186,7 +186,7 @@ namespace Tiles.ScreensImpl.UI
                             newTile.Agent, 
                             CommandFactory,
                             Game.AttackConductor, 
-                            new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc())), Canvas, Box)
+                            new CombatMoveDiscoverer(new CombatMoveBuilder()), Canvas, Box)
                         );
                 }
                 else if (!Game.Player.Agent.Body.IsWrestling)

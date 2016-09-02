@@ -47,12 +47,6 @@ namespace Tiles.ScreensImpl.UI
                 {
                     leftColumnLines.Add(string.Format("  {0}", slot));
                 }
-
-                foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
-                {
-                    DamageType damageType = (DamageType)damageTypeObj;
-                    leftColumnLines.Add(string.Format("   -{0}: {1}%", damageType, Item.Class.ArmorClass.ResistVector.GetComponent(damageType)));
-                }
             }
 
             if (Item.IsWeapon)
@@ -68,16 +62,6 @@ namespace Tiles.ScreensImpl.UI
                 foreach (var moveClass in Item.Class.WeaponClass.AttackMoveClasses)
                 {
                     leftColumnLines.Add(string.Format("  {0}", moveClass.Name));
-                    foreach (var damageTypeObj in Enum.GetValues(typeof(DamageType)))
-                    {
-                        DamageType damageType = (DamageType)damageTypeObj;
-
-                        uint dmg = moveClass.DamageVector.GetComponent(damageType);
-                        if (dmg > 0)
-                        {
-                            leftColumnLines.Add(string.Format("   +{0}: {1}", damageType, dmg));
-                        }
-                    }
                 }
             }
 

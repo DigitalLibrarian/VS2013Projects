@@ -45,21 +45,15 @@ namespace Tiles
             Random = random;
 
             var injuryFactory = new InjuryFactory();
-            /*
-            var injuryCalc = new InjuryCalc(
-                new InjuryResultBuilderFactory(injuryFactory),
-                new DamageResistorFactory());
-             * */
-
+            
             var injuryCalc = new InjuryCalc(injuryFactory);
             var reporter = new ActionReporter(log);
-            var damageCalc = new DamageCalc();
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
             var evolutions = new List<ICombatEvolution>{
-                new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, damageCalc, reaper),
-                new CombatEvolution_StartHold(reporter, damageCalc, reaper),
-                new CombatEvolution_ReleaseHold(reporter, damageCalc, reaper),
-                new CombatEvolution_BreakHold(reporter, damageCalc, reaper)
+                new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, reaper),
+                new CombatEvolution_StartHold(reporter, reaper),
+                new CombatEvolution_ReleaseHold(reporter, reaper),
+                new CombatEvolution_BreakHold(reporter, reaper)
             };
             AttackConductor = new AttackConductor(evolutions);
             

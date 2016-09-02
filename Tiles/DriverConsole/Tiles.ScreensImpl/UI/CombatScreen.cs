@@ -58,7 +58,7 @@ namespace Tiles.ScreensImpl.UI
             var moves = MoveDisco.GetPossibleMoves(Player.Agent, Target);
             foreach (var move in moves)
             {
-                lines.Add(string.Format("{0} ({1} dmg)", move.Name, move.PredictedDamage));
+                lines.Add(string.Format("{0}", move.Name));
             }
             lines.Add("Don't attack");
 

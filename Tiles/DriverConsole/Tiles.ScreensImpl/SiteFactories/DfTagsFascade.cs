@@ -46,7 +46,7 @@ namespace Tiles.ScreensImpl.SiteFactories
 
             DefaultPlanner = new DefaultAgentCommandPlanner(random,
                 new AgentCommandFactory(),
-                new CombatMoveDiscoverer(new CombatMoveBuilder(new DamageCalc())),
+                new CombatMoveDiscoverer(new CombatMoveBuilder()),
                 new PositionFinder());
         }
 

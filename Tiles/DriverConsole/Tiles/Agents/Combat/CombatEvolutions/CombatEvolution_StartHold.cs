@@ -10,8 +10,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_StartHold : CombatEvolution
     {
-        public CombatEvolution_StartHold(IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper) 
-            : base(reporter, damageCalc, reaper) { }
+        public CombatEvolution_StartHold(IActionReporter reporter, IAgentReaper reaper) 
+            : base(reporter, reaper) { }
 
         protected override bool Should(ICombatMoveContext session)
         {

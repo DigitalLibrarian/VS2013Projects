@@ -160,12 +160,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 { VerbConjugation.SecondPerson, "scratch"},
                                 { VerbConjugation.ThirdPerson, "scratches"},
                             }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Slash, 12 },
-                                        { DamageType.Pierce, 2},
-                                    }
-                               ),
                           prepTime: 1,
                           recoveryTime: 1
                            )
@@ -184,12 +178,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 { VerbConjugation.SecondPerson, "rake"},
                                 { VerbConjugation.ThirdPerson, "rakes"},
                             }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Slash, 18 },
-                                        { DamageType.Pierce, 5},
-                                    }
-                               ),
                           prepTime: 1,
                           recoveryTime: 1
                            )
@@ -217,12 +205,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 { VerbConjugation.SecondPerson, "bite"},
                                 { VerbConjugation.ThirdPerson, "bites"},
                             }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Slash, 12 },
-                                        { DamageType.Pierce, 2},
-                                    }
-                               ),
                           prepTime: 1,
                           recoveryTime: 1
                            )

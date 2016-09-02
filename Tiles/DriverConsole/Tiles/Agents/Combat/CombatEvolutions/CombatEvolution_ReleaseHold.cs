@@ -10,8 +10,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_ReleaseHold : CombatEvolution
     {
-        public CombatEvolution_ReleaseHold(IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper) 
-            : base(reporter, damageCalc, reaper) { }
+        public CombatEvolution_ReleaseHold(IActionReporter reporter, IAgentReaper reaper) 
+            : base(reporter, reaper) { }
 
         protected override bool Should(ICombatMoveContext session)
         {

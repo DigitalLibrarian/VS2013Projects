@@ -11,12 +11,10 @@ namespace Tiles.Agents.Combat
     public abstract class CombatEvolution : ICombatEvolution
     {
         protected IActionReporter Reporter { get; private set; }
-        protected IDamageCalc DamageCalc { get; set; }
         IAgentReaper Reaper { get; set; }
-        public CombatEvolution(IActionReporter reporter, IDamageCalc damageCalc, IAgentReaper reaper)
+        public CombatEvolution(IActionReporter reporter, IAgentReaper reaper)
         {
             Reporter = reporter;
-            DamageCalc = damageCalc;
             Reaper = reaper;
         }
 

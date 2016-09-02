@@ -40,13 +40,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { VerbConjugation.SecondPerson, "swat"},
                                     { VerbConjugation.ThirdPerson, "swats"},
                                 }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Blunt, 1 }
-                                    }
-                               ),
-                          prepTime: 1,
-                          recoveryTime: 1
+                           prepTime: 1,
+                           recoveryTime: 1
                            ){
                            IsDefenderPartSpecific = true,
                            IsMartialArts = true,
@@ -62,13 +57,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { VerbConjugation.SecondPerson, "swish"},
                                     { VerbConjugation.ThirdPerson, "swishes"},
                                 }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Slash, 1 }
-                                    }
-                               ),
-                          prepTime: 1,
-                          recoveryTime: 1
+                           prepTime: 1,
+                           recoveryTime: 1
                            ){
                            IsDefenderPartSpecific = true,
                            IsMartialArts = true,
@@ -95,13 +85,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { VerbConjugation.SecondPerson, "slash"},
                                     { VerbConjugation.ThirdPerson, "slashes"},
                                 }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Slash, 55 }
-                                    }
-                               ),
-                          prepTime: 1,
-                          recoveryTime: 1
+                           prepTime: 1,
+                           recoveryTime: 1
                            ){
                            IsDefenderPartSpecific = true,
                            IsMartialArts = true,
@@ -117,14 +102,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { VerbConjugation.SecondPerson, "stab"},
                                     { VerbConjugation.ThirdPerson, "stabs"},
                                 }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Pierce, 63 },
-                                        { DamageType.Slash, 11 }
-                                    }
-                               ),
-                          prepTime: 1,
-                          recoveryTime: 1
+                           prepTime: 1,
+                           recoveryTime: 1
                            ){
                            IsDefenderPartSpecific = true,
                            IsMartialArts = true,
@@ -151,13 +130,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { VerbConjugation.SecondPerson, "bash"},
                                     { VerbConjugation.ThirdPerson, "bashes"},
                                 }, true),
-                           damage: new DamageVector(
-                                    new Dictionary<DamageType,uint>{
-                                        { DamageType.Blunt, 25 }
-                                    }
-                               ),
-                          prepTime: 1,
-                          recoveryTime: 1
+                           prepTime: 1,
+                           recoveryTime: 1
                            ){
                            IsDefenderPartSpecific = true,
                            IsMartialArts = true,
@@ -171,154 +145,67 @@ namespace Tiles.ScreensImpl.ContentFactories
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Cotton,
-                armorClass: new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 25},
-                            { DamageType.Pierce, 1},
-                            { DamageType.Blunt, 1},
-                        }),
-                        ArmorSlot.Head
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.Head)),
             new ItemClass(
                 name: "leather arm pad (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass:
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 80},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.LeftArm
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.LeftArm)),
             new ItemClass(
                 name: "leather arm pad (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass:
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 80},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.RightArm
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.RightArm)),
             new ItemClass(
                 name: "leather leg pad (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass:
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 80},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.LeftLeg
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.LeftLeg)),
             new ItemClass(
                 name: "leather leg pad (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass:
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 80},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.RightLeg
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.RightLeg)),
             new ItemClass(
                 name: "leather vest",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass: 
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 95},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.Torso
-                    )),
+                armorClass:  new ArmorClass(ArmorSlot.Torso)),
             new ItemClass(
                 name: "leather cap",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass: 
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 75},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.Head
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.Head)),
             new ItemClass(
                 name: "leather shoe (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass: 
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 90},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.RightFoot
-                    )),
+                armorClass:  new ArmorClass(ArmorSlot.RightFoot)),
             new ItemClass(
                 name: "leather shoe (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass: 
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 90},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.LeftFoot
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.LeftFoot)),
             new ItemClass(
                 name: "leather glove (R)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass: 
-                    new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 45},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
-                        ArmorSlot.RightHand
-                    )),
+                armorClass: new ArmorClass(ArmorSlot.RightHand)),
             new ItemClass(
                 name: "leather glove (L)",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
                 size: 10,
                 material: Leather,
-                armorClass: 
-                new ArmorClass(    
-                    new DamageVector(new Dictionary<DamageType,uint>{
-                        { DamageType.Slash, 45},
-                        { DamageType.Pierce, 7},
-                        { DamageType.Blunt, 2},
-                    }),
-                    ArmorSlot.LeftHand
-                )),
+                armorClass: new ArmorClass(ArmorSlot.LeftHand)),
             new ItemClass(
                 name: "leather trenchcoat",
                 sprite: new Sprite(Symbol.MiscClothing, Color.White, Color.Black),
@@ -326,11 +213,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                 material: Leather,
                 armorClass: 
                     new ArmorClass(
-                        new DamageVector(new Dictionary<DamageType,uint>{
-                            { DamageType.Slash, 45},
-                            { DamageType.Pierce, 7},
-                            { DamageType.Blunt, 2},
-                        }),
                         ArmorSlot.Torso,
                         ArmorSlot.LeftArm,
                         ArmorSlot.RightArm,
@@ -363,13 +245,6 @@ namespace Tiles.ScreensImpl.ContentFactories
                                 { VerbConjugation.SecondPerson, "strike"},
                                 { VerbConjugation.ThirdPerson, "strikes"},
                             }, true),
-                       damage: new DamageVector(
-                                new Dictionary<DamageType,uint>{
-                                    { DamageType.Slash, 1 },
-                                    { DamageType.Pierce, 1 },
-                                    { DamageType.Blunt, 1 }
-                                }
-                           ),
                           prepTime: 1,
                           recoveryTime: 1
                        )

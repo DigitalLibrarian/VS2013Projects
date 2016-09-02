@@ -13,19 +13,16 @@ namespace Tiles.Agents.Combat
     {
         public CombatMoveClass(string name, 
             IVerb meleeVerb, 
-            IDamageVector damage, 
             int prepTime, int recoveryTime)
         {
             Name = name;
             Verb = meleeVerb;
-            DamageVector = damage;
         }
 
 
         // New stuff
         public string Name { get; set; }
         public IVerb Verb { get; set; }
-        public IDamageVector DamageVector { get; set; }
         public int PrepTime { get; set; }
         public int RecoveryTime { get; set; }
         
