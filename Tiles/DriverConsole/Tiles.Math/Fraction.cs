@@ -6,18 +6,29 @@ using System.Threading.Tasks;
 
 namespace Tiles.Math
 {
-    public struct Fraction
+    public class Fraction
     {
-        public long Numerator { get; private set; }
-        public long Denominator { get; private set; }
+        public long Numerator { get; set; }
+        private long _denom;
+        public long Denominator { 
+            get { return _denom; }
+            set {
+                CheckDenomZero(value);
+                _denom = value;
+            }
+        }
+
+        public Fraction(int num, int denom) : this((long)num, (long)denom) { }
 
         public Fraction(long num, long denom)
-            : this()
         {
             Numerator = num;
             Denominator = denom;
+        }
 
-            if (Denominator == 0)
+        void CheckDenomZero(long d)
+        {
+            if (d == 0)
             {
                 throw new DivideByZeroException();
             }

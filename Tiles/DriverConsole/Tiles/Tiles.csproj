@@ -94,7 +94,7 @@
     <Compile Include="Agents\IAgentCommandTypeInterpreter.cs" />
     <Compile Include="Agents\IAgentFactory.cs" />
     <Compile Include="Agents\IAgentReaper.cs" />
-    <Compile Include="Agents\Combat\IDamageVector.cs" />
+    <Compile Include="IDamageVector.cs" />
     <Compile Include="Bodies\Body.cs" />
     <Compile Include="Bodies\BodyClass.cs" />
     <Compile Include="Bodies\BodyFactory.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="Agents\Combat\CombatMove.cs" />
     <Compile Include="Agents\Combat\CombatMoveBuilder.cs" />
     <Compile Include="Agents\Combat\CombatMoveDiscoverer.cs" />
-    <Compile Include="Agents\Combat\DamageVector.cs" />
+    <Compile Include="DamageVector.cs" />
     <Compile Include="Agents\Combat\IAttackConductor.cs" />
     <Compile Include="Atlas.cs" />
     <Compile Include="Bodies\IBodyPartClass.cs" />

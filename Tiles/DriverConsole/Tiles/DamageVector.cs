@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Math;
 
-namespace Tiles.Agents.Combat
+namespace Tiles
 {
     public class DamageVector : IDamageVector
     {
-        IDictionary<DamageType, uint> Data { get; set; }
-
-        public bool AnyPositive
+        Dictionary<DamageType, Fraction> Data { get; set; }
+        
+        public DamageVector(IDictionary<DamageType, int> data)
         {
-            get { return Data.Values.Any(v => v > 0) && Data.Values.Any(); }
-        }
-
-        public DamageVector(IDictionary<DamageType, uint> data)
-        {
-            Data = data;
+            Data = new Dictionary<DamageType, Fraction>();
+            foreach (var pair in data)
+            {
+                Data.Add(pair.Key, new Fraction(pair.Value, 100));
+            }
         }
 
         public DamageVector()
         {
-            Data = new Dictionary<DamageType, uint>();
+            Data = new Dictionary<DamageType, Fraction>();
         }
 
-        public uint GetComponent(DamageType damageType)
+        public int GetComponent(DamageType damageType)
         {
             if (Data.ContainsKey(damageType))
             {
-                return Data[damageType];
+                return (int) Data[damageType].Numerator;
             }
             else
             {
@@ -37,9 +37,13 @@ namespace Tiles.Agents.Combat
             }
         }
 
-        public void SetComponent(DamageType damageType, uint damage)
+        public void SetComponent(DamageType damageType, int damage)
         {
-            Data[damageType] = damage;
+            if (!Data.ContainsKey(damageType))
+            {
+                Data[damageType] = new Fraction(100, 100);
+            }
+            Data[damageType].Numerator = damage;
         }
 
         public IEnumerable<DamageType> GetComponentTypes()
@@ -73,16 +77,6 @@ namespace Tiles.Agents.Combat
             {
                 SetComponent(dt, GetComponent(dt) + damage.GetComponent(dt));
             }
-        }
-
-        public static IDamageVector CreateUnit()
-        {
-            var d = new Dictionary<DamageType, uint>();
-            foreach(var dt in AllDamageTypes())
-            {
-                d.Add(dt, 1);
-            }
-            return new DamageVector(d);
         }
     }
 }

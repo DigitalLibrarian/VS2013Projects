@@ -5,15 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
 
-namespace Tiles.Agents.Combat
+namespace Tiles
 {
     public interface IDamageVector
     {
-        bool AnyPositive { get; }
-
         IEnumerable<DamageType> GetComponentTypes();
-        uint GetComponent(DamageType damageType);
-        void SetComponent(DamageType damageType, uint damage);
+        int GetComponent(DamageType damageType);
+        void SetComponent(DamageType damageType, int damage);
 
         string ToString();
 
