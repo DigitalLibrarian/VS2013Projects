@@ -15,6 +15,15 @@ namespace Tiles.Materials
         IMaterial StrikerMaterial { get; set; }
         IMaterial StrickenMaterial { get; set; }
 
+        public void Clear()
+        {
+            ContactArea = 0;
+            Momentum = 0;
+            StressMode = Materials.StressMode.None;
+            StrikerMaterial = null;
+            StrickenMaterial = null;
+        }
+
         public void SetStressMode(StressMode mode)
         {
             StressMode = mode;

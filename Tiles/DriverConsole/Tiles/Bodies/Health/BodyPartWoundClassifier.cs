@@ -54,7 +54,7 @@ namespace Tiles.Bodies.Health
             }
 
             long totalNum=0, totalDenom=0;
-            foreach (var damageType in damageVector.GetComponentTypes())
+            foreach (var damageType in damageVector.GetTypes())
             {
                 var fraction = damageVector.GetFraction(damageType);
                 totalNum += fraction.Numerator;
@@ -66,7 +66,7 @@ namespace Tiles.Bodies.Health
 
         bool IsPulped(IDamageVector damage)
         {
-            foreach (var damageType in damage.GetComponentTypes())
+            foreach (var damageType in damage.GetTypes())
             {
                 double threshold = 1.0d;
                 if (damageType == DamageType.Blunt)

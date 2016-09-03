@@ -31,15 +31,15 @@ namespace Tiles.Tests.Agents.Combat
         {
             var v = new DamageVector();
 
-            Assert.IsFalse(v.GetComponentTypes().Any());
+            Assert.IsFalse(v.GetTypes().Any());
 
             foreach (var damageType in DamageVector.AllDamageTypes())
             {
-                Assert.AreEqual(0, v.GetComponent(damageType));
+                Assert.AreEqual(0, v.Get(damageType));
             }
 
-            v.SetComponent(DamageType.Slash, 25);
-            Assert.AreEqual(25, v.GetComponent(DamageType.Slash));
+            v.Set(DamageType.Slash, 25);
+            Assert.AreEqual(25, v.Get(DamageType.Slash));
         }
 
         [TestMethod]
@@ -51,18 +51,18 @@ namespace Tiles.Tests.Agents.Combat
                 {DamageType.Pierce, 2}
             });
 
-            Assert.IsTrue(v.GetComponentTypes().Contains(DamageType.Blunt));
-            Assert.IsTrue(v.GetComponentTypes().Contains(DamageType.Pierce));
-            Assert.IsFalse(v.GetComponentTypes().Contains(DamageType.Slash));
+            Assert.IsTrue(v.GetTypes().Contains(DamageType.Blunt));
+            Assert.IsTrue(v.GetTypes().Contains(DamageType.Pierce));
+            Assert.IsFalse(v.GetTypes().Contains(DamageType.Slash));
 
-            Assert.AreEqual(1, v.GetComponent(DamageType.Blunt));
-            Assert.AreEqual(2, v.GetComponent(DamageType.Pierce));
-            Assert.AreEqual(0, v.GetComponent(DamageType.Slash));
+            Assert.AreEqual(1, v.Get(DamageType.Blunt));
+            Assert.AreEqual(2, v.Get(DamageType.Pierce));
+            Assert.AreEqual(0, v.Get(DamageType.Slash));
 
-            v.SetComponent(DamageType.Blunt, 11);
-            Assert.AreEqual(11, v.GetComponent(DamageType.Blunt));
-            v.SetComponent(DamageType.Slash, 42);
-            Assert.AreEqual(42, v.GetComponent(DamageType.Slash));
+            v.Set(DamageType.Blunt, 11);
+            Assert.AreEqual(11, v.Get(DamageType.Blunt));
+            v.Set(DamageType.Slash, 42);
+            Assert.AreEqual(42, v.Get(DamageType.Slash));
         }
 
         [TestMethod]

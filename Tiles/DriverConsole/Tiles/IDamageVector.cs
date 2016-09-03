@@ -10,14 +10,15 @@ namespace Tiles
 {
     public interface IDamageVector
     {
-        IEnumerable<DamageType> GetComponentTypes();
-        int GetComponent(DamageType damageType);
-        Fraction GetFraction(DamageType damageType);
-        void SetComponent(DamageType damageType, int damage);
+        IEnumerable<DamageType> GetTypes();
 
-        string ToString();
+        int Get(DamageType damageType);
+        void Set(DamageType damageType, int damage);
+
+        Fraction GetFraction(DamageType damageType);
 
         void Add(IDamageVector damage);
 
+        string ToString();
     }
 }

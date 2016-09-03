@@ -25,7 +25,7 @@ namespace Tiles
             Data = new Dictionary<DamageType, Fraction>();
         }
 
-        public int GetComponent(DamageType damageType)
+        public int Get(DamageType damageType)
         {
             if (Data.ContainsKey(damageType))
             {
@@ -45,7 +45,7 @@ namespace Tiles
             }
             return null;
         }
-        public void SetComponent(DamageType damageType, int damage)
+        public void Set(DamageType damageType, int damage)
         {
             if (!Data.ContainsKey(damageType))
             {
@@ -54,7 +54,7 @@ namespace Tiles
             Data[damageType].Numerator = damage;
         }
 
-        public IEnumerable<DamageType> GetComponentTypes()
+        public IEnumerable<DamageType> GetTypes()
         {
             return Data.Keys;
         }
@@ -63,9 +63,9 @@ namespace Tiles
         public override string ToString()
         {
             StringBuilder.Clear();
-            foreach (var dt in GetComponentTypes())
+            foreach (var dt in GetTypes())
             {
-                StringBuilder.AppendFormat("{0}: {1} ", dt, GetComponent(dt));
+                StringBuilder.AppendFormat("{0}: {1} ", dt, Get(dt));
             }
             return StringBuilder.ToString();
         }
@@ -81,9 +81,9 @@ namespace Tiles
 
         public void Add(IDamageVector damage)
         {
-            foreach (var dt in damage.GetComponentTypes())
+            foreach (var dt in damage.GetTypes())
             {
-                SetComponent(dt, GetComponent(dt) + damage.GetComponent(dt));
+                Set(dt, Get(dt) + damage.Get(dt));
             }
         }
     }

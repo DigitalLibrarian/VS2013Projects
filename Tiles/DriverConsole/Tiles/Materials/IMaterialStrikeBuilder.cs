@@ -17,5 +17,6 @@ namespace Tiles.Materials
         void SetStrickenMaterial(IMaterial mat);
 
         IMaterialStrikeResult Build();
+        void Clear();
     }
 }
