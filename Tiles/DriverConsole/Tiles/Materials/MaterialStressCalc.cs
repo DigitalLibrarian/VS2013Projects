@@ -114,22 +114,18 @@ namespace Tiles.Materials
             int bYieldStrainIn, int bFractureStrainIn, int bStrainAtYieldIn
             )
         {
-            double contactArea = FixContactArea(contactAreaIn);
-            double yieldRatio = (double)aYieldStrainIn / (double)bYieldStrainIn;
-            double fractureRatio = (double)aFractureStrainIn / (double)bFractureStrainIn;
+            double A = FixContactArea(contactAreaIn);
+            double rSY = (double)bYieldStrainIn / (double)aYieldStrainIn;
+            double rSF = (double)bFractureStrainIn / (double)aFractureStrainIn;
 
-            yieldRatio = 1 / yieldRatio;
-            fractureRatio = 1 / fractureRatio;
+            double Qa = 1;
+            double Qw = 1;
+            double S = 1;
 
-
-            double qa = 1;
-            double qw = 1;
-            double s = 1;
-
-
-            return (yieldRatio + ((double)contactArea + 1d) * fractureRatio)
-                * (10 * 2 * qa)
-                / (s * qw);
+            // M >= (rSY + (A+1)*rSF) * (10 + 2*Qa) / (S * Qw)
+            return (rSY + ((double)A + 1d) * rSF)
+                * (10 + (2 * Qa))
+                / (S * Qw);
         }
 
         public static double GetEdgedBreakThreshold(int contactArea, IMaterial strikerMat, IMaterial strickenMat)

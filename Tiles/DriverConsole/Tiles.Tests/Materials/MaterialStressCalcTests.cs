@@ -98,35 +98,35 @@ namespace Tiles.Tests.Materials
         public void TestMaterials_GetEdgeThreshold_CopperOnSteel()
         {
             AssertMatOnMat_GetEdgeThreshold(
-                1, TestMaterials.Copper, TestMaterials.Steel, 188.9);
+                1, TestMaterials.Copper, TestMaterials.Steel, 113.3);
         }
 
         [TestMethod]
         public void TestMaterials_GetEdgeThreshold_SteelOnCopper()
         {
             AssertMatOnMat_GetEdgeThreshold(
-                1, TestMaterials.Steel, TestMaterials.Copper, 9.4);
+                1, TestMaterials.Steel, TestMaterials.Copper, 5.6);
         }
 
         [TestMethod]
         public void TestMaterials_GetEdgeThreshold_AdamantineOnSkin()
         {
             AssertMatOnMat_GetEdgeThreshold(
-                1, TestMaterials.Adamantine, TestMaterials.Skin, 0.1);
+                1, TestMaterials.Adamantine, TestMaterials.Skin, 0.0);
         }
 
         [TestMethod]
         public void TestMaterials_GetEdgeThreshold_SteelOnSkin()
         {
             AssertMatOnMat_GetEdgeThreshold(
-                1, TestMaterials.Steel, TestMaterials.Skin, 1.4);
+                1, TestMaterials.Steel, TestMaterials.Skin, 0.8);
         }
         
         [TestMethod]
         public void TestMaterials_GetEdgeThreshold_CopperOnSkin()
         {
             AssertMatOnMat_GetEdgeThreshold(
-                1, TestMaterials.Copper, TestMaterials.Skin, 7.5);
+                1, TestMaterials.Copper, TestMaterials.Skin, 4.5);
         }
 
         [TestMethod]
