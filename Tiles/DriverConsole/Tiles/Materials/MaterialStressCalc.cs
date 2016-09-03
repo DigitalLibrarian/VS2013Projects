@@ -10,16 +10,16 @@ namespace Tiles.Materials
     {
         // TODO - items or creatures without defined attacks get default blunt attack with area = (size)^2/3
 
-        public static double CalcStress(
-            double forceIn, int contactAreaIn,
-            int yieldStrainIn, int fractureStrainIn, int strainAtYieldIn)
+
+
+        public static double CalcStrain(double forceIn, int contactAreaIn, int strainAtYieldIn)
         {
             double force = (double)forceIn;
             double contactArea = FixContactArea(contactAreaIn);
-            double strainAtYield = (double)strainAtYieldIn;
+            double strainAtYield =  ((double)strainAtYieldIn) / 100000d;
 
             //Strain is measured as parts-per-100000, meaning that 100000 strain is 100% deformation
-            return ((force / (contactArea)) * strainAtYield) / 100000d;
+            return ((force * strainAtYield) / contactArea );
         }
 
         public static StressResult StressLayer(
@@ -36,7 +36,7 @@ namespace Tiles.Materials
             double yieldStrain = (double)yieldStrainIn / strainConvert;
 
 
-            var stress = CalcStress(forceIn, contactAreaIn, yieldStrainIn, fractureStrainIn, strainAtYieldIn);
+            var stress = CalcStrain(forceIn, contactAreaIn, strainAtYieldIn);
             var result = StressResult.Elastic;
 
             if (stress >= fractureStrain)
@@ -101,7 +101,11 @@ namespace Tiles.Materials
 
         private static double ToMpa(int strain)
         {
-            return (double)strain / 1000000d;
+            return ToMpa((double)strain);
+        }
+        private static double ToMpa(double strain)
+        {
+            return strain / 1000000d;
         }
 
         public static double GetEdgedBreakThreshold(
@@ -151,20 +155,25 @@ namespace Tiles.Materials
             strickenMat.GetModeProperties(StressMode.Blunt,
                 out yield, out fracture, out strainAtYield);
 
-            var IF = ToMpa(fracture);
-            var IY = ToMpa(yield);
+            var IF = ToMpa(fracture);   // layer fracture
+            var IY = ToMpa(yield);      // layer yield
 
             var A = FixContactArea(contactArea);
-            double Qa = 1d;
+            double Qa = 1d; // quality multiplier for armor
 
             // M >= (2*IF - IY) * (2 + 0.4*Qa) * A,
 
             double term1 = (2d * IF) - IY;
+            if (term1 < 0)
+            {
+                term1 = 1d;
+            }
             double term2 = 2d + 0.4d * Qa;
             double term3 = A;
 
             return term1 * term2 * term3;
         }
+
         #endregion
     }
 }

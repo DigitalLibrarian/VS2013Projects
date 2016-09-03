@@ -125,5 +125,19 @@ namespace Tiles.Tests
 
             SolidDensity = 100
         };
+
+
+        public static readonly IMaterial Iron = new Material("iron", "iron")
+        {
+            ImpactYield = 542500,
+            ImpactFracture = 1085000,
+            ImpactStrainAtYield = 319,
+
+            ShearYield = 155000,
+            ShearFracture = 310000,
+            ShearStrainAtYield = 189,
+
+            SolidDensity = 7850
+        };
     }
 }

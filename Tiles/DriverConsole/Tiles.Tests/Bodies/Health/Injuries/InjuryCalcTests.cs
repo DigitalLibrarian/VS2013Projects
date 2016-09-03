@@ -15,7 +15,7 @@ using Tiles.Materials;
 
 namespace Tiles.Tests.Bodies.Health.Injuries
 {
-    [TestClass]
+    //[TestClass]
     public class InjuryCalcTests
     {
         InjuryCalc InjuryCalc { get; set; }

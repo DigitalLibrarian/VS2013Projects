@@ -11,88 +11,88 @@ namespace Tiles.Tests.Materials
     [TestClass]
     public class MaterialStressCalcTests
     {
-        [TestMethod]
-        public void StressLayer_Zero()
-        {
-            int yield = 10;
-            int fracture = 20;
-            int strainAtYield = 30;
+        //[TestMethod]
+        //public void StressLayer_Zero()
+        //{
+        //    int yield = 10;
+        //    int fracture = 20;
+        //    int strainAtYield = 30;
 
-            double momentum = 0;
+        //    double momentum = 0;
 
-            double deform;
+        //    double deform;
 
-            var result = MaterialStressCalc.StressLayer(
-                momentum, 1, 1,
-                yield, fracture, strainAtYield,
-                out deform);
+        //    var result = MaterialStressCalc.StressLayer(
+        //        momentum, 1, 1,
+        //        yield, fracture, strainAtYield,
+        //        out deform);
 
-            Assert.AreEqual(StressResult.Elastic, result);
-            Assert.AreEqual(0, deform);
-        }
+        //    Assert.AreEqual(StressResult.Elastic, result);
+        //    Assert.AreEqual(0, deform);
+        //}
 
-        [TestMethod]
-        public void StressLayer_AdamantineShortSwordonSkin()
-        {
-            int yield = 20000;
-            int fracture = 20000;
-            int strainAtYield = 50000;
-            int thickness = 1071;
-            int contactArea = 20000;
+        //[TestMethod]
+        //public void StressLayer_AdamantineShortSwordonSkin()
+        //{
+        //    int yield = 20000;
+        //    int fracture = 20000;
+        //    int strainAtYield = 50000;
+        //    int thickness = 1071;
+        //    int contactArea = 20000;
 
-            double momentum = 28.20;
+        //    double momentum = 28.20;
 
-            double deform;
+        //    double deform;
 
-            var result = MaterialStressCalc.StressLayer(
-                momentum, thickness, contactArea,
-                yield, fracture, strainAtYield,
-                out deform);
+        //    var result = MaterialStressCalc.StressLayer(
+        //        momentum, thickness, contactArea,
+        //        yield, fracture, strainAtYield,
+        //        out deform);
 
-            Assert.AreEqual(StressResult.Fracture, result);
-            Assert.AreEqual(1d, deform);
-        }
+        //    Assert.AreEqual(StressResult.Fracture, result);
+        //    Assert.AreEqual(1d, deform);
+        //}
 
-        [TestMethod]
-        public void EdgedStress_AdamantineShortSwordOnSkin()
-        {
-            var adam = TestMaterials.Adamantine;
-            var skin = TestMaterials.Skin;
+        //[TestMethod]
+        //public void EdgedStress_AdamantineShortSwordOnSkin()
+        //{
+        //    var adam = TestMaterials.Adamantine;
+        //    var skin = TestMaterials.Skin;
             
-            double momentum = 28.20;
-            int thickness = 1071;
-            int contactArea = 20000;
+        //    int thickness = 1071;
+        //    int contactArea = 20000;
+        //    double momentum = MaterialStressCalc.GetEdgedBreakThreshold(contactArea, adam, skin);
 
-            var result = PerformEdgedTest(momentum, contactArea, thickness, adam, skin);
-            Assert.IsTrue(result);
+        //    var result = PerformEdgedTest(momentum, contactArea, thickness, adam, skin);
+        //    Assert.IsTrue(result);
 
-            result = PerformEdgedTest(5.0, contactArea, thickness, adam, skin);
-            Assert.IsFalse(result);
+        //    result = PerformEdgedTest(momentum - 0.01d, contactArea, thickness, adam, skin);
+        //    Assert.IsFalse(result);
 
-            result = PerformEdgedTest(5.05, contactArea, thickness, adam, skin);
-            Assert.IsTrue(result);
-        }
+        //    result = PerformEdgedTest(momentum + 0.01d, contactArea, thickness, adam, skin);
+        //    Assert.IsTrue(result);
+        //}
 
-        [TestMethod]
-        public void BluntStress_SilverMaceOnBone()
-        {
-            var silver = TestMaterials.Silver;
-            var bone = TestMaterials.Bone;
+        //[TestMethod]
+        //public void BluntStress_SilverMaceOnBone()
+        //{
+        //    var silver = TestMaterials.Silver;
+        //    var bone = TestMaterials.Bone;
 
-            int size = 800;
-            double mom = 39.4424;
-            int thickness = 26315;
-            int contactArea = 20;
+        //    int size = 800;
+        //    double mom = 39.4424;
+        //    int thickness = 26315;
+        //    int contactArea = 20;
 
-            var result = PerformBluntTest(size, mom, contactArea, thickness, silver, bone);
-            Assert.IsTrue(result);
+        //    var result = PerformBluntTest(size, mom, contactArea, thickness, silver, bone);
+        //    Assert.IsTrue(result);
 
-            result = PerformBluntTest(size, 2771, contactArea, thickness, silver, bone);
-            Assert.IsFalse(result);
+        //    result = PerformBluntTest(size, 2771, contactArea, thickness, silver, bone);
+        //    Assert.IsFalse(result);
 
-            result = PerformBluntTest(size, 2772, contactArea, thickness, silver, bone);
-            Assert.IsTrue(result);
-        }
+        //    result = PerformBluntTest(size, 2772, contactArea, thickness, silver, bone);
+        //    Assert.IsTrue(result);
+        //}
 
         [TestMethod]
         public void TestMaterials_GetEdgeThreshold_CopperOnSteel()
@@ -121,8 +121,7 @@ namespace Tiles.Tests.Materials
             AssertMatOnMat_GetEdgeThreshold(
                 1, TestMaterials.Steel, TestMaterials.Skin, 1.4);
         }
-
-
+        
         [TestMethod]
         public void TestMaterials_GetEdgeThreshold_CopperOnSkin()
         {
@@ -144,12 +143,72 @@ namespace Tiles.Tests.Materials
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Skin,
                 4.8);
+        }
 
+        [TestMethod]
+        public void TestMaterials_GetBluntTheshold_Silver()
+        {
+            AssertMatOnMat_GetBluntThreshold(
+                0, TestMaterials.Silver,
+                0.0);
+
+            AssertMatOnMat_GetBluntThreshold(
+                20, TestMaterials.Silver,
+                0.4);
+
+            AssertMatOnMat_GetBluntThreshold(
+                20000, TestMaterials.Silver,
+                403.2);
+        }
+
+
+        [TestMethod]
+        public void TestMaterials_GetBluntTheshold_Bone()
+        {
+            AssertMatOnMat_GetBluntThreshold(
+                20, TestMaterials.Bone,
+                0.4);
+
+            AssertMatOnMat_GetBluntThreshold(
+                200, TestMaterials.Bone,
+                4.8);
+
+            AssertMatOnMat_GetBluntThreshold(
+                20000, TestMaterials.Bone,
+                480);
+        }
+        
+        [TestMethod]
+        public void TestMaterials_GetBluntTheshold_Copper()
+        {
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Copper,
                 621.5);
-
         }
+
+        [TestMethod]
+        public void TestMaterials_GetBluntTheshold_Iron()
+        {
+            AssertMatOnMat_GetBluntThreshold(
+                20000, TestMaterials.Iron,
+                781.1);
+        }
+
+
+        //bool PerformEdgedTest(double momentum, int contactArea, int thickness, IMaterial weaponMat, IMaterial layerMat)
+        //{
+        //    return MaterialStressCalc.EdgedStress(momentum, contactArea, thickness,
+        //        weaponMat.ShearYield, weaponMat.ShearFracture, weaponMat.ShearStrainAtYield,
+        //        layerMat.ShearYield, layerMat.ShearFracture, layerMat.ShearStrainAtYield);
+        //}
+        //bool PerformBluntTest(
+        //    int weaponSize,
+        //    double momentum, int contactArea, int thickness, IMaterial weaponMat, IMaterial layerMat)
+        //{
+        //    return MaterialStressCalc.BluntStress(momentum, contactArea, thickness,
+        //        weaponMat.ImpactYield, weaponMat.ImpactFracture, weaponMat.ImpactStrainAtYield,
+        //        layerMat.ImpactYield, layerMat.ImpactFracture, layerMat.ImpactStrainAtYield);
+        //}
 
 
 
@@ -159,10 +218,9 @@ namespace Tiles.Tests.Materials
                 contactArea, strikerMat, strickenMat);
 
             AssertRoughly(
-                expectedThreshold, 
+                expectedThreshold,
                 thresh,
-                "edged threshold"
-                    );
+                "edged threshold");
         }
 
         void AssertRoughly(double expected, double actual, string message)
@@ -176,28 +234,9 @@ namespace Tiles.Tests.Materials
         {
             var thresh = MaterialStressCalc.GetBluntBreakThreshold(contactArea, strickenMat);
             AssertRoughly(
-                expected, 
+                expected,
                 thresh,
                 "blunt threshold");
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void ZeroStrainAtYield() { }
-
-        bool PerformEdgedTest(double momentum, int contactArea, int thickness, IMaterial weaponMat, IMaterial layerMat)
-        {
-            return MaterialStressCalc.EdgedStress(momentum, contactArea, thickness,
-                weaponMat.ShearYield, weaponMat.ShearFracture, weaponMat.ShearStrainAtYield,
-                layerMat.ShearYield, layerMat.ShearFracture, layerMat.ShearStrainAtYield);
-        }
-        bool PerformBluntTest(
-            int weaponSize,
-            double momentum, int contactArea, int thickness, IMaterial weaponMat, IMaterial layerMat)
-        {
-            return MaterialStressCalc.BluntStress(momentum, contactArea, thickness,
-                weaponMat.ImpactYield, weaponMat.ImpactFracture, weaponMat.ImpactStrainAtYield,
-                layerMat.ImpactYield, layerMat.ImpactFracture, layerMat.ImpactStrainAtYield);
         }
     }
 }
