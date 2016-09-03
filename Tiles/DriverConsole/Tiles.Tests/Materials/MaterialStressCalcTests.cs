@@ -40,7 +40,7 @@ namespace Tiles.Tests.Materials
             int thickness = 1071;
             int contactArea = 20000;
 
-            double momentum = 2820;
+            double momentum = 28.20;
 
             double deform;
 
@@ -50,7 +50,7 @@ namespace Tiles.Tests.Materials
                 out deform);
 
             Assert.AreEqual(StressResult.Fracture, result);
-            Assert.AreEqual(13165, (int)(deform*100));
+            Assert.AreEqual(1d, deform);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace Tiles.Tests.Materials
             var adam = TestMaterials.Adamantine;
             var skin = TestMaterials.Skin;
             
-            double momentum = 2820;
+            double momentum = 28.20;
             int thickness = 1071;
             int contactArea = 20000;
 
@@ -80,21 +80,110 @@ namespace Tiles.Tests.Materials
             var bone = TestMaterials.Bone;
 
             int size = 800;
-            double mom = 39442.4;
+            double mom = 39.4424;
             int thickness = 26315;
             int contactArea = 20;
 
             var result = PerformBluntTest(size, mom, contactArea, thickness, silver, bone);
             Assert.IsTrue(result);
 
-            result = PerformBluntTest(size, 1343, contactArea, thickness, silver, bone);
+            result = PerformBluntTest(size, 2771, contactArea, thickness, silver, bone);
             Assert.IsFalse(result);
 
-            result = PerformBluntTest(size, 1344, contactArea, thickness, silver, bone);
+            result = PerformBluntTest(size, 2772, contactArea, thickness, silver, bone);
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetEdgeThreshold_CopperOnSteel()
+        {
+            AssertMatOnMat_GetEdgeThreshold(
+                1, TestMaterials.Copper, TestMaterials.Steel, 188.9);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetEdgeThreshold_SteelOnCopper()
+        {
+            AssertMatOnMat_GetEdgeThreshold(
+                1, TestMaterials.Steel, TestMaterials.Copper, 9.4);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetEdgeThreshold_AdamantineOnSkin()
+        {
+            AssertMatOnMat_GetEdgeThreshold(
+                1, TestMaterials.Adamantine, TestMaterials.Skin, 0.1);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetEdgeThreshold_SteelOnSkin()
+        {
+            AssertMatOnMat_GetEdgeThreshold(
+                1, TestMaterials.Steel, TestMaterials.Skin, 1.4);
+        }
+
+
+        [TestMethod]
+        public void TestMaterials_GetEdgeThreshold_CopperOnSkin()
+        {
+            AssertMatOnMat_GetEdgeThreshold(
+                1, TestMaterials.Copper, TestMaterials.Skin, 7.5);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetBluntTheshold()
+        {
+            AssertMatOnMat_GetBluntThreshold(
+                1, TestMaterials.Skin,
+                0.0);
+
+            AssertMatOnMat_GetBluntThreshold(
+                20, TestMaterials.Skin,
+                0.0);
+
+            AssertMatOnMat_GetBluntThreshold(
+                20000, TestMaterials.Skin,
+                4.8);
+
+            AssertMatOnMat_GetBluntThreshold(
+                20000, TestMaterials.Copper,
+                621.5);
 
         }
 
+
+
+        void AssertMatOnMat_GetEdgeThreshold(int contactArea, IMaterial strikerMat, IMaterial strickenMat, double expectedThreshold)
+        {
+            var thresh = MaterialStressCalc.GetEdgedBreakThreshold(
+                contactArea, strikerMat, strickenMat);
+
+            AssertRoughly(
+                expectedThreshold, 
+                thresh,
+                "edged threshold"
+                    );
+        }
+
+        void AssertRoughly(double expected, double actual, string message)
+        {
+            Assert.AreEqual(
+                (int)(expected * 10) / 10d,
+                (int)(actual * 10) / 10d,
+                message);
+        }
+        public void AssertMatOnMat_GetBluntThreshold(int contactArea, IMaterial strickenMat, double expected)
+        {
+            var thresh = MaterialStressCalc.GetBluntBreakThreshold(contactArea, strickenMat);
+            AssertRoughly(
+                expected, 
+                thresh,
+                "blunt threshold");
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void ZeroStrainAtYield() { }
 
         bool PerformEdgedTest(double momentum, int contactArea, int thickness, IMaterial weaponMat, IMaterial layerMat)
         {
@@ -106,7 +195,7 @@ namespace Tiles.Tests.Materials
             int weaponSize,
             double momentum, int contactArea, int thickness, IMaterial weaponMat, IMaterial layerMat)
         {
-            return MaterialStressCalc.BluntStress(weaponSize, momentum, contactArea, thickness,
+            return MaterialStressCalc.BluntStress(momentum, contactArea, thickness,
                 weaponMat.ImpactYield, weaponMat.ImpactFracture, weaponMat.ImpactStrainAtYield,
                 layerMat.ImpactYield, layerMat.ImpactFracture, layerMat.ImpactStrainAtYield);
         }

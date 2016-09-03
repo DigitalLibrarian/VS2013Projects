@@ -24,7 +24,7 @@ namespace Tiles.Bodies.Health.Injuries
 
         public IEnumerable<IInjury> MaterialStrike(
             IMaterial weaponMat,  int weaponSize,
-            ContactType attackType, double forcePerArea, int contactArea, 
+            StressMode attackType, double forcePerArea, int contactArea, 
             IAgent defender, IBodyPart part)
         {
             var armorItems = defender.Outfit.GetItems(part).Where(x => x.IsArmor);
@@ -41,7 +41,7 @@ namespace Tiles.Bodies.Health.Injuries
                 {
                     int armorThickness = part.Size; // TODO - times coverage ratio
                     double momentum;
-                    ContactType contactType;
+                    StressMode contactType;
                     injuries.AddRange(
                         PerformMaterialLayer(
                             weaponMat, weaponSize,
@@ -62,7 +62,7 @@ namespace Tiles.Bodies.Health.Injuries
                 if (force > 0)
                 {
                     double momentum;
-                    ContactType contactType;
+                    StressMode contactType;
                     injuries.AddRange(
                         PerformMaterialLayer(
                             weaponMat, weaponSize,
@@ -93,46 +93,27 @@ namespace Tiles.Bodies.Health.Injuries
             return injuries;
         }
 
-        void GetModeProperties(ContactType contactType, IMaterial material,
-            out int yield, out int fractureForce, out int strainAtYield)
-        {
-            // TODO - Wrestling moves are special: breaking bones uses [BENDING_*] values, pinching utilizes [COMPRESSIVE_*] properties, and biting can deal [TENSILE] or [TORSION] damage depending on whether the attack is edged. Those attacks generally ignore armor.
-            switch (contactType)
-            {
-                case ContactType.Edge:
-                    yield = material.ShearYield;
-                    fractureForce = material.ShearFracture;
-                    strainAtYield = material.ShearStrainAtYield;
-                    break;
-                default:
-                    yield = material.ImpactYield;
-                    fractureForce = material.ImpactFracture;
-                    strainAtYield = material.ImpactStrainAtYield;
-                    break;
-            }
-        }
-
         IEnumerable<IInjury> PerformMaterialLayer(
             IMaterial weaponMat, int weaponSize,
             IBodyPart part, ITissueLayer layer,
             IMaterial material, int thicknessMm, 
-            ContactType contactTypeStart, double force, int contactArea,
-            out double momentum, out ContactType contactType)
+            StressMode contactTypeStart, double force, int contactArea,
+            out double momentum, out StressMode contactType)
         {
             int yield = 0;
             int fractureForce = 0;
             int strainAtYield = 0;
 
-            GetModeProperties(contactTypeStart, material, out yield, out fractureForce, out strainAtYield);
+            material.GetModeProperties(contactTypeStart, out yield, out fractureForce, out strainAtYield);
             
             int wYield = 0;
             int wFractureForce = 0;
             int wStrainAtYield = 0;
 
-            GetModeProperties(contactTypeStart, weaponMat, out wYield, out wFractureForce, out wStrainAtYield);
+            weaponMat.GetModeProperties(contactTypeStart, out wYield, out wFractureForce, out wStrainAtYield);
             var injuries = new List<IInjury>();
 
-            if (contactTypeStart == ContactType.Edge)
+            if (contactTypeStart == StressMode.Edge)
             {
                 if(MaterialStressCalc.EdgedStress(force, contactArea, thicknessMm,
                     wYield, wFractureForce, wStrainAtYield,
@@ -161,7 +142,6 @@ namespace Tiles.Bodies.Health.Injuries
             else
             {
                 if (MaterialStressCalc.BluntStress(
-                    weaponSize,
                     force, contactArea, thicknessMm,
                     wYield, wFractureForce, wStrainAtYield,
                     yield, fractureForce, strainAtYield
@@ -225,13 +205,13 @@ namespace Tiles.Bodies.Health.Injuries
         IEnumerable<IInjury> DetermineTissueInjury(
             IMaterial weaponMat, int contactArea, 
             IBodyPart part, ITissueLayer layer,
-            ContactType contactType, StressResult collisionResult, double deform)
+            StressMode contactType, StressResult collisionResult, double deform)
         {
             if (layer != null)
             {
                 switch (contactType)
                 {
-                    case ContactType.Edge:
+                    case StressMode.Edge:
                         return DetermineEdgedInjury(weaponMat, contactArea, part, collisionResult, deform);
                     default:
                         return DetermineBluntInjury(contactArea, part, collisionResult, deform);
@@ -292,10 +272,9 @@ namespace Tiles.Bodies.Health.Injuries
             ICombatMoveClass moveClass, double weaponVelo, 
             IAgent attacker, IAgent defender, IBodyPart targetPart, IItem weapon)
         {
-            // TODO - this does not take into account attacker stats
-
-            var weaponMass = weapon.GetMass();
-            double force = ((double)weaponVelo * ((double)weaponMass));
+            
+            var massGrams = weapon.GetMass();
+            double force = ((double)weaponVelo * ((double) massGrams/1000d) );
 
             return MaterialStrike(
                 weapon.Class.Material,

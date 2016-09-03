@@ -37,6 +37,14 @@ namespace Tiles
             }
         }
 
+        public Fraction GetFraction(DamageType damageType)
+        {
+            if (Data.ContainsKey(damageType))
+            {
+                return Data[damageType];
+            }
+            return null;
+        }
         public void SetComponent(DamageType damageType, int damage)
         {
             if (!Data.ContainsKey(damageType))

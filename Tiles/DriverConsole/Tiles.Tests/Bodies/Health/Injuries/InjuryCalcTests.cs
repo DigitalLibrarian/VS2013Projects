@@ -95,7 +95,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(ShortSwordSize, weaponMat);
             
             int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(ContactType.Edge, contactArea);
+            var cmcMock = MockCombat(StressMode.Edge, contactArea);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
@@ -116,7 +116,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(ShortSwordSize, weaponMat);
 
             int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(ContactType.Edge, contactArea);
+            var cmcMock = MockCombat(StressMode.Edge, contactArea);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
@@ -139,7 +139,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(ShortSwordSize, weaponMat);
 
             int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(ContactType.Edge, contactArea);
+            var cmcMock = MockCombat(StressMode.Edge, contactArea);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
@@ -158,11 +158,11 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         [TestMethod]
         public void MeleeWeapon_SingleLayer_Blunt_NoInjury()
         {
-            var weaponMat = TestMaterials.Silver;
+            var weaponMat = TestMaterials.Feather;
             SetupWeapon(MaceSize, weaponMat);
 
             int contactArea = MaceContactArea_Bash;
-            var cmcMock = MockCombat(ContactType.Blunt, contactArea);
+            var cmcMock = MockCombat(StressMode.Blunt, contactArea);
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
                 Impact_SlowVelo,
@@ -172,7 +172,6 @@ namespace Tiles.Tests.Bodies.Health.Injuries
                 WeaponItemMock.Object);
 
             Assert.AreEqual(0, result.Count());
-
         }
 
         [TestMethod]
@@ -182,7 +181,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(MaceSize, weaponMat);
             
             int contactArea = MaceContactArea_Bash;
-            var cmcMock = MockCombat(ContactType.Blunt, contactArea);
+            var cmcMock = MockCombat(StressMode.Blunt, contactArea);
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
                 Impact_ModerateVelo,
@@ -206,7 +205,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(MaceSize, weaponMat);
 
             int contactArea = MaceContactArea_Bash;
-            var cmcMock = MockCombat(ContactType.Blunt, contactArea);
+            var cmcMock = MockCombat(StressMode.Blunt, contactArea);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
@@ -221,9 +220,6 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             var injury = result.ElementAt(0);
             AssertInjuryClass(StandardInjuryClasses.BatteredBodyPart, injury.Class);
         }
-
-
-
 
 
         [Ignore]
@@ -248,7 +244,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         }
 
         #region Helpers
-        Mock<ICombatMoveClass> MockCombat(ContactType contactType, int contactArea)
+        Mock<ICombatMoveClass> MockCombat(StressMode contactType, int contactArea)
         {
             var m = new Mock<ICombatMoveClass>();
             m.Setup(x => x.ContactType).Returns(contactType);

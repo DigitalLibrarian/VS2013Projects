@@ -86,5 +86,44 @@ namespace Tiles.Tests
 
             SolidDensity = 200
         };
+
+        public static readonly IMaterial Wood = new Material("wood", "wood")
+        {
+            ImpactYield = 10000,
+            ImpactFracture = 10000,
+            ImpactStrainAtYield = 1000,
+
+            ShearYield = 40000,
+            ShearFracture = 40000,
+            ShearStrainAtYield = 1000,
+
+            SolidDensity = 500
+        };
+
+        public static readonly IMaterial Feather = new Material("feather", "feather")
+        {
+            ImpactYield = 10000,
+            ImpactFracture = 10000,
+            ImpactStrainAtYield = 100000,
+
+            ShearYield = 60000,
+            ShearFracture = 120000,
+            ShearStrainAtYield = 100000,
+
+            SolidDensity = 100
+        };
+
+        public static readonly IMaterial Copper = new Material("copper", "copper")
+        {
+            ImpactYield = 245000,
+            ImpactFracture = 770000,
+            ImpactStrainAtYield = 175,
+
+            ShearYield = 70000,
+            ShearFracture = 220000,
+            ShearStrainAtYield = 145,
+
+            SolidDensity = 100
+        };
     }
 }

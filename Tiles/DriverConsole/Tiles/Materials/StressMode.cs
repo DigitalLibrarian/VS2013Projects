@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Materials
 {
-    public enum ContactType
+    public enum StressMode
     {
         None,
         Edge,

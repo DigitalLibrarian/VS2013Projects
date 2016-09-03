@@ -27,7 +27,7 @@ namespace Tiles.Tests.Materials
         [TestMethod]
         public void GetMassUniformVolume_UnitVolume()
         {
-            int oneCubicMeter = 10; // cm
+            int oneCubicMeter = 10; // in cm
             var weight = Steel.GetMassForUniformVolume(oneCubicMeter);
             Assert.AreEqual(785, weight*100);
         }

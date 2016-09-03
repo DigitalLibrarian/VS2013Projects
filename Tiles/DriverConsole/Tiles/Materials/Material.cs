@@ -34,5 +34,24 @@ namespace Tiles.Materials
             double volumeCubicM = ((double)volumeCubicCm / 10000d);
             return  (volumeCubicM * density);
         }
+
+        public void GetModeProperties(StressMode contactType,
+            out int yield, out int fractureForce, out int strainAtYield)
+        {
+            // TODO - Wrestling moves are special: breaking bones uses [BENDING_*] values, pinching utilizes [COMPRESSIVE_*] properties, and biting can deal [TENSILE] or [TORSION] damage depending on whether the attack is edged. Those attacks generally ignore armor.
+            switch (contactType)
+            {
+                case StressMode.Edge:
+                    yield = ShearYield;
+                    fractureForce = ShearFracture;
+                    strainAtYield = ShearStrainAtYield;
+                    break;
+                default:
+                    yield = ImpactYield;
+                    fractureForce = ImpactFracture;
+                    strainAtYield = ImpactStrainAtYield;
+                    break;
+            }
+        }
     }
 }

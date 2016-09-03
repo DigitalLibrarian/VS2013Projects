@@ -178,9 +178,9 @@ namespace Tiles.Content.Map
         }
 
 
-        public EngineMaterials.ContactType Map(ContentModel.ContactType ct)
+        public EngineMaterials.StressMode Map(ContentModel.ContactType ct)
         {
-            return (EngineMaterials.ContactType)(int)ct;
+            return (EngineMaterials.StressMode)(int)ct;
         }
     }
 
