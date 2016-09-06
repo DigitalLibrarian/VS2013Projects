@@ -60,27 +60,28 @@ namespace Tiles.Bodies.Health.Injuries
             {
                 var tissueLayer = taggedResult.Key as ITissueLayer;
                 var tissueResult = taggedResult.Value;
-                var dt = ClassifyDamageType(
-                    tissueResult.StressMode,
-                    contactArea,
-                    maxPen
-                    );
+
 
                 double penFact = (double)((tissueLayer.Thickness+1) * 100)/ (double)(totalThick+1);
 
                 if (tissueResult.BreaksThrough)
                 {
+                    var dt = ClassifyDamageType(
+                        tissueResult.StressMode,
+                        contactArea,
+                        maxPen
+                        );
                     var excess =  tissueResult.Momentum + 1d + tissueResult.ExcessMomentum;
-                    var damageD = excess * penFact;
+                    var damageD = damage.Get(dt) + excess * penFact;
                     damage.Set(dt, (int)damageD);
 
                 }
-                else if (dt == DamageType.Bludgeon)
+                else
                 {
                     double mom = tissueResult.Momentum;
                     double t = tissueResult.MomentumThreshold;
-                    double damageD = (mom / t) * penFact;
-                    damage.Set(dt, (int)damageD);
+                    double damageD = damage.Get(DamageType.Bludgeon) + (mom) * penFact;
+                    damage.Set(DamageType.Bludgeon, (int)damageD);
                 }
             }
 

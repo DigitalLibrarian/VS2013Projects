@@ -163,7 +163,7 @@ namespace Tiles.Materials
                        StrikerMaterial,
                        momentum,
                        contactArea,
-                       StressMode,
+                       StressMode.Blunt,
                        layer);
 
                     if (layerResult.BreaksThrough)

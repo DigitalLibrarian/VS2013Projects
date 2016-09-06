@@ -28,7 +28,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         int MaceContactArea_Bash = 20;
 
         double Shear_SlowVelo = 1;
-        double Shear_ModerateVelo = 28;
+        double Shear_ModerateVelo = 10.2d;
         double Shear_FastVelo = 100;
 
         double Impact_SlowVelo = 1;
