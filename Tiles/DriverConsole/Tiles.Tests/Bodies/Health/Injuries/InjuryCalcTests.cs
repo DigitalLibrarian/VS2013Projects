@@ -27,13 +27,13 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         int MaceSize = 800;
         int MaceContactArea_Bash = 20;
 
-        int Shear_SlowVelo = 1;
-        int Shear_ModerateVelo = 28;
-        int Shear_FastVelo = 100;
+        double Shear_SlowVelo = 1;
+        double Shear_ModerateVelo = 28;
+        double Shear_FastVelo = 100;
 
-        int Impact_SlowVelo = 1;
-        int Impact_ModerateVelo = 4;
-        int Impact_FastVelo = 100;
+        double Impact_SlowVelo = 1;
+        double Impact_ModerateVelo = 1.2d;
+        double Impact_FastVelo = 100;
 
         int BoneLayerThickness = 26315;
         
@@ -268,6 +268,12 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         {
             var tissueMock = new Mock<ITissue>();
             tissueMock.Setup(x => x.TissueLayers).Returns(layers.ToArray());
+            tissueMock.Setup(x => x.TotalThickness).Returns(() =>
+            {
+                return tissueMock.Object.TissueLayers
+                    .Select(x => x.Thickness)
+                    .Sum();
+            });
 
             var partMock = new Mock<IBodyPart>();
             partMock.Setup(x => x.Tissue).Returns(tissueMock.Object);

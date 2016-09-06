@@ -8,6 +8,7 @@ namespace Tiles.Materials
 {
     public interface ILayeredMaterialStrikeResult
     {
+        int Penetration { get; }
         IEnumerable<IMaterialStrikeResult> LayerResults { get; }
         IDictionary<object, IMaterialStrikeResult> TaggedResults { get; }
 
@@ -19,6 +20,7 @@ namespace Tiles.Materials
     {
         List<IMaterialStrikeResult> Results { get; set; }
         Dictionary<object, IMaterialStrikeResult> Tagged { get; set; }
+        public int Penetration { get; set; }
         public LayeredMaterialStrikeResult()
         {
             Results = new List<IMaterialStrikeResult>();
@@ -156,20 +158,26 @@ namespace Tiles.Materials
                 }
                 else if (mode != StressMode.Blunt)
                 {
+                    // fail to pierce/cut
                     layerResult = PerformSingleLayerTest(
                        StrikerMaterial,
                        momentum,
                        contactArea,
-                       StressMode.Blunt,
+                       StressMode,
                        layer);
+
                     if (layerResult.BreaksThrough)
                     {
                         momentum = momentum - (momentum * (5d / 100d));
                         penetration += layer.Thickness;
                     }
+                    else
+                    {
+                        mode = StressMode.Blunt;
+                        momentum = momentum  - (momentum * (33d / 100d));
+                    }
                 }
-
-
+                
                 if (layer.IsTagged)
                 {
                     result.AddLayerResult(layerResult, layer.Tag);
@@ -178,8 +186,9 @@ namespace Tiles.Materials
                 {
                     result.AddLayerResult(layerResult);
                 }
-
             }
+
+            result.Penetration = penetration;
 
             return result;
         }

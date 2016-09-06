@@ -52,25 +52,93 @@ namespace Tiles.Bodies.Health.Injuries
             }
 
             var result = Builder.Build();
+            int contactArea = moveClass.ContactArea;
+            int maxPen = moveClass.MaxPenetration;
+            var totalThick = targetPart.Tissue.TotalThickness;
+            var damage = new DamageVector();
+            foreach (var taggedResult in result.TaggedResults)
+            {
+                var tissueLayer = taggedResult.Key as ITissueLayer;
+                var tissueResult = taggedResult.Value;
+                var dt = ClassifyDamageType(
+                    tissueResult.StressMode,
+                    contactArea,
+                    maxPen
+                    );
 
-            int penetration = 0;
+                double penFact = (double)((tissueLayer.Thickness+1) * 100)/ (double)(totalThick+1);
+
+                if (tissueResult.BreaksThrough)
+                {
+                    var excess =  tissueResult.Momentum + 1d + tissueResult.ExcessMomentum;
+                    var damageD = excess * penFact;
+                    damage.Set(dt, (int)damageD);
+
+                }
+                else if (dt == DamageType.Bludgeon)
+                {
+                    double mom = tissueResult.Momentum;
+                    double t = tissueResult.MomentumThreshold;
+                    double damageD = (mom / t) * penFact;
+                    damage.Set(dt, (int)damageD);
+                }
+            }
+
+            // now that we know the damage, we check for new injuries that need to 
+            // be reported
+
+            return CreateInjuries(targetPart, damage);
+
+            /*
             var damage = new DamageVector();
             foreach (var taggedResult in result.TaggedResults) 
             {
                 var tissueLayer = taggedResult.Key as ITissueLayer;
                 var tissueResult = taggedResult.Value;
 
-                AccumulateTissueLayerDamage(damage, tissueLayer, tissueResult, ref penetration);
+                AccumulateTissueLayerDamage(damage, tissueLayer, tissueResult);
             }
+             * */
 
             // now we have the total amount of multidimensional damage that should
             // be applied to the body part.
 
-            return CreateInjuries(targetPart, damage, penetration);
+            //return CreateInjuries(targetPart, damage);
         }
 
-        private IEnumerable<IInjury> CreateInjuries(IBodyPart part, DamageVector damage, int penetration)
+
+        DamageType ClassifyDamageType(StressMode mode, int contactArea, int penetration)
         {
+
+            //The contact area represents the area of contact of the weapon, 
+            //and the penetration determines how deep the attack goes 
+            //(and is apparently ignored entirely for BLUNT attacks
+            //Large contact areas combined with low penetration represent slashing attacks, 
+            //while small contact areas with high penetration behave as piercing attacks.
+            
+            if (mode == StressMode.Edge)
+            {
+                if (IsHighContactArea(contactArea) && IsLowPenetration(penetration))
+                {
+                    return DamageType.Slash;
+                }
+
+                if (IsLowContactArea(contactArea) && IsHighPenetration(penetration))
+                {
+                    return DamageType.Pierce;
+                }
+            }
+            else if (mode == StressMode.Blunt)
+            {
+                return DamageType.Bludgeon;
+            }
+
+            throw new NotImplementedException();
+        }
+
+        private IEnumerable<IInjury> CreateInjuries(IBodyPart part, DamageVector damage)
+        {
+
             foreach (var dti in _Dtis)
             {
                 var partFraction = part.Damage.GetFraction(dti.DamageType);
@@ -80,6 +148,7 @@ namespace Tiles.Bodies.Health.Injuries
                 {
                     var injuryClass = dti.PickInjuryClass(part, damage);
                     yield return InjuryFactory.Create(injuryClass, part, damage);
+                    break;
                 }
             }
         }
@@ -158,7 +227,7 @@ namespace Tiles.Bodies.Health.Injuries
         };
 
 
-        private void AccumulateTissueLayerDamage(DamageVector damage, ITissueLayer tissueLayer, IMaterialStrikeResult tissueResult, ref int penetration)
+        private void AccumulateTissueLayerDamage(DamageVector damage, ITissueLayer tissueLayer, IMaterialStrikeResult tissueResult)
         {
             if (tissueResult.BreaksThrough)
             {
@@ -167,7 +236,6 @@ namespace Tiles.Bodies.Health.Injuries
 
                 var dComp = damage.Get(dt);
                 damage.Set(dt, dComp + (excess * tissueLayer.Class.RelativeThickness));
-                penetration += tissueLayer.Thickness;
             }
         }
 
@@ -179,6 +247,7 @@ namespace Tiles.Bodies.Health.Injuries
             //(and is apparently ignored entirely for BLUNT attacks
             //Large contact areas combined with low penetration represent slashing attacks, 
             //while small contact areas with high penetration behave as piercing attacks.
+
 
             int contactArea = tissueResult.ContactArea;
             switch (mode)
@@ -193,14 +262,22 @@ namespace Tiles.Bodies.Health.Injuries
 
         bool IsHighContactArea(int contactArea)
         {
-            return contactArea >= 50;
+            return contactArea > 50;
         }
 
         bool IsHighPenetration(int maxPenetation)
         {
-            return false;
+            return maxPenetation > 2000;
+        }
+        bool IsLowContactArea(int contactArea)
+        {
+            return contactArea <= 50;
         }
 
+        bool IsLowPenetration(int maxPenetation)
+        {
+            return maxPenetation < 2000;
+        }
 
         public IEnumerable<IInjury> UnarmedStrike(ICombatMoveClass moveClass, double force, Agents.IAgent attacker, Agents.IAgent defender, IBodyPart targetPart)
         {
