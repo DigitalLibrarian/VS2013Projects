@@ -68,7 +68,9 @@
     <Compile Include="Agents\Combat\ICombatMoveContext.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
     <Compile Include="Bodies\Health\BodyPartWoundClassifier.cs" />
-    <Compile Include="Materials\IMaterialStrikeBuilder.cs" />
+    <Compile Include="Bodies\Health\Injuries\MostBestInjuryCalc.cs" />
+    <Compile Include="Materials\LayeredMaterialStrikeResultBuilder.cs" />
+    <Compile Include="Materials\IMaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\MaterialStrikeResult.cs" />
     <Compile Include="Materials\MaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\StressMode.cs" />

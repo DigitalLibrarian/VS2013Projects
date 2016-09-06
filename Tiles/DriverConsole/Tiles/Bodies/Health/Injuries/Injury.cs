@@ -11,19 +11,13 @@ namespace Tiles.Bodies.Health.Injuries
     {
         public IInjuryClass Class { get; set; }
         public IBodyPart BodyPart { get; set; }
-        public ITissueLayer TissueLayer { get; set; }
+        public IDamageVector Damage { get; set; }
         
-        public Injury(IInjuryClass injuryClass, IBodyPart bodyPart)
-            : this(injuryClass, bodyPart, null)
-        {
-
-        }
-
-        public Injury(IInjuryClass injuryClass, IBodyPart bodyPart, ITissueLayer layer)
+        public Injury(IInjuryClass injuryClass, IBodyPart bodyPart, IDamageVector damage)
         {
             Class = injuryClass;
             BodyPart = bodyPart;
-            TissueLayer = layer;
+            Damage = damage;
 
             if (injuryClass.UsesTtl)
             {
@@ -60,11 +54,6 @@ namespace Tiles.Bodies.Health.Injuries
                 SB.AppendFormat(" {0} ", BodyPart.Name);
             }
             
-            if (TissueLayer != null)
-            {
-                SB.AppendFormat(" {0} ", TissueLayer.Material.Adjective);
-            }
-
             if (Class.UsesTtl)
             {
                 SB.AppendFormat(" {0}/{1} ", Ttl, Class.Ttl);

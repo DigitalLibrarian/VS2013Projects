@@ -87,6 +87,27 @@ namespace Tiles.Bodies.Health.Injuries
         };
 
 
+        public static readonly IInjuryClass PiercedBodyPart = new InjuryClass()
+        {
+            Adjective = "pierced",
+            IsBodyPartSpecific = true,
+            CanBeHealed = true,
+            UsesTtl = true,
+            Ttl = TornTtl,
+            Severity = InjurySeverity.LightlyWounded
+        };
+
+
+        public static readonly IInjuryClass BadlyPiercedBodyPart = new InjuryClass()
+        {
+            Adjective = "badly pierced",
+            IsBodyPartSpecific = true,
+            CanBeHealed = true,
+            UsesTtl = true,
+            Ttl = TornTtl,
+            Severity = InjurySeverity.ModeratelyWounded
+        };
+
         public static readonly IInjuryClass TornBodyPart = new InjuryClass()
         {
             Adjective = "torn",

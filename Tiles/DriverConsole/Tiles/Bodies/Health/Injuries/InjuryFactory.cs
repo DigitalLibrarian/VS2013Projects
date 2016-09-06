@@ -8,14 +8,14 @@ namespace Tiles.Bodies.Health.Injuries
 {
     public class InjuryFactory : IInjuryFactory
     {
-        public IInjury Create(IInjuryClass injuryClass, IBodyPart bodyPart, ITissueLayer tissueLayer)
+        public IInjury Create(IInjuryClass injuryClass, IBodyPart bodyPart, IDamageVector damage)
         {
-            return new Injury(injuryClass, bodyPart, tissueLayer);
+            return new Injury(injuryClass, bodyPart, damage);
         }
 
         public IInjury Create(IInjuryClass injuryClass, IBodyPart bodyPart)
         {
-            return new Injury(injuryClass, bodyPart);
+            return Create(injuryClass, bodyPart, new DamageVector());
         }
     }
 }

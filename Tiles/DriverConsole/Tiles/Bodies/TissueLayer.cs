@@ -9,11 +9,13 @@ namespace Tiles.Bodies
 {
     public class TissueLayer : ITissueLayer
     {
+        public ITissueLayerClass Class { get; private set; }
         public IMaterial Material { get; private set; }
         public int Thickness { get; private set; }
 
-        public TissueLayer(IMaterial material, int thickness)
+        public TissueLayer(ITissueLayerClass layerClass, IMaterial material, int thickness)
         {
+            Class = layerClass;
             Material = material;
             Thickness = thickness;
         }

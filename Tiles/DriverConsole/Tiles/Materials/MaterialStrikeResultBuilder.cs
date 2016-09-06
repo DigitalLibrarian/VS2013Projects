@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Materials
 {
-    public class MaterialStrikeResultBuilder : IMaterialStrikeBuilder
+    public class MaterialStrikeResultBuilder : IMaterialStrikeResultBuilder
     {
         int ContactArea { get; set; }
         double Momentum { get; set; }
@@ -65,7 +65,7 @@ namespace Tiles.Materials
             {
                 StressMode = StressMode,
                 Momentum = Momentum,
-
+                ContactArea = ContactArea,
                 MomentumThreshold = MaterialStressCalc
                    .GetEdgedBreakThreshold(ContactArea, StrikerMaterial, StrickenMaterial),
                
@@ -78,6 +78,7 @@ namespace Tiles.Materials
             {
                 StressMode = StressMode,
                 Momentum = Momentum,
+                ContactArea = ContactArea,
 
                 MomentumThreshold = MaterialStressCalc.GetBluntBreakThreshold(ContactArea, StrickenMaterial),
 

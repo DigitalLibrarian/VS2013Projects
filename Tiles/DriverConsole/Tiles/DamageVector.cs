@@ -43,20 +43,29 @@ namespace Tiles
             {
                 return Data[damageType];
             }
-            return null;
+            else
+            {
+                Set(damageType, 0);
+                return GetFraction(damageType);
+            }
         }
         public void Set(DamageType damageType, int damage)
         {
             if (!Data.ContainsKey(damageType))
             {
-                Data[damageType] = new Fraction(100, 100);
+                Data[damageType] = CreateDefaultFraction();
             }
             Data[damageType].Numerator = damage;
         }
 
+        private Fraction CreateDefaultFraction()
+        {
+            return new Fraction(0, 100);
+        }
+
         public IEnumerable<DamageType> GetTypes()
         {
-            return Data.Keys;
+            return Data.Keys.OrderByDescending(key => Data[key].AsDouble());
         }
 
         StringBuilder StringBuilder = new StringBuilder();
@@ -78,13 +87,17 @@ namespace Tiles
             }
         }
 
-
         public void Add(IDamageVector damage)
         {
             foreach (var dt in damage.GetTypes())
             {
                 Set(dt, Get(dt) + damage.Get(dt));
             }
+        }
+
+        public DamageType GetHighestDamageType()
+        {
+            return GetTypes().FirstOrDefault();
         }
     }
 }

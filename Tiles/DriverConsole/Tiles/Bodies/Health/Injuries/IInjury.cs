@@ -11,8 +11,8 @@ namespace Tiles.Bodies.Health.Injuries
     public interface IInjury
     {
         IInjuryClass Class { get; }
-
         IBodyPart BodyPart { get; }
+        IDamageVector Damage { get; }
 
         string Adjective { get; }
         

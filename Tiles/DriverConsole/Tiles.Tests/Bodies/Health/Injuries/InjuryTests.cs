@@ -19,7 +19,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
         Mock<IInjuryClass> ClassMock { get; set; }
         Mock<IBodyPart> PartMock { get; set; }
-        Mock<ITissueLayer> LayerMock { get; set; }
+        Mock<IDamageVector> DamageMock { get; set; }
 
         Injury Injury { get; set; }
 
@@ -31,12 +31,12 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             ClassMock.Setup(c => c.UsesTtl).Returns(true);
             ClassMock.Setup(c => c.Ttl).Returns(DefaultTtl);
             PartMock = new Mock<IBodyPart>();
-            LayerMock = new Mock<ITissueLayer>();
+            DamageMock = new Mock<IDamageVector>();
 
             Injury = new Injury(
                 ClassMock.Object,
                 PartMock.Object,
-                LayerMock.Object);
+                DamageMock.Object);
         }
 
         [TestMethod]
@@ -44,7 +44,6 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         {
             Assert.AreSame(ClassMock.Object, Injury.Class);
             Assert.AreSame(PartMock.Object, Injury.BodyPart);
-            Assert.AreSame(LayerMock.Object, Injury.TissueLayer);
 
             Assert.AreEqual(DefaultAdjective, Injury.Adjective);
             ClassMock.Verify(ic => ic.Adjective, Times.Once());
@@ -75,7 +74,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             var classMock = new Mock<IInjuryClass>();
             classMock.Setup(x => x.UsesTtl).Returns(false);
 
-            Injury = new Injury(classMock.Object, PartMock.Object, LayerMock.Object);
+            Injury = new Injury(classMock.Object, PartMock.Object, DamageMock.Object);
             Injury.Update(DefaultTtl);
 
             Assert.AreEqual(0, Injury.Ttl);

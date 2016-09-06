@@ -66,13 +66,15 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                     move.DefenderBodyPart);
             }
 
+            session.NewInjuries.AddRange(injuries);
+
             bool partRemoveSuccess = false;
             foreach (var injury in injuries)
             {
                 defender.Body.Health.Add(injury);
 
                 targetPartWasShed = injury.RemovesBodyPart;
-                if (defender.Body.Parts.Contains(move.DefenderBodyPart))
+                if (targetPartWasShed && defender.Body.Parts.Contains(move.DefenderBodyPart))
                 {
                     partRemoveSuccess = true;
                 }
@@ -90,11 +92,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             if (isWeaponBased)
             {
-                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, 0, partRemoveSuccess);
+                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, partRemoveSuccess);
             }
             else
             {
-                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, 0, partRemoveSuccess);
+                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, partRemoveSuccess);
             }
 
             var defenderDies = defender.IsDead;

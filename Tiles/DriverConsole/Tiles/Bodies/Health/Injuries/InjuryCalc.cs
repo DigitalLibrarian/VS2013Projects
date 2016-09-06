@@ -16,10 +16,12 @@ namespace Tiles.Bodies.Health.Injuries
     public class InjuryCalc : IInjuryCalc
     {
         IInjuryFactory InjuryFactory { get; set; }
+        IMaterialStrikeResultBuilder Builder { get; set; }
 
         public InjuryCalc(IInjuryFactory injuryFactory)
         {
             InjuryFactory = injuryFactory;
+            Builder = new MaterialStrikeResultBuilder();
         }
 
         public IEnumerable<IInjury> MaterialStrike(
@@ -97,176 +99,71 @@ namespace Tiles.Bodies.Health.Injuries
             IMaterial weaponMat, int weaponSize,
             IBodyPart part, ITissueLayer layer,
             IMaterial material, int thicknessMm, 
-            StressMode contactTypeStart, double force, int contactArea,
-            out double momentum, out StressMode contactType)
+            StressMode stressModeIn, double force, int contactArea,
+            out double momentumOut, out StressMode stressModeOut)
         {
-            int yield = 0;
-            int fractureForce = 0;
-            int strainAtYield = 0;
+            Builder.Clear();
+            Builder.SetStressMode(stressModeIn);
+            Builder.SetStrickenMaterial(material);
+            Builder.SetStrikerMaterial(weaponMat);
+            Builder.SetStrikeMomentum(force);
+            Builder.SetContactArea(contactArea);
 
-            material.GetModeProperties(contactTypeStart, out yield, out fractureForce, out strainAtYield);
-            
-            int wYield = 0;
-            int wFractureForce = 0;
-            int wStrainAtYield = 0;
+            //If an attack connects, the target will be wounded in some part of the body. 
+            //The severity of the wound depends on 
+            //  1) the strength of the attack, 
+            //  2) the protective value of any armor or other protection available for that body part, 
+            //  3) a (large) random factor. 
 
-            weaponMat.GetModeProperties(contactTypeStart, out wYield, out wFractureForce, out wStrainAtYield);
-            var injuries = new List<IInjury>();
+            //Wounds are cumulative: when an already wounded body part is hit the wound will worsen, 
+            //  even if in adventure mode it produces the same message about the condition of the 
+            //  body part more than once.
 
-            if (contactTypeStart == StressMode.Edge)
+            var result = Builder.Build();
+
+            if (result.BreaksThrough)
             {
-                if(MaterialStressCalc.EdgedStress(force, contactArea, thicknessMm,
-                    wYield, wFractureForce, wStrainAtYield,
-                    yield, fractureForce, strainAtYield
-                    ))
-                {
-
-                    double deformDist;
-                    var collideResult = MaterialStressCalc.StressLayer(
-                        force, contactArea, thicknessMm,
-                        yield, fractureForce, strainAtYield,
-                        out deformDist);
-
-                    switch (collideResult)
-                    {
-                        case StressResult.Plastic:
-                            injuries.Add(InjuryFactory.Create(StandardInjuryClasses.CutBodyPart, part));
-                            break;
-                        case StressResult.Fracture:
-                            injuries.Add(InjuryFactory.Create(StandardInjuryClasses.BadlyGashedBodyPart, part));
-                            break;
-                    }
-                }
 
             }
             else
             {
-                if (MaterialStressCalc.BluntStress(
-                    force, contactArea, thicknessMm,
-                    wYield, wFractureForce, wStrainAtYield,
-                    yield, fractureForce, strainAtYield
-                    ))
+                if (stressModeIn != StressMode.Blunt)
                 {
-
-                    double deformDist;
-                    var collideResult = MaterialStressCalc.StressLayer(
-                        force, contactArea, thicknessMm,
-                        yield, fractureForce, strainAtYield,
-                        out deformDist);
-
-                    switch (collideResult)
+                    // convert to blunt
+                    Builder.SetStressMode(StressMode.Blunt);
+                    result = Builder.Build();
+                    if (result.BreaksThrough)
                     {
-                        case StressResult.Plastic:
-                            injuries.Add(InjuryFactory.Create(StandardInjuryClasses.BruisedBodyPart, part));
-                            break;
-                        case StressResult.Fracture:
-                            injuries.Add(InjuryFactory.Create(StandardInjuryClasses.BatteredBodyPart, part));
-                            break;
+
+
+                    }
+                    else
+                    {
+                        // TODO - 
+                        //If both edged and blunt momenta thresholds haven't been met, 
+                        //attack is permanently converted to blunt and its momentum may be 
+                        //greatly reduced. Specifically, it is multiplied by 
+                        //SHEAR_STRAIN_AT_YIELD/50000 for edged attacks 
+                        //or IMPACT_STRAIN_AT_YIELD/50000 otherwise. 
+                        //I.e., most metals reduce blocked attacks by 98%-99%
                     }
                 }
 
-
-                /*
-                double deformDist;
-                var collideResult = MaterialStressCalc.StressLayer(
-                    force, contactArea, thicknessMm,
-                    yield, fractureForce, strainAtYield,
-                    out deformDist);
-
-                // did not break surface
-                if (collideResult == StressResult.Elastic)
-                {
-                    //contactTypeStart = ContactType.Blunt;
-                    force = 0;
-
-                    // all elastic collides stop weapon momentum
-                }
-                else
-                {
-                    // lose 5%
-                    force = force - (force / 20);
-                }
-
-                injuries.AddRange(DetermineTissueInjury(
-                    weaponMat,
-                    contactArea, part, layer, contactTypeStart,
-                    collideResult, deformDist).ToList());
-                 * */
             }
 
-
-
-            momentum = force;
-            contactType = contactTypeStart;
-
-            return injuries;
-        }
-
-        IEnumerable<IInjury> DetermineTissueInjury(
-            IMaterial weaponMat, int contactArea, 
-            IBodyPart part, ITissueLayer layer,
-            StressMode contactType, StressResult collisionResult, double deform)
-        {
-            if (layer != null)
+            if (result.BreaksThrough)
             {
-                switch (contactType)
-                {
-                    case StressMode.Edge:
-                        return DetermineEdgedInjury(weaponMat, contactArea, part, collisionResult, deform);
-                    default:
-                        return DetermineBluntInjury(contactArea, part, collisionResult, deform);
-                }
+                momentumOut = force - (force * (5d / 100d));
             }
-            return Enumerable.Empty<IInjury>();
+            throw new NotImplementedException();
         }
 
-        IEnumerable<IInjury> DetermineEdgedInjury(
-            IMaterial weaponMat, int contactArea,
-            IBodyPart part, StressResult collisionResult, double deform)
+        void AccumulateStrikeDamage(IDamageVector damageVector, ITissueLayer layer, DamageType damageType, IMaterialStrikeResult strikeResult)
         {
-            // need to classify as piercing or slash, based on move data
-            IInjuryClass injuryClass;
-
-            switch (collisionResult)
-            {
-                case StressResult.Elastic:
-                    injuryClass = StandardInjuryClasses.CutBodyPart;
-                    break;
-                case StressResult.Plastic:
-                    injuryClass = StandardInjuryClasses.BadlyGashedBodyPart;
-                    break;
-                case StressResult.Fracture:
-                    injuryClass = StandardInjuryClasses.MangledBodyPart;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            
-            yield return InjuryFactory.Create(injuryClass, part);
+            double damageValue = strikeResult.ExcessMomentum * (double)layer.Class.RelativeThickness;
+            damageVector.Set(damageType, (int)damageValue);
         }
 
-        IEnumerable<IInjury> DetermineBluntInjury(
-            int contactArea,
-            IBodyPart part, StressResult collisionResult, double deform)
-        {
-            IInjuryClass injuryClass;
-            switch (collisionResult)
-            {
-                case StressResult.Elastic:
-                    injuryClass = StandardInjuryClasses.BruisedBodyPart;
-                    break;
-                case StressResult.Plastic:
-                    injuryClass = StandardInjuryClasses.BatteredBodyPart;
-                    break;
-                case StressResult.Fracture:
-                    injuryClass = StandardInjuryClasses.BrokenBodyPart;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            yield return InjuryFactory.Create(injuryClass, part);
-        }
 
         public IEnumerable<IInjury> MeleeWeaponStrike(
             ICombatMoveClass moveClass, double weaponVelo, 
@@ -279,7 +176,7 @@ namespace Tiles.Bodies.Health.Injuries
             return MaterialStrike(
                 weapon.Class.Material,
                 weapon.Class.Size,
-                moveClass.ContactType, 
+                moveClass.StressMode, 
                 force, 
                 moveClass.ContactArea,
                 defender, targetPart);

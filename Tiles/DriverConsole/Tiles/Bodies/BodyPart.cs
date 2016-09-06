@@ -44,12 +44,15 @@ namespace Tiles.Bodies
         public ITissue Tissue { get; private set; }
         public int Size { get; private set; }
 
+        public IDamageVector Damage { get; private set; }
+
         public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, int size, IBodyPart parent) 
         {
             Class = bodyPartClass;
             Tissue = tissue;
             Size = size;
             Parent = parent;
+            Damage = new DamageVector();
         }
 
         public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, int size) 

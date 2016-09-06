@@ -8,6 +8,7 @@ namespace Tiles.Bodies.Health.Injuries
 {
     public enum InjurySeverity
     {
+        None,
         LightlyWounded,
         ModeratelyWounded,
         Broken,
@@ -15,4 +16,6 @@ namespace Tiles.Bodies.Health.Injuries
         LoppedOff,
         InstantlyFatal,
     }
+
+
 }

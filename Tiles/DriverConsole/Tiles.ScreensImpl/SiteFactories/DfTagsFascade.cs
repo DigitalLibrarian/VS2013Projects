@@ -97,9 +97,16 @@ namespace Tiles.ScreensImpl.SiteFactories
         }
 
         
-        public IItem CreateWeapon(string w, string m)
+        public IItem CreateInorganicWeapon(string w, string m)
         {
             var materialContent = DfMaterialFactory.CreateInorganic(m); 
+            var content = DfItemFactory.Create(DfTags.ITEM_WEAPON, w, materialContent);
+            return ItemFactory.Create(ContentMapper.Map(content));
+        }
+
+        public IItem CreateMaterialTemplateWeapon(string w, string matTemp)
+        {
+            var materialContent = DfMaterialFactory.CreateFromMaterialTemplate(matTemp);
             var content = DfItemFactory.Create(DfTags.ITEM_WEAPON, w, materialContent);
             return ItemFactory.Create(ContentMapper.Map(content));
         }

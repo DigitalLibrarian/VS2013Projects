@@ -12,6 +12,7 @@ namespace Tiles.Bodies
     {
         string Name { get; }
         IBodyPart Parent { get; }
+        IDamageVector Damage { get; }
 
         ITissue Tissue { get; }
 

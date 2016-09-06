@@ -9,6 +9,7 @@ namespace Tiles.Bodies
 {
     public interface ITissueLayer
     {
+        ITissueLayerClass Class { get; }
         IMaterial Material { get; }
         /// <summary>
         /// Thickness in m^-5

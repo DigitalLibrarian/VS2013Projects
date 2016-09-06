@@ -15,10 +15,11 @@ using Tiles.Materials;
 
 namespace Tiles.Tests.Bodies.Health.Injuries
 {
-    //[TestClass]
+    [TestClass]
     public class InjuryCalcTests
     {
-        InjuryCalc InjuryCalc { get; set; }
+        //InjuryCalc InjuryCalc { get; set; }
+        MostBestInjuryCalc InjuryCalc { get; set; }
 
         int ShortSwordSize = 300;
         int ShortSwordContactArea_Slash = 20000;
@@ -35,8 +36,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         int Impact_FastVelo = 100;
 
         int BoneLayerThickness = 26315;
-                
-
+        
         Mock<IAgent> AttackerMock { get; set; }
         Mock<IAgent> DefenderMock { get; set; }
         Mock<IBodyPart> BodyPartMock_SingleBoneLayer { get; set; }
@@ -49,8 +49,12 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         [TestInitialize]
         public void Initialize()
         {
-            InjuryCalc = new InjuryCalc(new InjuryFactory());
-            
+            //InjuryCalc = new InjuryCalc(new InjuryFactory());
+            InjuryCalc = new MostBestInjuryCalc(
+                new InjuryFactory(),
+                new LayeredMaterialStrikeResultBuilder(
+                    new MaterialStrikeResultBuilder()));
+
             var boneLayerMock = MockTissueLayer(BoneLayerThickness, TestMaterials.Bone);
             BodyPartMock_SingleBoneLayer = MockBodyPart(boneLayerMock.Object);
 
@@ -247,7 +251,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         Mock<ICombatMoveClass> MockCombat(StressMode contactType, int contactArea)
         {
             var m = new Mock<ICombatMoveClass>();
-            m.Setup(x => x.ContactType).Returns(contactType);
+            m.Setup(x => x.StressMode).Returns(contactType);
             m.Setup(x => x.ContactArea).Returns(contactArea);
             return m;
         }
@@ -267,6 +271,9 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
             var partMock = new Mock<IBodyPart>();
             partMock.Setup(x => x.Tissue).Returns(tissueMock.Object);
+
+            var damage = new DamageVector();
+            partMock.Setup(x => x.Damage).Returns(damage);
             return partMock;
         }
 

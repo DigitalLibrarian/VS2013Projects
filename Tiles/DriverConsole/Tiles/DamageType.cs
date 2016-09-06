@@ -9,8 +9,9 @@ namespace Tiles
 {
     public enum DamageType
     {
-        Blunt,
+        Bludgeon,
         Slash,
-        Pierce
+        Pierce,
+        Gore,
     }
 }

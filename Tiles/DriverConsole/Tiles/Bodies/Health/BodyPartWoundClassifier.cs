@@ -69,7 +69,7 @@ namespace Tiles.Bodies.Health
             foreach (var damageType in damage.GetTypes())
             {
                 double threshold = 1.0d;
-                if (damageType == DamageType.Blunt)
+                if (damageType == DamageType.Bludgeon)
                 {
                     threshold = 2.5d;
                 }

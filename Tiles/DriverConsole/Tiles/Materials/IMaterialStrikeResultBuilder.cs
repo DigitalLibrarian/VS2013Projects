@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiles.Materials
 {
-    public interface IMaterialStrikeBuilder
+    public interface IMaterialStrikeResultBuilder
     {
         void SetStressMode(StressMode mode);
 

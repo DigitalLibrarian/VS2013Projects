@@ -63,7 +63,7 @@ namespace Tiles.ScreensImpl.SiteFactories
                     var m = Random.NextElement(metals);
                     var w = Random.NextElement(weapons);
                     
-                    tile.Items.Add(Df.CreateWeapon(w, m));
+                    tile.Items.Add(Df.CreateInorganicWeapon(w, m));
                 }
             }
 

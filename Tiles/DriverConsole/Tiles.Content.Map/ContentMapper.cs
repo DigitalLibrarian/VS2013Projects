@@ -81,7 +81,7 @@ namespace Tiles.Content.Map
                     IsStrike = move.IsStrike,
                     IsItem = move.IsItem,
                     AttackerBodyStateChange = Map(move.BodyStateChange),
-                    ContactType = Map(move.ContactType),
+                    StressMode = Map(move.ContactType),
                     ContactArea = move.ContactArea,
                     MaxPenetration = move.MaxPenetration,
                     VelocityMultiplier = move.VelocityMultiplier

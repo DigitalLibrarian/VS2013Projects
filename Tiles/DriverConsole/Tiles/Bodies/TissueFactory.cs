@@ -15,7 +15,7 @@ namespace Tiles.Bodies
             foreach (var tc in tissueClass.TissueLayers)
             {
                 int tissueThick = (int)((double)bodySize * ((double)tc.RelativeThickness / (double)totalRelThick));
-                layers.Add(new TissueLayer(tc.Material, tissueThick));
+                layers.Add(new TissueLayer(tc, tc.Material, tissueThick));
             }
             return new Tissue(layers);
         }

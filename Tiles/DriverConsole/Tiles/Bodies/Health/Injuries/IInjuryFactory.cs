@@ -13,7 +13,7 @@ namespace Tiles.Bodies.Health.Injuries
         // rather than the instances themselves
 
         IInjury Create(IInjuryClass injuryClass, IBodyPart bodyPart);
-        IInjury Create(IInjuryClass injuryClass, IBodyPart bodyPart, ITissueLayer tissueLayer);
+        IInjury Create(IInjuryClass injuryClass, IBodyPart bodyPart, IDamageVector damage);
     }
 
 

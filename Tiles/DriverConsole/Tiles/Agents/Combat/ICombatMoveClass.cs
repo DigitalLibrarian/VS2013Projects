@@ -27,7 +27,7 @@ namespace Tiles.Agents.Combat
         int PrepTime { get; }
         int RecoveryTime { get; }
 
-        StressMode ContactType { get; }
+        StressMode StressMode { get; }
 
         int ContactArea { get; }
         int MaxPenetration { get; }

@@ -41,10 +41,28 @@ namespace Tiles.ScreensImpl.ContentFactories
 
             var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
             var df = new DfTagsFascade(dfStore, entityManager, random);
-            var sword = df.CreateWeapon("ITEM_WEAPON_MACE", "SILVER");
+
+            var weaponMats = new string[]{
+                "COPPER", "SILVER", "IRON", "STEEL"
+            };
+            var weaponTypes = new string[]{
+                DfTags.MiscTags.ITEM_WEAPON_MACE,
+                DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT,
+                DfTags.MiscTags.ITEM_WEAPON_SPEAR,
+                DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE
+            };
+            List<IItem> invItems = new List<IItem>();
+            foreach (var weaponType in weaponTypes)
+            {
+                foreach (var weaponMat in weaponMats)
+                {
+                    invItems.Add(df.CreateInorganicWeapon(weaponType, weaponMat));
+                }
+                invItems.Add(df.CreateMaterialTemplateWeapon(weaponType, "WOOD_TEMPLATE"));
+            }
 
             var siteFactory = new ArenaSiteFactory(dfStore, entityManager, random);
-            return Setup(entityManager, siteFactory, siteSize, random, sword);
+            return Setup(entityManager, siteFactory, siteSize, random, invItems.ToArray());
         }
 
         public IGame SetupDfTestWorld(string dfRawDir, int seed = 42)

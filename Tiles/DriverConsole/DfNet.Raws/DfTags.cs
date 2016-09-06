@@ -44,6 +44,36 @@ namespace DfNet.Raws
                 ITEM_TOOL
             };
         }
+
+        public static string[] GetAllWeaponTypes()
+        {
+            return new string[]{
+                DfTags.MiscTags.ITEM_WEAPON_WHIP ,
+                DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE ,
+                DfTags.MiscTags.ITEM_WEAPON_HAMMER_WAR ,
+                DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT ,
+                DfTags.MiscTags.ITEM_WEAPON_SPEAR ,
+                DfTags.MiscTags.ITEM_WEAPON_MACE ,
+                DfTags.MiscTags.ITEM_WEAPON_CROSSBOW ,
+                DfTags.MiscTags.ITEM_WEAPON_PICK ,
+                DfTags.MiscTags.ITEM_WEAPON_BOW ,
+                DfTags.MiscTags.ITEM_WEAPON_BLOWGUN ,
+                DfTags.MiscTags.ITEM_WEAPON_PIKE ,
+                DfTags.MiscTags.ITEM_WEAPON_HALBERD ,
+                DfTags.MiscTags.ITEM_WEAPON_SWORD_2H ,
+                DfTags.MiscTags.ITEM_WEAPON_SWORD_LONG ,
+                DfTags.MiscTags.ITEM_WEAPON_MAUL ,
+                DfTags.MiscTags.ITEM_WEAPON_AXE_GREAT ,
+                DfTags.MiscTags.ITEM_WEAPON_DAGGER_LARGE ,
+                DfTags.MiscTags.ITEM_WEAPON_SCOURGE ,
+                DfTags.MiscTags.ITEM_WEAPON_FLAIL ,
+                DfTags.MiscTags.ITEM_WEAPON_MORNINGSTAR ,
+                DfTags.MiscTags.ITEM_WEAPON_SCIMITAR ,
+                DfTags.MiscTags.ITEM_WEAPON_AXE_TRAINING ,
+                DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT_TRAINING ,
+                DfTags.MiscTags.ITEM_WEAPON_SPEAR_TRAINING
+            };
+        }
         
         public static class MiscTags
         {
@@ -143,6 +173,31 @@ namespace DfNet.Raws
 
             public const string DEFAULT_RELSIZE = "DEFAULT_RELSIZE";
             public const string BODY_SIZE = "BODY_SIZE";
+
+            public const string ITEM_WEAPON_WHIP  = "ITEM_WEAPON_WHIP";
+            public const string ITEM_WEAPON_AXE_BATTLE  = "ITEM_WEAPON_AXE_BATTLE";
+            public const string ITEM_WEAPON_HAMMER_WAR  = "ITEM_WEAPON_HAMMER_WAR";
+            public const string ITEM_WEAPON_SWORD_SHORT  = "ITEM_WEAPON_SWORD_SHORT";
+            public const string ITEM_WEAPON_SPEAR  = "ITEM_WEAPON_SPEAR";
+            public const string ITEM_WEAPON_MACE  = "ITEM_WEAPON_MACE";
+            public const string ITEM_WEAPON_CROSSBOW  = "ITEM_WEAPON_CROSSBOW";
+            public const string ITEM_WEAPON_PICK  = "ITEM_WEAPON_PICK";
+            public const string ITEM_WEAPON_BOW  = "ITEM_WEAPON_BOW";
+            public const string ITEM_WEAPON_BLOWGUN  = "ITEM_WEAPON_BLOWGUN";
+            public const string ITEM_WEAPON_PIKE  = "ITEM_WEAPON_PIKE";
+            public const string ITEM_WEAPON_HALBERD  = "ITEM_WEAPON_HALBERD";
+            public const string ITEM_WEAPON_SWORD_2H  = "ITEM_WEAPON_SWORD_2H";
+            public const string ITEM_WEAPON_SWORD_LONG  = "ITEM_WEAPON_SWORD_LONG";
+            public const string ITEM_WEAPON_MAUL  = "ITEM_WEAPON_MAUL";
+            public const string ITEM_WEAPON_AXE_GREAT  = "ITEM_WEAPON_AXE_GREAT";
+            public const string ITEM_WEAPON_DAGGER_LARGE  = "ITEM_WEAPON_DAGGER_LARGE";
+            public const string ITEM_WEAPON_SCOURGE  = "ITEM_WEAPON_SCOURGE";
+            public const string ITEM_WEAPON_FLAIL  = "ITEM_WEAPON_FLAIL";
+            public const string ITEM_WEAPON_MORNINGSTAR  = "ITEM_WEAPON_MORNINGSTAR";
+            public const string ITEM_WEAPON_SCIMITAR  = "ITEM_WEAPON_SCIMITAR";
+            public const string ITEM_WEAPON_AXE_TRAINING  = "ITEM_WEAPON_AXE_TRAINING";
+            public const string ITEM_WEAPON_SWORD_SHORT_TRAINING  = "ITEM_WEAPON_SWORD_SHORT_TRAINING";
+            public const string ITEM_WEAPON_SPEAR_TRAINING  = "ITEM_WEAPON_SPEAR_TRAINING";
         }
 
     }
