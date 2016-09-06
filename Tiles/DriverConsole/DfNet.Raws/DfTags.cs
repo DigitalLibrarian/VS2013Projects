@@ -170,6 +170,7 @@ namespace DfNet.Raws
             public const string SHEAR_YIELD = "SHEAR_YIELD";
             public const string SHEAR_FRACTURE = "SHEAR_FRACTURE";
             public const string SHEAR_STRAIN_AT_YIELD = "SHEAR_STRAIN_AT_YIELD";
+            public const string MAX_EDGE = "MAX_EDGE";
 
             public const string DEFAULT_RELSIZE = "DEFAULT_RELSIZE";
             public const string BODY_SIZE = "BODY_SIZE";

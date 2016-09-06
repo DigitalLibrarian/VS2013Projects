@@ -19,7 +19,8 @@ namespace Tiles.Tests
             ShearFracture = 20000,
             ShearStrainAtYield = 50000,
 
-            SolidDensity = 1000
+            SolidDensity = 1000,
+            SharpnessMultiplier = 0
         };
 
         public static readonly IMaterial Muscle = new Material("muscle", "muscle")
@@ -32,20 +33,22 @@ namespace Tiles.Tests
             ShearFracture = 20000,
             ShearStrainAtYield = 50000,
 
-            SolidDensity = 1060
+            SolidDensity = 1060,
+            SharpnessMultiplier = 0
         };
 
         public static readonly IMaterial Bone = new Material("bone", "bone")
         {
             ImpactYield = 200000,
-            ImpactFracture = 20000,
+            ImpactFracture = 200000,
             ImpactStrainAtYield = 100,
 
             ShearYield = 115000,
             ShearFracture = 130000,
             ShearStrainAtYield = 100,
 
-            SolidDensity = 500
+            SolidDensity = 500,
+            SharpnessMultiplier = 0.1d
         };
 
         public static readonly IMaterial Steel = new Material("steel", "steel")
@@ -58,7 +61,8 @@ namespace Tiles.Tests
             ShearFracture = 720000,
             ShearStrainAtYield = 215,
 
-            SolidDensity = 7850
+            SolidDensity = 7850,
+            SharpnessMultiplier = 1d
         };
 
         public static readonly IMaterial Silver = new Material("silver", "silver")
@@ -71,7 +75,8 @@ namespace Tiles.Tests
             ShearFracture = 170000,
             ShearStrainAtYield = 333,
 
-            SolidDensity = 10490
+            SolidDensity = 10490,
+            SharpnessMultiplier = 1d
         };
 
         public static readonly IMaterial Adamantine = new Material("adamantine", "adamantine")
@@ -84,7 +89,8 @@ namespace Tiles.Tests
             ShearFracture = 5000000,
             ShearStrainAtYield = 0,
 
-            SolidDensity = 200
+            SolidDensity = 200,
+            SharpnessMultiplier = 10d
         };
 
         public static readonly IMaterial Wood = new Material("wood", "wood")
@@ -97,7 +103,8 @@ namespace Tiles.Tests
             ShearFracture = 40000,
             ShearStrainAtYield = 1000,
 
-            SolidDensity = 500
+            SolidDensity = 500,
+            SharpnessMultiplier = 0.1d
         };
 
         public static readonly IMaterial Feather = new Material("feather", "feather")
@@ -110,7 +117,8 @@ namespace Tiles.Tests
             ShearFracture = 120000,
             ShearStrainAtYield = 100000,
 
-            SolidDensity = 100
+            SolidDensity = 100,
+            SharpnessMultiplier = 0.1d
         };
 
         public static readonly IMaterial Copper = new Material("copper", "copper")
@@ -123,7 +131,8 @@ namespace Tiles.Tests
             ShearFracture = 220000,
             ShearStrainAtYield = 145,
 
-            SolidDensity = 100
+            SolidDensity = 100,
+            SharpnessMultiplier = 1d
         };
 
 
@@ -137,7 +146,23 @@ namespace Tiles.Tests
             ShearFracture = 310000,
             ShearStrainAtYield = 189,
 
-            SolidDensity = 7850
+            SolidDensity = 7850,
+            SharpnessMultiplier = 1d
         };
+
+        public static readonly IMaterial Bronze = new Material("bronze", "bronze")
+        {
+            ImpactYield = 602000,
+            ImpactFracture = 843500,
+            ImpactStrainAtYield = 547,
+
+            ShearYield = 172000,
+            ShearFracture = 241000,
+            ShearStrainAtYield = 156,
+
+            SolidDensity = 8250,
+            SharpnessMultiplier = 1d
+        };
+
     }
 }

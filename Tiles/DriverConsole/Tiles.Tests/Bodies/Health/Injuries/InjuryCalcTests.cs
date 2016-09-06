@@ -23,17 +23,19 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
         int ShortSwordSize = 300;
         int ShortSwordContactArea_Slash = 20000;
+        int ShortSwordMaxPen_Slash = 4000;
 
         int MaceSize = 800;
         int MaceContactArea_Bash = 20;
+        int MaceMaxPen_Bash = 200;
 
-        double Shear_SlowVelo = 1;
-        double Shear_ModerateVelo = 10.2d;
-        double Shear_FastVelo = 100;
+        double Shear_SlowMomentum = 0.001;
+        double Shear_ModerateMomentum = 439;
+        double Shear_FastMomentum = 2392;
 
-        double Impact_SlowVelo = 1;
-        double Impact_ModerateVelo = 1.2d;
-        double Impact_FastVelo = 100;
+        double Impact_SlowMomentum = 0.001;
+        double Impact_ModerateMomentum = 1d;
+        double Impact_FastMomentum = 2392;
 
         int BoneLayerThickness = 26315;
         
@@ -93,23 +95,26 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
 
         [TestMethod]
-        public void MeleeWeapon_SingleLayer_Edged_NoInjury()
+        public void MeleeWeapon_SingleLayer_Edged_Bruisey()
         {
             var weaponMat = TestMaterials.Steel;
             SetupWeapon(ShortSwordSize, weaponMat);
             
             int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(StressMode.Edge, contactArea);
+            int maxPen = ShortSwordMaxPen_Slash;
+            var cmcMock = MockCombat(StressMode.Edge, contactArea, maxPen);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                Shear_SlowVelo,
+                Shear_SlowMomentum,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
                 WeaponItemMock.Object);
 
-            Assert.AreEqual(0, result.Count());
+            Assert.AreEqual(1, result.Count());
+            var injury = result.ElementAt(0);
+            AssertInjuryClass(StandardInjuryClasses.BruisedBodyPart, injury.Class);
         }
 
 
@@ -120,11 +125,12 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(ShortSwordSize, weaponMat);
 
             int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(StressMode.Edge, contactArea);
+            int maxPen = ShortSwordMaxPen_Slash;
+            var cmcMock = MockCombat(StressMode.Edge, contactArea, maxPen);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                Shear_ModerateVelo,
+                Shear_ModerateMomentum,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -143,11 +149,12 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(ShortSwordSize, weaponMat);
 
             int contactArea = ShortSwordContactArea_Slash;
-            var cmcMock = MockCombat(StressMode.Edge, contactArea);
+            int maxPen = ShortSwordMaxPen_Slash;
+            var cmcMock = MockCombat(StressMode.Edge, contactArea, maxPen);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                Shear_FastVelo,
+                Shear_FastMomentum,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -159,36 +166,19 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             AssertInjuryClass(StandardInjuryClasses.BadlyGashedBodyPart, injury.Class);
         }
 
+
         [TestMethod]
-        public void MeleeWeapon_SingleLayer_Blunt_NoInjury()
+        public void MeleeWeapon_SingleLayer_Blunt_Bruised()
         {
             var weaponMat = TestMaterials.Feather;
             SetupWeapon(MaceSize, weaponMat);
 
             int contactArea = MaceContactArea_Bash;
-            var cmcMock = MockCombat(StressMode.Blunt, contactArea);
+            int maxPen = MaceMaxPen_Bash;
+            var cmcMock = MockCombat(StressMode.Blunt, contactArea, maxPen);
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                Impact_SlowVelo,
-                AttackerMock.Object,
-                DefenderMock.Object,
-                BodyPartMock_SingleBoneLayer.Object,
-                WeaponItemMock.Object);
-
-            Assert.AreEqual(0, result.Count());
-        }
-
-        [TestMethod]
-        public void MeleeWeapon_SingleLayer_Blunt_Bruised()
-        {
-            var weaponMat = TestMaterials.Silver;
-            SetupWeapon(MaceSize, weaponMat);
-            
-            int contactArea = MaceContactArea_Bash;
-            var cmcMock = MockCombat(StressMode.Blunt, contactArea);
-            var result = InjuryCalc.MeleeWeaponStrike(
-                cmcMock.Object,
-                Impact_ModerateVelo,
+                Impact_ModerateMomentum,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -205,15 +195,16 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         [TestMethod]
         public void MeleeWeapon_SingleLayer_Blunt_Battered()
         {
-            var weaponMat = TestMaterials.Silver;
+            var weaponMat = TestMaterials.Feather;
             SetupWeapon(MaceSize, weaponMat);
 
             int contactArea = MaceContactArea_Bash;
-            var cmcMock = MockCombat(StressMode.Blunt, contactArea);
+            int maxPen = MaceMaxPen_Bash;
+            var cmcMock = MockCombat(StressMode.Blunt, contactArea, maxPen);
 
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                Impact_FastVelo,
+                Impact_FastMomentum,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -248,11 +239,12 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         }
 
         #region Helpers
-        Mock<ICombatMoveClass> MockCombat(StressMode contactType, int contactArea)
+        Mock<ICombatMoveClass> MockCombat(StressMode contactType, int contactArea, int maxPen)
         {
             var m = new Mock<ICombatMoveClass>();
             m.Setup(x => x.StressMode).Returns(contactType);
             m.Setup(x => x.ContactArea).Returns(contactArea);
+            m.Setup(x => x.MaxPenetration).Returns(maxPen);
             return m;
         }
 

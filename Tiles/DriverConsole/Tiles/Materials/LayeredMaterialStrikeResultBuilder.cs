@@ -51,6 +51,7 @@ namespace Tiles.Materials
 
         void SetMomentum(double momentum);
         void SetContactArea(int contactArea);
+        void SetMaxPenetration(int maxPenetration);
         void SetStressMode(StressMode mode);
 
         ILayeredMaterialStrikeResult Build();
@@ -73,6 +74,7 @@ namespace Tiles.Materials
 
         double Momentum { get; set; }
         int ContactArea { get; set; }
+        int MaxPenetration { get; set; }
         StressMode StressMode { get; set; }
 
         IMaterial StrikerMaterial { get; set; }
@@ -109,6 +111,11 @@ namespace Tiles.Materials
             ContactArea = contactArea;
         }
 
+        public void SetMaxPenetration(int maxPenetration)
+        {
+            MaxPenetration = maxPenetration;
+        }
+
         public void SetStressMode(StressMode mode)
         {
             StressMode = mode;
@@ -134,20 +141,27 @@ namespace Tiles.Materials
         public ILayeredMaterialStrikeResult Build()
         {
             var result = new LayeredMaterialStrikeResult();
-
-            var momentum = Momentum/(double) ContactArea;
-            var contactArea = ContactArea;
+            var contactArea = (double)ContactArea;
+            
             var mode = StressMode;
+            var momentum = Momentum;// / (contactArea/100d);
+            /*
+            if (mode == Materials.StressMode.Edge)
+            {
+                momentum = Momentum * ((double)MaxPenetration/100d) / (contactArea / 100d);
+            }
+             * */
             int penetration = 0;
 
             foreach (var layer in Layers)
             {
                 if (momentum <= 0) break;
+                if(mode == StressMode.Edge && penetration >= MaxPenetration) break;
 
                 var layerResult = PerformSingleLayerTest(
                     StrikerMaterial,
                     momentum,
-                    contactArea,
+                    ContactArea,
                     mode,
                     layer);
 
@@ -158,11 +172,12 @@ namespace Tiles.Materials
                 }
                 else if (mode != StressMode.Blunt)
                 {
+                    momentum = momentum - (momentum * (33d / 100d));
                     // fail to pierce/cut
                     layerResult = PerformSingleLayerTest(
                        StrikerMaterial,
                        momentum,
-                       contactArea,
+                       ContactArea,
                        StressMode.Blunt,
                        layer);
 
@@ -174,7 +189,7 @@ namespace Tiles.Materials
                     else
                     {
                         mode = StressMode.Blunt;
-                        momentum = momentum  - (momentum * (33d / 100d));
+                        momentum = momentum - (momentum * (33d / 100d));
                     }
                 }
                 
@@ -188,7 +203,7 @@ namespace Tiles.Materials
                 }
             }
 
-            result.Penetration = penetration;
+            result.Penetration = System.Math.Min(penetration, MaxPenetration);
 
             return result;
         }

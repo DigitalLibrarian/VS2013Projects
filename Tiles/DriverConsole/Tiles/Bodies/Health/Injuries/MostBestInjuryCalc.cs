@@ -23,7 +23,7 @@ namespace Tiles.Bodies.Health.Injuries
 
         public IEnumerable<IInjury> MeleeWeaponStrike(
             ICombatMoveClass moveClass, 
-            double weaponVelo, 
+            double momentum, 
             IAgent attacker, 
             IAgent defender, 
             IBodyPart targetPart, 
@@ -31,10 +31,9 @@ namespace Tiles.Bodies.Health.Injuries
         {
             Builder.Clear();
 
-            var massGrams = weapon.GetMass();
-            double momentum = ((double)weaponVelo * ((double) massGrams/1000d) );
             Builder.SetMomentum(momentum);
             Builder.SetContactArea(moveClass.ContactArea);
+            Builder.SetMaxPenetration(moveClass.MaxPenetration);
             Builder.SetStressMode(moveClass.StressMode);
             Builder.SetStrikerMaterial(weapon.Class.Material);
 
@@ -61,8 +60,7 @@ namespace Tiles.Bodies.Health.Injuries
                 var tissueLayer = taggedResult.Key as ITissueLayer;
                 var tissueResult = taggedResult.Value;
 
-
-                double penFact = (double)((tissueLayer.Thickness+1) * 100)/ (double)(totalThick+1);
+                double penFact = (double)(tissueLayer.Thickness+1)/ (double)(totalThick+1);
 
                 if (tissueResult.BreaksThrough)
                 {
@@ -71,16 +69,17 @@ namespace Tiles.Bodies.Health.Injuries
                         contactArea,
                         maxPen
                         );
-                    var excess =  tissueResult.Momentum + 1d + tissueResult.ExcessMomentum;
-                    var damageD = damage.Get(dt) + excess * penFact;
+                    var excess = tissueResult.ExcessMomentum;
+                    double newDamage = System.Math.Max(1d, excess * penFact);
+                    var damageD = damage.Get(dt) + newDamage;
                     damage.Set(dt, (int)damageD);
-
                 }
                 else
                 {
                     double mom = tissueResult.Momentum;
                     double t = tissueResult.MomentumThreshold;
-                    double damageD = damage.Get(DamageType.Bludgeon) + (mom) * penFact;
+                    double newDamage = System.Math.Max(1d, mom * penFact);
+                    double damageD = damage.Get(DamageType.Bludgeon) + newDamage;
                     damage.Set(DamageType.Bludgeon, (int)damageD);
                 }
             }
@@ -119,22 +118,23 @@ namespace Tiles.Bodies.Health.Injuries
             
             if (mode == StressMode.Edge)
             {
-                if (IsHighContactArea(contactArea) && IsLowPenetration(penetration))
-                {
-                    return DamageType.Slash;
-                }
-
                 if (IsLowContactArea(contactArea) && IsHighPenetration(penetration))
                 {
                     return DamageType.Pierce;
                 }
+                else
+                {
+
+                    return DamageType.Slash;
+                }
+
             }
             else if (mode == StressMode.Blunt)
             {
                 return DamageType.Bludgeon;
             }
 
-            throw new NotImplementedException();
+            throw new NotImplementedException(string.Format("Can't handle stress mode : {0}", mode));
         }
 
         private IEnumerable<IInjury> CreateInjuries(IBodyPart part, DamageVector damage)
@@ -142,9 +142,6 @@ namespace Tiles.Bodies.Health.Injuries
 
             foreach (var dti in _Dtis)
             {
-                var partFraction = part.Damage.GetFraction(dti.DamageType);
-                var newFraction = damage.GetFraction(dti.DamageType);
-
                 if (dti.IsHit(part, damage))
                 {
                     var injuryClass = dti.PickInjuryClass(part, damage);
@@ -195,7 +192,8 @@ namespace Tiles.Bodies.Health.Injuries
                 var bodyFraction = part.Damage.GetFraction(DamageType);
                 var damageFraction = damage.GetFraction(DamageType);
 
-                var num = bodyFraction.Numerator + (damageFraction.Numerator * (bodyFraction.Denominator / damageFraction.Denominator));
+                var num = bodyFraction.Numerator + damageFraction.Numerator;
+
                 var newFraction = new Fraction(
                     num,
                     bodyFraction.Denominator);
@@ -280,7 +278,7 @@ namespace Tiles.Bodies.Health.Injuries
             return maxPenetation < 2000;
         }
 
-        public IEnumerable<IInjury> UnarmedStrike(ICombatMoveClass moveClass, double force, Agents.IAgent attacker, Agents.IAgent defender, IBodyPart targetPart)
+        public IEnumerable<IInjury> UnarmedStrike(ICombatMoveClass moveClass, double momentum, Agents.IAgent attacker, Agents.IAgent defender, IBodyPart targetPart)
         {
             return Enumerable.Empty<IInjury>(); 
         }

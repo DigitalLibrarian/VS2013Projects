@@ -44,6 +44,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var iron = DfMaterialFactory.CreateInorganic("IRON");
             Assert.AreEqual("iron", iron.Name);
             Assert.AreEqual("iron", iron.Adjective);
+            Assert.AreEqual(1d, iron.SharpnessMultiplier);
         }
 
         [TestMethod]
@@ -103,6 +104,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
                 Assert.AreNotEqual(0, m.SolidDensity,
                     string.Format("SolidDensity == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
+
+                Assert.AreNotEqual(0, m.SharpnessMultiplier,
+                    string.Format("Sharpness == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
             }
         }
     }

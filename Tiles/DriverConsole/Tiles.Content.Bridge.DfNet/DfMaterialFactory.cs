@@ -156,6 +156,13 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.SOLID_DENSITY:
                         b.SetSolidDensity(int.Parse(tag.GetParam(0)));
                         break;
+                    case DfTags.MiscTags.MAX_EDGE:
+                        double sharp = (double)int.Parse(tag.GetParam(0)) / 10000d;
+                        if (sharp == 0)
+                        {
+                            sharp = 0.01d;
+                        }
+                        b.SetSharpnessMultiplier(sharp);
                         break;
 
                 }
@@ -263,6 +270,8 @@ namespace Tiles.Content.Bridge.DfNet
         void SetShearStrainAtYield(int shearSay);
 
         void SetSolidDensity(int p);
+
+        void SetSharpnessMultiplier(double p);
     }
 
     public class DfMaterialBuilder : IDfMaterialBuilder
@@ -325,6 +334,11 @@ namespace Tiles.Content.Bridge.DfNet
         public void SetSolidDensity(int d)
         {
             Material.SolidDensity = d;
+        }
+
+        public void SetSharpnessMultiplier(double s)
+        {
+            Material.SharpnessMultiplier = s;
         }
     }
 }

@@ -11,88 +11,6 @@ namespace Tiles.Materials
         // TODO - items or creatures without defined attacks get default blunt attack with area = (size)^2/3
 
 
-
-        public static double CalcStrain(double forceIn, int contactAreaIn, int strainAtYieldIn)
-        {
-            double force = (double)forceIn;
-            double contactArea = FixContactArea(contactAreaIn);
-            double strainAtYield =  ((double)strainAtYieldIn) / 100000d;
-
-            //Strain is measured as parts-per-100000, meaning that 100000 strain is 100% deformation
-            return ((force * strainAtYield) / contactArea );
-        }
-
-        public static StressResult StressLayer(
-            double forceIn, 
-            int contactAreaIn,
-            int thicknessIn,
-            
-            int yieldStrainIn, int fractureStrainIn, int strainAtYieldIn,
-            out double deformRatio)
-        {
-            double strainAtYield = (double)strainAtYieldIn;
-            double strainConvert = 100000d;
-            double fractureStrain = (double)fractureStrainIn / strainConvert;
-            double yieldStrain = (double)yieldStrainIn / strainConvert;
-
-
-            var stress = CalcStrain(forceIn, contactAreaIn, strainAtYieldIn);
-            var result = StressResult.Elastic;
-
-            if (stress >= fractureStrain)
-            {
-                // broken through
-                result = StressResult.Fracture;
-                deformRatio = 1d;
-            }
-            else if (stress >= yieldStrain)
-            {
-                // inelastic (plastic) deformation
-                result = StressResult.Plastic;
-                deformRatio = 1d;
-            }
-            else
-            {
-                deformRatio = stress * (strainAtYield / 100000d);
-            }
-            
-            return result;
-        }
-
-
-
-
-        public static bool EdgedStress(
-            double forceIn, int contactAreaIn, int thicknessIn,
-            int aYieldStrainIn, int aFractureStrainIn, int aStrainAtYieldIn,
-            int bYieldStrainIn, int bFractureStrainIn, int bStrainAtYieldIn
-            )
-        {
-            var requiredMomentum = GetEdgedBreakThreshold(contactAreaIn, aYieldStrainIn, aFractureStrainIn, aStrainAtYieldIn, bYieldStrainIn, bFractureStrainIn, bStrainAtYieldIn);
-            return forceIn >= requiredMomentum;
-        }
-
-        public static bool BluntStress(
-            double forceIn, int contactAreaIn, int thicknessIn,
-            int aYieldStrainIn, int aFractureStrainIn, int aStrainAtYieldIn,
-            int bYieldStrainIn, int bFractureStrainIn, int bStrainAtYieldIn)
-        {
-            double yieldRatio = (double) aYieldStrainIn / (double) bYieldStrainIn;
-            double fractureRatio = (double)aFractureStrainIn / (double)bFractureStrainIn;
-
-            //Blunt attacks can be entirely deflected by armor if weapon's IMPACT_YIELD is especially low relative to armor's density:
-            // 2 * Sw * IYw < A * Da,
-
-
-            // Otherwise
-            // M >= (2*IF - IY) * (2 + 0.4*Qa) * A,
-
-            var requiredMomentum = ((2d*fractureRatio) - yieldRatio) * 2.4 * contactAreaIn;
-
-            return forceIn >= requiredMomentum;
-        }
-
-
         #region Not Stupid
         private static double FixContactArea(int contactArea)
         {
@@ -111,7 +29,8 @@ namespace Tiles.Materials
         public static double GetEdgedBreakThreshold(
             int contactAreaIn,
             int aYieldStrainIn, int aFractureStrainIn, int aStrainAtYieldIn,
-            int bYieldStrainIn, int bFractureStrainIn, int bStrainAtYieldIn
+            int bYieldStrainIn, int bFractureStrainIn, int bStrainAtYieldIn,
+            double sharpnessMultiplier
             )
         {
             double A = FixContactArea(contactAreaIn);
@@ -120,7 +39,11 @@ namespace Tiles.Materials
 
             double Qa = 1;
             double Qw = 1;
-            double S = 1;
+            double S = sharpnessMultiplier;
+            if (S == 0)
+            {
+                S = 1;
+            }
 
             // M >= (rSY + (A+1)*rSF) * (10 + 2*Qa) / (S * Qw)
             return (rSY + ((double)A + 1d) * rSF)
@@ -141,7 +64,8 @@ namespace Tiles.Materials
             return GetEdgedBreakThreshold(
                 contactArea,
                 wYield, wFracture, wStrainAtYield,
-                yield, fracture, strainAtYield
+                yield, fracture, strainAtYield,
+                strikerMat.SharpnessMultiplier
                 );
         }
 

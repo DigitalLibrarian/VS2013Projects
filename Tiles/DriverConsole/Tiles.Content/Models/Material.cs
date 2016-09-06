@@ -25,5 +25,6 @@ namespace Tiles.Content.Models
         public int ShearStrainAtYield { get; set; }
 
         public int SolidDensity { get; set; }
+        public double SharpnessMultiplier { get; set; }
     }
 }

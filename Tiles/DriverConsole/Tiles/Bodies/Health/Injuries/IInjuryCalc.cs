@@ -16,14 +16,14 @@ namespace Tiles.Bodies.Health.Injuries
     {
         IEnumerable<IInjury> MeleeWeaponStrike(
             ICombatMoveClass moveClass,
-            double weaponVelo,
+            double momentum,
             IAgent attacker, IAgent defender,
             IBodyPart targetPart, IItem weapon
             );
 
         IEnumerable<IInjury> UnarmedStrike(
             ICombatMoveClass moveClass,
-            double force,
+            double momentum,
             IAgent attacker, IAgent defender,
             IBodyPart targetPart
             );

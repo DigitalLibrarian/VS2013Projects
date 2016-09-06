@@ -24,6 +24,8 @@ namespace Tiles.Materials
         /// </summary>
         int SolidDensity { get; }
 
+        double SharpnessMultiplier { get; }
+
         /// <summary>
         /// Get mass of a solid uniform density volume
         /// </summary>

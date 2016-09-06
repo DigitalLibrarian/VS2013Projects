@@ -109,10 +109,23 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
+        public void TestMaterials_GetEdgeThreshold_SteelOnBone()
+        {
+            AssertMatOnMat_GetEdgeThreshold(
+                1, TestMaterials.Steel, TestMaterials.Bone, 5.3);
+
+            AssertMatOnMat_GetEdgeThreshold(
+                20, TestMaterials.Steel, TestMaterials.Bone, 5.8);
+
+            AssertMatOnMat_GetEdgeThreshold(
+                20000, TestMaterials.Steel, TestMaterials.Bone, 438.7);
+        }
+
+        [TestMethod]
         public void TestMaterials_GetEdgeThreshold_AdamantineOnSkin()
         {
             AssertMatOnMat_GetEdgeThreshold(
-                1, TestMaterials.Adamantine, TestMaterials.Skin, 0.0);
+                1, TestMaterials.Adamantine, TestMaterials.Skin, 0);
         }
 
         [TestMethod]
@@ -127,6 +140,25 @@ namespace Tiles.Tests.Materials
         {
             AssertMatOnMat_GetEdgeThreshold(
                 1, TestMaterials.Copper, TestMaterials.Skin, 4.5);
+        }
+
+        [TestMethod]
+        public void RelativeEdgeMats()
+        {
+            //Adamantine	Steel	Iron	Bronze, Bismuth Bronze	Copper	Silver
+
+            var adamResult = MaterialStressCalc.GetEdgedBreakThreshold(20, TestMaterials.Adamantine, TestMaterials.Bone);
+            var steelResult = MaterialStressCalc.GetEdgedBreakThreshold(20, TestMaterials.Steel, TestMaterials.Bone);
+            var ironResult = MaterialStressCalc.GetEdgedBreakThreshold(20, TestMaterials.Iron, TestMaterials.Bone);
+            var bronzeResult = MaterialStressCalc.GetEdgedBreakThreshold(20, TestMaterials.Bronze, TestMaterials.Bone);
+            var copperResult = MaterialStressCalc.GetEdgedBreakThreshold(20, TestMaterials.Copper, TestMaterials.Bone);
+            var silverResult = MaterialStressCalc.GetEdgedBreakThreshold(20, TestMaterials.Silver, TestMaterials.Bone);
+
+            Assert.IsTrue(adamResult > steelResult);
+            Assert.IsTrue(steelResult > ironResult);
+            Assert.IsTrue(ironResult > bronzeResult);
+            Assert.IsTrue(bronzeResult > copperResult);
+            Assert.IsTrue(copperResult > silverResult);
         }
 
         [TestMethod]
@@ -167,15 +199,15 @@ namespace Tiles.Tests.Materials
         {
             AssertMatOnMat_GetBluntThreshold(
                 20, TestMaterials.Bone,
-                0.4);
+                0.0);
 
             AssertMatOnMat_GetBluntThreshold(
                 200, TestMaterials.Bone,
-                4.8);
+                0.9);
 
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Bone,
-                480);
+                96);
         }
         
         [TestMethod]
