@@ -108,22 +108,6 @@ namespace Tiles.Bodies.Health.Injuries
             // be reported
 
             return CreateInjuries(targetPart, damage);
-
-            /*
-            var damage = new DamageVector();
-            foreach (var taggedResult in result.TaggedResults) 
-            {
-                var tissueLayer = taggedResult.Key as ITissueLayer;
-                var tissueResult = taggedResult.Value;
-
-                AccumulateTissueLayerDamage(damage, tissueLayer, tissueResult);
-            }
-             * */
-
-            // now we have the total amount of multidimensional damage that should
-            // be applied to the body part.
-
-            //return CreateInjuries(targetPart, damage);
         }
 
 

@@ -168,8 +168,8 @@ namespace Tiles.Materials
                 }
                 else if (mode != StressMode.Blunt)
                 {
+                    // fail to pierce/cut, convert to blunt and greatly reduce
                     mode = StressMode.Blunt;
-                    // fail to pierce/cut
                     layerResult = PerformSingleLayerTest(
                        StrikerMaterial,
                        momentum,
@@ -182,10 +182,12 @@ namespace Tiles.Materials
                     {
                         momentum = momentum - (momentum * (5d / 100d));
                         penetration += layer.Thickness;
+                        // allow furth testing with blunt
                     }
                     else
                     {
-                        // permanently convert to blunt and greatly reduce momentum
+                        // TODO - If both edged and blunt momenta thresholds haven't been met, attack is permanently converted to blunt and its momentum may be greatly reduced. Specifically, it is multiplied by SHEAR_STRAIN_AT_YIELD/50000 for edged attacks or IMPACT_STRAIN_AT_YIELD/50000 otherwise. 
+                        momentum = momentum - (momentum * (30d / 100d));
                         done = true;
                     }
                 }
@@ -209,6 +211,13 @@ namespace Tiles.Materials
 
             result.Penetration = System.Math.Min(penetration, MaxPenetration);
 
+            if(result.TaggedResults.Where(x => x.Value.BreaksThrough).Count()
+                == Layers.Where(l => l.IsTagged).Count())
+            {
+                // if edged, and contact area and penetration spell out a big
+                // enough volume (compared to the part), then we have a severed limb
+                int br = 0;
+            }
             return result;
         }
 
