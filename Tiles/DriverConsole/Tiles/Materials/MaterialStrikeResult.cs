@@ -8,7 +8,7 @@ namespace Tiles.Materials
 {
     public interface IMaterialStrikeResult
     {
-        StressMode StressMode { get; }
+        StressMode StressMode { get; set; }
 
         int ContactArea { get; }
 

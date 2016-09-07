@@ -30,11 +30,11 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         int MaceMaxPen_Bash = 200;
 
         double Shear_SlowMomentum = 0.001;
-        double Shear_ModerateMomentum = 439;
+        double Shear_ModerateMomentum = 400d;
         double Shear_FastMomentum = 2392;
 
         double Impact_SlowMomentum = 0.001;
-        double Impact_ModerateMomentum = 1d;
+        double Impact_ModerateMomentum = 589d;
         double Impact_FastMomentum = 2392;
 
         int BoneLayerThickness = 26315;
@@ -95,11 +95,11 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
 
         [TestMethod]
-        public void MeleeWeapon_SingleLayer_Edged_Bruisey()
+        public void MeleeWeapon_SingleLayer_Edged_Cut()
         {
             var weaponMat = TestMaterials.Steel;
             SetupWeapon(ShortSwordSize, weaponMat);
-            
+
             int contactArea = ShortSwordContactArea_Slash;
             int maxPen = ShortSwordMaxPen_Slash;
             var cmcMock = MockCombat(StressMode.Edge, contactArea, maxPen);
@@ -113,13 +113,13 @@ namespace Tiles.Tests.Bodies.Health.Injuries
                 WeaponItemMock.Object);
 
             Assert.AreEqual(1, result.Count());
+
             var injury = result.ElementAt(0);
-            AssertInjuryClass(StandardInjuryClasses.BruisedBodyPart, injury.Class);
+            AssertInjuryClass(StandardInjuryClasses.CutBodyPart, injury);
         }
 
-
         [TestMethod]
-        public void MeleeWeapon_SingleLayer_Edged_Cut()
+        public void MeleeWeapon_SingleLayer_Edged_BadlyGashed()
         {
             var weaponMat = TestMaterials.Steel;
             SetupWeapon(ShortSwordSize, weaponMat);
@@ -139,31 +139,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             Assert.AreEqual(1, result.Count());
 
             var injury = result.ElementAt(0);
-            AssertInjuryClass(StandardInjuryClasses.CutBodyPart, injury.Class);
-        }
-
-        [TestMethod]
-        public void MeleeWeapon_SingleLayer_Edged_BadlyGashed()
-        {
-            var weaponMat = TestMaterials.Steel;
-            SetupWeapon(ShortSwordSize, weaponMat);
-
-            int contactArea = ShortSwordContactArea_Slash;
-            int maxPen = ShortSwordMaxPen_Slash;
-            var cmcMock = MockCombat(StressMode.Edge, contactArea, maxPen);
-
-            var result = InjuryCalc.MeleeWeaponStrike(
-                cmcMock.Object,
-                Shear_FastMomentum,
-                AttackerMock.Object,
-                DefenderMock.Object,
-                BodyPartMock_SingleBoneLayer.Object,
-                WeaponItemMock.Object);
-
-            Assert.AreEqual(1, result.Count());
-
-            var injury = result.ElementAt(0);
-            AssertInjuryClass(StandardInjuryClasses.BadlyGashedBodyPart, injury.Class);
+            AssertInjuryClass(StandardInjuryClasses.BadlyGashedBodyPart, injury);
         }
 
 
@@ -178,7 +154,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             var cmcMock = MockCombat(StressMode.Blunt, contactArea, maxPen);
             var result = InjuryCalc.MeleeWeaponStrike(
                 cmcMock.Object,
-                Impact_ModerateMomentum,
+                Impact_SlowMomentum,
                 AttackerMock.Object,
                 DefenderMock.Object,
                 BodyPartMock_SingleBoneLayer.Object,
@@ -188,7 +164,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
             var injury = result.Single();
 
-            AssertInjuryClass(StandardInjuryClasses.BruisedBodyPart, injury.Class);
+            AssertInjuryClass(StandardInjuryClasses.BruisedBodyPart, injury);
         }
 
 
@@ -213,7 +189,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             Assert.AreEqual(1, result.Count());
 
             var injury = result.ElementAt(0);
-            AssertInjuryClass(StandardInjuryClasses.BatteredBodyPart, injury.Class);
+            AssertInjuryClass(StandardInjuryClasses.BatteredBodyPart, injury);
         }
 
 
@@ -280,9 +256,10 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             WeaponItemClassMock.Setup(x => x.Size).Returns(size);
             WeaponItemClassMock.Setup(x => x.Material).Returns(mat);
         }
-        void AssertInjuryClass(IInjuryClass expected, IInjuryClass actual)
+        void AssertInjuryClass(IInjuryClass expected, IInjury injury)
         {
-            Assert.AreSame(expected, actual, string.Format("Expected injury class '{0}', actual '{1}'", expected.Adjective, actual.Adjective));
+            var actual = injury.Class;
+            Assert.AreSame(expected, actual, string.Format("Expected injury class '{0}', actual '{1}'. Damage = ({2})", expected.Adjective, actual.Adjective, injury.Damage));
         }
         #endregion
     }

@@ -144,14 +144,10 @@ namespace Tiles.Materials
             var contactArea = (double)ContactArea;
             
             var mode = StressMode;
-            var momentum = Momentum;// / (contactArea/100d);
-            /*
-            if (mode == Materials.StressMode.Edge)
-            {
-                momentum = Momentum * ((double)MaxPenetration/100d) / (contactArea / 100d);
-            }
-             * */
+            var momentum = Momentum;
+
             int penetration = 0;
+            bool done = false;
 
             foreach (var layer in Layers)
             {
@@ -172,15 +168,16 @@ namespace Tiles.Materials
                 }
                 else if (mode != StressMode.Blunt)
                 {
-                    momentum = momentum - (momentum * (33d / 100d));
+                    mode = StressMode.Blunt;
                     // fail to pierce/cut
                     layerResult = PerformSingleLayerTest(
                        StrikerMaterial,
                        momentum,
                        ContactArea,
-                       StressMode.Blunt,
+                       mode,
                        layer);
 
+                    layerResult.StressMode = StressMode;
                     if (layerResult.BreaksThrough)
                     {
                         momentum = momentum - (momentum * (5d / 100d));
@@ -188,11 +185,16 @@ namespace Tiles.Materials
                     }
                     else
                     {
-                        mode = StressMode.Blunt;
-                        momentum = momentum - (momentum * (33d / 100d));
+                        // permanently convert to blunt and greatly reduce momentum
+                        done = true;
                     }
                 }
-                
+                else
+                {
+                    // blunt failed to propagate
+                    done = true;
+                }
+
                 if (layer.IsTagged)
                 {
                     result.AddLayerResult(layerResult, layer.Tag);
@@ -201,6 +203,8 @@ namespace Tiles.Materials
                 {
                     result.AddLayerResult(layerResult);
                 }
+
+                if (done) break;
             }
 
             result.Penetration = System.Math.Min(penetration, MaxPenetration);

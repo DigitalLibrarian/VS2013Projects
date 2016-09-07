@@ -60,7 +60,7 @@ namespace Tiles.Bodies.Health.Injuries
                 var tissueLayer = taggedResult.Key as ITissueLayer;
                 var tissueResult = taggedResult.Value;
 
-                double penFact = (double)(tissueLayer.Thickness+1)/ (double)(totalThick+1);
+                double ttFact = (double)(tissueLayer.Thickness+1)/ (double)(totalThick+1);
 
                 if (tissueResult.BreaksThrough)
                 {
@@ -69,18 +69,38 @@ namespace Tiles.Bodies.Health.Injuries
                         contactArea,
                         maxPen
                         );
-                    var excess = tissueResult.ExcessMomentum;
-                    double newDamage = System.Math.Max(1d, excess * penFact);
+                    
+                    //var momComp = 1d + (tissueResult.Momentum / (tissueResult.MomentumThreshold));
+                    
+
+
+                    var momComp = 100d;
+                    double newDamage = System.Math.Max(1d, momComp * ttFact);
                     var damageD = damage.Get(dt) + newDamage;
                     damage.Set(dt, (int)damageD);
                 }
                 else
                 {
-                    double mom = tissueResult.Momentum;
-                    double t = tissueResult.MomentumThreshold;
-                    double newDamage = System.Math.Max(1d, mom * penFact);
-                    double damageD = damage.Get(DamageType.Bludgeon) + newDamage;
-                    damage.Set(DamageType.Bludgeon, (int)damageD);
+                    var dt = ClassifyDamageType(
+                        tissueResult.StressMode,
+                        contactArea,
+                        maxPen
+                        );
+
+                    //double t = tissueResult.MomentumThreshold;
+                    //double mom = tissueResult.Momentum / t;
+
+                    double momLeft = (tissueResult.MomentumThreshold - tissueResult.Momentum) / tissueResult.MomentumThreshold;
+
+                    // if momLeft = 0, we want 100% dmg
+                    // if momLeft = .5, we want 50 pts
+                    // if momLeft = 100, we want 0 pts
+
+                    double mom = (1d - momLeft) * 100;
+
+                    double newDamage = System.Math.Max(1d, mom * ttFact);
+                    double damageD = damage.Get(dt) + newDamage;
+                    damage.Set(dt, (int)damageD);
                 }
             }
 
@@ -211,16 +231,16 @@ namespace Tiles.Bodies.Health.Injuries
 
         static DtiBinding[] _Dtis = new DtiBinding[]
         {
-            new DtiBinding(DamageType.Bludgeon, 0.1, 
+            new DtiBinding(DamageType.Bludgeon, 0.2, 
                 StandardInjuryClasses.BruisedBodyPart,
                 StandardInjuryClasses.BatteredBodyPart),
-            new DtiBinding(DamageType.Slash, 0.1,
+            new DtiBinding(DamageType.Slash, 0.2,
                 StandardInjuryClasses.CutBodyPart,
                 StandardInjuryClasses.BadlyGashedBodyPart),
-            new DtiBinding(DamageType.Pierce, 0.1,
+            new DtiBinding(DamageType.Pierce, 0.2,
                 StandardInjuryClasses.PiercedBodyPart,
                 StandardInjuryClasses.BadlyPiercedBodyPart),
-            new DtiBinding(DamageType.Gore, 0.1,
+            new DtiBinding(DamageType.Gore, 0.2,
                 StandardInjuryClasses.TornBodyPart,
                 StandardInjuryClasses.BadlyRippedBodyPart),
         };
