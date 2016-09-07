@@ -42,7 +42,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             bool isWeaponBased = move.Class.IsItem;
 
-            int momentum = 596;  // TODO - get agent to produce
+            int momentum = 91;  // TODO - get agent to produce
 
             bool targetPartWasShed = false;
             IEnumerable<IInjury> injuries = Enumerable.Empty<IInjury>();

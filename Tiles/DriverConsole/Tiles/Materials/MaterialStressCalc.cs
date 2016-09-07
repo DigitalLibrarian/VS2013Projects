@@ -46,7 +46,7 @@ namespace Tiles.Materials
             }
 
             // M >= (rSY + (A+1)*rSF) * (10 + 2*Qa) / (S * Qw)
-            return (rSY + ((double)A + 1d) * rSF)
+            return (rSY + ((double)A + 0.01d) * rSF)
                 * (10 + (2 * Qa))
                 / (S * Qw);
         }

@@ -39,5 +39,23 @@ namespace Tiles.Tests.Materials
 
             Assert.AreEqual(23549, (int)mass);
         }
+
+        [TestMethod]
+        public void GetMassUniformVolume_SteelSpear()
+        {
+            int sizeCubicCm = 400;
+            var mass = Steel.GetMassForUniformVolume(sizeCubicCm);
+
+            Assert.AreEqual(31400, (int)mass);
+        }
+
+        [TestMethod]
+        public void GetMassUniformVolume_SteelMace()
+        {
+            int sizeCubicCm = 800;
+            var mass = Steel.GetMassForUniformVolume(sizeCubicCm);
+
+            Assert.AreEqual(62800, (int)mass);
+        }
     }
 }
