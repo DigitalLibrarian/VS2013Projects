@@ -95,6 +95,24 @@ namespace Tiles
             }
         }
 
+        public void ScalarMultiply(double scale)
+        {
+            foreach (var dt in GetTypes())
+            {
+                Set(dt, (int)(((double)Get(dt)) * scale));
+            }
+        }
+
+        public IDamageVector CloneDamage()
+        {
+            var data = new Dictionary<DamageType, int>();
+            foreach (var pair in Data)
+            {
+                data.Add(pair.Key, (int)pair.Value.Numerator);
+            }
+            return new DamageVector(data);
+        }
+
         public DamageType GetHighestDamageType()
         {
             return GetTypes().FirstOrDefault();

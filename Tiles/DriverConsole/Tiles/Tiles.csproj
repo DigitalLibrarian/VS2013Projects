@@ -69,6 +69,7 @@
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
     <Compile Include="Bodies\Health\BodyPartWoundClassifier.cs" />
     <Compile Include="Bodies\Health\Injuries\MostBestInjuryCalc.cs" />
+    <Compile Include="Injuries\InjuryReport.cs" />
     <Compile Include="Materials\LayeredMaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\IMaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\MaterialStrikeResult.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Bodies\Health\DamageType.cs" />
     <Compile Include="Bodies\Health\Injuries\IInjuryCalc.cs" />
     <Compile Include="Bodies\Health\Injuries\IInjuryFactory.cs" />
-    <Compile Include="Bodies\Health\Injuries\InjuryCalc.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />

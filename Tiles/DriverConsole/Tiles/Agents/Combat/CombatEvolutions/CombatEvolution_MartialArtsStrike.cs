@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
 using Tiles.Bodies.Health.Injuries;
+using Tiles.Injuries;
 using Tiles.Items;
 using Tiles.Math;
 
@@ -13,13 +14,14 @@ namespace Tiles.Agents.Combat.CombatEvolutions
     public class CombatEvolution_MartialArtsStrike : CombatEvolution
     {
         IInjuryCalc InjuryCalc { get; set; }
+        IInjuryReportCalc InjuryReportCalc { get; set; }
         public CombatEvolution_MartialArtsStrike(
-            IInjuryCalc injuryCalc,
+            IInjuryReportCalc injuryReportCalc,
             IActionReporter reporter, 
             IAgentReaper reaper) 
             : base(reporter, reaper) 
         {
-            InjuryCalc = injuryCalc;
+            InjuryReportCalc = injuryReportCalc;
         }
 
         protected override bool Should(ICombatMoveContext session)
@@ -46,6 +48,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var momentum = GetStrikeMomentum(attacker, move);
 
             bool targetPartWasShed = false;
+            /*
             IEnumerable<IInjury> injuries = Enumerable.Empty<IInjury>();
             if (isWeaponBased)
             {
@@ -80,24 +83,40 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                     partRemoveSuccess = true;
                 }
             }
+            */
 
-            if (partRemoveSuccess)
+            IInjuryReport report = null;
+            if (isWeaponBased)
             {
-                HandleShedPart(attacker, defender, move, move.DefenderBodyPart);
+                report = InjuryReportCalc.CalculateMaterialStrike(
+                    session,
+                    move.Class.StressMode,
+                    momentum,
+                    move.Class.ContactArea,
+                    move.Class.MaxPenetration,
+                    move.DefenderBodyPart,
+                    move.Weapon.Class.Material
+                    );
+
+                move.DefenderBodyPart.Damage.Add(report.BodyPartInjuries.First().GetTotal());
+
+                targetPartWasShed = report.BodyPartInjuries.Any(x => x.Class.IsSever);
+                session.InjuryReport = report;
             }
 
-            if (partRemoveSuccess)
+            if (targetPartWasShed)
             {
                 defender.Body.Amputate(move.DefenderBodyPart);
+                HandleShedPart(attacker, defender, move, move.DefenderBodyPart);
             }
 
             if (isWeaponBased)
             {
-                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, partRemoveSuccess);
+                Reporter.ReportMeleeItemStrikeBodyPart(session, move.Class.Verb, move.Weapon, move.DefenderBodyPart, targetPartWasShed);
             }
             else
             {
-                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, partRemoveSuccess);
+                Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, targetPartWasShed);
             }
 
             var defenderDies = defender.IsDead;

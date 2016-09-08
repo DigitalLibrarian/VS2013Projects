@@ -17,7 +17,10 @@ namespace Tiles
 
         Fraction GetFraction(DamageType damageType);
 
-        void Add(IDamageVector damage);
+        void Add(IDamageVector damage); 
+        void ScalarMultiply(double scalar);
+
+        IDamageVector CloneDamage();
 
         string ToString();
     }

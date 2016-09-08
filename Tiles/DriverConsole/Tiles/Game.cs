@@ -16,6 +16,7 @@ using Tiles.Bodies.Health.Injuries;
 using Tiles.Ecs;
 using Tiles.EntitySystems;
 using Tiles.Materials;
+using Tiles.Injuries;
 
 namespace Tiles
 {
@@ -48,9 +49,14 @@ namespace Tiles
             var injuryFactory = new InjuryFactory();
             
             //var injuryCalc = new InjuryCalc(injuryFactory);
+            var layerBuilder = new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder());
+            /*
             var injuryCalc = new MostBestInjuryCalc(
                 injuryFactory,
-                new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()));
+                );
+             * */
+
+            var injuryCalc = new InjuryReportCalc(layerBuilder);
             var reporter = new ActionReporter(log);
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
             var evolutions = new List<ICombatEvolution>{

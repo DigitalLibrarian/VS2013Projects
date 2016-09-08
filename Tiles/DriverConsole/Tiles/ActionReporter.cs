@@ -56,12 +56,15 @@ namespace Tiles
             var bodyPartName = bodyPart.Name;
             var limbMessage = targetPartWasShed ? " and the severed part falls away!" : ".";
             string withWeapon = string.Format(" with it's {0}", item.Class.Name);
-            Log.AddLine(string.Format("{0} {1} the {2}'s {3}{4}{5}", attackerName, verbStr, defenderName, bodyPartName, withWeapon, limbMessage));
+            
+            var bpInjury = session.InjuryReport.BodyPartInjuries.First();
 
-            foreach (var injury in session.NewInjuries)
-            {
-                ReportInjury(session.Defender, injury);
-            }
+            var completionMessage = bpInjury.GetResultPhrase();
+
+            var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
+                attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
+
+            Log.AddLine(message);
         }
 
         public void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, bool targetPartWasShed)

@@ -11,7 +11,7 @@ namespace Tiles
     {
         Bludgeon,
         Slash,
-        Pierce,
+        Pierce, 
         Gore,
     }
 }
