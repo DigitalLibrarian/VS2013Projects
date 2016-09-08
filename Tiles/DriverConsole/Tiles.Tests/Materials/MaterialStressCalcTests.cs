@@ -48,6 +48,13 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
+        public void TestMaterials_GetEdgeThreshold_SteelOnNail_SwordSlash()
+        {
+            AssertMatOnMat_GetEdgeThreshold(
+                20000, TestMaterials.Steel, TestMaterials.Nail, 436.56);
+        }
+
+        [TestMethod]
         public void TestMaterials_GetEdgeThreshold_AdamantineOnSkin()
         {
             AssertMatOnMat_GetEdgeThreshold(
@@ -89,7 +96,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Skin_PinPrick()
+        public void TestMaterials_GetBluntThreshold_Skin_PinPrick()
         {
             AssertMatOnMat_GetBluntThreshold(
                 1, TestMaterials.Skin,
@@ -97,7 +104,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Skin_Mace()
+        public void TestMaterials_GetBluntThreshold_Skin_Mace()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20, TestMaterials.Skin,
@@ -105,7 +112,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Skin_SwordSlash()
+        public void TestMaterials_GetBluntThreshold_Skin_SwordSlash()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Skin,
@@ -113,7 +120,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Silver_Small()
+        public void TestMaterials_GetBluntThreshold_Silver_Small()
         {
             AssertMatOnMat_GetBluntThreshold(
                 0, TestMaterials.Silver,
@@ -121,7 +128,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Silver_Medium()
+        public void TestMaterials_GetBluntThreshold_Silver_Medium()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20, TestMaterials.Silver,
@@ -129,7 +136,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Silver_Large()
+        public void TestMaterials_GetBluntThreshold_Silver_Large()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Silver,
@@ -137,7 +144,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Bone_SmallContactArea()
+        public void TestMaterials_GetBluntThreshold_Bone_SmallContactArea()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20, TestMaterials.Bone,
@@ -145,7 +152,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Bone_MediumContactArea()
+        public void TestMaterials_GetBluntThreshold_Bone_MediumContactArea()
         {
             AssertMatOnMat_GetBluntThreshold(
                 200, TestMaterials.Bone,
@@ -153,15 +160,39 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Bone_LargeContactArea()
+        public void TestMaterials_GetBluntThreshold_Bone_LargeContactArea()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Bone,
                 96);
         }
-        
+
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Copper()
+        public void TestMaterials_GetBluntThreshold_Nail_SmallContactArea()
+        {
+            AssertMatOnMat_GetBluntThreshold(
+                20, TestMaterials.Nail,
+                0.09);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetBluntThreshold_Nail_MediumContactArea()
+        {
+            AssertMatOnMat_GetBluntThreshold(
+                200, TestMaterials.Nail,
+                0.96);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetBluntThreshold_Nail_LargeContactArea()
+        {
+            AssertMatOnMat_GetBluntThreshold(
+                20000, TestMaterials.Nail,
+                96);
+        }
+
+        [TestMethod]
+        public void TestMaterials_GetBluntThreshold_Copper()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Copper,
@@ -169,7 +200,7 @@ namespace Tiles.Tests.Materials
         }
 
         [TestMethod]
-        public void TestMaterials_GetBluntTheshold_Iron()
+        public void TestMaterials_GetBluntThreshold_Iron()
         {
             AssertMatOnMat_GetBluntThreshold(
                 20000, TestMaterials.Iron,

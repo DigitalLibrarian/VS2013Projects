@@ -31,8 +31,11 @@ namespace Tiles.Bodies.Health.Injuries
         {
             Builder.Clear();
 
+            int partSizeMM = targetPart.Size * 10;
+            int contactArea = System.Math.Min(moveClass.ContactArea, partSizeMM);
+
             Builder.SetMomentum(momentum);
-            Builder.SetContactArea(moveClass.ContactArea);
+            Builder.SetContactArea(contactArea);
             Builder.SetMaxPenetration(moveClass.MaxPenetration);
             Builder.SetStressMode(moveClass.StressMode);
             Builder.SetStrikerMaterial(weapon.Class.Material);
@@ -51,7 +54,6 @@ namespace Tiles.Bodies.Health.Injuries
             }
 
             var result = Builder.Build();
-            int contactArea = moveClass.ContactArea;
             int maxPen = moveClass.MaxPenetration;
             var totalThick = targetPart.Tissue.TotalThickness;
             var damage = new DamageVector();
@@ -60,15 +62,17 @@ namespace Tiles.Bodies.Health.Injuries
                 var tissueLayer = taggedResult.Key as ITissueLayer;
                 var tissueResult = taggedResult.Value;
 
+                var dt = ClassifyDamageType(
+                    tissueResult.StressMode,
+                    moveClass.ContactArea, // not transformed
+                    maxPen
+                    );
+
+
                 double ttFact = (double)(tissueLayer.Thickness+1)/ (double)(totalThick+1);
 
                 if (tissueResult.BreaksThrough)
                 {
-                    var dt = ClassifyDamageType(
-                        tissueResult.StressMode,
-                        contactArea,
-                        maxPen
-                        );
                     
                     //var momComp = 1d + (tissueResult.Momentum / (tissueResult.MomentumThreshold));
                     
@@ -81,11 +85,6 @@ namespace Tiles.Bodies.Health.Injuries
                 }
                 else
                 {
-                    var dt = ClassifyDamageType(
-                        tissueResult.StressMode,
-                        contactArea,
-                        maxPen
-                        );
 
                     //double t = tissueResult.MomentumThreshold;
                     //double mom = tissueResult.Momentum / t;
@@ -107,7 +106,69 @@ namespace Tiles.Bodies.Health.Injuries
             // now that we know the damage, we check for new injuries that need to 
             // be reported
 
-            return CreateInjuries(targetPart, damage);
+            return CreateInjuriesBetter(targetPart, damage);
+        }
+
+        IEnumerable<IInjury> CreateInjuriesBetter(IBodyPart part, IDamageVector damage)
+        {
+            // TODO - check for severed
+
+            // check for new breaks
+            if (!IsBroken(part.Damage) && WillBreak(part.Damage, damage))
+            {
+                yield return InjuryFactory.Create(
+                    StandardInjuryClasses.BrokenBodyPart,
+                    part, damage);
+            }
+            else if (!IsMangled(part.Damage) && WillMangle(part.Damage, damage))
+            {
+                yield return InjuryFactory.Create(
+                    StandardInjuryClasses.MangledBodyPart,
+                    part, damage);
+            }
+            else
+            {
+                foreach (var injury in CreateInjuriesDti(part, damage))
+                {
+                    yield return injury;
+                }
+            }
+
+        }
+
+        public bool IsBroken(IDamageVector d)
+        {
+            return d.GetFraction(DamageType.Bludgeon).AsDouble() >= 1d;
+        }
+
+        public bool WillBreak(IDamageVector p, IDamageVector d)
+        {
+            return d.GetFraction(DamageType.Bludgeon).AsDouble()
+                + p.GetFraction(DamageType.Bludgeon).AsDouble()
+                >= 1f;
+        }
+
+        public bool IsMangled(IDamageVector d)
+        {
+            return new DamageType[]{
+                DamageType.Gore,
+                DamageType.Pierce,
+                DamageType.Slash,
+            }.Select(x => d.GetFraction(x).AsDouble())
+            .Sum() >= 1d;
+        }
+
+        public bool WillMangle(IDamageVector p, IDamageVector d)
+        {
+            return new DamageType[]{
+                DamageType.Gore,
+                DamageType.Pierce,
+                DamageType.Slash,
+            }.Select(x =>
+                d.GetFraction(x).AsDouble()
+                + p.GetFraction(x).AsDouble()
+                )
+            .Sum() >= 1d;
         }
 
 
@@ -141,7 +202,7 @@ namespace Tiles.Bodies.Health.Injuries
             throw new NotImplementedException(string.Format("Can't handle stress mode : {0}", mode));
         }
 
-        private IEnumerable<IInjury> CreateInjuries(IBodyPart part, DamageVector damage)
+        private IEnumerable<IInjury> CreateInjuriesDti(IBodyPart part, IDamageVector damage)
         {
 
             foreach (var dti in _Dtis)
@@ -149,8 +210,12 @@ namespace Tiles.Bodies.Health.Injuries
                 if (dti.IsHit(part, damage))
                 {
                     var injuryClass = dti.PickInjuryClass(part, damage);
-                    yield return InjuryFactory.Create(injuryClass, part, damage);
-                    break;
+
+
+                    var damageFraction = damage.GetFraction(dti.DamageType);
+                    var d = new DamageVector();
+                    d.Set(dti.DamageType, damageFraction.Numerator);
+                    yield return InjuryFactory.Create(injuryClass, part, d);
                 }
             }
         }
@@ -162,7 +227,8 @@ namespace Tiles.Bodies.Health.Injuries
             public IInjuryClass LowClass { get; set;}
             public IInjuryClass ModerateClass { get; set;}
 
-            public DtiBinding(DamageType dt, double lowMod, IInjuryClass lowClass, IInjuryClass moderateClass)
+            public DtiBinding(DamageType dt, double lowMod, 
+                IInjuryClass lowClass, IInjuryClass moderateClass)
             {
                 DamageType = dt;
                 Threshold_Low_Moderate = lowMod;
@@ -171,18 +237,19 @@ namespace Tiles.Bodies.Health.Injuries
                 ModerateClass = moderateClass;
             }
 
-            bool IsRelevant(IBodyPart part, DamageVector damage)
+            bool IsRelevant(IBodyPart part, IDamageVector damage)
             {
                 return (damage.GetFraction(DamageType).AsDouble() > 0);
             }
 
-            public bool IsHit(IBodyPart part, DamageVector damage)
+            public bool IsHit(IBodyPart part, IDamageVector damage)
             {
                 if (!IsRelevant(part, damage)) return false;
 
                 var damageFraction = damage.GetFraction(DamageType);
+                var damageD = damageFraction.AsDouble();
 
-                return (damageFraction.AsDouble() > 0);
+                return (damageD > 0);
             }
 
             public bool BreaksModerate(Fraction damageFraction)
@@ -191,7 +258,7 @@ namespace Tiles.Bodies.Health.Injuries
                 return (damageRatio > Threshold_Low_Moderate);
             }
 
-            public IInjuryClass PickInjuryClass(IBodyPart part, DamageVector damage)
+            public IInjuryClass PickInjuryClass(IBodyPart part, IDamageVector damage)
             {
                 var bodyFraction = part.Damage.GetFraction(DamageType);
                 var damageFraction = damage.GetFraction(DamageType);
@@ -229,39 +296,6 @@ namespace Tiles.Bodies.Health.Injuries
                 StandardInjuryClasses.BadlyRippedBodyPart),
         };
 
-
-        private void AccumulateTissueLayerDamage(DamageVector damage, ITissueLayer tissueLayer, IMaterialStrikeResult tissueResult)
-        {
-            if (tissueResult.BreaksThrough)
-            {
-                var excess = 1+(int)tissueResult.ExcessMomentum;
-                var dt = ClassifyDamageType(tissueResult.StressMode, tissueResult);
-
-                var dComp = damage.Get(dt);
-                damage.Set(dt, dComp + (excess * tissueLayer.Class.RelativeThickness));
-            }
-        }
-
-        DamageType ClassifyDamageType(StressMode mode, IMaterialStrikeResult tissueResult)
-        {
-
-            //The contact area represents the area of contact of the weapon, 
-            //and the penetration determines how deep the attack goes 
-            //(and is apparently ignored entirely for BLUNT attacks
-            //Large contact areas combined with low penetration represent slashing attacks, 
-            //while small contact areas with high penetration behave as piercing attacks.
-
-
-            int contactArea = tissueResult.ContactArea;
-            switch (mode)
-            {
-                case StressMode.Blunt:
-                    return contactArea <= 9 ? DamageType.Gore : DamageType.Bludgeon;
-                case StressMode.Edge:
-                    return contactArea <= 50 ? DamageType.Pierce : DamageType.Slash;
-            }
-            throw new NotImplementedException();
-        }
 
         bool IsHighContactArea(int contactArea)
         {

@@ -13,7 +13,7 @@ namespace Tiles
         IEnumerable<DamageType> GetTypes();
 
         int Get(DamageType damageType);
-        void Set(DamageType damageType, int damage);
+        void Set(DamageType damageType, long damage);
 
         Fraction GetFraction(DamageType damageType);
 

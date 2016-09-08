@@ -21,6 +21,8 @@ namespace Tiles.Bodies.Health
         public void Add(IInjury injury)
         {
             Injuries.Add(injury);
+            // TODO - clean up
+            injury.BodyPart.Damage.Add(injury.Damage);
         }
 
         public bool IsWounded { get { return Injuries.Any(); } }

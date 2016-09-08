@@ -49,7 +49,7 @@ namespace Tiles
                 return GetFraction(damageType);
             }
         }
-        public void Set(DamageType damageType, int damage)
+        public void Set(DamageType damageType, long damage)
         {
             if (!Data.ContainsKey(damageType))
             {

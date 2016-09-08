@@ -51,6 +51,20 @@ namespace Tiles.Tests
             SharpnessMultiplier = 0.1d
         };
 
+        public static readonly IMaterial Nail = new Material("nail", "nail")
+        {
+            ImpactYield = 200000,
+            ImpactFracture = 200000,
+            ImpactStrainAtYield = 5000,
+
+            ShearYield = 115000,
+            ShearFracture = 130000,
+            ShearStrainAtYield = 5000,
+
+            SolidDensity = 500,
+            SharpnessMultiplier = 0.1d
+        };
+
         public static readonly IMaterial Steel = new Material("steel", "steel")
         {
             ImpactYield = 1505000,

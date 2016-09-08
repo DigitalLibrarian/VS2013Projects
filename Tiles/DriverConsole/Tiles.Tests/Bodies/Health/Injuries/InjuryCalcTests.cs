@@ -21,6 +21,8 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         //InjuryCalc InjuryCalc { get; set; }
         MostBestInjuryCalc InjuryCalc { get; set; }
 
+        int InsaneContactArea = 999999999;
+
         int ShortSwordSize = 300;
         int ShortSwordContactArea_Slash = 20000;
         int ShortSwordMaxPen_Slash = 4000;
@@ -30,7 +32,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
         int MaceMaxPen_Bash = 200;
 
         double Shear_SlowMomentum = 0.001;
-        double Shear_ModerateMomentum = 400d;
+        double Shear_ModerateMomentum = 436d;
         double Shear_FastMomentum = 2392;
 
         double Impact_SlowMomentum = 0.001;
@@ -150,6 +152,7 @@ namespace Tiles.Tests.Bodies.Health.Injuries
             SetupWeapon(MaceSize, weaponMat);
 
             int contactArea = MaceContactArea_Bash;
+
             int maxPen = MaceMaxPen_Bash;
             var cmcMock = MockCombat(StressMode.Blunt, contactArea, maxPen);
             var result = InjuryCalc.MeleeWeaponStrike(
@@ -248,6 +251,9 @@ namespace Tiles.Tests.Bodies.Health.Injuries
 
             var damage = new DamageVector();
             partMock.Setup(x => x.Damage).Returns(damage);
+
+            partMock.Setup(x => x.Size)
+                .Returns(InsaneContactArea);
             return partMock;
         }
 
