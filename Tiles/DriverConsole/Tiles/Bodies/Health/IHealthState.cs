@@ -11,6 +11,8 @@ namespace Tiles.Bodies.Health
     // the living state of health of an agent
     public interface IHealthState
     {
+        void BindBody(IBody body);
+
         bool IsWounded { get; }
         bool IsDead { get; }
 

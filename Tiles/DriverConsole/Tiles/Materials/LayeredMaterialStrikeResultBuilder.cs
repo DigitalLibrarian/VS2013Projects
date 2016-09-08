@@ -212,13 +212,6 @@ namespace Tiles.Materials
 
             result.Penetration = System.Math.Min(penetration, MaxPenetration);
 
-            if(result.TaggedResults.Where(x => x.Value.BreaksThrough).Count()
-                == Layers.Where(l => l.IsTagged).Count())
-            {
-                // if edged, and contact area and penetration spell out a big
-                // enough volume (compared to the part), then we have a severed limb
-                int br = 0;
-            }
             return result;
         }
 
@@ -232,6 +225,8 @@ namespace Tiles.Materials
             Builder.SetStrikerMaterial(strikerMat);
             Builder.SetStrickenMaterial(layer.Material);
             Builder.SetStrikeMomentum(momentum);
+
+            contactArea = System.Math.Min(contactArea, layer.Thickness);
             Builder.SetContactArea(contactArea);
 
             return Builder.Build();

@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver.Tiles.WindowsForms",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.Render.WindowsForms", "Tiles.Render.WindowsForms\Tiles.Render.WindowsForms.csproj", "{FF2BAC87-6727-4CA1-A43D-83288ADA0895}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.EngineIntegrationTests", "Tiles.EngineIntegrationTests\Tiles.EngineIntegrationTests.csproj", "{5089581E-FB76-4D6F-A8A1-374339059B03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -327,6 +329,16 @@ Global
 		{FF2BAC87-6727-4CA1-A43D-83288ADA0895}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FF2BAC87-6727-4CA1-A43D-83288ADA0895}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FF2BAC87-6727-4CA1-A43D-83288ADA0895}.Release|x86.ActiveCfg = Release|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5089581E-FB76-4D6F-A8A1-374339059B03}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,6 +29,8 @@ namespace Tiles.Bodies
             Parts = parts;
             Health = healthState;
             Size = size;
+
+            Health.BindBody(this);
         }
 
         public void Amputate(IBodyPart part)

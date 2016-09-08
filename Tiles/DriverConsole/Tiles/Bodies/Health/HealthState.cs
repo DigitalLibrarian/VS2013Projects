@@ -18,6 +18,12 @@ namespace Tiles.Bodies.Health
             Injuries = new List<IInjury>();
         }
 
+
+        public void BindBody(IBody body)
+        {
+            Body = body;
+        }
+
         public void Add(IInjury injury)
         {
             Injuries.Add(injury);
@@ -29,7 +35,16 @@ namespace Tiles.Bodies.Health
 
         public bool IsDead
         {
-            get { return InstantDeath; }
+            get { return InstantDeath
+                || CheckDeathConditions(); }
+        }
+
+        private bool CheckDeathConditions()
+        {
+            return Body.Parts.Any(p =>
+                p.Parent == null && 
+                p.Damage.GetTypes().Any(dt =>
+                     p.Damage.GetFraction(dt).AsDouble() >= 1));
         }
 
         public void Update(int ticks)

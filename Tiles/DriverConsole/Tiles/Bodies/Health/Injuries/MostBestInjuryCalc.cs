@@ -31,8 +31,7 @@ namespace Tiles.Bodies.Health.Injuries
         {
             Builder.Clear();
 
-            int partSizeMM = targetPart.Size * 10;
-            int contactArea = System.Math.Min(moveClass.ContactArea, partSizeMM);
+            int contactArea = moveClass.ContactArea;
 
             Builder.SetMomentum(momentum);
             Builder.SetContactArea(contactArea);
@@ -106,15 +105,19 @@ namespace Tiles.Bodies.Health.Injuries
             // now that we know the damage, we check for new injuries that need to 
             // be reported
 
-            return CreateInjuriesBetter(targetPart, damage);
+            return CreateInjuriesBetter(moveClass, targetPart, damage);
         }
 
-        IEnumerable<IInjury> CreateInjuriesBetter(IBodyPart part, IDamageVector damage)
+        IEnumerable<IInjury> CreateInjuriesBetter(ICombatMoveClass moveClass, IBodyPart part, IDamageVector damage)
         {
             // TODO - check for severed
-
-            // check for new breaks
-            if (!IsBroken(part.Damage) && WillBreak(part.Damage, damage))
+            if (WillSever(part, damage, moveClass)) 
+            {
+                yield return InjuryFactory.Create(
+                    StandardInjuryClasses.MissingBodyPart,
+                    part, damage);
+            }
+            else if (!IsBroken(part.Damage) && WillBreak(part.Damage, damage))
             {
                 yield return InjuryFactory.Create(
                     StandardInjuryClasses.BrokenBodyPart,
@@ -134,6 +137,26 @@ namespace Tiles.Bodies.Health.Injuries
                 }
             }
 
+        }
+
+        bool WillSever(IBodyPart part, IDamageVector d, ICombatMoveClass moveClass)
+        {
+            if (!part.CanBeAmputated) return false;
+
+            var p = part.Damage;
+            var dSlash = d.GetFraction(DamageType.Slash).AsDouble();
+            if (dSlash <= 0) return false;
+
+            var pSlash = p.GetFraction(DamageType.Slash).AsDouble();
+            if (pSlash + dSlash >= 1)
+            {
+                if (moveClass.ContactArea >= part.Size)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool IsBroken(IDamageVector d)
