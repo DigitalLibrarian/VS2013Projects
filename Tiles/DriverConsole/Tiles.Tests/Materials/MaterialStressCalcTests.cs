@@ -88,11 +88,11 @@ namespace Tiles.Tests.Materials
             var copperResult = MaterialStressCalc.GetEdgedBreakThreshold(contactArea, TestMaterials.Copper, controlMat);
             var silverResult = MaterialStressCalc.GetEdgedBreakThreshold(contactArea, TestMaterials.Silver, controlMat);
 
-            Assert.IsTrue(adamResult > steelResult);
-            Assert.IsTrue(steelResult > ironResult);
-            Assert.IsTrue(ironResult > bronzeResult);
-            Assert.IsTrue(bronzeResult > copperResult);
-            Assert.IsTrue(copperResult > silverResult);
+            Assert.IsTrue(adamResult < steelResult);
+            Assert.IsTrue(steelResult < ironResult);
+            Assert.IsTrue(ironResult < bronzeResult);
+            Assert.IsTrue(bronzeResult < copperResult);
+            Assert.IsTrue(copperResult < silverResult);
         }
 
         [TestMethod]
