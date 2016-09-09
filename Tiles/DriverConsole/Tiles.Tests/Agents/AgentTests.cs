@@ -13,6 +13,7 @@ using Tiles.Structures;
 using System.Collections.Generic;
 using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
+using Tiles.Agents.Combat;
 
 namespace Tiles.Tests.Agents
 {
@@ -334,6 +335,29 @@ namespace Tiles.Tests.Agents
             Asserter.AreEqual(originalPos, Agent.Pos);
 
             originalTileMock.Verify(x => x.RemoveAgent(), Times.Never());
+        }
+
+        [TestMethod]
+        public void GetStrikeMomentum_IronShortSwordSlash()
+        {
+            int bodySize = 60000;
+            BodyMock.Setup(x => x.Size).Returns(bodySize);
+
+            var weaponMock = new Mock<IItem>();
+            weaponMock.Setup(x => x.GetMass()).Returns(23549);
+
+            int veloMultiply = 1250;
+            var moveClassMock = new Mock<ICombatMoveClass>();
+            moveClassMock.Setup(x => x.VelocityMultiplier).Returns(veloMultiply);
+            moveClassMock.Setup(x => x.IsItem).Returns(true);
+
+            var moveMock = new Mock<ICombatMove>();
+            moveMock.Setup(x => x.Weapon).Returns(weaponMock.Object);
+            moveMock.Setup(x => x.Class).Returns(moveClassMock.Object);
+
+            var strikeMom = Agent.GetStrikeMomentum(moveMock.Object);
+            Assert.IsTrue(91.4 < strikeMom);
+            Assert.IsTrue(91.5 > strikeMom);
         }
     }
 }

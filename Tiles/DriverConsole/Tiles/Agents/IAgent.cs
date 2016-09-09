@@ -9,6 +9,7 @@ using Tiles.Math;
 using Tiles.Bodies;
 using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
+using Tiles.Agents.Combat;
 
 namespace Tiles.Agents
 {
@@ -31,5 +32,7 @@ namespace Tiles.Agents
         IOutfit Outfit { get; }
 
         IAgentCommandQueue CommandQueue { get; }
+
+        double GetStrikeMomentum(ICombatMove move);
     }
 }

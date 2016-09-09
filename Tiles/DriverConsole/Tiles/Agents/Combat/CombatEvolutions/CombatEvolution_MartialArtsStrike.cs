@@ -43,46 +43,9 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             bool isWeaponBased = move.Class.IsItem;
 
-            var momentum = GetStrikeMomentum(attacker, move);
+            var momentum = attacker.GetStrikeMomentum(move);
 
             bool targetPartWasShed = false;
-            /*
-            IEnumerable<IInjury> injuries = Enumerable.Empty<IInjury>();
-            if (isWeaponBased)
-            {
-                injuries = InjuryCalc.MeleeWeaponStrike(
-                    move.Class,
-                    momentum,
-                    attacker,
-                    defender,
-                    move.DefenderBodyPart,
-                    move.Weapon);
-            }
-            else
-            {
-                injuries = InjuryCalc.UnarmedStrike(
-                    move.Class,
-                    momentum,
-                    attacker,
-                    defender,
-                    move.DefenderBodyPart);
-            }
-
-            session.NewInjuries.AddRange(injuries);
-
-            bool partRemoveSuccess = false;
-            foreach (var injury in injuries)
-            {
-                defender.Body.Health.Add(injury);
-
-                targetPartWasShed = injury.RemovesBodyPart;
-                if (targetPartWasShed && defender.Body.Parts.Contains(move.DefenderBodyPart))
-                {
-                    partRemoveSuccess = true;
-                }
-            }
-            */
-
             IInjuryReport report = null;
             if (isWeaponBased)
             {
@@ -124,27 +87,6 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             }
         }
 
-        double GetStrikeMomentum(IAgent agent, ICombatMove move)
-        {
-            // M = (Str * VelocityMultiplier) / ((10^6/Size) + ((10 * F) / W)
-
-            if (move.Class.IsItem)
-            {
-                var weapon = move.Weapon;
-                double Str = 1250;
-                double VelocityMultiplier = (double) move.Class.VelocityMultiplier / 1000d;
-                double Size = 60000;
-                double Fat = 1;
-                double W = weapon.GetMass() / 1000d;
-
-                return (Str * VelocityMultiplier)
-                    / ((1000000d / Size) + ((10 * Fat) / W));
-            }
-            else
-            {
-                // TODO 
-                return 50;
-            }
-        }
+        
     }
 }

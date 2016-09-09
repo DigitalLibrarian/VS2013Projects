@@ -8,6 +8,7 @@ using Tiles.Bodies;
 using Tiles.Items;
 using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
+using Tiles.Agents.Combat;
 namespace Tiles.Agents
 {
     public class Agent : IAgent
@@ -49,7 +50,7 @@ namespace Tiles.Agents
             Body = body;
             Inventory = inventory;
             Outfit = outfit;
-
+            
             CommandQueue = commandQueue;
         }
 
@@ -89,6 +90,28 @@ namespace Tiles.Agents
                 return true;
             }
             return false;
+        }
+
+        public double GetStrikeMomentum(ICombatMove move)
+        {
+            // M = (Str * VelocityMultiplier) / ((10^6/Size) + ((10 * F) / W)
+            if (move.Class.IsItem)
+            {
+                var weapon = move.Weapon;
+                double Str = 1250;
+                double VelocityMultiplier = (double)move.Class.VelocityMultiplier / 1000d;
+                double Size = Body.Size;
+                double Fat = 1;
+                double W = weapon.GetMass() / 1000d;
+
+                return (Str * VelocityMultiplier)
+                    / ((1000000d / Size) + ((10 * Fat) / W));
+            }
+            else
+            {
+                // TODO - unarmed strike momentum
+                return 50;
+            }
         }
     }
 }

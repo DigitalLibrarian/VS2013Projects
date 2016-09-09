@@ -11,6 +11,7 @@ namespace Tiles
     {
         Bludgeon,
         Slash,
+        // TODO these next should go away
         Pierce, 
         Gore,
     }
