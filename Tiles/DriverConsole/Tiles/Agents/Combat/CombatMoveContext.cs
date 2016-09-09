@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tiles.Bodies.Health.Injuries;
 using Tiles.Injuries;
 
 namespace Tiles.Agents.Combat
@@ -14,7 +13,6 @@ namespace Tiles.Agents.Combat
 
         public IAgent Attacker { get; set; }
         public IAgent Defender { get; set; }
-        public List<IInjury> NewInjuries { get; set; }
         public IInjuryReport InjuryReport { get; set; }
     }
 }

@@ -67,8 +67,6 @@
     <Compile Include="Agents\Combat\ICombatEvolution.cs" />
     <Compile Include="Agents\Combat\ICombatMoveContext.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
-    <Compile Include="Bodies\Health\BodyPartWoundClassifier.cs" />
-    <Compile Include="Bodies\Health\Injuries\MostBestInjuryCalc.cs" />
     <Compile Include="Injuries\InjuryReport.cs" />
     <Compile Include="Materials\LayeredMaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\IMaterialStrikeResultBuilder.cs" />
@@ -76,8 +74,6 @@
     <Compile Include="Materials\MaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\StressMode.cs" />
     <Compile Include="Bodies\Health\DamageType.cs" />
-    <Compile Include="Bodies\Health\Injuries\IInjuryCalc.cs" />
-    <Compile Include="Bodies\Health\Injuries\IInjuryFactory.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />
@@ -90,9 +86,6 @@
     <Compile Include="Agents\CommandInterpreters\DefaultAgentCommandInterpreter.cs" />
     <Compile Include="Agents\Combat\ICombatMove.cs" />
     <Compile Include="Agents\Combat\ICombatMoveClass.cs" />
-    <Compile Include="Bodies\Health\HealthState.cs" />
-    <Compile Include="Bodies\Health\Injuries\IInjury.cs" />
-    <Compile Include="Bodies\Health\Injuries\IInjuryClass.cs" />
     <Compile Include="Agents\IAgentBehavior.cs" />
     <Compile Include="Agents\IAgentClass.cs" />
     <Compile Include="Agents\IAgentCommand.cs" />
@@ -108,11 +101,6 @@
     <Compile Include="Bodies\BodyPartClass.cs" />
     <Compile Include="Bodies\BodyStateChange.cs" />
     <Compile Include="Bodies\HealthVector.cs" />
-    <Compile Include="Bodies\Health\Injuries\Injury.cs" />
-    <Compile Include="Bodies\Health\Injuries\InjuryClass.cs" />
-    <Compile Include="Bodies\Health\Injuries\InjuryFactory.cs" />
-    <Compile Include="Bodies\Health\Injuries\InjurySeverity.cs" />
-    <Compile Include="Bodies\Health\Injuries\StandardInjuryClasses.cs" />
     <Compile Include="Bodies\IBody.cs" />
     <Compile Include="Bodies\IBodyClass.cs" />
     <Compile Include="Bodies\IBodyFactory.cs" />
@@ -125,7 +113,6 @@
     <Compile Include="Agents\Combat\IAttackConductor.cs" />
     <Compile Include="Atlas.cs" />
     <Compile Include="Bodies\IBodyPartClass.cs" />
-    <Compile Include="Bodies\Health\IHealthState.cs" />
     <Compile Include="Bodies\ITissue.cs" />
     <Compile Include="Bodies\ITissueClass.cs" />
     <Compile Include="Bodies\ITissueFactory.cs" />

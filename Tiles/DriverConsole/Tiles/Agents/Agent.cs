@@ -30,7 +30,7 @@ namespace Tiles.Agents
         public bool IsDead { 
             get 
             {
-                return Body.Health.IsDead;
+                return false;
             } 
         }
 

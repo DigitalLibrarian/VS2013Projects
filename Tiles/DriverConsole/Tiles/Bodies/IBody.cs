@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies.Health;
-using Tiles.Bodies.Health.Injuries;
 
 namespace Tiles.Bodies
 {
@@ -17,9 +16,5 @@ namespace Tiles.Bodies
         IList<IBodyPart> Parts { get; }
 
         void Amputate(IBodyPart part);
-
-        void AddInjuries(IEnumerable<IInjury> injuries);
-
-        IHealthState Health { get; }
     }
 }

@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
-using Tiles.Bodies.Health;
-using Tiles.Bodies.Health.Injuries;
 
 namespace Tiles.Tests.Bodies
 {
@@ -54,29 +52,7 @@ namespace Tiles.Tests.Bodies
             Assert.IsFalse(body.IsBeingGrasped);
             Assert.IsTrue(body.IsWrestling);
         }
-
-        [TestMethod]
-        public void InjurePart()
-        {
-            var healthMock = new Mock<IHealthState>();
-
-            var body = new Body(
-                new List<IBodyPart>(), 0,
-                healthMock.Object);
-
-            var injuryMock1 = new Mock<IInjury>();
-            var injuryMock2 = new Mock<IInjury>();
-
-            body.AddInjuries(new IInjury[]{ 
-                injuryMock1.Object,
-                injuryMock2.Object
-            });
-
-            healthMock.Verify(x => x.Add(injuryMock1.Object), Times.Once());
-            healthMock.Verify(x => x.Add(injuryMock2.Object), Times.Once());
-            healthMock.Verify(x => x.Add(It.IsAny<IInjury>()), Times.Exactly(2));
-        }
-
+        
         [TestMethod]
         public void Amputate_ChildPart()
         {

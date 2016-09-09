@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
-using Tiles.Bodies.Health.Injuries;
 using Tiles.Injuries;
 using Tiles.Items;
 using Tiles.Math;
@@ -13,7 +12,6 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_MartialArtsStrike : CombatEvolution
     {
-        IInjuryCalc InjuryCalc { get; set; }
         IInjuryReportCalc InjuryReportCalc { get; set; }
         public CombatEvolution_MartialArtsStrike(
             IInjuryReportCalc injuryReportCalc,

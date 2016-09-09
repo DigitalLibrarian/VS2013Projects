@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
-using Tiles.Bodies.Health.Injuries;
 using Tiles.Items;
 
 namespace Tiles
@@ -77,19 +76,8 @@ namespace Tiles
 
             var message = string.Format("{0} {1} the {2}'s {3}{4}", attackerName, verbStr, defenderName, bodyPartName, limbMessage);
             Log.AddLine(message);
-
-            foreach (var injury in session.NewInjuries)
-            {
-                ReportInjury(session.Defender, injury);
-            }
         }
-
-        void ReportInjury(IAgent defender, IInjury injury)
-        {
-            var message = string.Format("It is {0}! ({1})", injury.Adjective, injury.Damage);
-            Log.AddLine(message);
-        }
-
+        
         public void ReportDeath(IAgent agent)
         {
             var message = string.Format("The {0} is struck down!", agent.Name);

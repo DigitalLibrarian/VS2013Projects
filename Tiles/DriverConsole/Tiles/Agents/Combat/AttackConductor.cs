@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Bodies;
-using Tiles.Bodies.Health.Injuries;
 using Tiles.Items;
 using Tiles.Math;
 
@@ -26,8 +25,7 @@ namespace Tiles.Agents.Combat
             {
                 Move = move,
                 Attacker = attacker,
-                Defender = defender,
-                NewInjuries = new List<IInjury>()
+                Defender = defender
             };
 
             foreach (var evo in Evolutions)

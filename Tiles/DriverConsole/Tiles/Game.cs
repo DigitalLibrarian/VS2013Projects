@@ -12,7 +12,6 @@ using Tiles.Agents.Combat;
 using Tiles.Random;
 using Tiles.Agents.Combat.CombatEvolutions;
 using Tiles.Items;
-using Tiles.Bodies.Health.Injuries;
 using Tiles.Ecs;
 using Tiles.EntitySystems;
 using Tiles.Materials;
@@ -46,16 +45,7 @@ namespace Tiles
             ActionLog = log;
             Random = random;
 
-            var injuryFactory = new InjuryFactory();
-            
-            //var injuryCalc = new InjuryCalc(injuryFactory);
             var layerBuilder = new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder());
-            /*
-            var injuryCalc = new MostBestInjuryCalc(
-                injuryFactory,
-                );
-             * */
-
             var injuryCalc = new InjuryReportCalc(layerBuilder);
             var reporter = new ActionReporter(log);
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());

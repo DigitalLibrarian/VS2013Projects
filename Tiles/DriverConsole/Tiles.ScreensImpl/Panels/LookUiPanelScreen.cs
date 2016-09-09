@@ -74,9 +74,7 @@ namespace Tiles.ScreensImpl.Panels
             }
             else
             {
-                string wounded = (agent.Body.Health.IsWounded)
-                    ? "[WOUND]" : "";
-                lines.Add(string.Format("Name: {0} {1}", agent.Name, wounded));
+                lines.Add(string.Format("Name: {0}", agent.Name));
                 
                 if (agent.Body.IsWrestling)
                 {
