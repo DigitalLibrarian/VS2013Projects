@@ -21,12 +21,7 @@ namespace Tiles.Agents.Combat
 
         public void Conduct(IAgent attacker, IAgent defender, ICombatMove move)
         {
-            var context = new CombatMoveContext
-            {
-                Move = move,
-                Attacker = attacker,
-                Defender = defender
-            };
+            var context = new CombatMoveContext(attacker, defender, move);
 
             foreach (var evo in Evolutions)
             {

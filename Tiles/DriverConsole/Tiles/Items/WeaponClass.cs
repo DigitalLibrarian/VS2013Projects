@@ -9,7 +9,7 @@ namespace Tiles.Items
 {
     public class WeaponClass : IWeaponClass
     {
-        public IList<ICombatMoveClass> AttackMoveClasses { get; private set; }
+        public IEnumerable<ICombatMoveClass> AttackMoveClasses { get; private set; }
 
         public WeaponClass(
             WeaponSlot[] slots,

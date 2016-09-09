@@ -10,6 +10,6 @@ namespace Tiles.Items
     public interface IWeaponClass
     {
         IEnumerable<WeaponSlot> RequiredSlots { get; }
-        IList<ICombatMoveClass> AttackMoveClasses { get; }
+        IEnumerable<ICombatMoveClass> AttackMoveClasses { get; }
     }
 }

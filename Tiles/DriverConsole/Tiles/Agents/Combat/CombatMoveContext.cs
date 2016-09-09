@@ -14,5 +14,12 @@ namespace Tiles.Agents.Combat
         public IAgent Attacker { get; set; }
         public IAgent Defender { get; set; }
         public IInjuryReport InjuryReport { get; set; }
+
+        public CombatMoveContext(IAgent attacker, IAgent defender, ICombatMove move)
+        {
+            Attacker = attacker;
+            Defender = defender;
+            Move = move;
+        }
     }
 }

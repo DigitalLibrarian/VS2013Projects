@@ -67,7 +67,15 @@
     <Compile Include="Agents\Combat\ICombatEvolution.cs" />
     <Compile Include="Agents\Combat\ICombatMoveContext.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
+    <Compile Include="Injuries\BodyPartInjury.cs" />
+    <Compile Include="Injuries\BodyPartInjuryClass.cs" />
+    <Compile Include="Injuries\BodyPartInjuryClasses.cs" />
     <Compile Include="Injuries\InjuryReport.cs" />
+    <Compile Include="Injuries\InjuryReportCalc.cs" />
+    <Compile Include="Injuries\TissueLayerInjury.cs" />
+    <Compile Include="Injuries\TissueLayerInjuryClass.cs" />
+    <Compile Include="Injuries\TissueLayerInjuryClasses.cs" />
+    <Compile Include="Materials\LayeredMaterialStrikeResult.cs" />
     <Compile Include="Materials\LayeredMaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\IMaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\MaterialStrikeResult.cs" />
