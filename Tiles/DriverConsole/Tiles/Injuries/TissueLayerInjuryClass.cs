@@ -31,7 +31,7 @@ namespace Tiles.Injuries
             if (dVal <= 0) return false;
             if (IsUpperBound)
             {
-                return Min <= dVal;
+                return Min < dVal;
             }
 
             if (IsLowerBound)

@@ -77,6 +77,12 @@ namespace Tiles.EngineIntegrationTests
 
             var context = new CombatMoveContext(attacker, defender, slashMove);
 
+            var nailLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("nail"));
+            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
+            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            var boneLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
+
             var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
                 context,
                 slashMoveClass.StressMode,
@@ -91,7 +97,29 @@ namespace Tiles.EngineIntegrationTests
 
             var partInjury = injuryReport.BodyPartInjuries.First();
             Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-            Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
+            Assert.AreSame(BodyPartInjuryClasses.Severed, partInjury.Class);
+
+            Assert.AreEqual(5, partInjury.TissueLayerInjuries.Count());
+
+            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual(TissueLayerInjuryClasses.Tear, tInjury.Class);
+            Assert.AreSame(nailLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual(TissueLayerInjuryClasses.Tear, tInjury.Class);
+            Assert.AreSame(skinLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual(TissueLayerInjuryClasses.Tear, tInjury.Class);
+            Assert.AreSame(fatLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
+            Assert.AreEqual(TissueLayerInjuryClasses.TearApart, tInjury.Class);
+            Assert.AreSame(muscleLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(4);
+            Assert.AreEqual(TissueLayerInjuryClasses.TearApart, tInjury.Class);
+            Assert.AreSame(boneLayer, tInjury.Layer);
         }
 
 

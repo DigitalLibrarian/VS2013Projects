@@ -84,6 +84,7 @@ namespace Tiles.Injuries
 
             // resize contact area if the body part is smaller
             // body part size in cm3, contact area in mm3
+            int originalContactArea = contactArea;
             contactArea = System.Math.Min(targetPart.Size * 10, contactArea);
 
             Builder.SetMomentum(momentum);
@@ -116,7 +117,7 @@ namespace Tiles.Injuries
                 double ttFact = (double)(tissueLayer.Thickness + 1) / (double)(totalThick + 1);
                 var tissueDamage = GetUnitDamage(
                     tissueResult.StressMode,
-                    tissueResult.ContactArea,
+                    originalContactArea,
                     maxPenetration
                     );
 
