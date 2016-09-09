@@ -73,7 +73,6 @@
     <Compile Include="Materials\MaterialStrikeResult.cs" />
     <Compile Include="Materials\MaterialStrikeResultBuilder.cs" />
     <Compile Include="Materials\StressMode.cs" />
-    <Compile Include="Bodies\Health\DamageType.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />

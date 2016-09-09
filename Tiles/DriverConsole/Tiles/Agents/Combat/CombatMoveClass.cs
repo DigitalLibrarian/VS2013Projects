@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
-using Tiles.Bodies.Health;
 using Tiles.Materials;
 
 namespace Tiles.Agents.Combat
