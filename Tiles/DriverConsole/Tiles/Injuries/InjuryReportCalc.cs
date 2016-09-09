@@ -130,7 +130,7 @@ namespace Tiles.Injuries
                     // if momLeft = .5, we want 50 pts
                     // if momLeft = 100, we want 0 pts
 
-                    double mom = (1d - momLeft) * 100;
+                    momComp = (1d - momLeft) * 100;
                 }
 
                 double newDamage = System.Math.Max(1d, momComp * ttFact);
