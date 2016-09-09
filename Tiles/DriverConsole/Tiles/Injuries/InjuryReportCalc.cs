@@ -150,6 +150,8 @@ namespace Tiles.Injuries
             ILayeredMaterialStrikeResult result,
             List<ITissueLayerInjury> tissueInjuries)
         {
+            // TODO - if the body part only has a single tissue, then the
+            // body part injury can just mirror it (look at throat injuries in df combat logs)
             var damage = new DamageVector();
             foreach (var ti in tissueInjuries)
             {
