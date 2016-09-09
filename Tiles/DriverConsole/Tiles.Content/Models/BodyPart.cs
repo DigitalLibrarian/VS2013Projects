@@ -32,6 +32,7 @@ namespace Tiles.Content.Models
         public bool IsSight { get; set; }
 
         public bool IsStance { get; set; }
+        //[INTERNAL] - Marks the lungs as being internal - which places it inside any tissue layers of the attached body part, meaning that attacks have to go through the upper body's tissues first, and prevents it from being severed like an external body part.
         public bool IsInternal { get; set; }
 
         public int RelativeSize { get; set; }
