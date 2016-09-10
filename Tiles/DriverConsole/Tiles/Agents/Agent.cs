@@ -94,24 +94,27 @@ namespace Tiles.Agents
 
         public double GetStrikeMomentum(ICombatMove move)
         {
+            double Str, VelocityMultiplier, Size, Fat, W;
+            Str = 1250;
+            Size = Body.Size;
+            Fat = 1d;
             // M = (Str * VelocityMultiplier) / ((10^6/Size) + ((10 * F) / W)
             if (move.Class.IsItem)
             {
                 var weapon = move.Weapon;
-                double Str = 1250;
-                double VelocityMultiplier = (double)move.Class.VelocityMultiplier / 1000d;
-                double Size = Body.Size;
-                double Fat = 1;
-                double W = weapon.GetMass() / 1000d;
-
-                return (Str * VelocityMultiplier)
-                    / ((1000000d / Size) + ((10 * Fat) / W));
+                VelocityMultiplier = (double)move.Class.VelocityMultiplier / 1000d;
+                W = weapon.GetMass() / 1000d;
             }
             else
             {
-                // TODO - unarmed strike momentum
-                return 50;
+                var mat = move.AttackerBodyPart.Tissue.TissueLayers
+                    .Select(layer => layer.Material).OrderByDescending(x => x.SolidDensity)
+                    .First();
+                VelocityMultiplier = 1.0;
+                W = move.AttackerBodyPart.GetMass() / 1000d;
             }
+            return (Str * VelocityMultiplier)
+                / ((1000000d / Size) + ((10 * Fat) / W));
         }
     }
 }

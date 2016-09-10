@@ -69,5 +69,19 @@ namespace Tiles.Bodies
             Grasped = null;
             part.GraspedBy = null;
         }
+
+        public double GetMass()
+        {
+
+            int sizeCm3 = Size;
+            var totalThick = Tissue.TotalThickness;
+            double total = 0;
+            foreach (var tissueLayer in Tissue.TissueLayers)
+            {
+                double ttFact = (double)(tissueLayer.Thickness + 1) / (double)(totalThick + 1);
+                total += tissueLayer.Material.GetMassForUniformVolume(sizeCm3) * ttFact;
+            }
+            return total;
+        }
     }
 }

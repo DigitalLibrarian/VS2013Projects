@@ -49,6 +49,12 @@ namespace Tiles.ScreensImpl.SiteFactories
                 new CombatMoveDiscoverer(new CombatMoveBuilder()),
                 new PositionFinder());
         }
+        public IAgentClass CreateCreatureAgentClass(IAtlas atlas, string name, string caste, Vector3 pos)
+        {
+            var agentContent = DfAgentFactory.Create(name, caste);
+            var engineAgentClass = ContentMapper.Map(agentContent);
+            return engineAgentClass;
+        }
 
         public IAgent CreateCreatureAgent(IAtlas atlas, string name, string caste, Vector3 pos)
         {

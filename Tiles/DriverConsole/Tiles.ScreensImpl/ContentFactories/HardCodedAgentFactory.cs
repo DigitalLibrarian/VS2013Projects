@@ -21,7 +21,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
         static IBodyFactory BodyFactory = new BodyFactory(new TissueFactory());
         static IBodyClassFactory BodyClassFactory = new BodyClassFactory();
-
+        
         static IItemClass ZombieClawClass = new ItemClass(
             name: "zombie claw", 
             sprite: null, 
@@ -113,6 +113,25 @@ namespace Tiles.ScreensImpl.ContentFactories
             return player;
         }
 
+
+        public IPlayer CreatePlayer(IAtlas atlas, IAgentClass agentClass, Vector3 worldPos)
+        {
+            var body = BodyFactory.Create(agentClass.BodyClass);
+            var planner = new DoNothingAgentCommandPlanner(new AgentCommandFactory());
+            var player = new Player(
+                atlas,
+                agentClass,
+                worldPos,
+                body,
+                new Inventory(),
+                new Outfit(body, new OutfitLayerFactory()),
+                new AgentCommandQueue()
+            );
+            player.IsUndead = false;
+            player.Agent.AgentBehavior = CreateBehavior(planner);
+            EcsBridge.Bridge(player, EntityManager);
+            return player;
+        }
 
         public IAgent CreateSurvivor(IAtlas atlas, Vector3 worldPos)
         {

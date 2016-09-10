@@ -16,6 +16,7 @@ using Tiles.Structures;
 using DfNet.Raws;
 using Tiles.ScreensImpl.SiteFactories;
 using Tiles.Ecs;
+using Tiles.Content.Map;
 
 
 
@@ -23,24 +24,32 @@ namespace Tiles.ScreensImpl.ContentFactories
 {
     public class GameFactory
     {
-        public IGame SetupGenericZombieWorld(int seed = 42)
-        {
-            var entityManager = new EntityManager();
+        IDfObjectStore DfStore { get; set; }
+        DfTagsFascade Df { get; set; }
+        IRandom Random { get; set; }
+        IEntityManager EntityManager { get; set; }
 
-            Vector3 siteSize = new Vector3(64, 64, 64);
-            var random = new RandomWrapper(new System.Random(seed));
-            var siteFactory = new ZombieSiteFactory(entityManager, random);
-            return Setup(entityManager, siteFactory, siteSize, random);
+        public GameFactory()
+        {
+            var dfRawDir = System.Configuration.ConfigurationManager.AppSettings.Get(@"DwarfFortressRawsDirectory");
+            EntityManager = new EntityManager();
+            Random = new RandomWrapper(new System.Random(42));
+            DfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
+            Df = new DfTagsFascade(DfStore, EntityManager, Random);
         }
 
-        public IGame SetupArenaWorld(string dfRawDir, int seed = 42)
+        public IGame SetupGenericZombieWorld()
         {
-            var entityManager = new EntityManager();
-            var siteSize = new Vector3(64, 64, 64);
-            var random = new RandomWrapper(new System.Random(seed));
 
-            var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
-            var df = new DfTagsFascade(dfStore, entityManager, random);
+            Vector3 siteSize = new Vector3(64, 64, 64);
+            var siteFactory = new ZombieSiteFactory(EntityManager, Random);
+            return Setup(EntityManager, siteFactory, siteSize, Random);
+        }
+
+        public IGame SetupArenaWorld()
+        {
+            var siteSize = new Vector3(64, 64, 64);
+
 
             var weaponMats = new string[]{
                 "COPPER", "SILVER", "IRON", "STEEL"
@@ -56,24 +65,21 @@ namespace Tiles.ScreensImpl.ContentFactories
             {
                 foreach (var weaponMat in weaponMats)
                 {
-                    invItems.Add(df.CreateInorganicWeapon(weaponType, weaponMat));
+                    invItems.Add(Df.CreateInorganicWeapon(weaponType, weaponMat));
                 }
-                invItems.Add(df.CreateMaterialTemplateWeapon(weaponType, "WOOD_TEMPLATE"));
+                invItems.Add(Df.CreateMaterialTemplateWeapon(weaponType, "WOOD_TEMPLATE"));
             }
 
-            var siteFactory = new ArenaSiteFactory(dfStore, entityManager, random);
-            return Setup(entityManager, siteFactory, siteSize, random, invItems.ToArray());
+            var siteFactory = new ArenaSiteFactory(DfStore, EntityManager, Random);
+            return Setup(EntityManager, siteFactory, siteSize, Random, invItems.ToArray());
         }
 
-        public IGame SetupDfTestWorld(string dfRawDir, int seed = 42)
+        public IGame SetupDfTestWorld()
         {
-            var entityManager = new EntityManager();
-            var dfStore = DfObjectStore.CreateFromDirectory(dfRawDir);
 
             var siteSize = new Vector3(64, 64, 64);
-            var random = new RandomWrapper(new System.Random(seed));
-            var siteFactory = new DfTestSiteFactory(dfStore, entityManager, random);
-            return Setup(entityManager, siteFactory, siteSize, random);
+            var siteFactory = new DfTestSiteFactory(DfStore, EntityManager, Random);
+            return Setup(EntityManager, siteFactory, siteSize, Random);
 
         }
 
@@ -105,7 +111,8 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         private IPlayer CreatePlayer(IRandom random, IEntityManager entityManager, IAtlas atlas, Vector3 spawnPos)
         {
-            return new HardCodedAgentFactory(entityManager, random).CreatePlayer(atlas, spawnPos);
+            var agentClass = Df.CreateCreatureAgentClass(atlas, "DWARF", "MALE", spawnPos);
+            return new HardCodedAgentFactory(entityManager, random).CreatePlayer(atlas, agentClass, spawnPos);
         }
 
         Vector3 FindSpawnLocation(IAtlas atlas, IRandom random, Box3 spawnBox)

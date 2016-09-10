@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Bodies;
 using Tiles.Injuries;
 using Tiles.Items;
+using Tiles.Materials;
 using Tiles.Math;
 
 namespace Tiles.Agents.Combat.CombatEvolutions
@@ -45,25 +46,33 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             var momentum = attacker.GetStrikeMomentum(move);
 
-            bool targetPartWasShed = false;
-            IInjuryReport report = null;
+            IMaterial weaponMat;
             if (isWeaponBased)
             {
-                report = InjuryReportCalc.CalculateMaterialStrike(
+                weaponMat = move.Weapon.Class.Material;
+            }
+            else
+            {
+                // most dense tissue layer
+                weaponMat = move.AttackerBodyPart.Tissue.TissueLayers
+                    .Select(layer => layer.Material).OrderByDescending(x => x.SolidDensity)
+                    .First();
+            }
+
+            bool targetPartWasShed = false;
+            IInjuryReport report = InjuryReportCalc.CalculateMaterialStrike(
                     session,
                     move.Class.StressMode,
                     momentum,
                     move.Class.ContactArea,
                     move.Class.MaxPenetration,
                     move.DefenderBodyPart,
-                    move.Weapon.Class.Material
+                    weaponMat
                     );
 
-                move.DefenderBodyPart.Damage.Add(report.BodyPartInjuries.First().GetTotal());
-
-                targetPartWasShed = report.BodyPartInjuries.Any(x => x.Class.IsSever);
-                session.InjuryReport = report;
-            }
+            move.DefenderBodyPart.Damage.Add(report.BodyPartInjuries.First().GetTotal());
+            targetPartWasShed = report.BodyPartInjuries.Any(x => x.Class.IsSever);
+            session.InjuryReport = report;
 
             if (targetPartWasShed)
             {

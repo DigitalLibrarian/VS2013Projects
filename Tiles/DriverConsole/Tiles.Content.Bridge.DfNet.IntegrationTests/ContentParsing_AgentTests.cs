@@ -49,9 +49,16 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(0x0, bg.G);
             Assert.AreEqual(0xff, bg.A);
 
+            var upperBody = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("upper body"));
+            Assert.IsNotNull(upperBody);
+            Assert.IsFalse(upperBody.IsInternal);
+
             var liver = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("liver"));
             Assert.IsNotNull(liver);
             Assert.AreEqual(300, liver.RelativeSize);
+            Assert.IsTrue(liver.IsInternal);
+            Assert.AreSame(upperBody, liver.Parent);
+            
 
             var leftHand = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("left hand"));
             Assert.IsNotNull(leftHand);

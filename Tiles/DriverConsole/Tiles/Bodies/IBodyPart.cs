@@ -10,6 +10,8 @@ namespace Tiles.Bodies
 {
     public interface IBodyPart
     {
+        IBodyPartClass Class { get; }
+
         string Name { get; }
         IBodyPart Parent { get; }
         IDamageVector Damage { get; }
@@ -48,5 +50,6 @@ namespace Tiles.Bodies
         bool IsWrestling { get; }
 
         int Size { get; }
+        double GetMass();
     }
 }

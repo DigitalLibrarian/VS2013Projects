@@ -51,7 +51,7 @@ namespace Tiles.Injuries
                 }
 
             }
-            else if (mode == StressMode.Blunt)
+            else if (mode == StressMode.Blunt || mode == StressMode.Other)
             {
                 return new DamageVector(new Dictionary<DamageType, int>
                     {

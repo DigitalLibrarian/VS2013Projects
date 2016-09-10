@@ -137,7 +137,7 @@ namespace Tiles.Content.Map
                     partMap[part].Parent = partMap[part.Parent];
                 }
             }
-
+            
             return new EngineBodies.BodyClass(body.Parts.Select(x => partMap[x]), body.Size);
         }
 

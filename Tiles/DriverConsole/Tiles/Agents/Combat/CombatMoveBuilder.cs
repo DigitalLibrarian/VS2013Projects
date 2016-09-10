@@ -138,5 +138,17 @@ namespace Tiles.Agents.Combat
                 DefenderBodyPart = defenderBodyPart
             };
         }
+
+
+        public ICombatMove BodyPartMove(IAgent attacker, IAgent defender, ICombatMoveClass moveClass, IBodyPart attackBodyPart, IBodyPart defenderBodyPart)
+        {
+            var moveName = string.Format("{0} {1} with {2}", moveClass.Name, defenderBodyPart.Name, attackBodyPart.Name);
+
+            return new CombatMove(moveClass, moveName, attacker, defender)
+            {
+                AttackerBodyPart = attackBodyPart,
+                DefenderBodyPart = defenderBodyPart
+            };
+        }
     }
 }

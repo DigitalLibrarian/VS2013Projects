@@ -55,7 +55,13 @@ namespace Tiles.Tests.Agents.Combat
 
         Mock<IBodyPart> AddBodyPart(IList<IBodyPart> parts, Mock<IBodyPart> partMock = null)
         {
-            partMock = partMock ?? new Mock<IBodyPart>();
+            if (partMock == null)
+            {
+                var partClassMock = new Mock<IBodyPartClass>();
+                partClassMock.Setup(x => x.Moves).Returns(Enumerable.Empty<ICombatMoveClass>());
+                partMock = new Mock<IBodyPart>();
+                partMock.Setup(x => x.Class).Returns(partClassMock.Object);
+            }
             parts.Add(partMock.Object);
 
             return partMock;
@@ -70,6 +76,7 @@ namespace Tiles.Tests.Agents.Combat
 
             return itemMock;
         }
+
 
         void AssertNoMovesBuilt()
         {

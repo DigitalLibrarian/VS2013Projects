@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Agents.Combat;
 using Tiles.Items;
 
 namespace Tiles.Bodies
@@ -34,7 +35,7 @@ namespace Tiles.Bodies
         bool IsStance { get; }
         bool IsInternal { get; }
 
-
+        IEnumerable<ICombatMoveClass> Moves { get; }
 
     }
 }

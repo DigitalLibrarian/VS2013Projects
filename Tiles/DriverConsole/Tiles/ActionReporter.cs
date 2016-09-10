@@ -72,9 +72,14 @@ namespace Tiles
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
             var bodyPartName = bodyPart.Name;
-            var limbMessage = targetPartWasShed ? " and it comes off!" : ".";
 
-            var message = string.Format("{0} {1} the {2}'s {3}{4}", attackerName, verbStr, defenderName, bodyPartName, limbMessage);
+            var bpInjury = session.InjuryReport.BodyPartInjuries.First();
+
+            var completionMessage = bpInjury.GetResultPhrase();
+
+            var message = string.Format("{0} {1} the {2}'s {3}{4}",
+                attackerName, verbStr, defenderName, bodyPartName, completionMessage);
+
             Log.AddLine(message);
         }
         
