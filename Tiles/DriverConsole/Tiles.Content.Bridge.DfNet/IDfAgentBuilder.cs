@@ -23,14 +23,12 @@ namespace Tiles.Content.Bridge.DfNet
 
         void SetBodyPartTissueThickness(string bpName, string tisName, int relThick);
         
-        void AddCombatMoveToCategory(CombatMove move, string bpCategory);
-
-        void AddCombatMoveToType(CombatMove move, string type);
-
         Agent Build();
 
         void OverrideBodyPartCategorySize(string bpCategory, int size);
 
         void AddLifeStageSize(int ageYear, int ageDay, int size);
+
+        void AddBodyAttack(DfBodyAttack move);
     }
 }

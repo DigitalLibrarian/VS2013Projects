@@ -14,8 +14,8 @@ namespace Tiles.Content.Bridge.DfNet
         Dictionary<string, Material> Materials { get; set; }
         Dictionary<string, List<string>> BodyPartCategoryTissues { get; set; }
         Dictionary<string, Dictionary<string, int>> BodyPartCategoryTissueThickness { get; set; }
-        Dictionary<string, List<CombatMove>> MovesByCategory { get; set; }
-        Dictionary<string, List<CombatMove>> MovesByType { get; set; }
+        Dictionary<string, List<DfBodyAttack>> MovesByCategory { get; set; }
+        Dictionary<string, List<DfBodyAttack>> MovesByType { get; set; }
 
         Dictionary<string, int> BpCatSizeOverrides { get; set; }
 
@@ -34,8 +34,8 @@ namespace Tiles.Content.Bridge.DfNet
             BodyPartCategoryTissues = new Dictionary<string, List<string>>();
             BodyPartCategoryTissueThickness = new Dictionary<string, Dictionary<string, int>>();
             BpCatSizeOverrides = new Dictionary<string, int>();
-            MovesByCategory = new Dictionary<string, List<CombatMove>>();
-            MovesByType = new Dictionary<string, List<CombatMove>>();
+            MovesByCategory = new Dictionary<string, List<DfBodyAttack>>();
+            MovesByType = new Dictionary<string, List<DfBodyAttack>>();
             Foreground = new Color(255, 255, 255, 255);
             Background = new Color(0, 0, 0, 255);
         }
@@ -244,12 +244,12 @@ namespace Tiles.Content.Bridge.DfNet
             };
         }
 
-        BodyPart CreateBodyPart(DfObject defn, BodyPart parent, List<CombatMove> moves)
+        BodyPart CreateBodyPart(DfObject defn, BodyPart parent)
         {
             var singleWords = defn.Tags.Where(t => t.IsSingleWord())
                 .Select(t => t.Name).ToList();
 
-            return new BodyPart
+            var part = new BodyPart
             {
                 Parent = parent,
                 Tissue = CreateTissueForPart(defn.Name),
@@ -261,7 +261,7 @@ namespace Tiles.Content.Bridge.DfNet
                      || t.IsSingleWord(DfTags.MiscTags.HEAD)
                      || t.IsSingleWord(DfTags.MiscTags.DIGIT)
                      ),
-                Moves = moves.ToList(),
+                Moves = new List<CombatMove>(),
                 IsNervous = 
                         singleWords.Contains("NERVOUS")
                     ||  singleWords.Contains("THOUGHT"),
@@ -274,11 +274,38 @@ namespace Tiles.Content.Bridge.DfNet
                 IsInternal = singleWords.Contains("INTERNAL"),
                 RelativeSize = GetBpSize(defn.Name)
             };
+            return part;
         }
 
-        List<CombatMove> GetMovesForPart(DfObject defn)
+        void AddBodyPartMoves(DfObject defn, BodyPart part, int totalBpSize)
         {
-            return GetBodyPartCategories(defn).SelectMany(cat =>
+            var moves = GetMovesForPart(defn);
+
+            var partSizeMm = (int) (((double)part.RelativeSize/totalBpSize) * Size) * 10;
+            foreach (var bpMove in moves)
+            {
+                var combatMove =
+                    new CombatMove
+                    {
+                        Name = bpMove.Verb.SecondPerson,
+                        Verb = bpMove.Verb,
+                        PrepTime = bpMove.PrepTime,
+                        RecoveryTime = bpMove.RecoveryTime,
+                        IsDefenderPartSpecific = true,
+                        IsStrike = true,
+                        IsMartialArts = true,
+                        ContactType = Models.ContactType.Other,
+                        ContactArea = (int)((double)bpMove.ContactPercent / 100d) * partSizeMm,
+                        MaxPenetration = (int)((double)bpMove.PenetrationPercent / 100d) * partSizeMm,
+                        VelocityMultiplier = 1000
+                    };
+                part.Moves.Add(combatMove);
+            }
+        }
+
+        List<DfBodyAttack> GetMovesForPart(DfObject defn)
+        {
+            var bodyPartAttacks = GetBodyPartCategories(defn).SelectMany(cat =>
                 {
                     if (MovesByCategory.ContainsKey(cat))
                     {
@@ -286,7 +313,7 @@ namespace Tiles.Content.Bridge.DfNet
                     }
                     else
                     {
-                        return Enumerable.Empty<CombatMove>();
+                        return Enumerable.Empty<DfBodyAttack>();
                     }
                 })
                 .Concat(
@@ -300,46 +327,54 @@ namespace Tiles.Content.Bridge.DfNet
                         }
                         else
                         {
-                            return Enumerable.Empty<CombatMove>();
+                            return Enumerable.Empty<DfBodyAttack>();
                         }
 
                     })
                 )
                 .ToList();
+            return bodyPartAttacks;
         }
 
         public Agent Build()
         {
             var parts = new List<BodyPart>();
             var rootPartDefn = GetRootPartDefn();
+            Dictionary<BodyPart, DfObject> partToDef = new Dictionary<BodyPart,DfObject>();
 
-            var rootPart = CreateBodyPart(rootPartDefn, null, GetMovesForPart(rootPartDefn));
+            var rootPart = CreateBodyPart(rootPartDefn, null);
             parts.Add(rootPart);
 
-            var partMoves = new List<CombatMove>();
             var toLoad = new List<DfObject>();
             var partMap = new Dictionary<BodyPart, DfObject>{{rootPart, rootPartDefn}};
             for (int i = 0; i < parts.Count(); i++)
             {
                 var part = parts[i];
                 var defn = partMap[part];
+                partToDef[part] = defn;
                 toLoad.Clear();
-                partMoves.Clear();
 
                 toLoad.AddRange(FindPartsForCategories(defn));
                 toLoad.AddRange(FindPartsForTypes(defn));
                 toLoad.AddRange(FindPartsForDirectConnection(defn.Name));
-                                
-                foreach (var move in GetMovesForPart(defn))
-                {
-                    partMoves.Add(move);
-                }
+                 
 
                 foreach (var partDefn in toLoad)
                 {
-                    var newPart = CreateBodyPart(partDefn, part, partMoves);
+                    var newPart = CreateBodyPart(partDefn, part);
                     parts.Add(newPart);
                     partMap[newPart] = partDefn;
+                }
+            }
+
+            int totalBPSize = parts.Select(x => x.RelativeSize).Sum();
+
+            foreach (var part in parts)
+            {
+                var defn = partToDef[part];
+                foreach (var move in GetMovesForPart(defn))
+                {
+                    AddBodyPartMoves(defn, part, totalBPSize);
                 }
             }
 
@@ -377,25 +412,28 @@ namespace Tiles.Content.Bridge.DfNet
             Symbol = symbol;
         }
 
-        public void AddCombatMoveToCategory(CombatMove move, string category)
+        public void AddBodyAttack(DfBodyAttack move)
         {
-            if (!MovesByCategory.ContainsKey(category))
+            foreach (var category in move.ByCategories)
             {
-                MovesByCategory[category] = new List<CombatMove>();
-            }
-            MovesByCategory[category].Add(move);
-        }
-
-
-        public void AddCombatMoveToType(CombatMove move, string type)
-        {
-            if (!MovesByType.ContainsKey(type))
-            {
-                MovesByType[type] = new List<CombatMove>();
+                if (!MovesByCategory.ContainsKey(category))
+                {
+                    MovesByCategory[category] = new List<DfBodyAttack>();
+                }
+                MovesByCategory[category].Add(move);
             }
 
-            MovesByType[type].Add(move);
+            foreach (var type in move.ByTypes)
+            {
+                if (!MovesByType.ContainsKey(type))
+                {
+                    MovesByType[type] = new List<DfBodyAttack>();
+                }
+
+                MovesByType[type].Add(move);
+            }
         }
+
 
         public void OverrideBodyPartCategorySize(string bpCategory, int size)
         {
@@ -408,5 +446,7 @@ namespace Tiles.Content.Bridge.DfNet
             // TODO - make this part of racial model
             Size = size;
         }
+
+
     }
 }

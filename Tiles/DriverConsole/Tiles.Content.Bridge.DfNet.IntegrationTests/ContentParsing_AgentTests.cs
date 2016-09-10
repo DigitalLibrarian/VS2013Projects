@@ -23,7 +23,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 new DfAgentBuilderFactory(),
                 new DfColorFactory(),
                 new DfMaterialFactory(Store, new DfMaterialBuilderFactory()),
-                new DfCombatMoveFactory()
+                new DfCombatMoveFactory(),
+                new DfBodyAttackFactory()
                 );
         }
 

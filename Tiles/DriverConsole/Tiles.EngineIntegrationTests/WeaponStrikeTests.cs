@@ -42,7 +42,8 @@ namespace Tiles.EngineIntegrationTests
                 new DfAgentBuilderFactory(),
                 new DfColorFactory(),
                 new DfMaterialFactory(Store, new DfMaterialBuilderFactory()),
-                new DfCombatMoveFactory()
+                new DfCombatMoveFactory(),
+                new DfBodyAttackFactory()
                 );
 
             ContentMapper = new ContentMapper();
