@@ -89,6 +89,21 @@ namespace Tiles.Content.Map
                 };
         }
 
+        public EngineCombat.IBodyPartRequirement Map(ContentModel.BodyPartRequirement req)
+        {
+            return new EngineCombat.BodyPartRequirement
+            {
+                Type = Map(req.Type),
+                Types = req.Types.ToList(),
+                Categories = req.Categories.ToList()
+            };
+        }
+
+        public EngineCombat.BodyPartRequirementType Map(ContentModel.BodyPartRequirementType t)
+        {
+            return (EngineCombat.BodyPartRequirementType)(int)t;
+        }
+
         public EngineBodies.BodyStateChange Map(ContentModel.BodyStateChange bodyStateChange)
         {
             return (EngineBodies.BodyStateChange)(int)bodyStateChange;

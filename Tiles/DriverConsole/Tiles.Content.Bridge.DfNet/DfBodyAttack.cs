@@ -10,6 +10,7 @@ namespace Tiles.Content.Bridge.DfNet
     public class DfBodyAttack
     {
         public string ReferenceName { get; set; }
+        public BodyPartRequirementType RequirementType { get; set; }
         public IEnumerable<string> ByTypes { get; set; }
         public IEnumerable<string> ByCategories { get; set; }
         public Verb Verb { get; set; }

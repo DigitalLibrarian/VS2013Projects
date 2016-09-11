@@ -25,10 +25,12 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     case DfTags.MiscTags.ATTACK:
                         attack.ReferenceName = tag.GetParam(0);
+                        var reqTypeStr = tag.GetParam(1);
+                        attack.RequirementType = GetReqType(reqTypeStr);
                         var cats = new List<string>();
                         var types = new List<string>();
                         int numParams = tag.GetParams().Count();
-                        for (int i = 1; i < numParams;i++ )
+                        for (int i = 2; i < numParams;i++ )
                         {
                             switch (tag.GetParam(i))
                             {
@@ -79,6 +81,22 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             }
             return attack;
+        }
+
+        BodyPartRequirementType GetReqType(string reqType)
+        {
+            switch (reqType)
+            {
+                case "BODYPART":
+                    return BodyPartRequirementType.BodyPart;
+                case "CHILD_TISSUE_LAYER_GROUP":
+                    return BodyPartRequirementType.ChildTissueLayerGroup;
+                case "CHILD_BODYPART_GROUP":
+                    return BodyPartRequirementType.ChildBodyPartGroup;
+                default:
+                    throw new NotImplementedException();
+
+            }
         }
     }
 }

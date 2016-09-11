@@ -11,6 +11,7 @@ namespace Tiles.Content.Models
         public CombatMove()
         {
             Verb = new Verb();
+            Requirements = new List<BodyPartRequirement>();
         }
         public string Name { get; set; }
         public Verb Verb { get; set; }
@@ -29,5 +30,22 @@ namespace Tiles.Content.Models
         public int ContactArea { get; set; }
         public int MaxPenetration { get; set; }
         public int VelocityMultiplier { get; set; }
+
+        public List<BodyPartRequirement> Requirements { get; set; }
+    }
+
+
+    public enum BodyPartRequirementType
+    {
+        BodyPart,
+        ChildTissueLayerGroup,
+        ChildBodyPartGroup
+    }
+
+    public class BodyPartRequirement 
+    {
+        public BodyPartRequirementType Type { get; set; }
+        public List<string> Categories { get; set; }
+        public List<string> Types { get; set; }
     }
 }

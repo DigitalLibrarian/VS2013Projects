@@ -106,6 +106,14 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 Assert.AreEqual(1, moves.Where(m => m.Name.Equals("SCRATCH")).Count());
                 var move = moves.Single(m => m.Name.Equals("SCRATCH"));
                 Assert.AreEqual(ContactType.Other, move.ContactType);
+                Assert.AreEqual(1, move.Requirements.Count());
+                Assert.AreEqual(BodyPartRequirementType.ChildTissueLayerGroup, move.Requirements.First().Type);
+                Assert.AreEqual("GRASP", move.Requirements.First().Types.Single());
+                Assert.AreEqual(2, move.Requirements.First().Categories.Count());
+                var cats = move.Requirements.First().Categories.ToList()    ;
+                Assert.AreEqual("FINGER", cats[0]);
+                Assert.AreEqual("NAIL", cats[1]);
+
             }
             var leftWrist = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist"));
             Assert.IsNotNull(leftWrist);

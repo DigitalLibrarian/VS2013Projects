@@ -53,7 +53,7 @@ namespace Tiles.Content.Bridge.DfNet
                     ThirdPerson = attackTag.GetParam(4),
                     IsTransitive = false
                 },
-
+                
                 ContactType = MapContactType(attackTag.GetParam(0)),
                 ContactArea = int.Parse(attackTag.GetParam(1)),
                 MaxPenetration = int.Parse(attackTag.GetParam(2)),

@@ -307,8 +307,15 @@ namespace Tiles.Content.Bridge.DfNet
                         ContactType = Models.ContactType.Other,
                         ContactArea = (int)((double)bpMove.ContactPercent / 100d) * partSizeMm,
                         MaxPenetration = (int)((double)bpMove.PenetrationPercent / 100d) * partSizeMm,
-                        VelocityMultiplier = 1000
+                        VelocityMultiplier = 1000,
                     };
+
+                combatMove.Requirements.Add(new BodyPartRequirement
+                {
+                    Type = bpMove.RequirementType,
+                    Types = bpMove.ByTypes.ToList(),
+                    Categories = bpMove.ByCategories.ToList()
+                });
                 part.Moves.Add(combatMove);
             }
         }
