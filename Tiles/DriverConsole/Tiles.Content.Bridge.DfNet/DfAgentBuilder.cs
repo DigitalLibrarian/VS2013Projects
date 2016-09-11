@@ -14,8 +14,7 @@ namespace Tiles.Content.Bridge.DfNet
         Dictionary<string, Material> Materials { get; set; }
         Dictionary<string, List<string>> BodyPartCategoryTissues { get; set; }
         Dictionary<string, Dictionary<string, int>> BodyPartCategoryTissueThickness { get; set; }
-        Dictionary<string, List<DfBodyAttack>> MovesByCategory { get; set; }
-        Dictionary<string, List<DfBodyAttack>> MovesByType { get; set; }
+        List<DfBodyAttack> BodyAttacks { get; set; }
 
         Dictionary<string, int> BpCatSizeOverrides { get; set; }
 
@@ -34,8 +33,7 @@ namespace Tiles.Content.Bridge.DfNet
             BodyPartCategoryTissues = new Dictionary<string, List<string>>();
             BodyPartCategoryTissueThickness = new Dictionary<string, Dictionary<string, int>>();
             BpCatSizeOverrides = new Dictionary<string, int>();
-            MovesByCategory = new Dictionary<string, List<DfBodyAttack>>();
-            MovesByType = new Dictionary<string, List<DfBodyAttack>>();
+            BodyAttacks = new List<DfBodyAttack>();
             Foreground = new Color(255, 255, 255, 255);
             Background = new Color(0, 0, 0, 255);
         }
@@ -156,7 +154,6 @@ namespace Tiles.Content.Bridge.DfNet
                 BodyPartCategoryTissues[bpCategory] = new List<string>();
             }
             BodyPartCategoryTissues[bpCategory].Add(tisName);
-
         }
 
         public void SetBodyPartTissueThickness(string bpCategory, string tisName, int relThick)
@@ -256,11 +253,25 @@ namespace Tiles.Content.Bridge.DfNet
         {
             var singleWords = defn.Tags.Where(t => t.IsSingleWord())
                 .Select(t => t.Name).ToList();
+            var tissue = CreateTissueForPart(defn.Name);
 
+            var categories = GetBodyPartCategories(defn).ToList();
+            foreach(var cat in categories.ToList())
+            {
+                if(BodyPartCategoryTissues.ContainsKey(cat))
+                {
+                    categories.AddRange(BodyPartCategoryTissues[cat]);
+                }
+                if (BodyPartCategoryTissueThickness.ContainsKey(cat))
+                {
+                    categories.AddRange(BodyPartCategoryTissueThickness[cat].Keys);
+                }
+            }
+            
             var part = new BodyPart
             {
                 Parent = parent,
-                Tissue = CreateTissueForPart(defn.Name),
+                Tissue = tissue,
                 NameSingular = defn.Tags.First().GetParam(1),
                 NamePlural = defn.Tags.First().GetParam(2),
                 CanGrasp = defn.Tags.Any(t => t.IsSingleWord(DfTags.MiscTags.GRASP)),
@@ -270,7 +281,7 @@ namespace Tiles.Content.Bridge.DfNet
                      || t.IsSingleWord(DfTags.MiscTags.DIGIT)
                      ),
                 Moves = new List<CombatMove>(),
-                Categories = GetBodyPartCategories(defn),
+                Categories = categories.Distinct().ToList(),
                 Types = GetBodyPartTypes(defn),
                 IsNervous = 
                         singleWords.Contains("NERVOUS")
@@ -287,70 +298,129 @@ namespace Tiles.Content.Bridge.DfNet
             return part;
         }
 
-        void AddBodyPartMoves(DfObject defn, BodyPart part, int totalBpSize)
+
+        bool IsConstraintMatch(BaConstraint con, BodyPart part)
         {
-            var moves = GetMovesForPart(defn);
-
-            var partSizeMm = (int) (((double)part.RelativeSize/totalBpSize) * Size) * 10;
-            foreach (var bpMove in moves)
+            var checkSet = new List<string>();
+            switch (con.ConstraintType)
             {
-                var combatMove =
-                    new CombatMove
-                    {
-                        Name = bpMove.ReferenceName,
-                        Verb = bpMove.Verb,
-                        PrepTime = bpMove.PrepTime,
-                        RecoveryTime = bpMove.RecoveryTime,
-                        IsDefenderPartSpecific = true,
-                        IsStrike = true,
-                        IsMartialArts = true,
-                        ContactType = Models.ContactType.Other,
-                        ContactArea = (int)((double)bpMove.ContactPercent / 100d) * partSizeMm,
-                        MaxPenetration = (int)((double)bpMove.PenetrationPercent / 100d) * partSizeMm,
-                        VelocityMultiplier = 1000,
-                    };
-
-                combatMove.Requirements.Add(new BodyPartRequirement
-                {
-                    Type = bpMove.RequirementType,
-                    Types = bpMove.ByTypes.ToList(),
-                    Categories = bpMove.ByCategories.ToList()
-                });
-                part.Moves.Add(combatMove);
+                case BaConstraintType.ByCategory:
+                    checkSet = part.Categories;
+                    break;
+                case BaConstraintType.ByType:
+                    checkSet = part.Types;
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
+
+            foreach (var token in con.Tokens)
+            {
+                if (!checkSet.Contains(token))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
-        List<DfBodyAttack> GetMovesForPart(DfObject defn)
-        {
-            var bodyPartAttacks = GetBodyPartCategories(defn).SelectMany(cat =>
-                {
-                    if (MovesByCategory.ContainsKey(cat))
-                    {
-                        return MovesByCategory[cat];
-                    }
-                    else
-                    {
-                        return Enumerable.Empty<DfBodyAttack>();
-                    }
-                })
-                .Concat(
-                    defn.Tags.Where(t => t.IsSingleWord())
-                    .Select(t=> t.Name)
-                    .SelectMany(type =>
-                    {
-                        if (MovesByType.ContainsKey(type))
-                        {
-                            return MovesByType[type];
-                        }
-                        else
-                        {
-                            return Enumerable.Empty<DfBodyAttack>();
-                        }
 
-                    })
-                )
-                .ToList();
-            return bodyPartAttacks;
+        IEnumerable<BodyPart> IsReqMatch(DfBodyAttack attack, Body body, BodyPart part)
+        {
+            BaConstraint pConstraint = null;
+            switch (attack.RequirementType)
+            {
+                case BodyPartRequirementType.BodyPart:
+                    if (attack.Constraints.All(c => IsConstraintMatch(c, part)))
+                    {
+                        return new List<BodyPart>() { part};
+                    }
+                    break;
+                case BodyPartRequirementType.ChildBodyPartGroup:
+                    pConstraint = attack.Constraints.First();
+                    if (IsConstraintMatch(pConstraint, part))
+                    {
+                        var children = body.Parts.Where(p => p.Parent == part);
+                        return children.Where(p =>
+                            attack.Constraints.Skip(1).All(con => IsConstraintMatch(con, p)));
+                    }
+                    break;
+                case BodyPartRequirementType.ChildTissueLayerGroup:
+                    pConstraint = attack.Constraints.First();
+                    if (IsConstraintMatch(pConstraint, part))
+                    {
+                        var children = body.Parts.Where(p => p.Parent == part);
+                        return children.Where(p =>
+                            attack.Constraints.Skip(1).All(con => IsConstraintMatch(con, p)));
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return Enumerable.Empty<BodyPart>();
+        }
+        IEnumerable<BodyPart> FindAttackParts(DfBodyAttack attack, Body body)
+        {
+            foreach (var part in body.Parts)
+            {
+                var t = IsReqMatch(attack, body, part);
+                if(t.Any())
+                {
+                    return t;
+                }
+            }
+            return Enumerable.Empty<BodyPart>();
+        }
+
+
+        CombatMove CreateBodyCombatMove(DfBodyAttack attack, Body body)
+        {
+            int totalBpRelSize = body.Parts.Select(x => x.RelativeSize).Sum();
+
+            var parts = FindAttackParts(attack, body);
+            if (!parts.Any())
+            {
+                throw new InvalidOperationException(string.Format("Could not find part for body attack {0}", attack.ReferenceName));
+            }
+
+            var thicknessMm = 0;
+            var partSizeMm = 0;
+            foreach (var part in parts)
+            {
+                partSizeMm += (int)(((double)part.RelativeSize / totalBpRelSize) * Size) * 10;
+
+            }
+            var combatMove =
+                new CombatMove
+                {
+                    Name = attack.ReferenceName,
+                    Verb = attack.Verb,
+                    PrepTime = attack.PrepTime,
+                    RecoveryTime = attack.RecoveryTime,
+                    IsDefenderPartSpecific = true,
+                    IsStrike = true,
+                    IsMartialArts = true,
+                    ContactType = Models.ContactType.Other,
+                    ContactArea = (int)((double)attack.ContactPercent / 100d) * partSizeMm,
+                    MaxPenetration = (int)((double)attack.PenetrationPercent / 100d) * partSizeMm,
+                    VelocityMultiplier = 1000,
+                };
+
+            combatMove.Requirements.Add(new BodyPartRequirement
+            {
+                Type = attack.RequirementType,
+                Constraints = attack.Constraints.Select(a => new BprConstraint
+                {
+                    ConstraintType = (BprConstraintType)(int) a.ConstraintType,
+                    Tokens = a.Tokens.ToList()
+                }).ToList()
+            });
+            return combatMove;
+        }
+
+        void SetMoves(Body body)
+        {
+            body.Moves = BodyAttacks.Select(attack => CreateBodyCombatMove(attack, body)).ToList();
         }
 
         public Agent Build()
@@ -384,25 +454,19 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             }
 
-            int totalBPSize = parts.Select(x => x.RelativeSize).Sum();
-
-            foreach (var part in parts)
-            {
-                var defn = partToDef[part];
-                foreach (var move in GetMovesForPart(defn))
-                {
-                    AddBodyPartMoves(defn, part, totalBPSize);
-                }
-            }
-
+            
             var sprite = new Sprite(Symbol, Foreground, Background);
-            var agent = new Agent(
-                Name, 
-                new Body
+            var body = new Body
                 {
                     Parts = parts,
                     Size = Size
-                },
+                };
+
+            SetMoves(body);
+
+            var agent = new Agent(
+                Name, 
+                body,
                 sprite);
             return agent;
         }
@@ -431,24 +495,7 @@ namespace Tiles.Content.Bridge.DfNet
 
         public void AddBodyAttack(DfBodyAttack move)
         {
-            foreach (var category in move.ByCategories)
-            {
-                if (!MovesByCategory.ContainsKey(category))
-                {
-                    MovesByCategory[category] = new List<DfBodyAttack>();
-                }
-                MovesByCategory[category].Add(move);
-            }
-
-            foreach (var type in move.ByTypes)
-            {
-                if (!MovesByType.ContainsKey(type))
-                {
-                    MovesByType[type] = new List<DfBodyAttack>();
-                }
-
-                MovesByType[type].Add(move);
-            }
+            BodyAttacks.Add(move);
         }
 
 

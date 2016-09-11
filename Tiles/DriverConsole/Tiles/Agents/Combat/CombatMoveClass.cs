@@ -39,6 +39,14 @@ namespace Tiles.Agents.Combat
         public int ContactArea { get; set; }
         public int MaxPenetration { get; set; }
         public int VelocityMultiplier { get; set; }
+
+        public IEnumerable<IBodyPartRequirement> Requirements { get; set; }
+
+
+        public bool MeetsRequirements(IBody body)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public enum BodyPartRequirementType
@@ -51,14 +59,30 @@ namespace Tiles.Agents.Combat
     public interface IBodyPartRequirement
     {
         BodyPartRequirementType Type { get; }
-        IEnumerable<string> Categories { get; }
-        IEnumerable<string> Types { get; }
+        IEnumerable<BprConstraint> Constraints { get; }
     }
 
     public class BodyPartRequirement : IBodyPartRequirement
     {
         public BodyPartRequirementType Type { get; set; }
-        public IEnumerable<string> Categories { get; set; }
-        public IEnumerable<string> Types { get; set; }
+        public IEnumerable<BprConstraint> Constraints { get; set; }
+    }
+
+
+    public enum BprConstraintType
+    {
+        ByCategory,
+        ByType
+    }
+    public class BprConstraint
+    {
+        public BprConstraintType ConstraintType { get; set; }
+        public List<string> Tokens { get; set; }
+
+        public BprConstraint(BprConstraintType bacType)
+        {
+            ConstraintType = bacType;
+            Tokens = new List<string>();
+        }
     }
 }

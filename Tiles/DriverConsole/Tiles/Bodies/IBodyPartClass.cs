@@ -35,8 +35,6 @@ namespace Tiles.Bodies
         bool IsStance { get; }
         bool IsInternal { get; }
 
-        IEnumerable<ICombatMoveClass> Moves { get; }
-
         IEnumerable<string> Categories { get; }
         IEnumerable<string> Types { get; }
     }

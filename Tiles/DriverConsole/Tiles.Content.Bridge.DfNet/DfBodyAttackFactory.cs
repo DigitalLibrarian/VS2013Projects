@@ -27,14 +27,14 @@ namespace Tiles.Content.Bridge.DfNet
                         attack.ReferenceName = tag.GetParam(0);
                         var reqTypeStr = tag.GetParam(1);
                         attack.RequirementType = GetReqType(reqTypeStr);
-                        var cats = new List<string>();
-                        var types = new List<string>();
                         int numParams = tag.GetParams().Count();
+                        BaConstraint constraint = null;
                         for (int i = 2; i < numParams;i++ )
                         {
                             switch (tag.GetParam(i))
                             {
                                 case DfTags.MiscTags.BY_CATEGORY:
+                                    constraint = new BaConstraint(BaConstraintType.ByCategory);
                                     for (int j = i+1; j < numParams; j++)
                                     {
                                         var p = tag.GetParam(j);
@@ -42,10 +42,12 @@ namespace Tiles.Content.Bridge.DfNet
                                         {
                                             break;
                                         }
-                                        cats.Add(p);
+                                        if (!p.Equals("ALL")) constraint.Tokens.Add(p);
                                     }
+                                    attack.Constraints.Add(constraint);
                                     break;
                                 case DfTags.MiscTags.BY_TYPE:
+                                    constraint = new BaConstraint(BaConstraintType.ByType);
                                     for (int j = i+1; j < numParams; j++)
                                     {
                                         var p = tag.GetParam(j);
@@ -53,13 +55,12 @@ namespace Tiles.Content.Bridge.DfNet
                                         {
                                             break;
                                         }
-                                        types.Add(p);
+                                        constraint.Tokens.Add(p);
                                     }
+                                    attack.Constraints.Add(constraint);
                                     break;
                             }
                         }
-                        attack.ByCategories = cats;
-                        attack.ByTypes = types;
                         break;
                     case DfTags.MiscTags.ATTACK_VERB:
                         attack.Verb = new Verb

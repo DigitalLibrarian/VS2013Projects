@@ -49,21 +49,25 @@ namespace Tiles.Agents.Combat
                             yield return move;
                     }
 
-                    foreach (var move in BodyPartMoves(attacker, defender, mePart))
-                        yield return move;
 
                 // TODO - armor, weapon, racial, magic, tech, etc.. other types of abilities
                 }
+
+                foreach (var move in BodyMoves(attacker, defender))
+                    yield return move;
             }
         }
 
-        private IEnumerable<ICombatMove> BodyPartMoves(IAgent attacker, IAgent defender, IBodyPart mePart)
+        private IEnumerable<ICombatMove> BodyMoves(IAgent attacker, IAgent defender)
         {
-            foreach (var moveClass in mePart.Class.Moves)
+            foreach (var moveClass in attacker.Body.Moves)
             {
-                foreach (var youPart in defender.Body.Parts.Where(AcceptableTargetPart))
+                if (moveClass.MeetsRequirements(attacker.Body))
                 {
-                    yield return MoveBuilder.BodyPartMove(attacker, defender, moveClass, mePart, youPart);
+                    foreach (var youPart in defender.Body.Parts.Where(AcceptableTargetPart))
+                    {
+                        yield return MoveBuilder.BodyMove(attacker, defender, moveClass, youPart);
+                    }
                 }
             }
         }

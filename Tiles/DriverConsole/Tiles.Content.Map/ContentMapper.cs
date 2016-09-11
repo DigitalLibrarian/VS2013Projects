@@ -71,7 +71,7 @@ namespace Tiles.Content.Map
 
         public EngineCombat.ICombatMoveClass Map(ContentModel.CombatMove move)
         {
-            return new EngineCombat.CombatMoveClass(
+            var cmc = new EngineCombat.CombatMoveClass(
                 move.Verb.SecondPerson,
                 Map(move.Verb),
                 move.PrepTime,
@@ -85,8 +85,11 @@ namespace Tiles.Content.Map
                     StressMode = Map(move.ContactType),
                     ContactArea = move.ContactArea,
                     MaxPenetration = move.MaxPenetration,
-                    VelocityMultiplier = move.VelocityMultiplier
+                    VelocityMultiplier = move.VelocityMultiplier,
+                    Requirements = move.Requirements.Select(rq => Map(rq))
                 };
+
+            return cmc;
         }
 
         public EngineCombat.IBodyPartRequirement Map(ContentModel.BodyPartRequirement req)
@@ -94,9 +97,21 @@ namespace Tiles.Content.Map
             return new EngineCombat.BodyPartRequirement
             {
                 Type = Map(req.Type),
-                Types = req.Types.ToList(),
-                Categories = req.Categories.ToList()
+                Constraints = req.Constraints.Select(x => Map(x)).ToList()
             };
+        }
+
+        private EngineCombat.BprConstraint Map(ContentModel.BprConstraint x)
+        {
+            return new EngineCombat.BprConstraint(Map(x.ConstraintType))
+            {
+                Tokens = x.Tokens.ToList()
+            };
+        }
+
+        private EngineCombat.BprConstraintType Map(ContentModel.BprConstraintType bprConstraintType)
+        {
+            return (EngineCombat.BprConstraintType)(int)bprConstraintType;
         }
 
         public EngineCombat.BodyPartRequirementType Map(ContentModel.BodyPartRequirementType t)
@@ -159,13 +174,12 @@ namespace Tiles.Content.Map
         EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)
         {
             return new EngineBodies.BodyPartClass(
-                bodyPart.NameSingular, 
-                Map(bodyPart.Tissue), 
-                Map(bodyPart.ArmorSlot), 
-                Map(bodyPart.WeapnSlot), 
-                bodyPart.Moves.Select(Map), 
-                bodyPart.Categories,
-                bodyPart.Types,
+                name: bodyPart.NameSingular, 
+                tissueClass: Map(bodyPart.Tissue), 
+                armorSlotType: Map(bodyPart.ArmorSlot), 
+                weaponSlotType: Map(bodyPart.WeapnSlot), 
+                categories: bodyPart.Categories,
+                types: bodyPart.Types,
                 relSize: bodyPart.RelativeSize,
                 isCritical: true, 
                 canGrasp: bodyPart.CanGrasp,

@@ -31,6 +31,10 @@ namespace Tiles.Agents.Combat
         int ContactArea { get; }
         int MaxPenetration { get; }
         int VelocityMultiplier { get; }
+
+        IEnumerable<IBodyPartRequirement> Requirements { get; }
+
+        bool MeetsRequirements(IBody body);
     }
 
 }

@@ -45,7 +45,18 @@ namespace Tiles.Content.Models
     public class BodyPartRequirement 
     {
         public BodyPartRequirementType Type { get; set; }
-        public List<string> Categories { get; set; }
-        public List<string> Types { get; set; }
+        public List<BprConstraint> Constraints { get; set; }
+    }
+
+    public enum BprConstraintType
+    {
+        ByCategory,
+        ByType
+    }
+
+    public class BprConstraint
+    {
+        public BprConstraintType ConstraintType { get; set; }
+        public List<string> Tokens { get; set; }
     }
 }

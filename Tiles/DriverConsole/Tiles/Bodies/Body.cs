@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tiles.Agents.Combat;
 
 namespace Tiles.Bodies
 {
@@ -13,6 +14,8 @@ namespace Tiles.Bodies
         public IList<IBodyPart> Parts { get; private set; }
 
         public int Size { get; set; }
+
+        public IEnumerable<ICombatMoveClass> Moves { get; set; }
 
         public Body(IList<IBodyPart> parts, int size)
         {

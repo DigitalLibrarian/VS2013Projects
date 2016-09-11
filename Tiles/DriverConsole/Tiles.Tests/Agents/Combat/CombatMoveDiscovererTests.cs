@@ -58,7 +58,6 @@ namespace Tiles.Tests.Agents.Combat
             if (partMock == null)
             {
                 var partClassMock = new Mock<IBodyPartClass>();
-                partClassMock.Setup(x => x.Moves).Returns(Enumerable.Empty<ICombatMoveClass>());
                 partMock = new Mock<IBodyPart>();
                 partMock.Setup(x => x.Class).Returns(partClassMock.Object);
             }

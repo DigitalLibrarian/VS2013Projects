@@ -67,8 +67,56 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsTrue(leftHand.CanGrasp);
             Assert.IsFalse(leftHand.CanBeAmputated);
             Assert.AreEqual(80, leftHand.RelativeSize);
+            
+            Assert.IsTrue(leftHand.Types.SequenceEqual(new string[] { "GRASP", "LEFT" }));
 
-            Assert.IsTrue(agent.Body.Parts.Any(p => p.Moves.Any()));
+            Assert.AreEqual(4, agent.Body.Moves.Count());
+            var moves = agent.Body.Moves;
+            var punch = moves.Single(x => x.Name.Equals("PUNCH"));
+            Assert.AreEqual(5340, punch.ContactArea);
+            Assert.AreEqual(0, punch.MaxPenetration);
+            Assert.AreEqual(3, punch.PrepTime);
+            Assert.AreEqual(3, punch.RecoveryTime);
+            Assert.AreEqual("punch", punch.Verb.SecondPerson);
+            Assert.AreEqual("punches", punch.Verb.ThirdPerson);
+            Assert.AreEqual(1, punch.Requirements.Count);
+            var req = punch.Requirements.First();
+            Assert.AreEqual(1, req.Constraints.Count() );
+            var constraint = req.Constraints.First();
+            Assert.AreEqual(BprConstraintType.ByType, constraint.ConstraintType);
+            Assert.IsTrue(constraint.Tokens.SequenceEqual(new string[] { "GRASP" }));
+            
+            var kick = moves.Single(x => x.Name.Equals("KICK"));
+
+            var scratch = moves.Single(x => x.Name.Equals("SCRATCH"));
+            Assert.AreEqual(1580, scratch.ContactArea);
+            Assert.AreEqual(1580, scratch.MaxPenetration);
+
+            Assert.AreEqual(1, scratch.Requirements.Count);
+            req = scratch.Requirements.First();
+            Assert.AreEqual(2, req.Constraints.Count());
+            constraint = req.Constraints.ElementAt(0);
+            Assert.AreEqual(BprConstraintType.ByType, constraint.ConstraintType);
+            Assert.IsTrue(constraint.Tokens.SequenceEqual(new string[] { "GRASP" }));
+            constraint = req.Constraints.ElementAt(1);
+            Assert.AreEqual(BprConstraintType.ByCategory, constraint.ConstraintType);
+            Assert.IsTrue(constraint.Tokens.SequenceEqual(new string[] { "FINGER", "NAIL" }));
+
+
+            var bite = moves.Single(x => x.Name.Equals("BITE"));
+            Assert.AreEqual(360, bite.ContactArea);
+            Assert.AreEqual(360, bite.MaxPenetration);
+
+            Assert.AreEqual(1, bite.Requirements.Count);
+            req = bite.Requirements.First();
+            Assert.AreEqual(2, req.Constraints.Count());
+            constraint = req.Constraints.ElementAt(0);
+            Assert.AreEqual(BprConstraintType.ByCategory, constraint.ConstraintType);
+            Assert.IsTrue(constraint.Tokens.SequenceEqual(new string[] { "HEAD" }));
+            constraint = req.Constraints.ElementAt(1);
+            Assert.AreEqual(BprConstraintType.ByCategory, constraint.ConstraintType);
+            Assert.IsTrue(constraint.Tokens.SequenceEqual(new string[] { "TOOTH" }));
+
             var leftHandParts = agent.Body.Parts.Where(p => p.Parent == leftHand);
             Assert.AreEqual(6, leftHandParts.Count());
 
@@ -99,20 +147,6 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
                 Assert.IsFalse(finger.CanGrasp);
                 Assert.IsTrue(finger.CanBeAmputated);
-
-                Assert.IsTrue(finger.IsDigit);
-                var moves = finger.Moves;
-                Assert.IsNotNull(moves);
-                Assert.AreEqual(1, moves.Where(m => m.Name.Equals("SCRATCH")).Count());
-                var move = moves.Single(m => m.Name.Equals("SCRATCH"));
-                Assert.AreEqual(ContactType.Other, move.ContactType);
-                Assert.AreEqual(1, move.Requirements.Count());
-                Assert.AreEqual(BodyPartRequirementType.ChildTissueLayerGroup, move.Requirements.First().Type);
-                Assert.AreEqual("GRASP", move.Requirements.First().Types.Single());
-                Assert.AreEqual(2, move.Requirements.First().Categories.Count());
-                var cats = move.Requirements.First().Categories.ToList()    ;
-                Assert.AreEqual("FINGER", cats[0]);
-                Assert.AreEqual("NAIL", cats[1]);
 
             }
             var leftWrist = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist"));

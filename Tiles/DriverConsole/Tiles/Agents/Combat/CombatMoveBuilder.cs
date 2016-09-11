@@ -140,13 +140,14 @@ namespace Tiles.Agents.Combat
         }
 
 
-        public ICombatMove BodyPartMove(IAgent attacker, IAgent defender, ICombatMoveClass moveClass, IBodyPart attackBodyPart, IBodyPart defenderBodyPart)
+        public ICombatMove BodyMove(IAgent attacker, IAgent defender, ICombatMoveClass moveClass,IBodyPart defenderBodyPart)
         {
-            var moveName = string.Format("{0} {1} with {2}", moveClass.Name, defenderBodyPart.Name, attackBodyPart.Name);
+            var moveName = string.Format("{0} {1}", 
+                moveClass.Verb.Conjugate(VerbConjugation.SecondPerson), 
+                defenderBodyPart.Name);
 
             return new CombatMove(moveClass, moveName, attacker, defender)
             {
-                AttackerBodyPart = attackBodyPart,
                 DefenderBodyPart = defenderBodyPart
             };
         }
