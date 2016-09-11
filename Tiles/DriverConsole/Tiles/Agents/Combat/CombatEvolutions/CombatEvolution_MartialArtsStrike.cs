@@ -54,10 +54,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             else
             {
                 // most dense tissue layer
-                weaponMat = move.Class.GetRelatedBodyParts(attacker.Body)
-                    .SelectMany(p => p.Tissue.TissueLayers)
-                    .Select(layer => layer.Material).OrderByDescending(x => x.SolidDensity)
-                    .First();
+                var relatedParts = move.Class.GetRelatedBodyParts(attacker.Body);
+                weaponMat = relatedParts.First().Tissue.TissueLayers.Last().Material;
             }
 
             bool targetPartWasShed = false;
@@ -80,6 +78,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 defender.Body.Amputate(move.DefenderBodyPart);
                 HandleShedPart(attacker, defender, move, move.DefenderBodyPart);
             }
+
 
             if (isWeaponBased)
             {

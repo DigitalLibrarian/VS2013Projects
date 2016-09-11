@@ -73,7 +73,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(4, agent.Body.Moves.Count());
             var moves = agent.Body.Moves;
             var punch = moves.Single(x => x.Name.Equals("PUNCH"));
-            Assert.AreEqual(5340, punch.ContactArea);
+            Assert.AreEqual(5349, punch.ContactArea);
             Assert.AreEqual(0, punch.MaxPenetration);
             Assert.AreEqual(3, punch.PrepTime);
             Assert.AreEqual(3, punch.RecoveryTime);
@@ -89,8 +89,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var kick = moves.Single(x => x.Name.Equals("KICK"));
 
             var scratch = moves.Single(x => x.Name.Equals("SCRATCH"));
-            Assert.AreEqual(1580, scratch.ContactArea);
-            Assert.AreEqual(1580, scratch.MaxPenetration);
+            Assert.AreEqual(1604, scratch.ContactArea);
+            Assert.AreEqual(1604, scratch.MaxPenetration);
 
             Assert.AreEqual(1, scratch.Requirements.Count);
             req = scratch.Requirements.First();
@@ -104,8 +104,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
 
             var bite = moves.Single(x => x.Name.Equals("BITE"));
-            Assert.AreEqual(360, bite.ContactArea);
-            Assert.AreEqual(360, bite.MaxPenetration);
+            Assert.AreEqual(401, bite.ContactArea);
+            Assert.AreEqual(401, bite.MaxPenetration);
 
             Assert.AreEqual(1, bite.Requirements.Count);
             req = bite.Requirements.First();
@@ -225,5 +225,26 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(1, hand.Tissue.Layers.Count());
         }
 
+        [TestMethod]
+        public void Parakeet()
+        {
+            var agent = DfAgentFactory.Create("BIRD_PARAKEET", "FEMALE");
+            Assert.IsNotNull(agent);
+
+            var stances = agent.Body.Parts.Where(p => p.Types.Contains("STANCE"));
+            Assert.AreEqual(2, stances.Count());
+            var foot = stances.FirstOrDefault();
+            Assert.AreEqual("right foot", foot.NameSingular);
+
+            Assert.AreEqual(4, foot.Tissue.Layers.Count());
+
+            var moves = agent.Body.Moves;
+            Assert.AreEqual(2, moves.Count());
+            
+            var move = moves.ElementAt(0);
+            Assert.AreEqual("BITE", move.Name);
+            Assert.AreEqual(4, move.ContactArea);
+
+        }
     }
 }

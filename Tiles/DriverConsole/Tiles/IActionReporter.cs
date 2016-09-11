@@ -17,7 +17,6 @@ namespace Tiles
         void ReportMeleeItemStrikeBodyPart(ICombatMoveContext session, IVerb verb, IItem item, IBodyPart bodyPart, bool targetPartWasShed);
         void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, bool targetPartWasShed);
 
-
         void ReportDeath(Agents.IAgent agent);
     }
 }

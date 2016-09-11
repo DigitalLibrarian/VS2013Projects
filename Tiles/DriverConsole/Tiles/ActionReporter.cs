@@ -74,7 +74,6 @@ namespace Tiles
             var bodyPartName = bodyPart.Name;
 
             var bpInjury = session.InjuryReport.BodyPartInjuries.First();
-
             var completionMessage = bpInjury.GetResultPhrase();
 
             var message = string.Format("{0} {1} the {2}'s {3}{4}",
@@ -88,5 +87,8 @@ namespace Tiles
             var message = string.Format("The {0} is struck down!", agent.Name);
             Log.AddLine(message);
         }
+
+
+
     }
 }

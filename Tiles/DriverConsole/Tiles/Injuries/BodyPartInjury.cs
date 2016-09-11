@@ -57,7 +57,7 @@ namespace Tiles.Injuries
             }
             else
             {
-                return ".";
+                return ", but the attack glances away.";
             }
         }
     }

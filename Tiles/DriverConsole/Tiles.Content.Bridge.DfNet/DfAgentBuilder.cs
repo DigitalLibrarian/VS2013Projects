@@ -383,10 +383,10 @@ namespace Tiles.Content.Bridge.DfNet
                 throw new InvalidOperationException(string.Format("Could not find part for body attack {0}", attack.ReferenceName));
             }
 
-            var partSizeMm = 0;
+            var partSizeMm = 0d;
             foreach (var part in parts)
             {
-                partSizeMm += (int)(((double)part.RelativeSize / totalBpRelSize) * Size) * 10;
+                partSizeMm += (((double)part.RelativeSize / totalBpRelSize) * Size) * 10d;
 
             }
             var combatMove =
@@ -400,8 +400,8 @@ namespace Tiles.Content.Bridge.DfNet
                     IsStrike = true,
                     IsMartialArts = true,
                     ContactType = Models.ContactType.Other,
-                    ContactArea = (int)((double)attack.ContactPercent / 100d) * partSizeMm,
-                    MaxPenetration = (int)((double)attack.PenetrationPercent / 100d) * partSizeMm,
+                    ContactArea = (int)(((double)attack.ContactPercent / 100d) * partSizeMm),
+                    MaxPenetration = (int)(((double)attack.PenetrationPercent / 100d) * partSizeMm),
                     VelocityMultiplier = 1000,
                 };
 
