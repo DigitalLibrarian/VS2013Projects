@@ -149,6 +149,8 @@ namespace Tiles.Content.Map
                 Map(bodyPart.ArmorSlot), 
                 Map(bodyPart.WeapnSlot), 
                 bodyPart.Moves.Select(Map), 
+                bodyPart.Categories,
+                bodyPart.Types,
                 relSize: bodyPart.RelativeSize,
                 isCritical: true, 
                 canGrasp: bodyPart.CanGrasp,

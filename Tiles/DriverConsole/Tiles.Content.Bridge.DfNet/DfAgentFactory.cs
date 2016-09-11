@@ -276,7 +276,6 @@ namespace Tiles.Content.Bridge.DfNet
                 nextIndex = tags.Count();
             }
 
-
             var attackTags = tags.GetRange(attackIndex, nextIndex - attackIndex);
             var attackDf = new DfObject(attackTags);
             var attack = BodyPartAttackFactory.Create(attackDf);

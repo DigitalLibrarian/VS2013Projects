@@ -41,13 +41,21 @@ namespace Tiles.Content.Bridge.DfNet
         }
 
         #region Lookups
-        IEnumerable<string> GetBodyPartCategories(DfObject bpObject)
+        List<string> GetBodyPartCategories(DfObject bpObject)
         {
             return bpObject.Tags
                 .Where(t => t.Name.Equals(DfTags.MiscTags.CATEGORY))
-                .Select(t => t.GetParam(0));
+                .Select(t => t.GetParam(0))
+                .ToList();
         }
 
+        List<string> GetBodyPartTypes(DfObject bpObject)
+        {
+            return bpObject.Tags
+                .Where(t => t.IsSingleWord())
+                .Select(t => t.Name)
+                .ToList();
+        }
         DfObject GetRootPartDefn()
         {
             var parts =  BodyPartsDefn.Values.Where(o => !o.Tags.Any(
@@ -262,6 +270,8 @@ namespace Tiles.Content.Bridge.DfNet
                      || t.IsSingleWord(DfTags.MiscTags.DIGIT)
                      ),
                 Moves = new List<CombatMove>(),
+                Categories = GetBodyPartCategories(defn),
+                Types = GetBodyPartTypes(defn),
                 IsNervous = 
                         singleWords.Contains("NERVOUS")
                     ||  singleWords.Contains("THOUGHT"),
@@ -287,7 +297,7 @@ namespace Tiles.Content.Bridge.DfNet
                 var combatMove =
                     new CombatMove
                     {
-                        Name = bpMove.Verb.SecondPerson,
+                        Name = bpMove.ReferenceName,
                         Verb = bpMove.Verb,
                         PrepTime = bpMove.PrepTime,
                         RecoveryTime = bpMove.RecoveryTime,

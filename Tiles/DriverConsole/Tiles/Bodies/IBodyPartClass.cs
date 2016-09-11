@@ -37,5 +37,7 @@ namespace Tiles.Bodies
 
         IEnumerable<ICombatMoveClass> Moves { get; }
 
+        IEnumerable<string> Categories { get; }
+        IEnumerable<string> Types { get; }
     }
 }

@@ -72,7 +72,6 @@ namespace Tiles.Bodies
 
         public double GetMass()
         {
-
             int sizeCm3 = Size;
             var totalThick = Tissue.TotalThickness;
             double total = 0;

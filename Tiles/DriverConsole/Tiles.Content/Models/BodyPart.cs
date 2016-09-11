@@ -16,6 +16,9 @@ namespace Tiles.Content.Models
 
         public List<CombatMove> Moves { get; set; }
 
+        public List<string> Categories { get; set; }
+        public List<string> Types { get; set; }
+
         public string NameSingular { get; set; }
         public string NamePlural { get; set; }
         

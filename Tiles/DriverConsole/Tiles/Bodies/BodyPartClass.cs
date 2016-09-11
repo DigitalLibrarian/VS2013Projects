@@ -15,6 +15,8 @@ namespace Tiles.Bodies
         public IBodyPartClass Parent { get; set; }
         public ITissueClass Tissue { get; set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
+        public IEnumerable<string> Categories { get; set; }
+        public IEnumerable<string> Types { get; set; }
 
         public ArmorSlot ArmorSlot { get; set; }
         public WeaponSlot WeaponSlot { get; set; }
@@ -42,6 +44,8 @@ namespace Tiles.Bodies
             ITissueClass tissueClass, 
             ArmorSlot armorSlotType, WeaponSlot weaponSlotType, 
             IEnumerable<ICombatMoveClass> moves, 
+            IEnumerable<string> categories,
+            IEnumerable<string> types,
             int relSize,
             bool isCritical = false, bool canGrasp = false, bool canBeAmputated = false, 
             bool isNervous = false, bool isCirc = false, bool isSkeletal = false,
@@ -56,6 +60,8 @@ namespace Tiles.Bodies
             ArmorSlot = armorSlotType;
             WeaponSlot = weaponSlotType;
             Moves = moves;
+            Categories = categories;
+            Types = types;
             RelativeSize = relSize;
             Parent = parent;
 

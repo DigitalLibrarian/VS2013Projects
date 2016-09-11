@@ -27,15 +27,32 @@ namespace Tiles.Content.Bridge.DfNet
                         attack.ReferenceName = tag.GetParam(0);
                         var cats = new List<string>();
                         var types = new List<string>();
-                        for (int i = 0; i < tag.GetParams().Count();i++ )
+                        int numParams = tag.GetParams().Count();
+                        for (int i = 1; i < numParams;i++ )
                         {
                             switch (tag.GetParam(i))
                             {
                                 case DfTags.MiscTags.BY_CATEGORY:
-                                    cats.Add(tag.GetParam(i + 1));
+                                    for (int j = i+1; j < numParams; j++)
+                                    {
+                                        var p = tag.GetParam(j);
+                                        if (p.StartsWith("BY"))
+                                        {
+                                            break;
+                                        }
+                                        cats.Add(p);
+                                    }
                                     break;
                                 case DfTags.MiscTags.BY_TYPE:
-                                    types.Add(tag.GetParam(i + 1));
+                                    for (int j = i+1; j < numParams; j++)
+                                    {
+                                        var p = tag.GetParam(j);
+                                        if (p.StartsWith("BY"))
+                                        {
+                                            break;
+                                        }
+                                        types.Add(p);
+                                    }
                                     break;
                             }
                         }

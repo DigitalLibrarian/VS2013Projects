@@ -39,6 +39,26 @@ namespace Tiles.Agents.Combat
         public int ContactArea { get; set; }
         public int MaxPenetration { get; set; }
         public int VelocityMultiplier { get; set; }
+    }
 
+    public enum BodyPartRequirementType
+    {
+        BodyPart,
+        ChildTissueLayerGroup,
+        ChildBodyPartGroup
+    }
+
+    public interface IBodyPartRequirement
+    {
+        BodyPartRequirementType Type { get; }
+        IEnumerable<string> Categories { get; }
+        IEnumerable<string> Types { get; }
+    }
+
+    public class BodyPartRequirement : IBodyPartRequirement
+    {
+        public BodyPartRequirementType Type { get; set; }
+        public IEnumerable<string> Categories { get; set; }
+        public IEnumerable<string> Types { get; set; }
     }
 }
