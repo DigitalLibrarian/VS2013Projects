@@ -211,5 +211,19 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(agent);
         }
 
+        [TestMethod]
+        public void BloodWoman()
+        {
+            var agent = DfAgentFactory.Create("BLOOD_MAN", "FEMALE");
+            Assert.IsNotNull(agent);
+
+            var graspers = agent.Body.Parts.Where(p => p.Types.Contains("GRASP"));
+            Assert.AreEqual(2, graspers.Count());
+            var hand = graspers.FirstOrDefault();
+            Assert.AreEqual("right hand", hand.NameSingular);
+
+            Assert.AreEqual(1, hand.Tissue.Layers.Count());
+        }
+
     }
 }

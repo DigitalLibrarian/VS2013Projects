@@ -44,6 +44,7 @@ namespace Tiles.Content.Bridge.DfNet
             return bpObject.Tags
                 .Where(t => t.Name.Equals(DfTags.MiscTags.CATEGORY))
                 .Select(t => t.GetParam(0))
+                .Concat(new string[] { "ALL" })
                 .ToList();
         }
 
@@ -216,7 +217,6 @@ namespace Tiles.Content.Bridge.DfNet
 
             foreach (var bpCat in GetBodyPartCategories(BodyPartsDefn[bpName]))
             {
-
                 if (BodyPartCategoryTissueThickness.ContainsKey(bpCat))
                 {
                     foreach(var tisName in BodyPartCategoryTissueThickness[bpCat].Keys)

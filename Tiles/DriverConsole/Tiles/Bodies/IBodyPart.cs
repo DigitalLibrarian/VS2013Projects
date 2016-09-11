@@ -51,5 +51,7 @@ namespace Tiles.Bodies
 
         int Size { get; }
         double GetMass();
+
+        bool IsDestroyed();
     }
 }

@@ -82,5 +82,11 @@ namespace Tiles.Bodies
             }
             return total;
         }
+
+
+        public bool IsDestroyed()
+        {
+            return Damage.GetTypes().Any(dt => Damage.GetFraction(dt).AsDouble() >= 1d);
+        }
     }
 }

@@ -31,7 +31,8 @@ namespace Tiles.Agents
         public bool IsDead { 
             get 
             {
-                return false;
+                return !Body.Parts.Any()
+                    || Body.Parts.First().IsDestroyed();
             } 
         }
 
