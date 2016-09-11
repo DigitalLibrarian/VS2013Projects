@@ -167,8 +167,11 @@ namespace Tiles.Content.Map
                     partMap[part].Parent = partMap[part.Parent];
                 }
             }
-            
-            return new EngineBodies.BodyClass(body.Parts.Select(x => partMap[x]), body.Size);
+
+            return new EngineBodies.BodyClass(
+                body.Size, 
+                body.Parts.Select(x => partMap[x]), 
+                body.Moves.Select(x => Map(x)));
         }
 
         EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)

@@ -91,7 +91,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             var tissueClass = CreateTissues();
             var bodyParts = Human(tissueClass).Values.ToList();
-            return new BodyClass(bodyParts, 60000);
+            return new BodyClass(60000, bodyParts);
         }
 
         public IBodyClass CreateFeralHumanoid()
@@ -101,7 +101,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             bodyParts["head"].WeaponSlot = WeaponSlot.Teeth;
             bodyParts["left hand"].WeaponSlot = WeaponSlot.Claw;
             bodyParts["right hand"].WeaponSlot = WeaponSlot.Claw;
-            return new BodyClass(bodyParts.Values.ToList(), 60000);
+            return new BodyClass(60000, bodyParts.Values.ToList());
         }
     }
 }

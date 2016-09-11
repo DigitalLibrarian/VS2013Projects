@@ -107,11 +107,12 @@ namespace Tiles.Agents
             }
             else
             {
-                var mat = move.AttackerBodyPart.Tissue.TissueLayers
-                    .Select(layer => layer.Material).OrderByDescending(x => x.SolidDensity)
-                    .First();
+                double mass = move.Class.GetRelatedBodyParts(move.Attacker.Body)
+                    .Select(p => p.GetMass())
+                    .Sum();
+
                 VelocityMultiplier = 1.0;
-                W = move.AttackerBodyPart.GetMass() / 1000d;
+                W = mass / 1000d;
             }
             return (Str * VelocityMultiplier)
                 / ((1000000d / Size) + ((10 * Fat) / W));

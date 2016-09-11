@@ -42,10 +42,15 @@ namespace Tiles.Agents.Combat
 
         public IEnumerable<IBodyPartRequirement> Requirements { get; set; }
 
-
         public bool MeetsRequirements(IBody body)
         {
-            throw new NotImplementedException();
+            return Requirements.All(req => req.IsMet(body));
+        }
+
+
+        public IEnumerable<IBodyPart> GetRelatedBodyParts(IBody body)
+        {
+            return Requirements.SelectMany(r => r.FindParts(body));
         }
     }
 
@@ -60,12 +65,83 @@ namespace Tiles.Agents.Combat
     {
         BodyPartRequirementType Type { get; }
         IEnumerable<BprConstraint> Constraints { get; }
+
+        bool IsMet(IBody body);
+        IEnumerable<IBodyPart> FindParts(IBody body);
     }
 
     public class BodyPartRequirement : IBodyPartRequirement
     {
         public BodyPartRequirementType Type { get; set; }
         public IEnumerable<BprConstraint> Constraints { get; set; }
+
+        bool IsConstraintMatch(BprConstraint con, IBodyPart part)
+        {
+            var checkSet = new List<string>();
+            switch (con.ConstraintType)
+            {
+                case BprConstraintType.ByCategory:
+                    checkSet = part.Class.Categories.ToList();
+                    break;
+                case BprConstraintType.ByType:
+                    checkSet = part.Class.Types.ToList();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            foreach (var token in con.Tokens)
+            {
+                if (!checkSet.Contains(token))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public IEnumerable<IBodyPart> FindParts(IBody body)
+        {
+            BprConstraint pConstraint = null;
+            foreach (var part in body.Parts)
+            {
+                switch (Type)
+                {
+                    case BodyPartRequirementType.BodyPart:
+                        if (Constraints.All(c => IsConstraintMatch(c, part)))
+                        {
+                            return new List<IBodyPart>() { part };
+                        }
+                        break;
+                    case BodyPartRequirementType.ChildBodyPartGroup:
+                        pConstraint = Constraints.First();
+                        if (IsConstraintMatch(pConstraint, part))
+                        {
+                            var children = body.Parts.Where(p => p.Parent == part);
+                            return children.Where(p =>
+                                Constraints.Skip(1).All(con => IsConstraintMatch(con, p)));
+                        }
+                        break;
+                    case BodyPartRequirementType.ChildTissueLayerGroup:
+                        pConstraint = Constraints.First();
+                        if (IsConstraintMatch(pConstraint, part))
+                        {
+                            var children = body.Parts.Where(p => p.Parent == part);
+                            return children.Where(p =>
+                                Constraints.Skip(1).All(con => IsConstraintMatch(con, p)));
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            return Enumerable.Empty<BodyPart>();
+        }
+
+        public bool IsMet(IBody body)
+        {
+            return FindParts(body).Any();
+        }
     }
 
 

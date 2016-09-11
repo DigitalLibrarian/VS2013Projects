@@ -54,7 +54,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             else
             {
                 // most dense tissue layer
-                weaponMat = move.AttackerBodyPart.Tissue.TissueLayers
+                weaponMat = move.Class.GetRelatedBodyParts(attacker.Body)
+                    .SelectMany(p => p.Tissue.TissueLayers)
                     .Select(layer => layer.Material).OrderByDescending(x => x.SolidDensity)
                     .First();
             }

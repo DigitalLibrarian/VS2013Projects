@@ -35,7 +35,8 @@ namespace Tiles.Bodies
                 }
                 parts.Add(partMap[bpc]);
             }
-            return new Body(parts, bodyClass.Size);
+            
+            return new Body(parts, bodyClass.Size, bodyClass.Moves);
         }
 
         BodyPart Convert(IBodyPartClass bpClass, int bodySize, int totalBodyPartRelSize)

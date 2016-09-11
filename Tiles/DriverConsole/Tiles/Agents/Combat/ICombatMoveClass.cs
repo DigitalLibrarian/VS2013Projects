@@ -35,6 +35,8 @@ namespace Tiles.Agents.Combat
         IEnumerable<IBodyPartRequirement> Requirements { get; }
 
         bool MeetsRequirements(IBody body);
+
+        IEnumerable<IBodyPart> GetRelatedBodyParts(IBody body);
     }
 
 }

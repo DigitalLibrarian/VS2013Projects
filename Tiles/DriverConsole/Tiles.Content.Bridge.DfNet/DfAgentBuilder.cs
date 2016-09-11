@@ -383,7 +383,6 @@ namespace Tiles.Content.Bridge.DfNet
                 throw new InvalidOperationException(string.Format("Could not find part for body attack {0}", attack.ReferenceName));
             }
 
-            var thicknessMm = 0;
             var partSizeMm = 0;
             foreach (var part in parts)
             {

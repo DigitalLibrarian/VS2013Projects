@@ -16,11 +16,17 @@ namespace Tiles.Bodies
         public int Size { get; set; }
 
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
-
+        
         public Body(IList<IBodyPart> parts, int size)
+            : this(parts, size, Enumerable.Empty<ICombatMoveClass>())
+        {
+
+        }
+        public Body(IList<IBodyPart> parts, int size, IEnumerable<ICombatMoveClass> moves)
         {
             Parts = parts;
             Size = size;
+            Moves = moves;
         }
 
         public void Amputate(IBodyPart part)
