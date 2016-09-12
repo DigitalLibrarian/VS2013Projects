@@ -16,6 +16,7 @@ namespace Tiles.Agents.Combat
         {
             Name = name;
             Verb = meleeVerb;
+            Requirements = new List<IBodyPartRequirement>();
         }
 
 
