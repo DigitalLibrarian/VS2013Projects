@@ -33,7 +33,7 @@ namespace Tiles.ScreensImpl.UI
             var padV = new Vector2(1,1);
             var simDisplayBox = new Box2(padV, padV + new Vector2(23, 23));
             var actionLogPanelWidth = Box.Size.X - (simDisplayBox.Size.X + (padV.X * 3));
-            var actionLogPanelHeight = game.ActionLog.MaxLines;
+            var actionLogPanelHeight = 10;
             var infoPanelOrigin = new Vector2(simDisplayBox.Max.X + padV.X, simDisplayBox.Min.Y);
             var infoPanelWidth = actionLogPanelWidth;
             var infoPanelHeight = Box.Max.Y - actionLogPanelHeight - padV.Y - padV.Y;

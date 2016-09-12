@@ -89,7 +89,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             var atlas = new Atlas(siteFactory, siteSize);
 
-            var actionLog = new ActionLog(maxLines: 10);
+            var actionLog = new ActionLog();
             
             var spawnBox = new Box3(
                 Vector3.Zero,

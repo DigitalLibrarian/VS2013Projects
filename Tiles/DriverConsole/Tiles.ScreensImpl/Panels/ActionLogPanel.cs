@@ -20,7 +20,7 @@ namespace Tiles.ScreensImpl.Panels
         }
         public override void Draw()
         {
-            var lines = ViewModel.ActionLog.GetLines();
+            var lines = ViewModel.ActionLog.GetLines().Reverse().Take(Box.Size.Y).Reverse();
             lines = lines.WrapText(Box.Size.X - 1);
             lines = lines.Reverse().Take(Box.Size.Y).Reverse();
             lines = lines.Select(x => x.PadRight(Box.Size.X - 1));
