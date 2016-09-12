@@ -37,13 +37,13 @@ namespace Tiles.Agents.Combat
                         foreach (var move in WeaponMoves(attacker, defender, weaponItem))
                             yield return move;
                     }
-                    if (mePart.CanGrasp)
+                    if (false && mePart.CanGrasp)
                     {
                         foreach (var move in GraspMoves(attacker, defender, mePart))
                             yield return move;
                     }
 
-                    if (mePart.IsWrestling)
+                    if (false && mePart.IsWrestling)
                     {
                         foreach (var move in WrestlingMoves(attacker, defender, mePart))
                             yield return move;

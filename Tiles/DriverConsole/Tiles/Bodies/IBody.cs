@@ -18,5 +18,6 @@ namespace Tiles.Bodies
         void Amputate(IBodyPart part);
 
         IEnumerable<ICombatMoveClass> Moves { get; set; }
+        IEnumerable<IBodyPart> GetInternalParts(IBodyPart part);
     }
 }

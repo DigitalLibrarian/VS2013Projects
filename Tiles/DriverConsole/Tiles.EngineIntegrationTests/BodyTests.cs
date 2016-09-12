@@ -18,7 +18,7 @@ using Tiles.Materials;
 namespace Tiles.EngineIntegrationTests
 {
     [TestClass]
-    public class BodySizeTests
+    public class BodyTests
     {
         IRandom Random { get; set; }
 
@@ -66,6 +66,28 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2251, kobold.Body.Parts.Single(p => p.Name.Equals("lower body")).Size);
             Assert.AreEqual(225, kobold.Body.Parts.Single(p => p.Name.Equals("neck")).Size);
             Assert.AreEqual(675, kobold.Body.Parts.Single(p => p.Name.Equals("head")).Size);
+        }
+
+        [TestMethod]
+        public void DwarfHead_InternalParts()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var head = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            Assert.IsNotNull(head);
+
+            var skull = dwarf.Body.Parts.First(x => x.Name.Equals("skull"));
+            Assert.IsNotNull(skull);
+
+            Assert.AreSame(skull.Parent, head);
+
+            var brain = dwarf.Body.Parts.First(x => x.Name.Equals("brain"));
+            Assert.IsNotNull(brain);
+
+            var internalParts = dwarf.Body.GetInternalParts(head);
+            Assert.AreEqual(2, internalParts.Count());
+
+            Assert.IsTrue(internalParts.SequenceEqual(new []{skull, brain}));
         }
     }
 }

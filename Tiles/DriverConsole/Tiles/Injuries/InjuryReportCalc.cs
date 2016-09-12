@@ -78,6 +78,9 @@ namespace Tiles.Injuries
         {
             return maxPenetation < 2000;
         }
+
+        
+
         public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, int contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat)
         {
             Builder.Clear();
@@ -93,9 +96,10 @@ namespace Tiles.Injuries
             Builder.SetStressMode(stressMode);
             Builder.SetStrikerMaterial(strikerMat);
 
-            var totalThick = targetPart.Tissue.TotalThickness;
             var armorItems = context.Defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor);
             var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
+
+            var tlParts = new Dictionary<ITissueLayer, IBodyPart>();
 
             foreach (var armorItem in armorItems)
             {
@@ -105,14 +109,32 @@ namespace Tiles.Injuries
             foreach (var tissueLayer in tissueLayers)
             {
                 Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer);
+                tlParts.Add(tissueLayer, targetPart);
             }
+
+            var internalParts = context.Defender.Body.GetInternalParts(targetPart);
+            foreach (var internalPart in internalParts)
+            {
+                foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
+                {
+                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer);
+                    tlParts.Add(tissueLayer, internalPart);
+                }
+            }
+            
             var result = Builder.Build();
 
-            var tissueInjuries = new List<ITissueLayerInjury>();
+            var totalThick = targetPart.Tissue.TotalThickness
+                + internalParts.Select(x => x.Tissue.TotalThickness).Sum();
+            
+            var tissueInjuries = new Dictionary<IBodyPart, List<ITissueLayerInjury>>();
             foreach (var taggedResult in result.TaggedResults)
             {
+                var layerInjuries = Enumerable.Empty<ITissueLayerInjury>();
                 var tissueLayer = taggedResult.Key as ITissueLayer;
                 var tissueResult = taggedResult.Value;
+
+                var tlBodyPart = tlParts[tissueLayer];
 
                 double ttFact = (double)(tissueLayer.Thickness + 1) / (double)(totalThick + 1);
                 var tissueDamage = GetUnitDamage(
@@ -135,14 +157,29 @@ namespace Tiles.Injuries
 
                 double newDamage = System.Math.Max(1d, momComp * ttFact);
                 tissueDamage.ScalarMultiply(newDamage);
+                var tlInjuries = CreateTissueInjury(tissueLayer, tissueResult, tissueDamage, tlBodyPart.Damage);
 
-                tissueInjuries.AddRange(CreateTissueInjury(tissueLayer, tissueResult, tissueDamage, targetPart.Damage));
+                if (!tissueInjuries.ContainsKey(tlBodyPart))
+                {
+                    tissueInjuries[tlBodyPart] = new List<ITissueLayerInjury>();
+                }
+                tissueInjuries[tlBodyPart].AddRange(tlInjuries);
             }
 
+            var rootInjury = CreateBodyPartInjury(targetPart, contactArea, result, tissueInjuries[targetPart]);
+            var bpInjuries = new List<IBodyPartInjury>()
+            {
+                rootInjury
+            };
 
-            return new InjuryReport(new IBodyPartInjury[]{
-                CreateBodyPartInjury(targetPart, contactArea, result, tissueInjuries)
-            });
+            foreach (var bp in tissueInjuries.Keys)
+            {
+                if (bp != targetPart)
+                {
+                    bpInjuries.Add(CreateBodyPartInjury(bp, contactArea, result, tissueInjuries[bp]));
+                }
+            }
+            return new InjuryReport(bpInjuries);
         }
 
         private IBodyPartInjury CreateBodyPartInjury(
@@ -173,12 +210,10 @@ namespace Tiles.Injuries
                 return new BodyPartInjury(
                     BodyPartInjuryClasses.Severed, part, tissueInjuries);
             }
-            else
             {
                 return new BodyPartInjury(
                     BodyPartInjuryClasses.JustTissueDamage, part, tissueInjuries);
             }
-
         }
 
 

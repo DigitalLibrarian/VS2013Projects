@@ -99,7 +99,7 @@ namespace Tiles.Agents
             Str = 1250;
             Size = Body.Size;
             Fat = 1d;
-            // M = (Str * VelocityMultiplier) / ((10^6/Size) + ((10 * F) / W)
+            // M = (Str * VelocityMultiplier) / ((10^6/Size) + ((10 * F) / W))
             if (move.Class.IsItem)
             {
                 var weapon = move.Weapon;

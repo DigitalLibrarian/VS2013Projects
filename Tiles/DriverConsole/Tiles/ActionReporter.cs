@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
+using Tiles.Injuries;
 using Tiles.Items;
 
 namespace Tiles
@@ -64,6 +65,10 @@ namespace Tiles
                 attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
 
             Log.AddLine(message);
+            foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
+            {
+                ReportAdditionalBodyPartInjury(session, addInjury);
+            }
         }
 
         public void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, bool targetPartWasShed)
@@ -80,6 +85,10 @@ namespace Tiles
                 attackerName, verbStr, defenderName, bodyPartName, completionMessage);
 
             Log.AddLine(message);
+            foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
+            {
+                ReportAdditionalBodyPartInjury(session, addInjury);
+            }
         }
         
         public void ReportDeath(IAgent agent)
@@ -88,7 +97,13 @@ namespace Tiles
             Log.AddLine(message);
         }
 
-
-
+        void ReportAdditionalBodyPartInjury(ICombatMoveContext context, IBodyPartInjury bpInjury)
+        {
+            var message = string.Format("{0}'s {1} was hit{2}",
+                context.Attacker.Name,
+                bpInjury.BodyPart.Name,
+                bpInjury.GetResultPhrase());
+            Log.AddLine(message);
+        }
     }
 }

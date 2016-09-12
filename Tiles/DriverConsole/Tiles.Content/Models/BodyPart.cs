@@ -12,7 +12,7 @@ namespace Tiles.Content.Models
 
         public Tissue Tissue { get; set; }
         public ArmorSlot ArmorSlot { get; set; }
-        public WeaponSlot WeapnSlot { get; set; }
+        public WeaponSlot WeaponSlot { get; set; }
 
         public List<CombatMove> Moves { get; set; }
 

@@ -74,7 +74,6 @@ namespace Tiles.EngineIntegrationTests
             var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
-            Assert.AreEqual(914, (int)(strikeMomentum * 10));
 
             var context = new CombatMoveContext(attacker, defender, slashMove);
 
@@ -124,7 +123,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsUnicorn_ToeWithSteelSwordSlash()
+        public void DwarfVsUnicorn_SlashLegWithSteelSwordSlash()
         {
             var attacker = GetNewDwarf();
             var defender = GetNewUnicorn();
@@ -141,7 +140,6 @@ namespace Tiles.EngineIntegrationTests
             var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
-            Assert.AreEqual(914, (int)(strikeMomentum * 10));
 
             var context = new CombatMoveContext(attacker, defender, slashMove);
 

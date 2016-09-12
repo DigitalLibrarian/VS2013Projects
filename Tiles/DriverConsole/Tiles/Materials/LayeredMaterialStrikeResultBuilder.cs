@@ -128,7 +128,10 @@ namespace Tiles.Materials
                 if (layerResult.BreaksThrough)
                 {
                     momentum = momentum - (momentum * (5d / 100d));
-                    penetration += layer.Thickness;
+                    if (mode == Materials.StressMode.Edge)
+                    {
+                        penetration += layer.Thickness;
+                    }
                 }
                 else if (mode != StressMode.Blunt)
                 {
@@ -141,19 +144,19 @@ namespace Tiles.Materials
                        mode,
                        layer);
 
-                    layerResult.StressMode = StressMode; // only first layer maintains the original stress mode
                     if (layerResult.BreaksThrough)
                     {
                         momentum = momentum - (momentum * (5d / 100d));
-                        penetration += layer.Thickness;
+
                         // allow further testing with blunt (current layer keeps original stress mode)
+                        layerResult.StressMode = StressMode; // only first layer maintains the original stress mode
                     }
                     else
                     {
                         // TODO - If both edged and blunt momenta thresholds haven't been met, attack is permanently converted to blunt and its momentum may be greatly reduced. 
                         // Specifically, it is multiplied by SHEAR_STRAIN_AT_YIELD/50000 for edged attacks or IMPACT_STRAIN_AT_YIELD/50000 otherwise. 
                         momentum = momentum - (momentum * (30d / 100d));
-                        done = true;
+                        
                     }
                 }
                 else

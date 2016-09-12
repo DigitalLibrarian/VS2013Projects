@@ -42,7 +42,6 @@ namespace Tiles.Injuries
 
         public string GetPhrase()
         {
-            // TODO - tissuer layers should have a name (probably class)
             return string.Format("{0} the {1}", Class.Gerund, Layer.Class.Material.Name);
         }
     }

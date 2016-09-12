@@ -180,7 +180,7 @@ namespace Tiles.Content.Map
                 name: bodyPart.NameSingular, 
                 tissueClass: Map(bodyPart.Tissue), 
                 armorSlotType: Map(bodyPart.ArmorSlot), 
-                weaponSlotType: Map(bodyPart.WeapnSlot), 
+                weaponSlotType: Map(bodyPart.WeaponSlot), 
                 categories: bodyPart.Categories,
                 types: bodyPart.Types,
                 relSize: bodyPart.RelativeSize,

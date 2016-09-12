@@ -50,14 +50,14 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             var siteSize = new Vector3(64, 64, 64);
 
-
             var weaponMats = new string[]{
-                "COPPER", "SILVER", "IRON", "STEEL"
+                "COPPER", "SILVER", "STEEL"
             };
             var weaponTypes = new string[]{
                 DfTags.MiscTags.ITEM_WEAPON_MACE,
                 DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT,
                 DfTags.MiscTags.ITEM_WEAPON_SPEAR,
+                DfTags.MiscTags.ITEM_WEAPON_HAMMER_WAR,
                 DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE
             };
             List<IItem> invItems = new List<IItem>();

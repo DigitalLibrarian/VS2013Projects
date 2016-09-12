@@ -293,7 +293,9 @@ namespace Tiles.Content.Bridge.DfNet
                 IsSight = singleWords.Contains("SIGHT"),
                 IsStance = singleWords.Contains("STANCE"),
                 IsInternal = singleWords.Contains("INTERNAL"),
-                RelativeSize = GetBpSize(defn.Name)
+                RelativeSize = GetBpSize(defn.Name),
+                WeaponSlot = GetBodyPartCategories(defn).Contains("HAND") ? WeaponSlot.Main : WeaponSlot.None
+                
             };
             return part;
         }

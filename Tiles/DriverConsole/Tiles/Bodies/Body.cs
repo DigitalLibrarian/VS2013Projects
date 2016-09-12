@@ -44,5 +44,10 @@ namespace Tiles.Bodies
                 }
             }
         }
+
+        public IEnumerable<IBodyPart> GetInternalParts(IBodyPart part)
+        {
+            return Parts.Where(p => p.Parent == part && p.IsInternal).Reverse();
+        }
     }
 }

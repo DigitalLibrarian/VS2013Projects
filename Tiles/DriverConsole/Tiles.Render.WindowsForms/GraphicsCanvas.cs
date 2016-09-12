@@ -20,27 +20,7 @@ namespace Tiles.Render.WindowsForms
         Dictionary<Tiles.Math.Color, ImageAttributes> ImageAttrs { get; set; }
 
         Graphics G { get { return GFunc(); } }
-        /*
-        Dictionary<Tiles.Math.Color, Drawing.Color> ColorMap = new Dictionary<Tiles.Math.Color, Drawing.Color>
-        {
-            {Tiles.Math.Color.Black, Drawing.Color.Black},
-            {Tiles.Math.Color.Blue, Drawing.Color.Blue},
-            {Tiles.Math.Color.Cyan, Drawing.Color.Cyan},
-            {Tiles.Math.Color.DarkBlue, Drawing.Color.DarkBlue},
-            {Tiles.Math.Color.DarkCyan, Drawing.Color.DarkCyan},
-            {Tiles.Math.Color.DarkGray, Drawing.Color.DarkGray},
-            {Tiles.Math.Color.DarkGreen, Drawing.Color.DarkGreen},
-            {Tiles.Math.Color.DarkMagenta, Drawing.Color.DarkMagenta},
-            {Tiles.Math.Color.DarkRed, Drawing.Color.DarkRed},
-            {Tiles.Math.Color.DarkYellow, Drawing.Color.DarkGoldenrod},
-            {Tiles.Math.Color.Gray, Drawing.Color.Gray},
-            {Tiles.Math.Color.Green, Drawing.Color.Green},
-            {Tiles.Math.Color.Magenta, Drawing.Color.Magenta},
-            {Tiles.Math.Color.Red, Drawing.Color.Red},
-            {Tiles.Math.Color.White, Drawing.Color.White},
-            {Tiles.Math.Color.Yellow, Drawing.Color.Yellow}
-        };
-        */
+
         System.Drawing.Color MapColor(Tiles.Math.Color c)
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
