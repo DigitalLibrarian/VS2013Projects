@@ -54,6 +54,7 @@
     <Compile Include="ContentFactories\SurvivorAgentCommandPlanner.cs" />
     <Compile Include="ContentFactories\ZombieAgentCommandPlanner.cs" />
     <Compile Include="SiteFactories\ZombieSiteFactory.cs" />
+    <Compile Include="UI\ExtendedActionLogScreen.cs" />
     <Compile Include="UI\GameSimulationScreen.cs" />
     <Compile Include="ContentFactories\GearFactory.cs" />
     <Compile Include="UI\InventoryItemDisplayScreen.cs" />

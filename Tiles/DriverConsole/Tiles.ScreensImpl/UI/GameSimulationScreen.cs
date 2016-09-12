@@ -59,7 +59,6 @@ namespace Tiles.ScreensImpl.UI
             LookingScreen = new LookingCommandScreen(Game, lookExaminePanel);
             InventoryScreen = new InventoryScreen(Game.Player, CommandFactory, Game.ActionLog, Canvas, Box);
 
-
         }
 
         IGameSimulationViewModel ViewModel { get; set; }
@@ -148,6 +147,7 @@ namespace Tiles.ScreensImpl.UI
             Key_Inventory(args);
             Key_Look(args);
             Key_Get(args);
+            Key_ExtendedActionLog(args);
         }
 
         void Key_Inventory(KeyPressEventArgs args)
@@ -215,7 +215,21 @@ namespace Tiles.ScreensImpl.UI
                 Game.Player.EnqueueCommands(CommandFactory.PickUpItemsOnAgentTile(Game, Game.Player.Agent));
             }
         }
+
+        void Key_ExtendedActionLog(KeyPressEventArgs args)
+        {
+            if (args.Key == ConsoleKey.A)
+            {
+                ShowExtendedActionLogScreen();
+            }
+        }
+
         #endregion
+
+        private void ShowExtendedActionLogScreen()
+        {
+            ScreenManager.Add(new ExtendedActionLogScreen(Canvas, Box, Game.ActionLog));
+        }
 
         void ShowInventoryScreen()
         {
