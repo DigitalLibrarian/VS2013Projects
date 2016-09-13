@@ -227,6 +227,7 @@ namespace Tiles.Tests.Agents.Combat
         }
 
 
+        [Ignore]
         [TestMethod]
         public void PossibleGrasp()
         {
@@ -285,6 +286,7 @@ namespace Tiles.Tests.Agents.Combat
             }
         }
 
+        [Ignore]
         [TestMethod]
         public void PossibleBreakGrasp()
         {
@@ -317,6 +319,7 @@ namespace Tiles.Tests.Agents.Combat
             BuilderMock.Verify(x => x.BreakOpponentGrasp(It.IsAny<IAgent>(), It.IsAny<IAgent>(), attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once);
         }
 
+        [Ignore]
         [TestMethod]
         public void PossiblePullAndReleaseGrasp()
         {

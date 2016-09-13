@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Materials;
 
 namespace Tiles.Injuries
 {
@@ -43,5 +44,35 @@ namespace Tiles.Injuries
             Min = .3,
             IsUpperBound = true,
         };
+    }
+
+    public class MsrTissueLayerInjuryClass : ITissueLayerInjuryClass
+    {
+        MaterialStressResult Msr { get; set; }
+        public MsrTissueLayerInjuryClass(MaterialStressResult msr)
+        {
+            Msr = msr;
+        }
+
+        public string Adjective
+        {
+            get { return Msr.ToString(); }
+        }
+
+        public string Gerund
+        {
+            get { return Msr.ToString(); }
+        }
+
+        public DamageType DamageType
+        {
+            get;
+            set;
+        }
+
+        public bool IsInRange(double dVal)
+        {
+            return false;
+        }
     }
 }

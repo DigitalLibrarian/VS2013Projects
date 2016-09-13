@@ -37,7 +37,7 @@ namespace Tiles.Tests.Materials
             int swordSizeCubicCm = 300;
             var mass = Steel.GetMassForUniformVolume(swordSizeCubicCm);
 
-            Assert.AreEqual(23549, (int)mass);
+            Assert.AreEqual(23550, (int)mass);
         }
 
         [TestMethod]

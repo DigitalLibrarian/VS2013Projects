@@ -18,7 +18,7 @@ namespace Tiles.Tests.Materials
         {
             Builder = new MaterialStrikeResultBuilder();
         }
-
+        /*
         [TestMethod]
         public void Edge_AdamantineShortSwordOnSkin()
         {
@@ -147,5 +147,6 @@ namespace Tiles.Tests.Materials
             Assert.IsNotNull(result);
             Assert.IsFalse(result.BreaksThrough);
         }
+         * */
     }
 }

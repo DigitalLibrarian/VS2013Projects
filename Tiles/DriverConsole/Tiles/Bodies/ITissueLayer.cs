@@ -15,6 +15,7 @@ namespace Tiles.Bodies
         /// Thickness in m^-5
         /// </summary>
         double Thickness { get; }
+        double Volume { get; }
 
         bool CanBeBruised { get; }
         bool CanBeTorn { get; }

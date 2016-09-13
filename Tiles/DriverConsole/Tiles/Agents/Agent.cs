@@ -93,7 +93,39 @@ namespace Tiles.Agents
             return false;
         }
 
+        
         public double GetStrikeMomentum(ICombatMove move)
+        {
+            double baseSize = Body.Size;
+
+            double Str, VelocityMultiplier, Size, Fat, W;
+            Str = 1250;
+            Size = Body.Size/10d;
+            Fat = 1d;
+
+            if (move.Class.IsItem)
+            {
+                var weapon = move.Weapon;
+                VelocityMultiplier = (double)move.Class.VelocityMultiplier / 1000d;
+                W = weapon.GetMass();
+            }
+            else
+            {
+                double mass = move.Class.GetRelatedBodyParts(move.Attacker.Body)
+                    .Select(p => p.GetMass())
+                    .First();
+
+                VelocityMultiplier = 1.0;
+                W = mass;
+
+            }
+
+            double effWeight = (Size / 100d) + (W / 100000d) + (W / 100d);
+            var v = Size * (Str / 100d) * (VelocityMultiplier / effWeight);
+            return System.Math.Min(5000d, v) * (W/100000d);
+        }
+        
+        public double GetStrikeMomentumOLD(ICombatMove move)
         {
             double Str, VelocityMultiplier, Size, Fat, W;
             Str = 1250;

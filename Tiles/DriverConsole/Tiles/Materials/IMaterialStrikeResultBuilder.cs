@@ -15,6 +15,7 @@ namespace Tiles.Materials
 
         void SetStrikerMaterial(IMaterial mat);
         void SetStrickenMaterial(IMaterial mat);
+        void SetLayerVolume(double vol);
 
         IMaterialStrikeResult Build();
         void Clear();

@@ -388,12 +388,13 @@ namespace Tiles.Content.Bridge.DfNet
 
             var part = parts.First();
             
-            var partSizeMm = 0d;
             double partRatio = ((double)part.RelativeSize / totalBpRelSize);
-            partSizeMm += (partRatio * Size) *10d;
-            var relTSum = (double) parts.First().Tissue.Layers.Select(l => l.RelativeThickness).Sum();
-            var contactArea = (int)System.Math.Pow((partSizeMm), 0.666d);
+            var partSize = (partRatio * Size)/10d;
+            var partLength = System.Math.Pow(partSize, 0.3333d);
 
+            var contactRatio = (double)attack.ContactPercent / 100d;
+            var contactArea = (int)(System.Math.Pow((partSize), 0.666d) * contactRatio);
+            
             var combatMove =
                 new CombatMove
                 {
@@ -406,7 +407,7 @@ namespace Tiles.Content.Bridge.DfNet
                     IsMartialArts = true,
                     ContactType = attack.ContactType,
                     ContactArea = contactArea,
-                    MaxPenetration = (int)(((double)attack.PenetrationPercent / 100d) * partSizeMm),
+                    MaxPenetration = (int)(((double)attack.PenetrationPercent / 100d) * partLength),
                     VelocityMultiplier = 1000,
                 };
 

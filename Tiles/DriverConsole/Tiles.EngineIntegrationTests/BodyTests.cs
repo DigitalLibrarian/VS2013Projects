@@ -101,7 +101,13 @@ namespace Tiles.EngineIntegrationTests
 
             var punch = moves.Single(x => x.Name.Equals("punch"));
             Assert.AreEqual(StressMode.Blunt, punch.StressMode);
-            Assert.AreEqual(339, punch.ContactArea);
+
+            var move = CombatMoveBuilder.BodyMove(human, human, punch, human.Body.Parts.First());
+            var punchMom = human.GetStrikeMomentum(move);
+            Assert.AreEqual(21d, (int)punchMom);
+
+
+
         }
         [TestMethod]
         public void Human()

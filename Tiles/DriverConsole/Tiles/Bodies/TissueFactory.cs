@@ -18,7 +18,10 @@ namespace Tiles.Bodies
                 var tlFact = (double)tc.RelativeThickness / (double)totalRelThick;
                 var tissueThick = System.Math.Floor(partThick * tlFact);
                 tissueThick = System.Math.Max(1d, tissueThick);
-                layers.Add(new TissueLayer(tc, tc.Material, tissueThick));
+
+                var tissueVol = System.Math.Floor(partSize * tlFact);
+
+                layers.Add(new TissueLayer(tc, tc.Material, tissueThick, tissueVol));
             }
             return new Tissue(layers);
         }

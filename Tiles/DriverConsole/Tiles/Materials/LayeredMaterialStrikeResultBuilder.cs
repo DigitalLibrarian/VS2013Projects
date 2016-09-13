@@ -9,7 +9,7 @@ namespace Tiles.Materials
     public interface ILayeredMaterialStrikeResultBuilder
     {
         void AddLayer(IMaterial mat);
-        void AddLayer(IMaterial mat, double thick, object tag);
+        void AddLayer(IMaterial mat, double thick, double volume, object tag);
 
         void SetStrikerMaterial(IMaterial mat);
 
@@ -31,6 +31,7 @@ namespace Tiles.Materials
             public bool IsTagged { get { return Tag != null; } }
 
             public double Thickness { get; set; }
+            public double Volume { get; set; }
             public IMaterial Material { get; set; }
         }
 
@@ -92,12 +93,13 @@ namespace Tiles.Materials
                 Material = mat
             });
         }
-        public void AddLayer(IMaterial mat, double thick, object tag)
+        public void AddLayer(IMaterial mat, double thick, double volume, object tag)
         {
             Layers.Add(new MLayer
             {
                 Material = mat,
                 Thickness = thick,
+                Volume = volume,
                 Tag = tag
             });
         }
@@ -112,10 +114,15 @@ namespace Tiles.Materials
 
             int penetration = 0;
             bool done = false;
-
+            double epsilon = 0.001d;
             foreach (var layer in Layers)
             {
-                if (momentum <= 0) break;
+                if (new string[] { 
+                    "hair"
+                }.Contains(layer.Material.Name)){
+                    continue;
+                }
+                if (momentum <= epsilon) break;
                 if (mode == StressMode.Edge && penetration >= MaxPenetration) mode = Materials.StressMode.Blunt;
 
                 var layerResult = PerformSingleLayerTest(
@@ -124,7 +131,33 @@ namespace Tiles.Materials
                     ContactArea,
                     mode,
                     layer);
-                
+
+                momentum = layerResult.ResultMomentum;
+                if (layerResult.IsDefeated)
+                {
+                    if (mode == Materials.StressMode.Edge)
+                    {
+                        penetration += (int)layer.Thickness;
+                    }
+                }
+                else if (mode != StressMode.Blunt)
+                {
+                    mode = StressMode.Blunt;
+                    layerResult = PerformSingleLayerTest(
+                       StrikerMaterial,
+                       momentum,
+                       ContactArea,
+                       mode,
+                       layer);
+                    //layerResult.StressMode = StressMode; // only first layer maintains the original stress mode
+                    
+                }
+                else
+                {
+                    done = true;
+                }
+
+                /*
                 if (layerResult.BreaksThrough)
                 {
                     momentum = momentum - (momentum * (20d / 100d));
@@ -166,7 +199,7 @@ namespace Tiles.Materials
                     // blunt failed to propagate
                     done = true;
                 }
-
+                */
                 if (layer.IsTagged)
                 {
                     result.AddLayerResult(layerResult, layer.Tag);
@@ -194,6 +227,7 @@ namespace Tiles.Materials
             Builder.SetStrikerMaterial(strikerMat);
             Builder.SetStrickenMaterial(layer.Material);
             Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerVolume(layer.Volume);
 
             contactArea = (int) System.Math.Min(contactArea, layer.Thickness);
             Builder.SetContactArea(contactArea);

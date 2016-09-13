@@ -88,7 +88,7 @@ namespace Tiles.Injuries
             // resize contact area if the body part is smaller
             // body part size in cm3, contact area in mm3
             int originalContactArea = contactArea;
-            //contactArea =  (int) System.Math.Min(targetPart.Size * 10, contactArea);
+            
             contactArea = (int)System.Math.Min(targetPart.GetContactArea(), (double)contactArea);
 
             Builder.SetMomentum(momentum);
@@ -109,7 +109,7 @@ namespace Tiles.Injuries
 
             foreach (var tissueLayer in tissueLayers)
             {
-                Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer);
+                Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
                 tlParts.Add(tissueLayer, targetPart);
             }
 
@@ -118,7 +118,7 @@ namespace Tiles.Injuries
             {
                 foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
                 {
-                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer);
+                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
                     tlParts.Add(tissueLayer, internalPart);
                 }
             }
@@ -281,7 +281,7 @@ namespace Tiles.Injuries
                 TissueLayerInjuryClasses.Tear,
                 TissueLayerInjuryClasses.TearApart,
             };
-
+            /*
             foreach (var injuryClass in injuryClasses)
             {
                 var newDVal = tissueDamage.GetFraction(injuryClass.DamageType).AsDouble();
@@ -292,6 +292,16 @@ namespace Tiles.Injuries
                     injuryDamage.Set(injuryClass.DamageType, tissueDamage.Get(injuryClass.DamageType));
                     yield return new TissueLayerInjury(injuryClass, layer, injuryDamage, tissueResult);
                 }
+            }
+             * */
+            foreach (var dt in tissueDamage.GetTypes())
+            {
+
+                var injuryDamage = new DamageVector();
+                injuryDamage.Set(dt, tissueDamage.Get(dt));
+                yield return
+                new TissueLayerInjury(
+                    new MsrTissueLayerInjuryClass(tissueResult.StressResult), layer, injuryDamage, tissueResult);
             }
         }
     }

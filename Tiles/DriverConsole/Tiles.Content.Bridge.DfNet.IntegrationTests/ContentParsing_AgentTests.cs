@@ -73,7 +73,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(4, agent.Body.Moves.Count());
             var moves = agent.Body.Moves;
             var punch = moves.Single(x => x.Name.Equals("PUNCH"));
-            Assert.AreEqual(304, punch.ContactArea);
+            Assert.AreEqual(14, punch.ContactArea);
             Assert.AreEqual(0, punch.MaxPenetration);
             Assert.AreEqual(3, punch.PrepTime);
             Assert.AreEqual(3, punch.RecoveryTime);
@@ -209,6 +209,17 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(1, skin.RelativeThickness);
         }
 
+
+        [TestMethod]
+        public void HumanPunchContactArea()
+        {
+            var agent = DfAgentFactory.Create("HUMAN");
+            Assert.IsNotNull(agent);
+
+            var punch = agent.Body.Moves.Single(x => x.Name.Equals("PUNCH"));
+            Assert.AreEqual(15, punch.ContactArea);
+        }
+
         [TestMethod]
         public void SoldierAntman()
         {
@@ -237,26 +248,5 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(1, hand.Tissue.Layers.Count());
         }
 
-        [TestMethod]
-        public void Parakeet()
-        {
-            var agent = DfAgentFactory.Create("BIRD_PARAKEET", "FEMALE");
-            Assert.IsNotNull(agent);
-
-            var stances = agent.Body.Parts.Where(p => p.Types.Contains("STANCE"));
-            Assert.AreEqual(2, stances.Count());
-            var foot = stances.FirstOrDefault();
-            Assert.AreEqual("right foot", foot.NameSingular);
-
-            Assert.AreEqual(4, foot.Tissue.Layers.Count());
-
-            var moves = agent.Body.Moves;
-            Assert.AreEqual(2, moves.Count());
-            
-            var move = moves.ElementAt(0);
-            Assert.AreEqual("BITE", move.Name);
-            Assert.AreEqual(2, move.ContactArea);
-
-        }
     }
 }
