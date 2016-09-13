@@ -31,7 +31,7 @@ namespace Tiles.Materials
         /// </summary>
         /// <param name="volumeCubicCm"></param>
         /// <returns>mass in kg</returns>
-        double GetMassForUniformVolume(int volumeCubicCm);
+        double GetMassForUniformVolume(double volumeCubicCm);
 
         void GetModeProperties(StressMode contactType, out int yield, out int fractureForce, out int strainAtYield);
     }

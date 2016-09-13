@@ -14,7 +14,7 @@ namespace Tiles.Bodies
             TissueLayers = layers;
         }
 
-        public int TotalThickness
+        public double TotalThickness
         {
             get { return TissueLayers.Select(tl => tl.Thickness).Sum(); }
         }

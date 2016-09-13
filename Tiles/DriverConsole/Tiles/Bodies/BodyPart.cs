@@ -42,11 +42,11 @@ namespace Tiles.Bodies
         public IBodyPart Parent { get; set; }
 
         public ITissue Tissue { get; private set; }
-        public int Size { get; private set; }
+        public double Size { get; private set; }
 
         public IDamageVector Damage { get; private set; }
 
-        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, int size, IBodyPart parent) 
+        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, double size, IBodyPart parent) 
         {
             Class = bodyPartClass;
             Tissue = tissue;
@@ -55,7 +55,7 @@ namespace Tiles.Bodies
             Damage = new DamageVector();
         }
 
-        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, int size) 
+        public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, double size) 
             : this(bodyPartClass, tissue, size, null) { }
 
         public void StartGrasp(IBodyPart part)
@@ -72,15 +72,24 @@ namespace Tiles.Bodies
 
         public double GetMass()
         {
-            int sizeCm3 = Size;
-            var totalThick = Tissue.TotalThickness;
+            var sizeCm3 = Size;
+            var totalThick = GetThickness();
             double total = 0;
             foreach (var tissueLayer in Tissue.TissueLayers)
             {
-                double ttFact = (double)(tissueLayer.Thickness + 1) / (double)(totalThick + 1);
+                double ttFact = (double)(tissueLayer.Thickness) / (double)(totalThick);
                 total += tissueLayer.Material.GetMassForUniformVolume(sizeCm3) * ttFact;
             }
             return total;
+        }
+
+        public double GetContactArea()
+        {
+            return (int)System.Math.Pow((Size), 0.666d);
+        }
+        public double GetThickness()
+        {
+            return (int)System.Math.Pow((Size*10000d), 0.333d);
         }
 
 

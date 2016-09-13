@@ -24,7 +24,7 @@ namespace Tiles.Content.Bridge.DfNet
         Color Foreground { get; set; }
         Color Background { get; set; }
 
-        int Size { get; set; }
+        double Size { get; set; }
 
         public DfAgentBuilder()
         {
@@ -377,6 +377,7 @@ namespace Tiles.Content.Bridge.DfNet
 
         CombatMove CreateBodyCombatMove(DfBodyAttack attack, Body body)
         {
+            var bodySize = body.Size;
             int totalBpRelSize = body.Parts.Select(x => x.RelativeSize).Sum();
 
             var parts = FindAttackParts(attack, body);
@@ -385,12 +386,14 @@ namespace Tiles.Content.Bridge.DfNet
                 throw new InvalidOperationException(string.Format("Could not find part for body attack {0}", attack.ReferenceName));
             }
 
+            var part = parts.First();
+            
             var partSizeMm = 0d;
-            foreach (var part in parts)
-            {
-                partSizeMm += (((double)part.RelativeSize / totalBpRelSize) * Size) *10d;
+            double partRatio = ((double)part.RelativeSize / totalBpRelSize);
+            partSizeMm += (partRatio * Size) *10d;
+            var relTSum = (double) parts.First().Tissue.Layers.Select(l => l.RelativeThickness).Sum();
+            var contactArea = (int)System.Math.Pow((partSizeMm), 0.666d);
 
-            }
             var combatMove =
                 new CombatMove
                 {
@@ -402,7 +405,7 @@ namespace Tiles.Content.Bridge.DfNet
                     IsStrike = true,
                     IsMartialArts = true,
                     ContactType = attack.ContactType,
-                    ContactArea = (int)(((double)attack.ContactPercent / 100d) * partSizeMm),
+                    ContactArea = contactArea,
                     MaxPenetration = (int)(((double)attack.PenetrationPercent / 100d) * partSizeMm),
                     VelocityMultiplier = 1000,
                 };
@@ -509,7 +512,7 @@ namespace Tiles.Content.Bridge.DfNet
         public void AddLifeStageSize(int ageYear, int ageDay, int size)
         {
             // TODO - make this part of racial model
-            Size = size;
+            Size = ((double)size);
         }
 
 

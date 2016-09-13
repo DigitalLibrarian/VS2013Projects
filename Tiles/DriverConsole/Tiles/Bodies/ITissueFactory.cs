@@ -8,6 +8,6 @@ namespace Tiles.Bodies
 {
     public interface ITissueFactory
     {
-        ITissue Create(ITissueClass tissueClass, int bodySize);
+        ITissue Create(ITissueClass tissueClass, double bodySize);
     }
 }

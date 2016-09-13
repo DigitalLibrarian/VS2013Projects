@@ -48,9 +48,9 @@ namespace Tiles.Tests.Bodies
             var tissueClassMock3 = new Mock<ITissueClass>();
             var tissueMock3 = new Mock<ITissue>();
 
-            TissueFactoryMock.Setup(x => x.Create(tissueClassMock1.Object, It.IsAny<int>())).Returns(tissueMock1.Object);
-            TissueFactoryMock.Setup(x => x.Create(tissueClassMock2.Object, It.IsAny<int>())).Returns(tissueMock2.Object);
-            TissueFactoryMock.Setup(x => x.Create(tissueClassMock3.Object, It.IsAny<int>())).Returns(tissueMock3.Object);
+            TissueFactoryMock.Setup(x => x.Create(tissueClassMock1.Object, It.IsAny<double>())).Returns(tissueMock1.Object);
+            TissueFactoryMock.Setup(x => x.Create(tissueClassMock2.Object, It.IsAny<double>())).Returns(tissueMock2.Object);
+            TissueFactoryMock.Setup(x => x.Create(tissueClassMock3.Object, It.IsAny<double>())).Returns(tissueMock3.Object);
 
             var partClassMock3 = new Mock<IBodyPartClass>();
             partClassMock3.Setup(pc => pc.Parent).Returns(partClassMock2.Object);

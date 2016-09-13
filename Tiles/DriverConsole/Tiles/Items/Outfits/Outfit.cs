@@ -100,10 +100,13 @@ namespace Tiles.Items.Outfits
 
         public void Unwield(IItem item)
         {
-
-            var part = WeaponLayer.FindParts(item).First();
-            part.Weapon = null;
-            WeaponLayer.Unequip(item);
+            var parts = WeaponLayer.FindParts(item);
+            if(parts.Any())
+            {
+                var part = parts.First();
+                part.Weapon = null;
+                WeaponLayer.Unequip(item);
+            }
         }
 
         public IItem GetWeaponItem(IBodyPart bodyPart)

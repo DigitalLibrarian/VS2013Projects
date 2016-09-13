@@ -88,7 +88,8 @@ namespace Tiles.Injuries
             // resize contact area if the body part is smaller
             // body part size in cm3, contact area in mm3
             int originalContactArea = contactArea;
-            contactArea = System.Math.Min(targetPart.Size * 10, contactArea);
+            //contactArea =  (int) System.Math.Min(targetPart.Size * 10, contactArea);
+            contactArea = (int)System.Math.Min(targetPart.GetContactArea(), (double)contactArea);
 
             Builder.SetMomentum(momentum);
             Builder.SetContactArea(contactArea);
@@ -123,11 +124,6 @@ namespace Tiles.Injuries
             }
             
             var result = Builder.Build();
-            /*
-            var totalThick = targetPart.Tissue.TotalThickness
-                + internalParts.Select(x => x.Tissue.TotalThickness).Sum();
-             * */
-            var totalBodySize = context.Defender.Body.Size;
             
             var tissueInjuries = new Dictionary<IBodyPart, List<ITissueLayerInjury>>();
             foreach (var taggedResult in result.TaggedResults)
@@ -138,8 +134,8 @@ namespace Tiles.Injuries
 
                 var tlBodyPart = tlParts[tissueLayer];
 
-                var totalThick = tlBodyPart.Tissue.TotalThickness;
-                double ttFact = (double)(tissueLayer.Thickness + 1) / (double)(totalThick + 1);
+                var totalThick = tlBodyPart.GetThickness();
+                double ttFact = (double)(tissueLayer.Thickness) / (double)(totalThick);
                 var tissueDamage = GetUnitDamage(
                     tissueResult.StressMode,
                     originalContactArea,

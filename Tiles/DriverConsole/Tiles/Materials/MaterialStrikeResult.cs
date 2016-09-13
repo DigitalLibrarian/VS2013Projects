@@ -27,7 +27,7 @@ namespace Tiles.Materials
         public double Momentum { get; set; }
         public double MomentumThreshold { get; set; }
 
-        public double ExcessMomentum { get { return Momentum - MomentumThreshold; } }
+        public double ExcessMomentum { get { return Momentum - (MomentumThreshold); } }
         public bool BreaksThrough { get { return Momentum >= MomentumThreshold; } }
     }
 }

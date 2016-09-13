@@ -39,12 +39,12 @@ namespace Tiles.Bodies
             return new Body(parts, bodyClass.Size, bodyClass.Moves);
         }
 
-        BodyPart Convert(IBodyPartClass bpClass, int bodySize, int totalBodyPartRelSize)
+        BodyPart Convert(IBodyPartClass bpClass, double bodySize, int totalBodyPartRelSize)
         {
-            var partSizeD = ((double)bodySize * ((double)bpClass.RelativeSize / (double)totalBodyPartRelSize));
-            int partSize = (int)partSizeD;
-            var tissue = TissueFactory.Create(bpClass.Tissue, partSize);
-            return new BodyPart(bpClass, tissue, partSize);
+            var bpFact = (double)bpClass.RelativeSize / (double)totalBodyPartRelSize;
+            var partSizeD = System.Math.Ceiling( (double)bodySize * bpFact);
+            var tissue = TissueFactory.Create(bpClass.Tissue, partSizeD);
+            return new BodyPart(bpClass, tissue, partSizeD);
         }
     }
 }

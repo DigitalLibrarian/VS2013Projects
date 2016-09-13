@@ -10,11 +10,11 @@ namespace Tiles.Bodies
 {
     public class BodyClass : IBodyClass
     {
-        public BodyClass(int size, IEnumerable<IBodyPartClass> parts)
+        public BodyClass(double size, IEnumerable<IBodyPartClass> parts)
             : this(size, parts, new List<ICombatMoveClass>())
         {
         }
-        public BodyClass(int size, IEnumerable<IBodyPartClass> parts, IEnumerable<ICombatMoveClass> moves)
+        public BodyClass(double size, IEnumerable<IBodyPartClass> parts, IEnumerable<ICombatMoveClass> moves)
         {
             Parts = parts;
             Size = size;
@@ -22,6 +22,6 @@ namespace Tiles.Bodies
         }
         public IEnumerable<IBodyPartClass> Parts { get; set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
-        public int Size { get; set; }
+        public double Size { get; set; }
     }
 }

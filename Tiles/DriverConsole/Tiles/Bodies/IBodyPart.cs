@@ -49,9 +49,12 @@ namespace Tiles.Bodies
 
         bool IsWrestling { get; }
 
-        int Size { get; }
+        double Size { get; }
         double GetMass();
 
         bool IsDestroyed();
+
+        double GetContactArea();
+        double GetThickness();
     }
 }

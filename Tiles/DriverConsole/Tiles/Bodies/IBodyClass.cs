@@ -14,6 +14,6 @@ namespace Tiles.Bodies
         /// <summary>
         /// Volume in cm3
         /// </summary>
-        int Size { get; set; }
+        double Size { get; set; }
     }
 }

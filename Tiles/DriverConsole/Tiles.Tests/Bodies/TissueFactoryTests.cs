@@ -40,7 +40,7 @@ namespace Tiles.Tests.Bodies
                 layerClassMock1.Object, layerClassMock2.Object, layerClassMock3.Object
             });
 
-            int bodySize = 200;
+            int bodySize = 84630;
             var factory = new TissueFactory();
             var result = factory.Create(tissueClassMock.Object, bodySize);
 
@@ -49,15 +49,15 @@ namespace Tiles.Tests.Bodies
 
             var layer1 = result.TissueLayers.ElementAt(0);
             Assert.AreSame(materialMock1.Object, layer1.Material);
-            Assert.AreEqual(20, layer1.Thickness);
+            Assert.AreEqual(43, layer1.Thickness);
 
             var layer2 = result.TissueLayers.ElementAt(1);
             Assert.AreSame(materialMock1.Object, layer2.Material);
-            Assert.AreEqual(40, layer2.Thickness);
+            Assert.AreEqual(87, layer2.Thickness);
 
             var layer3 = result.TissueLayers.ElementAt(2);
             Assert.AreSame(materialMock1.Object, layer2.Material);
-            Assert.AreEqual(60, layer3.Thickness);
+            Assert.AreEqual(130, layer3.Thickness);
         }
     }
 }

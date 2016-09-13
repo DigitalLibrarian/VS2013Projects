@@ -16,6 +16,6 @@ namespace Tiles.Content.Models
         public List<BodyPart> Parts { get; set; }
         public List<CombatMove> Moves { get; set; }
 
-        public int Size { get; set; }
+        public double Size { get; set; }
     }
 }

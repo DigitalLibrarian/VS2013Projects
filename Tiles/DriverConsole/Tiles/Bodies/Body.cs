@@ -13,16 +13,16 @@ namespace Tiles.Bodies
         public bool IsWrestling { get {  return Parts.Any(x => x.IsWrestling);} }
         public IList<IBodyPart> Parts { get; private set; }
 
-        public int Size { get; set; }
+        public double Size { get; set; }
 
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
-        
-        public Body(IList<IBodyPart> parts, int size)
+
+        public Body(IList<IBodyPart> parts, double size)
             : this(parts, size, Enumerable.Empty<ICombatMoveClass>())
         {
 
         }
-        public Body(IList<IBodyPart> parts, int size, IEnumerable<ICombatMoveClass> moves)
+        public Body(IList<IBodyPart> parts, double size, IEnumerable<ICombatMoveClass> moves)
         {
             Parts = parts;
             Size = size;

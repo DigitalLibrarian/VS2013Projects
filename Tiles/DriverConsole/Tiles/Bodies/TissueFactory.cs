@@ -8,13 +8,16 @@ namespace Tiles.Bodies
 {
     public class TissueFactory : ITissueFactory
     {
-        public ITissue Create(ITissueClass tissueClass, int bodySize)
+        public ITissue Create(ITissueClass tissueClass, double partSize)
         {
+            var partThick = System.Math.Pow(partSize * 1000d, 0.333d);
             int totalRelThick = tissueClass.TotalRelativeThickness;
             var layers = new List<ITissueLayer>();
             foreach (var tc in tissueClass.TissueLayers)
             {
-                int tissueThick = (int)((double)bodySize * ((double)tc.RelativeThickness / (double)totalRelThick));
+                var tlFact = (double)tc.RelativeThickness / (double)totalRelThick;
+                var tissueThick = System.Math.Floor(partThick * tlFact);
+                tissueThick = System.Math.Max(1d, tissueThick);
                 layers.Add(new TissueLayer(tc, tc.Material, tissueThick));
             }
             return new Tissue(layers);

@@ -28,11 +28,11 @@ namespace Tiles.Materials
         public int SolidDensity { get; set; }
         public double SharpnessMultiplier { get; set; }
 
-        public double GetMassForUniformVolume(int volumeCubicCm)
+        public double GetMassForUniformVolume(double volumeCubicCm)
         {
             //Weight (in Γ) = Density (in kg/m3) * Volume*10 (in cm3) / 1,000,000 (cm3/m3)
             var densityKg = (double)SolidDensity/1000d;
-            double volumeCubicM = ((double)volumeCubicCm) / 100d;
+            double volumeCubicM = (volumeCubicCm) / 100d;
             return  (volumeCubicM * densityKg)*1000;
         }
 
