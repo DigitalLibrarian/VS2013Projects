@@ -178,9 +178,15 @@ namespace Tiles.EngineIntegrationTests
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual(MaterialStressResult.CutThrough_Shear, tInjury.StrikeResult.StressResult);
-            //AssertTissueInjuryClass(TissueLayerInjuryClasses.TearApart, tInjury);
             Assert.AreSame(fatLayer, tInjury.Layer);
 
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual(MaterialStressResult.Cut_Shear, tInjury.StrikeResult.StressResult);
+            Assert.AreSame(muscleLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
+            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
+            Assert.AreSame(boneLayer, tInjury.Layer);
         }
 
 

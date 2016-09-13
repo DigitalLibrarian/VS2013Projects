@@ -143,12 +143,14 @@ namespace Tiles.Materials
                 else if (mode != StressMode.Blunt)
                 {
                     mode = StressMode.Blunt;
+                    /*
                     layerResult = PerformSingleLayerTest(
                        StrikerMaterial,
                        momentum,
                        ContactArea,
                        mode,
                        layer);
+                     */
                     //layerResult.StressMode = StressMode; // only first layer maintains the original stress mode
                     
                 }

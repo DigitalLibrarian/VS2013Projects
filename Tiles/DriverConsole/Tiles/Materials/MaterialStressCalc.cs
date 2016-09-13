@@ -94,45 +94,45 @@ namespace Tiles.Materials
         public static double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
             return ((double)strickenMat.ShearYield * 5000d)
-                / ((double)strikerMat.ShearYield * sharpness * 10000d);
+                / ((double)strikerMat.ShearYield * sharpness * 1000d * 10d);
         }
 
         public static double ShearCost2(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
             return ((double)strickenMat.ShearFracture * 5000d)
-                / ((double)strikerMat.ShearFracture * sharpness * 10000d);
+                / ((double)strikerMat.ShearFracture * sharpness * 1000d * 10d);
         }
 
         public static double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
         {
             return ((double)strickenMat.ShearFracture * layerVolume * 5000d)
-                / ((double)strikerMat.ShearFracture * sharpness * 10000d);
+                / ((double)strikerMat.ShearFracture * sharpness * 1000d * 10d);
         }
 
 
-        public static double ImpactCost1(IMaterial strickenMat, double sharpness, double layerVolume)
+        public static double ImpactCost1(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * strickenMat.ImpactYield)
-                / (100d * 500d);
+                / (100d * 500d * 100d);
         }
 
-        public static double ImpactCost2(IMaterial strickenMat, double sharpness, double layerVolume)
+        public static double ImpactCost2(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * ((double)strickenMat.ImpactFracture - (double)strickenMat.ImpactYield))
-                / (100d * 500d);
+                / (100d * 500d * 100d);
         }
 
-        public static double ImpactCost3(IMaterial strickenMat, double sharpness, double layerVolume)
+        public static double ImpactCost3(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * ((double)strickenMat.ImpactFracture - (double)strickenMat.ImpactYield))
-                / (100d * 500d);
+                / (100d * 500d * 100d);
         }
         
         public static double DefeatedLayerMomentumDeduction(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
         {
             return (System.Math.Max(
                 ShearCost1(strikerMat, strickenMat, sharpness),
-                ImpactCost1(strickenMat, sharpness, layerVolume))) / 1000d;
+                ImpactCost1(strickenMat, layerVolume))) / 1000d;
         }
 
         public static double ShearMomentumAfterUnbrokenRigidLayer(double momentum, IMaterial strickenMat)
