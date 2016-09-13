@@ -78,16 +78,25 @@ namespace Tiles
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
             var bodyPartName = bodyPart.Name;
 
-            var bpInjury = session.InjuryReport.BodyPartInjuries.First();
-            var completionMessage = bpInjury.GetResultPhrase();
-
-            var message = string.Format("{0} {1} the {2}'s {3}{4}",
-                attackerName, verbStr, defenderName, bodyPartName, completionMessage);
-
-            Log.AddLine(message);
-            foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
+            if (session.InjuryReport.BodyPartInjuries.Any())
             {
-                ReportAdditionalBodyPartInjury(session, addInjury);
+                var bpInjury = session.InjuryReport.BodyPartInjuries.First();
+                var completionMessage = bpInjury.GetResultPhrase();
+
+                var message = string.Format("{0} {1} the {2}'s {3}{4}",
+                    attackerName, verbStr, defenderName, bodyPartName, completionMessage);
+
+                Log.AddLine(message);
+                foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
+                {
+                    ReportAdditionalBodyPartInjury(session, addInjury);
+                }
+            } 
+            else {
+                var message = string.Format("{0} {1} the {2}'s {3} but the attack glances away.",
+                    attackerName, verbStr, defenderName, bodyPartName);
+
+                Log.AddLine(message);
             }
         }
         
@@ -100,7 +109,7 @@ namespace Tiles
         void ReportAdditionalBodyPartInjury(ICombatMoveContext context, IBodyPartInjury bpInjury)
         {
             var message = string.Format("{0}'s {1} was hit{2}",
-                context.Attacker.Name,
+                context.Defender.Name,
                 bpInjury.BodyPart.Name,
                 bpInjury.GetResultPhrase());
             Log.AddLine(message);

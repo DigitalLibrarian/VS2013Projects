@@ -69,7 +69,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                     weaponMat
                     );
 
-            move.DefenderBodyPart.Damage.Add(report.BodyPartInjuries.First().GetTotal());
+            foreach (var bpInjury in report.BodyPartInjuries)
+            {
+                bpInjury.BodyPart.Damage.Add(bpInjury.GetTotal());
+            }
+
             targetPartWasShed = report.BodyPartInjuries.Any(x => x.Class.IsSever);
             session.InjuryReport = report;
 

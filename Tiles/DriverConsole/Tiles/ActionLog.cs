@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace Tiles
 {
-    // TODO - The "Capping" is a presentation logic and should be handled there.  The underlying list of log messages should 
-    // be unbounded.
     public class ActionLog : IActionLog
     {
         List<string> LogLines { get; set; }

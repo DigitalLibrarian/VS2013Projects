@@ -166,12 +166,13 @@ namespace Tiles.Injuries
                 tissueInjuries[tlBodyPart].AddRange(tlInjuries);
             }
 
-            var rootInjury = CreateBodyPartInjury(targetPart, contactArea, result, tissueInjuries[targetPart]);
-            var bpInjuries = new List<IBodyPartInjury>()
-            {
-                rootInjury
-            };
+            var bpInjuries = new List<IBodyPartInjury>();
 
+            if (tissueInjuries.ContainsKey(targetPart))
+            {
+                var rootInjury = CreateBodyPartInjury(targetPart, contactArea, result, tissueInjuries[targetPart]);
+                bpInjuries.Add(rootInjury);
+            }
             foreach (var bp in tissueInjuries.Keys)
             {
                 if (bp != targetPart)
