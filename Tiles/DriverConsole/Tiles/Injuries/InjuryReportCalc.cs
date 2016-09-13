@@ -123,9 +123,11 @@ namespace Tiles.Injuries
             }
             
             var result = Builder.Build();
-
+            /*
             var totalThick = targetPart.Tissue.TotalThickness
                 + internalParts.Select(x => x.Tissue.TotalThickness).Sum();
+             * */
+            var totalBodySize = context.Defender.Body.Size;
             
             var tissueInjuries = new Dictionary<IBodyPart, List<ITissueLayerInjury>>();
             foreach (var taggedResult in result.TaggedResults)
@@ -136,6 +138,7 @@ namespace Tiles.Injuries
 
                 var tlBodyPart = tlParts[tissueLayer];
 
+                var totalThick = tlBodyPart.Tissue.TotalThickness;
                 double ttFact = (double)(tissueLayer.Thickness + 1) / (double)(totalThick + 1);
                 var tissueDamage = GetUnitDamage(
                     tissueResult.StressMode,
@@ -253,8 +256,6 @@ namespace Tiles.Injuries
         public bool IsMangled(IDamageVector d)
         {
             return new DamageType[]{
-                DamageType.Gore,
-                DamageType.Pierce,
                 DamageType.Slash,
             }.Select(x => d.GetFraction(x).AsDouble())
             .Sum() >= 1d;
@@ -263,8 +264,6 @@ namespace Tiles.Injuries
         public bool WillMangle(IDamageVector p, IDamageVector d)
         {
             return new DamageType[]{
-                DamageType.Gore,
-                DamageType.Pierce,
                 DamageType.Slash,
             }.Select(x =>
                 d.GetFraction(x).AsDouble()

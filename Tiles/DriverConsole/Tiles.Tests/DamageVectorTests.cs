@@ -48,15 +48,12 @@ namespace Tiles.Tests.Agents.Combat
             var v = new DamageVector(new Dictionary<DamageType, int>
             {
                 {DamageType.Bludgeon, 1},
-                {DamageType.Pierce, 2}
             });
 
             Assert.IsTrue(v.GetTypes().Contains(DamageType.Bludgeon));
-            Assert.IsTrue(v.GetTypes().Contains(DamageType.Pierce));
             Assert.IsFalse(v.GetTypes().Contains(DamageType.Slash));
 
             Assert.AreEqual(1, v.Get(DamageType.Bludgeon));
-            Assert.AreEqual(2, v.Get(DamageType.Pierce));
             Assert.AreEqual(0, v.Get(DamageType.Slash));
 
             v.Set(DamageType.Bludgeon, 11);
@@ -75,13 +72,11 @@ namespace Tiles.Tests.Agents.Combat
             v1 = new DamageVector(new Dictionary<DamageType, int>
             {
                 {DamageType.Bludgeon, 1},
-                {DamageType.Pierce, 1},
                 {DamageType.Slash, 1}
             });
             v2 = new DamageVector(new Dictionary<DamageType, int>
             {
                 {DamageType.Bludgeon, 2},
-                {DamageType.Pierce, 2},
                 {DamageType.Slash, 2}
             });
 

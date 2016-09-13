@@ -11,6 +11,7 @@ namespace Tiles.Tests.Materials
     [TestClass]
     public class MaterialStressCalcTests
     {
+        /*
         [TestMethod]
         public void TestMaterials_GetEdgeThreshold_CopperOnSteel()
         {
@@ -74,7 +75,7 @@ namespace Tiles.Tests.Materials
             AssertMatOnMat_GetEdgeThreshold(
                 1, TestMaterials.Copper, TestMaterials.Skin, 3.45);
         }
-
+        */
         [TestMethod]
         public void RelativeEdgeMats()
         {
@@ -94,7 +95,7 @@ namespace Tiles.Tests.Materials
             Assert.IsTrue(bronzeResult < copperResult);
             Assert.IsTrue(copperResult < silverResult);
         }
-
+        /*
         [TestMethod]
         public void TestMaterials_GetBluntThreshold_Skin_PinPrick()
         {
@@ -207,7 +208,7 @@ namespace Tiles.Tests.Materials
                 781.2);
         }
 
-
+        */
         void AssertMatOnMat_GetEdgeThreshold(int contactArea, IMaterial strikerMat, IMaterial strickenMat, double expectedThreshold)
         {
             var thresh = MaterialStressCalc.GetEdgedBreakThreshold(

@@ -130,6 +130,7 @@ namespace DfNet.Raws
             public const string ATTACK_CONTACT_PERC = "ATTACK_CONTACT_PERC";
             public const string ATTACK_PENETRATION_PERC = "ATTACK_PENETRATION_PERC";
             public const string ATTACK_PREPARE_AND_RECOVER = "ATTACK_PREPARE_AND_RECOVER";
+            public const string ATTACK_FLAG_EDGE = "ATTACK_FLAG_EDGE";
 
             public const string CATEGORY = "CATEGORY";
 

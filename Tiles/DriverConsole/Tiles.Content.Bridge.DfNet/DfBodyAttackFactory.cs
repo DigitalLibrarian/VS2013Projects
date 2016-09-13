@@ -18,6 +18,7 @@ namespace Tiles.Content.Bridge.DfNet
         public DfBodyAttack Create(DfObject attackDf)
         {
             DfBodyAttack attack = new DfBodyAttack();
+            attack.ContactType = ContactType.Blunt;
 
             foreach (var tag in attackDf.Tags)
             {
@@ -78,6 +79,9 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.ATTACK_PREPARE_AND_RECOVER:
                         attack.PrepTime = int.Parse(tag.GetParam(0));
                         attack.RecoveryTime = int.Parse(tag.GetParam(1));
+                        break;
+                    case DfTags.MiscTags.ATTACK_FLAG_EDGE:
+                        attack.ContactType = ContactType.Edge;
                         break;
                 }
             }

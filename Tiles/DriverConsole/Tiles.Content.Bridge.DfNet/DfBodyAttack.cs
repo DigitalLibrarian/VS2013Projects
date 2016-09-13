@@ -12,6 +12,7 @@ namespace Tiles.Content.Bridge.DfNet
         public DfBodyAttack()
         {
             Constraints = new List<BaConstraint>();
+            ContactType = Models.ContactType.Other;
         }
 
         public string ReferenceName { get; set; }
@@ -26,6 +27,8 @@ namespace Tiles.Content.Bridge.DfNet
 
         public int PrepTime { get; set; }
         public int RecoveryTime { get; set; }
+
+        public ContactType ContactType { get; set; }
     }
 
     public enum BaConstraintType

@@ -23,7 +23,7 @@ namespace Tiles.Materials
         }
         private static double ToMpa(double strain)
         {
-            return strain / 1000000d;
+            return strain / 10000d;
         }
 
         public static double GetEdgedBreakThreshold(
@@ -46,7 +46,7 @@ namespace Tiles.Materials
             }
 
             // M >= (rSY + (A+1)*rSF) * (10 + 2*Qa) / (S * Qw)
-            return (rSY + ((double)A + 0.01d) * rSF)
+            return (rSY + ((double)A + 1d) * rSF)
                 * (10 + (2 * Qa))
                 / (S * Qw);
         }
@@ -89,7 +89,7 @@ namespace Tiles.Materials
                 term1 = 1d;
             }
             double term2 = 2d + 0.4d * Qa;
-            double term3 = A;
+            double term3 = A+1d;
 
             return term1 * term2 * term3;
         }

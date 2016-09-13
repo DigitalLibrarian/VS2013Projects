@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Tiles.Control;
 using Tiles.Math;
 using Tiles.Render;
+using Tiles.StringManipulation;
+
 
 namespace Tiles.ScreensImpl.UI
 {
@@ -43,6 +45,7 @@ namespace Tiles.ScreensImpl.UI
             Canvas.DrawString("Action Log", Box.Min);
 
             var lines = ActionLog.GetLines();
+            lines = lines.WrapText(Box.Size.X - 1);
             Selector.Draw(Canvas, Box.Min + new Vector2(1, 2), lines.ToArray());
         }
 

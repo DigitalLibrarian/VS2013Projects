@@ -10,20 +10,20 @@ namespace Tiles.Injuries
     {
         public static IBodyPartInjuryClass Severed = new BodyPartInjuryClass
         {
-            IsCompletion = true,
+            //IsCompletion = true,
             IsSever = true,
             CompletionPhrase = "the severed part sails off in an arc"
         };
 
         public static IBodyPartInjuryClass ExplodesIntoGore = new BodyPartInjuryClass
         {
-            IsCompletion = true,
+            //IsCompletion = true,
             CompletionPhrase = "the injured part explodes into gore"
         };
 
         public static IBodyPartInjuryClass ClovenAsunder = new BodyPartInjuryClass
         {
-            IsCompletion = true,
+            //IsCompletion = true,
             CompletionPhrase = "the injured part is cloven asunder"
         };
 

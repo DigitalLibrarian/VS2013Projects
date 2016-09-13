@@ -10,9 +10,6 @@ namespace Tiles
     public enum DamageType
     {
         Bludgeon,
-        Slash,
-        // TODO these next should go away
-        Pierce, 
-        Gore,
+        Slash
     }
 }

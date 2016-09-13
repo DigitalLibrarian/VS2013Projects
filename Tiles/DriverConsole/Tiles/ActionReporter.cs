@@ -50,6 +50,7 @@ namespace Tiles
 
         public void ReportMeleeItemStrikeBodyPart(ICombatMoveContext session, IVerb verb, IItem item, IBodyPart bodyPart, bool targetPartWasShed)
         {
+            DebugReportCombatMove(session.Move);
             var attackerName = session.Attacker.Name;
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
@@ -61,8 +62,8 @@ namespace Tiles
 
             var completionMessage = bpInjury.GetResultPhrase();
 
-            var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
-                attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
+            var message = string.Format("{0} {1} the {2}'s {3}{4}{5}({6})",
+                attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage, bpInjury.GetTotal());
 
             Log.AddLine(message);
             foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
@@ -73,6 +74,7 @@ namespace Tiles
 
         public void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, bool targetPartWasShed)
         {
+            DebugReportCombatMove(session.Move);
             var attackerName = session.Attacker.Name;
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
@@ -83,8 +85,8 @@ namespace Tiles
                 var bpInjury = session.InjuryReport.BodyPartInjuries.First();
                 var completionMessage = bpInjury.GetResultPhrase();
 
-                var message = string.Format("{0} {1} the {2}'s {3}{4}",
-                    attackerName, verbStr, defenderName, bodyPartName, completionMessage);
+                var message = string.Format("{0} {1} the {2}'s {3}{4} ({5})",
+                    attackerName, verbStr, defenderName, bodyPartName, completionMessage, bpInjury.GetTotal().ToString());
 
                 Log.AddLine(message);
                 foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
@@ -108,10 +110,17 @@ namespace Tiles
 
         void ReportAdditionalBodyPartInjury(ICombatMoveContext context, IBodyPartInjury bpInjury)
         {
-            var message = string.Format("{0}'s {1} was hit{2}",
+            var message = string.Format(" * {0}'s {1} was hit{2} ({3})",
                 context.Defender.Name,
                 bpInjury.BodyPart.Name,
-                bpInjury.GetResultPhrase());
+                bpInjury.GetResultPhrase(),
+                bpInjury.GetTotal());
+            Log.AddLine(message);
+        }
+
+        void DebugReportCombatMove(ICombatMove move)
+        {
+            var message = string.Format("Type = {0}, Ca = {1}, Mp = {2}", move.Class.StressMode, move.Class.ContactArea, move.Class.MaxPenetration);
             Log.AddLine(message);
         }
     }

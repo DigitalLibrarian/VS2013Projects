@@ -388,7 +388,7 @@ namespace Tiles.Content.Bridge.DfNet
             var partSizeMm = 0d;
             foreach (var part in parts)
             {
-                partSizeMm += (((double)part.RelativeSize / totalBpRelSize) * Size) * 10d;
+                partSizeMm += (((double)part.RelativeSize / totalBpRelSize) * Size) *10d;
 
             }
             var combatMove =
@@ -401,7 +401,7 @@ namespace Tiles.Content.Bridge.DfNet
                     IsDefenderPartSpecific = true,
                     IsStrike = true,
                     IsMartialArts = true,
-                    ContactType = Models.ContactType.Other,
+                    ContactType = attack.ContactType,
                     ContactArea = (int)(((double)attack.ContactPercent / 100d) * partSizeMm),
                     MaxPenetration = (int)(((double)attack.PenetrationPercent / 100d) * partSizeMm),
                     VelocityMultiplier = 1000,

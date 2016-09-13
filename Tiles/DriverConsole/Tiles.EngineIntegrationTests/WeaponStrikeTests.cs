@@ -165,7 +165,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
             Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
 
-            Assert.AreEqual(3, partInjury.TissueLayerInjuries.Count());
+            Assert.AreEqual(4, partInjury.TissueLayerInjuries.Count());
 
             var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual(TissueLayerInjuryClasses.Tear, tInjury.Class);
@@ -179,6 +179,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(TissueLayerInjuryClasses.Tear, tInjury.Class);
             Assert.AreSame(fatLayer, tInjury.Layer);
 
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
+            Assert.AreEqual(TissueLayerInjuryClasses.Bruise, tInjury.Class);
+            Assert.AreSame(muscleLayer, tInjury.Layer);
         }
 
 

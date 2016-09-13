@@ -42,7 +42,7 @@ namespace Tiles.Injuries
             }
             return d;
         }
-
+        
         public string GetResultPhrase()
         {
             if (Class.IsCompletion)
