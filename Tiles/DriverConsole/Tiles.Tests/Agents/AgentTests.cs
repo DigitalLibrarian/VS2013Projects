@@ -344,7 +344,7 @@ namespace Tiles.Tests.Agents
             BodyMock.Setup(x => x.Size).Returns(bodySize);
 
             var weaponMock = new Mock<IItem>();
-            weaponMock.Setup(x => x.GetMass()).Returns(23549);
+            weaponMock.Setup(x => x.GetMass()).Returns(2354.9);
 
             int veloMultiply = 1250;
             var moveClassMock = new Mock<ICombatMoveClass>();

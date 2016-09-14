@@ -27,17 +27,26 @@ namespace Tiles.Tests.Materials
         [TestMethod]
         public void GetMassUniformVolume_UnitVolume()
         {
-            int oneCubicMeter = 100; // in cm
+            int oneCubicMeter = 1000; // in cm3
             var mass = Steel.GetMassForUniformVolume(oneCubicMeter);
             Assert.AreEqual(7850d, mass);
         }
+
         [TestMethod]
         public void GetMassUniformVolume_SteelSword()
         {
             int swordSizeCubicCm = 300;
             var mass = Steel.GetMassForUniformVolume(swordSizeCubicCm);
 
-            Assert.AreEqual(23550, (int)mass);
+            Assert.AreEqual(2355, (int)mass);
+        }
+
+        [TestMethod]
+        public void GetMassUniformVolume_SteelAxe()
+        {
+            int sizeCubicCm = 800;
+            var mass = Steel.GetMassForUniformVolume(sizeCubicCm);
+            Assert.AreEqual(6280, mass);
         }
 
         [TestMethod]
@@ -46,7 +55,7 @@ namespace Tiles.Tests.Materials
             int sizeCubicCm = 400;
             var mass = Steel.GetMassForUniformVolume(sizeCubicCm);
 
-            Assert.AreEqual(31400, (int)mass);
+            Assert.AreEqual(3140, (int)mass);
         }
 
         [TestMethod]
@@ -55,7 +64,7 @@ namespace Tiles.Tests.Materials
             int sizeCubicCm = 800;
             var mass = Steel.GetMassForUniformVolume(sizeCubicCm);
 
-            Assert.AreEqual(62800, (int)mass);
+            Assert.AreEqual(6280, (int)mass);
         }
     }
 }

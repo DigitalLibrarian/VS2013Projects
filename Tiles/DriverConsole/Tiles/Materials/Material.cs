@@ -31,9 +31,9 @@ namespace Tiles.Materials
         public double GetMassForUniformVolume(double volumeCubicCm)
         {
             //Weight (in Γ) = Density (in kg/m3) * Volume*10 (in cm3) / 1,000,000 (cm3/m3)
-            var densityKg = (double)SolidDensity/100d;
-            double volumeCubicM = (volumeCubicCm) / 100d;
-            return  (volumeCubicM * densityKg)*100;
+            var densityKg = (double)SolidDensity;
+            double volumeCubicM = (volumeCubicCm);
+            return (volumeCubicM * densityKg) / 1000d;// convert kg to grams
         }
 
         public void GetModeProperties(StressMode contactType,

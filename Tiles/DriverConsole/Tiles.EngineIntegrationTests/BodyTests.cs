@@ -93,6 +93,31 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void HumanBodyAttack_Bite()
+        {
+            var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
+            var bite = human.Body.Moves.Single(x => x.Name.Equals("bite"));
+            Assert.AreEqual(StressMode.Edge, bite.StressMode);
+
+            var move = CombatMoveBuilder.BodyMove(human, human, bite, human.Body.Parts.First());
+            var mom = human.GetStrikeMomentum(move);
+            Assert.AreEqual(5d, (int)mom);
+        }
+
+
+        [TestMethod]
+        public void HumanBodyAttack_Scratch()
+        {
+            var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
+            var scratch = human.Body.Moves.Single(x => x.Name.Equals("scratch"));
+            Assert.AreEqual(StressMode.Edge, scratch.StressMode);
+
+            var move = CombatMoveBuilder.BodyMove(human, human, scratch, human.Body.Parts.First());
+            var mom = human.GetStrikeMomentum(move);
+            Assert.AreEqual(19d, (int)mom);
+        }
+
+        [TestMethod]
         public void HumanTotalBodyPartRelativeSize()
         {
             var expected = 6791;

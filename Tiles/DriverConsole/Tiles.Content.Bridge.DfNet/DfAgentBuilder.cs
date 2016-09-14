@@ -257,7 +257,7 @@ namespace Tiles.Content.Bridge.DfNet
                         {
                             Material = GetTissueMaterial(tisName),
                             RelativeThickness = 1,
-                            IsCosmetic = IsCosmeticTissue(tisName)
+                            IsCosmetic = IsCosmeticTissue(tisName)  
                         });
                     }
                 }

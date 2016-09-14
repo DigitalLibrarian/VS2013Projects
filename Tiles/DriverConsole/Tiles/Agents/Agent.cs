@@ -116,15 +116,16 @@ namespace Tiles.Agents
 
                 VelocityMultiplier = 1.0;
                 W = mass;
-
             }
+            double intWeight = (int) (W / 1000d); // grams to kg
+            double fractWeight = (int)((W - (intWeight * 1000d)) * 1000d);
 
-            double effWeight = (Size / 100d) + (W / 100000d) + (W / 100d);
+            double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
             var v = Size * (Str / 100d) * (VelocityMultiplier / effWeight);
-            return System.Math.Min(5000d, v) * (W/100000d);
+            return System.Math.Min(5000d, v) * (W/10000d);
         }
         
-        public double GetStrikeMomentumOLD(ICombatMove move)
+        public double GetStrikeMomentum034(ICombatMove move)
         {
             double Str, VelocityMultiplier, Size, Fat, W;
             Str = 1250;
