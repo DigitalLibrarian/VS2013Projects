@@ -113,19 +113,19 @@ namespace Tiles.Materials
         public static double ImpactCost1(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * strickenMat.ImpactYield)
-                / (100d * 500d * 1000d);
+                / (1000d * 500d);
         }
 
         public static double ImpactCost2(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * ((double)strickenMat.ImpactFracture - (double)strickenMat.ImpactYield))
-                / (100d * 500d * 100d);
+                / (1000d * 500d * 100d * 10d);
         }
 
         public static double ImpactCost3(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * ((double)strickenMat.ImpactFracture - (double)strickenMat.ImpactYield))
-                / (100d * 500d * 100d);
+                / (1000d * 500d * 100d * 10d);
         }
         
         public static double DefeatedLayerMomentumDeduction(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)

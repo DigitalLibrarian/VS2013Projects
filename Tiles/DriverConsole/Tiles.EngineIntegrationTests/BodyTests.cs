@@ -80,26 +80,12 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsTrue(internalParts.SequenceEqual(new []{skull, brain}));
         }
 
-        [TestMethod]
-        public void UnicornTotalBodyPartRelativeSize()
-        {
-            var expected = 5546;
-
-            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
-            
-            var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
-            Assert.AreEqual(expected, totRel);
-        }
 
         [TestMethod]
-        public void HumanBodyAttacks()
+        public void HumanBodyAttack_Punch()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
-
-            var moves = human.Body.Moves;
-            Assert.AreEqual(4, moves.Count());
-
-            var punch = moves.Single(x => x.Name.Equals("punch"));
+            var punch = human.Body.Moves.Single(x => x.Name.Equals("punch"));
             Assert.AreEqual(StressMode.Blunt, punch.StressMode);
 
             var move = CombatMoveBuilder.BodyMove(human, human, punch, human.Body.Parts.First());
@@ -119,23 +105,121 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void UnicornTotalBodyPartRelativeSize()
+        {
+            var expected = 5546;
+
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
+
+            var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
+            Assert.AreEqual(expected, totRel);
+        }
+
+        [TestMethod]
         public void UnicornFrontLeg()
         {
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
             var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
-            
             Assert.AreEqual(900, part.Class.RelativeSize);
-
             Assert.AreEqual(392, (int)part.GetContactArea());
 
             Assert.AreEqual(5, part.Tissue.TissueLayers.Count());
 
             var skinLayer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
             Assert.AreEqual(7, (int)skinLayer.Thickness);
-            Assert.AreEqual(124, (int)skinLayer.Volume);
+            Assert.AreEqual(137, (int)skinLayer.Volume);
+
         }
+
+
+        /*
+         * Human data
+         * Volume/Contact/Thickness/Material/Blunt_Momentum_Resist/Shear_Yield/Frac/PSize/PThick/PRelSize/BodyTotRelSize
+upper body
+        SKIN    20      112     3       skin    0       20000   20000   1197    227     1000    5546
+        FAT     213     112     40      fat     4       10000   10000   1197    227     1000    5546
+        MUSCLE  1069    112     202     muscle  21      20000   20000   1197    227     1000    5546
+lower body
+        SKIN    20      112     3       skin    0       20000   20000   1197    227     1000    5546
+        FAT     213     112     40      fat     4       10000   10000   1197    227     1000    5546
+        MUSCLE  1069    112     202     muscle  21      20000   20000   1197    227     1000    5546
+neck
+        SKIN    2       24      1       skin    0       20000   20000   119     105     100     5546
+        FAT     21      24      18      fat     0       10000   10000   119     105     100     5546
+        MUSCLE  106     24      93      muscle  2       20000   20000   119     105     100     5546
+head
+        EYEBROW 11      50      4       hair    0       60000   120000  359     152     300     5546
+        EYEBROW 11      50      4       hair    0       60000   120000  359     152     300     5546
+        HAIR    5       50      2       hair    0       60000   120000  359     152     300     5546
+        HAIR    5       50      2       hair    0       60000   120000  359     152     300     5546
+        SKIN    5       50      2       skin    0       20000   20000   359     152     300     5546
+        FAT     57      50      24      fat     1       10000   10000   359     152     300     5546
+        MUSCLE  289     50      122     muscle  5       20000   20000   359     152     300     5546
+right upper arm
+        SKIN    4       38      2       skin    0       20000   20000   239     133     200     5546
+        FAT     42      38      23      fat     0       10000   10000   239     133     200     5546
+        MUSCLE  106     38      59      muscle  2       20000   20000   239     133     200     5546
+        BONE    106     38      59      bone    42      115000  130000  239     133     200     5546
+left upper arm
+        SKIN    4       38      2       skin    0       20000   20000   239     133     200     5546
+        FAT     42      38      23      fat     0       10000   10000   239     133     200     5546
+        MUSCLE  106     38      59      muscle  2       20000   20000   239     133     200     5546
+        BONE    106     38      59      bone    42      115000  130000  239     133     200     5546
+right lower arm
+        SKIN    4       38      2       skin    0       20000   20000   239     133     200     5546
+        FAT     42      38      23      fat     0       10000   10000   239     133     200     5546
+        MUSCLE  106     38      59      muscle  2       20000   20000   239     133     200     5546
+        BONE    106     38      59      bone    42      115000  130000  239     133     200     5546
+left lower arm
+        SKIN    4       38      2       skin    0       20000   20000   239     133     200     5546
+        FAT     42      38      23      fat     0       10000   10000   239     133     200     5546
+        MUSCLE  106     38      59      muscle  2       20000   20000   239     133     200     5546
+        BONE    106     38      59      bone    42      115000  130000  239     133     200     5546
+right hand
+        SKIN    1       20      1       skin    0       20000   20000   95      97      80      5546
+        FAT     16      20      17      fat     0       10000   10000   95      97      80      5546
+        MUSCLE  42      20      43      muscle  0       20000   20000   95      97      80      5546
+        BONE    42      20      43      bone    16      115000  130000  95      97      80      5546
+left hand
+        SKIN    1       20      1       skin    0       20000   20000   95      97      80      5546
+        FAT     16      20      17      fat     0       10000   10000   95      97      80      5546
+        MUSCLE  42      20      43      muscle  0       20000   20000   95      97      80      5546
+        BONE    42      20      43      bone    16      115000  130000  95      97      80      5546
+right upper leg
+        SKIN    10      70      3       skin    0       20000   20000   598     180     500     5546
+        FAT     106     70      32      fat     2       10000   10000   598     180     500     5546
+        MUSCLE  267     70      80      muscle  5       20000   20000   598     180     500     5546
+        BONE    267     70      80      bone    106     115000  130000  598     180     500     5546
+left upper leg
+        SKIN    10      70      3       skin    0       20000   20000   598     180     500     5546
+        FAT     106     70      32      fat     2       10000   10000   598     180     500     5546
+        MUSCLE  267     70      80      muscle  5       20000   20000   598     180     500     5546
+        BONE    267     70      80      bone    106     115000  130000  598     180     500     5546
+right lower leg
+        SKIN    8       60      2       skin    0       20000   20000   478     167     400     5546
+        FAT     85      60      29      fat     1       10000   10000   478     167     400     5546
+        MUSCLE  213     60      74      muscle  4       20000   20000   478     167     400     5546
+        BONE    213     60      74      bone    85      115000  130000  478     167     400     5546
+left lower leg
+        SKIN    8       60      2       skin    0       20000   20000   478     167     400     5546
+        FAT     85      60      29      fat     1       10000   10000   478     167     400     5546
+        MUSCLE  213     60      74      muscle  4       20000   20000   478     167     400     5546
+        BONE    213     60      74      bone    85      115000  130000  478     167     400     5546
+right foot
+        SKIN    2       27      1       skin    0       20000   20000   143     112     120     5546
+        FAT     25      27      19      fat     0       10000   10000   143     112     120     5546
+        MUSCLE  63      27      50      muscle  1       20000   20000   143     112     120     5546
+        BONE    63      27      50      bone    25      115000  130000  143     112     120     5546
+left foot
+        SKIN    2       27      1       skin    0       20000   20000   143     112     120     5546
+        FAT     25      27      19      fat     0       10000   10000   143     112     120     5546
+        MUSCLE  63      27      50      muscle  1       20000   20000   143     112     120     5546
+        BONE    63      27      50      bone    25      115000  130000  143     112     120     5546
+skull
+        BONE    239     38      133     bone    95      115000  130000  239     133     200     5546
+         * */
 
         [TestMethod]
         public void Human()
@@ -200,63 +284,6 @@ namespace Tiles.EngineIntegrationTests
             layer = layers.Single(x => x.Material.Name.Equals("bone"));
             Assert.AreEqual(51, layer.Thickness);
 
-            //left upper arm
-            //        SKIN    4       43      2       skin    0       20000   20000
-            //        FAT     52      43      25      fat     1       10000   10000
-            //        MUSCLE  130     43      63      muscle  2       20000   20000
-            //        BONE    130     43      63      bone    52      115000  130000
-            //right lower arm
-            //        SKIN    4       43      2       skin    0       20000   20000
-            //        FAT     52      43      25      fat     1       10000   10000
-            //        MUSCLE  130     43      63      muscle  2       20000   20000
-            //        BONE    130     43      63      bone    52      115000  130000
-            //left lower arm
-            //        SKIN    4       43      2       skin    0       20000   20000
-            //        FAT     52      43      25      fat     1       10000   10000
-            //        MUSCLE  130     43      63      muscle  2       20000   20000
-            //        BONE    130     43      63      bone    52      115000  130000
-            //right hand
-            //        SKIN    1       23      1       skin    0       20000   20000
-            //        FAT     20      23      18      fat     0       10000   10000
-            //        MUSCLE  52      23      46      muscle  1       20000   20000
-            //        BONE    52      23      46      bone    20      115000  130000
-            //left hand
-            //        SKIN    1       23      1       skin    0       20000   20000
-            //        FAT     20      23      18      fat     0       10000   10000
-            //        MUSCLE  52      23      46      muscle  1       20000   20000
-            //        BONE    52      23      46      bone    20      115000  130000
-            //right upper leg
-            //        SKIN    12      80      3       skin    0       20000   20000
-            //        FAT     130     80      34      fat     2       10000   10000
-            //        MUSCLE  327     80      86      muscle  6       20000   20000
-            //        BONE    327     80      86      bone    130     115000  130000
-            //left upper leg
-            //        SKIN    12      80      3       skin    0       20000   20000
-            //        FAT     130     80      34      fat     2       10000   10000
-            //        MUSCLE  327     80      86      muscle  6       20000   20000
-            //        BONE    327     80      86      bone    130     115000  130000
-            //right lower leg
-            //        SKIN    9       69      3       skin    0       20000   20000
-            //        FAT     104     69      31      fat     2       10000   10000
-            //        MUSCLE  261     69      79      muscle  5       20000   20000
-            //        BONE    261     69      79      bone    104     115000  130000
-            //left lower leg
-            //        SKIN    9       69      3       skin    0       20000   20000
-            //        FAT     104     69      31      fat     2       10000   10000
-            //        MUSCLE  261     69      79      muscle  5       20000   20000
-            //        BONE    261     69      79      bone    104     115000  130000
-            //right foot
-            //        SKIN    2       31      2       skin    0       20000   20000
-            //        FAT     31      31      21      fat     0       10000   10000
-            //        MUSCLE  78      31      53      muscle  1       20000   20000
-            //        BONE    78      31      53      bone    31      115000  130000
-            //left foot
-            //        SKIN    2       31      2       skin    0       20000   20000
-            //        FAT     31      31      21      fat     0       10000   10000
-            //        MUSCLE  78      31      53      muscle  1       20000   20000
-            //        BONE    78      31      53      bone    31      115000  130000
-            //skull
-            //        BONE    292     43      142     bone    116     115000  130000
         }
     }
 }

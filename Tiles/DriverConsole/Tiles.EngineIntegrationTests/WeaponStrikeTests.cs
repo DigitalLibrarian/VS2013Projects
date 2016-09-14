@@ -236,23 +236,91 @@ namespace Tiles.EngineIntegrationTests
 
             var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual(2, (int)tInjury.StrikeResult.MomentumThreshold);
-            Assert.AreEqual(MaterialStressResult.Impact_CompleteFracture, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(MaterialStressResult.Impact_Dent, tInjury.StrikeResult.StressResult);
             Assert.AreSame(skinLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-            Assert.AreEqual(MaterialStressResult.Impact_CompleteFracture, tInjury.StrikeResult.StressResult);
+
+            Assert.AreEqual(MaterialStressResult.Impact_Dent, tInjury.StrikeResult.StressResult);
             Assert.AreSame(fatLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Impact_CompleteFracture, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(68, (int)tInjury.StrikeResult.MomentumThreshold);
+            Assert.AreEqual(MaterialStressResult.Impact_Dent, tInjury.StrikeResult.StressResult);
             Assert.AreSame(muscleLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
-            Assert.AreEqual(MaterialStressResult.Impact_Dent, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(1376, tInjury.StrikeResult.MomentumThreshold);
+            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
             Assert.AreSame(boneLayer, tInjury.Layer);
         }
 
 
+        [TestMethod]
+        public void Unicorn_SkinTissue_ImpactCostDent()
+        {
+            var attacker = GetNewDwarf();
+            var defender = GetNewUnicorn();
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+
+            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            Assert.AreEqual(2, (int)cost);
+        }
+
+
+        [TestMethod]
+        public void Unicorn_FatTissue_ImpactCostDent()
+        {
+            var attacker = GetNewDwarf();
+            var defender = GetNewUnicorn();
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
+
+            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            Assert.AreEqual(30, (int)cost);
+        }
+
+
+
+        [TestMethod]
+        public void Unicorn_MuscleTissue_ImpactCostDent()
+        {
+            var attacker = GetNewDwarf();
+            var defender = GetNewUnicorn();
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+
+            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            Assert.AreEqual(76, (int)cost);
+        }
+
+
+
+
+        [TestMethod]
+        public void Unicorn_BoneTissue_ImpactCostDent()
+        {
+            var attacker = GetNewDwarf();
+            var defender = GetNewUnicorn();
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
+
+            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            Assert.AreEqual(1520, (int)cost);
+        }
 
         IAgent GetNewDwarf()
         {

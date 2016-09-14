@@ -83,7 +83,7 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
             var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, LayerVolume);
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
-
+            bool bluntBypass = false;
             /*
             var thresh = StressMode == Materials.StressMode.Edge
                 ? MaterialStressCalc.GetEdgedBreakThreshold(ContactArea, StrikerMaterial, StrickenMaterial)
@@ -126,22 +126,38 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                     Momentum,
                     StrickenMaterial);
 
-                mom = mom - impactCost1;
-                thresh = impactCost1;
-                if (mom >= 0)
+                if (StrickenMaterial.ImpactStrainAtYield >= 50000)
                 {
+                    thresh = impactCost1;
                     msr = MaterialStressResult.Impact_Dent;
-                    mom = mom - impactCost2;
-                    thresh = impactCost2;
+                    bluntBypass = true;
+                }else{
+
+                    mom = mom - impactCost1;
+                    thresh = impactCost1;
+
                     if (mom >= 0)
                     {
-                        msr = MaterialStressResult.Impact_InitiateFracture;
-                        mom = mom - impactCost3;
-                        thresh = impactCost3;
-                        if (mom >= 0)
+                        msr = MaterialStressResult.Impact_Dent;
+                        if (impactCost2 <= 0)
                         {
-                            msr = MaterialStressResult.Impact_CompleteFracture;
-                            defeated = true;
+                            bluntBypass = true;
+                        }
+                        else
+                        {
+                            mom = mom - impactCost2;
+                            thresh = impactCost2;
+                            if (mom >= 0)
+                            {
+                                msr = MaterialStressResult.Impact_InitiateFracture;
+                                mom = mom - impactCost3;
+                                thresh = impactCost3;
+                                if (mom >= 0)
+                                {
+                                    msr = MaterialStressResult.Impact_CompleteFracture;
+                                    defeated = true;
+                                }
+                            }
                         }
                     }
                 }
@@ -154,6 +170,11 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                     StrikerMaterial.SharpnessMultiplier, LayerVolume);
                 deduction = System.Math.Min(Momentum, deduction);
                 resultMom = Momentum - deduction;
+            }
+
+            if (bluntBypass)
+            {
+                defeated = true;
             }
 
 
