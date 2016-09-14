@@ -64,6 +64,9 @@ namespace Tiles.Tests.Bodies
                 partClassMock3.Object,
             });
 
+            bodyClassMock.Setup(x => x.TotalBodyPartRelSize)
+                .Returns(() => bodyClassMock.Object.Parts.Select(x => x.RelativeSize).Sum());
+
             var result = BodyFactory.Create(bodyClassMock.Object);
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result.Parts.Count());
