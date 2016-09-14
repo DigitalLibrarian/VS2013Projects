@@ -117,11 +117,6 @@ namespace Tiles.Materials
             double epsilon = 0.001d;
             foreach (var layer in Layers)
             {
-                if (new string[] { 
-                    "hair"
-                }.Contains(layer.Material.Name)){
-                    continue;
-                }
                 if (momentum <= epsilon) break;
                 if (mode == StressMode.Edge && penetration >= MaxPenetration) mode = Materials.StressMode.Blunt;
 
@@ -223,6 +218,10 @@ namespace Tiles.Materials
             IMaterial strikerMat, double momentum, int contactArea,
             StressMode mode, MLayer layer)
         {
+            // TODO - If the weapon has a smaller contact area than the layer, the layer's volume is reduced by the ratio of areas.
+            // (Volume damaged by weapon) = (layer volume) x (weapon contact area) / (layer contact area)
+
+
             Builder.Clear();
 
             Builder.SetStressMode(mode);

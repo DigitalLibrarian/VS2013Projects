@@ -28,8 +28,33 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 );
         }
 
+
         [TestMethod]
-        public void Dwarf()
+        public void Dwarf_HeadTissues()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            var head = agent.Body.Parts.Single(p => p.NameSingular.Equals("head"));
+            
+            var tissueLayers = head.Tissue.Layers;
+            Assert.AreEqual(6, tissueLayers.Count);
+
+            var eyebrow = tissueLayers.Single(x => x.Material.Name.Equals("eyebrow"));
+            Assert.IsTrue(eyebrow.IsCosmetic);
+            var whisker = tissueLayers.Single(x => x.Material.Name.Equals("chin whisker"));
+            Assert.IsTrue(whisker.IsCosmetic);
+            var hair = tissueLayers.Single(x => x.Material.Name.Equals("hair"));
+            Assert.IsTrue(hair.IsCosmetic);
+
+            var skin = tissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.IsFalse(skin.IsCosmetic);
+            var fat = tissueLayers.Single(x => x.Material.Name.Equals("fat"));
+            Assert.IsFalse(fat.IsCosmetic);
+            var muscle = tissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            Assert.IsFalse(muscle.IsCosmetic);
+        }
+
+        [TestMethod]
+        public void Dwarf_SpotChecks()
         {
             var agent = DfAgentFactory.Create("DWARF", "MALE");
             Assert.IsNotNull(agent);

@@ -125,6 +125,9 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                 resultMom = MaterialStressCalc.ImpactMomentumAfterUnbrokenRigidLayer(
                     Momentum,
                     StrickenMaterial);
+                // TODO - weapon deflection (soft meaty fists vs metal colossus)
+                // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
+
 
                 if (StrickenMaterial.ImpactStrainAtYield >= 50000)
                 {

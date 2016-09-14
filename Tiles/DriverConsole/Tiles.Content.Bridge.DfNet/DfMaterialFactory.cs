@@ -48,6 +48,12 @@ namespace Tiles.Content.Bridge.DfNet
             return Common(df);
         }
 
+        public bool IsCosmeticTissue(string tissueTemplate)
+        {
+            var df = Store.Get(DfTags.TISSUE_TEMPLATE, tissueTemplate);
+            return df.Tags.Any(t => t.IsSingleWord("COSMETIC"));
+        }
+
         public Material CreateFromTissueCreatureInline(string creatureName, string tisName)
         {
             var creatureDf = Store.Get(DfTags.CREATURE, creatureName);
@@ -209,7 +215,6 @@ namespace Tiles.Content.Bridge.DfNet
             {
                 {t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
                 && t.GetParam(0).Equals(DfTags.MiscTags.ALL_SOLID), t => t.GetParam(1)},
-                //{t => t.Name.Equals(DfTags.MiscTags.STATE_NAME), t => t.GetParam(1)},
                 {t => t.Name.Equals(DfTags.MiscTags.IS_GEM), t => t.GetParam(0)}
             };
 

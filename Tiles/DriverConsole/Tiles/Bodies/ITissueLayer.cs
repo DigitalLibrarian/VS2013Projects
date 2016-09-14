@@ -20,5 +20,6 @@ namespace Tiles.Bodies
         bool CanBeBruised { get; }
         bool CanBeTorn { get; }
         bool CanBePunctured { get; }
+
     }
 }

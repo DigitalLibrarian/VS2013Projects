@@ -207,7 +207,8 @@ namespace Tiles.Content.Map
             {
                 layers.Add(new EngineBodies.TissueLayerClass(
                     Map(layer.Material), 
-                    layer.RelativeThickness
+                    layer.RelativeThickness,
+                    layer.IsCosmetic
                     ));
             }
 

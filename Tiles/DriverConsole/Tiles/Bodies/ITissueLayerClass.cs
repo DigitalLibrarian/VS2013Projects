@@ -11,5 +11,6 @@ namespace Tiles.Bodies
     {
         IMaterial Material { get; }
         int RelativeThickness { get; }
+        bool IsCosmetic { get; }
     }
 }

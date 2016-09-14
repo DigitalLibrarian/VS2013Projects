@@ -14,5 +14,7 @@ namespace Tiles.Content.Bridge.DfNet
         Material CreateFromMaterialTemplate(string materialTemplate);
 
         Material CreateFromTissueCreatureInline(string creatureName, string tisName);
+        // TODO - this is urgly
+        bool IsCosmeticTissue(string tissueTemplate);
     }
 }

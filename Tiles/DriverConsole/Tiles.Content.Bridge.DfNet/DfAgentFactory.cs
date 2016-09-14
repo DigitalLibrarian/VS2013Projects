@@ -105,15 +105,19 @@ namespace Tiles.Content.Bridge.DfNet
                         
                         tisName = tag.GetParam(0);
                         tempName = tag.GetParam(1);
-                        agentContext.AddMaterial(tisName,
-                            MaterialsFactory.CreateTissue(tempName));
+                        agentContext.AddTissueMaterial(
+                            tisName,
+                            MaterialsFactory.CreateTissue(tempName),
+                            MaterialsFactory.IsCosmeticTissue(tempName));
                         break;
 
                     case DfTags.MiscTags.ADD_TISSUE:
                         tisName = tag.GetParam(0);
                         tempName = tag.GetParam(1);
-                        agentContext.AddMaterial(tisName,
-                            MaterialsFactory.CreateTissue(tempName));
+                        agentContext.AddTissueMaterial(
+                            tisName,
+                            MaterialsFactory.CreateTissue(tempName),
+                            MaterialsFactory.IsCosmeticTissue(tempName));
                         break;
                     case DfTags.MiscTags.REMOVE_TISSUE:
                         agentContext.RemoveMaterial(tag.GetParam(0));

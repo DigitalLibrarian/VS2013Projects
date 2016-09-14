@@ -109,8 +109,11 @@ namespace Tiles.Injuries
 
             foreach (var tissueLayer in tissueLayers)
             {
-                Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
-                tlParts.Add(tissueLayer, targetPart);
+                if (!tissueLayer.Class.IsCosmetic)
+                {
+                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                    tlParts.Add(tissueLayer, targetPart);
+                }
             }
 
             var internalParts = context.Defender.Body.GetInternalParts(targetPart);
@@ -118,8 +121,11 @@ namespace Tiles.Injuries
             {
                 foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
                 {
-                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
-                    tlParts.Add(tissueLayer, internalPart);
+                    if (!tissueLayer.Class.IsCosmetic)
+                    {
+                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                        tlParts.Add(tissueLayer, internalPart);
+                    }
                 }
             }
             

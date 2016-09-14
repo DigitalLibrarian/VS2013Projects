@@ -80,7 +80,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsTrue(internalParts.SequenceEqual(new []{skull, brain}));
         }
 
-
         [TestMethod]
         public void HumanBodyAttack_Punch()
         {

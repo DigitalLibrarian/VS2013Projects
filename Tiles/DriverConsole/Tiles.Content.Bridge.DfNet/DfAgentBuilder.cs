@@ -17,6 +17,7 @@ namespace Tiles.Content.Bridge.DfNet
         List<DfBodyAttack> BodyAttacks { get; set; }
 
         Dictionary<string, int> BpCatSizeOverrides { get; set; }
+        Dictionary<string, bool> TissueCosmetic { get; set; }
 
         string Name { get; set; }
         int Symbol { get; set; }
@@ -36,6 +37,8 @@ namespace Tiles.Content.Bridge.DfNet
             BodyAttacks = new List<DfBodyAttack>();
             Foreground = new Color(255, 255, 255, 255);
             Background = new Color(0, 0, 0, 255);
+
+            TissueCosmetic = new Dictionary<string, bool>();
         }
 
         #region Lookups
@@ -136,6 +139,12 @@ namespace Tiles.Content.Bridge.DfNet
             }
         }
 
+        public void AddTissueMaterial(string matName, Material material, bool cosmetic)
+        {
+            AddMaterial(matName, material);
+            TissueCosmetic[matName] = cosmetic;
+        }
+
         public void RemoveMaterial(string matName)
         {
             Materials.Remove(matName);
@@ -211,6 +220,15 @@ namespace Tiles.Content.Bridge.DfNet
             return Materials[tisName];
         }
 
+        bool IsCosmeticTissue(string tisName)
+        {
+            if (TissueCosmetic.ContainsKey(tisName))
+            {
+                return TissueCosmetic[tisName];
+            }
+            return false;
+        }
+
         Tissue CreateTissueForPart(string bpName)
         {
             var layers = new List<TissueLayer>();
@@ -225,10 +243,10 @@ namespace Tiles.Content.Bridge.DfNet
                         layers.Add(new TissueLayer
                         {
                             Material = GetTissueMaterial(tisName),
-                            RelativeThickness = thickness
+                            RelativeThickness = thickness,
+                            IsCosmetic = IsCosmeticTissue(tisName)
                         });
                     }
-
                 }
 
                 if (BodyPartCategoryTissues.ContainsKey(bpCat))
@@ -238,7 +256,8 @@ namespace Tiles.Content.Bridge.DfNet
                         layers.Add(new TissueLayer
                         {
                             Material = GetTissueMaterial(tisName),
-                            RelativeThickness = 1
+                            RelativeThickness = 1,
+                            IsCosmetic = IsCosmeticTissue(tisName)
                         });
                     }
                 }

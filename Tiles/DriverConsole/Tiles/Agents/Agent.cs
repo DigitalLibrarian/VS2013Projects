@@ -98,10 +98,9 @@ namespace Tiles.Agents
         {
             double baseSize = Body.Size;
 
-            double Str, VelocityMultiplier, Size, Fat, W;
+            double Str, VelocityMultiplier, Size, W;
             Str = 1250;
             Size = Body.Size/10d;
-            Fat = 1d;
 
             if (move.Class.IsItem)
             {
