@@ -113,7 +113,7 @@ namespace Tiles.Agents
             {
                 double mass = move.Class.GetRelatedBodyParts(move.Attacker.Body)
                     .Select(p => p.GetMass())
-                    .First();
+                    .Sum();
 
                 VelocityMultiplier = 1.0;
                 W = mass;

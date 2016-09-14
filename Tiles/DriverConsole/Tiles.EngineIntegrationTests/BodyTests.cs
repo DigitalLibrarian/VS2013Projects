@@ -57,17 +57,6 @@ namespace Tiles.EngineIntegrationTests
             InjuryReportCalc = new InjuryReportCalc(new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()));
         }
 
-        [TestMethod]
-        public void KoboldSizes()
-        {
-            var kobold = DfTagsFascade.CreateCreatureAgent(Atlas, "KOBOLD", "MALE", Vector3.Zero);
-
-            Assert.AreEqual(20000, kobold.Body.Size);
-            Assert.AreEqual(2252, kobold.Body.Parts.Single(p => p.Name.Equals("upper body")).Size);
-            Assert.AreEqual(2252, kobold.Body.Parts.Single(p => p.Name.Equals("lower body")).Size);
-            Assert.AreEqual(226, kobold.Body.Parts.Single(p => p.Name.Equals("neck")).Size);
-            Assert.AreEqual(676, kobold.Body.Parts.Single(p => p.Name.Equals("head")).Size);
-        }
 
         [TestMethod]
         public void DwarfHead_InternalParts()
@@ -92,6 +81,17 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void UnicornTotalBodyPartRelativeSize()
+        {
+            var expected = 5546;
+
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
+            
+            var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
+            Assert.AreEqual(expected, totRel);
+        }
+
+        [TestMethod]
         public void HumanBodyAttacks()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
@@ -104,11 +104,39 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, punch, human.Body.Parts.First());
             var punchMom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(21d, (int)punchMom);
-
-
-
+            Assert.AreEqual(48d, (int)punchMom);
         }
+
+        [TestMethod]
+        public void HumanTotalBodyPartRelativeSize()
+        {
+            var expected = 6791;
+
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
+            
+            var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
+            Assert.AreEqual(expected, totRel);
+        }
+
+        [TestMethod]
+        public void UnicornFrontLeg()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
+            var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
+
+            var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
+            
+            Assert.AreEqual(900, part.Class.RelativeSize);
+
+            Assert.AreEqual(392, (int)part.GetContactArea());
+
+            Assert.AreEqual(5, part.Tissue.TissueLayers.Count());
+
+            var skinLayer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.AreEqual(7, (int)skinLayer.Thickness);
+            Assert.AreEqual(124, (int)skinLayer.Volume);
+        }
+
         [TestMethod]
         public void Human()
         {
@@ -128,10 +156,13 @@ namespace Tiles.EngineIntegrationTests
             //        SKIN    24      128     4       skin    0       20000   20000
 
             layer = layers.Single(x => x.Material.Name.Equals("skin"));
-            Assert.AreEqual(3, layer.Thickness);
+            Assert.AreEqual(4, layer.Thickness);
+            Assert.AreEqual(24, layer.Volume);
+
             //        FAT     261     128     43      fat     5       10000   10000
             layer = layers.Single(x => x.Material.Name.Equals("fat"));
-            Assert.AreEqual(17, layer.Thickness);
+            Assert.AreEqual(43, layer.Thickness);
+            
             //        MUSCLE  1308    128     217     muscle  26      20000   20000
 
 

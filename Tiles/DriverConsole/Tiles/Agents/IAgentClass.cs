@@ -12,5 +12,6 @@ namespace Tiles.Agents
         string Name { get; set; }
         ISprite Sprite { get; set; }
         IBodyClass BodyClass { get; set; }
+
     }
 }

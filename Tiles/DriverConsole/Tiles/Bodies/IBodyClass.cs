@@ -9,11 +9,13 @@ namespace Tiles.Bodies
 {
     public interface IBodyClass
     {
-        IEnumerable<ICombatMoveClass> Moves { get; set; }
-        IEnumerable<IBodyPartClass> Parts { get; set; }
+        IEnumerable<ICombatMoveClass> Moves { get; }
+        IEnumerable<IBodyPartClass> Parts { get; }
         /// <summary>
         /// Volume in cm3
         /// </summary>
-        double Size { get; set; }
+        double Size { get; }
+
+        int TotalBodyPartRelSize { get; }
     }
 }

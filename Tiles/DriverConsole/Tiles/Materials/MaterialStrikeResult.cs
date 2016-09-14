@@ -9,12 +9,13 @@ namespace Tiles.Materials
     public enum MaterialStressResult
     {
         None,
-        Dent_Shear,
-        Cut_Shear,
-        CutThrough_Shear,
-        Dent_Impact,
-        InitiateFracture_Impact,
-        CompleteFracture_Impact
+        Shear_Dent,
+        Shear_Cut,
+        Shear_CutThrough,
+        Impact_Dent,
+        Impact_InitiateFracture,
+        Impact_CompleteFracture,
+        Impact_PassThrough
     }
 
 

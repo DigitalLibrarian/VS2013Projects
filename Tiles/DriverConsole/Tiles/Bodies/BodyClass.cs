@@ -23,5 +23,16 @@ namespace Tiles.Bodies
         public IEnumerable<IBodyPartClass> Parts { get; set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
         public double Size { get; set; }
+
+
+        public int TotalBodyPartRelSize
+        {
+            get
+            {
+                return Parts
+                .Where(x => !x.IsInternal)
+                .Select(x => x.RelativeSize).Sum();
+            }
+        }
     }
 }

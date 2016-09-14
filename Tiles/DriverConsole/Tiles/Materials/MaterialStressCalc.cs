@@ -113,7 +113,7 @@ namespace Tiles.Materials
         public static double ImpactCost1(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * strickenMat.ImpactYield)
-                / (100d * 500d * 100d);
+                / (100d * 500d * 1000d);
         }
 
         public static double ImpactCost2(IMaterial strickenMat, double layerVolume)

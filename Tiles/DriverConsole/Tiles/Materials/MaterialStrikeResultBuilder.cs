@@ -104,17 +104,17 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                 thresh = shearCost1;
                 if (mom >= 0)
                 {
-                    msr = MaterialStressResult.Dent_Shear;
+                    msr = MaterialStressResult.Shear_Dent;
                     mom = mom - shearCost2;
                     thresh = shearCost2;
                     if (mom >= 0)
                     {
-                        msr = MaterialStressResult.Cut_Shear;
+                        msr = MaterialStressResult.Shear_Cut;
                         mom = mom - shearCost3;
                         thresh = shearCost3;
                         if (mom >= 0)
                         {
-                            msr = MaterialStressResult.CutThrough_Shear;
+                            msr = MaterialStressResult.Shear_CutThrough;
                             defeated = true;
                         }
                     }
@@ -130,17 +130,17 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                 thresh = impactCost1;
                 if (mom >= 0)
                 {
-                    msr = MaterialStressResult.Dent_Impact;
+                    msr = MaterialStressResult.Impact_Dent;
                     mom = mom - impactCost2;
                     thresh = impactCost2;
                     if (mom >= 0)
                     {
-                        msr = MaterialStressResult.InitiateFracture_Impact;
+                        msr = MaterialStressResult.Impact_InitiateFracture;
                         mom = mom - impactCost3;
                         thresh = impactCost3;
                         if (mom >= 0)
                         {
-                            msr = MaterialStressResult.CompleteFracture_Impact;
+                            msr = MaterialStressResult.Impact_CompleteFracture;
                             defeated = true;
                         }
                     }

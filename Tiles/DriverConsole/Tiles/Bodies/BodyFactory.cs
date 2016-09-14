@@ -19,9 +19,7 @@ namespace Tiles.Bodies
 
         public IBody Create(IBodyClass bodyClass)
         {
-            int totalBpRelSize = bodyClass.Parts
-                .Select(x => x.RelativeSize)
-                .Sum();
+            int totalBpRelSize = bodyClass.TotalBodyPartRelSize;
 
             var partMap = bodyClass.Parts
                 .ToDictionary(x => x, x => Convert(x, bodyClass.Size, totalBpRelSize));
