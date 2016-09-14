@@ -30,7 +30,7 @@ namespace Tiles.Bodies
             get
             {
                 return Parts
-                .Where(x => !x.IsInternal)
+                .Where(x => !x.IsInternal && !x.IsEmbedded)
                 .Select(x => x.RelativeSize).Sum();
             }
         }

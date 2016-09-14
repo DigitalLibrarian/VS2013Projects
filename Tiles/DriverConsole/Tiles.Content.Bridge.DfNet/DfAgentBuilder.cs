@@ -293,6 +293,8 @@ namespace Tiles.Content.Bridge.DfNet
                 IsSight = singleWords.Contains("SIGHT"),
                 IsStance = singleWords.Contains("STANCE"),
                 IsInternal = singleWords.Contains("INTERNAL"),
+                IsSmall = singleWords.Contains("SMALL"),
+                IsEmbedded = singleWords.Contains("EMBEDDED"),
                 RelativeSize = GetBpSize(defn.Name),
                 WeaponSlot = GetBodyPartCategories(defn).Contains("HAND") ? WeaponSlot.Main : WeaponSlot.None
                 

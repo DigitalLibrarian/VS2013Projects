@@ -121,7 +121,6 @@ namespace Tiles.EngineIntegrationTests
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
-            var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
             Assert.AreEqual(900, part.Class.RelativeSize);
             Assert.AreEqual(392, (int)part.GetContactArea());
 

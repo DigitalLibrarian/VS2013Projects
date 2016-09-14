@@ -194,7 +194,9 @@ namespace Tiles.Content.Map
                 isBreathe: bodyPart.IsBreathe,
                 isSight: bodyPart.IsSight,
                 isStance: bodyPart.IsStance,
-                isInternal: bodyPart.IsInternal
+                isInternal: bodyPart.IsInternal,
+                isSmall: bodyPart.IsSmall,
+                isEmbedded: bodyPart.IsEmbedded
                 );
         }
 

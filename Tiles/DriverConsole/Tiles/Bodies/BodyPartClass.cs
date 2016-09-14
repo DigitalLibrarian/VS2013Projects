@@ -37,6 +37,8 @@ namespace Tiles.Bodies
 
         public bool IsStance { get; set; }
         public bool IsInternal { get; set; }
+        public bool IsSmall { get; set; }
+        public bool IsEmbedded { get; set; }
         
         public BodyPartClass(
             string name, 
@@ -52,6 +54,8 @@ namespace Tiles.Bodies
             bool isSight = false,
             bool isStance = false,
             bool isInternal = false,
+            bool isSmall = false,
+            bool isEmbedded = false,
             IBodyPartClass parent = null)
         {
             Name = name;
@@ -75,6 +79,8 @@ namespace Tiles.Bodies
             IsSight = isSight;
             IsStance = isStance;
             IsInternal = isInternal;
+            IsSmall = isSmall;
+            IsEmbedded = isEmbedded;
         }
 
 

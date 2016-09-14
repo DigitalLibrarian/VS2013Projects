@@ -65,6 +65,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(leftHand);
             Assert.IsNotNull(leftHand.Tissue);
             Assert.IsTrue(leftHand.CanGrasp);
+            Assert.IsFalse(leftHand.IsSmall);
             Assert.IsFalse(leftHand.CanBeAmputated);
             Assert.AreEqual(80, leftHand.RelativeSize);
             
@@ -147,6 +148,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
                 Assert.IsFalse(finger.CanGrasp);
                 Assert.IsTrue(finger.CanBeAmputated);
+                Assert.IsTrue(finger.IsSmall);
 
             }
             var leftWrist = leftHandParts.SingleOrDefault(p => p.NameSingular.Equals("left wrist"));
@@ -165,12 +167,15 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             var brain = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("brain"));
             Assert.IsNotNull(brain);
+            Assert.IsTrue(brain.IsInternal);
             Assert.IsTrue(brain.IsNervous);
+            Assert.IsTrue(brain.IsSmall);
 
             var spleen = agent.Body.Parts.SingleOrDefault(p => p.NameSingular.Equals("spleen"));
             Assert.IsNotNull(spleen);
             Assert.IsTrue(spleen.IsInternal);
             Assert.IsFalse(spleen.IsNervous);
+            Assert.IsTrue(spleen.IsSmall);
         }
 
         [TestMethod]
