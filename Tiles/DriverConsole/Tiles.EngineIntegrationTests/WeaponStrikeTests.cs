@@ -315,6 +315,52 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfVsUnicorn_BashHoofWithSilverMace()
+        {
+            var attacker = GetNewDwarf();
+            var defender = GetNewUnicorn();
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right front hoof"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = GetInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_MACE, "SILVER");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("bash"));
+            Assert.IsNotNull(moveClass);
+
+            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+
+            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
+
+            var context = new CombatMoveContext(attacker, defender, slashMove);
+
+            var hoofLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hoof"));
+
+            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
+                context,
+                moveClass.StressMode,
+                strikeMomentum,
+                moveClass.ContactArea,
+                moveClass.MaxPenetration,
+                targetBodyPart,
+                weapon.Class.Material
+                );
+
+            Assert.AreEqual(1, injuryReport.BodyPartInjuries.Count());
+
+            var partInjury = injuryReport.BodyPartInjuries.First();
+            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
+            
+            Assert.AreEqual(1, partInjury.TissueLayerInjuries.Count());
+
+            // glance
+            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
+            Assert.AreSame(hoofLayer, tInjury.Layer);
+        }
+
+        [TestMethod]
         public void DwarfVsUnicorn_BashLegWithCopperMace()
         {
             var attacker = GetNewDwarf();
@@ -376,7 +422,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
             Assert.AreSame(boneLayer, tInjury.Layer);
         }
-        
+
         [TestMethod]
         public void GiantVsGiantTortoise_PunchLeg()
         {
