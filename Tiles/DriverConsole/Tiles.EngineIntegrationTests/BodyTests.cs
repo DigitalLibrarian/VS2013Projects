@@ -113,16 +113,14 @@ namespace Tiles.EngineIntegrationTests
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
             var skinLayer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            Assert.AreEqual(137, (int)skinLayer.Volume);
+            Assert.AreEqual(139, (int)skinLayer.Volume);
         }
-
-
+        
         [TestMethod]
         public void UnicornFrontLeg_FatThickness()
         {
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
-
 
             Assert.AreEqual(5, part.Tissue.TissueLayers.Count());
 
@@ -147,7 +145,7 @@ namespace Tiles.EngineIntegrationTests
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
             var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
-            Assert.AreEqual(3125, (int)layer.Volume);
+            Assert.AreEqual(3487, (int)layer.Volume);
         }
 
         [TestMethod]
@@ -164,7 +162,7 @@ namespace Tiles.EngineIntegrationTests
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
-            Assert.AreEqual(392, (int)part.GetContactArea());
+            Assert.AreEqual(396, (int)part.GetContactArea());
         }
 
         [TestMethod]
@@ -214,7 +212,7 @@ namespace Tiles.EngineIntegrationTests
 
             var part = human.Body.Parts.Single(p => p.Name.Equals("right hand"));
             var handSize = part.Size;
-            Assert.AreEqual(99, handSize);
+            Assert.AreEqual(100, (int)handSize);
         }
 
         [TestMethod]
@@ -225,7 +223,7 @@ namespace Tiles.EngineIntegrationTests
             var part = human.Body.Parts.Single(p => p.Name.Equals("right hand"));
 
             var handMass = part.GetMass();
-            Assert.AreEqual(495d, handMass);
+            Assert.AreEqual(504d, (int)handMass);
         }
 
         [TestMethod]
@@ -242,7 +240,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, punch, human.Body.Parts.First());
             var punchMom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(48d, (int)punchMom);
+            Assert.AreEqual(36d, (int)punchMom);
         }
 
         [TestMethod]
@@ -255,7 +253,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(human, human, bite, human.Body.Parts.First());
 
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(5d, (int)mom);
+            Assert.AreEqual(4d, (int)mom);
         }
 
 
@@ -277,7 +275,7 @@ namespace Tiles.EngineIntegrationTests
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
             var foot = human.Body.Parts.Single(p => p.Name.Equals("right foot"));
 
-            Assert.AreEqual(745d, (int)foot.GetMass());
+            Assert.AreEqual(757d, (int)foot.GetMass());
         }
 
         [TestMethod]
@@ -286,7 +284,7 @@ namespace Tiles.EngineIntegrationTests
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
             var foot = human.Body.Parts.Single(p => p.Name.Equals("right foot"));
 
-            Assert.AreEqual(149d, foot.Size);
+            Assert.AreEqual(151d, (int)foot.Size);
         }
         [TestMethod]
         public void HumanBodyAttack_Kick()
@@ -301,7 +299,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, kick, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(19d, (int)mom);
+            Assert.AreEqual(45d, (int)mom);
         }
 
         [TestMethod]

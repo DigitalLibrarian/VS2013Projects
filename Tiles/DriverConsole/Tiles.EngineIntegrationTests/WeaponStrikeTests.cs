@@ -281,7 +281,7 @@ namespace Tiles.EngineIntegrationTests
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
 
             var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
-            Assert.AreEqual(24, (int)cost);
+            Assert.AreEqual(13d, (int)cost);
         }
 
         [TestMethod]
@@ -296,7 +296,7 @@ namespace Tiles.EngineIntegrationTests
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
 
             var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
-            Assert.AreEqual(76, (int)cost);
+            Assert.AreEqual(69, (int)cost);
         }
         
         [TestMethod]
@@ -311,7 +311,7 @@ namespace Tiles.EngineIntegrationTests
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
 
             var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
-            Assert.AreEqual(1249, (int)cost);
+            Assert.AreEqual(1394d, (int)cost);
         }
 
         IAgent GetNewDwarf()
