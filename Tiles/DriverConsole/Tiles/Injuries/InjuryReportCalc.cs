@@ -88,8 +88,21 @@ namespace Tiles.Injuries
             // resize contact area if the body part is smaller
             // body part size in cm3, contact area in mm3
             int originalContactArea = contactArea;
+
+            var partCa = targetPart.GetContactArea();
+            var weaponCa = contactArea;
+
+            //contactArea = (int)System.Math.Min(partCa, (double)contactArea);
+            //weapon CA > layer CA (i.e. two handed sword vs. neck): the full volume of the layer is used.
+
+            //weapon CA < layer CA (i.e. bolt vs. upper leg): the "layer volume" used in the calculations depends on 
+            // the ratio of the contact area of the weapon to the contact area of the body part. 
             
-            contactArea = (int)System.Math.Min(targetPart.GetContactArea(), (double)contactArea);
+            double volFact = 1d;
+            if (weaponCa < partCa)
+            {
+                volFact = weaponCa / partCa;
+            }
 
             Builder.SetMomentum(momentum);
             Builder.SetContactArea(contactArea);
@@ -111,7 +124,7 @@ namespace Tiles.Injuries
             {
                 if (!tissueLayer.Class.IsCosmetic)
                 {
-                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume * volFact, tissueLayer);
                     tlParts.Add(tissueLayer, targetPart);
                 }
             }
@@ -123,7 +136,7 @@ namespace Tiles.Injuries
                 {
                     if (!tissueLayer.Class.IsCosmetic)
                     {
-                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume * volFact, tissueLayer);
                         tlParts.Add(tissueLayer, internalPart);
                     }
                 }

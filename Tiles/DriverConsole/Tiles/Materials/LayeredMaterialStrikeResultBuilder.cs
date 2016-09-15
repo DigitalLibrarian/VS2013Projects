@@ -168,7 +168,7 @@ namespace Tiles.Materials
             // TODO - If the weapon has a smaller contact area than the layer, the layer's volume is reduced by the ratio of areas.
             // (Volume damaged by weapon) = (layer volume) x (weapon contact area) / (layer contact area)
 
-
+            
             Builder.Clear();
 
             Builder.SetStressMode(mode);

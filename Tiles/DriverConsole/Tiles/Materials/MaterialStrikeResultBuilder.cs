@@ -175,7 +175,6 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
             if (bluntBypass)
             {
                 defeated = true;
-                msr = MaterialStressResult.Impact_Bypass;
             }
 
             return new MaterialStrikeResult
