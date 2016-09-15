@@ -138,65 +138,12 @@ namespace Tiles.Materials
                 else if (mode != StressMode.Blunt)
                 {
                     mode = StressMode.Blunt;
-                    /*
-                    layerResult = PerformSingleLayerTest(
-                       StrikerMaterial,
-                       momentum,
-                       ContactArea,
-                       mode,
-                       layer);
-                     */
-                    //layerResult.StressMode = StressMode; // only first layer maintains the original stress mode
-                    
                 }
                 else
                 {
                     done = true;
                 }
 
-                /*
-                if (layerResult.BreaksThrough)
-                {
-                    momentum = momentum - (momentum * (20d / 100d));
-                    momentum = momentum - layerResult.MomentumThreshold;
-                    if (mode == Materials.StressMode.Edge)
-                    {
-                        penetration += (int)layer.Thickness;
-                    }
-                }
-                else if (mode != StressMode.Blunt)
-                {
-                    // fail to pierce/cut, convert to blunt and greatly reduce
-                    mode = StressMode.Blunt;
-                    layerResult = PerformSingleLayerTest(
-                       StrikerMaterial,
-                       momentum,
-                       ContactArea,
-                       mode,
-                       layer);
-
-
-                    layerResult.StressMode = StressMode; // only first layer maintains the original stress mode
-                    if (layerResult.BreaksThrough)
-                    {
-                        momentum = momentum - (momentum * (20d / 100d));
-                        momentum = momentum - layerResult.MomentumThreshold;
-
-                        // allow further testing with blunt (current layer keeps original stress mode for partial cuts)
-                    }
-                    else
-                    {
-                        // TODO - If both edged and blunt momenta thresholds haven't been met, attack is permanently converted to blunt and its momentum may be greatly reduced. 
-                        // Specifically, it is multiplied by SHEAR_STRAIN_AT_YIELD/50000 for edged attacks or IMPACT_STRAIN_AT_YIELD/50000 otherwise. 
-                        momentum = momentum - (momentum * (60d / 100d));
-                    }
-                }
-                else
-                {
-                    // blunt failed to propagate
-                    done = true;
-                }
-                */
                 if (layer.IsTagged)
                 {
                     result.AddLayerResult(layerResult, layer.Tag);

@@ -42,7 +42,9 @@ namespace Tiles.Injuries
 
         public string GetPhrase()
         {
-            return string.Format("{0}({2}) the {1}({3}) ", Class.Gerund, Layer.Class.Material.Name, ((int)(100d*StrikeResult.Momentum))/100d, ((int)100d*StrikeResult.MomentumThreshold)/100d);
+            var mom = StrikeResult.Momentum;
+            var thresh = StrikeResult.MomentumThreshold * StrikeResult.ContactArea ;
+            return string.Format("{0}({2}) the {1}({3}) ", Class.Gerund, Layer.Class.Material.Name, ((int)mom*100d)/100d, ((int)thresh*100d)/100d);//((int)100d*StrikeResult.MomentumThreshold)/100d);
         }
     }
 }

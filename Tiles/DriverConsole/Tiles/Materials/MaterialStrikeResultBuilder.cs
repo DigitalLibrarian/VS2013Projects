@@ -133,33 +133,27 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
 
                     mom = mom - impactCost1;
                     thresh = impactCost1;
-
                     if (mom >= 0)
                     {
                         msr = MaterialStressResult.Impact_Dent;
-                        if (false && impactCost2 <= 0)
+                        mom = mom - impactCost2;
+                        thresh += impactCost2;
+                        if (mom >= 0 || impactCost2 <= 0)
                         {
-                            bluntBypass = true;
-                        }
-                        else
-                        {
-                            mom = mom - impactCost2;
-                            thresh += impactCost2;
-                            if (mom >= 0 || impactCost2 <= 0)
+                            msr = MaterialStressResult.Impact_InitiateFracture;
+                            mom = mom - impactCost3;
+                            thresh += impactCost3;
+                            if (mom >= 0 || impactCost3 <= 0)
                             {
-                                msr = MaterialStressResult.Impact_InitiateFracture;
-                                mom = mom - impactCost3;
-                                thresh += impactCost3;
-                                if (mom >= 0 || impactCost3 <= 0)
-                                {
-                                    msr = MaterialStressResult.Impact_CompleteFracture;
-                                    defeated = true;
-                                }
+                                msr = MaterialStressResult.Impact_CompleteFracture;
+                                defeated = true;
                             }
                         }
                     }
                 }
             }
+
+
 
             if(defeated)
             {
@@ -174,9 +168,7 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
             {
                 defeated = true;
                 msr = MaterialStressResult.Impact_Bypass;
-                resultMom = Momentum;
             }
-
 
             return new MaterialStrikeResult
             {

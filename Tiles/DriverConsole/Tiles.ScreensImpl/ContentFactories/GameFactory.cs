@@ -51,14 +51,15 @@ namespace Tiles.ScreensImpl.ContentFactories
             var siteSize = new Vector3(64, 64, 64);
 
             var weaponMats = new string[]{
-                "COPPER", "SILVER", "STEEL"
+                "COPPER", "SILVER", "STEEL", "IRON"
             };
             var weaponTypes = new string[]{
                 DfTags.MiscTags.ITEM_WEAPON_MACE,
                 DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT,
                 DfTags.MiscTags.ITEM_WEAPON_SPEAR,
                 DfTags.MiscTags.ITEM_WEAPON_HAMMER_WAR,
-                DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE
+                DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE,
+                DfTags.MiscTags.ITEM_WEAPON_WHIP
             };
             List<IItem> invItems = new List<IItem>();
             foreach (var weaponType in weaponTypes)
