@@ -53,7 +53,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             }
             else
             {
-                // most dense tissue layer
+                //  TODO - most dense tissue layer
                 var relatedParts = move.Class.GetRelatedBodyParts(attacker.Body);
                 weaponMat = relatedParts.First().Tissue.TissueLayers.Last().Material;
             }

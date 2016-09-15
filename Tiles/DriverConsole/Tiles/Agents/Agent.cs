@@ -100,12 +100,12 @@ namespace Tiles.Agents
 
             double Str, VelocityMultiplier, Size, W;
             Str = 1250;
-            Size = Body.Size/10d;
+            Size = Body.Size;
 
             if (move.Class.IsItem)
             {
                 var weapon = move.Weapon;
-                VelocityMultiplier = (double)move.Class.VelocityMultiplier / 1000d;
+                VelocityMultiplier = (double)move.Class.VelocityMultiplier;
                 W = weapon.GetMass();
             }
             else
@@ -114,15 +114,19 @@ namespace Tiles.Agents
                     .Select(p => p.GetMass())
                     .Sum();
 
-                VelocityMultiplier = 1.0;
+                VelocityMultiplier = 1000d;
                 W = mass;
             }
-            double intWeight = (int) (W / 1000d); // grams to kg
-            double fractWeight = (int)((W - (intWeight * 1000d)) * 1000d);
 
+            W /= 1000d; // grams to kg
+
+            double intWeight = (int)(W); 
+            double fractWeight = (int)((W - (intWeight)) * 1000d)*1000d;
+            
             double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
-            var v = Size * (Str / 100d) * (VelocityMultiplier / effWeight);
-            return System.Math.Min(5000d, v) * (W/10000d);
+            var v = Size * (Str / 1000d) * ((VelocityMultiplier/ 1000d) * (1d / effWeight));
+            v = System.Math.Min(5000d, v);
+            return v* (W);
         }
     }
 }

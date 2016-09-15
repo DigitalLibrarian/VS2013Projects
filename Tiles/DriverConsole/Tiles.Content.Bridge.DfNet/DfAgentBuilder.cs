@@ -410,7 +410,7 @@ namespace Tiles.Content.Bridge.DfNet
             var part = parts.First();
             
             double partRatio = ((double)part.RelativeSize / totalBpRelSize);
-            var partSize = (partRatio * Size)/10d;
+            var partSize = (partRatio * Size);
             var partLength = System.Math.Pow(partSize, 0.3333d);
 
             var contactRatio = (double)attack.ContactPercent / 100d;
@@ -531,10 +531,10 @@ namespace Tiles.Content.Bridge.DfNet
         }
 
 
-        public void AddLifeStageSize(int ageYear, int ageDay, int size)
+        public void AddLifeStageSize(int ageYear, int ageDay, double size)
         {
             // TODO - make this part of racial model
-            Size = ((double)size);
+            Size = size / 10d;
         }
 
 

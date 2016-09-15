@@ -40,7 +40,7 @@ namespace Tiles.Tests.Bodies
                 layerClassMock1.Object, layerClassMock2.Object, layerClassMock3.Object
             });
 
-            int bodySize = 84630;
+            int bodySize = 8463;
             var factory = new TissueFactory();
             var result = factory.Create(tissueClassMock.Object, bodySize);
 

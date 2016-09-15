@@ -338,13 +338,13 @@ namespace Tiles.Tests.Agents
         }
 
         [TestMethod]
-        public void GetStrikeMomentum_IronShortSwordSlash()
+        public void GetStrikeMomentum_SteelAxeSwordHack()
         {
-            int bodySize = 60000;
+            int bodySize = 6000;
             BodyMock.Setup(x => x.Size).Returns(bodySize);
 
             var weaponMock = new Mock<IItem>();
-            weaponMock.Setup(x => x.GetMass()).Returns(2354.9);
+            weaponMock.Setup(x => x.GetMass()).Returns(6280);
 
             int veloMultiply = 1250;
             var moveClassMock = new Mock<ICombatMoveClass>();
@@ -356,7 +356,9 @@ namespace Tiles.Tests.Agents
             moveMock.Setup(x => x.Class).Returns(moveClassMock.Object);
 
             var strikeMom = Agent.GetStrikeMomentum(moveMock.Object);
-            Assert.AreEqual(74, (int) strikeMom);
+            Assert.AreEqual(85, (int) strikeMom);
+
+            moveClassMock.Verify(x => x.GetRelatedBodyParts(It.IsAny<IBody>()), Times.Never());
         }
     }
 }

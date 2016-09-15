@@ -28,7 +28,7 @@ namespace Tiles.Content.Bridge.DfNet
 
         void OverrideBodyPartCategorySize(string bpCategory, int size);
 
-        void AddLifeStageSize(int ageYear, int ageDay, int size);
+        void AddLifeStageSize(int ageYear, int ageDay, double size);
 
         void AddBodyAttack(DfBodyAttack move);
     }

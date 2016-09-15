@@ -72,24 +72,19 @@ namespace Tiles.Bodies
 
         public double GetMass()
         {
-            var sizeCm3 = Size;
-            var totalThick = GetThickness();
-            double total = 0;
-            foreach (var tissueLayer in Tissue.TissueLayers)
-            {
-                double ttFact = (double)(tissueLayer.Thickness) / (double)(totalThick);
-                total += tissueLayer.Material.GetMassForUniformVolume(sizeCm3) * ttFact;
-            }
-            return total;
+            // body part mass just uses the inner most layer of tissue's density.  Kinda silly
+            var dense = Tissue.TissueLayers.First();
+            var density = (double)dense.Material.SolidDensity/100d;
+            return density * Size;
         }
-
+        
         public double GetContactArea()
         {
-            return (int)System.Math.Pow((Size/10d), 0.666d);
+            return (int)System.Math.Pow((Size), 0.666d);
         }
         public double GetThickness()
         {
-            return (int)System.Math.Pow((Size*10000d), 0.333d);
+            return (int)System.Math.Pow((Size * 10000d), 0.333d);
         }
 
 

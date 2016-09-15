@@ -10,7 +10,7 @@ namespace Tiles.Bodies
     {
         public ITissue Create(ITissueClass tissueClass, double partSize)
         {
-            var partThick = System.Math.Pow(partSize * 1000d, 0.333d);
+            var partThick = System.Math.Pow(partSize * 10000d, 0.333d);
             int totalRelThick = tissueClass.TotalRelativeThickness;
             var layers = new List<ITissueLayer>();
             foreach (var tc in tissueClass.TissueLayers)
@@ -19,7 +19,7 @@ namespace Tiles.Bodies
                 var tissueThick = System.Math.Floor(partThick * tlFact);
                 tissueThick = System.Math.Max(1d, tissueThick);
 
-                var tissueVol = System.Math.Floor(partSize * tlFact) / 10d;
+                var tissueVol = System.Math.Floor(partSize * tlFact);
 
                 layers.Add(new TissueLayer(tc, tc.Material, tissueThick, tissueVol));
             }

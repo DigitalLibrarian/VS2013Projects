@@ -40,7 +40,7 @@ namespace Tiles.Bodies
         BodyPart Convert(IBodyPartClass bpClass, double bodySize, int totalBodyPartRelSize)
         {
             var bpFact = (double)bpClass.RelativeSize / (double)totalBodyPartRelSize;
-            var partSizeD = System.Math.Ceiling( (double)bodySize * bpFact);
+            var partSizeD = (double)bodySize * bpFact;
             var tissue = TissueFactory.Create(bpClass.Tissue, partSizeD);
             return new BodyPart(bpClass, tissue, partSizeD);
         }
