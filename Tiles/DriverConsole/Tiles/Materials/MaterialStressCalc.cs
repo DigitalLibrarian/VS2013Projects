@@ -132,7 +132,7 @@ namespace Tiles.Materials
         {
             return (System.Math.Max(
                 ShearCost1(strikerMat, strickenMat, sharpness),
-                ImpactCost1(strickenMat, layerVolume))) / 1000d;
+                ImpactCost1(strickenMat, layerVolume))) / 10d;
         }
 
         public static double ShearMomentumAfterUnbrokenRigidLayer(double momentum, IMaterial strickenMat)

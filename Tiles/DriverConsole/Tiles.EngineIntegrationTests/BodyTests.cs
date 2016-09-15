@@ -305,10 +305,29 @@ namespace Tiles.EngineIntegrationTests
         [TestMethod]
         public void HumanTotalBodyPartRelativeSize()
         {
-            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
-
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
             var totRel = agent.Class.BodyClass.TotalBodyPartRelSize;
-            Assert.AreEqual(6791, totRel);
+            Assert.AreEqual(5546, totRel);
+        }
+
+
+        [TestMethod]
+        public void ParakeetBodyAttack_Scratch_ContactArea()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "BIRD_PARAKEET", "MALE", Vector3.Zero);
+            var moveClass = agent.Body.Moves.Single(x => x.Name.Equals("snatch at"));
+            Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
+            Assert.AreEqual(1, moveClass.ContactArea);
+        }
+
+
+        [TestMethod]
+        public void ParakeetBodyAttack_Scratch_MaxPenetration()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "BIRD_PARAKEET", "MALE", Vector3.Zero);
+            var moveClass = agent.Body.Moves.Single(x => x.Name.Equals("snatch at"));
+            Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
+            Assert.AreEqual(1, moveClass.MaxPenetration);
         }
     }
 }

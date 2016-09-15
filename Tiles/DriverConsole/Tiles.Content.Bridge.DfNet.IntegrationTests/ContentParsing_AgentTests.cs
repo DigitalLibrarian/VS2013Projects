@@ -100,7 +100,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var moves = agent.Body.Moves;
             var punch = moves.Single(x => x.Name.Equals("PUNCH"));
             Assert.AreEqual(14, punch.ContactArea);
-            Assert.AreEqual(0, punch.MaxPenetration);
+            Assert.AreEqual(1, punch.MaxPenetration);
             Assert.AreEqual(3, punch.PrepTime);
             Assert.AreEqual(3, punch.RecoveryTime);
             Assert.AreEqual("punch", punch.Verb.SecondPerson);

@@ -14,7 +14,9 @@ namespace Tiles.Materials
         Shear_CutThrough,
         Impact_Dent,
         Impact_InitiateFracture,
-        Impact_CompleteFracture
+        Impact_CompleteFracture,
+
+        Impact_Bypass
     }
 
 

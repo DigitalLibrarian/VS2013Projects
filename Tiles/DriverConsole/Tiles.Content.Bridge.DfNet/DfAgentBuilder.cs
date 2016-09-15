@@ -415,7 +415,7 @@ namespace Tiles.Content.Bridge.DfNet
 
             var contactRatio = (double)attack.ContactPercent / 100d;
             var contactArea = (int)(System.Math.Pow((partSize), 0.666d) * contactRatio);
-            
+            var maxPen = (int)(((double)attack.PenetrationPercent / 100d) * partLength);
             var combatMove =
                 new CombatMove
                 {
@@ -427,8 +427,8 @@ namespace Tiles.Content.Bridge.DfNet
                     IsStrike = true,
                     IsMartialArts = true,
                     ContactType = attack.ContactType,
-                    ContactArea = contactArea,
-                    MaxPenetration = (int)(((double)attack.PenetrationPercent / 100d) * partLength),
+                    ContactArea = System.Math.Max(1, contactArea),
+                    MaxPenetration = System.Math.Max(1, maxPen),
                     VelocityMultiplier = 1000,
                 };
 
