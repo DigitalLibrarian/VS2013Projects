@@ -76,25 +76,25 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
     */
 
             double contactArea = (double)ContactArea;
-            var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier) *  contactArea;
-            var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier) * contactArea;
-            var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial,StrikerMaterial.SharpnessMultiplier,
-                LayerVolume) * contactArea;
+            var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier);
+            var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier);
+            var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier,
+                LayerVolume);
 
-            var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, LayerVolume) * contactArea;
-            var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume) * contactArea;
-            var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume) * contactArea;
+            var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, LayerVolume);
+            var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
+            var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
             bool bluntBypass = false;
 
             double thresh = -1d;
             double resultMom = -1;
-            double mom = Momentum;
+            double mom = Momentum / contactArea;
             bool defeated = false;
             MaterialStressResult msr = MaterialStressResult.None;
             if (StressMode == Materials.StressMode.Edge)
             {
                 resultMom = MaterialStressCalc.ShearMomentumAfterUnbrokenRigidLayer(
-                    Momentum / contactArea,
+                    Momentum,
                     StrickenMaterial);
 
                 mom = mom - shearCost1;
@@ -124,7 +124,6 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                     StrickenMaterial);
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
-
 
                 if (StrickenMaterial.ImpactStrainAtYield >= 50000)
                 {

@@ -327,7 +327,7 @@ namespace Tiles.EngineIntegrationTests
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "BIRD_PARAKEET", "MALE", Vector3.Zero);
             var moveClass = agent.Body.Moves.Single(x => x.Name.Equals("snatch at"));
             Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
-            Assert.AreEqual(1, moveClass.MaxPenetration);
+            Assert.AreEqual(20, moveClass.MaxPenetration);
         }
     }
 }
