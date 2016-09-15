@@ -88,7 +88,7 @@ namespace Tiles.Bodies
         }
 
 
-        public bool IsDestroyed()
+        public bool IsPulped()
         {
             return Damage.GetTypes().Any(dt => Damage.GetFraction(dt).AsDouble() >= 1d);
         }

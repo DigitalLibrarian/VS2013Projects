@@ -125,12 +125,10 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
 
-                if (StrickenMaterial.ImpactStrainAtYield >= 50000)
-                {
-                    thresh = impactCost1;
-                    bluntBypass = true;
-                }else{
+                bluntBypass = StrickenMaterial.ImpactStrainAtYield >= 50000;
 
+                if (!bluntBypass)
+                {
                     mom = mom - impactCost1;
                     thresh = impactCost1;
                     if (mom >= 0)
@@ -149,6 +147,16 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                                 defeated = true;
                             }
                         }
+                    }
+                }
+                else
+                {
+                    msr = MaterialStressResult.Impact_Dent;
+                    mom = mom - impactCost1;
+                    thresh = impactCost1;
+                    if (mom >= 0)
+                    {
+                        msr = MaterialStressResult.Impact_Bypass;
                     }
                 }
             }

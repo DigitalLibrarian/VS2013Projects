@@ -52,7 +52,7 @@ namespace Tiles.Bodies
         double Size { get; }
         double GetMass();
 
-        bool IsDestroyed();
+        bool IsPulped();
 
         double GetContactArea();
         double GetThickness();
