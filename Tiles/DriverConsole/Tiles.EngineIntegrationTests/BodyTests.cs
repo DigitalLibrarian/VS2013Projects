@@ -116,14 +116,38 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(137, (int)skinLayer.Volume);
         }
 
+
+        [TestMethod]
+        public void UnicornFrontLeg_FatThickness()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
+            var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
+
+
+            Assert.AreEqual(5, part.Tissue.TissueLayers.Count());
+
+            var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
+            Assert.AreEqual(71, (int)layer.Thickness);
+        }
+
+        [TestMethod]
+        public void UnicornFrontLeg_FatVolume()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
+            var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
+
+            var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
+            Assert.AreEqual(1241, (int)layer.Volume);
+        }
+
         [TestMethod]
         public void UnicornFrontLeg_BoneVolume()
         {
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
-            var skinLayer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
-            Assert.AreEqual(3125, (int)skinLayer.Volume);
+            var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
+            Assert.AreEqual(3125, (int)layer.Volume);
         }
 
         [TestMethod]
