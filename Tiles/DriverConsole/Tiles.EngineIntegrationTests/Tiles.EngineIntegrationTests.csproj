@@ -60,8 +60,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BodyTests.cs" />
+    <Compile Include="DfContentTestBase.cs" />
+    <Compile Include="GiantVsGiantTortoiseStrikeTests.cs" />
+    <Compile Include="DwarfVsDwarfStrikeTests.cs" />
     <Compile Include="TestContentStore.cs" />
-    <Compile Include="WeaponStrikeTests.cs" />
+    <Compile Include="DwarfVsUnicornStrikeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
