@@ -269,7 +269,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2, (int)cost);
         }
 
-
         [TestMethod]
         public void Unicorn_FatTissue_ImpactCostDent()
         {
@@ -284,8 +283,6 @@ namespace Tiles.EngineIntegrationTests
             var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
             Assert.AreEqual(30, (int)cost);
         }
-
-
 
         [TestMethod]
         public void Unicorn_MuscleTissue_ImpactCostDent()

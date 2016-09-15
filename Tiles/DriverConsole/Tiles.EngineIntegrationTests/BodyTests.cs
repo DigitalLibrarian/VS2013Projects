@@ -114,6 +114,18 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, scratch, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
+            Assert.AreEqual(15d, (int)mom);
+        }
+
+        [TestMethod]
+        public void HumanBodyAttack_Kick()
+        {
+            var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
+            var kick = human.Body.Moves.Single(x => x.Name.Equals("kick"));
+            Assert.AreEqual(StressMode.Blunt, kick.StressMode);
+
+            var move = CombatMoveBuilder.BodyMove(human, human, kick, human.Body.Parts.First());
+            var mom = human.GetStrikeMomentum(move);
             Assert.AreEqual(19d, (int)mom);
         }
 

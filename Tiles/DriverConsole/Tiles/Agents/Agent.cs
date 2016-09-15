@@ -124,31 +124,5 @@ namespace Tiles.Agents
             var v = Size * (Str / 100d) * (VelocityMultiplier / effWeight);
             return System.Math.Min(5000d, v) * (W/10000d);
         }
-        
-        public double GetStrikeMomentum034(ICombatMove move)
-        {
-            double Str, VelocityMultiplier, Size, Fat, W;
-            Str = 1250;
-            Size = Body.Size;
-            Fat = 1d;
-            // M = (Str * VelocityMultiplier) / ((10^6/Size) + ((10 * F) / W))
-            if (move.Class.IsItem)
-            {
-                var weapon = move.Weapon;
-                VelocityMultiplier = (double)move.Class.VelocityMultiplier / 1000d;
-                W = weapon.GetMass() / 1000d;
-            }
-            else
-            {
-                double mass = move.Class.GetRelatedBodyParts(move.Attacker.Body)
-                    .Select(p => p.GetMass())
-                    .Sum();
-
-                VelocityMultiplier = 1.0;
-                W = mass / 1000d;
-            }
-            return (Str * VelocityMultiplier)
-                / ((1000000d / Size) + ((10 * Fat) / W));
-        }
     }
 }
