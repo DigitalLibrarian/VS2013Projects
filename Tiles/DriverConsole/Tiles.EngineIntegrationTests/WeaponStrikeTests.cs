@@ -252,6 +252,67 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreSame(boneLayer, tInjury.Layer);
         }
 
+        [TestMethod]
+        public void DwarfVsUnicorn_BashLegWithSilverMace()
+        {
+            var attacker = GetNewDwarf();
+            var defender = GetNewUnicorn();
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = GetInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_MACE, "SILVER");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("bash"));
+            Assert.IsNotNull(moveClass);
+
+            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+
+            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
+
+            var context = new CombatMoveContext(attacker, defender, slashMove);
+
+            var hairLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hair"));
+            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
+            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            var boneLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
+
+            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
+                context,
+                moveClass.StressMode,
+                strikeMomentum,
+                moveClass.ContactArea,
+                moveClass.MaxPenetration,
+                targetBodyPart,
+                weapon.Class.Material
+                );
+
+            Assert.AreEqual(1, injuryReport.BodyPartInjuries.Count());
+
+            var partInjury = injuryReport.BodyPartInjuries.First();
+            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
+            //Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
+
+            Assert.AreEqual(4, partInjury.TissueLayerInjuries.Count());
+
+            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
+            Assert.AreSame(skinLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
+            Assert.AreSame(fatLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
+            Assert.AreSame(muscleLayer, tInjury.Layer);
+
+            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
+            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
+            Assert.AreSame(boneLayer, tInjury.Layer);
+        }
 
         [TestMethod]
         public void DwarfVsUnicorn_BashLegWithCopperMace()
