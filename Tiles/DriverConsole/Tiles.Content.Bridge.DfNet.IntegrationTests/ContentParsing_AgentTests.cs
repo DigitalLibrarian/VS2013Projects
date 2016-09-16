@@ -23,6 +23,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 new DfAgentBuilderFactory(),
                 new DfColorFactory(),
                 new DfMaterialFactory(Store, new DfMaterialBuilderFactory()),
+                new DfTissueTemplateFactory(Store),
                 new DfCombatMoveFactory(),
                 new DfBodyAttackFactory()
                 );
@@ -47,6 +48,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             var skin = tissueLayers.Single(x => x.Material.Name.Equals("skin"));
             Assert.IsFalse(skin.IsCosmetic);
+            Assert.IsTrue(skin.IsConnective);
+            Assert.AreEqual(1, skin.VascularRating);
             var fat = tissueLayers.Single(x => x.Material.Name.Equals("fat"));
             Assert.IsFalse(fat.IsCosmetic);
             var muscle = tissueLayers.Single(x => x.Material.Name.Equals("muscle"));

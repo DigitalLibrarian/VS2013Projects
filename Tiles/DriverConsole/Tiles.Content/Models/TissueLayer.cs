@@ -15,5 +15,7 @@ namespace Tiles.Content.Models
         public Material Material { get; set; }
         public int RelativeThickness { get; set; }
         public bool IsCosmetic { get; set; }
+        public bool IsConnective { get; set; }
+        public int VascularRating { get; set; }
     }
 }

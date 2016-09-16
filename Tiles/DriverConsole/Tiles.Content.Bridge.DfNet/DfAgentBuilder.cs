@@ -17,7 +17,8 @@ namespace Tiles.Content.Bridge.DfNet
         List<DfBodyAttack> BodyAttacks { get; set; }
 
         Dictionary<string, int> BpCatSizeOverrides { get; set; }
-        Dictionary<string, bool> TissueCosmetic { get; set; }
+
+        Dictionary<string, DfTissueTemplate> MatNameToTT { get; set; }
 
         string Name { get; set; }
         int Symbol { get; set; }
@@ -38,7 +39,7 @@ namespace Tiles.Content.Bridge.DfNet
             Foreground = new Color(255, 255, 255, 255);
             Background = new Color(0, 0, 0, 255);
 
-            TissueCosmetic = new Dictionary<string, bool>();
+            MatNameToTT = new Dictionary<string, DfTissueTemplate>();
         }
 
         #region Lookups
@@ -139,10 +140,9 @@ namespace Tiles.Content.Bridge.DfNet
             }
         }
 
-        public void AddTissueMaterial(string matName, Material material, bool cosmetic)
+        public void AddTissueTemplate(string matName, DfTissueTemplate tissueTemplate)
         {
-            AddMaterial(matName, material);
-            TissueCosmetic[matName] = cosmetic;
+            MatNameToTT[matName] = tissueTemplate;
         }
 
         public void RemoveMaterial(string matName)
@@ -217,18 +217,13 @@ namespace Tiles.Content.Bridge.DfNet
 
         Material GetTissueMaterial(string tisName)
         {
+            if (!Materials.ContainsKey(tisName))
+            {
+                throw new InvalidOperationException(string.Format("No material defined for tissue {0}", tisName));
+            }
             return Materials[tisName];
         }
-
-        bool IsCosmeticTissue(string tisName)
-        {
-            if (TissueCosmetic.ContainsKey(tisName))
-            {
-                return TissueCosmetic[tisName];
-            }
-            return false;
-        }
-
+        
         Tissue CreateTissueForPart(string bpName)
         {
             var layers = new List<TissueLayer>();
@@ -239,12 +234,15 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     foreach(var tisName in BodyPartCategoryTissueThickness[bpCat].Keys)
                     {
+                        var tissueTemplate = MatNameToTT[tisName];
                         var thickness = BodyPartCategoryTissueThickness[bpCat][tisName];
                         layers.Add(new TissueLayer
                         {
                             Material = GetTissueMaterial(tisName),
                             RelativeThickness = thickness,
-                            IsCosmetic = IsCosmeticTissue(tisName)
+                            VascularRating = tissueTemplate.VascularRating,
+                            IsCosmetic = tissueTemplate.IsCosmetic,
+                            IsConnective = tissueTemplate.IsConnective
                         });
                     }
                 }
@@ -253,11 +251,14 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     foreach (var tisName in BodyPartCategoryTissues[bpCat])
                     {
+                        var tissueTemplate = MatNameToTT[tisName];
                         layers.Add(new TissueLayer
                         {
                             Material = GetTissueMaterial(tisName),
-                            RelativeThickness = 1,
-                            IsCosmetic = IsCosmeticTissue(tisName)  
+                            RelativeThickness = tissueTemplate.RelativeThickness,
+                            VascularRating = tissueTemplate.VascularRating,
+                            IsCosmetic = tissueTemplate.IsCosmetic,
+                            IsConnective = tissueTemplate.IsConnective
                         });
                     }
                 }

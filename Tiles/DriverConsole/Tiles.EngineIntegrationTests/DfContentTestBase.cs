@@ -43,6 +43,7 @@ namespace Tiles.EngineIntegrationTests
                 new DfAgentBuilderFactory(),
                 new DfColorFactory(),
                 new DfMaterialFactory(Store, new DfMaterialBuilderFactory()),
+                new DfTissueTemplateFactory(Store),
                 new DfCombatMoveFactory(),
                 new DfBodyAttackFactory()
                 );

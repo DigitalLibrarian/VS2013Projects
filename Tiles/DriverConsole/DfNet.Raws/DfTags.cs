@@ -122,6 +122,11 @@ namespace DfNet.Raws
             public const string PLUS_TISSUE_LAYER = "PLUS_TISSUE_LAYER";
             public const string TISSUE_NAME = "TISSUE_NAME";
 
+            public const string VASCULAR = "VASCULAR";
+            public const string CONNECTS = "CONNECTS";
+            public const string COSMETIC = "COSMETIC";
+            public const string RELATIVE_THICKNESS = "RELATIVE_THICKNESS";
+
             public const string TISSUE_MATERIAL = "TISSUE_MATERIAL";
 
             public const string CASTE_NAME = "CASTE_NAME";

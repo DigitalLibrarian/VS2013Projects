@@ -15,6 +15,7 @@ namespace Tiles.Content.Bridge.DfNet
         IDfObjectStore Store { get; set; }
         IDfAgentBuilderFactory BuilderFactory { get; set; }
         IDfMaterialFactory MaterialsFactory { get; set; }
+        IDfTissueTemplateFactory TissueTemplateFactory { get; set; }
         IDfColorFactory ColorFactory { get; set; }
         IDfCombatMoveFactory CombatMoveFactory { get; set; }
         IDfBodyPartAttackFactory BodyPartAttackFactory { get; set; }
@@ -23,6 +24,7 @@ namespace Tiles.Content.Bridge.DfNet
             IDfAgentBuilderFactory builderFactory,
             IDfColorFactory colorFactory, 
             IDfMaterialFactory materialsFactory,
+            IDfTissueTemplateFactory tissueTemplateFactory,
             IDfCombatMoveFactory combatMoveFactory,
             IDfBodyPartAttackFactory bodyPartAttackFactory
             )
@@ -31,6 +33,7 @@ namespace Tiles.Content.Bridge.DfNet
             ColorFactory = colorFactory;
             BuilderFactory = builderFactory;
             MaterialsFactory = materialsFactory;
+            TissueTemplateFactory = tissueTemplateFactory;
             CombatMoveFactory = combatMoveFactory;
             BodyPartAttackFactory = bodyPartAttackFactory;
         }
@@ -65,6 +68,7 @@ namespace Tiles.Content.Bridge.DfNet
             // 3. Create the materials
             // 4. Return as nested Agent model
             string strategy, bpName, tisName, tempName;
+            DfTissueTemplate tisTemplate;
             var agentContext = BuilderFactory.Create();
             var tags = creatureDf.Tags.ToList();
             for (int i = 0; i < tags.Count(); i++) 
@@ -97,6 +101,9 @@ namespace Tiles.Content.Bridge.DfNet
                         agentContext.AddMaterial(tisName,
                             MaterialsFactory.CreateFromTissueCreatureInline(name, tisName)
                             );
+
+                        tisTemplate = TissueTemplateFactory.CreateFromTissueCreatureInline(name, tisName);
+                        agentContext.AddTissueTemplate(tisName, tisTemplate);
                         break;
                     case DfTags.MiscTags.REMOVE_MATERIAL:
                         agentContext.RemoveMaterial(tag.GetParam(0));
@@ -105,19 +112,21 @@ namespace Tiles.Content.Bridge.DfNet
                         
                         tisName = tag.GetParam(0);
                         tempName = tag.GetParam(1);
-                        agentContext.AddTissueMaterial(
-                            tisName,
-                            MaterialsFactory.CreateTissue(tempName),
-                            MaterialsFactory.IsCosmeticTissue(tempName));
+
+                        tisTemplate = TissueTemplateFactory.Create(tempName);
+                        agentContext.AddTissueTemplate(tisName, tisTemplate);
+                        agentContext.AddMaterial(tisName,
+                            MaterialsFactory.CreateTissue(tempName));
                         break;
 
                     case DfTags.MiscTags.ADD_TISSUE:
                         tisName = tag.GetParam(0);
                         tempName = tag.GetParam(1);
-                        agentContext.AddTissueMaterial(
-                            tisName,
-                            MaterialsFactory.CreateTissue(tempName),
-                            MaterialsFactory.IsCosmeticTissue(tempName));
+                        
+                        tisTemplate = TissueTemplateFactory.Create(tempName);
+                        agentContext.AddTissueTemplate(tisName, tisTemplate);
+                        agentContext.AddMaterial(tisName,
+                            MaterialsFactory.CreateTissue(tempName));
                         break;
                     case DfTags.MiscTags.REMOVE_TISSUE:
                         agentContext.RemoveMaterial(tag.GetParam(0));
