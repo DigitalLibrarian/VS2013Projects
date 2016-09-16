@@ -58,7 +58,6 @@ namespace Tiles.EngineIntegrationTests
             InjuryReportCalc = new InjuryReportCalc(new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()));
         }
 
-
         [TestMethod]
         public void DwarfHead_InternalParts()
         {
@@ -194,6 +193,17 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(43, layer.Thickness);
         }
 
+        [TestMethod]
+        public void HumanUpperBody_FatTissueProperties()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
+            var part = agent.Body.Parts.Single(x => x.Name.Equals("upper body"));
+
+            var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
+            Assert.AreEqual(3, layer.Class.VascularRating);
+            Assert.IsTrue(layer.Class.IsConnective);
+            Assert.IsFalse(layer.Class.IsCosmetic);
+        }
 
         [TestMethod]
         public void HumanUpperBody_FatVolume()

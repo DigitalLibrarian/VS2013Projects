@@ -12,11 +12,13 @@ namespace Tiles.Bodies
         public IMaterial Material { get; set; }
         public int RelativeThickness { get; set; }
         public bool IsCosmetic { get; set; }
-        public TissueLayerClass(IMaterial material, int relThick, bool isCosmetic)
+        public bool IsConnective { get; set; }
+        public int VascularRating { get; set; }
+
+        public TissueLayerClass(IMaterial material, int relThick)
         {
             Material = material;
             RelativeThickness = relThick;
-            IsCosmetic = isCosmetic;
         }
     }
 }

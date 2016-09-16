@@ -12,5 +12,7 @@ namespace Tiles.Bodies
         IMaterial Material { get; }
         int RelativeThickness { get; }
         bool IsCosmetic { get; }
+        bool IsConnective { get; }
+        int VascularRating { get; }
     }
 }

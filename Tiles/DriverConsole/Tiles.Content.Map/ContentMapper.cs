@@ -206,10 +206,14 @@ namespace Tiles.Content.Map
             foreach (var layer in tissue.Layers)
             {
                 layers.Add(new EngineBodies.TissueLayerClass(
-                    Map(layer.Material), 
-                    layer.RelativeThickness,
-                    layer.IsCosmetic
-                    ));
+                    Map(layer.Material),
+                    layer.RelativeThickness
+                    )
+                    {
+                        IsCosmetic = layer.IsCosmetic,
+                        IsConnective = layer.IsConnective,
+                        VascularRating = layer.VascularRating
+                    });
             }
 
             return new EngineBodies.TissueClass(layers);
