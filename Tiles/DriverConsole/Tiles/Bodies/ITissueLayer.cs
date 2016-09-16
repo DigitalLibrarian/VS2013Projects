@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Materials;
+using Tiles.Math;
 
 namespace Tiles.Bodies
 {
@@ -11,6 +12,7 @@ namespace Tiles.Bodies
     {
         ITissueLayerClass Class { get; }
         IMaterial Material { get; }
+        ITissueLayerStatus Status { get; }
         /// <summary>
         /// Thickness in m^-5
         /// </summary>
@@ -20,6 +22,5 @@ namespace Tiles.Bodies
         bool CanBeBruised { get; }
         bool CanBeTorn { get; }
         bool CanBePunctured { get; }
-
     }
 }
