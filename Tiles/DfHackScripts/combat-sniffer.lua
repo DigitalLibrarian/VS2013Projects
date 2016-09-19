@@ -75,6 +75,21 @@ function GetCapitalizedGroups(text)
 	return groups
 end
 
+function GetAttackerName(text)
+	return string.match(text, "^(.-) in")
+end
+
+function GetDefenderName(text)
+	return string.match(text, "^.- %a+ [T|t]he (.-) in")
+end
+
+function GetWeapon(text)
+	return string.match(text, "with %a+ (.-),")
+end
+
+function GetFlavorText(text)
+	return string.match(text, ", (.+)")
+end
 
 text = "The Stray Yak Cow kicks The Giant Bat in the upper body with her left rear hoof, bruising the muscle and shattering the left floating rib"
 groups = GetCapitalizedGroups(text)
@@ -105,6 +120,10 @@ print ("Defender: ", defender)
 print ("Results: ", results)
 
 
+print ("GetAttackerName = ", GetAttackerName(text))
+print ("GetDefenderName = ", GetDefenderName(text))
+print ("GetFlavorText = ", GetFlavorText(text))
+print ("GetWeapon = ", GetWeapon(text))
 
 
 
