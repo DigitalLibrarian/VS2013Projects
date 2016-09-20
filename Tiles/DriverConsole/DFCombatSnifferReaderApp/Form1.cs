@@ -44,6 +44,20 @@ namespace DfCombatSnifferReaderApp
 
             var data = Parser.Parse(lines);
 
+
+            int count = 1;
+            foreach (var session in data.Sessions)
+            {
+                var strikeNodes = new List<TreeNode>();
+                foreach (var strike in session.Strikes)
+                {
+                    var strikeNode = new TreeNode(strike.ReportText);
+                    strikeNodes.Add(strikeNode);
+                }
+
+                var sessionNode = new TreeNode(string.Format("Session #{0}", count), strikeNodes.ToArray());
+                treeView1.Nodes.Add(sessionNode);
+            }
         }
 
         private IEnumerable<string> ReadLines(string path)
