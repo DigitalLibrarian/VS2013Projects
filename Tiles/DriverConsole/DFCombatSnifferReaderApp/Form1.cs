@@ -45,7 +45,7 @@ namespace DfCombatSnifferReaderApp
             var data = Parser.Parse(lines);
 
 
-            int count = 1;
+            int sessionCount = 1;
             foreach (var session in data.Sessions)
             {
                 var strikeNodes = new List<TreeNode>();
@@ -55,7 +55,7 @@ namespace DfCombatSnifferReaderApp
                     strikeNodes.Add(strikeNode);
                 }
 
-                var sessionNode = new TreeNode(string.Format("Session #{0}", count), strikeNodes.ToArray());
+                var sessionNode = new TreeNode(string.Format("Session #{0}", sessionCount++), strikeNodes.ToArray());
                 treeView1.Nodes.Add(sessionNode);
             }
         }

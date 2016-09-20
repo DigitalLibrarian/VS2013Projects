@@ -45,18 +45,26 @@ namespace DfCombatSnifferReaderApp
 
     }
 
+    public class Armor : SnifferNode
+    {
+
+    }
+
     public class AttackStrike : SnifferNode
     {
         public List<BodyPartAttack> BodyPartAttacks { get; private set; }
         public List<Wound> Wounds { get; private set; }
         public List<Weapon> Weapons { get; private set; }
+        public List<Armor> Armors { get; private set; }
         public string ReportText { get; set; }
         public AttackStrike() : base()
         {
             BodyPartAttacks = new List<BodyPartAttack>();
             Wounds = new List<Wound>();
             Weapons = new List<Weapon>();
+            Armors = new List<Armor>();
         }
+
     }
 
     public class Wound : SnifferNode
@@ -149,6 +157,8 @@ namespace DfCombatSnifferReaderApp
                 
             }
 
+            // TODO - now that we have aggregated everything, we want to match up each strike with its combat text
+
             return context.Data;
         }
 
@@ -166,16 +176,21 @@ namespace DfCombatSnifferReaderApp
                 {
                     case SnifferTags.AttackEnd:
                         done = true;
-                        // TODO - this does not work.  The correct line is always
-                        // adjacent to our position here, but it might be behind as well as in-front.
+                        
+                        // TODO - this does not work. 
                         // We really need a set of hueristic rules for determining how close a 
-                        // log line is to the start of parsing at this point
-                        while (!IsKeyValue(SnifferTags.ReportText, line))
-                        {
-                            enumerator.MoveNext();
-                            line = enumerator.Current;
-                        }
-                        context.Strike.ReportText = ParseValue(line);
+                        // log line is to the start of parsing at this point.  Then we can back to the last attack
+                        // and forwards to the next attack, and find the best match
+                        //while (!IsKeyValue(SnifferTags.ReportText, line))
+                        //{
+                        //    if (!enumerator.MoveNext()) break;
+                            
+                        //    line = enumerator.Current;
+                        //}
+                        //if (IsKeyValue(SnifferTags.ReportText, line))
+                        //{
+                        //    context.Strike.ReportText = ParseValue(line);
+                        //}
                         break;
                     case SnifferTags.BodyPartAttackStart:
                         HandleBodyPartAttack(context, line, enumerator);
@@ -186,8 +201,32 @@ namespace DfCombatSnifferReaderApp
                     case SnifferTags.WeaponStart:
                         HandleWeapon(context, line, enumerator);
                         break;
+                    case SnifferTags.ArmorStart:
+                        HandleArmor(context, line, enumerator);
+                        break;
                     default:
                         HandleKeyValueLine(context.Strike, line);
+                        break;
+                }
+            }
+        }
+
+        private void HandleArmor(ParserContext context, string line, IEnumerator<string> enumerator)
+        {
+            var armor = new Armor();
+            context.Strike.Armors.Add(armor);
+            bool done = false;
+            while (!done && enumerator.MoveNext())
+            {
+                line = enumerator.Current;
+
+                switch (line)
+                {
+                    case SnifferTags.ArmorEnd:
+                        done = true;
+                        break;
+                    default:
+                        HandleKeyValueLine(armor, line);
                         break;
                 }
             }
@@ -376,6 +415,8 @@ namespace DfCombatSnifferReaderApp
 
         private void HandleReportText(ParserContext context, string line, IEnumerator<string> enumerator)
         {
+            // TODO - perhaps here is the best place to handle the strike text
+
             var v = ParseValue(line);
             context.Session.ReportTexts.Add(v);
         }

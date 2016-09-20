@@ -21,6 +21,8 @@ namespace DfCombatSnifferReaderApp
         public const string WoundBodyPartStart = "WOUND_BODY_PART_START";
         public const string WoundBodyPartEnd = "WOUND_BODY_PART_END";
 
+        public const string ArmorStart = "START_ARMOR";
+        public const string ArmorEnd = "END_ARMOR";
         public const string WeaponStart = "START_WEAPON";
         public const string WeaponEnd = "END_WEAPON";
         public const string WeaponAttackStart = "START_WEAPON_ATTACK";
