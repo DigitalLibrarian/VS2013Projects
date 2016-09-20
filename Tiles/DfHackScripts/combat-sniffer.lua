@@ -194,24 +194,28 @@ function DumpDefenderWound(unit, wound)
 		layerI = wp.layer_idx
 		gLayerI = wp.global_layer_idx
 
-		bp = unit.body.body_plan.body_parts[bpI]
-		bpName = bp.name_singular[0].value
-		layer = bp.layers[layerI]
-		layerName = layer.layer_name
+		if(layerI ~= -1) then
+			bp = unit.body.body_plan.body_parts[bpI]
+			bpName = bp.name_singular[0].value
+			layer = bp.layers[layerI]
+			layerName = layer.layer_name
 	
-		cut = unit.body.components.layer_cut_fraction[gLayerI]
-		dent = unit.body.components.layer_dent_fraction[gLayerI]
-		effect = unit.body.components.layer_effect_fraction[gLayerI]
+			cut = unit.body.components.layer_cut_fraction[gLayerI]
+			dent = unit.body.components.layer_dent_fraction[gLayerI]
+			effect = unit.body.components.layer_effect_fraction[gLayerI]
 	
-		woundArea = unit.body.components.layer_wound_area[gLayerI]
+			woundArea = unit.body.components.layer_wound_area[gLayerI]
 
-		Append("BODY_PART_NAME: " .. bpName)
-		Append("LAYER_NAME: " .. layerName)
-		Append("CUT_FRACTION:" .. cut)
-		Append("DENT_FRACTION: " .. dent)
-		Append("EFFECT_FRACTION:" .. effect)
-		Append("LAYER_WOUND_AREA:" .. woundArea)
-
+			Append("BODY_PART_NAME: " .. bpName)
+			Append("LAYER_NAME: " .. layerName)
+			Append("CUT_FRACTION:" .. cut)
+			Append("DENT_FRACTION: " .. dent)
+			Append("EFFECT_FRACTION:" .. effect)
+			Append("LAYER_WOUND_AREA:" .. woundArea)
+		else
+			Append("NO_TISSUE_LAYER_DEFINED")
+		end
+	
 		Append("WOUND_BODY_PART_END")
 
 		DumpTissues(unit, bpI) 
