@@ -20,5 +20,11 @@ namespace DfCombatSnifferReaderApp
         public const string DefenderWoundEnd = "DEFENDER_WOUND_END";
         public const string WoundBodyPartStart = "WOUND_BODY_PART_START";
         public const string WoundBodyPartEnd = "WOUND_BODY_PART_END";
+
+        public const string WeaponStart = "START_WEAPON";
+        public const string WeaponEnd = "END_WEAPON";
+        public const string WeaponAttackStart = "START_WEAPON_ATTACK";
+        public const string WeaponAttackEnd = "END_WEAPON_ATTACK";
+        public const string NoTissueLayerDefined = "NO_TISSUE_LAYER_DEFINED";
     }
 }
