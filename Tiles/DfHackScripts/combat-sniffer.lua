@@ -396,7 +396,7 @@ else
 		vedge="blunt"
 
 		Append("START_WEAPON_ATTACK")
-		Append("NAME: " .. strike)
+		Append("NAME: strike ")
 		Append("EDGE: " .. vedge)
 		Append("CONTACT: " .. misccontact)
 		Append("PENETRATION: " .. miscpene)
@@ -634,6 +634,7 @@ ReportTexts = {}
 
 Append("COMBAT SNIFFER SESSION START")
 RegisterForReports()
+
 
 
 
