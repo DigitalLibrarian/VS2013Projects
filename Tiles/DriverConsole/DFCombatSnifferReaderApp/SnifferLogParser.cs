@@ -49,7 +49,8 @@ namespace DfCombatSnifferReaderApp
     {
         public List<BodyPartAttack> BodyPartAttacks { get; private set; }
         public List<Wound> Wounds { get; private set; }
-        public List<Weapon> Weapons { get; private set;}
+        public List<Weapon> Weapons { get; private set; }
+        public string ReportText { get; set; }
         public AttackStrike() : base()
         {
             BodyPartAttacks = new List<BodyPartAttack>();
@@ -165,6 +166,16 @@ namespace DfCombatSnifferReaderApp
                 {
                     case SnifferTags.AttackEnd:
                         done = true;
+                        // TODO - this does not work.  The correct line is always
+                        // adjacent to our position here, but it might be behind as well as in-front.
+                        // We really need a set of hueristic rules for determining how close a 
+                        // log line is to the start of parsing at this point
+                        while (!IsKeyValue(SnifferTags.ReportText, line))
+                        {
+                            enumerator.MoveNext();
+                            line = enumerator.Current;
+                        }
+                        context.Strike.ReportText = ParseValue(line);
                         break;
                     case SnifferTags.BodyPartAttackStart:
                         HandleBodyPartAttack(context, line, enumerator);
