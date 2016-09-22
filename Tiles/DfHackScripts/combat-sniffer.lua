@@ -102,6 +102,7 @@ function OnUnitAttack(attackerId, defenderId, woundId)
 	Append("Wound ID: " .. woundId)
 	if(woundId ~= -1) then
 		local wound = GetWound(defender, woundId)
+
 		Append("DEFENDER_WOUND_START")
 		if(wound ~= nil) then
 			DumpDefenderWound(defender, wound)
@@ -132,6 +133,10 @@ function GetLastUnitReport(unit)
 	return text
 end
 
+function FlagString(flag)
+	return Ternary(flag, "true", "false")
+end
+
 function DumpDefenderWound(unit, wound)
 	age = wound.age -- might require = 0 for "new" wound
 
@@ -139,6 +144,43 @@ function DumpDefenderWound(unit, wound)
 	parts = wound.parts
 	numParts = #parts
 	Append("WOUND_PARTS: " .. numParts)
+
+--        <bitfield name="flags">
+--            <flag-bit name='severed_part'/>
+--            <flag-bit name='mortal_wound'/>
+--            <flag-bit name='stuck_weapon'/>
+--            <flag-bit name='diagnosed'/>
+--            <flag-bit name='sutured'/>
+--            <flag-bit name='infection'/>
+--        </bitfield>
+
+	Append("SEVERED_PART: " .. FlagString(wound.flags.severed_part))
+	Append("MORTAL_WOUND: " .. FlagString(wound.flags.mortal_wound))
+	Append("STUCK_WEAPON: " .. FlagString(wound.flags.stuck_weapon))
+	Append("DIAGNOSED: " .. FlagString(wound.flags.diagnosed))
+	Append("SUTURED: " .. FlagString(wound.flags.sutured))
+	Append("INFECTION: " .. FlagString(wound.flags.infection))
+
+--        <int32_t name="attacker_unit_id" ref-target='unit'/>
+--        <int32_t name="attacker_hist_figure_id" ref-target='historical_figure'/>
+--<int32_t name="syndrome_id" ref-target='syndrome'/>
+
+--        <int32_t name="pain"/>
+--        <int32_t name="nausea"/>
+--        <int32_t name="dizziness"/>
+--      <int32_t name="paralysis"/>
+--        <int32_t name="numbness"/>
+--        <int32_t name="fever"/>
+--        <pointer name="curse" type-name='wound_curse_info'/>
+
+	Append("ATTACKER_UNIT_ID: " .. wound.attacker_unit_id)
+	Append("ATTACKER_HIST_FIGURE_ID: " .. wound.attacker_hist_figure_id)
+	Append("SYNDROME_ID: " .. wound.syndrome_id)
+	Append("PAIN: " .. wound.pain)
+	Append("FEVER: " .. wound.fever)
+
+
+
 	for i=1, numParts, 1 do
 		
 		Append("WOUND_BODY_PART_START")
@@ -158,6 +200,21 @@ function DumpDefenderWound(unit, wound)
 		Append("BLEEDING: " .. part.bleeding)
 		Append("PAIN: " .. part.pain)
 		
+		Append("NAUSEA: " .. part.nausea)
+		Append("DIZZINESS: " .. part.dizziness)
+		Append("PARALYSIS: " .. part.paralysis)
+		Append("NUMBNESS: " .. part.numbness)
+		Append("SWELLING: " .. part.swelling)
+		Append("IMPAIRED: " .. part.impaired)
+--                <int32_t name="bleeding"/>
+--                <int32_t name="pain"/>
+--                <int32_t name="nausea"/>
+--                <int32_t name="dizziness"/>
+--                <int32_t name="paralysis"/>
+--                <int32_t name="numbness"/>
+--                <int32_t name="swelling"/>
+--                <int32_t name="impaired"/>
+
 		wp = part
 		bpI = wp.body_part_id
 		layerI = wp.layer_idx
