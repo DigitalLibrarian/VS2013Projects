@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnifferLogData.cs" />
     <Compile Include="SnifferLogParser.cs" />
     <Compile Include="SnifferTags.cs" />
     <EmbeddedResource Include="Form1.resx">
