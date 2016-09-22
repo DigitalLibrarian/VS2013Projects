@@ -35,6 +35,8 @@ namespace DfCombatSnifferReaderApp
         public const string BodyPartNamePlural = "BODY_PART_NAME_PLURAL";
         public const string BodyPartId = "BODY_PART_ID";
 
+        public const string Material = "MATERIAL";
         public const string TissueLayerName = "LAYER";
+        public const string Severed = "SEVERED_PART";
     }
 }
