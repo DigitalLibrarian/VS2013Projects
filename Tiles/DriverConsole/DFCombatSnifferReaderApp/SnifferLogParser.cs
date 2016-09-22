@@ -2,130 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DfCombatSnifferReaderApp
 {
-    public interface ISnifferLogData
-    {
-        List<SnifferSession> Sessions { get; }
-    }
-
-    public class SnifferLogData : ISnifferLogData
-    {
-        public List<SnifferSession> Sessions { get; private set; }
-        public SnifferLogData()
-        {
-            Sessions = new List<SnifferSession>();
-        }
-    }
-
-    public class SnifferSession
-    {
-        public List<string> ReportTexts { get; set; }
-        public List<AttackStrike> Strikes { get; set; }
-        public SnifferSession()
-        {
-            ReportTexts = new List<string>();
-            Strikes = new List<AttackStrike>();
-        }
-    }
-
-    public class SnifferNode
-    {
-        public Dictionary<string, string> KeyValues { get; set; }
-        public SnifferNode()
-        {
-            KeyValues = new Dictionary<string, string>();
-        }
-    }
-
-    public class BodyPartAttack : SnifferNode
-    {
-
-    }
-
-    public class Armor : SnifferNode
-    {
-
-    }
-
-    public class AttackStrike : SnifferNode
-    {
-        public List<BodyPartAttack> BodyPartAttacks { get; private set; }
-        public List<Wound> Wounds { get; private set; }
-        public List<Weapon> Weapons { get; private set; }
-        public List<Armor> Armors { get; private set; }
-        public string ReportText { get; set; }
-        public AttackStrike() : base()
-        {
-            BodyPartAttacks = new List<BodyPartAttack>();
-            Wounds = new List<Wound>();
-            Weapons = new List<Weapon>();
-            Armors = new List<Armor>();
-        }
-
-    }
-
-    public class Wound : SnifferNode
-    {
-        public List<WoundBodyPart> Parts { get; private set; }
-        public Wound() : base()
-        {
-            Parts = new List<WoundBodyPart>();
-        }
-    }
-
-    public class WoundBodyPart : SnifferNode
-    {
-        public List<WoundBodyPartTissueLayer> Layers { get; private set; }
-
-        public WoundBodyPart() : base()
-        {
-            Layers = new List<WoundBodyPartTissueLayer>();
-        }
-    }
-
-    public class WoundBodyPartTissueLayer : SnifferNode
-    {
-
-    }
-
-    public class Weapon : SnifferNode
-    {
-        public List<WeaponAttack> Attacks { get; private set; }
-        public Weapon() : base()
-        {
-            Attacks = new List<WeaponAttack>();
-        }
-    }
-
-    public class WeaponAttack : SnifferNode
-    {
-
-    }
-
-    public interface ISnifferLogParser
-    {
-        ISnifferLogData Parse(IEnumerable<string> lines);
-    }
-
-
-    class ParserContext
-    {
-        public SnifferLogData Data { get; set; }
-        public SnifferSession Session { get; set; }
-        public AttackStrike Strike { get; set; }
-        public Wound Wound { get; set; }
-        public Weapon Weapon { get; set; }
-        public ParserContext()
-        {
-            Data = new SnifferLogData();
-        }
-    }
-
     public class SnifferLogParser : ISnifferLogParser
     {
+        class ParserContext
+        {
+            public SnifferLogData Data { get; set; }
+            public SnifferSession Session { get; set; }
+            public AttackStrike Strike { get; set; }
+            public Wound Wound { get; set; }
+            public Weapon Weapon { get; set; }
+            public ParserContext()
+            {
+                Data = new SnifferLogData();
+            }
+        }
+
         public ISnifferLogData Parse(IEnumerable<string> lines)
         {
             var context = new ParserContext();
@@ -157,9 +53,109 @@ namespace DfCombatSnifferReaderApp
                 
             }
 
-            // TODO - now that we have aggregated everything, we want to match up each strike with its combat text
+            int sessionCount = 0;
+            foreach (var session in context.Data.Sessions)
+            {
+                FixStrikeReportText(session, sessionCount);
+            }
 
             return context.Data;
+        }
+
+        private void FixStrikeReportText(SnifferSession session, int sessionCount)
+        {
+            var reportTexts = session.ReportTexts.ToList();
+
+            foreach(var strike in session.Strikes)
+            {
+                int index = 0;
+                while (strike.ReportText == null && index < reportTexts.Count())
+                {
+                    var reportText = reportTexts[index];
+                    if (IsMatch(strike, reportText))
+                    {
+                        strike.ReportText = reportText;
+                        reportTexts.RemoveAt(index);
+                        break;
+                    }
+                    else
+                    {
+                        index++;
+                    }
+                }
+
+                if (strike.ReportText == null)
+                {
+                    if (strike.KeyValues[SnifferTags.AttackerName] == "Dwarf 15")
+                    {
+                        int brp = 0;
+                    }
+                    strike.ReportText = string.Format("{0} vs {1}", strike.KeyValues[SnifferTags.AttackerName], strike.KeyValues[SnifferTags.DefenderName]);
+                }
+            }
+
+            int bra = 1;
+        }
+
+        private bool IsMatch(AttackStrike strike, string text)
+        {
+            var attackerName = strike.KeyValues[SnifferTags.AttackerName];
+            var defenderName = strike.KeyValues[SnifferTags.DefenderName];
+            if (!strike.Wounds.Any())
+            {
+                return text.StartsWith(attackerName)
+                    && text.Contains(defenderName)
+                    && IsFinisher(text);
+            }
+
+            var targetBp = strike.Wounds.Last().Parts.First().KeyValues[SnifferTags.BodyPartName];
+
+            // TODO - add plurals to the parser
+            targetBp = targetBp.Replace("tooth", "teeth");
+            var regex = string.Format("^{0} .+?{1} in the {2}", attackerName, defenderName, targetBp);
+            bool isCombatText = IsCombatText(text);
+            bool isRegexMatch = Regex.IsMatch(text, regex);
+            bool hasBut = Regex.IsMatch(text, ", but");
+            var result = isCombatText && isRegexMatch && !hasBut;
+
+            if (!result)
+            {
+                if (attackerName == "Dwarf 15" && defenderName == "Dwarf 14" && text.StartsWith(attackerName)
+                    && targetBp.Contains("teeth"))
+                {
+                    int br = 0;
+                }
+            }
+            return result;
+        }
+
+        private static string[] Finishers = new string[]{
+            "and the injured part collapses into a lump of gore!",
+            "and the injured part explodes into gore!",
+            "and the injured part is ripped into loose shreds!",
+            "and the severed part sails off in an arc!",
+            "and the injured part collapses!"
+        };
+
+        private static string[] NonCombatPatterns = new string[]{
+            "stands up.",
+            "struggles in vain",
+            "but the attack is deflected",
+            "grabs",
+            "charges at",
+            "collides with",
+            "is knocked over",
+            "adjusts the grip"
+        };
+        private bool IsCombatText(string text)
+        {
+            return !NonCombatPatterns.Any(p => text.Contains(p)) &&
+                (text.Contains(',') || IsFinisher(text));
+        }
+
+        private bool IsFinisher(string text)
+        {
+            return Finishers.Any(f => text.Contains(f));
         }
 
         private void HandleAttackStart(ParserContext context, string line, IEnumerator<string> enumerator)
@@ -176,21 +172,6 @@ namespace DfCombatSnifferReaderApp
                 {
                     case SnifferTags.AttackEnd:
                         done = true;
-                        
-                        // TODO - this does not work. 
-                        // We really need a set of hueristic rules for determining how close a 
-                        // log line is to the start of parsing at this point.  Then we can back to the last attack
-                        // and forwards to the next attack, and find the best match
-                        //while (!IsKeyValue(SnifferTags.ReportText, line))
-                        //{
-                        //    if (!enumerator.MoveNext()) break;
-                            
-                        //    line = enumerator.Current;
-                        //}
-                        //if (IsKeyValue(SnifferTags.ReportText, line))
-                        //{
-                        //    context.Strike.ReportText = ParseValue(line);
-                        //}
                         break;
                     case SnifferTags.BodyPartAttackStart:
                         HandleBodyPartAttack(context, line, enumerator);
@@ -333,6 +314,7 @@ namespace DfCombatSnifferReaderApp
         private void HandleTissueLayer(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             var tl = new WoundBodyPartTissueLayer();
+            // TODO -- actually use this
             
             bool done = false;
 
@@ -382,7 +364,7 @@ namespace DfCombatSnifferReaderApp
             {
                 var key = ParseKey(line);
                 var value = ParseValue(line);
-                node.KeyValues[key] = value;
+                node.KeyValues[key] = value.Trim();
             }
             else
             {
@@ -390,7 +372,7 @@ namespace DfCombatSnifferReaderApp
             }
         }
 
-        private const char KeyValueSeparator = ':';
+        private char[] KeyValueSeparator = new char[]{':'};
         private bool IsKeyValue(string key, string line)
         {
             if (!IsKeyValue(line)) return false;
@@ -401,16 +383,16 @@ namespace DfCombatSnifferReaderApp
 
         private bool IsKeyValue(string line)
         {
-            return line.Contains(KeyValueSeparator);
+            return line.Count(c => c == KeyValueSeparator[0]) > 0;
         }
 
         private string ParseKey(string keyValue)
         {
-            return keyValue.Split(KeyValueSeparator).First();
+            return keyValue.Split(KeyValueSeparator, 2).First();
         }
         private string ParseValue(string keyValue)
         {
-            return keyValue.Split(KeyValueSeparator).Skip(1).First();
+            return keyValue.Split(KeyValueSeparator, 2).Last();
         }
 
         private void HandleReportText(ParserContext context, string line, IEnumerator<string> enumerator)
@@ -418,12 +400,15 @@ namespace DfCombatSnifferReaderApp
             // TODO - perhaps here is the best place to handle the strike text
 
             var v = ParseValue(line);
-            context.Session.ReportTexts.Add(v);
+            context.Session.ReportTexts.Add(v.Trim());
         }
 
         private void HandleSessionStart(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             context.Session = new SnifferSession();
+            context.Strike = null;
+            context.Wound = null;
+            context.Weapon = null;
             context.Data.Sessions.Add(context.Session);
         }
     }

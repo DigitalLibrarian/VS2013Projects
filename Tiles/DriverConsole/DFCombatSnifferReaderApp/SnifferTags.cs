@@ -28,5 +28,9 @@ namespace DfCombatSnifferReaderApp
         public const string WeaponAttackStart = "START_WEAPON_ATTACK";
         public const string WeaponAttackEnd = "END_WEAPON_ATTACK";
         public const string NoTissueLayerDefined = "NO_TISSUE_LAYER_DEFINED";
+
+        public const string AttackerName = "ATTACKER";
+        public const string DefenderName = "DEFENDER";
+        public const string BodyPartName = "BODY_PART_NAME";
     }
 }
