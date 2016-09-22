@@ -51,61 +51,91 @@ namespace DfCombatSnifferReaderApp
             LoadFileData();
         }
 
-        private void LoadFileData(string filterRegex = ".")
+        class SessionComboItem
         {
+
+            public string Display { get; set; }
+            public int Value { get; set; }
+        }
+
+        ISnifferLogData Data { get; set; }
+        SnifferSession CurrentSession { get; set; }
+        private void LoadFileData()
+        {
+            var data = Parser.Parse(FileData);
+            Data = data;
+
+            int sessionCount = 0;
+            comboBox1.DisplayMember = "Display";
+            comboBox1.ValueMember = "Value";
+            comboBox1.DataSource = data.Sessions.Select(s =>
+                {
+
+                    var o = new SessionComboItem() { Value = sessionCount, Display = string.Format("Session #{0}", sessionCount+1) };
+                    sessionCount++;
+                    return o;
+                }).ToList();
+
+            CurrentSession = Data.Sessions.First();
+
+            ReloadSession();
+        }
+
+        private void ReloadSession(string filterRegex = ".")
+        {
+            LoadSession(CurrentSession, filterRegex);
+        }
+
+        private void LoadSession(SnifferSession session, string filterRegex)
+        {
+
             treeView1.Nodes.Clear();
             TreeToSnif.Clear();
             TreeToStrike.Clear();
             StrikeToTree.Clear();
 
-            var data = Parser.Parse(FileData);
 
             TreeNode treeNode = null;
-            int sessionCount = 1;
-            foreach (var session in data.Sessions)
+            var strikeNodes = new List<TreeNode>();
+            foreach (var strike in session.Strikes)
             {
-                var strikeNodes = new List<TreeNode>();
-                foreach (var strike in session.Strikes)
+                if (Regex.IsMatch(strike.ReportText, filterRegex))
                 {
-                    if (Regex.IsMatch(strike.ReportText, filterRegex))
+                    int woundCount = 1;
+                    var woundNodes = new List<TreeNode>();
+                    foreach (var wound in strike.Wounds)
                     {
-                        int woundCount = 1;
-                        var woundNodes = new List<TreeNode>();
-                        foreach (var wound in strike.Wounds)
+                        var wbpNodes = new List<TreeNode>();
+                        foreach (var wbp in wound.Parts)
                         {
-                            var wbpNodes = new List<TreeNode>();
-                            foreach (var wbp in wound.Parts)
+                            var layerNodes = new List<TreeNode>();
+                            foreach (var tl in wbp.Layers)
                             {
-                                var layerNodes = new List<TreeNode>();
-                                foreach (var tl in wbp.Layers)
-                                {
-                                    treeNode = new TreeNode(tl.KeyValues[SnifferTags.TissueLayerName]);
-                                    layerNodes.Add(treeNode);
-                                    TreeToSnif[treeNode] = tl;
-                                }
-
-                                var wbpNodeName = wbp.KeyValues[SnifferTags.BodyPartNameSingular];
-                                treeNode = new TreeNode(wbpNodeName, layerNodes.ToArray());
-                                wbpNodes.Add(treeNode);
-                                TreeToSnif[treeNode] = wbp;
+                                treeNode = new TreeNode(tl.KeyValues[SnifferTags.TissueLayerName]);
+                                layerNodes.Add(treeNode);
+                                TreeToSnif[treeNode] = tl;
                             }
-                            treeNode = new TreeNode(string.Format("Wound #{0}", woundCount++), wbpNodes.ToArray());
-                            woundNodes.Add(treeNode);
-                            TreeToSnif[treeNode] = wound;
+
+                            var wbpNodeName = wbp.KeyValues[SnifferTags.BodyPartNameSingular];
+                            treeNode = new TreeNode(wbpNodeName, layerNodes.ToArray());
+                            wbpNodes.Add(treeNode);
+                            TreeToSnif[treeNode] = wbp;
                         }
-
-                        var strikeNode = new TreeNode(strike.ReportText, woundNodes.ToArray());
-                        strikeNodes.Add(strikeNode);
-                        TreeToSnif[strikeNode] = strike;
-
-                        TreeToStrike[strikeNode] = strike;
-                        StrikeToTree[strike] = strikeNode;
+                        treeNode = new TreeNode(string.Format("Wound #{0}", woundCount++), wbpNodes.ToArray());
+                        woundNodes.Add(treeNode);
+                        TreeToSnif[treeNode] = wound;
                     }
+
+                    var strikeNode = new TreeNode(strike.ReportText, woundNodes.ToArray());
+                    strikeNodes.Add(strikeNode);
+                    TreeToSnif[strikeNode] = strike;
+
+                    TreeToStrike[strikeNode] = strike;
+                    StrikeToTree[strike] = strikeNode;
+
+                    treeView1.Nodes.Add(strikeNode);
                 }
-
-                var sessionNode = new TreeNode(string.Format("Session #{0}", sessionCount++), strikeNodes.ToArray());
-                treeView1.Nodes.Add(sessionNode);
-
+                
             }
         }
 
@@ -143,12 +173,16 @@ namespace DfCombatSnifferReaderApp
         private void button1_Click(object sender, EventArgs e)
         {
             var regex = textBox1.Text;
-            LoadFileData(regex);
-            foreach (var topNode in treeView1.Nodes)
-            {
-                (topNode as TreeNode).Expand();
-            }
+            ReloadSession(regex);
             treeView1.Select();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            int id = (int)comboBox1.SelectedValue;
+            CurrentSession = Data.Sessions[id];
+            ReloadSession(textBox1.Text);
         }
     }
 }
