@@ -53,19 +53,6 @@ function OnReport(reportId)
 		AddReportText(text)
 	end
 
---	while(NeedsContinue(report)) do
---		Append("CONTINUE")
---		reportId = reportId - 1
---		report=df.report.find(reportId)
---		text = report.text .. " " .. text
---	end
-
---	if(not NeedsContinue(report)) then
---		Append("REPORT_TEXT:" .. text)
---		if(IsAttackText(text)) then
---			Append("ATTACK_TEXT:" .. text)
---		end
---	end
 end
 
 
@@ -83,6 +70,7 @@ function ShowLastReportText(text)
 	if(i > 0) then
 		Append("REPORT_TEXT: " .. ReportTexts[i])
 	end
+	ReportTexts = {}
 end
 
 function NeedsContinue(report)
@@ -178,11 +166,12 @@ function DumpDefenderWound(unit, wound)
 		bp = unit.body.body_plan.body_parts[bpI]
 		bpName = bp.name_singular[0].value
 		
-		Append("BODY_PART_NAME: " .. bpName)
+		Append("BODY_PART_NAME_SINGULAR: " .. bpName)
+		Append("BODY_PART_NAME_PLURAL: " .. bp.name_plural[0].value)
 		if(layerI ~= -1) then
 			layer = bp.layers[layerI]
 			layerName = layer.layer_name
-	
+		--	ReflectDump(layer)
 			cut = unit.body.components.layer_cut_fraction[gLayerI]
 			dent = unit.body.components.layer_dent_fraction[gLayerI]
 			effect = unit.body.components.layer_effect_fraction[gLayerI]
@@ -194,12 +183,10 @@ function DumpDefenderWound(unit, wound)
 			Append("DENT_FRACTION: " .. dent)
 			Append("EFFECT_FRACTION:" .. effect)
 			Append("LAYER_WOUND_AREA:" .. woundArea)
+			DumpTissue(unit, bpI, layerName)
 		else
 			Append("NO_TISSUE_LAYER_DEFINED")
 		end
-	
-
-		DumpTissues(unit, bpI) 
 		
 		Append("WOUND_BODY_PART_END")
 	end
@@ -215,40 +202,43 @@ function DumpTissues(unit, body_part_id)
 	end
 end
 
-function DumpTissue(unit, body_part_id, global_tissue_idx)
+function ReflectDump(o)
+
+	for rkey,rvalue in pairs(o) do
+	    print("found member " .. rkey);
+	end
+
+end
 
 
-		local v = unit.body.body_plan.body_parts[bpI]
-		local cur_size = unit.body.size_info.size_cur
-		local curstrength=unit.body.physical_attrs.STRENGTH.value
-		local race = df.global.world.raws.creatures.all[unit.race]
-		local partrelsize = v.relsize
-		local bodyTotalRelSize = unit.body.body_plan.total_relsize
-		local partsize = math.floor(cur_size * v.relsize / unit.body.body_plan.total_relsize)
-		local partthick = math.floor((partsize * 10000) ^ 0.333)
-		local contact = math.floor(partsize ^ 0.666)
+function DumpTissue(unit, body_part_id, tissue_id)
+	local v = unit.body.body_plan.body_parts[bpI]
+	local cur_size = unit.body.size_info.size_cur
+	local curstrength=unit.body.physical_attrs.STRENGTH.value
+	local race = df.global.world.raws.creatures.all[unit.race]
+	local partrelsize = v.relsize
+	local bodyTotalRelSize = unit.body.body_plan.total_relsize
+	local partsize = math.floor(cur_size * v.relsize / unit.body.body_plan.total_relsize)
+	local partthick = math.floor((partsize * 10000) ^ 0.333)
+	local contact = math.floor(partsize ^ 0.666)
+	local bpName = v.name_singular[0].value
+	local layer_part =unit.body.body_plan.layer_part
+	for kk,vv in pairs(v.layers) do
+		tisdata=race.tissue[vv.tissue_id]
+		layername = vv.layer_name
 
-		local bpName = v.name_singular[0].value
-
-		for kk,vv in pairs(v.layers) do
-
-			tisdata=race.tissue[vv.tissue_id]
-			layername = vv.layer_name
-			
+		if(tisdata.id == tissue_id) then
 			material=dfhack.matinfo.decode(tisdata.mat_type,tisdata.mat_index)
 			--tissue has a mat_state, could it name properly
 			matdata=material.material.strength
 			
 			modpartfraction= vv.part_fraction
-
 			if tisdata.flags.THICKENS_ON_ENERGY_STORAGE == true then
 				modpartfraction = unit.counters2.stored_fat * modpartfraction / 2500 / 100
 			end
-
 			if tisdata.flags.THICKENS_ON_STRENGTH == true then
 				modpartfraction = curstrength * modpartfraction / 1000
 			end
-
 			layervolume = math.floor(partsize * modpartfraction / v.fraction_total)
 			layerthick = math.floor(partthick * modpartfraction / v.fraction_total)
 			if layervolume == 0 then
@@ -257,7 +247,7 @@ function DumpTissue(unit, body_part_id, global_tissue_idx)
 			if layerthick == 0 then
 				layerthick = 1
 			end
-
+	
 			vbca=layervolume*matdata.yield.IMPACT/100/500/10
 			vbcb=layervolume*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/10
 			vbcc=layervolume*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/10
@@ -267,11 +257,11 @@ function DumpTissue(unit, body_part_id, global_tissue_idx)
 				vbcc=0
 			end
 			fullbmr= math.floor(vbca+vbcb+vbcc)
-
--- Volume/Contact/Thickness/Material/Blunt_Momentum_Resist/Shear_Yield/Frac/PSize/PThick/PRelSize/BodyTotRelSize
+	
 
 			Append("TISSUE_LAYER_START")
 
+			Append("TISSUE_ID:" .. tisdata.id)
 			Append("LAYER: " .. vv.layer_name)
 			Append("VOLUME: " .. layervolume)
 			Append("CONTACT: " .. contact)
@@ -287,6 +277,7 @@ function DumpTissue(unit, body_part_id, global_tissue_idx)
 
 			Append("TISSUE_LAYER_END")
 		end
+	end
 			
 end
 
