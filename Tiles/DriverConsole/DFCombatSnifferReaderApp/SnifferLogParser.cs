@@ -19,6 +19,38 @@ namespace DfCombatSnifferReaderApp
             public ParserContext()
             {
                 Data = new SnifferLogData();
+                Bites = new Dictionary<string, string>();
+                Latches = new Dictionary<string, string>();
+            }
+
+            public WoundBodyPart WoundBodyPart { get; set; }
+
+            Dictionary<string, string> Bites { get; set; }
+            Dictionary<string, string> Latches { get; set; }
+
+            public void SetBiting(string attackerName, string defenderName)
+            {
+                Bites[attackerName] = defenderName;
+
+                if(Latches.ContainsKey(attackerName)) Latches.Remove(attackerName);
+            }
+
+            public bool IsBiting(string attackerName, string defenderName)
+            {
+                if (!Bites.ContainsKey(attackerName)) return false;
+                return Bites[attackerName].Equals(defenderName);
+            }
+
+
+            public void SetLatching(string attackerName, string defenderName)
+            {
+                Latches[attackerName] = defenderName;
+            }
+
+            public bool IsLatching(string attackerName, string defenderName)
+            {
+                if (!Latches.ContainsKey(attackerName)) return false;
+                return Latches[attackerName].Equals(defenderName);
             }
         }
 
@@ -56,13 +88,13 @@ namespace DfCombatSnifferReaderApp
             int sessionCount = 0;
             foreach (var session in context.Data.Sessions)
             {
-                FixStrikeReportText(session, sessionCount);
+                FixStrikeReportText(context, session, sessionCount);
             }
 
             return context.Data;
         }
 
-        private void FixStrikeReportText(SnifferSession session, int sessionCount)
+        private void FixStrikeReportText(ParserContext context, SnifferSession session, int sessionCount)
         {
             var reportTexts = session.ReportTexts.ToList();
 
@@ -72,9 +104,10 @@ namespace DfCombatSnifferReaderApp
                 while (strike.ReportText == null && index < reportTexts.Count())
                 {
                     var reportText = reportTexts[index];
-                    if (IsMatch(strike, reportText))
+                    if (IsMatch(context, strike, reportText))
                     {
                         strike.ReportText = reportText;
+                        HandleBiting(context, strike);
                         reportTexts.RemoveAt(index);
                         break;
                     }
@@ -97,7 +130,27 @@ namespace DfCombatSnifferReaderApp
             int bra = 1;
         }
 
-        private bool IsMatch(AttackStrike strike, string text)
+        private void HandleBiting(ParserContext context, AttackStrike strike)
+        {
+            var text = strike.ReportText;
+            var attackerName = strike.KeyValues[SnifferTags.AttackerName];
+            var defenderName = strike.KeyValues[SnifferTags.DefenderName];
+
+            var bitePattern = string.Format("{0} bites {1} ", attackerName, defenderName);
+            if (text.Contains(bitePattern))
+            {
+                context.SetBiting(attackerName, defenderName);
+            }
+
+            var latchPattern = string.Format("{0} latches on", attackerName);
+            if (!context.IsLatching(attackerName, defenderName) &&  text.Contains(latchPattern))
+            {
+                context.SetLatching(attackerName, defenderName);
+            }
+            // TODO - check releases, those they might not actually be attack strikes
+        }
+
+        private bool IsMatch(ParserContext context, AttackStrike strike, string text)
         {
             var attackerName = strike.KeyValues[SnifferTags.AttackerName];
             var defenderName = strike.KeyValues[SnifferTags.DefenderName];
@@ -108,25 +161,65 @@ namespace DfCombatSnifferReaderApp
                     && IsFinisher(text);
             }
 
-            var targetBp = strike.Wounds.Last().Parts.First().KeyValues[SnifferTags.BodyPartName];
+            var targetBp = strike.Wounds.Last().Parts.First().KeyValues[SnifferTags.BodyPartNameSingular];
 
-            // TODO - add plurals to the parser
-            targetBp = targetBp.Replace("tooth", "teeth");
-            var regex = string.Format("^{0} .+?{1} in the {2}", attackerName, defenderName, targetBp);
+
+            var combatantRegex = string.Format("^{0} .+? {1} ", attackerName, defenderName);//in the {2}", attackerName, defenderName, targetBp);
             bool isCombatText = IsCombatText(text);
-            bool isRegexMatch = Regex.IsMatch(text, regex);
+            bool isCombatantRegex = Regex.IsMatch(text, combatantRegex);
             bool hasBut = Regex.IsMatch(text, ", but");
-            var result = isCombatText && isRegexMatch && !hasBut;
+            var result = isCombatText && isCombatantRegex && !hasBut;
+            
+            //if (!result) return false;
 
-            if (!result)
+            if (!isCombatText || hasBut) return false;
+
+            if (isCombatantRegex)
             {
-                if (attackerName == "Dwarf 15" && defenderName == "Dwarf 14" && text.StartsWith(attackerName)
-                    && targetBp.Contains("teeth"))
+                // now to make sure it is the correctly targeted body part
+                var bodyPartRegex = string.Format(" in the {0}[ |,]", targetBp);
+
+                if (Regex.IsMatch(text, bodyPartRegex))
                 {
-                    int br = 0;
+                    return true;
+                }
+
+                targetBp = strike.Wounds.Last().Parts.First().KeyValues[SnifferTags.BodyPartNamePlural];
+                bodyPartRegex = string.Format(" in the {0}[ |,]", targetBp);
+
+                if (Regex.IsMatch(text, bodyPartRegex))
+                {
+                    return true;
+                }
+
+
+                if (targetBp.Contains("eyelid"))
+                {
+                    targetBp = targetBp.Replace("eyelid", "eye");
+
+                    bodyPartRegex = string.Format(" in the {0}[ |,]", targetBp);
+                    if (Regex.IsMatch(text, bodyPartRegex))
+                    {
+                        return true;
+                    }
                 }
             }
-            return result;
+
+            // check biting
+            if (context.IsBiting(attackerName, defenderName))
+            {
+                if (!context.IsLatching(attackerName, defenderName) && text.Contains(string.Format("{0} latches on", attackerName)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return text.Contains(string.Format("{0} shakes {1} around", attackerName, defenderName));
+                }
+            }
+
+
+            return false;
         }
 
         private static string[] Finishers = new string[]{
@@ -134,7 +227,9 @@ namespace DfCombatSnifferReaderApp
             "and the injured part explodes into gore!",
             "and the injured part is ripped into loose shreds!",
             "and the severed part sails off in an arc!",
-            "and the injured part collapses!"
+            "and the injured part collapses!",
+            "and the injured part is cloven asunder!",
+            "latches on firmly"
         };
 
         private static string[] NonCombatPatterns = new string[]{
@@ -301,9 +396,6 @@ namespace DfCombatSnifferReaderApp
                     case SnifferTags.WoundBodyPartStart:
                         HandleWoundBodyPartStart(context, line, enumerator);
                         break;
-                    case SnifferTags.TissueLayerStart:
-                        HandleTissueLayer(context, line, enumerator);
-                        break;
                     default:
                         HandleKeyValueLine(wound, line);
                         break;
@@ -314,7 +406,7 @@ namespace DfCombatSnifferReaderApp
         private void HandleTissueLayer(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             var tl = new WoundBodyPartTissueLayer();
-            // TODO -- actually use this
+            context.WoundBodyPart.Layers.Add(tl);
             
             bool done = false;
 
@@ -337,6 +429,7 @@ namespace DfCombatSnifferReaderApp
         private void HandleWoundBodyPartStart(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             var wbp = new WoundBodyPart();
+            context.WoundBodyPart = wbp;
             context.Wound.Parts.Add(wbp);
             bool done = false;
 
@@ -348,6 +441,9 @@ namespace DfCombatSnifferReaderApp
                 {
                     case SnifferTags.WoundBodyPartEnd:
                         done = true;
+                        break;
+                    case SnifferTags.TissueLayerStart:
+                        HandleTissueLayer(context, line, enumerator);
                         break;
                     case SnifferTags.NoTissueLayerDefined:
                         break;

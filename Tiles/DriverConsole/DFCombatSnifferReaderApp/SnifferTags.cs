@@ -31,6 +31,10 @@ namespace DfCombatSnifferReaderApp
 
         public const string AttackerName = "ATTACKER";
         public const string DefenderName = "DEFENDER";
-        public const string BodyPartName = "BODY_PART_NAME";
+        public const string BodyPartNameSingular = "BODY_PART_NAME_SINGULAR";
+        public const string BodyPartNamePlural = "BODY_PART_NAME_PLURAL";
+        public const string BodyPartId = "BODY_PART_ID";
+
+        public const string TissueLayerName = "LAYER";
     }
 }
