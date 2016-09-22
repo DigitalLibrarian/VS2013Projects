@@ -1,30 +1,11 @@
 
 function RegisterForReports()
 	eventful = require "plugins.eventful"
-	eventful.enableEvent(eventful.eventType.REPORT, 1)
+	eventful.enableEvent(eventful.eventType.REPORT, 0)
 	eventful.enableEvent(eventful.eventType.UNIT_ATTACK, 0)
-	eventful.enableEvent(eventful.eventType.INTERACTION ,1)
 	eventful.onReport.something=function(reportId)
 		OnReport(reportId)
 	end
---	    local report=df.report.find(reportId)
-	       -- Append("type:",report.type)
-	        --Append("text:",report.text)
-	        --Append("color:",report.color)
-	        --Append("bright:",report.bright)
-	        --Append("duration:",report.duration)
-	        --Append("flags:",report.flags)  -- bitfield
-	        --Append("flags.whole:",report.flags.whole)
-	        --Append("repeat_count:",report.repeat_count)
-	        --Append("pos:",report.pos)
-	        --Append("id:",report.id)
-	        --Append("year:",report.year)
-	        --Append("time:",report.time)
-	        --Append("unk_v40_1:",report.unk_v40_1)
-	        --Append("unk_v40_2:",report.unk_v40_2)
-	        --Append("unk_v40_3:",report.unk_v40_3)
---	end
-
 	eventful.onUnitAttack.something = function(attackerId, defenderId, woundId)
 		Append("UNIT_ATTACK_START")
 		OnUnitAttack(attackerId, defenderId, woundId)
@@ -194,9 +175,11 @@ function DumpDefenderWound(unit, wound)
 		layerI = wp.layer_idx
 		gLayerI = wp.global_layer_idx
 
+		bp = unit.body.body_plan.body_parts[bpI]
+		bpName = bp.name_singular[0].value
+		
+		Append("BODY_PART_NAME: " .. bpName)
 		if(layerI ~= -1) then
-			bp = unit.body.body_plan.body_parts[bpI]
-			bpName = bp.name_singular[0].value
 			layer = bp.layers[layerI]
 			layerName = layer.layer_name
 	
@@ -206,7 +189,6 @@ function DumpDefenderWound(unit, wound)
 	
 			woundArea = unit.body.components.layer_wound_area[gLayerI]
 
-			Append("BODY_PART_NAME: " .. bpName)
 			Append("LAYER_NAME: " .. layerName)
 			Append("CUT_FRACTION:" .. cut)
 			Append("DENT_FRACTION: " .. dent)
@@ -216,9 +198,10 @@ function DumpDefenderWound(unit, wound)
 			Append("NO_TISSUE_LAYER_DEFINED")
 		end
 	
-		Append("WOUND_BODY_PART_END")
 
 		DumpTissues(unit, bpI) 
+		
+		Append("WOUND_BODY_PART_END")
 	end
 end
 
@@ -535,7 +518,7 @@ function GetUnit(id)
 end
 
 function Append(str)
-	fileName = "test.txt"
+	fileName = "combat-sniffer-log.txt"
 	file = io.open(fileName, "a")
 	io.output(file)
 	io.write(str .. "\n")
@@ -634,7 +617,6 @@ ReportTexts = {}
 
 Append("COMBAT SNIFFER SESSION START")
 RegisterForReports()
-
 
 
 
