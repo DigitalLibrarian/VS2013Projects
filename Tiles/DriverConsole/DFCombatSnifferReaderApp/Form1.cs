@@ -8,19 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace DfCombatSnifferReaderApp
 {
     public partial class Form1 : Form
     {
-        const string CheatPath = @"D:\git\VS2013Projects\Tiles\DfHackScripts\combat-sniffer-log.txt";
+        const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-3.txt";
 
         ISnifferLogParser Parser { get; set; }
 
         public Form1()
         {
             InitializeComponent();
-
+            
             Parser = new SnifferLogParser();
             LoadFile(CheatPath);
         }
@@ -38,15 +39,26 @@ namespace DfCombatSnifferReaderApp
             }
         }
 
+        IEnumerable<string> FileData { get; set; }
+
         Dictionary<TreeNode, SnifferNode> TreeToSnif = new Dictionary<TreeNode, SnifferNode>();
+        Dictionary<TreeNode, AttackStrike> TreeToStrike = new Dictionary<TreeNode, AttackStrike>();
+        Dictionary<AttackStrike, TreeNode> StrikeToTree = new Dictionary<AttackStrike, TreeNode>();
 
         private void LoadFile(string path)
         {
+            FileData = ReadLines(path).ToList();
+            LoadFileData();
+        }
+
+        private void LoadFileData(string filterRegex = ".")
+        {
+            treeView1.Nodes.Clear();
             TreeToSnif.Clear();
+            TreeToStrike.Clear();
+            StrikeToTree.Clear();
 
-            var lines = ReadLines(path).ToList();
-
-            var data = Parser.Parse(lines);
+            var data = Parser.Parse(FileData);
 
             TreeNode treeNode = null;
             int sessionCount = 1;
@@ -55,7 +67,7 @@ namespace DfCombatSnifferReaderApp
                 var strikeNodes = new List<TreeNode>();
                 foreach (var strike in session.Strikes)
                 {
-                    //if (strike.ReportText.StartsWith("Dwarf 3 "))
+                    if (Regex.IsMatch(strike.ReportText, filterRegex))
                     {
                         int woundCount = 1;
                         var woundNodes = new List<TreeNode>();
@@ -64,7 +76,16 @@ namespace DfCombatSnifferReaderApp
                             var wbpNodes = new List<TreeNode>();
                             foreach (var wbp in wound.Parts)
                             {
-                                treeNode = new TreeNode(wbp.KeyValues[SnifferTags.BodyPartName]);
+                                var layerNodes = new List<TreeNode>();
+                                foreach (var tl in wbp.Layers)
+                                {
+                                    treeNode = new TreeNode(tl.KeyValues[SnifferTags.TissueLayerName]);
+                                    layerNodes.Add(treeNode);
+                                    TreeToSnif[treeNode] = tl;
+                                }
+
+                                var wbpNodeName = wbp.KeyValues[SnifferTags.BodyPartNameSingular];
+                                treeNode = new TreeNode(wbpNodeName, layerNodes.ToArray());
                                 wbpNodes.Add(treeNode);
                                 TreeToSnif[treeNode] = wbp;
                             }
@@ -76,11 +97,15 @@ namespace DfCombatSnifferReaderApp
                         var strikeNode = new TreeNode(strike.ReportText, woundNodes.ToArray());
                         strikeNodes.Add(strikeNode);
                         TreeToSnif[strikeNode] = strike;
+
+                        TreeToStrike[strikeNode] = strike;
+                        StrikeToTree[strike] = strikeNode;
                     }
                 }
 
                 var sessionNode = new TreeNode(string.Format("Session #{0}", sessionCount++), strikeNodes.ToArray());
                 treeView1.Nodes.Add(sessionNode);
+
             }
         }
 
@@ -113,6 +138,17 @@ namespace DfCombatSnifferReaderApp
                 }
             }
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var regex = textBox1.Text;
+            LoadFileData(regex);
+            foreach (var topNode in treeView1.Nodes)
+            {
+                (topNode as TreeNode).Expand();
+            }
+            treeView1.Select();
         }
     }
 }
