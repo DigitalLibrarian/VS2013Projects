@@ -296,7 +296,8 @@ namespace DfCombatSnifferReaderApp
             "glances away",
             "down by the",
             "releases the grip",
-            "places a chokehold"
+            "places a chokehold",
+            "breaks the grip"
              
         };
         private bool IsCombatText(string text)
