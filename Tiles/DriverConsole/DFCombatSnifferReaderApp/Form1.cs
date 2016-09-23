@@ -14,7 +14,7 @@ namespace DfCombatSnifferReaderApp
 {
     public partial class Form1 : Form
     {
-        const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-4.txt";
+        const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-7.txt";
 
         ISnifferLogParser Parser { get; set; }
 
@@ -179,7 +179,6 @@ namespace DfCombatSnifferReaderApp
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
             int id = (int)comboBox1.SelectedValue;
             CurrentSession = Data.Sessions[id];
             ReloadSession(textBox1.Text);

@@ -38,5 +38,7 @@ namespace DfCombatSnifferReaderApp
         public const string Material = "MATERIAL";
         public const string TissueLayerName = "LAYER";
         public const string Severed = "SEVERED_PART";
+
+        public const string WoundId = "Wound ID";
     }
 }
