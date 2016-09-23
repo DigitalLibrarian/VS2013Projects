@@ -23,7 +23,7 @@ namespace DfCombatSnifferReaderApp
             InitializeComponent();
             
             Parser = new SnifferLogParser();
-            LoadFile(CheatPath);
+            //LoadFile(CheatPath);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
