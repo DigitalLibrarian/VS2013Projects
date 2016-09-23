@@ -23,7 +23,7 @@ namespace DfCombatSnifferReaderApp
             InitializeComponent();
             
             Parser = new SnifferLogParser();
-            LoadFile(CheatPath);
+            //LoadFile(CheatPath);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -179,7 +179,6 @@ namespace DfCombatSnifferReaderApp
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
             int id = (int)comboBox1.SelectedValue;
             CurrentSession = Data.Sessions[id];
             ReloadSession(textBox1.Text);
