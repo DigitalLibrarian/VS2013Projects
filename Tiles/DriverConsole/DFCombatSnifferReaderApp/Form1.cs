@@ -14,7 +14,7 @@ namespace DfCombatSnifferReaderApp
 {
     public partial class Form1 : Form
     {
-        const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-7.txt";
+        const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-4.txt";
 
         ISnifferLogParser Parser { get; set; }
 

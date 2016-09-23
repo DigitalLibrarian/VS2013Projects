@@ -150,9 +150,29 @@ namespace DfCombatSnifferReaderApp
             // TODO - check releases, those they might not actually be attack strikes
         }
 
+        WoundBodyPartTissueLayer PickLayer(AttackStrike strike)
+        {
+            var part = strike.Wounds.Last().Parts.LastOrDefault(p =>
+                {
+                    int dent = p.KeyValues.ContainsKey(SnifferTags.DentFraction) ? int.Parse(p.KeyValues[SnifferTags.DentFraction]) : 0;
+                    int cut = p.KeyValues.ContainsKey(SnifferTags.CutFraction) ? int.Parse(p.KeyValues[SnifferTags.CutFraction]) : 0;
+                    int effect = p.KeyValues.ContainsKey(SnifferTags.EffectFraction) ? int.Parse(p.KeyValues[SnifferTags.EffectFraction]) : 0;
+                    return dent > 0 || cut > 0 || effect > 0;
+                });
+            if (part == null) return null;
+
+            if (part.Layers.Any())
+            {
+                return part.Layers.Last();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private bool IsMatch(ParserContext context, AttackStrike strike, string text)
         {
-
             var attackerName = strike.KeyValues[SnifferTags.AttackerName];
             var defenderName = strike.KeyValues[SnifferTags.DefenderName];
 
@@ -163,8 +183,15 @@ namespace DfCombatSnifferReaderApp
                     && IsWhiteList(text);
             }
 
+            if(attackerName == "Alligator Man 1" && defenderName == "Echidna Man 1"
+                && strike.KeyValues[SnifferTags.WoundId] == "28"
+                && text.Contains(" strangles "))
+            {
+                int br = 0;
+            }
+
             var wound = strike.Wounds.Last();
-            if (wound.KeyValues[SnifferTags.Severed] == "true")
+            if (wound.KeyValues[SnifferTags.Severed].ToLower() == "true")
             {
                 if (!text.Contains("severed")) return false;
             }
@@ -176,10 +203,12 @@ namespace DfCombatSnifferReaderApp
             var targetBpPlural = strike.Wounds.Last().Parts.First().KeyValues[SnifferTags.BodyPartNamePlural];
             var layerName = "NERP";
             var material = "NERP";
-            if(strike.Wounds.Last().Parts.Last().Layers.Any())
+
+            var lastLayer = PickLayer(strike);
+            if(lastLayer != null)
             {
-                layerName = strike.Wounds.Last().Parts.Last().Layers.Last().KeyValues[SnifferTags.TissueLayerName].ToLower();
-                material = strike.Wounds.Last().Parts.Last().Layers.Last().KeyValues[SnifferTags.Material].ToLower();
+                layerName = lastLayer.KeyValues[SnifferTags.TissueLayerName].ToLower();
+                material = lastLayer.KeyValues[SnifferTags.Material].ToLower();
             }
 
             var lastBpName = strike.Wounds.Last().Parts.Last().KeyValues[SnifferTags.BodyPartNameSingular];
@@ -192,7 +221,7 @@ namespace DfCombatSnifferReaderApp
             bool hasBut = Regex.IsMatch(text, ", but ");
             var result = isCombatText && isCombatantRegex && !hasBut;
             
-            var layerRegex = string.Format(" the (({1}'s )|())(({0})|({1})|({2})|({3}))( collapses)*", layerName, lastBpName, lastBpPlural, material);
+            var layerRegex = string.Format("(({1}'s )|())(({0})|({1})|({2})|({3}))( collapses)*", layerName, lastBpName, lastBpPlural, material);
             bool singleLayerDent = Regex.IsMatch(text, "((tear)|(bruis)|(shatter)|(dent)|(fractur))ing it!");
             bool lastBpCollapse = Regex.IsMatch(text, string.Format("{0} collapses", lastBpName));
             bool layerMatch = Regex.IsMatch(text, layerRegex);
@@ -203,7 +232,7 @@ namespace DfCombatSnifferReaderApp
             {
                 if (lastBpCollapse) return true;
                 
-                var bodyPartRegex = string.Format(" in the (({0})|({1}))[ |,]", targetBp, targetBpPlural);
+                var bodyPartRegex = string.Format("( in the (({0})|({1}))[ |,|!])|({0})", targetBp, targetBpPlural);
 
                 if (Regex.IsMatch(text, bodyPartRegex))
                 {
@@ -227,9 +256,9 @@ namespace DfCombatSnifferReaderApp
                     }
                 }
 
-                if (context.IsBiting(attackerName, defenderName))
+                //if (context.IsBiting(attackerName, defenderName))
                 {
-                    if (text.Contains(string.Format("{0} shakes {1} around", attackerName, defenderName)))
+                    if (text.Contains(string.Format("{0} shakes {1} around by the {2}", attackerName, defenderName, targetBp)))
                     {
                         if (layerMatch || IsWhiteList(text) || singleLayerDent)
                         {
@@ -266,7 +295,8 @@ namespace DfCombatSnifferReaderApp
             "jumps away",
             "glances away",
             "down by the",
-            "releases the grip"
+            "releases the grip",
+            "places a chokehold"
              
         };
         private bool IsCombatText(string text)

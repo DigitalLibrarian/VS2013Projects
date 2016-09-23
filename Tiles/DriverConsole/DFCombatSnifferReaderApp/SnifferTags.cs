@@ -40,5 +40,8 @@ namespace DfCombatSnifferReaderApp
         public const string Severed = "SEVERED_PART";
 
         public const string WoundId = "Wound ID";
+        public const string CutFraction = "CUT_FRACTION";
+        public const string DentFraction = "DENT_FRACTION";
+        public const string EffectFraction = "EFFECT_FRACTION";
     }
 }
