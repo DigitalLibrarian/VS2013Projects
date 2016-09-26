@@ -183,13 +183,6 @@ namespace DfCombatSnifferReaderApp
                     && IsWhiteList(text);
             }
 
-            if(attackerName == "Alligator Man 1" && defenderName == "Echidna Man 1"
-                && strike.KeyValues[SnifferTags.WoundId] == "28"
-                && text.Contains(" strangles "))
-            {
-                int br = 0;
-            }
-
             var wound = strike.Wounds.Last();
             if (wound.KeyValues[SnifferTags.Severed].ToLower() == "true")
             {

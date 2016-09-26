@@ -12,9 +12,16 @@ using System.Text.RegularExpressions;
 
 namespace DfCombatSnifferReaderApp
 {
+
     public partial class Form1 : Form
     {
         const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-4.txt";
+
+        static class ViewerTabs
+        {
+            public const int ReportText = 0;
+            public const int Strike = 1;
+        }
 
         ISnifferLogParser Parser { get; set; }
 
@@ -23,7 +30,7 @@ namespace DfCombatSnifferReaderApp
             InitializeComponent();
             
             Parser = new SnifferLogParser();
-            //LoadFile(CheatPath);
+            LoadFile(CheatPath);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -44,6 +51,7 @@ namespace DfCombatSnifferReaderApp
         Dictionary<TreeNode, SnifferNode> TreeToSnif = new Dictionary<TreeNode, SnifferNode>();
         Dictionary<TreeNode, AttackStrike> TreeToStrike = new Dictionary<TreeNode, AttackStrike>();
         Dictionary<AttackStrike, TreeNode> StrikeToTree = new Dictionary<AttackStrike, TreeNode>();
+        Dictionary<string, AttackStrike> ReportTextToStrike = new Dictionary<string, AttackStrike>();
 
         private void LoadFile(string path)
         {
@@ -88,12 +96,12 @@ namespace DfCombatSnifferReaderApp
 
         private void LoadSession(SnifferSession session, string filterRegex)
         {
-
             treeView1.Nodes.Clear();
+            reportLogListView.Items.Clear();
             TreeToSnif.Clear();
             TreeToStrike.Clear();
             StrikeToTree.Clear();
-
+            ReportTextToStrike.Clear();
 
             TreeNode treeNode = null;
             var strikeNodes = new List<TreeNode>();
@@ -127,15 +135,30 @@ namespace DfCombatSnifferReaderApp
                     }
 
                     var strikeNode = new TreeNode(strike.ReportText, woundNodes.ToArray());
+                    /*
+                    strikeNode.BackColor = session.ReportTexts.Any(t => t.Equals(strike.ReportText))
+                        ? Color.LightGreen : Color.LightPink;
+                     * */
                     strikeNodes.Add(strikeNode);
                     TreeToSnif[strikeNode] = strike;
 
                     TreeToStrike[strikeNode] = strike;
                     StrikeToTree[strike] = strikeNode;
 
+                    ReportTextToStrike[strike.ReportText] = strike;
+
                     treeView1.Nodes.Add(strikeNode);
                 }
-                
+            }
+
+            foreach (var reportText in session.ReportTexts)
+            {
+                var lvi = new ListViewItem(reportText);
+                if (ReportTextToStrike.ContainsKey(reportText))
+                {
+                    lvi.BackColor = Color.LightGreen;
+                }
+                reportLogListView.Items.Add(lvi);
             }
         }
 
@@ -167,7 +190,6 @@ namespace DfCombatSnifferReaderApp
                     listView1.Items.Add(string.Format("{0} : {1}", key, asset.KeyValues[key]));
                 }
             }
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -183,5 +205,37 @@ namespace DfCombatSnifferReaderApp
             CurrentSession = Data.Sessions[id];
             ReloadSession(textBox1.Text);
         }
+
+        private void reportLogListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            HyperLinkSelectedReportText();
+        }
+
+        private void HyperLinkSelectedReportText()
+        {
+            var index = reportLogListView.SelectedIndices[0];
+            var reportText = CurrentSession.ReportTexts[index];
+
+            if (ReportTextToStrike.ContainsKey(reportText))
+            {
+                var strike = ReportTextToStrike[reportText];
+
+                tabControl1.SelectTab(ViewerTabs.Strike);
+                var treeNode = StrikeToTree[strike];
+                treeView1.SelectedNode = treeNode;
+                treeNode.EnsureVisible();
+                treeNode.ExpandAll();
+            }
+        }
+
+
+        private void reportLogListView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                HyperLinkSelectedReportText();
+            }
+        }
+
     }
 }
