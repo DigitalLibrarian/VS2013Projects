@@ -96,40 +96,35 @@ namespace DfCombatSnifferReaderApp
 
         private void FixStrikeReportText(ParserContext context, SnifferSession session, int sessionCount)
         {
-            var reportTexts = session.ReportTexts.Where(IsCombatText).ToList();
+            var used = new Dictionary<int, bool>();
+            var reportTexts = session.ReportTexts.ToList();
 
             foreach(var strike in session.Strikes)
             {
                 int index = 0;
-                while (strike.ReportText == null && index < reportTexts.Count())
+                while (strike.ReportTextIndex == -1 && index < reportTexts.Count())
                 {
-                    var reportText = reportTexts[index];
-                    if (IsMatch(context, strike, reportText))
+                    if (!used.ContainsKey(index))
                     {
-                        strike.ReportText = reportText;
-                        HandleBiting(context, strike);
-                        reportTexts.RemoveAt(index);
-                        break;
+                        var reportText = reportTexts[index];
+                        if (IsMatch(context, strike, reportText))
+                        {
+                            strike.ReportTextIndex = index;
+                            used[index] = true;
+                            HandleBiting(context, session, strike);
+                            break;
+                        }
                     }
-                    else
-                    {
-                        index++;
-                    }
-                }
 
-                if (strike.ReportText == null)
-                {
-                    string killHint = strike.KeyValues[SnifferTags.WoundId] == "-1" ? "(Looks like kill)" : "";
-                    strike.ReportText = string.Format("{0} vs {1} {2}", strike.KeyValues[SnifferTags.AttackerName], strike.KeyValues[SnifferTags.DefenderName], killHint);
+                    index++;
                 }
             }
-
-            int bra = 1;
         }
-
-        private void HandleBiting(ParserContext context, AttackStrike strike)
+        
+        private void HandleBiting(ParserContext context, SnifferSession session, AttackStrike strike)
         {
-            var text = strike.ReportText;
+            var text = session.GetReportText(strike);
+            if (text == null) return;
             var attackerName = strike.KeyValues[SnifferTags.AttackerName];
             var defenderName = strike.KeyValues[SnifferTags.DefenderName];
 
@@ -173,32 +168,27 @@ namespace DfCombatSnifferReaderApp
 
         private bool IsMatch(ParserContext context, AttackStrike strike, string text)
         {
+            if (!IsCombatText(text)) return false;
+
             var attackerName = strike.KeyValues[SnifferTags.AttackerName];
             var defenderName = strike.KeyValues[SnifferTags.DefenderName];
 
             if (!strike.Wounds.Any())
             {
+                return false;
+                /*
                 return text.StartsWith(attackerName)
                     && text.Contains(defenderName)
                     && IsWhiteList(text);
-            }
-
-            if(attackerName == "Alligator Man 1" && defenderName == "Echidna Man 1"
-                && strike.KeyValues[SnifferTags.WoundId] == "28"
-                && text.Contains(" strangles "))
-            {
-                int br = 0;
+                 * */
             }
 
             var wound = strike.Wounds.Last();
-            if (wound.KeyValues[SnifferTags.Severed].ToLower() == "true")
-            {
-                if (!text.Contains("severed")) return false;
-            }
-            else
-            {
-                if(text.Contains("severed")) return false;
-            }
+            var severedWound = wound.KeyValues[SnifferTags.Severed].ToLower() == "true";
+            var severedText = text.Contains("severed");
+
+            if (severedText != severedWound) return false;
+
             var targetBp = strike.Wounds.Last().Parts.First().KeyValues[SnifferTags.BodyPartNameSingular];
             var targetBpPlural = strike.Wounds.Last().Parts.First().KeyValues[SnifferTags.BodyPartNamePlural];
             var layerName = "NERP";
@@ -232,7 +222,7 @@ namespace DfCombatSnifferReaderApp
             {
                 if (lastBpCollapse) return true;
                 
-                var bodyPartRegex = string.Format("( in the (({0})|({1}))[ |,|!])|({0})", targetBp, targetBpPlural);
+                var bodyPartRegex = string.Format("( in the (({0})|({1}))[ |,|!])|({2}'s {0})", targetBp, targetBpPlural, defenderName);
 
                 if (Regex.IsMatch(text, bodyPartRegex))
                 {
@@ -256,14 +246,11 @@ namespace DfCombatSnifferReaderApp
                     }
                 }
 
-                //if (context.IsBiting(attackerName, defenderName))
+                if (text.Contains(string.Format("{0} shakes {1} around by the {2}", attackerName, defenderName, targetBp)))
                 {
-                    if (text.Contains(string.Format("{0} shakes {1} around by the {2}", attackerName, defenderName, targetBp)))
+                    if (layerMatch || IsWhiteList(text) || singleLayerDent)
                     {
-                        if (layerMatch || IsWhiteList(text) || singleLayerDent)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
@@ -280,7 +267,8 @@ namespace DfCombatSnifferReaderApp
             "and the injured part is cloven asunder!",
             "and the injured part is smashed into the body",
             "and the injured part is torn apart",
-            "and the injured part is crushed"
+            "and the injured part is crushed",
+            "and the part splits in gore"
         };
 
         private static string[] NonCombatPatterns = new string[]{
@@ -297,13 +285,53 @@ namespace DfCombatSnifferReaderApp
             "down by the",
             "releases the grip",
             "places a chokehold",
-            "breaks the grip"
-             
+            "breaks the grip",
+            "break the grip",
+            "latches on firmly",
+            " locks ",
+            "An artery has been opened",
+            " ligament ",
+            " tendon ",
+            " artery ",
+            " nerve",
+            " misses ", 
+            ": ",
+            "unconscious",
+            "stunned",
+            "enraged",
+            " bounces ",
+            " falls ",
+            " looks sick",
+            " looks even more sick",
+            " vomits",
+            " retches",
+            " is ripped away",
+            "conscious",
+            "drop away",
+            "passes out",
+            "having trouble breathing",
+            "releases",
+            " but ",
+            "lodged firmly",
+            "pulls on the embedded",
+            "loses hold",
+            "has been struck down",
+            "gives in to pain",
+            "fall over",
+            "skids along",
+            "flight path",
+            "slams into an obstacle",
+            "has bled to death",
+            "propelled away",
+            "is interrupted",
+            "sucked out of the wound",
+            "is injected"
         };
-        private bool IsCombatText(string text)
+        public bool IsCombatText(string text)
         {
-            return !NonCombatPatterns.Any(p => text.Contains(p));
-                //&& (text.Contains(',') || IsWhiteList(text));
+            if(NonCombatPatterns.Any(p => text.Contains(p))) return false;
+            //if (IsWhiteList(text)) return true;
+            return true;
         }
 
         private bool IsWhiteList(string text)

@@ -29,6 +29,15 @@ namespace DfCombatSnifferReaderApp
             ReportTexts = new List<string>();
             Strikes = new List<AttackStrike>();
         }
+
+        public string GetReportText(AttackStrike strike)
+        {
+            if (strike.ReportTextIndex == -1)
+            {
+                return null;
+            }
+            return ReportTexts[strike.ReportTextIndex];
+        }
     }
 
     public class SnifferNode
@@ -56,7 +65,7 @@ namespace DfCombatSnifferReaderApp
         public List<Wound> Wounds { get; private set; }
         public List<Weapon> Weapons { get; private set; }
         public List<Armor> Armors { get; private set; }
-        public string ReportText { get; set; }
+        public int ReportTextIndex { get; set; }
         public AttackStrike()
             : base()
         {
@@ -64,8 +73,11 @@ namespace DfCombatSnifferReaderApp
             Wounds = new List<Wound>();
             Weapons = new List<Weapon>();
             Armors = new List<Armor>();
+            ReportTextIndex = -1;
         }
 
+        public string AttackerName { get { return KeyValues[SnifferTags.AttackerName]; } }
+        public string DefenderName { get { return KeyValues[SnifferTags.DefenderName]; } }
     }
 
     public class Wound : SnifferNode
@@ -112,5 +124,6 @@ namespace DfCombatSnifferReaderApp
     public interface ISnifferLogParser
     {
         ISnifferLogData Parse(IEnumerable<string> lines);
+        bool IsCombatText(string text);
     }
 }
