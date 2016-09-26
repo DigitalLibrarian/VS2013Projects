@@ -15,7 +15,7 @@ namespace DfCombatSnifferReaderApp
 
     public partial class Form1 : Form
     {
-        const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-4.txt";
+        const string CheatPath = @"D:\git\VS2013Projects\Tiles\CombatSnifferLogs\combat-sniffer-log-3.txt";
 
         static class ViewerTabs
         {
@@ -51,7 +51,7 @@ namespace DfCombatSnifferReaderApp
         Dictionary<TreeNode, SnifferNode> TreeToSnif = new Dictionary<TreeNode, SnifferNode>();
         Dictionary<TreeNode, AttackStrike> TreeToStrike = new Dictionary<TreeNode, AttackStrike>();
         Dictionary<AttackStrike, TreeNode> StrikeToTree = new Dictionary<AttackStrike, TreeNode>();
-        Dictionary<string, AttackStrike> ReportTextToStrike = new Dictionary<string, AttackStrike>();
+        Dictionary<int, AttackStrike> ReportTextToStrike = new Dictionary<int, AttackStrike>();
 
         private void LoadFile(string path)
         {
@@ -107,7 +107,13 @@ namespace DfCombatSnifferReaderApp
             var strikeNodes = new List<TreeNode>();
             foreach (var strike in session.Strikes)
             {
-                if (Regex.IsMatch(strike.ReportText, filterRegex))
+                var strikeReportText = session.GetReportText(strike);
+                if (strikeReportText == null)
+                {
+                    string killHint = strike.KeyValues[SnifferTags.WoundId] == "-1" ? "(Looks like kill)" : "";
+                    strikeReportText = string.Format("{0} vs {1} {2}", strike.KeyValues[SnifferTags.AttackerName], strike.KeyValues[SnifferTags.DefenderName], killHint);
+                }
+                if (Regex.IsMatch(strikeReportText, filterRegex))
                 {
                     int woundCount = 1;
                     var woundNodes = new List<TreeNode>();
@@ -134,31 +140,40 @@ namespace DfCombatSnifferReaderApp
                         TreeToSnif[treeNode] = wound;
                     }
 
-                    var strikeNode = new TreeNode(strike.ReportText, woundNodes.ToArray());
-                    /*
-                    strikeNode.BackColor = session.ReportTexts.Any(t => t.Equals(strike.ReportText))
-                        ? Color.LightGreen : Color.LightPink;
-                     * */
+                    var strikeNode = new TreeNode(strikeReportText, woundNodes.ToArray());
                     strikeNodes.Add(strikeNode);
                     TreeToSnif[strikeNode] = strike;
 
                     TreeToStrike[strikeNode] = strike;
                     StrikeToTree[strike] = strikeNode;
 
-                    ReportTextToStrike[strike.ReportText] = strike;
+                    if (strike.ReportTextIndex != -1)
+                    {
+                        ReportTextToStrike[strike.ReportTextIndex] = strike;
+                    }
 
                     treeView1.Nodes.Add(strikeNode);
                 }
             }
 
+            int index = 0;
             foreach (var reportText in session.ReportTexts)
             {
                 var lvi = new ListViewItem(reportText);
-                if (ReportTextToStrike.ContainsKey(reportText))
+                if (session.Strikes.Any(strike => strike.ReportTextIndex == index))
                 {
                     lvi.BackColor = Color.LightGreen;
                 }
+                else
+                {
+                    if(Parser.IsCombatText(reportText))
+                    {
+                        lvi.BackColor = Color.LightPink;
+                        lvi.ToolTipText = "Looks like a missing attack event went with this report text.";
+                    }
+                }
                 reportLogListView.Items.Add(lvi);
+                index++;
             }
         }
 
@@ -214,11 +229,9 @@ namespace DfCombatSnifferReaderApp
         private void HyperLinkSelectedReportText()
         {
             var index = reportLogListView.SelectedIndices[0];
-            var reportText = CurrentSession.ReportTexts[index];
-
-            if (ReportTextToStrike.ContainsKey(reportText))
+            if (ReportTextToStrike.ContainsKey(index))
             {
-                var strike = ReportTextToStrike[reportText];
+                var strike = ReportTextToStrike[index];
 
                 tabControl1.SelectTab(ViewerTabs.Strike);
                 var treeNode = StrikeToTree[strike];
@@ -228,7 +241,6 @@ namespace DfCombatSnifferReaderApp
             }
         }
 
-
         private void reportLogListView_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -236,6 +248,5 @@ namespace DfCombatSnifferReaderApp
                 HyperLinkSelectedReportText();
             }
         }
-
     }
 }

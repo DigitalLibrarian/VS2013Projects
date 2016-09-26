@@ -61,7 +61,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1068, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1160, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -90,7 +90,7 @@
             this.treeView1.FullRowSelect = true;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(815, 443);
+            this.treeView1.Size = new System.Drawing.Size(884, 516);
             this.treeView1.TabIndex = 1;
             // 
             // listView1
@@ -99,7 +99,7 @@
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(218, 443);
+            this.listView1.Size = new System.Drawing.Size(239, 516);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
@@ -138,8 +138,8 @@
             this.splitContainer1.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
             this.splitContainer1.Panel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.splitContainer1.Size = new System.Drawing.Size(1048, 443);
-            this.splitContainer1.SplitterDistance = 815;
+            this.splitContainer1.Size = new System.Drawing.Size(1138, 516);
+            this.splitContainer1.SplitterDistance = 884;
             this.splitContainer1.SplitterWidth = 15;
             this.splitContainer1.TabIndex = 6;
             // 
@@ -173,13 +173,15 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 24);
+            this.tabControl1.Location = new System.Drawing.Point(0, 53);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1068, 481);
+            this.tabControl1.Size = new System.Drawing.Size(1160, 556);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -188,7 +190,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1060, 455);
+            this.tabPage1.Size = new System.Drawing.Size(1152, 530);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Report Log";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -202,7 +204,7 @@
             this.reportLogListView.Location = new System.Drawing.Point(3, 3);
             this.reportLogListView.MultiSelect = false;
             this.reportLogListView.Name = "reportLogListView";
-            this.reportLogListView.Size = new System.Drawing.Size(1054, 449);
+            this.reportLogListView.Size = new System.Drawing.Size(1146, 524);
             this.reportLogListView.TabIndex = 0;
             this.reportLogListView.UseCompatibleStateImageBehavior = false;
             this.reportLogListView.View = System.Windows.Forms.View.Details;
@@ -220,7 +222,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1060, 455);
+            this.tabPage2.Size = new System.Drawing.Size(1152, 530);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Strikes";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -229,7 +231,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1068, 505);
+            this.ClientSize = new System.Drawing.Size(1160, 609);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
