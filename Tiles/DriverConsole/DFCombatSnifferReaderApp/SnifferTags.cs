@@ -8,7 +8,7 @@ namespace DfCombatSnifferReaderApp
 {
     public static class SnifferTags
     {
-        public const string SessionStart = "COMBAT SNIFFER SESSION START";
+        public const string SessionStart = "COMBAT_SNIFFER_SESSION_START";
         public const string ReportText = "REPORT_TEXT";
         public const string AttackStart = "UNIT_ATTACK_START";
         public const string AttackEnd = "UNIT_ATTACK_END";
@@ -43,5 +43,12 @@ namespace DfCombatSnifferReaderApp
         public const string CutFraction = "CUT_FRACTION";
         public const string DentFraction = "DENT_FRACTION";
         public const string EffectFraction = "EFFECT_FRACTION";
+
+        public const string UnitStart = "UNIT_START";
+        public const string UnitEnd = "UNIT_END";
+        public const string BodyStart = "BODY_START";
+        public const string BodyEnd = "BODY_END";
+        public const string BodyPartStart = "BODY_PART_START";
+        public const string BodyPartEnd = "BODY_PART_END";
     }
 }

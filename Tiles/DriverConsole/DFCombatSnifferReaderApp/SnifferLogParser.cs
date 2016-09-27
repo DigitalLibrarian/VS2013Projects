@@ -16,6 +16,9 @@ namespace DfCombatSnifferReaderApp
             public AttackStrike Strike { get; set; }
             public Wound Wound { get; set; }
             public Weapon Weapon { get; set; }
+
+            public Unit Unit { get; set; }
+            public UnitBodyPart UnitBodyPart { get; set; }
             public ParserContext()
             {
                 Data = new SnifferLogData();
@@ -52,6 +55,11 @@ namespace DfCombatSnifferReaderApp
                 if (!Latches.ContainsKey(attackerName)) return false;
                 return Latches[attackerName].Equals(defenderName);
             }
+
+            internal int GetNewSessionId()
+            {
+                return Data.Sessions.Count() + 1;
+            }
         }
 
         public ISnifferLogData Parse(IEnumerable<string> lines)
@@ -72,13 +80,14 @@ namespace DfCombatSnifferReaderApp
                         HandleAttackStart(context, line, enumerator);
                         break;
                     default:
+
                         if (IsKeyValue(SnifferTags.ReportText, line))
                         {
                             HandleReportText(context, line, enumerator);
                         }
-                        else
+                        else if (IsKeyValue(SnifferTags.SessionStart, line))
                         {
-                            throw new NotImplementedException();
+                            HandleSessionStart(context, line, enumerator);
                         }
                         break;
                 }
@@ -145,7 +154,7 @@ namespace DfCombatSnifferReaderApp
             // TODO - check releases, those they might not actually be attack strikes
         }
 
-        WoundBodyPartTissueLayer PickLayer(AttackStrike strike)
+        TissueLayer PickLayer(AttackStrike strike)
         {
             var part = strike.Wounds.Last().Parts.LastOrDefault(p =>
                 {
@@ -353,17 +362,11 @@ namespace DfCombatSnifferReaderApp
                     case SnifferTags.AttackEnd:
                         done = true;
                         break;
-                    case SnifferTags.BodyPartAttackStart:
-                        HandleBodyPartAttack(context, line, enumerator);
-                        break;
                     case SnifferTags.DefenderWoundStart:
                         HandleDefenderWoundStart(context, line, enumerator);
                         break;
-                    case SnifferTags.WeaponStart:
-                        HandleWeapon(context, line, enumerator);
-                        break;
-                    case SnifferTags.ArmorStart:
-                        HandleArmor(context, line, enumerator);
+                    case SnifferTags.UnitStart:
+                        HandleUnit(context, line, enumerator);
                         break;
                     default:
                         HandleKeyValueLine(context.Strike, line);
@@ -380,10 +383,98 @@ namespace DfCombatSnifferReaderApp
             }
         }
 
+        private void HandleUnit(ParserContext context, string line, IEnumerator<string> enumerator)
+        {
+            var unit = new Unit();
+            context.Unit = unit;
+            context.Session.Units.Add(unit);
+
+            bool done = false;
+            while (!done && enumerator.MoveNext())
+            {
+                line = enumerator.Current;
+
+                switch (line)
+                {
+                    case SnifferTags.UnitEnd:
+                        done = true;
+                        break;
+
+                    case SnifferTags.BodyPartAttackStart:
+                        HandleBodyPartAttack(context, line, enumerator);
+                        break;
+                    case SnifferTags.WeaponStart:
+                        HandleWeapon(context, line, enumerator);
+                        break;
+                    case SnifferTags.ArmorStart:
+                        HandleArmor(context, line, enumerator);
+                        break;
+
+                    case SnifferTags.BodyStart:
+                        HandleBody(context, line, enumerator);
+                        break;
+                    default:
+                        HandleKeyValueLine(unit, line);
+                        break;
+                }
+            }
+        }
+
+        private void HandleBody(ParserContext context, string line, IEnumerator<string> enumerator)
+        {
+            var body = new UnitBody();
+            context.Unit.Body = body;
+            bool done = false;
+            while (!done && enumerator.MoveNext())
+            {
+                line = enumerator.Current;
+
+                switch (line)
+                {
+                    case SnifferTags.BodyEnd:
+                        done = true;
+                        break;
+                    case SnifferTags.BodyPartStart:
+                        HandleBodyPart(context, line, enumerator);
+                        break;
+                    default:
+                        HandleKeyValueLine(body, line);
+                        break;
+                }
+            }
+        }
+
+        private void HandleBodyPart(ParserContext context, string line, IEnumerator<string> enumerator)
+        {
+            var bodyPart = new UnitBodyPart();
+
+            context.UnitBodyPart = bodyPart;
+
+            bool done = false;
+            while (!done && enumerator.MoveNext())
+            {
+                line = enumerator.Current;
+
+                switch (line)
+                {
+                    case SnifferTags.BodyPartEnd:
+                        done = true;
+                        break;
+                    case SnifferTags.TissueLayerStart:
+                        HandleTissueLayer(context, line, enumerator);
+                        break;
+                    default:
+                        HandleKeyValueLine(bodyPart, line);
+                        break;
+                }
+            }
+        }
+
         private void HandleArmor(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             var armor = new Armor();
-            context.Strike.Armors.Add(armor);
+            //context.Strike.Armors.Add(armor);
+            context.Unit.Armors.Add(armor);
             bool done = false;
             while (!done && enumerator.MoveNext())
             {
@@ -404,7 +495,8 @@ namespace DfCombatSnifferReaderApp
         private void HandleWeapon(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             context.Weapon = new Weapon();
-            context.Strike.Weapons.Add(context.Weapon);
+            //context.Strike.Weapons.Add(context.Weapon);
+            context.Unit.Weapons.Add(context.Weapon);
 
             bool done = false;
             while (!done && enumerator.MoveNext())
@@ -451,7 +543,8 @@ namespace DfCombatSnifferReaderApp
         private void HandleBodyPartAttack(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             var bpAttack = new BodyPartAttack();
-            context.Strike.BodyPartAttacks.Add(bpAttack);
+            //context.Strike.BodyPartAttacks.Add(bpAttack);
+            context.Unit.BodyPartAttacks.Add(bpAttack);
             bool done = false;
             while (!done && enumerator.MoveNext())
             {
@@ -498,8 +591,9 @@ namespace DfCombatSnifferReaderApp
 
         private void HandleTissueLayer(ParserContext context, string line, IEnumerator<string> enumerator)
         {
-            var tl = new WoundBodyPartTissueLayer();
-            context.WoundBodyPart.Layers.Add(tl);
+            var tl = new TissueLayer();
+            //context.WoundBodyPart.Layers.Add(tl);
+            context.UnitBodyPart.Layers.Add(tl);
             
             bool done = false;
 
@@ -534,9 +628,6 @@ namespace DfCombatSnifferReaderApp
                 {
                     case SnifferTags.WoundBodyPartEnd:
                         done = true;
-                        break;
-                    case SnifferTags.TissueLayerStart:
-                        HandleTissueLayer(context, line, enumerator);
                         break;
                     case SnifferTags.NoTissueLayerDefined:
                         break;
@@ -594,11 +685,18 @@ namespace DfCombatSnifferReaderApp
 
         private void HandleSessionStart(ParserContext context, string line, IEnumerator<string> enumerator)
         {
-            context.Session = new SnifferSession();
+            var sessionId = context.GetNewSessionId();
+            context.Session = new SnifferSession(sessionId);
             context.Strike = null;
             context.Wound = null;
             context.Weapon = null;
             context.WoundBodyPart = null;
+            
+            if (IsKeyValue(SnifferTags.SessionStart, line))
+            {
+                context.Session.Name = ParseValue(line);
+            }
+
             context.Data.Sessions.Add(context.Session);
         }
     }

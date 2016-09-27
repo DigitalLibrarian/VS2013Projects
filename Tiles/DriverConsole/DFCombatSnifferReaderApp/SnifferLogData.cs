@@ -22,12 +22,17 @@ namespace DfCombatSnifferReaderApp
 
     public class SnifferSession
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
         public List<string> ReportTexts { get; set; }
         public List<AttackStrike> Strikes { get; set; }
-        public SnifferSession()
+        public List<Unit> Units { get; set; }
+        public SnifferSession(int id)
         {
+            Id = id;
             ReportTexts = new List<string>();
             Strikes = new List<AttackStrike>();
+            Units = new List<Unit>();
         }
 
         public string GetReportText(AttackStrike strike)
@@ -49,6 +54,39 @@ namespace DfCombatSnifferReaderApp
         }
     }
 
+    public class Unit : SnifferNode
+    {
+        public UnitBody Body { get; set; }
+        public List<BodyPartAttack> BodyPartAttacks { get; set; }
+        public List<Weapon> Weapons { get; set; }
+        public List<Armor> Armors { get; set; }
+
+        public Unit()
+        {
+            BodyPartAttacks = new List<BodyPartAttack>();
+            Weapons = new List<Weapon>();
+            Armors = new List<Armor>();
+        }
+    }
+
+    public class UnitBody : SnifferNode
+    {
+        public List<UnitBodyPart> BodyParts { get; set; }
+        public UnitBody()
+        {
+            BodyParts = new List<UnitBodyPart>();
+        }
+    }
+
+    public class UnitBodyPart : SnifferNode
+    {
+        public List<TissueLayer> Layers { get; set; }
+        public UnitBodyPart()
+        {
+            Layers = new List<TissueLayer>();
+        }
+    }
+
     public class BodyPartAttack : SnifferNode
     {
 
@@ -61,18 +99,11 @@ namespace DfCombatSnifferReaderApp
 
     public class AttackStrike : SnifferNode
     {
-        public List<BodyPartAttack> BodyPartAttacks { get; private set; }
         public List<Wound> Wounds { get; private set; }
-        public List<Weapon> Weapons { get; private set; }
-        public List<Armor> Armors { get; private set; }
         public int ReportTextIndex { get; set; }
         public AttackStrike()
             : base()
         {
-            BodyPartAttacks = new List<BodyPartAttack>();
-            Wounds = new List<Wound>();
-            Weapons = new List<Weapon>();
-            Armors = new List<Armor>();
             ReportTextIndex = -1;
         }
 
@@ -92,16 +123,16 @@ namespace DfCombatSnifferReaderApp
 
     public class WoundBodyPart : SnifferNode
     {
-        public List<WoundBodyPartTissueLayer> Layers { get; private set; }
+        public List<TissueLayer> Layers { get; private set; }
 
         public WoundBodyPart()
             : base()
         {
-            Layers = new List<WoundBodyPartTissueLayer>();
+            Layers = new List<TissueLayer>();
         }
     }
 
-    public class WoundBodyPartTissueLayer : SnifferNode
+    public class TissueLayer : SnifferNode
     {
 
     }
