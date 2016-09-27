@@ -714,12 +714,14 @@ end
 
 
 if(args.start) then
-	if(args.start == nil) then
+	if(args.start == "") then
 		Append("COMBAT_SNIFFER_SESSION_START")
 	else
 		Append("COMBAT_SNIFFER_SESSION_START: " .. args.start)
 	end
 	RegisterForEvents()
+else
+	print (usage)
 end
 
 
