@@ -433,7 +433,7 @@ function DumpAttacks(unit)
 			
 			end
 			actvol=v.item:getVolume()
-			Append("BLUNT_DEFLECT_IF_LAYER_WEIGHT_MORE_THAN: ", actvol * matdata.yield.IMPACT / 100 / 500 / 1000)
+			Append("BLUNT_DEFLECT_IF_LAYER_WEIGHT_MORE_THAN: " .. actvol * matdata.yield.IMPACT / 100 / 500 / 1000)
 
 			Append("END_WEAPON")
 		else
