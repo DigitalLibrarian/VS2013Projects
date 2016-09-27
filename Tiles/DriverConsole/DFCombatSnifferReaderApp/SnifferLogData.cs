@@ -67,6 +67,10 @@ namespace DfCombatSnifferReaderApp
             Weapons = new List<Weapon>();
             Armors = new List<Armor>();
         }
+
+        public string Name { get { return KeyValues[SnifferTags.Name]; } }
+
+        public int Id { get { return int.Parse(KeyValues[SnifferTags.Id]); } }
     }
 
     public class UnitBody : SnifferNode
@@ -85,16 +89,27 @@ namespace DfCombatSnifferReaderApp
         {
             Layers = new List<TissueLayer>();
         }
+
+        public string Name { get { return KeyValues[SnifferTags.NameSingular]; } }
     }
 
     public class BodyPartAttack : SnifferNode
     {
-
+        public string Name { get { return KeyValues[SnifferTags.Name]; } }
     }
 
     public class Armor : SnifferNode
     {
 
+        public string Name { 
+            get
+            {
+                var materialName = KeyValues.ContainsKey(SnifferTags.MaterialName) ? KeyValues[SnifferTags.MaterialName] : "<unknown material>";
+                var typeName = KeyValues.ContainsKey(SnifferTags.ItemSubTypeName) ? KeyValues[SnifferTags.ItemSubTypeName] : "<unknown weapon type>";
+
+                return string.Format("{0} {1}", materialName, typeName);
+            }
+        }
     }
 
     public class AttackStrike : SnifferNode
@@ -105,6 +120,7 @@ namespace DfCombatSnifferReaderApp
             : base()
         {
             ReportTextIndex = -1;
+            Wounds = new List<Wound>();
         }
 
         public string AttackerName { get { return KeyValues[SnifferTags.AttackerName]; } }
@@ -134,7 +150,7 @@ namespace DfCombatSnifferReaderApp
 
     public class TissueLayer : SnifferNode
     {
-
+        public string Name { get { return KeyValues[SnifferTags.TissueLayerName]; } }
     }
 
     public class Weapon : SnifferNode
@@ -145,11 +161,27 @@ namespace DfCombatSnifferReaderApp
         {
             Attacks = new List<WeaponAttack>();
         }
+
+        /*
+         * MATERIAL_NAME: wood
+ITEM_SUB_TYPE_NAME: short swor
+         * */
+        public string Name
+        {
+            get
+            {
+                var materialName = KeyValues.ContainsKey(SnifferTags.MaterialName) ? KeyValues[SnifferTags.MaterialName] : "<unknown material>";
+                var typeName = KeyValues.ContainsKey(SnifferTags.ItemSubTypeName) ? KeyValues[SnifferTags.ItemSubTypeName] : "<unknown weapon type>";
+
+                return string.Format("{0} {1}", materialName, typeName);
+            }
+        }
     }
 
     public class WeaponAttack : SnifferNode
     {
 
+        public string Name { get { return KeyValues[SnifferTags.Name]; } }
     }
 
     public interface ISnifferLogParser

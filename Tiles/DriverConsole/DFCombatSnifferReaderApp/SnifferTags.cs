@@ -50,5 +50,13 @@ namespace DfCombatSnifferReaderApp
         public const string BodyEnd = "BODY_END";
         public const string BodyPartStart = "BODY_PART_START";
         public const string BodyPartEnd = "BODY_PART_END";
+
+        public const string NameSingular = "NAME_SINGULAR";
+        public const string Name = "NAME";
+
+        public const string MaterialName = "MATERIAL_NAME";
+        public const string ItemSubTypeName = "ITEM_SUB_TYPE_NAME";
+
+        public const string Id = "ID";
     }
 }

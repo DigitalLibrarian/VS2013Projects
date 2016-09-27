@@ -334,7 +334,8 @@ namespace DfCombatSnifferReaderApp
             "propelled away",
             "is interrupted",
             "sucked out of the wound",
-            "is injected"
+            "is injected",
+            "tangle together"
         };
         public bool IsCombatText(string text)
         {
@@ -447,7 +448,7 @@ namespace DfCombatSnifferReaderApp
         private void HandleBodyPart(ParserContext context, string line, IEnumerator<string> enumerator)
         {
             var bodyPart = new UnitBodyPart();
-
+            context.Unit.Body.BodyParts.Add(bodyPart);
             context.UnitBodyPart = bodyPart;
 
             bool done = false;
@@ -534,7 +535,7 @@ namespace DfCombatSnifferReaderApp
                         done = true;
                         break;
                     default:
-                        HandleKeyValueLine(context.Weapon, line);
+                        HandleKeyValueLine(wa, line);
                         break;
                 }
             }
