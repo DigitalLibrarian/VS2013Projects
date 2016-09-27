@@ -1,5 +1,5 @@
 
-function RegisterForReports()
+function RegisterForEvents()
 	eventful = require "plugins.eventful"
 	eventful.enableEvent(eventful.eventType.REPORT, 0)
 	eventful.enableEvent(eventful.eventType.UNIT_ATTACK, 0)
@@ -12,23 +12,8 @@ function RegisterForReports()
 		Append("UNIT_ATTACK_END")
 		Append("")
 	end
-
-	eventful.onInteraction.something = function(attackVerb, defendVerb, attacker, defender, attackReport, defendReport)
-		Append("INTERACTION")
-		OnInteraction(attackVerb, defendVerb, attacker, defender, attackReport, defendReport)
-	end
 end
 
-function OnInteraction(attackVerb, defendVerb, attacker, defender, attackReport, defendReport)
-	Append("Attack Verb: ".. attackVerb)
-	Append(attackVerb)
-	Append("Defend Verb: ".. defendVerb)
-
-	Append("Attacker: ".. attacker)
-	Append("Defender: ".. defender)
-	Append("Attack Report: ".. attackReport)
-	Append("Defend Report: ".. defendReport)
-end
 
 function UnitName(unit)
 	return unit.name.first_name
@@ -65,7 +50,7 @@ function AppendLastReportText(text)
 	ReportTexts[i] = ReportTexts[i] .. " " .. text
 end
 
-function ShowLastReportText(text)
+function ShowLastReportText()
 	i = #ReportTexts
 	if(i > 0) then
 		Append("REPORT_TEXT: " .. ReportTexts[i])
@@ -85,14 +70,12 @@ function OnUnitAttack(attackerId, defenderId, woundId)
 	local attacker = GetUnit(attackerId)
 	local defender = GetUnit(defenderId)
 	
-	--local reportText = GetReportText(attacker, defender)
-
 	Append("Attacker ID: " .. attackerId)
 	Append("ATTACKER: " .. UnitName(attacker))
 	Append("ATTACKER_SIZE:" .. UnitSize(attacker))
 	Append("ATTACKER_STRENGTH: " .. UnitStrength(attacker))
 	
-	DumpAttacks(attacker)
+	--DumpAttacks(attacker)
 
 	Append("Defender ID: " .. defenderId)
 	Append("DEFENDER: " .. UnitName(defender))
@@ -112,8 +95,80 @@ function OnUnitAttack(attackerId, defenderId, woundId)
 		Append("DEFENDER_WOUND_END")
 	end
 
+	CheckUnitDump(attackerId)
+	CheckUnitDump(defenderId)
 end
 
+
+DumpedUnits = {}
+function CheckUnitDump(unitId)
+	if(DumpedUnits[unitId] == nil) then
+		DumpUnit(unitId)
+		DumpedUnits[unitId] = 1
+	end
+end
+
+
+function DumpUnit(unitId)
+	local unit = GetUnit(unitId)
+
+	Append("UNIT_START")
+	Append("ID: " .. unitId)
+	Append("NAME:" .. UnitName(unit))
+	Append("SIZE:" .. UnitSize(unit))
+	Append("STRENGTH: " .. UnitStrength(unit))
+
+	-- TODO - dump skills/attributes
+	DumpBody(unit)
+	DumpAttacks(unit)
+
+	Append("UNIT_END")
+end
+
+function DumpBody(unit)
+	local layer_part =unit.body.body_plan.layer_part
+	local body_plan = unit.body.body_plan
+	local size_info = unit.body.size_info
+	local phys = unit.body.physical_attrs
+
+	Append("BODY_START")
+	Append("SIZE_CURRENT: " .. size_info.size_cur)
+	Append("SIZE_BASE: " .. size_info.size_base)
+	Append("AREA_CURRENT: " .. size_info.area_cur)
+	Append("AREA_BASE: " .. size_info.area_base)
+	Append("LENGTH_CURRENT: " .. size_info.length_cur)
+	Append("LENGTH_BASE: " .. size_info.length_base)
+	Append("TOTAL_RELSIZE: " .. body_plan.total_relsize)
+	Append("PHYSICAL_STRENGTH: " .. phys.STRENGTH.value)
+	Append("PHYSICAL_AGILITY: " .. phys.AGILITY.value)
+	Append("PHYSICAL_TOUGHNESS: " .. phys.TOUGHNESS.value)
+	Append("PHYSICAL_ENDURANCE: " .. phys.ENDURANCE.value)
+	Append("PHYSICAL_RECUPERATION: " .. phys.RECUPERATION.value)
+	Append("PHYSICAL_DISEASE_RESISTANCE: " .. phys.DISEASE_RESISTANCE.value)
+	Append("BLOOD_MAX: " .. unit.body.blood_max)
+	Append("BLOOD_COUNT: " .. unit.body.blood_count)
+
+	for body_part_id,body_part in pairs(body_plan.body_parts) do
+		Append("BODY_PART_START")
+
+		Append("NAME_SINGULAR:" .. body_part.name_singular[0].value)
+		Append("NAME_PLURAL:" .. body_part.name_plural[0].value)
+		Append("TOKEN: " .. body_part.token)
+		Append("RELSIZE: " .. body_part.relsize)
+		Append("FRACTION_TOTAL:" .. body_part.fraction_total)
+		Append("FRACTION_BASE:" .. body_part.fraction_base)
+		Append("FRACTION_FAT:" .. body_part.fraction_fat)
+		Append("FRACTION_MUSCLE:" .. body_part.fraction_muscle)
+
+		for layerIdx, layer in pairs(body_part.layers) do
+			DumpTissue(unit, body_part_id, layer)
+		end
+
+		Append("BODY_PART_END")
+	end
+
+	Append("BODY_END")
+end
 
 function GetLastUnitReport(unit)
 	local reports = unit.reports.log.Combat;
@@ -182,7 +237,6 @@ function DumpDefenderWound(unit, wound)
 
 
 	for i=1, numParts, 1 do
-		
 		Append("WOUND_BODY_PART_START")
 		part = parts[i-1]
 		bpId = part.body_part_id
@@ -199,21 +253,12 @@ function DumpDefenderWound(unit, wound)
 --		Append("EDGED_CURV_PERC: " .. part.edged_curv_perc)
 		Append("BLEEDING: " .. part.bleeding)
 		Append("PAIN: " .. part.pain)
-		
 		Append("NAUSEA: " .. part.nausea)
 		Append("DIZZINESS: " .. part.dizziness)
 		Append("PARALYSIS: " .. part.paralysis)
 		Append("NUMBNESS: " .. part.numbness)
 		Append("SWELLING: " .. part.swelling)
 		Append("IMPAIRED: " .. part.impaired)
---                <int32_t name="bleeding"/>
---                <int32_t name="pain"/>
---                <int32_t name="nausea"/>
---                <int32_t name="dizziness"/>
---                <int32_t name="paralysis"/>
---                <int32_t name="numbness"/>
---                <int32_t name="swelling"/>
---                <int32_t name="impaired"/>
 
 		wp = part
 		bpI = wp.body_part_id
@@ -228,7 +273,6 @@ function DumpDefenderWound(unit, wound)
 		if(layerI ~= -1) then
 			layer = bp.layers[layerI]
 			layerName = layer.layer_name
-		--	ReflectDump(layer)
 			cut = unit.body.components.layer_cut_fraction[gLayerI]
 			dent = unit.body.components.layer_dent_fraction[gLayerI]
 			effect = unit.body.components.layer_effect_fraction[gLayerI]
@@ -240,9 +284,9 @@ function DumpDefenderWound(unit, wound)
 			Append("DENT_FRACTION: " .. dent)
 			Append("EFFECT_FRACTION:" .. effect)
 			Append("LAYER_WOUND_AREA:" .. woundArea)
-			DumpTissue(unit, bpI, layerName)
+--			DumpTissue(unit, bpI, layerName)
 		else
-			Append("NO_TISSUE_LAYER_DEFINED")
+--			Append("NO_TISSUE_LAYER_DEFINED")
 		end
 		
 		Append("WOUND_BODY_PART_END")
@@ -260,16 +304,15 @@ function DumpTissues(unit, body_part_id)
 end
 
 function ReflectDump(o)
-
 	for rkey,rvalue in pairs(o) do
 	    print("found member " .. rkey);
 	end
-
 end
 
 
-function DumpTissue(unit, body_part_id, tissue_id)
-	local v = unit.body.body_plan.body_parts[bpI]
+function DumpTissue(unit, body_part_id, layer)
+	local tissue_id = layer.tissue_id
+	local v = unit.body.body_plan.body_parts[body_part_id]
 	local cur_size = unit.body.size_info.size_cur
 	local curstrength=unit.body.physical_attrs.STRENGTH.value
 	local race = df.global.world.raws.creatures.all[unit.race]
@@ -280,11 +323,12 @@ function DumpTissue(unit, body_part_id, tissue_id)
 	local contact = math.floor(partsize ^ 0.666)
 	local bpName = v.name_singular[0].value
 	local layer_part =unit.body.body_plan.layer_part
-	for kk,vv in pairs(v.layers) do
+--	for kk,vv in pairs(v.layers) do
+		local vv = layer
 		tisdata=race.tissue[vv.tissue_id]
 		layername = vv.layer_name
 
-		if(tisdata.id == tissue_id) then
+		--if(tisdata.id == tissue_id) then
 			material=dfhack.matinfo.decode(tisdata.mat_type,tisdata.mat_index)
 			--tissue has a mat_state, could it name properly
 			matdata=material.material.strength
@@ -333,212 +377,188 @@ function DumpTissue(unit, body_part_id, tissue_id)
 			Append("TOTAL_BODY_RELATIVE_SIZE: " .. bodyTotalRelSize)
 
 			Append("TISSUE_LAYER_END")
-		end
-	end
+--		end
+--	end
 			
 end
 
 function DumpAttacks(unit)
 
-		local cur_size = unit.body.size_info.size_cur
-		local curstrength=unit.body.physical_attrs.STRENGTH.value
-		local race = df.global.world.raws.creatures.all[unit.race]
+	local cur_size = unit.body.size_info.size_cur
+	local curstrength=unit.body.physical_attrs.STRENGTH.value
+	local race = df.global.world.raws.creatures.all[unit.race]
 
-for k,v in pairs(unit.inventory) do
+	for k,v in pairs(unit.inventory) do
+		vitype=df.item_type[v.item:getType()]
 
---print(v.mode)
---enum-item	Hauled	0
---enum-item	Weapon	1
---enum-item	Worn	2
---enum-item	InBody	3
---enum-item	Flask	4
---enum-item	WrappedAround	5
---enum-item	StuckIn	6
---enum-item	InMouth	7
---enum-item	Shouldered	8
---enum-item	SewnInto	9
+		material=dfhack.matinfo.decode(v.item)
+		matdata=material.material.strength
+		vmatname=material.material.state_name.Solid
 
-vitype=df.item_type[v.item:getType()]
---print(vitype)				-- why are all items printed??
-material=dfhack.matinfo.decode(v.item)
-matdata=material.material.strength
-vmatname=material.material.state_name.Solid
---print(vmatname, v.item.subtype.name) --WOULD ENABLE THIS BUT BUG ON QUIVERS, OTHER ITEMS W/O SUBTYPES!
+		vbpart=unit.body.body_plan.body_parts[v.body_part_id]
 
-vbpart=unit.body.body_plan.body_parts[v.body_part_id]
---print(vbpart.name_singular[0].value)	-- why are all items printed??
-
-if vitype=="WEAPON" then
-	Append("START_WEAPON")
-	Append("MATERIAL_NAME: " .. vmatname)
-	Append("ITEM_SUB_TYPE_NAME: ".. v.item.subtype.name)
-	v.item:calculateWeight()
-	effweight=unit.body.size_info.size_cur/100+v.item.weight*100+v.item.weight_fraction/10000
-	actweight=v.item.weight*1000+v.item.weight_fraction/1000
-	if v.item.subtype.flags.HAS_EDGE_ATTACK==true then
-		Append("SHEAR_YIELD: ".. matdata.yield.SHEAR)
-		Append("SHEAR_FRACTURE: " .. matdata.fracture.SHEAR)
-		Append("SHARPNESS: " .. v.item.sharpness)
-	end
---	print("NAME", "EDGE", "CONTACT", "PNTRT", "WEIGHT", "VEL", "MOMENTUM(+500%/-50%)")
-		for kk,vv in pairs(v.item.subtype.attacks) do
-
-			vvel=unit.body.size_info.size_base * curstrength * vv.velocity_mult/1000/effweight/1000
-			vmom=vvel*actweight/1000+1
-			vedge="blunt"
-			vcut=""
-			if vv.edged==true then
-				vedge="edged" 
-				vcut=100
+		if vitype=="WEAPON" then
+			Append("START_WEAPON")
+			Append("MATERIAL_NAME: " .. vmatname)
+			Append("ITEM_SUB_TYPE_NAME: ".. v.item.subtype.name)
+			v.item:calculateWeight()
+			effweight=unit.body.size_info.size_cur/100+v.item.weight*100+v.item.weight_fraction/10000
+			actweight=v.item.weight*1000+v.item.weight_fraction/1000
+			if v.item.subtype.flags.HAS_EDGE_ATTACK==true then
+				Append("SHEAR_YIELD: ".. matdata.yield.SHEAR)
+				Append("SHEAR_FRACTURE: " .. matdata.fracture.SHEAR)
+				Append("SHARPNESS: " .. v.item.sharpness)
 			end
+	--	print("NAME", "EDGE", "CONTACT", "PNTRT", "WEIGHT", "VEL", "MOMENTUM(+500%/-50%)")
+			for kk,vv in pairs(v.item.subtype.attacks) do
 
-			Append("START_WEAPON_ATTACK")
-			Append("NAME: " .. vv.verb_2nd) 
-			Append("EDGE: " .. vedge)
-			Append("CONTACT: " .. vv.contact)
-			Append("PENETRATION: " .. vv.penetration)
-			Append("WEIGHT: " .. actweight/1000)
-			Append("VELOCITY: " .. math.floor(vvel))
-			Append("MOMENTUM: " .. math.floor(vmom))
-			Append("END_WEAPON_ATTACK")
+				vvel=unit.body.size_info.size_base * curstrength * vv.velocity_mult/1000/effweight/1000
+				vmom=vvel*actweight/1000+1
+				vedge="blunt"
+				vcut=""
+				if vv.edged==true then
+					vedge="edged" 
+					vcut=100
+				end
+
+				Append("START_WEAPON_ATTACK")
+				Append("NAME: " .. vv.verb_2nd) 
+				Append("EDGE: " .. vedge)
+				Append("CONTACT: " .. vv.contact)
+				Append("PENETRATION: " .. vv.penetration)
+				Append("WEIGHT: " .. actweight/1000)
+				Append("VELOCITY: " .. math.floor(vvel))
+				Append("MOMENTUM: " .. math.floor(vmom))
+				Append("END_WEAPON_ATTACK")
 			
+			end
+			actvol=v.item:getVolume()
+			Append("BLUNT_DEFLECT_IF_LAYER_WEIGHT_MORE_THAN: ", actvol * matdata.yield.IMPACT / 100 / 500 / 1000)
+
+			Append("END_WEAPON")
+		else
+			if v.mode==1 then
+				Append("START_WEAPON")
+				Append("MATERIAL_NAME: " .. vmatname)
+				Append("ITEM_SUB_TYPE_NAME: (misc weapon)")
+				--item held in hands treated as misc weapon
+				--1000 velocity mod, power math for contact and penetration
+				actvol=v.item:getVolume()
+				v.item:calculateWeight()
+				actweight=v.item.weight*1000+v.item.weight_fraction/1000
+				effweight=unit.body.size_info.size_cur/100+v.item.weight*100+v.item.weight_fraction/10000
+				misccontact=math.floor(actvol ^ 0.666)
+				miscpene=math.floor((actvol*10000) ^ 0.333)
+		--		print("NAME", "EDGE", "CONTACT", "PNTRT", "WEIGHT", "VEL", "MOMENTUM(+500%/-50%)")
+				vvel=unit.body.size_info.size_base * curstrength/effweight/1000
+				vmom=vvel*actweight/1000+1
+				vedge="blunt"
+	
+				Append("START_WEAPON_ATTACK")
+				Append("NAME: strike ")
+				Append("EDGE: " .. vedge)
+				Append("CONTACT: " .. misccontact)
+				Append("PENETRATION: " .. miscpene)
+				Append("WEIGHT: " .. actweight/1000)
+				Append("VELOCITY: " .. math.floor(vvel))
+				Append("MOMENTUM: " .. math.floor(vmom))
+				Append("END_WEAPON_ATTACK")
+	
+				Append("BLUNT_DEFLECT_IF_LAYER_WEIGHT_MORE_THAN: ", actvol * matdata.yield.IMPACT / 100 / 500 / 1000)
+	
+				Append("END_WEAPON")
+			end
 		end
-	actvol=v.item:getVolume()
-	Append("BLUNT_DEFLECT_IF_LAYER_WEIGHT_MORE_THAN: ", actvol * matdata.yield.IMPACT / 100 / 500 / 1000)
 
-	Append("END_WEAPON")
-else
-	if v.mode==1 then
-		Append("START_WEAPON")
-		Append("MATERIAL_NAME: " .. vmatname)
-		Append("ITEM_SUB_TYPE_NAME: (misc weapon)")
-		--item held in hands treated as misc weapon
-		--1000 velocity mod, power math for contact and penetration
---		print(vmatname, "") --v.item.subtype.name quiver bug
-		actvol=v.item:getVolume()
-		v.item:calculateWeight()
-		actweight=v.item.weight*1000+v.item.weight_fraction/1000
-		effweight=unit.body.size_info.size_cur/100+v.item.weight*100+v.item.weight_fraction/10000
-		misccontact=math.floor(actvol ^ 0.666)
-		miscpene=math.floor((actvol*10000) ^ 0.333)
---		print("NAME", "EDGE", "CONTACT", "PNTRT", "WEIGHT", "VEL", "MOMENTUM(+500%/-50%)")
-		vvel=unit.body.size_info.size_base * curstrength/effweight/1000
-		vmom=vvel*actweight/1000+1
-		vedge="blunt"
-
-		Append("START_WEAPON_ATTACK")
-		Append("NAME: strike ")
-		Append("EDGE: " .. vedge)
-		Append("CONTACT: " .. misccontact)
-		Append("PENETRATION: " .. miscpene)
-		Append("WEIGHT: " .. actweight/1000)
-		Append("VELOCITY: " .. math.floor(vvel))
-		Append("MOMENTUM: " .. math.floor(vmom))
-		Append("END_WEAPON_ATTACK")
-
+		if vitype=="ARMOR" or vitype=="HELM" or vitype=="GLOVES" or vitype=="SHOES" or vitype=="PANTS" then
+			Append("START_ARMOR")
+			Append("MATERIAL_NAME: " .. vmatname)
+			Append("ITEM_SUB_TYPE_NAME: ".. v.item.subtype.name)
+		--	print(vmatname, v.item.subtype.name)
+			actvol=v.item:getVolume()
+			v.item:calculateWeight()
+			actweight=v.item.weight*1000+v.item.weight_fraction/1000
+			vbca=actvol*matdata.yield.IMPACT/100/500/10
+			vbcb=actvol*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/10
+			vbcc=actvol*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/10
+			deduct=vbca/10
+			if matdata.strain_at_yield.IMPACT >= 50000 or v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_WOVEN_THREAD==true 
+				or v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_CHAIN_METAL==true 
+				or v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_CHAIN_ALL==true then
+				vbcb=0
+				vbcc=0
+			end
+			Append("FULL_CONTACT_BLUNT_MOMENTUM_RESIST: " .. math.floor(vbca+vbcb+vbcc))
+			Append("CONTACT_10_BLUNT_MOMENTUM_RESIST: " .. math.floor((vbca+vbcb+vbcc)*10/actvol))
+			Append("UNBROKEN_MOMENTUM_DEFLECTION: " .. math.floor(deduct), math.floor(deduct*10/actvol))
+			Append("VOLUME: " .. actvol)	
+			Append("WEIGHT:  " .. actweight/1000)
+			vshyre=matdata.yield.SHEAR
+			vshfre=matdata.fracture.SHEAR
+			if v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_WOVEN_THREAD==true and vmatname ~= "leather" then
+				if vshyre>20000 then vshyre=20000 end
+				if vshfre>30000 then vshfre=30000 end
+			end
+			Append("SHEAR_YIELD: " ..  vshyre)
+			Append("SHEAR_FRACTURE: " .. vshfre)
 		
-		Append("BLUNT_DEFLECT_IF_LAYER_WEIGHT_MORE_THAN: ", actvol * matdata.yield.IMPACT / 100 / 500 / 1000)
-
-		Append("END_WEAPON")
---		print("Blunt deflect if layer weight more than:", actvol * matdata.yield.IMPACT / 100 / 500 / 1000)
---		print(" ")
-	end
-end
+			Append("END_ARMOR")
+		end
+	end    --end of unit inventory loop
 
 
-if vitype=="ARMOR" or vitype=="HELM" or vitype=="GLOVES" or vitype=="SHOES" or vitype=="PANTS" then
-	Append("START_ARMOR")
-	Append("MATERIAL_NAME: " .. vmatname)
-	Append("ITEM_SUB_TYPE_NAME: ".. v.item.subtype.name)
---	print(vmatname, v.item.subtype.name)
-	actvol=v.item:getVolume()
-	v.item:calculateWeight()
-	actweight=v.item.weight*1000+v.item.weight_fraction/1000
-	vbca=actvol*matdata.yield.IMPACT/100/500/10
-	vbcb=actvol*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/10
-	vbcc=actvol*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/10
-	deduct=vbca/10
-	if matdata.strain_at_yield.IMPACT >= 50000 or v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_WOVEN_THREAD==true or 
+	--print("BODY PART ATTACKS")
+	--print("NAME", "EDGE", "SIZE", "CONTACT", "PNTRT", "WEIGHT", "VEL", "MOMENTUM(+500%/-50%)", "SOLID DENSITY")
 
-v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_CHAIN_METAL==true or 
-
-v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_CHAIN_ALL==true then
-		vbcb=0
-		vbcc=0
-	end
-	Append("FULL_CONTACT_BLUNT_MOMENTUM_RESIST: " .. math.floor(vbca+vbcb+vbcc))
-	Append("CONTACT_10_BLUNT_MOMENTUM_RESIST: " .. math.floor((vbca+vbcb+vbcc)*10/actvol))
-	Append("UNBROKEN_MOMENTUM_DEFLECTION: " .. math.floor(deduct), math.floor(deduct*10/actvol))
-	Append("VOLUME: " .. actvol)	
-	Append("WEIGHT:  " .. actweight/1000)
-	vshyre=matdata.yield.SHEAR
-	vshfre=matdata.fracture.SHEAR
-	if v.item.subtype.props.flags.STRUCTURAL_ELASTICITY_WOVEN_THREAD==true and vmatname ~= "leather" then
-		if vshyre>20000 then vshyre=20000 end
-		if vshfre>30000 then vshfre=30000 end
-	end
-	Append("SHEAR_YIELD: " ..  vshyre)
-	Append("SHEAR_FRACTURE: " .. vshfre)
+	for k,v in pairs(unit.body.body_plan.attacks) do
+		Append("START_BODY_PART_ATTACK")
+		attackpart=unit.body.body_plan.body_parts[v.body_part_idx[0]]
+		if v.tissue_layer_idx[0] == -1 then
+			--normal no chosen tissue
+			layerdata=attackpart.layers[#attackpart.layers-1] --is it always the last layer???
+		else
+			--scratch nails etc.
+			layerdata=attackpart.layers[v.tissue_layer_idx[0]]
+		end
+		tisdata=race.tissue[layerdata.tissue_id]
+		material=dfhack.matinfo.decode(tisdata.mat_type,tisdata.mat_index)
+		matdata=material.material.strength
 	
-	Append("END_ARMOR")
-end
+		sumrelsize=0
+		for kk,vv in pairs(v.body_part_idx) do
+			sumrelsize=sumrelsize + unit.body.body_plan.body_parts[vv].relsize
+		end
 
---print(" ")
-end    --end of unit inventory loop
+		partsize = math.floor(cur_size * sumrelsize / unit.body.body_plan.total_relsize)
+		contact = math.floor((partsize ^ 0.666) * v.contact_perc/100)
+		attpene = math.floor(partsize * v.penetration_perc/100)
+		partweight = math.floor(partsize * material.material.solid_density / 100)
+		vvel = 100 * curstrength / 1000 * v.velocity_modifier / 1000
+		vmom = vvel * partweight / 1000 + 1
 
+		vedge="blunt"
+		if v.flags.edge==true then
+			vedge="edged" 
+		end
+		Append("NAME: " .. v.name)
+		Append("EDGE: " .. vedge)
+		Append("SIZE: " .. partsize)
+		Append("CONTACT: " .. contact)
+		Append("PENETRATION: " .. attpene) 
+		Append("WEIGHT: " .. partweight/1000)
+		Append("VELOCITY: " .. math.floor(vvel))
+		Append("MOMENTUM: " .. math.floor(vmom)) 
+		Append("MATERIAL_NAME: " .. material.material.state_name.Solid)
+		Append("SOLID_DENSITY: " .. material.material.solid_density)
 
---print("BODY PART ATTACKS")
---print("NAME", "EDGE", "SIZE", "CONTACT", "PNTRT", "WEIGHT", "VEL", "MOMENTUM(+500%/-50%)", "SOLID DENSITY")
-
-for k,v in pairs(unit.body.body_plan.attacks) do
-	Append("START_BODY_PART_ATTACK")
-	attackpart=unit.body.body_plan.body_parts[v.body_part_idx[0]]
-	if v.tissue_layer_idx[0] == -1 then
-		--normal no chosen tissue
-		layerdata=attackpart.layers[#attackpart.layers-1] --is it always the last layer???
-	else
-		--scratch nails etc.
-		layerdata=attackpart.layers[v.tissue_layer_idx[0]]
+		if v.flags.edge==true then
+			Append("SHEAR_YIELD: " ..  matdata.yield.SHEAR)
+			Append("SHEAR_FRACTURE: " .. matdata.fracture.SHEAR)
+		end
+		--print(" ")
+		--
+		Append("END_BODY_PART_ATTACK")
 	end
-	tisdata=race.tissue[layerdata.tissue_id]
-	material=dfhack.matinfo.decode(tisdata.mat_type,tisdata.mat_index)
-	matdata=material.material.strength
-	
-	sumrelsize=0
-	for kk,vv in pairs(v.body_part_idx) do
-		sumrelsize=sumrelsize + unit.body.body_plan.body_parts[vv].relsize
-	end
-
-	partsize = math.floor(cur_size * sumrelsize / unit.body.body_plan.total_relsize)
-	contact = math.floor((partsize ^ 0.666) * v.contact_perc/100)
-	attpene = math.floor(partsize * v.penetration_perc/100)
-	partweight = math.floor(partsize * material.material.solid_density / 100)
-	vvel = 100 * curstrength / 1000 * v.velocity_modifier / 1000
-	vmom = vvel * partweight / 1000 + 1
-
-	vedge="blunt"
-	if v.flags.edge==true then
-		vedge="edged" 
-	end
-	Append("NAME: " .. v.name)
-	Append("EDGE: " .. vedge)
-	Append("SIZE: " .. partsize)
-	Append("CONTACT: " .. contact)
-	Append("PENETRATION: " .. attpene) 
-	Append("WEIGHT: " .. partweight/1000)
-	Append("VELOCITY: " .. math.floor(vvel))
-	Append("MOMENTUM: " .. math.floor(vmom)) 
-	Append("MATERIAL_NAME: " .. material.material.state_name.Solid)
-	Append("SOLID_DENSITY: " .. material.material.solid_density)
-
-	if v.flags.edge==true then
-		Append("SHEAR_YIELD: " ..  matdata.yield.SHEAR)
-		Append("SHEAR_FRACTURE: " .. matdata.fracture.SHEAR)
-	end
-	--print(" ")
-	--
-	Append("END_BODY_PART_ATTACK")
-end
 end
 
 
@@ -659,12 +679,50 @@ function GetFlavorText(text)
 end
 
 
-
+DumpedUnits = {}
 ReportTexts = {}
 
 
-Append("COMBAT SNIFFER SESSION START")
-RegisterForReports()
+--Append("COMBAT SNIFFER SESSION START")
+--RegisterForEvents()
+
+local usage = [====[
+
+combat-sniffer
+======
+Collect data about combat strikes and write to combat-sniffer-log.txt
+
+Usage examples::
+	combat-sniffer -start 				start an unnamed session
+	combat-sniffer -start "<name of session>"	start a named session
+
+]====]
+
+local utils = require 'utils'
+
+validArgs = validArgs or utils.invert({
+ 'help',
+ 'start'
+})
+
+local args = utils.processArgs({...}, validArgs)
+
+if args.help then
+ print(usage)
+ return
+end
+
+
+if(args.start) then
+	if(args.start == nil) then
+		Append("COMBAT_SNIFFER_SESSION_START")
+	else
+		Append("COMBAT_SNIFFER_SESSION_START: " .. args.start)
+	end
+	RegisterForEvents()
+end
+
+
 
 
 
