@@ -88,7 +88,7 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
 
             double thresh = -1d;
             double resultMom = -1;
-            double mom = Momentum / contactArea;
+            double mom = Momentum / contactArea; // calculate stress
             bool defeated = false;
             MaterialStressResult msr = MaterialStressResult.None;
             if (StressMode == Materials.StressMode.Edge)
@@ -99,6 +99,9 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
 
                 mom = mom - shearCost1;
                 thresh = shearCost1;
+
+                var modulus = shearCost1 / StrickenMaterial.ShearStrainAtYield;
+                var strain = mom * (double)StrickenMaterial.ShearStrainAtYield;
                 if (mom >= 0)
                 {
                     msr = MaterialStressResult.Shear_Dent;
@@ -125,7 +128,8 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
 
-                bluntBypass = StrickenMaterial.ImpactStrainAtYield >= 50000;
+                // TODO - this should be dynamic strain, I'm sure
+                bluntBypass = (StrickenMaterial.ImpactStrainAtYield) >= 50000;
 
                 if (!bluntBypass)
                 {

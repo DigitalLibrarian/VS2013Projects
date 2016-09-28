@@ -527,8 +527,7 @@ namespace Tiles.EngineIntegrationTests
             var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
             var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
             var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-
-
+            
             var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
                context,
                moveClass.StressMode,
@@ -556,6 +555,8 @@ namespace Tiles.EngineIntegrationTests
             tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual(MaterialStressResult.Shear_CutThrough, tInjury.StrikeResult.StressResult);
             Assert.AreSame(muscleLayer, tInjury.Layer);
+
+            // TODO - this should affect an inner body part
         }
 
         IAgent GetNewDwarf()
