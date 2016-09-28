@@ -144,22 +144,18 @@ namespace Tiles.EngineIntegrationTests
  
             var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            //AssertTissueInjuryClass(TissueLayerInjuryClasses.TearApart, tInjury);
             Assert.AreSame(skinLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            //AssertTissueInjuryClass(TissueLayerInjuryClasses.TearApart, tInjury);
             Assert.AreSame(fatLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual(MaterialStressResult.Impact_Dent, tInjury.StrikeResult.StressResult);
-            //AssertTissueInjuryClass(TissueLayerInjuryClasses.TearApart, tInjury);
             Assert.AreSame(muscleLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
-            //AssertTissueInjuryClass(TissueLayerInjuryClasses.TearApart, tInjury);
             Assert.AreSame(boneLayer, tInjury.Layer);
         }
     }

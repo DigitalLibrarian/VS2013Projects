@@ -128,7 +128,6 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
 
-                // TODO - this should be dynamic strain, I'm sure
                 bluntBypass = (StrickenMaterial.ImpactStrainAtYield) >= 50000;
 
                 if (!bluntBypass)
