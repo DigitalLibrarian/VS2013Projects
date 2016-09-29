@@ -11,7 +11,8 @@ namespace Tiles.Materials
         void SetStressMode(StressMode mode);
 
         void SetStrikeMomentum(double momentum);
-        void SetContactArea(int contactArea);
+        void SetStrikerContactArea(double contactArea);
+        void SetStrickenContactArea(double contactArea);
 
         void SetStrikerMaterial(IMaterial mat);
         void SetStrickenMaterial(IMaterial mat);
@@ -19,5 +20,7 @@ namespace Tiles.Materials
 
         IMaterialStrikeResult Build();
         void Clear();
+
+        void SetLayerThickness(double p);
     }
 }

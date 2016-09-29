@@ -14,8 +14,10 @@ namespace Tiles.Materials
         void SetStrikerMaterial(IMaterial mat);
 
         void SetMomentum(double momentum);
-        void SetContactArea(int contactArea);
-        void SetMaxPenetration(int maxPenetration);
+
+        void SetStrikerContactArea(double contactArea);
+        void SetStrickenContactArea(double contactArea);
+        void SetMaxPenetration(double maxPenetration);
         void SetStressMode(StressMode mode);
 
         ILayeredMaterialStrikeResult Build();
@@ -38,8 +40,9 @@ namespace Tiles.Materials
         IMaterialStrikeResultBuilder Builder { get; set; }
 
         double Momentum { get; set; }
-        int ContactArea { get; set; }
-        int MaxPenetration { get; set; }
+        double StrikerContactArea { get; set; }
+        double StrickenContactArea { get; set; }
+        double MaxPenetration { get; set; }
         StressMode StressMode { get; set; }
 
         IMaterial StrikerMaterial { get; set; }
@@ -56,7 +59,8 @@ namespace Tiles.Materials
         {
             Layers.Clear();
             Momentum = -1;
-            ContactArea = -1;
+            StrikerContactArea = -1;
+            StrickenContactArea = -1;
             StressMode = StressMode.None;
             StrikerMaterial = null;
         }
@@ -71,12 +75,17 @@ namespace Tiles.Materials
             Momentum = momentum;
         }
 
-        public void SetContactArea(int contactArea)
+        public void SetStrikerContactArea(double contactArea)
         {
-            ContactArea = contactArea;
+            StrikerContactArea = contactArea;
         }
 
-        public void SetMaxPenetration(int maxPenetration)
+        public void SetStrickenContactArea(double contactArea)
+        {
+            StrickenContactArea = contactArea;
+        }
+
+        public void SetMaxPenetration(double maxPenetration)
         {
             MaxPenetration = maxPenetration;
         }
@@ -107,7 +116,7 @@ namespace Tiles.Materials
         public ILayeredMaterialStrikeResult Build()
         {
             var result = new LayeredMaterialStrikeResult();
-            var contactArea = (double)ContactArea;
+            var contactArea = StrikerContactArea;
             
             var mode = StressMode;
             var momentum = Momentum;
@@ -123,7 +132,7 @@ namespace Tiles.Materials
                 var layerResult = PerformSingleLayerTest(
                     StrikerMaterial,
                     momentum,
-                    ContactArea,
+                    StrikerContactArea,
                     mode,
                     layer);
 
@@ -156,19 +165,24 @@ namespace Tiles.Materials
                 if (done) break;
             }
 
-            result.Penetration = System.Math.Min(penetration, MaxPenetration);
+            result.Penetration = (int) System.Math.Min(penetration, MaxPenetration);
 
             return result;
         }
 
         IMaterialStrikeResult PerformSingleLayerTest(
-            IMaterial strikerMat, double momentum, int contactArea,
+            IMaterial strikerMat, double momentum, double contactArea,
             StressMode mode, MLayer layer)
         {
             // TODO - If the weapon has a smaller contact area than the layer, the layer's volume is reduced by the ratio of areas.
             // (Volume damaged by weapon) = (layer volume) x (weapon contact area) / (layer contact area)
+            //var volDamaged = layer.Volume;
+            //if (StrikerContactArea < StrickenContactArea)
+            //{
+            //    volDamaged *= (StrikerContactArea / StrickenContactArea);
+            //}
 
-            
+            //var ca = System.Math.Min(StrikerContactArea, StrickenContactArea);
             Builder.Clear();
 
             Builder.SetStressMode(mode);
@@ -176,9 +190,14 @@ namespace Tiles.Materials
             Builder.SetStrickenMaterial(layer.Material);
             Builder.SetStrikeMomentum(momentum);
             Builder.SetLayerVolume(layer.Volume);
+            Builder.SetLayerThickness(layer.Thickness);
 
-            contactArea = (int) System.Math.Min(contactArea, layer.Thickness);
-            Builder.SetContactArea(contactArea);
+            //contactArea = (int) System.Math.Min(contactArea, layer.Thickness);
+
+
+
+            Builder.SetStrikerContactArea(StrikerContactArea);
+            Builder.SetStrickenContactArea(StrickenContactArea);
 
             return Builder.Build();
         }

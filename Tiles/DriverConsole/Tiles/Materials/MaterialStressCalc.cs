@@ -135,6 +135,8 @@ namespace Tiles.Materials
                 ImpactCost1(strickenMat, layerVolume))) / 10d;
         }
 
+        // For example if you punch someone in a steel helm, [IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt fracture the steel helm, only 940/50000=0.0188=1.88% of the momentum is passed to the skin layer
+
         public static double ShearMomentumAfterUnbrokenRigidLayer(double momentum, IMaterial strickenMat)
         {
             return ((double)strickenMat.ShearStrainAtYield * momentum) / 50000d;

@@ -80,6 +80,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsTrue(internalParts.SequenceEqual(new []{skull, brain}));
         }
 
+        [TestMethod]
+        public void DwarfRightUpperArm()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("right upper arm"));
+            Assert.IsNotNull(bp);
+
+            var ca = bp.GetContactArea();
+            Assert.AreEqual(35d, ca);
+
+        }
 
 
         [TestMethod]
@@ -115,7 +127,8 @@ namespace Tiles.EngineIntegrationTests
             var skinLayer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
             Assert.AreEqual(139, (int)skinLayer.Volume);
         }
-        
+
+        [Ignore]
         [TestMethod]
         public void UnicornFrontLeg_FatThickness()
         {
@@ -128,6 +141,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(71, (int)layer.Thickness);
         }
 
+        [Ignore]
         [TestMethod]
         public void UnicornFrontLeg_FatVolume()
         {
@@ -183,6 +197,7 @@ namespace Tiles.EngineIntegrationTests
 
         }
 
+        [Ignore]
         [TestMethod]
         public void HumanUpperBody_FatThickness()
         {
@@ -205,6 +220,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsFalse(layer.Class.IsCosmetic);
         }
 
+        [Ignore]
         [TestMethod]
         public void HumanUpperBody_FatVolume()
         {

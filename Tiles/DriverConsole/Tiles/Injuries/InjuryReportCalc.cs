@@ -99,13 +99,15 @@ namespace Tiles.Injuries
             // the ratio of the contact area of the weapon to the contact area of the body part. 
             
             double volFact = 1d;
+            /*
             if (weaponCa < partCa)
             {
                 volFact = weaponCa / partCa;
             }
-
+            */
             Builder.SetMomentum(momentum);
-            Builder.SetContactArea(contactArea);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrickenContactArea(partCa);
             Builder.SetMaxPenetration(maxPenetration);
             Builder.SetStressMode(stressMode);
             Builder.SetStrikerMaterial(strikerMat);

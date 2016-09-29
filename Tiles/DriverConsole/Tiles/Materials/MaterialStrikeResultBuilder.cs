@@ -8,9 +8,11 @@ namespace Tiles.Materials
 {
     public class MaterialStrikeResultBuilder : IMaterialStrikeResultBuilder
     {
-        int ContactArea { get; set; }
+        double StrikerContactArea { get; set; }
+        double StrickenContactArea { get; set; }
         double Momentum { get; set; }
         double LayerVolume { get; set; }
+        double LayerThickness { get; set; }
         StressMode StressMode { get; set; }
 
 
@@ -20,7 +22,7 @@ namespace Tiles.Materials
 
         public void Clear()
         {
-            ContactArea = 0;
+            StrikerContactArea = 0;
             Momentum = 0;
             StressMode = Materials.StressMode.None;
             StrikerMaterial = null;
@@ -37,9 +39,14 @@ namespace Tiles.Materials
             Momentum = momentum;
         }
 
-        public void SetContactArea(int contactArea)
+        public void SetStrikerContactArea(double contactArea)
         {
-            ContactArea = contactArea;
+            StrikerContactArea = contactArea;
+        }
+
+        public void SetStrickenContactArea(double contactArea)
+        {
+            StrickenContactArea = contactArea;
         }
 
         public void SetStrikerMaterial(IMaterial mat)
@@ -57,6 +64,11 @@ namespace Tiles.Materials
             LayerVolume = vol;
         }
 
+        public void SetLayerThickness(double thick)
+        {
+            LayerThickness = thick;
+        }
+
         public IMaterialStrikeResult Build()
         {
             /*
@@ -71,24 +83,35 @@ For blunt defense, there is:
 3. A momentum cost to initiate fracture in the layer volume, using the difference between the layer's impact fracture and impact yield.
 4. A momentum cost to complete fracture in the layer volume, which is the same as step 3.
 
-After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility.
-             * 
+After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). 
+If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility.
     */
 
-            double contactArea = (double)ContactArea;
+
+            var volDamaged = LayerVolume;
+            if (StrikerContactArea < StrickenContactArea)
+            {
+                volDamaged *= (StrikerContactArea / StrickenContactArea);
+            }
+
+            double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier);
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier);
             var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier,
-                LayerVolume);
+                volDamaged);
 
-            var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, LayerVolume);
-            var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
-            var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
+            var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, volDamaged);
+            var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, volDamaged);
+            var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, volDamaged);
             bool bluntBypass = false;
+
+            var caRatio = (StrikerContactArea / StrickenContactArea);
+
 
             double thresh = -1d;
             double resultMom = -1;
-            double mom = Momentum / contactArea; // calculate stress
+            double mom = (Momentum);
+            double stress = Momentum / contactArea * caRatio;
             bool defeated = false;
             MaterialStressResult msr = MaterialStressResult.None;
             if (StressMode == Materials.StressMode.Edge)
@@ -97,11 +120,33 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                     Momentum,
                     StrickenMaterial);
 
+                var dentCost = (shearCost1);
+                var cutCost = dentCost + (shearCost2);
+                var defeatCost = cutCost + (shearCost3);
+
+                var youngsModulus = cutCost / StrickenMaterial.ShearStrainAtYield;
+                var strain = stress / youngsModulus;        
+                if (stress > dentCost)
+                {
+                    msr = MaterialStressResult.Shear_Dent;
+                    // strain follows hooke's law
+
+                    if (stress > cutCost)
+                    {
+                        msr = MaterialStressResult.Shear_Cut;
+                        defeated = true;
+                        if (stress > defeatCost)
+                        {
+                            msr = MaterialStressResult.Shear_CutThrough;
+                        }
+                    }
+                }
+
+
+                /*
                 mom = mom - shearCost1;
                 thresh = shearCost1;
 
-                var modulus = shearCost1 / StrickenMaterial.ShearStrainAtYield;
-                var strain = mom * (double)StrickenMaterial.ShearStrainAtYield;
                 if (mom >= 0)
                 {
                     msr = MaterialStressResult.Shear_Dent;
@@ -119,6 +164,7 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                         }
                     }
                 }
+                */
             }
             else
             {
@@ -128,8 +174,42 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
 
-                bluntBypass = (StrickenMaterial.ImpactStrainAtYield) >= 50000;
+                var dentCost = (impactCost1);
+                var cutCost = dentCost + System.Math.Max(0, impactCost2);
+                var defeatCost = cutCost + System.Math.Max(0, impactCost3);
 
+                bluntBypass = StrickenMaterial.ImpactStrainAtYield >= 50000;
+
+                if (!bluntBypass)
+                {
+                    if (stress > dentCost)
+                    {
+                        msr = MaterialStressResult.Impact_Dent;
+                        if (stress > cutCost)
+                        {
+                            msr = MaterialStressResult.Impact_InitiateFracture;
+                            if(stress > defeatCost)
+                            {
+                                defeated = true;
+                                msr = MaterialStressResult.Impact_CompleteFracture;
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    msr = MaterialStressResult.Impact_Dent;
+                    thresh = impactCost1;
+                    defeated = true;
+                    if (stress >= 0)
+                    {
+                        msr = MaterialStressResult.Impact_Bypass;
+                    }
+
+                }
+
+                /*
                 if (!bluntBypass)
                 {
                     mom = mom - impactCost1;
@@ -162,6 +242,7 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
                         msr = MaterialStressResult.Impact_Bypass;
                     }
                 }
+                 * */
             }
 
 
@@ -184,7 +265,7 @@ After a layer has been defeated via cutting or blunt fracture, the momentum is r
             {
                 StressMode = StressMode,
                 Momentum = Momentum,
-                ContactArea = ContactArea,
+                ContactArea = StrikerContactArea,
                 MomentumThreshold = thresh,
 
                 StressResult = msr,

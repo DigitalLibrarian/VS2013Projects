@@ -25,7 +25,7 @@ namespace Tiles.Materials
     {
         StressMode StressMode { get; set; }
 
-        int ContactArea { get; }
+        double ContactArea { get; }
 
         double Momentum { get; }
         double MomentumThreshold { get; }
@@ -48,7 +48,7 @@ namespace Tiles.Materials
     {
         public StressMode StressMode { get; set; }
 
-        public int ContactArea { get; set; }
+        public double ContactArea { get; set; }
         public double Momentum { get; set; }
         public double MomentumThreshold { get; set; }
 

@@ -102,7 +102,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_RightUpperArmWithWoodSwordStab()
+        public void DwarfVsDwarf_StabRightUpperArmWithWoodSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;

@@ -61,7 +61,6 @@
   <ItemGroup>
     <Compile Include="BodyTests.cs" />
     <Compile Include="DfContentTestBase.cs" />
-    <Compile Include="DwarfVsAlligatorStrikeTests.cs" />
     <Compile Include="GiantVsGiantTortoiseStrikeTests.cs" />
     <Compile Include="DwarfVsDwarfStrikeTests.cs" />
     <Compile Include="TestContentStore.cs" />
