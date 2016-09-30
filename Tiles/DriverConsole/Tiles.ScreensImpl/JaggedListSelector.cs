@@ -85,19 +85,12 @@ namespace Tiles.ScreensImpl
             return box.Size.Y;
         }
 
-        bool IsSelectedInBox(Box2 box)
-        {
-            var screenIndex = box.Min + new Vector2(Spacing.X * Selected.X, Spacing.Y * Selected.Y);
-
-            return(box.Contains(screenIndex));
-        }
-
         Vector2 SelectedPageIndex(Box2 box)
         {
             int cols = ColumnsPerPage(box);
             int rows = RowsPerPage(box);
 
-            var screenIndex = box.Min + new Vector2(Spacing.X * Selected.X, Spacing.Y * Selected.Y);
+            var screenIndex = new Vector2(Spacing.X * Selected.X, Spacing.Y * Selected.Y);
 
             return new Vector2(screenIndex.X / cols, screenIndex.Y / rows);
         }
@@ -111,12 +104,9 @@ namespace Tiles.ScreensImpl
             }
             Update(counts.ToArray());
 
-
             // screenPos should be treated like upper bound.  We have the rest of the screen
             var box = new Box2(screenPos, ScreenBox.Max);
             var pageIndex = SelectedPageIndex(box);
-
-
 
             Color fg = Foreground;
             Color bg = Background;
