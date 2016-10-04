@@ -31,6 +31,31 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfVDwarf_CopperSwordSlashLeftUpperLeg()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left upper leg"));
+
+            var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "COPPER");
+            attacker.Outfit.Wield(sword);
+
+            var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+            Assert.IsNotNull(slashMoveClass);
+
+            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+
+            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
+
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove, sword.Class.Material,
+                MaterialStressResult.Shear_CutThrough,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut);
+        }
+
+        [TestMethod]
         public void DwarfVsDwarf_ToeWithSteelSwordSlash()
         {
             var attacker = Dwarf;
@@ -143,7 +168,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
  
             var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Shear_CutThrough, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
             Assert.AreSame(skinLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
@@ -197,7 +222,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
 
             var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Shear_CutThrough, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
             Assert.AreSame(skinLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(1);

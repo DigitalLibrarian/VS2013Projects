@@ -99,19 +99,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier) / contactArea;
             var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier,
                 volDamaged);
-            /*
-            shearCost1 = ((double)StrickenMaterial.ShearYield) / ((double)StrikerMaterial.ShearYield * StrikerMaterial.SharpnessMultiplier)
-                * 100d / 500d / 10d;
-            
-            shearCost2 = ((double)StrickenMaterial.ShearFracture)
-                / ((double)StrikerMaterial.ShearFracture * StrikerMaterial.SharpnessMultiplier)
-                / 100d / 500d / 10d;
-            
-            
-            shearCost3 = ((double)StrickenMaterial.ShearFracture * volDamaged)
-                / ((double)StrikerMaterial.ShearFracture * StrikerMaterial.SharpnessMultiplier)
-                / 100d / 500d / 1d;
-            */
+
             if (StrikerMaterial.ShearYield <= StrickenMaterial.ShearYield)
             {
                 //shearCost1 = 0d;
@@ -141,7 +129,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             double thresh = -1d;
             double resultMom = -1;
             double mom = (Momentum);
-            double stress = Momentum / contactArea;
+            double stress = Momentum / volDamaged;
             bool defeated = false;
             MaterialStressResult msr = MaterialStressResult.None;
             if (StressMode == Materials.StressMode.Edge)

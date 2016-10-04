@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
+using Tiles.Bodies;
 using Tiles.Content.Bridge.DfNet;
 using Tiles.Content.Map;
 using Tiles.Ecs;
@@ -72,6 +73,42 @@ namespace Tiles.EngineIntegrationTests
         protected IItem CreateMaterialTemplateWeapon(string name, string matTempName)
         {
             return DfTagsFascade.CreateMaterialTemplateWeapon(name, matTempName);
+        }
+
+        protected void AssertTissueStrikeResults(
+            IAgent attacker, IAgent defender, IBodyPart targetPart, 
+            ICombatMove move, IMaterial strikerMaterial,
+            params MaterialStressResult[] expectedLayerResults
+            )
+        {
+            var mom = attacker.GetStrikeMomentum(move);
+            var context = new CombatMoveContext(attacker, defender, move);
+            var moveClass = move.Class;
+
+
+            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
+                context,
+                moveClass.StressMode,
+                mom,
+                moveClass.ContactArea,
+                moveClass.MaxPenetration,
+                targetPart,
+                strikerMaterial
+                );
+
+            var partInjury = injuryReport.BodyPartInjuries.First();
+            int i = 0;
+            foreach(var exp in expectedLayerResults)
+            {
+                var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
+                Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
+                    string.Format("Expected <{0}>, got <{1}> for {2} {3}",
+                        exp,
+                        tInjury.StrikeResult.StressResult,
+                        partInjury.BodyPart.Name,
+                        tInjury.Layer.Material.Name));
+                i++;
+            }
         }
 
         protected void AssertTissueInjuryClass(ITissueLayerInjuryClass expected, ITissueLayerInjury tInjury)

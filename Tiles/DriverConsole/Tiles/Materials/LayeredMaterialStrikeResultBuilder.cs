@@ -148,11 +148,7 @@ namespace Tiles.Materials
                 {
                     mode = StressMode.Blunt;
                 }
-                else
-                {
-                    done = true;
-                }
-                if(layerResult.StressResult == MaterialStressResult.None)
+                else if(layerResult.StressResult == MaterialStressResult.None)
                 {
                     done = true;
                 }

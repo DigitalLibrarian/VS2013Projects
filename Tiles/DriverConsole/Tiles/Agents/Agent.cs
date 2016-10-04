@@ -92,8 +92,7 @@ namespace Tiles.Agents
             }
             return false;
         }
-
-        
+                
         public double GetStrikeMomentum(ICombatMove move)
         {
             double baseSize = Body.Size;

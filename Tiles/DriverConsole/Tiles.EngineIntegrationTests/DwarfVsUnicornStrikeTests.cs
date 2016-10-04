@@ -73,9 +73,6 @@ namespace Tiles.EngineIntegrationTests
 
             var partInjury = injuryReport.BodyPartInjuries.First();
             Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-            //Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
-
-            //Assert.AreEqual(4, partInjury.TissueLayerInjuries.Count());
 
             var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual(MaterialStressResult.Shear_CutThrough, tInjury.StrikeResult.StressResult);
@@ -386,12 +383,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreSame(fatLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
             Assert.AreSame(muscleLayer, tInjury.Layer);
 
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
-            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(boneLayer, tInjury.Layer);
         }
 
         [TestMethod]
@@ -495,12 +489,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreSame(fatLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
             Assert.AreSame(muscleLayer, tInjury.Layer);
 
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
-            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(boneLayer, tInjury.Layer);
         }
 
         [TestMethod]
