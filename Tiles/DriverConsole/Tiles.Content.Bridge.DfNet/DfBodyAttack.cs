@@ -13,6 +13,8 @@ namespace Tiles.Content.Bridge.DfNet
         {
             Constraints = new List<BaConstraint>();
             ContactType = Models.ContactType.Other;
+            PenetrationPercent = 100;
+            ContactPercent = 100;
         }
 
         public string ReferenceName { get; set; }

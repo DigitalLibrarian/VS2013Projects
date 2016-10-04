@@ -57,6 +57,37 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_Bite()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            var move = agent.Body.Moves.Single(x => x.Name.Equals("BITE"));
+            Assert.AreEqual(1, move.Requirements.Count());
+            Assert.AreEqual(2, move.Requirements.First().Constraints.Count());
+            var con = move.Requirements.First().Constraints.ElementAt(0);
+            Assert.AreEqual(BprConstraintType.ByCategory, con.ConstraintType);
+            Assert.IsTrue(new string[] { "HEAD" }.SequenceEqual(con.Tokens));
+
+            con = move.Requirements.First().Constraints.ElementAt(1);
+            Assert.AreEqual(BprConstraintType.ByCategory, con.ConstraintType);
+            Assert.IsTrue(new string[] { "TOOTH" }.SequenceEqual(con.Tokens));
+
+            Assert.AreEqual(3, move.ContactArea);
+            Assert.AreEqual(7, move.MaxPenetration);
+        }
+
+
+        [TestMethod]
+        public void Dwarf_Kick()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            Assert.IsNotNull(agent);
+
+            var move = agent.Body.Moves.Single(x => x.Name.Equals("KICK"));
+            Assert.AreEqual(25, move.ContactArea);
+            Assert.AreEqual(130, move.MaxPenetration);
+        }
+
+        [TestMethod]
         public void Dwarf_SpotChecks()
         {
             var agent = DfAgentFactory.Create("DWARF", "MALE");
@@ -102,8 +133,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(4, agent.Body.Moves.Count());
             var moves = agent.Body.Moves;
             var punch = moves.Single(x => x.Name.Equals("PUNCH"));
-            Assert.AreEqual(14, punch.ContactArea);
-            Assert.AreEqual(1, punch.MaxPenetration);
+            Assert.AreEqual(19, punch.ContactArea);
+            Assert.AreEqual(87, punch.MaxPenetration);
             Assert.AreEqual(3, punch.PrepTime);
             Assert.AreEqual(3, punch.RecoveryTime);
             Assert.AreEqual("punch", punch.Verb.SecondPerson);
@@ -244,13 +275,14 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
 
         [TestMethod]
-        public void HumanPunchContactArea()
+        public void HumanPunch()
         {
             var agent = DfAgentFactory.Create("HUMAN");
             Assert.IsNotNull(agent);
 
             var punch = agent.Body.Moves.Single(x => x.Name.Equals("PUNCH"));
-            Assert.AreEqual(15, punch.ContactArea);
+            Assert.AreEqual(21, punch.ContactArea);
+            Assert.AreEqual(101, punch.MaxPenetration);
         }
 
         [TestMethod]

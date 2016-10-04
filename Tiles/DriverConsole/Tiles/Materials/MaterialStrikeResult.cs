@@ -42,6 +42,7 @@ namespace Tiles.Materials
         double ImpactDentCost { get; }
         double ImpactInitiateFractureCost { get; }
         double ImpactCompleteFractureCost { get; }
+        double Stress { get; }
     }
 
     public class MaterialStrikeResult : IMaterialStrikeResult
@@ -51,6 +52,7 @@ namespace Tiles.Materials
         public double ContactArea { get; set; }
         public double Momentum { get; set; }
         public double MomentumThreshold { get; set; }
+        public double Stress { get; set; }
 
         public double ExcessMomentum { get { return Momentum - (MomentumThreshold); } }
         public bool BreaksThrough { get { return Momentum >= MomentumThreshold; } }

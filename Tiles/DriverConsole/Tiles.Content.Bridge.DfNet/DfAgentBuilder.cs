@@ -400,7 +400,9 @@ namespace Tiles.Content.Bridge.DfNet
         CombatMove CreateBodyCombatMove(DfBodyAttack attack, Body body)
         {
             var bodySize = body.Size;
-            int totalBpRelSize = body.Parts.Select(x => x.RelativeSize).Sum();
+            int totalBpRelSize = body.Parts
+                .Where(x => !x.IsInternal && !x.IsEmbedded)
+                .Select(x => x.RelativeSize).Sum();
 
             var parts = FindAttackParts(attack, body);
             if (!parts.Any())
@@ -408,14 +410,64 @@ namespace Tiles.Content.Bridge.DfNet
                 throw new InvalidOperationException(string.Format("Could not find part for body attack {0}", attack.ReferenceName));
             }
 
+            if(attack.ReferenceName.Equals("BITE")
+                || attack.ReferenceName.Equals("PUNCH"))
+            {
+                int br = 0;
+            }
+            
+            double totalContactArea = 0;
+            double totalPartSize = 0;
+            double maxLength = 1;
+            //double maxPen = 0;
+            foreach (var part in parts)
+            {
+                double partRatio = ((double)part.RelativeSize / totalBpRelSize);
+                var partSize = (partRatio * Size);
+                var partLength = System.Math.Pow(partSize, 0.3333d);
+                var bpContactArea = System.Math.Pow((partSize), 0.666d);
+                // I think df cheats for teeth so the contact area is low enough 
+                // to penetrate
+                maxLength += partSize;
+                if (part.Types.Contains("SOCKET"))
+                {
+                    partSize /= 2d;
+                    bpContactArea /= 2d;
+                }
+                totalPartSize += partSize;
+                totalContactArea += bpContactArea;
+            }
+
+            var contactRatio = (double)attack.ContactPercent / 100d;
+            var contactArea = totalContactArea * contactRatio;
+            var maxPen = (int)(((double)attack.PenetrationPercent/100d) * maxLength);
+
+            var combatMove =
+                new CombatMove
+                {
+                    Name = attack.ReferenceName,
+                    Verb = attack.Verb,
+                    PrepTime = attack.PrepTime,
+                    RecoveryTime = attack.RecoveryTime,
+                    IsDefenderPartSpecific = true,
+                    IsStrike = true,
+                    IsMartialArts = true,
+                    ContactType = attack.ContactType,
+                    ContactArea = System.Math.Max(1, (int) contactArea),
+                    MaxPenetration = System.Math.Max(1, (int) maxPen),
+                    VelocityMultiplier = 1000,
+                };
+
+            /*
             var part = parts.First();
             
             double partRatio = ((double)part.RelativeSize / totalBpRelSize);
             var partSize = (partRatio * Size);
             var partLength = System.Math.Pow(partSize, 0.3333d);
+            var bpContactArea = System.Math.Pow((partSize), 0.666d);
 
             var contactRatio = (double)attack.ContactPercent / 100d;
-            var contactArea = (int)(System.Math.Pow((partSize), 0.666d) * contactRatio);
+            var contactArea = bpContactArea * contactRatio;
             var maxPen = (int)(((double)attack.PenetrationPercent) * partLength);
             var combatMove =
                 new CombatMove
@@ -428,10 +480,12 @@ namespace Tiles.Content.Bridge.DfNet
                     IsStrike = true,
                     IsMartialArts = true,
                     ContactType = attack.ContactType,
-                    ContactArea = System.Math.Max(1, contactArea),
+                    ContactArea = System.Math.Max(1, (int)contactArea),
                     MaxPenetration = System.Math.Max(1, maxPen),
                     VelocityMultiplier = 1000,
                 };
+             * 
+             * */
 
             combatMove.Requirements.Add(new BodyPartRequirement
             {

@@ -152,6 +152,10 @@ namespace Tiles.Materials
                 {
                     done = true;
                 }
+                if(layerResult.StressResult == MaterialStressResult.None)
+                {
+                    done = true;
+                }
 
                 if (layer.IsTagged)
                 {
@@ -189,7 +193,7 @@ namespace Tiles.Materials
             Builder.SetStrikerMaterial(strikerMat);
             Builder.SetStrickenMaterial(layer.Material);
             Builder.SetStrikeMomentum(momentum);
-            Builder.SetLayerVolume(layer.Volume);
+            Builder.SetLayerVolume(System.Math.Max(1d, layer.Volume));
             Builder.SetLayerThickness(layer.Thickness);
 
             //contactArea = (int) System.Math.Min(contactArea, layer.Thickness);

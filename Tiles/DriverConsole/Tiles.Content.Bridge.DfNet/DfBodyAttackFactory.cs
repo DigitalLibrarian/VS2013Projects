@@ -28,37 +28,23 @@ namespace Tiles.Content.Bridge.DfNet
                         attack.ReferenceName = tag.GetParam(0);
                         var reqTypeStr = tag.GetParam(1);
                         attack.RequirementType = GetReqType(reqTypeStr);
+                        int b = 2;
                         int numParams = tag.GetParams().Count();
                         BaConstraint constraint = null;
-                        for (int i = 2; i < numParams;i++ )
+                        for (int i = b; i < numParams; i++ )
                         {
-                            switch (tag.GetParam(i))
+                            switch(tag.GetParam(i))
                             {
                                 case DfTags.MiscTags.BY_CATEGORY:
                                     constraint = new BaConstraint(BaConstraintType.ByCategory);
-                                    for (int j = i+1; j < numParams; j++)
-                                    {
-                                        var p = tag.GetParam(j);
-                                        if (p.StartsWith("BY"))
-                                        {
-                                            break;
-                                        }
-                                        if (!p.Equals("ALL")) constraint.Tokens.Add(p);
-                                    }
                                     attack.Constraints.Add(constraint);
                                     break;
                                 case DfTags.MiscTags.BY_TYPE:
                                     constraint = new BaConstraint(BaConstraintType.ByType);
-                                    for (int j = i+1; j < numParams; j++)
-                                    {
-                                        var p = tag.GetParam(j);
-                                        if (p.StartsWith("BY"))
-                                        {
-                                            break;
-                                        }
-                                        constraint.Tokens.Add(p);
-                                    }
                                     attack.Constraints.Add(constraint);
+                                    break;
+                                default:
+                                    constraint.Tokens.Add(tag.GetParam(i));
                                     break;
                             }
                         }

@@ -43,8 +43,33 @@ namespace Tiles.Injuries
         public string GetPhrase()
         {
             var mom = StrikeResult.Momentum;
-            var thresh = StrikeResult.MomentumThreshold * StrikeResult.ContactArea ;
-            return string.Format("{0}({2}) the {1}({3}) ", Class.Gerund, Layer.Class.Material.Name, ((int)mom*100d)/100d, ((int)thresh*100d)/100d);
+
+            var cost1 = StrikeResult.ShearDentCost;
+            var cost2 = StrikeResult.ShearCutCost;
+            var cost3= StrikeResult.ShearCutThroughCost;
+            if (StrikeResult.StressMode == StressMode.Blunt)
+            {
+                cost1 = StrikeResult.ImpactDentCost;
+                cost2 = StrikeResult.ImpactInitiateFractureCost;
+                cost3 = StrikeResult.ImpactCompleteFractureCost;
+            }
+
+            return string.Format("{0}({6}, {7}, {2}, {8}) the {1}({3}, {4}, {5}) ", 
+                Class.Gerund, 
+                Layer.Class.Material.Name, 
+                StrikeResult.Stress,
+                Normalize(cost1), 
+                Normalize(cost2), 
+                Normalize(cost3),
+                StrikeResult.StressMode.ToString(),
+                Normalize(mom),
+                StrikeResult.ContactArea
+                );
+        }
+
+        double Normalize(double d)
+        {
+            return d;
         }
     }
 }

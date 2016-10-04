@@ -227,13 +227,5 @@ namespace Tiles.Tests.Materials
                 (int)(actual * 100) / 100d,
                 message);
         }
-        public void AssertMatOnMat_GetBluntThreshold(int contactArea, IMaterial strickenMat, double expected)
-        {
-            var thresh = MaterialStressCalc.GetBluntBreakThreshold(contactArea, strickenMat);
-            AssertRoughly(
-                expected,
-                thresh,
-                string.Format("blunt threshold={0}", thresh));
-        }
     }
 }
