@@ -50,7 +50,7 @@ namespace Tiles.EngineIntegrationTests
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove, sword.Class.Material,
                 MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_CutThrough,
                 MaterialStressResult.Shear_Cut,
                 MaterialStressResult.Shear_Cut);
         }
@@ -230,7 +230,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreSame(fatLayer, tInjury.Layer);
 
             tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
+            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
             Assert.AreSame(muscleLayer, tInjury.Layer);
         }
     }

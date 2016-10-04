@@ -43,6 +43,8 @@ namespace Tiles.Materials
         double ImpactInitiateFractureCost { get; }
         double ImpactCompleteFractureCost { get; }
         double Stress { get; }
+
+        double WoundArea { get;}
     }
 
     public class MaterialStrikeResult : IMaterialStrikeResult
@@ -66,5 +68,7 @@ namespace Tiles.Materials
         public double ImpactDentCost { get; set; }
         public double ImpactInitiateFractureCost { get; set; }
         public double ImpactCompleteFractureCost { get; set; }
+
+        public double WoundArea { get; set; }
     }
 }

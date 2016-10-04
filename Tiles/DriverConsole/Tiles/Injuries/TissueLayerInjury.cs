@@ -54,7 +54,7 @@ namespace Tiles.Injuries
                 cost3 = StrikeResult.ImpactCompleteFractureCost;
             }
 
-            return string.Format("{0}({6}, {7}, {2}, {8}) the {1}({3}, {4}, {5}) ", 
+            return string.Format("{0}({6}, {7}, {2}, {8}, {9}) the {1}({3}, {4}, {5}) ", 
                 Class.Gerund, 
                 Layer.Class.Material.Name, 
                 StrikeResult.Stress,
@@ -63,7 +63,8 @@ namespace Tiles.Injuries
                 Normalize(cost3),
                 StrikeResult.StressMode.ToString(),
                 Normalize(mom),
-                StrikeResult.ContactArea
+                StrikeResult.ContactArea,
+                StrikeResult.WoundArea
                 );
         }
 

@@ -89,9 +89,10 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
 
 
             var volDamaged = LayerVolume;
+            var caRatio = (StrikerContactArea / StrickenContactArea);
             if (StrikerContactArea < StrickenContactArea)
             {
-                volDamaged *= (StrikerContactArea / StrickenContactArea);
+                volDamaged *= caRatio;
             }
 
             double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
@@ -100,36 +101,27 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier,
                 volDamaged);
 
-            if (StrikerMaterial.ShearYield <= StrickenMaterial.ShearYield)
+            if (StrikerMaterial.ShearYield >= StrickenMaterial.ShearYield)
             {
-                //shearCost1 = 0d;
+                shearCost1 = 0d;
             }
 
-            if (StrikerMaterial.ShearFracture <= StrickenMaterial.ShearFracture)
+            if (StrikerMaterial.ShearFracture >= StrickenMaterial.ShearFracture)
             {
                 //shearCost2 = 0d;
             }
-
-            
-            //vbca=layervolume*matdata.yield.IMPACT/100/500/10
-            //vbcb=layervolume*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/10
-            //vbcc=layervolume*(matdata.fracture.IMPACT-matdata.yield.IMPACT)/100/500/1
 
             var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, volDamaged);
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, volDamaged);
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, volDamaged);
 
-            //impactCost1 = volDamaged * StrickenMaterial.ImpactYield / 100d / 500d / 10d;
-            //impactCost2 = volDamaged * (StrickenMaterial.ImpactFracture - StrickenMaterial.ImpactYield) / 100d / 500d / 10d;
-            //impactCost2 = volDamaged * (StrickenMaterial.ImpactFracture - StrickenMaterial.ImpactYield) / 100d / 500d / 1d;
-
-
             bool bluntBypass = false;
 
+            double woundArea = 0;
             double thresh = -1d;
             double resultMom = -1;
             double mom = (Momentum);
-            double stress = Momentum / volDamaged;
+            double stress = Momentum;
             bool defeated = false;
             MaterialStressResult msr = MaterialStressResult.None;
             if (StressMode == Materials.StressMode.Edge)
@@ -148,13 +140,18 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 if (stress > dentCost)
                 {
                     msr = MaterialStressResult.Shear_Dent;
-                    // strain follows hooke's law
+                    // strain follows hooke's law here
 
                     if (stress > cutCost)
                     {
                         msr = MaterialStressResult.Shear_Cut;
                         defeated = true;
-                        if (stress > defeatCost)
+                        var woundRat = (stress-cutCost) / shearCost3;
+                        //woundRat = System.Math.Max(1d, woundRat);
+                        woundArea = contactArea * woundRat;
+
+                        if ((stress > defeatCost  || woundRat > 1d)
+                            && StrikerContactArea >= StrickenContactArea)
                         {
                             msr = MaterialStressResult.Shear_CutThrough;
                         }
@@ -238,7 +235,9 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 ImpactInitiateFractureCost = impactCost2,
                 ImpactCompleteFractureCost = impactCost3,
                 Stress = stress,
-                ResultMomentum = resultMom
+                ResultMomentum = resultMom,
+
+                WoundArea = woundArea
             };
         }
     }
