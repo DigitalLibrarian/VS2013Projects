@@ -132,7 +132,7 @@ namespace Tiles.Materials
                 var layerResult = PerformSingleLayerTest(
                     StrikerMaterial,
                     momentum,
-                    StrikerContactArea,
+                    contactArea,
                     mode,
                     layer);
 
@@ -142,6 +142,7 @@ namespace Tiles.Materials
                     if (mode == Materials.StressMode.Edge)
                     {
                         penetration += (int)layer.Thickness;
+                        contactArea = System.Math.Min(layerResult.WoundArea, 1);
                     }
                 }
                 else if (mode != StressMode.Blunt)

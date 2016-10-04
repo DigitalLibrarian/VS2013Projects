@@ -9,6 +9,7 @@ using Tiles.Items;
 using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
 using Tiles.Agents.Combat;
+using Tiles.Materials;
 namespace Tiles.Agents
 {
     public class Agent : IAgent
@@ -92,7 +93,22 @@ namespace Tiles.Agents
             }
             return false;
         }
-                
+        
+        public IMaterial GetStrikeMaterial(ICombatMove move)
+        {
+            if (move.Class.IsItem)
+            {
+                return move.Weapon.Class.Material;
+            }
+            else
+            {
+                var relatedParts = move.Class.GetRelatedBodyParts(Body);
+                var strikePart = relatedParts.First();
+                var weaponMat = strikePart.Tissue.TissueLayers.Last().Material;
+                return weaponMat;
+            }
+        }
+
         public double GetStrikeMomentum(ICombatMove move)
         {
             double baseSize = Body.Size;

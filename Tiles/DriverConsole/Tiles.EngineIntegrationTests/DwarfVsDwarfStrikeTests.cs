@@ -48,7 +48,7 @@ namespace Tiles.EngineIntegrationTests
 
             var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
 
-            AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove, sword.Class.Material,
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove,
                 MaterialStressResult.Shear_CutThrough,
                 MaterialStressResult.Shear_CutThrough,
                 MaterialStressResult.Shear_Cut,

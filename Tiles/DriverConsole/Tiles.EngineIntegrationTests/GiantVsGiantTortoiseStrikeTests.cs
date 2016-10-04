@@ -45,55 +45,12 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("punch"));
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
-
-            var momentum = attacker.GetStrikeMomentum(move);
-            var context = new CombatMoveContext(attacker, defender, move);
-
-            //  TODO - most dense tissue layer
-            var relatedParts = move.Class.GetRelatedBodyParts(attacker.Body);
-            var strikePart = relatedParts.First();
-            var weaponMat = strikePart.Tissue.TissueLayers.Last().Material;
             
-
-            var scaleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("scale"));
-            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-            var boneLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
-
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
-                moveClass.StressMode,
-                momentum,
-                moveClass.ContactArea,
-                moveClass.MaxPenetration,
-                targetBodyPart,
-                weaponMat
-                );
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-
-            Assert.AreEqual(1, injuryReport.BodyPartInjuries.Count());
-            //Assert.AreEqual(4, partInjury.TissueLayerInjuries.Count());
-
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(scaleLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(fatLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(muscleLayer, tInjury.Layer);
-
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
-            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(boneLayer, tInjury.Layer);
-
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.None);
         }
     }
 

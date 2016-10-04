@@ -77,10 +77,11 @@ namespace Tiles.EngineIntegrationTests
 
         protected void AssertTissueStrikeResults(
             IAgent attacker, IAgent defender, IBodyPart targetPart, 
-            ICombatMove move, IMaterial strikerMaterial,
+            ICombatMove move, 
             params MaterialStressResult[] expectedLayerResults
             )
         {
+            IMaterial strikerMaterial = attacker.GetStrikeMaterial(move);
             var mom = attacker.GetStrikeMomentum(move);
             var context = new CombatMoveContext(attacker, defender, move);
             var moveClass = move.Class;
