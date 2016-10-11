@@ -22,5 +22,7 @@ namespace Tiles.Materials
         void Clear();
 
         void SetLayerThickness(double p);
+
+        void SetRemainingPenetration(double penetrationLeft);
     }
 }

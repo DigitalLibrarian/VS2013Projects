@@ -212,7 +212,8 @@ namespace Tiles.Content.Map
                     {
                         IsCosmetic = layer.IsCosmetic,
                         IsConnective = layer.IsConnective,
-                        VascularRating = layer.VascularRating
+                        VascularRating = layer.VascularRating,
+                        ThickensOnStrength = layer.ThickensOnStrength
                     });
             }
 

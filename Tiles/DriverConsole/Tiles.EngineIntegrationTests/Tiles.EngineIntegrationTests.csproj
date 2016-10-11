@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,6 +62,7 @@
   <ItemGroup>
     <Compile Include="BodyTests.cs" />
     <Compile Include="DfContentTestBase.cs" />
+    <Compile Include="ElfVsElfStrikeTests.cs" />
     <Compile Include="GiantVsGiantTortoiseStrikeTests.cs" />
     <Compile Include="DwarfVsDwarfStrikeTests.cs" />
     <Compile Include="TestContentStore.cs" />

@@ -242,7 +242,8 @@ namespace Tiles.Content.Bridge.DfNet
                             RelativeThickness = thickness,
                             VascularRating = tissueTemplate.VascularRating,
                             IsCosmetic = tissueTemplate.IsCosmetic,
-                            IsConnective = tissueTemplate.IsConnective
+                            IsConnective = tissueTemplate.IsConnective,
+                            ThickensOnStrength = tissueTemplate.ThickensOnStrength
                         });
                     }
                 }
@@ -258,7 +259,8 @@ namespace Tiles.Content.Bridge.DfNet
                             RelativeThickness = tissueTemplate.RelativeThickness,
                             VascularRating = tissueTemplate.VascularRating,
                             IsCosmetic = tissueTemplate.IsCosmetic,
-                            IsConnective = tissueTemplate.IsConnective
+                            IsConnective = tissueTemplate.IsConnective,
+                            ThickensOnStrength = tissueTemplate.ThickensOnStrength
                         });
                     }
                 }
@@ -370,6 +372,8 @@ namespace Tiles.Content.Bridge.DfNet
                     }
                     break;
                 case BodyPartRequirementType.ChildTissueLayerGroup:
+                    // TODO - fix DwarfScratch_ContactArea case here
+                    // There really isn't a body part here, so need new return type
                     pConstraint = attack.Constraints.First();
                     if (IsConstraintMatch(pConstraint, part))
                     {
@@ -410,16 +414,10 @@ namespace Tiles.Content.Bridge.DfNet
                 throw new InvalidOperationException(string.Format("Could not find part for body attack {0}", attack.ReferenceName));
             }
 
-            if(attack.ReferenceName.Equals("BITE")
-                || attack.ReferenceName.Equals("PUNCH"))
-            {
-                int br = 0;
-            }
-            
             double totalContactArea = 0;
             double totalPartSize = 0;
             double maxLength = 1;
-            //double maxPen = 0;
+
             foreach (var part in parts)
             {
                 double partRatio = ((double)part.RelativeSize / totalBpRelSize);
@@ -429,7 +427,8 @@ namespace Tiles.Content.Bridge.DfNet
                 // I think df cheats for teeth so the contact area is low enough 
                 // to penetrate
                 maxLength += partSize;
-                if (part.Types.Contains("SOCKET"))
+                if (part.Types.Contains("SOCKET")
+                    || part.Types.Contains("SMALL"))
                 {
                     partSize /= 2d;
                     bpContactArea /= 2d;
@@ -457,35 +456,6 @@ namespace Tiles.Content.Bridge.DfNet
                     MaxPenetration = System.Math.Max(1, (int) maxPen),
                     VelocityMultiplier = 1000,
                 };
-
-            /*
-            var part = parts.First();
-            
-            double partRatio = ((double)part.RelativeSize / totalBpRelSize);
-            var partSize = (partRatio * Size);
-            var partLength = System.Math.Pow(partSize, 0.3333d);
-            var bpContactArea = System.Math.Pow((partSize), 0.666d);
-
-            var contactRatio = (double)attack.ContactPercent / 100d;
-            var contactArea = bpContactArea * contactRatio;
-            var maxPen = (int)(((double)attack.PenetrationPercent) * partLength);
-            var combatMove =
-                new CombatMove
-                {
-                    Name = attack.ReferenceName,
-                    Verb = attack.Verb,
-                    PrepTime = attack.PrepTime,
-                    RecoveryTime = attack.RecoveryTime,
-                    IsDefenderPartSpecific = true,
-                    IsStrike = true,
-                    IsMartialArts = true,
-                    ContactType = attack.ContactType,
-                    ContactArea = System.Math.Max(1, (int)contactArea),
-                    MaxPenetration = System.Math.Max(1, maxPen),
-                    VelocityMultiplier = 1000,
-                };
-             * 
-             * */
 
             combatMove.Requirements.Add(new BodyPartRequirement
             {

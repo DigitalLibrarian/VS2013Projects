@@ -92,19 +92,6 @@ namespace Tiles.Injuries
             var partCa = targetPart.GetContactArea();
             var weaponCa = contactArea;
 
-            //contactArea = (int)System.Math.Min(partCa, (double)contactArea);
-            //weapon CA > layer CA (i.e. two handed sword vs. neck): the full volume of the layer is used.
-
-            //weapon CA < layer CA (i.e. bolt vs. upper leg): the "layer volume" used in the calculations depends on 
-            // the ratio of the contact area of the weapon to the contact area of the body part. 
-            
-            double volFact = 1d;
-            /*
-            if (weaponCa < partCa)
-            {
-                volFact = weaponCa / partCa;
-            }
-            */
             Builder.SetMomentum(momentum);
             Builder.SetStrikerContactArea(contactArea);
             Builder.SetStrickenContactArea(partCa);
@@ -126,23 +113,24 @@ namespace Tiles.Injuries
             {
                 if (!tissueLayer.Class.IsCosmetic)
                 {
-                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume * volFact, tissueLayer);
+                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
                     tlParts.Add(tissueLayer, targetPart);
                 }
             }
 
+            // TODO - these will use the wrong contact area, should be stored in MLayer
             var internalParts = context.Defender.Body.GetInternalParts(targetPart);
-            foreach (var internalPart in internalParts)
-            {
-                foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
-                {
-                    if (!tissueLayer.Class.IsCosmetic)
-                    {
-                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume * volFact, tissueLayer);
-                        tlParts.Add(tissueLayer, internalPart);
-                    }
-                }
-            }
+            //foreach (var internalPart in internalParts)
+            //{
+            //    foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
+            //    {
+            //        if (!tissueLayer.Class.IsCosmetic)
+            //        {
+            //            Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume * volFact, tissueLayer);
+            //            tlParts.Add(tissueLayer, internalPart);
+            //        }
+            //    }
+            //}
             
             var result = Builder.Build();
             

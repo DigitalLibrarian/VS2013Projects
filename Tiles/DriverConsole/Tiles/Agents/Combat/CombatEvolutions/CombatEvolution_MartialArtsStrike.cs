@@ -46,17 +46,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             var momentum = attacker.GetStrikeMomentum(move);
 
-            IMaterial weaponMat;
-            if (isWeaponBased)
-            {
-                weaponMat = move.Weapon.Class.Material;
-            }
-            else
-            {
-                //  TODO - most dense tissue layer
-                var relatedParts = move.Class.GetRelatedBodyParts(attacker.Body);
-                weaponMat = relatedParts.First().Tissue.TissueLayers.Last().Material;
-            }
+            IMaterial weaponMat = attacker.GetStrikeMaterial(move);
 
             bool targetPartWasShed = false;
             IInjuryReport report = InjuryReportCalc.CalculateMaterialStrike(

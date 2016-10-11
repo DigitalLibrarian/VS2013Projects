@@ -21,6 +21,10 @@ namespace Tiles.Bodies
                 tissueThick = System.Math.Max(1d, tissueThick);
 
                 var tissueVol = partSize * tlFact;
+                if (tc.ThickensOnStrength)
+                {
+                    tissueVol = partSize * 1250d * tlFact / 1000d;
+                }
                 tissueVol = System.Math.Ceiling(tissueVol);
                 tissueVol = System.Math.Max(1d, tissueVol);
 

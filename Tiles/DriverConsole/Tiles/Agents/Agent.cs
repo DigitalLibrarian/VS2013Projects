@@ -141,7 +141,7 @@ namespace Tiles.Agents
             double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
             var v = Size * (Str / 1000d) * ((VelocityMultiplier/ 1000d) * (1d / effWeight));
             v = System.Math.Min(5000d, v);
-            return v* (W);
+            return v * W;
         }
     }
 }

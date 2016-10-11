@@ -43,28 +43,22 @@ namespace Tiles.Injuries
         public string GetPhrase()
         {
             var mom = StrikeResult.Momentum;
-
-            var cost1 = StrikeResult.ShearDentCost;
-            var cost2 = StrikeResult.ShearCutCost;
-            var cost3= StrikeResult.ShearCutThroughCost;
-            if (StrikeResult.StressMode == StressMode.Blunt)
-            {
-                cost1 = StrikeResult.ImpactDentCost;
-                cost2 = StrikeResult.ImpactInitiateFractureCost;
-                cost3 = StrikeResult.ImpactCompleteFractureCost;
-            }
-
-            return string.Format("{0}({6}, {7}, {2}, {8}, {9}) the {1}({3}, {4}, {5}) ", 
+            
+            return string.Format("{0}(Mode={6}, Mom={7}, Stress={2}, ContactArea={8}, WoundArea={9}, ResultMom={13}) the {1}(ShearCost1={3}, ShearCost2={4}, ShearCost3={5}, ImpactCost1={10}, ImpactCost2={11}, ImpactCost3={12}) ", 
                 Class.Gerund, 
                 Layer.Class.Material.Name, 
                 StrikeResult.Stress,
-                Normalize(cost1), 
-                Normalize(cost2), 
-                Normalize(cost3),
+                Normalize(StrikeResult.ShearDentCost),
+                Normalize(StrikeResult.ShearCutCost),
+                Normalize(StrikeResult.ShearCutThroughCost),
                 StrikeResult.StressMode.ToString(),
                 Normalize(mom),
                 StrikeResult.ContactArea,
-                StrikeResult.WoundArea
+                StrikeResult.WoundArea,
+                Normalize(StrikeResult.ImpactDentCost),
+                Normalize(StrikeResult.ImpactInitiateFractureCost),
+                Normalize(StrikeResult.ImpactCompleteFractureCost),
+                Normalize(StrikeResult.ResultMomentum)
                 );
         }
 

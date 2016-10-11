@@ -126,6 +126,7 @@ namespace DfNet.Raws
             public const string CONNECTS = "CONNECTS";
             public const string COSMETIC = "COSMETIC";
             public const string RELATIVE_THICKNESS = "RELATIVE_THICKNESS";
+            public const string THICKENS_ON_STRENGTH = "THICKENS_ON_STRENGTH";
 
             public const string TISSUE_MATERIAL = "TISSUE_MATERIAL";
 

@@ -163,7 +163,7 @@ namespace Tiles.Content.Bridge.DfNet
                         b.SetSolidDensity(int.Parse(tag.GetParam(0)));
                         break;
                     case DfTags.MiscTags.MAX_EDGE:
-                        double sharp = (double)int.Parse(tag.GetParam(0)) / 10000d;
+                        double sharp = ((double)int.Parse(tag.GetParam(0))) / 10000d;
                         if (sharp == 0)
                         {
                             sharp = 0.01d;

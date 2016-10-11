@@ -14,11 +14,13 @@ namespace Tiles.Bodies
         public bool IsCosmetic { get; set; }
         public bool IsConnective { get; set; }
         public int VascularRating { get; set; }
+        public bool ThickensOnStrength { get; set; }
 
         public TissueLayerClass(IMaterial material, int relThick)
         {
             Material = material;
             RelativeThickness = relThick;
         }
+
     }
 }

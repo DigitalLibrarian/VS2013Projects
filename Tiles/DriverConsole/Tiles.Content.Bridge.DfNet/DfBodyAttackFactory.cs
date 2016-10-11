@@ -28,10 +28,9 @@ namespace Tiles.Content.Bridge.DfNet
                         attack.ReferenceName = tag.GetParam(0);
                         var reqTypeStr = tag.GetParam(1);
                         attack.RequirementType = GetReqType(reqTypeStr);
-                        int b = 2;
                         int numParams = tag.GetParams().Count();
                         BaConstraint constraint = null;
-                        for (int i = b; i < numParams; i++ )
+                        for (int i = 2; i < numParams; i++ )
                         {
                             switch(tag.GetParam(i))
                             {

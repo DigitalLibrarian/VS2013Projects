@@ -14,7 +14,7 @@ namespace Tiles.Content.Bridge.DfNet
         public bool IsCosmetic { get; set; }
         public int VascularRating { get; set; }
         public int RelativeThickness { get; set; }
-
+        public bool ThickensOnStrength { get; set; }
     }
 
     public interface IDfTissueTemplateFactory
@@ -110,6 +110,9 @@ namespace Tiles.Content.Bridge.DfNet
                         break;
                     case DfTags.MiscTags.COSMETIC:
                         template.IsCosmetic = true;
+                        break;
+                    case DfTags.MiscTags.THICKENS_ON_STRENGTH:
+                        template.ThickensOnStrength = true;
                         break;
                 }
             }

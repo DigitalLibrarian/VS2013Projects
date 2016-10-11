@@ -92,6 +92,75 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(35d, ca);
         }
 
+        [TestMethod]
+        public void DwarfHeadMuscleVolume()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var muscle = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            Assert.AreEqual(344, (int)muscle.Volume);
+        }
+
+        [TestMethod]
+        public void DwarfHeadSkinVolume()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.AreEqual(5, (int)layer.Volume);
+        }
+
+        [TestMethod]
+        public void DwarfUpperBodySkinVolume()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.AreEqual(20, (int)layer.Volume);
+        }
+
+        [TestMethod]
+        public void DwarfUpperBodySkinThickness()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.AreEqual(3, (int)layer.Thickness);
+        }
+
+
+        [TestMethod]
+        public void DwarfUpperBodyContactArea()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
+            Assert.AreEqual(104, (int)bp.GetContactArea());
+        }
+
+
+        [TestMethod]
+        public void DwarfUpperBodySize()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
+            Assert.AreEqual(1137, (int)bp.Size);
+        }
+
+        [TestMethod]
+        public void DwarfUpperBodyMuscleVolume()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            Assert.AreEqual(1270, (int)layer.Volume);
+        }
 
         [TestMethod]
         public void DwarfFourthToe()
@@ -112,7 +181,7 @@ namespace Tiles.EngineIntegrationTests
 
 
         [TestMethod]
-        public void DwarfBite()
+        public void DwarfBite_Constraints()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
 
@@ -121,9 +190,86 @@ namespace Tiles.EngineIntegrationTests
             var reqs = moveClass.Requirements;
             Assert.AreEqual(1, reqs.Count());
             var req = reqs.First();
-            Assert.AreEqual(2, req.Constraints.Count());
+            Assert.AreEqual(BodyPartRequirementType.ChildBodyPartGroup, req.Type);
 
+            Assert.AreEqual(2, req.Constraints.Count());
+            var con = req.Constraints.ElementAt(0);
+            Assert.AreEqual(BprConstraintType.ByCategory, con.ConstraintType);
+            Assert.IsTrue(new string[] { "HEAD" }.SequenceEqual(con.Tokens));
+
+            con = req.Constraints.ElementAt(1);
+            Assert.AreEqual(BprConstraintType.ByCategory, con.ConstraintType);
+            Assert.IsTrue(new string[] { "TOOTH" }.SequenceEqual(con.Tokens));
+        }
+
+        [TestMethod]
+        public void DwarfBite_ContactArea()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
             Assert.AreEqual(3, moveClass.ContactArea);
+        }
+
+        [TestMethod]
+        public void DwarfBite_StrikeMaterial()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
+            var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
+            var mat = dwarf.GetStrikeMaterial(move);
+            Assert.AreEqual("tooth", mat.Name);
+        }
+
+        [TestMethod]
+        public void DwarfBite_StrikeMomentum()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
+            var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
+            var mom = dwarf.GetStrikeMomentum(move);
+            Assert.AreEqual(3,(int) mom);
+        }
+
+        [TestMethod]
+        public void DwarfBite_MaxPenetration()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
+            Assert.AreEqual(7, moveClass.MaxPenetration);
+        }
+
+        [TestMethod]
+        public void DwarfScratch_ContactArea()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("scratch"));
+            Assert.AreEqual(7, moveClass.ContactArea);
+        }
+
+
+        [TestMethod]
+        public void DwarfScratch_StrikeMomentum()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
+
+            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("scratch"));
+            var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
+            var mom = dwarf.GetStrikeMomentum(move);
+            Assert.AreEqual(13, (int) mom);
+        }
+
+        [TestMethod]
+        public void DwarfScratch_Penetration()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("scratch"));
+            Assert.AreEqual(26, moveClass.MaxPenetration);
         }
         [TestMethod]
         public void DwarfTotalBodyPartRelativeSize()

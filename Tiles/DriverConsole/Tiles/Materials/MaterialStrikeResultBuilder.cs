@@ -13,9 +13,8 @@ namespace Tiles.Materials
         double Momentum { get; set; }
         double LayerVolume { get; set; }
         double LayerThickness { get; set; }
+        double RemainingPenetration { get; set; }
         StressMode StressMode { get; set; }
-
-
 
         IMaterial StrikerMaterial { get; set; }
         IMaterial StrickenMaterial { get; set; }
@@ -69,6 +68,13 @@ namespace Tiles.Materials
             LayerThickness = thick;
         }
 
+        double CalculateStrain(double strainAtYield, double stressAtYield, double currentStress)
+        {
+            var say = strainAtYield;
+            var youngs = stressAtYield / say;
+            return (currentStress / youngs) * 100000d;
+        }
+
         public IMaterialStrikeResult Build()
         {
             /*
@@ -88,6 +94,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
     */
 
 
+            double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
             var volDamaged = LayerVolume;
             var caRatio = (StrikerContactArea / StrickenContactArea);
             if (StrikerContactArea < StrickenContactArea)
@@ -95,37 +102,30 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 volDamaged *= caRatio;
             }
 
-            double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
-            var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier) / contactArea;
-            var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier) / contactArea;
-            var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier,
-                volDamaged);
-
-            if (StrikerMaterial.ShearYield >= StrickenMaterial.ShearYield)
-            {
-                shearCost1 = 0d;
-            }
-
-            if (StrikerMaterial.ShearFracture >= StrickenMaterial.ShearFracture)
-            {
-                //shearCost2 = 0d;
-            }
-
+            var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier);
+            var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier);
+            var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, StrikerMaterial.SharpnessMultiplier, volDamaged);
+                        
             var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, volDamaged);
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, volDamaged);
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, volDamaged);
 
+
+            bool yieldOnly = false;
             bool bluntBypass = false;
 
             double woundArea = 0;
             double thresh = -1d;
             double resultMom = -1;
             double mom = (Momentum);
-            double stress = Momentum;
+            double stress = Momentum / contactArea;// / volDamaged;
             bool defeated = false;
-            MaterialStressResult msr = MaterialStressResult.None;
+            bool partialPuncture = false;
+            var msr = MaterialStressResult.None;
+            double totalUsed = 0;
             if (StressMode == Materials.StressMode.Edge)
             {
+                var edgeStress = Momentum / contactArea;// / volDamaged;
                 resultMom = MaterialStressCalc.ShearMomentumAfterUnbrokenRigidLayer(
                     Momentum,
                     StrickenMaterial);
@@ -137,29 +137,37 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 shearCost2 = cutCost;
                 shearCost3 = defeatCost;
 
-                if (stress > dentCost)
+                if (edgeStress > dentCost)
                 {
+                    totalUsed = dentCost;
                     msr = MaterialStressResult.Shear_Dent;
                     // strain follows hooke's law here
-
-                    if (stress > cutCost)
+                    yieldOnly = true;
+                    if (edgeStress > cutCost)
                     {
+                        totalUsed = cutCost;
                         msr = MaterialStressResult.Shear_Cut;
-                        defeated = true;
-                        var woundRat = (stress-cutCost) / shearCost3;
-                        //woundRat = System.Math.Max(1d, woundRat);
+                        // TODO - It looks like the attack is stopped unless at least 10% damage
+                        // is done here.....  I think that is what we were trying to get at
+                        // with woundRat
+                        var woundRat = (stress-cutCost) / (shearCost3 - cutCost);
                         woundArea = contactArea * woundRat;
-
-                        if ((stress > defeatCost  || woundRat > 1d)
-                            && StrikerContactArea >= StrickenContactArea)
+                        partialPuncture = true;
+                        if ((edgeStress > defeatCost)
+                            && (StrikerContactArea >= StrickenContactArea
+                            && RemainingPenetration >= LayerThickness))
                         {
                             msr = MaterialStressResult.Shear_CutThrough;
+                            defeated = true;
+                            yieldOnly = false;
+                            totalUsed = defeatCost;
                         }
                     }
                 }
             }
             else
             {
+                var bluntStress = Momentum / contactArea;// / volDamaged;
                 resultMom = MaterialStressCalc.ImpactMomentumAfterUnbrokenRigidLayer(
                     Momentum,
                     StrickenMaterial);
@@ -174,54 +182,108 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 impactCost2 = cutCost;
                 impactCost3 = defeatCost;
 
-                bluntBypass = StrickenMaterial.ImpactStrainAtYield >= 50000;
 
-                if (stress > dentCost)
+                if (StrickenMaterial.ImpactStrainAtYield >= 50000 ||
+                    (cutCost == 0 && defeatCost == 0))
                 {
+                    var impactSay = StressMode == Materials.StressMode.Blunt
+                        ? StrickenMaterial.ImpactStrainAtYield
+                        : StrickenMaterial.ShearStrainAtYield;
+                    var impactY = StressMode == Materials.StressMode.Blunt
+                        ? StrickenMaterial.ImpactYield
+                        : StrickenMaterial.ShearYield;
+                    var impactStrain = CalculateStrain(impactSay, impactY, stress);
+
+                    bluntBypass = impactStrain > impactSay;
+                }
+                /*
+                if (cutCost <= 0)
+                {
+                    bluntBypass = true;
+                }
+                 * */
+
+                if (bluntStress > dentCost)
+                {
+                    totalUsed = dentCost;
                     msr = MaterialStressResult.Impact_Dent;
+                    yieldOnly = true;
                     if (bluntBypass)
                     {
-                        if (stress >= 0)
-                        {
-                            msr = MaterialStressResult.Impact_Bypass;
-                            //defeated = true;
-                        }
+                        msr = MaterialStressResult.Impact_Bypass;
                     }
                     else
                     {
-                        if (stress > cutCost)
+                        if (bluntStress > cutCost)
                         {
+                            totalUsed = cutCost;
                             msr = MaterialStressResult.Impact_InitiateFracture;
-                            if (stress > defeatCost)
+                            if (bluntStress > defeatCost)
                             {
+                                yieldOnly = false;
                                 defeated = true;
+                                totalUsed = defeatCost;
                                 msr = MaterialStressResult.Impact_CompleteFracture;
                             }
                         }
                     }
                 }
             }
-            
 
-            if(defeated)
+
+            // For example if you punch someone in a steel helm, 
+            //[IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt 
+            //fracture the steel helm, only 940/50000=0.0188=1.88% of the momentum 
+            //is passed to the skin layer
+
+
+            var say = StressMode == Materials.StressMode.Blunt
+                ? StrickenMaterial.ImpactStrainAtYield
+                : StrickenMaterial.ShearStrainAtYield;
+            var y = StressMode == Materials.StressMode.Blunt
+                ? StrickenMaterial.ImpactYield
+                : StrickenMaterial.ShearYield;
+            var strain = CalculateStrain(say, y, stress);
+
+            double deduction = totalUsed + (Momentum * 0.05d);
+            if (defeated)
             {
-                var deduction = MaterialStressCalc.DefeatedLayerMomentumDeduction(
+                deduction += MaterialStressCalc.DefeatedLayerMomentumDeduction(
                     StrikerMaterial, StrickenMaterial,
-                    StrikerMaterial.SharpnessMultiplier, LayerVolume);
-                deduction = System.Math.Min(Momentum, deduction);
-                resultMom = Momentum - deduction;
+                    StrikerMaterial.SharpnessMultiplier, volDamaged);
+
+                if (StressMode == Materials.StressMode.Edge)
+                {
+                    deduction = shearCost1 * 0.1d;
+                }
+                else
+                {
+                    deduction = impactCost1 * 0.1d * contactArea;
+                }
+
+            }
+            else if(yieldOnly)
+            {
+                var passRat = (double)strain / (double) say;
+                passRat = System.Math.Min(passRat, 1d);
+                passRat = System.Math.Max(passRat, 0d);
+                deduction += (1d - passRat) * Momentum;
             }
 
-            if (bluntBypass)
+            deduction = System.Math.Min(Momentum, deduction);
+            resultMom = Momentum - deduction;
+
+            if (bluntBypass || partialPuncture)
             {
                 defeated = true;
+                //resultMom = Momentum;
             }
 
             return new MaterialStrikeResult
             {
                 StressMode = StressMode,
                 Momentum = Momentum,
-                ContactArea = StrikerContactArea,
+                ContactArea = contactArea,
                 MomentumThreshold = thresh,
 
                 StressResult = msr,
@@ -237,8 +299,14 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 Stress = stress,
                 ResultMomentum = resultMom,
 
-                WoundArea = woundArea
+                WoundArea = System.Math.Max(1d, woundArea)
             };
+        }
+
+
+        public void SetRemainingPenetration(double penetrationLeft)
+        {
+            RemainingPenetration = penetrationLeft;
         }
     }
 }

@@ -101,6 +101,14 @@ namespace Tiles.EngineIntegrationTests
             int i = 0;
             foreach(var exp in expectedLayerResults)
             {
+                if (partInjury.TissueLayerInjuries.Count() <= i)
+                {
+                    Assert.Fail(string.Format("Expected <{0}>, got <{1}> for {2} tissue #{3}",
+                        exp,
+                        "nothing",
+                        partInjury.BodyPart.Name,
+                        i));
+                }
                 var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
                 Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
                     string.Format("Expected <{0}>, got <{1}> for {2} {3}",
