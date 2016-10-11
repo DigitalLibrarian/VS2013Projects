@@ -114,7 +114,7 @@ namespace Tiles.Agents
             double baseSize = Body.Size;
 
             double Str, VelocityMultiplier, Size, W;
-            Str = 1250;
+            Str = Body.GetAttribute("STRENGTH");
             Size = Body.Size;
 
             if (move.Class.IsItem)

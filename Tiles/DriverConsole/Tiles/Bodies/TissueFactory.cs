@@ -8,24 +8,33 @@ namespace Tiles.Bodies
 {
     public class TissueFactory : ITissueFactory
     {
-        public ITissue Create(ITissueClass tissueClass, double partSize)
+        public ITissue Create(ITissueClass tissueClass, double partSize, double strength)
         {
+            double storedFat = 500000d;
             var partThick = System.Math.Pow(partSize * 10000d, 0.333d);
             int totalRelThick = tissueClass.TotalRelativeThickness;
             var layers = new List<ITissueLayer>();
             foreach (var tc in tissueClass.TissueLayers)
             {
-                var tlFact = (double)tc.RelativeThickness / (double)totalRelThick;
-                var tissueThick = System.Math.Floor(partThick * tlFact);
-                tissueThick = System.Math.Ceiling(tissueThick);
-                tissueThick = System.Math.Max(1d, tissueThick);
+                var fractionTotal = (double)totalRelThick;
+                var tlFact = (double)tc.RelativeThickness;
 
-                var tissueVol = partSize * tlFact;
+
+                var mlpf = tlFact;
                 if (tc.ThickensOnStrength)
                 {
-                    tissueVol = partSize * 1250d * tlFact / 1000d;
+                    mlpf = strength * tlFact / 1000d;
                 }
-                tissueVol = System.Math.Ceiling(tissueVol);
+
+                if (tc.ThickensOnEnergyStorage)
+                {
+                    mlpf = storedFat * tlFact / 250000d;
+                }
+
+
+                var tissueThick = partThick * mlpf / fractionTotal;
+                var tissueVol = partSize * mlpf/fractionTotal;
+                tissueThick = System.Math.Max(1d, tissueThick);
                 tissueVol = System.Math.Max(1d, tissueVol);
 
                 layers.Add(new TissueLayer(tc, tc.Material, tissueThick, tissueVol));

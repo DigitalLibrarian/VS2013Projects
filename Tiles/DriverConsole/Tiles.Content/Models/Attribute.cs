@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Bodies
+namespace Tiles.Content.Models
 {
-    public interface ITissueFactory
+    public class Attribute
     {
-        ITissue Create(ITissueClass tissueClass, double bodySize, double strength);
+        public string Name { get; set; }
+        public int Median { get; set; }
     }
 }

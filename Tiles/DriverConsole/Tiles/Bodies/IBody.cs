@@ -13,11 +13,17 @@ namespace Tiles.Bodies
         bool IsBeingGrasped { get; }
         bool IsWrestling { get; }
         double Size { get; }
+        double StoredFat { get; }
         IList<IBodyPart> Parts { get; }
 
         void Amputate(IBodyPart part);
 
         IEnumerable<ICombatMoveClass> Moves { get; set; }
         IEnumerable<IBodyPart> GetInternalParts(IBodyPart part);
+
+
+        void SetAttribute(string name, int value);
+        int GetAttribute(string name);
+        IEnumerable<string> AttributeNames { get; }
     }
 }

@@ -17,6 +17,7 @@ namespace Tiles.Materials
 
         void SetStrikerContactArea(double contactArea);
         void SetStrickenContactArea(double contactArea);
+        void SetStrikerSharpness(double sharpness);
         void SetMaxPenetration(double maxPenetration);
         void SetStressMode(StressMode mode);
 
@@ -41,6 +42,7 @@ namespace Tiles.Materials
 
         double Momentum { get; set; }
         double StrikerContactArea { get; set; }
+        double StrikerSharpness { get; set; }
         double StrickenContactArea { get; set; }
         double MaxPenetration { get; set; }
         StressMode StressMode { get; set; }
@@ -61,6 +63,7 @@ namespace Tiles.Materials
             Momentum = -1;
             StrikerContactArea = -1;
             StrickenContactArea = -1;
+            StrikerSharpness = 0;
             StressMode = StressMode.None;
             StrikerMaterial = null;
         }
@@ -78,6 +81,11 @@ namespace Tiles.Materials
         public void SetStrikerContactArea(double contactArea)
         {
             StrikerContactArea = contactArea;
+        }
+
+        public void SetStrikerSharpness(double sharp)
+        {
+            StrikerSharpness = sharp;
         }
 
         public void SetStrickenContactArea(double contactArea)
@@ -209,6 +217,7 @@ namespace Tiles.Materials
 
             Builder.SetStressMode(mode);
             Builder.SetStrikerMaterial(strikerMat);
+            Builder.SetStrikerSharpness(StrikerSharpness);
             Builder.SetStrickenMaterial(layer.Material);
             Builder.SetStrikeMomentum(momentum);
             Builder.SetLayerVolume(System.Math.Max(1d, layer.Volume));

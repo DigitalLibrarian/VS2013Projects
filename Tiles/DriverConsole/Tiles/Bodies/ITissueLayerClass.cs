@@ -15,5 +15,7 @@ namespace Tiles.Bodies
         bool IsConnective { get; }
         int VascularRating { get; }
         bool ThickensOnStrength { get; }
+
+        bool ThickensOnEnergyStorage { get;}
     }
 }

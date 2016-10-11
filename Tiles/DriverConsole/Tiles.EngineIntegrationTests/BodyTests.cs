@@ -99,7 +99,18 @@ namespace Tiles.EngineIntegrationTests
 
             var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
             var muscle = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-            Assert.AreEqual(344, (int)muscle.Volume);
+            Assert.AreEqual(338, (int)muscle.Volume);
+        }
+
+
+        [TestMethod]
+        public void DwarfHeadMuscleThickness()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var muscle = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            Assert.AreEqual(153, (int)muscle.Thickness);
         }
 
         [TestMethod]
@@ -119,7 +130,7 @@ namespace Tiles.EngineIntegrationTests
 
             var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
             var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            Assert.AreEqual(20, (int)layer.Volume);
+            Assert.AreEqual(19, (int)layer.Volume);
         }
 
         [TestMethod]
@@ -149,7 +160,7 @@ namespace Tiles.EngineIntegrationTests
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
 
             var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
-            Assert.AreEqual(1137, (int)bp.Size);
+            Assert.AreEqual(1081, (int)bp.Size);
         }
 
         [TestMethod]
@@ -159,11 +170,31 @@ namespace Tiles.EngineIntegrationTests
 
             var bp = dwarf.Body.Parts.First(x => x.Name.Equals("upper body"));
             var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-            Assert.AreEqual(1270, (int)layer.Volume);
+            Assert.AreEqual(1207, (int)layer.Volume);
         }
 
         [TestMethod]
-        public void DwarfFourthToe()
+        public void DwarfLeftUpperLegMuscleVolume()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("left upper leg"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            Assert.AreEqual(301, (int)layer.Volume);
+        }
+
+        [TestMethod]
+        public void DwarfLeftUpperLegFatVolume()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("left upper leg"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
+            Assert.AreEqual(96, (int)layer.Volume);
+        }
+
+        [TestMethod]
+        public void DwarfFourthToeNailRelativeThickness()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
 
@@ -175,10 +206,38 @@ namespace Tiles.EngineIntegrationTests
 
             var nailLayer = bp.Tissue.TissueLayers.First(x => x.Material.Name.Equals("nail"));
             Assert.AreEqual(2, nailLayer.Class.RelativeThickness);
-            Assert.AreEqual(1d, nailLayer.Volume);
-            Assert.AreEqual(1d, nailLayer.Thickness);
         }
 
+
+        [TestMethod]
+        public void DwarfFourthToeNailVolume()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("fourth toe"));
+            Assert.IsNotNull(bp);
+
+            var ca = bp.GetContactArea();
+            Assert.AreEqual(2d, ca);
+
+            var nailLayer = bp.Tissue.TissueLayers.First(x => x.Material.Name.Equals("nail"));
+            Assert.AreEqual(1d, nailLayer.Volume);
+        }
+        
+        [TestMethod]
+        public void DwarfFourthToeNailThickness()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("fourth toe"));
+            Assert.IsNotNull(bp);
+
+            var ca = bp.GetContactArea();
+            Assert.AreEqual(2d, ca);
+
+            var nailLayer = bp.Tissue.TissueLayers.First(x => x.Material.Name.Equals("nail"));
+            Assert.AreEqual(1d, (int)nailLayer.Thickness);
+        }
 
         [TestMethod]
         public void DwarfBite_Constraints()
@@ -323,7 +382,8 @@ namespace Tiles.EngineIntegrationTests
             var skinLayer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
             Assert.AreEqual(7, (int)skinLayer.Thickness);
         }
-            
+
+
         [TestMethod]
         public void UnicornFrontLeg_SkinVolume()
         {
@@ -331,10 +391,9 @@ namespace Tiles.EngineIntegrationTests
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
             var skinLayer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            Assert.AreEqual(140, (int)skinLayer.Volume);
+            Assert.AreEqual(139, (int)skinLayer.Volume);
         }
 
-        [Ignore]
         [TestMethod]
         public void UnicornFrontLeg_FatThickness()
         {
@@ -344,10 +403,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(5, part.Tissue.TissueLayers.Count());
 
             var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            Assert.AreEqual(71, (int)layer.Thickness);
+            Assert.AreEqual(74, (int)layer.Thickness);
         }
 
-        [Ignore]
         [TestMethod]
         public void UnicornFrontLeg_FatVolume()
         {
@@ -355,7 +413,7 @@ namespace Tiles.EngineIntegrationTests
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
             var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            Assert.AreEqual(1241, (int)layer.Volume);
+            Assert.AreEqual(1395, (int)layer.Volume);
         }
 
         [TestMethod]
@@ -365,7 +423,7 @@ namespace Tiles.EngineIntegrationTests
             var part = agent.Body.Parts.Single(x => x.Name.Equals("right front leg"));
 
             var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
-            Assert.AreEqual(3488, (int)layer.Volume);
+            Assert.AreEqual(3487, (int)layer.Volume);
         }
 
         [TestMethod]
@@ -403,7 +461,6 @@ namespace Tiles.EngineIntegrationTests
 
         }
 
-        [Ignore]
         [TestMethod]
         public void HumanUpperBody_FatThickness()
         {
@@ -411,7 +468,7 @@ namespace Tiles.EngineIntegrationTests
             var part = agent.Body.Parts.Single(x => x.Name.Equals("upper body"));
                         
             var layer = part.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            Assert.AreEqual(43, layer.Thickness);
+            Assert.AreEqual(43, (int)layer.Thickness);
         }
 
         [TestMethod]
@@ -426,7 +483,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsFalse(layer.Class.IsCosmetic);
         }
 
-        [Ignore]
         [TestMethod]
         public void HumanUpperBody_FatVolume()
         {
@@ -473,7 +529,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, punch, human.Body.Parts.First());
             var punchMom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(36d, (int)punchMom);
+            Assert.AreEqual(29d, (int)punchMom);
         }
 
         [TestMethod]
@@ -486,7 +542,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(human, human, bite, human.Body.Parts.First());
 
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(4d, (int)mom);
+            Assert.AreEqual(3d, (int)mom);
         }
 
 
@@ -499,7 +555,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, scratch, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(15d, (int)mom);
+            Assert.AreEqual(12d, (int)mom);
         }
 
         [TestMethod]
@@ -532,7 +588,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, kick, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(45d, (int)mom);
+            Assert.AreEqual(36d, (int)mom);
         }
 
         [TestMethod]
@@ -590,7 +646,7 @@ namespace Tiles.EngineIntegrationTests
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
 
             var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
-            Assert.AreEqual(13d, (int)cost);
+            Assert.AreEqual(27d, (int)cost);
         }
 
         [TestMethod]

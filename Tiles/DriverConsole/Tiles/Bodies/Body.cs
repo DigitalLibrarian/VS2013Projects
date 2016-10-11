@@ -14,8 +14,11 @@ namespace Tiles.Bodies
         public IList<IBodyPart> Parts { get; private set; }
 
         public double Size { get; set; }
+        public double StoredFat { get { return 500000d; } }
 
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
+
+        Dictionary<string, int> Attributes { get; set; }
 
         public Body(IList<IBodyPart> parts, double size)
             : this(parts, size, Enumerable.Empty<ICombatMoveClass>())
@@ -27,6 +30,7 @@ namespace Tiles.Bodies
             Parts = parts;
             Size = size;
             Moves = moves;
+            Attributes = new Dictionary<string, int>();
         }
 
         public void Amputate(IBodyPart part)
@@ -49,5 +53,16 @@ namespace Tiles.Bodies
         {
             return Parts.Where(p => p.Parent == part && p.IsInternal).Reverse();
         }
+
+        public void SetAttribute(string name, int value)
+        {
+            Attributes[name] = value;
+        }
+        public int GetAttribute(string name)
+        {
+            return Attributes[name];
+        }
+        public IEnumerable<string> AttributeNames { get { return Attributes.Keys; } }
+    
     }
 }

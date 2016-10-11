@@ -32,5 +32,7 @@ namespace Tiles.Content.Bridge.DfNet
         void AddLifeStageSize(int ageYear, int ageDay, double size);
 
         void AddBodyAttack(DfBodyAttack move);
+
+        void AddAttribute(DfAttributeRange ar);
     }
 }

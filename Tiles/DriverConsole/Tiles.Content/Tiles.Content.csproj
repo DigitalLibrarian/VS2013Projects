@@ -43,6 +43,7 @@
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\Armor.cs" />
     <Compile Include="Models\ArmorSlot.cs" />
+    <Compile Include="Models\Attribute.cs" />
     <Compile Include="Models\Body.cs" />
     <Compile Include="Models\BodyPart.cs" />
     <Compile Include="Models\BodyStateChange.cs" />

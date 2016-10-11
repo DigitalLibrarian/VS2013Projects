@@ -26,5 +26,7 @@ namespace Tiles.Items
             var sizeCm3 = Class.Size;
             return Class.Material.GetMassForUniformVolume(sizeCm3);
         }
+
+
     }
 }

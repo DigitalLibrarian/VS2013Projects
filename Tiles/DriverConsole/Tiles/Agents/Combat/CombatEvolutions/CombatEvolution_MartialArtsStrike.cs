@@ -56,7 +56,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                     move.Class.ContactArea,
                     move.Class.MaxPenetration,
                     move.DefenderBodyPart,
-                    weaponMat
+                    weaponMat,
+                    move.Sharpness
                     );
 
             foreach (var bpInjury in report.BodyPartInjuries)

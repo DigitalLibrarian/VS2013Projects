@@ -127,6 +127,7 @@ namespace DfNet.Raws
             public const string COSMETIC = "COSMETIC";
             public const string RELATIVE_THICKNESS = "RELATIVE_THICKNESS";
             public const string THICKENS_ON_STRENGTH = "THICKENS_ON_STRENGTH";
+            public const string THICKENS_ON_ENERGY_STORAGE = "THICKENS_ON_ENERGY_STORAGE";
 
             public const string TISSUE_MATERIAL = "TISSUE_MATERIAL";
 
@@ -173,6 +174,7 @@ namespace DfNet.Raws
 
             public const string COLOR = "COLOR";
 
+            public const string PHYS_ATT_RANGE = "PHYS_ATT_RANGE";
 
             public const string IMPACT_YIELD = "IMPACT_YIELD";
             public const string IMPACT_FRACTURE = "IMPACT_FRACTURE";

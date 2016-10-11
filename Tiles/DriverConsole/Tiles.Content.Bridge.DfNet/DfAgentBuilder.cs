@@ -15,6 +15,7 @@ namespace Tiles.Content.Bridge.DfNet
         Dictionary<string, List<string>> BodyPartCategoryTissues { get; set; }
         Dictionary<string, Dictionary<string, int>> BodyPartCategoryTissueThickness { get; set; }
         List<DfBodyAttack> BodyAttacks { get; set; }
+        List<DfAttributeRange> Attributes { get; set; }
 
         Dictionary<string, int> BpCatSizeOverrides { get; set; }
 
@@ -38,6 +39,7 @@ namespace Tiles.Content.Bridge.DfNet
             BodyAttacks = new List<DfBodyAttack>();
             Foreground = new Color(255, 255, 255, 255);
             Background = new Color(0, 0, 0, 255);
+            Attributes = new List<DfAttributeRange>();
 
             MatNameToTT = new Dictionary<string, DfTissueTemplate>();
         }
@@ -243,7 +245,8 @@ namespace Tiles.Content.Bridge.DfNet
                             VascularRating = tissueTemplate.VascularRating,
                             IsCosmetic = tissueTemplate.IsCosmetic,
                             IsConnective = tissueTemplate.IsConnective,
-                            ThickensOnStrength = tissueTemplate.ThickensOnStrength
+                            ThickensOnStrength = tissueTemplate.ThickensOnStrength,
+                            ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage
                         });
                     }
                 }
@@ -260,7 +263,8 @@ namespace Tiles.Content.Bridge.DfNet
                             VascularRating = tissueTemplate.VascularRating,
                             IsCosmetic = tissueTemplate.IsCosmetic,
                             IsConnective = tissueTemplate.IsConnective,
-                            ThickensOnStrength = tissueTemplate.ThickensOnStrength
+                            ThickensOnStrength = tissueTemplate.ThickensOnStrength,
+                            ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage
                         });
                     }
                 }
@@ -507,10 +511,32 @@ namespace Tiles.Content.Bridge.DfNet
 
             
             var sprite = new Sprite(Symbol, Foreground, Background);
+
+            var required = new string[]{
+                "STRENGTH"
+            };
+            var defaultValues = new List<int> { 200, 700, 900, 1000, 1100, 1300, 2000 };
+
+            foreach (var requiredAttrName in required)
+            {
+                if (!Attributes.Any(x => x.Name.Equals(requiredAttrName)))
+                {
+                    Attributes.Add(new DfAttributeRange(requiredAttrName, defaultValues));
+                }
+            }
+            
+            var newAttrs = Attributes.Select(att =>
+                        new Tiles.Content.Models.Attribute
+                        {
+                            Name = att.Name,
+                            Median = att.Median
+                        }).ToList();
+
             var body = new Body
                 {
                     Parts = parts,
-                    Size = Size
+                    Size = Size,
+                    Attributes = newAttrs
                 };
 
             SetMoves(body);
@@ -562,6 +588,9 @@ namespace Tiles.Content.Bridge.DfNet
             Size = size / 10d;
         }
 
-
+        public void AddAttribute(DfAttributeRange ar)
+        {
+            Attributes.Add(ar);
+        }
     }
 }

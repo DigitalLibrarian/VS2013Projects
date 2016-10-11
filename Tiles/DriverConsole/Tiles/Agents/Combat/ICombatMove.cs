@@ -15,5 +15,7 @@ namespace Tiles.Agents.Combat
         IBodyPart AttackerBodyPart { get; set; }
         IBodyPart DefenderBodyPart { get; set; }
         IItem Weapon { get; set; }
+
+        double Sharpness { get; }
     }
 }

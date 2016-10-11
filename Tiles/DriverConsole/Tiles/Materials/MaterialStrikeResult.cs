@@ -45,6 +45,10 @@ namespace Tiles.Materials
         double Stress { get; }
 
         double WoundArea { get;}
+
+        double RemainingPenetration { get; }
+        double LayerThickness { get; }
+        double Sharpness { get; }
     }
 
     public class MaterialStrikeResult : IMaterialStrikeResult
@@ -70,5 +74,10 @@ namespace Tiles.Materials
         public double ImpactCompleteFractureCost { get; set; }
 
         public double WoundArea { get; set; }
+        public double RemainingPenetration { get; set; }
+
+        public double LayerThickness { get; set; }
+
+        public double Sharpness { get; set; }
     }
 }

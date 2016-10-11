@@ -29,5 +29,13 @@ namespace Tiles.Agents.Combat
         public IBodyPart AttackerBodyPart { get; set; }
         public IBodyPart DefenderBodyPart { get; set; }
         public IItem Weapon { get; set; }
+
+
+        public double Sharpness
+        {
+            get {
+                return Attacker.GetStrikeMaterial(this).SharpnessMultiplier * 0.75d;
+            }
+        }
     }
 }

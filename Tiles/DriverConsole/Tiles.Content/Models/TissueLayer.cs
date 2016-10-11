@@ -18,5 +18,7 @@ namespace Tiles.Content.Models
         public bool IsConnective { get; set; }
         public int VascularRating { get; set; }
         public bool ThickensOnStrength { get; set; }
+
+        public bool ThickensOnEnergyStorage { get; set; }
     }
 }

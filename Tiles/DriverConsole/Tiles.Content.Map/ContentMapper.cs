@@ -171,7 +171,14 @@ namespace Tiles.Content.Map
             return new EngineBodies.BodyClass(
                 body.Size, 
                 body.Parts.Select(x => partMap[x]), 
-                body.Moves.Select(x => Map(x)));
+                body.Moves.Select(x => Map(x)),
+                body.Attributes.Select(x => Map(x))
+                );
+        }
+
+        private EngineBodies.IAttributeClass Map(ContentModel.Attribute x)
+        {
+            return new EngineBodies.AttributeClass(x.Name, x.Median);
         }
 
         EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)
@@ -213,7 +220,8 @@ namespace Tiles.Content.Map
                         IsCosmetic = layer.IsCosmetic,
                         IsConnective = layer.IsConnective,
                         VascularRating = layer.VascularRating,
-                        ThickensOnStrength = layer.ThickensOnStrength
+                        ThickensOnStrength = layer.ThickensOnStrength,
+                        ThickensOnEnergyStorage = layer.ThickensOnEnergyStorage
                     });
             }
 

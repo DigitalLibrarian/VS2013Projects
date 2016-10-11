@@ -17,5 +17,9 @@ namespace Tiles.Bodies
         double Size { get; }
 
         int TotalBodyPartRelSize { get; }
+
+        int GetAttribute(string name);
+
+        IEnumerable<IAttributeClass> Attributes { get; set; }
     }
 }

@@ -12,9 +12,11 @@ namespace Tiles.Content.Models
         {
             Parts = new List<BodyPart>();
             Moves = new List<CombatMove>();
+            Attributes = new List<Attribute>();
         }
         public List<BodyPart> Parts { get; set; }
         public List<CombatMove> Moves { get; set; }
+        public List<Attribute> Attributes { get; set; }
 
         public double Size { get; set; }
     }

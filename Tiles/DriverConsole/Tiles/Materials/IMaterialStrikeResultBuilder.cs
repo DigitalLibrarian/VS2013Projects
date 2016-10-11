@@ -13,6 +13,7 @@ namespace Tiles.Materials
         void SetStrikeMomentum(double momentum);
         void SetStrikerContactArea(double contactArea);
         void SetStrickenContactArea(double contactArea);
+        void SetStrikerSharpness(double sharpness);
 
         void SetStrikerMaterial(IMaterial mat);
         void SetStrickenMaterial(IMaterial mat);
@@ -24,5 +25,6 @@ namespace Tiles.Materials
         void SetLayerThickness(double p);
 
         void SetRemainingPenetration(double penetrationLeft);
+
     }
 }

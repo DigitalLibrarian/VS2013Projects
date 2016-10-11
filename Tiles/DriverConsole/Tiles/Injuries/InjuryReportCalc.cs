@@ -16,7 +16,8 @@ namespace Tiles.Injuries
             StressMode stressMode,
             double momentum, int contactArea, int maxPenetration,
             IBodyPart targetPart,
-            IMaterial strikerMat
+            IMaterial strikerMat,
+            double sharpness
             );
     }
 
@@ -81,7 +82,7 @@ namespace Tiles.Injuries
 
         
 
-        public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, int contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat)
+        public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, int contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
         {
             Builder.Clear();
 
@@ -95,6 +96,7 @@ namespace Tiles.Injuries
             Builder.SetMomentum(momentum);
             Builder.SetStrikerContactArea(contactArea);
             Builder.SetStrickenContactArea(partCa);
+            Builder.SetStrikerSharpness(sharpness);
             Builder.SetMaxPenetration(maxPenetration);
             Builder.SetStressMode(stressMode);
             Builder.SetStrikerMaterial(strikerMat);

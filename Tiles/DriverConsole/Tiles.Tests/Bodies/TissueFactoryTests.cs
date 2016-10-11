@@ -42,22 +42,22 @@ namespace Tiles.Tests.Bodies
 
             int bodySize = 8463;
             var factory = new TissueFactory();
-            var result = factory.Create(tissueClassMock.Object, bodySize);
+            var result = factory.Create(tissueClassMock.Object, bodySize, 1250d);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result.TissueLayers.Count());
 
             var layer1 = result.TissueLayers.ElementAt(0);
             Assert.AreSame(materialMock1.Object, layer1.Material);
-            Assert.AreEqual(43, layer1.Thickness);
+            Assert.AreEqual(43, (int)layer1.Thickness);
 
             var layer2 = result.TissueLayers.ElementAt(1);
             Assert.AreSame(materialMock1.Object, layer2.Material);
-            Assert.AreEqual(87, layer2.Thickness);
+            Assert.AreEqual(87, (int)layer2.Thickness);
 
             var layer3 = result.TissueLayers.ElementAt(2);
             Assert.AreSame(materialMock1.Object, layer2.Material);
-            Assert.AreEqual(130, layer3.Thickness);
+            Assert.AreEqual(130, (int)layer3.Thickness);
         }
     }
 }

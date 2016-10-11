@@ -20,9 +20,11 @@ namespace Tiles.Bodies
         public IBody Create(IBodyClass bodyClass)
         {
             int totalBpRelSize = bodyClass.TotalBodyPartRelSize;
+            // TODO - this should be based on the instance strength
+            var strength = bodyClass.Attributes.Single(x => x.Name.Equals("STRENGTH")).Median;
 
             var partMap = bodyClass.Parts
-                .ToDictionary(x => x, x => Convert(x, bodyClass.Size, totalBpRelSize));
+                .ToDictionary(x => x, x => Convert(x, bodyClass.Size, totalBpRelSize, strength));
 
             var parts = new List<IBodyPart>();
             foreach (var bpc in bodyClass.Parts)
@@ -34,14 +36,23 @@ namespace Tiles.Bodies
                 parts.Add(partMap[bpc]);
             }
             
-            return new Body(parts, bodyClass.Size, bodyClass.Moves);
+            var body = new Body(parts, bodyClass.Size, bodyClass.Moves);
+
+            foreach(var attrClass in bodyClass.Attributes)
+            {
+                var name = attrClass.Name;
+                var value = attrClass.Median;
+                body.SetAttribute(name, value);
+            }
+
+            return body;
         }
 
-        BodyPart Convert(IBodyPartClass bpClass, double bodySize, int totalBodyPartRelSize)
+        BodyPart Convert(IBodyPartClass bpClass, double bodySize, int totalBodyPartRelSize, double strength)
         {
             var bpFact = (double)bpClass.RelativeSize / (double)totalBodyPartRelSize;
             var partSizeD = (double)bodySize * bpFact;
-            var tissue = TissueFactory.Create(bpClass.Tissue, partSizeD);
+            var tissue = TissueFactory.Create(bpClass.Tissue, partSizeD, strength);
             return new BodyPart(bpClass, tissue, partSizeD);
         }
     }

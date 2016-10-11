@@ -86,7 +86,6 @@ namespace Tiles.EngineIntegrationTests
             var context = new CombatMoveContext(attacker, defender, move);
             var moveClass = move.Class;
 
-
             var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
                 context,
                 moveClass.StressMode,
@@ -94,7 +93,8 @@ namespace Tiles.EngineIntegrationTests
                 moveClass.ContactArea,
                 moveClass.MaxPenetration,
                 targetPart,
-                strikerMaterial
+                strikerMaterial,
+                move.Sharpness
                 );
 
             var partInjury = injuryReport.BodyPartInjuries.First();

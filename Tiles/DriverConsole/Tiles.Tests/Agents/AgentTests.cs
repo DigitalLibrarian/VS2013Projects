@@ -342,6 +342,8 @@ namespace Tiles.Tests.Agents
         {
             int bodySize = 6000;
             BodyMock.Setup(x => x.Size).Returns(bodySize);
+            BodyMock.Setup(x => x.GetAttribute("STRENGTH"))
+                .Returns(1250);
 
             var weaponMock = new Mock<IItem>();
             weaponMock.Setup(x => x.GetMass()).Returns(6280);

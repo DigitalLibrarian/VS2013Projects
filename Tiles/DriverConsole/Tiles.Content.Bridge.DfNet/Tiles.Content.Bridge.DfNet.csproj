@@ -43,6 +43,7 @@
     <Compile Include="DfAgentBuilder.cs" />
     <Compile Include="DfAgentBuilderFactory.cs" />
     <Compile Include="DfAgentFactory.cs" />
+    <Compile Include="DfAttributeRange.cs" />
     <Compile Include="DfBodyAttack.cs" />
     <Compile Include="DfBodyAttackFactory.cs" />
     <Compile Include="DfColorFactory.cs" />

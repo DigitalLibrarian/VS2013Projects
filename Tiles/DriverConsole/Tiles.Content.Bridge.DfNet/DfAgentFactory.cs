@@ -213,7 +213,9 @@ namespace Tiles.Content.Bridge.DfNet
                             int.Parse(tag.GetParam(2))
                             );
                         break;
-
+                    case DfTags.MiscTags.PHYS_ATT_RANGE:
+                        HandleAttributeRange(tag, agentContext);
+                        break;
 
                     //case DfTags.MiscTags.BP_POSITION:
                     //    break;
@@ -232,6 +234,20 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleAttributeRange(DfTag tag, IDfAgentBuilder agentContext)
+        {
+            const int nameIndex = 0;
+            const int valueStartIndex = 1;
+
+            string name = tag.GetParams().ElementAt(nameIndex);
+            var values = tag.GetParams()
+                .Skip(valueStartIndex)
+                .Select(x => int.Parse(x))
+                .ToList();
+            var ar = new DfAttributeRange(name, values);
+            agentContext.AddAttribute(ar);
         }
 
         private void HandleBpRelsizeOverride(DfTag tag, IDfAgentBuilder agentContext)
