@@ -97,7 +97,7 @@ namespace Tiles.Materials
             {
                 //return 0.0d;
             }
-            return ((double)strickenMat.ShearYield * 5d)
+            return (((double)strickenMat.ShearYield) * 5000d)
                 / (((double)strikerMat.ShearYield) * sharpness * 1000d);
         }
 
@@ -107,14 +107,14 @@ namespace Tiles.Materials
             {
                 //return 0.0d;
             }
-            return ((((double)strickenMat.ShearFracture) * 5d)
-                / ((double)strikerMat.ShearFracture) * sharpness);
+            return (((double)strickenMat.ShearFracture) * 5000d)
+                / (((double)strikerMat.ShearFracture) * sharpness * 1000d);
         }
 
         public static double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
         {
-            return (((double)strickenMat.ShearFracture) * layerVolume * 5d)
-                / ((((double)strikerMat.ShearFracture) * sharpness));
+            return (((double)strickenMat.ShearFracture) * layerVolume * 5000d)
+                / (((double)strikerMat.ShearFracture) * sharpness * 1000d);
         }
 
 

@@ -51,8 +51,8 @@ namespace Tiles.Injuries
             }
             else if (TissueLayerInjuries.Any())
             {
-                return string.Format(", [{0}]!",
-                    string.Join("], [",
+                return string.Format(", {0}!",
+                    string.Join(", ",
                     TissueLayerInjuries.Select(x => x.GetPhrase())));
             }
             else

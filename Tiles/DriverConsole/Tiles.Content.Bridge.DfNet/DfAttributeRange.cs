@@ -12,9 +12,17 @@ namespace Tiles.Content.Bridge.DfNet
         List<int> Values { get; set; }
         public DfAttributeRange(string name, List<int> thresholds)
         {
-            if (thresholds.Count != 7)
+            if (thresholds.Count < 1)
             {
                 throw new InvalidOperationException("Attribute ranges requires 7 thresholds");
+            }
+
+            if (thresholds.Count < 7)
+            {
+                int diff = 7 - thresholds.Count;
+                thresholds = thresholds.Concat(
+                    Enumerable.Repeat(thresholds.Last(), diff)).ToList();
+
             }
 
             Name = name;

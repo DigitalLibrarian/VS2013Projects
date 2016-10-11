@@ -99,7 +99,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_CopperSwordSlashLeftUpperLeg()
+        public void DwarfVsDwarf_SlashLeftUpperLegCopperSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -121,8 +121,52 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.Shear_Cut);
         }
 
+
         [TestMethod]
-        public void DwarfVsDwarf_ToeWithSteelSwordSlash()
+        public void IronShortSwordSharpness()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left upper leg"));
+
+            var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "IRON");
+            attacker.Outfit.Wield(sword);
+
+            var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+            Assert.IsNotNull(slashMoveClass);
+
+            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+
+            //"Iron has [MAX_EDGE:10000], so a no-quality iron short sword has a sharpness of 5000." - http://www.bay12forums.com/smf/index.php?topic=131995.105
+
+            Assert.AreEqual(5000, (int)slashMove.Sharpness);
+
+        }
+        [TestMethod]
+        public void DwarfVsDwarf_SlashRightHandSteelSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right hand"));
+
+            var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "STEEL");
+            attacker.Outfit.Wield(sword);
+
+            var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+            Assert.IsNotNull(slashMoveClass);
+
+            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove,
+                MaterialStressResult.Shear_CutThrough,
+                MaterialStressResult.Shear_CutThrough,
+                MaterialStressResult.Shear_Cut);
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_SlashToeSteelSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -213,6 +257,29 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.Shear_Cut,
                 MaterialStressResult.None);
            
+        }
+
+
+        [TestMethod]
+        public void DwarfVsDwarf_StabLowerBodyWithWoodSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("lower body"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.None);
+
         }
 
         [TestMethod]

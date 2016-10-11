@@ -101,13 +101,14 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
 
 
             double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
+            contactArea = System.Math.Max(1d, contactArea);
             var volDamaged = LayerVolume;
             var caRatio = (StrikerContactArea / StrickenContactArea);
             if (StrikerContactArea < StrickenContactArea)
             {
                 volDamaged *= caRatio;
             }
-
+            
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, StrikerSharpness);
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, StrikerSharpness);
             var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, StrikerSharpness, volDamaged);
@@ -123,8 +124,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             double woundArea = 0;
             double thresh = -1d;
             double resultMom = -1;
-            double mom = (Momentum);
-            double stress = Momentum / contactArea * volDamaged;
+            double stress = Momentum / contactArea;
             bool defeated = false;
             bool partialPuncture = false;
             var msr = MaterialStressResult.None;
@@ -165,7 +165,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                         {
                             msr = MaterialStressResult.Shear_CutThrough;
                             defeated = true;
-                            yieldOnly = false;
+                            //yieldOnly = false;
                             totalUsed = defeatCost;
                         }
                     }
@@ -179,6 +179,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
 
+                //stress = Momentum / contactArea;
                 var dentCost = (impactCost1);
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);
                 var defeatCost = cutCost + System.Math.Max(0, impactCost3);
@@ -219,7 +220,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                             msr = MaterialStressResult.Impact_InitiateFracture;
                             if (stress > defeatCost)
                             {
-                                yieldOnly = false;
+                                //yieldOnly = false;
                                 defeated = true;
                                 totalUsed = defeatCost;
                                 msr = MaterialStressResult.Impact_CompleteFracture;
@@ -244,24 +245,25 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 : StrickenMaterial.ShearYield;
             var strain = CalculateStrain(say, y, stress);
 
-            double deduction = totalUsed + (Momentum * 0.05d);
-            if (defeated)
+            double deduction = (totalUsed) + (Momentum * 0.2d);
+            if (defeated || partialPuncture)
             {
                 deduction += MaterialStressCalc.DefeatedLayerMomentumDeduction(
                     StrikerMaterial, StrickenMaterial,
                     StrikerMaterial.SharpnessMultiplier, volDamaged);
-
+                var deductPercent = 0.2d;
                 if (StressMode == Materials.StressMode.Edge)
                 {
-                    deduction = shearCost1 * 0.1d;
+                    deduction = shearCost1 * deductPercent * contactArea * LayerThickness;
                 }
                 else
                 {
-                    deduction = impactCost1 * 0.1d * contactArea;
+                    deduction = impactCost1 * deductPercent * contactArea * LayerThickness;
                 }
 
             }
-            else if(yieldOnly)
+            
+            if(yieldOnly)
             {
                 var passRat = (double)strain / (double) say;
                 passRat = System.Math.Min(passRat, 1d);
