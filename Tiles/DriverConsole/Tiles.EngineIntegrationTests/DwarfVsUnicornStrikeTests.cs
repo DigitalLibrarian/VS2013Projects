@@ -76,6 +76,7 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.None);
         }
 
+
         [TestMethod]
         public void DwarfVsUnicorn_StabLegWithSteelSword()
         {
@@ -88,57 +89,15 @@ namespace Tiles.EngineIntegrationTests
             var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "STEEL");
             attacker.Outfit.Wield(sword);
 
-            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
-            Assert.IsNotNull(moveClass);
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
-
-            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
-
-            var context = new CombatMoveContext(attacker, defender, slashMove);
-
-            var hairLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hair"));
-            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-            var boneLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
-
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
-                moveClass.StressMode,
-                strikeMomentum,
-                moveClass.ContactArea,
-                moveClass.MaxPenetration,
-                targetBodyPart,
-                sword.Class.Material,
-                slashMove.Sharpness
-                );
-
-            Assert.AreEqual(1, injuryReport.BodyPartInjuries.Count());
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-            //Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
-
-            //Assert.AreEqual(4, partInjury.TissueLayerInjuries.Count());
-
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(skinLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(fatLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(muscleLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(3);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(boneLayer, tInjury.Layer);
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut);
         }
-
 
         [TestMethod]
         public void DwarfVsUnicorn_StabLowerBodyWithSteelSword()
@@ -153,48 +112,12 @@ namespace Tiles.EngineIntegrationTests
             attacker.Outfit.Wield(sword);
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
-            Assert.IsNotNull(moveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
-
-            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
-
-            var context = new CombatMoveContext(attacker, defender, slashMove);
-
-            var hairLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hair"));
-            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
-                moveClass.StressMode,
-                strikeMomentum,
-                moveClass.ContactArea,
-                moveClass.MaxPenetration,
-                targetBodyPart,
-                sword.Class.Material,
-                slashMove.Sharpness
-                );
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-            //Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
-
-           // Assert.AreEqual(3, partInjury.TissueLayerInjuries.Count());
-
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(skinLayer, tInjury.Layer);   
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(fatLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(muscleLayer, tInjury.Layer);
-
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut);
         }
 
 
@@ -211,47 +134,12 @@ namespace Tiles.EngineIntegrationTests
             attacker.Outfit.Wield(sword);
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
-            Assert.IsNotNull(moveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
-
-            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
-
-            var context = new CombatMoveContext(attacker, defender, slashMove);
-
-            var hairLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hair"));
-            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
-                moveClass.StressMode,
-                strikeMomentum,
-                moveClass.ContactArea,
-                moveClass.MaxPenetration,
-                targetBodyPart,
-                sword.Class.Material,
-                slashMove.Sharpness
-                );
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-
-//            Assert.AreEqual(3, partInjury.TissueLayerInjuries.Count());
-
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(skinLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(fatLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(muscleLayer, tInjury.Layer);
-
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut);
         }
 
 
@@ -268,51 +156,12 @@ namespace Tiles.EngineIntegrationTests
             attacker.Outfit.Wield(weapon);
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("bash"));
-            Assert.IsNotNull(moveClass);
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
-
-            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
-
-            var context = new CombatMoveContext(attacker, defender, slashMove);
-
-            var hairLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hair"));
-            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-            var boneLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
-
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
-                moveClass.StressMode,
-                strikeMomentum,
-                moveClass.ContactArea,
-                moveClass.MaxPenetration,
-                targetBodyPart,
-                weapon.Class.Material,
-                slashMove.Sharpness
-                );
-
-            Assert.AreEqual(1, injuryReport.BodyPartInjuries.Count());
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-            //Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
-
-            //Assert.AreEqual(4, partInjury.TissueLayerInjuries.Count());
-
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(skinLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(fatLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(muscleLayer, tInjury.Layer);
-
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.None);
         }
 
         [TestMethod]
@@ -328,39 +177,12 @@ namespace Tiles.EngineIntegrationTests
             attacker.Outfit.Wield(weapon);
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("bash"));
-            Assert.IsNotNull(moveClass);
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
-
-            var strikeMomentum = attacker.GetStrikeMomentum(slashMove);
-
-            var context = new CombatMoveContext(attacker, defender, slashMove);
-
-            var hoofLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hoof"));
-
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
-                moveClass.StressMode,
-                strikeMomentum,
-                moveClass.ContactArea,
-                moveClass.MaxPenetration,
-                targetBodyPart,
-                weapon.Class.Material,
-                slashMove.Sharpness
-                );
-
-            Assert.AreEqual(1, injuryReport.BodyPartInjuries.Count());
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-            
-            Assert.AreEqual(1, partInjury.TissueLayerInjuries.Count());
-
-            // glance
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.None, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(hoofLayer, tInjury.Layer);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.None);
         }
+
 
         [TestMethod]
         public void DwarfVsUnicorn_BashLegWithCopperMace()
@@ -371,112 +193,36 @@ namespace Tiles.EngineIntegrationTests
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
             Assert.IsNotNull(targetBodyPart);
 
-            var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_MACE, "COPPER");
-            attacker.Outfit.Wield(sword);
+            var weapon = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_MACE, "COPPER");
+            attacker.Outfit.Wield(weapon);
 
-            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("bash"));
-            Assert.IsNotNull(moveClass);
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("bash"));
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
-
-            var strikeMomentum = attacker.GetStrikeMomentum(move);
-
-            var context = new CombatMoveContext(attacker, defender, move);
-
-            var hairLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("hair"));
-            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-            var boneLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
-
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
-                moveClass.StressMode,
-                strikeMomentum,
-                moveClass.ContactArea,
-                moveClass.MaxPenetration,
-                targetBodyPart,
-                sword.Class.Material,
-                move.Sharpness
-                );
-
-            Assert.AreEqual(1, injuryReport.BodyPartInjuries.Count());
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-            //Assert.AreSame(BodyPartInjuryClasses.JustTissueDamage, partInjury.Class);
-
-            //Assert.AreEqual(4, partInjury.TissueLayerInjuries.Count());
-
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(skinLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(fatLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Impact_Bypass, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(muscleLayer, tInjury.Layer);
-
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.None);
         }
+
 
         [TestMethod]
         public void UnicornVsDwarf_StabUpperBody()
         {
-            //Unicorn 1 stabs Dwarf 2 in the right lower arm, tearing the muscle!
             var attacker = GetNewUnicorn();
             var defender = GetNewDwarf();
 
             var targetBodyPart = defender.Body.Parts.Single(p => p.Name.Equals("upper body"));
+            Assert.IsNotNull(targetBodyPart);
 
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("stab"));
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            var momentum = attacker.GetStrikeMomentum(move);
-            var context = new CombatMoveContext(attacker, defender, move);
-
-            //  TODO - most dense tissue layer
-            var relatedParts = move.Class.GetRelatedBodyParts(attacker.Body);
-            var weaponMat = relatedParts.First().Tissue.TissueLayers.Last().Material;
-
-
-            var skinLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
-            var fatLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
-            var muscleLayer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
-            
-            var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-               context,
-               moveClass.StressMode,
-               momentum,
-               moveClass.ContactArea,
-               moveClass.MaxPenetration,
-               targetBodyPart,
-               weaponMat,
-               move.Sharpness
-               );
-
-            var partInjury = injuryReport.BodyPartInjuries.First();
-            Assert.AreEqual(targetBodyPart, partInjury.BodyPart);
-
-            Assert.AreEqual(3, partInjury.TissueLayerInjuries.Count());
-
-            var tInjury = partInjury.TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(skinLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(1);
-
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(fatLayer, tInjury.Layer);
-
-            tInjury = partInjury.TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual(MaterialStressResult.Shear_Cut, tInjury.StrikeResult.StressResult);
-            Assert.AreSame(muscleLayer, tInjury.Layer);
-
-            // TODO - this should affect an inner body part
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut);
         }
 
         IAgent GetNewDwarf()
