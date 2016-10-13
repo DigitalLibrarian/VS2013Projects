@@ -284,31 +284,22 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
 
             // flat deduction of 10% of yield cost, regardless of outcome
             double deduction = 0;
+            
             var deductPercent = 0.1d;
             if (StressMode == Materials.StressMode.Edge)
             {
-                deduction = shearCost1 * deductPercent * contactArea * LayerThickness;
+                deduction = shearCost1 * deductPercent *contactArea * LayerThickness;
             }
             else
             {
-                deduction = impactCost1 * deductPercent * contactArea * LayerThickness;
+                deduction = impactCost1 * deductPercent *contactArea * LayerThickness;
             }
-
-            deduction = System.Math.Min(Momentum, deduction);
-            resultMom = Momentum - deduction;
-
+        
             if (!(StressMode == Materials.StressMode.Blunt 
                     && (msr == MaterialStressResult.Impact_InitiateFracture
                     || msr == MaterialStressResult.Impact_CompleteFracture)))
             {
                 resultMom = resultMom * say / 50000d;
-            }
-
-
-            if (bluntBypass)
-            {
-                defeated = true;
-                //resultMom = Momentum;
             }
 
             return new MaterialStrikeResult
@@ -319,7 +310,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 MomentumThreshold = thresh,
 
                 StressResult = msr,
-                IsDefeated = defeated || partialPuncture,
+                IsDefeated = defeated || partialPuncture || bluntBypass,
 
                 ShearDentCost = shearCost1,
                 ShearCutCost = shearCost2,

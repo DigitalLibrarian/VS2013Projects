@@ -36,7 +36,7 @@ namespace Tiles.Bodies
                 parts.Add(partMap[bpc]);
             }
             
-            var body = new Body(parts, bodyClass.Size, bodyClass.Moves);
+            var body = new Body(bodyClass, parts, bodyClass.Size, bodyClass.Moves);
 
             foreach(var attrClass in bodyClass.Attributes)
             {

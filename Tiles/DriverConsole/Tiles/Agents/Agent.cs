@@ -117,31 +117,42 @@ namespace Tiles.Agents
             Str = Body.GetAttribute("STRENGTH");
             Size = Body.Size;
 
+            VelocityMultiplier = (double)move.Class.VelocityMultiplier;
+
             if (move.Class.IsItem)
             {
                 var weapon = move.Weapon;
-                VelocityMultiplier = (double)move.Class.VelocityMultiplier;
                 W = weapon.GetMass();
+
+                W /= 1000d; // grams to kg
+
+                double intWeight = (int)(W);
+                double fractWeight = (int)((W - (intWeight)) * 1000d) * 1000d;
+
+                double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
+                double actWeight = (intWeight * 1000d) + (fractWeight / 1000d);
+
+                var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
+                v = System.Math.Min(5000d, v);
+                return v * actWeight / 1000d + 1d;
+
             }
             else
             {
-                double mass = move.Class.GetRelatedBodyParts(move.Attacker.Body)
+                var parts = move.Class.GetRelatedBodyParts(move.Attacker.Body);
+                double partWeight = parts
                     .Select(p => p.GetMass())
                     .Sum();
-
+                double partsize = parts.Select(p => p.Size)
+                    .Sum();
                 VelocityMultiplier = 1000d;
-                W = mass;
+
+                var material = GetStrikeMaterial(move);
+                var sumRelSize = parts.Select(x => x.Class.RelativeSize).Sum();
+                var v = 100d * Str / 1000d * VelocityMultiplier / 1000d;
+                return v * (partWeight / 1000) + 1;
             }
 
-            W /= 1000d; // grams to kg
-
-            double intWeight = (int)(W); 
-            double fractWeight = (int)((W - (intWeight)) * 1000d)*1000d;
-            
-            double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
-            var v = Size * (Str / 1000d) * ((VelocityMultiplier/ 1000d) * (1d / effWeight));
-            v = System.Math.Min(5000d, v);
-            return v * W;
         }
     }
 }

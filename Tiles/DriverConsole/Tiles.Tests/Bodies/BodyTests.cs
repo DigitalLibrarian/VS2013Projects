@@ -19,7 +19,7 @@ namespace Tiles.Tests.Bodies
             var partMock2 = new Mock<IBodyPart>();
             var parts = new List<IBodyPart> { partMock1.Object, partMock2.Object };
 
-            var body = new Body(parts, 10);
+            var body = new Body(new Mock<IBodyClass>().Object, parts, 10);
             Assert.AreEqual(10, body.Size);
 
             Assert.IsFalse(body.IsGrasping);
@@ -60,7 +60,7 @@ namespace Tiles.Tests.Bodies
             var partMock2 = new Mock<IBodyPart>();
             var partMock3 = new Mock<IBodyPart>();
 
-            var body = new Body(new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 0);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 0);
 
             body.Amputate(partMock2.Object);
 
@@ -82,7 +82,7 @@ namespace Tiles.Tests.Bodies
             partMock4.Setup(x => x.Parent).Returns(partMock3.Object);
             partMock5.Setup(x => x.Parent).Returns(partMock4.Object);
 
-            var body = new Body(new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object, partMock4.Object, partMock5.Object }, 0);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object, partMock4.Object, partMock5.Object }, 0);
 
             body.Amputate(partMock2.Object);
 
@@ -99,7 +99,7 @@ namespace Tiles.Tests.Bodies
 
             var unknownPartMock = new Mock<IBodyPart>();
 
-            var body = new Body(new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 0);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 0);
 
             body.Amputate(unknownPartMock.Object);
 

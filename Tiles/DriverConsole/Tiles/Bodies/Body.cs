@@ -15,22 +15,23 @@ namespace Tiles.Bodies
 
         public double Size { get; set; }
         public double StoredFat { get { return 500000d; } }
-
+        public IBodyClass Class { get; private set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
 
         Dictionary<string, int> Attributes { get; set; }
 
-        public Body(IList<IBodyPart> parts, double size)
-            : this(parts, size, Enumerable.Empty<ICombatMoveClass>())
+        public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size)
+            : this(bodyClass, parts, size, Enumerable.Empty<ICombatMoveClass>())
         {
 
         }
-        public Body(IList<IBodyPart> parts, double size, IEnumerable<ICombatMoveClass> moves)
+        public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size, IEnumerable<ICombatMoveClass> moves)
         {
             Parts = parts;
             Size = size;
             Moves = moves;
             Attributes = new Dictionary<string, int>();
+            Class = bodyClass;
         }
 
         public void Amputate(IBodyPart part)

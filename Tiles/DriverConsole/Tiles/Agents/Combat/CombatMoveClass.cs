@@ -136,7 +136,7 @@ namespace Tiles.Agents.Combat
                         throw new NotImplementedException();
                 }
             }
-            return Enumerable.Empty<BodyPart>();
+            return Enumerable.Empty<IBodyPart>();
         }
 
         public bool IsMet(IBody body)

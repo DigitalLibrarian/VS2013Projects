@@ -15,6 +15,7 @@ namespace Tiles.Bodies
         double Size { get; }
         double StoredFat { get; }
         IList<IBodyPart> Parts { get; }
+        IBodyClass Class { get; }
 
         void Amputate(IBodyPart part);
 
