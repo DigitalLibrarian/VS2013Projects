@@ -10,28 +10,30 @@ namespace Tiles.Materials
     {
         public static double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
+            var factor = 1d;
             if (strikerMat.ShearYield > strickenMat.ShearYield)
             {
-                //return 0.0d;
+                factor = 0.0d;
             }
-            return (((double)strickenMat.ShearYield) * 5000d)
-                / (((double)strikerMat.ShearYield) * sharpness * 1000d);
+            return (((double)strickenMat.ShearYield) * 5000d) * factor
+                / (((double)strikerMat.ShearYield) * sharpness * 10d);
         }
 
         public static double ShearCost2(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
+            var factor = 1d;
             if (strikerMat.ShearFracture > strickenMat.ShearFracture)
             {
-                //return 0.0d;
+                factor = 0.0d;
             }
-            return (((double)strickenMat.ShearFracture) * 5000d)
-                / (((double)strikerMat.ShearFracture) * sharpness * 1000d);
+            return (((double)strickenMat.ShearFracture) * 5000d) * factor
+                / (((double)strikerMat.ShearFracture) * sharpness * 10d);
         }
 
         public static double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
         {
             return (((double)strickenMat.ShearFracture) * layerVolume * 5000d)
-                / (((double)strikerMat.ShearFracture) * sharpness * 1000d);
+                / (((double)strikerMat.ShearFracture) * sharpness * 10d);
         }
 
 

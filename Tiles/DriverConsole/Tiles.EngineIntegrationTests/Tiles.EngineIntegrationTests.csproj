@@ -63,7 +63,6 @@
     <Compile Include="BodyTests.cs" />
     <Compile Include="DfContentTestBase.cs" />
     <Compile Include="ElfVsElfStrikeTests.cs" />
-    <Compile Include="GiantVsGiantTortoiseStrikeTests.cs" />
     <Compile Include="DwarfVsDwarfStrikeTests.cs" />
     <Compile Include="TestContentStore.cs" />
     <Compile Include="DwarfVsUnicornStrikeTests.cs" />

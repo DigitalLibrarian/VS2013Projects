@@ -77,7 +77,7 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_Cut,
                 MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Impact_Bypass);
+                MaterialStressResult.None);
         }
 
         [TestMethod]
@@ -95,6 +95,42 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.Impact_Bypass,
                 MaterialStressResult.Impact_Bypass);
         }
+
+
+        [TestMethod]
+        public void DwarfVsDwarf_PunchRightFoot()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right foot"));
+            var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.None);
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_PunchLowerBody()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("lower body"));
+            var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass);
+        }
+
+
 
         [TestMethod]
         public void DwarfVsDwarf_KickHead()
@@ -278,7 +314,7 @@ namespace Tiles.EngineIntegrationTests
 
             var mom = attacker.GetStrikeMomentum(move);
 
-            Assert.AreEqual(85, (int)mom);
+            Assert.AreEqual(82, (int)mom);
         }
 
         // TODO - move to its own class

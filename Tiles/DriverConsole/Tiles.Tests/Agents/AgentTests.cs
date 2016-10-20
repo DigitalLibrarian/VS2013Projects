@@ -358,7 +358,7 @@ namespace Tiles.Tests.Agents
             moveMock.Setup(x => x.Class).Returns(moveClassMock.Object);
 
             var strikeMom = Agent.GetStrikeMomentum(moveMock.Object);
-            Assert.AreEqual(85, (int) strikeMom);
+            Assert.AreEqual(86, (int) strikeMom);
 
             moveClassMock.Verify(x => x.GetRelatedBodyParts(It.IsAny<IBody>()), Times.Never());
         }
