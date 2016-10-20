@@ -516,7 +516,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void HumanBodyAttack_Punch()
+        public void HumanBodyAttack_Punch_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
             var punch = human.Body.Moves.Single(x => x.Name.Equals("punch"));
@@ -529,11 +529,11 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, punch, human.Body.Parts.First());
             var punchMom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(29d, (int)punchMom);
+            Assert.AreEqual(51, (int)punchMom);
         }
 
         [TestMethod]
-        public void HumanBodyAttack_Bite()
+        public void HumanBodyAttack_Bite_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
             var bite = human.Body.Moves.Single(x => x.Name.Equals("bite"));
@@ -542,12 +542,12 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(human, human, bite, human.Body.Parts.First());
 
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(3d, (int)mom);
+            Assert.AreEqual(4, (int)mom);
         }
 
 
         [TestMethod]
-        public void HumanBodyAttack_Scratch()
+        public void HumanBodyAttack_Scratch_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
             var scratch = human.Body.Moves.Single(x => x.Name.Equals("scratch"));
@@ -555,7 +555,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, scratch, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(12d, (int)mom);
+            Assert.AreEqual(16, (int)mom);
         }
 
         [TestMethod]
@@ -576,7 +576,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(151d, (int)foot.Size);
         }
         [TestMethod]
-        public void HumanBodyAttack_Kick()
+        public void HumanBodyAttack_Kick_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
             var kick = human.Body.Moves.Single(x => x.Name.Equals("kick"));
@@ -588,7 +588,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(human, human, kick, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(36d, (int)mom);
+            Assert.AreEqual(76, (int)mom);
         }
 
         [TestMethod]
