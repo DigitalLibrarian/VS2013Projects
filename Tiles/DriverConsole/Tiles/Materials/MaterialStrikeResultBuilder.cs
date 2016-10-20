@@ -150,18 +150,18 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     Momentum,
                     StrickenMaterial);
 
-                /*
+                
                 var dentCost = (shearCost1);
-                var cutCost = dentCost + System.Math.Max(shearCost1, shearCost2);
-                var defeatCost = cutCost + System.Math.Max(cutCost, shearCost3);
+                var cutCost = dentCost + System.Math.Max(0, shearCost2);
+                var defeatCost = cutCost + System.Math.Max(0, shearCost3);
                 shearCost1 = dentCost;
                 shearCost2 = cutCost;
                 shearCost3 = defeatCost;
-                 * */
+                 /*
                 var dentCost = shearCost1;
                 var cutCost = shearCost2;
                 var defeatCost = shearCost3;
-
+                */
                 if (stress > dentCost)
                 {
                     totalUsed = dentCost;
@@ -195,11 +195,11 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             {
                 if (caRatio < 1d)
                 {
-                    stress = Momentum - (Momentum * caRatio);
+                    stress = (Momentum - (Momentum * caRatio));
                 }
                 else
                 {
-                    stress = Momentum / contactArea;// -(Momentum * caRatio);// (Momentum / contactArea) / caRatio;
+                    stress = Momentum / volDamaged;// -(Momentum * caRatio);// (Momentum / contactArea) / caRatio;
 
                 }
                 resultMom = MaterialStressCalc.ImpactMomentumAfterUnbrokenRigidLayer(
@@ -260,9 +260,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 }
             }
 
-
-
-
             var say = StressMode == Materials.StressMode.Blunt
                 ? StrickenMaterial.ImpactStrainAtYield
                 : StrickenMaterial.ShearStrainAtYield;
@@ -290,11 +287,11 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             if (StressMode == Materials.StressMode.Edge)
             {
                 var sharpFactor = 5000d / sharpness;
-                deduction = ((shearCost1*volDamaged) * deductPercent) * sharpFactor;
+                deduction = ((shearCost1*volDamaged*LayerThickness) * deductPercent) * sharpFactor;
             }
             else
             {
-                deduction = ((impactCost1)) * deductPercent;
+                deduction = ((impactCost1*volDamaged)) * deductPercent;
             }
 
             resultMom -= deduction;

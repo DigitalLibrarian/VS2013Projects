@@ -50,8 +50,8 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.None);
+                MaterialStressResult.Shear_CutThrough,
+                MaterialStressResult.Shear_Cut);
         }
 
 
@@ -72,13 +72,13 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.None);
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut);
         }
 
 
         [TestMethod]
-        public void DwarfVsUnicorn_StabLegWithSteelSword()
+        public void DwarfVsUnicorn_StabFrontLegWithSteelSword()
         {
             var attacker = GetNewDwarf();
             var defender = GetNewUnicorn();
@@ -89,7 +89,7 @@ namespace Tiles.EngineIntegrationTests
             var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "STEEL");
             attacker.Outfit.Wield(sword);
 
-            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
@@ -160,8 +160,7 @@ namespace Tiles.EngineIntegrationTests
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.None);
+                MaterialStressResult.Impact_Bypass);
         }
 
         [TestMethod]
@@ -201,9 +200,7 @@ namespace Tiles.EngineIntegrationTests
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.None);
+                MaterialStressResult.Impact_Bypass);
         }
 
 

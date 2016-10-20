@@ -8,12 +8,14 @@ namespace Tiles.Materials
 {
     public static class MaterialStressCalc
     {
+        private static readonly double MinRelativeToughness = 0.1d;
         public static double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
             var factor = 1d;
             if (strikerMat.ShearYield > strickenMat.ShearYield)
             {
                 factor = (double)strickenMat.ShearYield / (double)strikerMat.ShearYield;
+                factor = System.Math.Max(MinRelativeToughness, factor);
             }
             return (((double)strickenMat.ShearYield) * 5000d) * factor
                 / (((double)strikerMat.ShearYield) * sharpness * 10d);
@@ -24,8 +26,8 @@ namespace Tiles.Materials
             var factor = 1d;
             if (strikerMat.ShearFracture > strickenMat.ShearFracture)
             {
-                
                 factor = (double)strickenMat.ShearFracture / (double)strikerMat.ShearFracture;
+                factor = System.Math.Max(MinRelativeToughness, factor);
             }
             return (((double)strickenMat.ShearFracture) * 5000d) * factor
                 / (((double)strikerMat.ShearFracture) * sharpness * 10d);
@@ -33,7 +35,15 @@ namespace Tiles.Materials
 
         public static double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
         {
-            return (((double)strickenMat.ShearFracture) * layerVolume * 5000d)
+
+            var factor = 1d;
+            if (strikerMat.ShearFracture > strickenMat.ShearFracture)
+            {
+                factor = (double)strickenMat.ShearFracture / (double)strikerMat.ShearFracture;
+                factor = System.Math.Max(MinRelativeToughness, factor);
+            }
+
+            return (((double)strickenMat.ShearFracture) * layerVolume * 5000d * factor)
                 / (((double)strikerMat.ShearFracture) * sharpness * 10d);
         }
 

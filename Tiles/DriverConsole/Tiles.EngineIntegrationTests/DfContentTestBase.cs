@@ -118,6 +118,18 @@ namespace Tiles.EngineIntegrationTests
                         tInjury.Layer.Material.Name));
                 i++;
             }
+
+            var diff = partInjury.TissueLayerInjuries.Count() - expectedLayerResults.Count();
+            if (diff > 0)
+            {
+                foreach (var tInjury in partInjury.TissueLayerInjuries.Skip(i))
+                {
+                    if(tInjury.StrikeResult.StressResult != MaterialStressResult.None)
+                    {
+                        Assert.Fail(string.Format("Unexpected tissue layer result {0} for {1} layer", tInjury.StrikeResult.StressResult, tInjury.Layer.Material.Name));
+                    }
+                }
+            }
         }
 
         protected void AssertTissueInjuryClass(ITissueLayerInjuryClass expected, ITissueLayerInjury tInjury)

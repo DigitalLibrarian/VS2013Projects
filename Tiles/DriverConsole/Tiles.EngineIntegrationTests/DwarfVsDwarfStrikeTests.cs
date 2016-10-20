@@ -43,8 +43,7 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_Cut,
                 MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.None);
+                MaterialStressResult.Shear_Cut);
         }
 
 
@@ -254,8 +253,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.None);           
+                MaterialStressResult.Shear_Cut);           
         }
 
 
@@ -275,7 +273,6 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
                 MaterialStressResult.Shear_Cut,
                 MaterialStressResult.None);
 
@@ -299,9 +296,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.None);
+                MaterialStressResult.Shear_Cut);
 
         }
 
@@ -322,8 +317,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.None);
+                MaterialStressResult.Shear_Cut);
         }
 
         [TestMethod]
