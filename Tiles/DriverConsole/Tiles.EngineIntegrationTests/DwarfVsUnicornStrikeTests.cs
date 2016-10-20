@@ -51,6 +51,7 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_CutThrough,
                 MaterialStressResult.Shear_CutThrough,
+                MaterialStressResult.Shear_Cut,
                 MaterialStressResult.Shear_Cut);
         }
 

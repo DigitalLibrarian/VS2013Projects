@@ -8,7 +8,7 @@ namespace Tiles.Materials
 {
     public static class MaterialStressCalc
     {
-        private static readonly double MinRelativeToughness = 0.1d;
+        private static readonly double MinRelativeToughness = 0.01d;
         public static double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
             var factor = 1d;
