@@ -67,6 +67,7 @@ namespace Tiles.Materials
         public void SetLayerVolume(double vol)
         {
             LayerVolume = vol;
+            LayerVolume = System.Math.Max(1d, LayerVolume);
         }
 
         public void SetLayerThickness(double thick)
@@ -134,17 +135,32 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             double totalUsed = 0;
             if (StressMode == Materials.StressMode.Edge)
             {
-                stress = Momentum/contactArea;
+                stress = Momentum / volDamaged;
+
+                if (caRatio < 1d)
+                {
+                    stress = (Momentum / volDamaged) - ((Momentum / volDamaged) * caRatio);
+                }
+                else
+                {
+                    stress = Momentum / volDamaged;// -(Momentum * caRatio);// (Momentum / contactArea) / caRatio;
+
+                }
                 resultMom = MaterialStressCalc.ShearMomentumAfterUnbrokenRigidLayer(
                     Momentum,
                     StrickenMaterial);
 
+                /*
                 var dentCost = (shearCost1);
                 var cutCost = dentCost + System.Math.Max(shearCost1, shearCost2);
                 var defeatCost = cutCost + System.Math.Max(cutCost, shearCost3);
                 shearCost1 = dentCost;
                 shearCost2 = cutCost;
                 shearCost3 = defeatCost;
+                 * */
+                var dentCost = shearCost1;
+                var cutCost = shearCost2;
+                var defeatCost = shearCost3;
 
                 if (stress > dentCost)
                 {
@@ -273,11 +289,12 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             var deductPercent = 0.1d;
             if (StressMode == Materials.StressMode.Edge)
             {
-                deduction = shearCost1 * deductPercent;
+                var sharpFactor = 5000d / sharpness;
+                deduction = ((shearCost1*volDamaged) * deductPercent) * sharpFactor;
             }
             else
             {
-                deduction = impactCost1 * deductPercent;
+                deduction = ((impactCost1)) * deductPercent;
             }
 
             resultMom -= deduction;

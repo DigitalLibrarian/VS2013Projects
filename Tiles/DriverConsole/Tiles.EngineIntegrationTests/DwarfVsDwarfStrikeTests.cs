@@ -253,7 +253,7 @@ namespace Tiles.EngineIntegrationTests
             
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_CutThrough,
                 MaterialStressResult.Shear_Cut,
                 MaterialStressResult.None);           
         }
@@ -276,7 +276,31 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.None);
+
+        }
+
+
+
+        [TestMethod]
+        public void DwarfVsDwarf_SlashLowerBodyWithWoodSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("lower body"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
                 MaterialStressResult.None);
 
         }

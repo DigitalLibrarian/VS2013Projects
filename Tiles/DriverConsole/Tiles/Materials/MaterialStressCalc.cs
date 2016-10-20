@@ -13,7 +13,7 @@ namespace Tiles.Materials
             var factor = 1d;
             if (strikerMat.ShearYield > strickenMat.ShearYield)
             {
-                factor = 0.0d;
+                factor = (double)strickenMat.ShearYield / (double)strikerMat.ShearYield;
             }
             return (((double)strickenMat.ShearYield) * 5000d) * factor
                 / (((double)strikerMat.ShearYield) * sharpness * 10d);
@@ -24,7 +24,8 @@ namespace Tiles.Materials
             var factor = 1d;
             if (strikerMat.ShearFracture > strickenMat.ShearFracture)
             {
-                factor = 0.0d;
+                
+                factor = (double)strickenMat.ShearFracture / (double)strikerMat.ShearFracture;
             }
             return (((double)strickenMat.ShearFracture) * 5000d) * factor
                 / (((double)strikerMat.ShearFracture) * sharpness * 10d);
