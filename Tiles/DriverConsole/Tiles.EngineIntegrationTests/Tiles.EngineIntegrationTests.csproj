@@ -62,10 +62,10 @@
   <ItemGroup>
     <Compile Include="BodyTests.cs" />
     <Compile Include="DfContentTestBase.cs" />
-    <Compile Include="ElfVsElfStrikeTests.cs" />
-    <Compile Include="DwarfVsDwarfStrikeTests.cs" />
+    <Compile Include="StrikeTests_ElfVsElfStrike.cs" />
+    <Compile Include="StrikeTests_DwarfVsDwarf.cs" />
     <Compile Include="TestContentStore.cs" />
-    <Compile Include="DwarfVsUnicornStrikeTests.cs" />
+    <Compile Include="StrikeTests_DwarfVsUnicorn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

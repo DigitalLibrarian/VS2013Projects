@@ -132,19 +132,17 @@ namespace Tiles.Materials
             double penetration = 0;
             bool done = false;
             double epsilon = 0.00001d;
-
-            MLayer lastLayer = null;
-
+            int turnsToBlunt = -1;
+            var strikeMaterial = StrikerMaterial;
             foreach (var layer in Layers)
             {
                 if (momentum <= epsilon) break;
                 if (mode == StressMode.Edge && penetration >= MaxPenetration) mode = Materials.StressMode.Blunt;
-
-                var strikeMaterial = StrikerMaterial;
-                if (lastLayer != null)
+                if (turnsToBlunt-- == 0)
                 {
-                    strikeMaterial = lastLayer.Material;
+                    mode = Materials.StressMode.Blunt;
                 }
+
                 var layerResult = PerformSingleLayerTest(
                     strikeMaterial,
                     momentum,
@@ -164,7 +162,15 @@ namespace Tiles.Materials
                         penetration += layer.Thickness;
                         //contactArea = System.Math.Min(layerResult.WoundArea, 1);
                     }
-                    momentum = layerResult.ResultMomentum;
+                    else
+                    {
+                        if (layerResult.StressResult == MaterialStressResult.Impact_CompleteFracture)
+                        {
+                            mode = Materials.StressMode.Edge;
+                            turnsToBlunt = 1;
+                        }
+
+                    }
                 }
                 else if (mode != StressMode.Blunt)
                 {
@@ -187,11 +193,6 @@ namespace Tiles.Materials
                 {
                     done = true;
                 }
-                else
-                {
-                    lastLayer = layer;
-                }
-
                 if (layer.IsTagged)
                 {
                     result.AddLayerResult(layerResult, layer.Tag);
@@ -199,6 +200,11 @@ namespace Tiles.Materials
                 else
                 {
                     result.AddLayerResult(layerResult);
+                }
+
+                if (mode == Materials.StressMode.Blunt)
+                {
+                    strikeMaterial = layer.Material;
                 }
 
                 if (done) break;

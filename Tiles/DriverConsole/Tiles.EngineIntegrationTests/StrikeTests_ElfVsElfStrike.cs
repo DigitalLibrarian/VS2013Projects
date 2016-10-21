@@ -11,7 +11,7 @@ using Tiles.Math;
 namespace Tiles.EngineIntegrationTests
 {
     [TestClass]
-    public class ElfVsElfStrikeTests : DfContentTestBase
+    public class StrikeTests_ElfVsElfStrike : DfContentTestBase
     {
         IAgent Elf { get; set; }
         [TestInitialize]
@@ -66,7 +66,10 @@ namespace Tiles.EngineIntegrationTests
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 MaterialStressResult.Impact_CompleteFracture,
-                MaterialStressResult.Shear_CutThrough);
+                MaterialStressResult.Shear_CutThrough,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_CompleteFracture);
         }
         [TestMethod]
         public void ElfVsElf_KickRightUpperLeg()

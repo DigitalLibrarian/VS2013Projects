@@ -170,6 +170,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     yieldOnly = true;
                     if (stress > cutCost)
                     {
+                        yieldOnly = false;
                         totalUsed = cutCost;
                         msr = MaterialStressResult.Shear_Cut;
                         // TODO - It looks like the attack is stopped unless at least 10% damage
@@ -185,7 +186,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                         {
                             msr = MaterialStressResult.Shear_CutThrough;
                             defeated = true;
-                            //yieldOnly = false;
                             totalUsed = defeatCost;
                         }
                     }
@@ -210,8 +210,8 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
 
                 //stress = Momentum / contactArea;
                 var dentCost = (impactCost1);
-                var cutCost = dentCost + System.Math.Max(impactCost1, impactCost2);
-                var defeatCost = cutCost + System.Math.Max(impactCost1, impactCost3);
+                var cutCost = dentCost + System.Math.Max(0, impactCost2);
+                var defeatCost = cutCost + System.Math.Max(0, impactCost3);
 
                 impactCost1 = dentCost;
                 impactCost2 = cutCost;
@@ -246,11 +246,11 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                         yieldOnly = true;
                         if (stress > cutCost)
                         {
+                            yieldOnly = false;
                             totalUsed = cutCost;
                             msr = MaterialStressResult.Impact_InitiateFracture;
                             if (stress > defeatCost)
                             {
-                                //yieldOnly = false;
                                 defeated = true;
                                 totalUsed = defeatCost;
                                 msr = MaterialStressResult.Impact_CompleteFracture;
@@ -273,12 +273,16 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             //[IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt 
             //fracture the steel helm, only 940/50000=0.0188=1.88% of the momentum 
             //is passed to the skin layer
-            if (StressMode == Materials.StressMode.Blunt
-                    && (msr == MaterialStressResult.Impact_Bypass || msr == MaterialStressResult.Impact_Dent)
+            if (!defeated
+                    //&& (msr == MaterialStressResult.Impact_Bypass || msr == MaterialStressResult.Impact_Dent)
                     )
             {
-                resultMom = resultMom * ((double)say / 50000d);
+                resultMom = Momentum * ((double)say / 50000d);
                 resultMom = System.Math.Max(0d, resultMom);
+            }
+            else
+            {
+                resultMom = Momentum;
             }
 
             // flat deduction of 10% of yield cost, regardless of outcome
@@ -291,7 +295,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             }
             else
             {
-                deduction = ((impactCost1*volDamaged)) * deductPercent;
+                deduction = ((impactCost1 * volDamaged)) * deductPercent;
             }
 
             resultMom -= deduction;
@@ -304,7 +308,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 MomentumThreshold = thresh,
 
                 StressResult = msr,
-                IsDefeated = defeated || partialPuncture || bluntBypass,
+                IsDefeated = defeated || partialPuncture,
 
                 ShearDentCost = shearCost1,
                 ShearCutCost = shearCost2,

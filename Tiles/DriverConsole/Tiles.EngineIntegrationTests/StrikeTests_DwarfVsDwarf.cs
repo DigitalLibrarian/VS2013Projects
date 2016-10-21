@@ -18,7 +18,7 @@ using Tiles.Materials;
 namespace Tiles.EngineIntegrationTests
 {
     [TestClass]
-    public class DwarfVsDwarfStrikeTests : DfContentTestBase
+    public class StrikeTests_DwarfVsDwarf : DfContentTestBase
     {
         IAgent Dwarf { get; set; }
 
@@ -129,7 +129,23 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.Impact_Bypass);
         }
 
+        [TestMethod]
+        public void DwarfVsDwarf_PunchFinger()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
 
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("first finger"));
+            var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_CompleteFracture,
+                MaterialStressResult.Shear_CutThrough,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_CompleteFracture);
+        }
 
         [TestMethod]
         public void DwarfVsDwarf_KickHead()
@@ -146,9 +162,7 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.Impact_Bypass,
                 MaterialStressResult.Impact_Bypass);
         }
-
-
-
+        
         [TestMethod]
         public void DwarfVsDwarf_BiteRightUpperArm()
         {
@@ -277,8 +291,6 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.None);
 
         }
-
-
 
         [TestMethod]
         public void DwarfVsDwarf_SlashLowerBodyWithWoodSword()

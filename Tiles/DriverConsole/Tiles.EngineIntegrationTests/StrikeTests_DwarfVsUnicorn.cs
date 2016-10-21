@@ -18,7 +18,7 @@ using Tiles.Materials;
 namespace Tiles.EngineIntegrationTests
 {
     [TestClass]
-    public class DwarfVsUnicornStrikeTests : DfContentTestBase
+    public class StrikeTests_DwarfVsUnicorn : DfContentTestBase
     {
         IAgent Dwarf { get; set; }
         IAgent Unicorn { get; set; }
