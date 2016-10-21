@@ -80,16 +80,16 @@ namespace Tiles.Injuries
                         if (IsChip()) return "chipping";
                         else
                         {
-                            return IsTough() ? "tearing" : "fracturing";
+                            return IsSoft() ? "tearing" : "fracturing";
                         }
                     case MaterialStressResult.Impact_CompleteFracture:
-                        return IsTough() ? "tearing apart" : "shattering";
+                        return IsSoft() ? "tearing apart" : "shattering";
                     case MaterialStressResult.Shear_Dent:
                         return "denting";
                     case MaterialStressResult.Shear_Cut:
-                        return IsTough() ? "tearing" : "fracturing";
+                        return IsSoft() ? "tearing" : "fracturing";
                     case MaterialStressResult.Shear_CutThrough:
-                        return IsTough() ? "tearing apart" : "shattering";
+                        return IsSoft() ? "tearing apart" : "shattering";
                     default:
                         throw new NotImplementedException();
                 }
@@ -101,7 +101,7 @@ namespace Tiles.Injuries
             return Layer.Class.VascularRating > 0;
         }
 
-        private bool IsTough()
+        private bool IsSoft()
         {
             if (StrikeResult.StressMode == StressMode.Edge) 
             { 
