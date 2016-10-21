@@ -131,10 +131,5 @@ namespace Tiles.EngineIntegrationTests
                 }
             }
         }
-
-        protected void AssertTissueInjuryClass(ITissueLayerInjuryClass expected, ITissueLayerInjury tInjury)
-        {
-            Assert.AreSame(expected, tInjury.Class, string.Format("Expected injury class {0} for tissue layer {1}, but got {2}", expected.Adjective, tInjury.Layer.Material.Name, tInjury.Class.Adjective));
-        }
     }
 }
