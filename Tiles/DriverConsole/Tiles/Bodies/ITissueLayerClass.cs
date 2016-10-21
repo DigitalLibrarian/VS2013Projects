@@ -17,5 +17,7 @@ namespace Tiles.Bodies
         bool ThickensOnStrength { get; }
 
         bool ThickensOnEnergyStorage { get;}
+
+        string Name { get; }
     }
 }

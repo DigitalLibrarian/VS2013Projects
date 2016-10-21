@@ -23,14 +23,9 @@ namespace Tiles.ScreensImpl.UI
             BlockForInput = false;
         }
 
-        long frameCount = 0;
         public override void Draw()
         {
-            if (frameCount % 1000 == 0)
-            {
-                Canvas.DrawString(Message, Random.Next(Box.Max - new Vector2(Message.Length, 0)));
-            }
-            frameCount++;
+            Canvas.DrawString(Message, Box.Min + (Box.Size*0.5) - new Vector2(Message.Length/2, 0));
         }
 
         public override void OnKeyPress(KeyPressEventArgs args)

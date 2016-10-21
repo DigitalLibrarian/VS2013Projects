@@ -45,15 +45,36 @@ namespace Tiles.Injuries
         
         public string GetResultPhrase()
         {
+            var injuries = TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.MaterialStressResult.None);
             if (Class.IsCompletion)
             {
                 return string.Format(" and {0}!", Class.CompletionPhrase);
             }
-            else if (TissueLayerInjuries.Any())
+            else if (injuries.Any())
             {
-                return string.Format(", {0}!",
-                    string.Join(", ",
-                    TissueLayerInjuries.Select(x => x.GetPhrase())));
+                var phrases = injuries
+                    .Select(injury =>
+                    {
+                        var remaining = injuries.SkipWhile(x => x != injury);
+                        var grouped = remaining.TakeWhile(x => x.Class.Gerund.Equals(injury.Class.Gerund));
+                        if (grouped.Last() == injury)
+                        {
+                            return injury;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    })
+                    .Where(x => x != null)
+                    .Select(x => x.GetPhrase())
+                    .ToList();
+                if (phrases.Count() > 1)
+                {
+                    var last = phrases.Last();
+                    phrases[phrases.Count() - 1] = string.Format("and {0}", last);
+                }
+                return string.Format(", {0}!", string.Join(", ", phrases));
             }
             else
             {

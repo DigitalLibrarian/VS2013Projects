@@ -167,7 +167,7 @@ namespace Tiles.Injuries
 
                 double newDamage = System.Math.Max(1d, momComp * ttFact);
                 tissueDamage.ScalarMultiply(newDamage);
-                var tlInjuries = CreateTissueInjury(tissueLayer, tissueResult, tissueDamage, tlBodyPart.Damage);
+                var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult, tissueDamage, tlBodyPart.Damage);
 
                 if (!tissueInjuries.ContainsKey(tlBodyPart))
                 {
@@ -281,6 +281,7 @@ namespace Tiles.Injuries
 
 
         private IEnumerable<ITissueLayerInjury> CreateTissueInjury(
+            IBodyPart bodyPart, 
             ITissueLayer layer,
             IMaterialStrikeResult tissueResult,
             IDamageVector tissueDamage,
@@ -312,7 +313,7 @@ namespace Tiles.Injuries
                 injuryDamage.Set(dt, tissueDamage.Get(dt));
                 yield return
                 new TissueLayerInjury(
-                    new MsrTissueLayerInjuryClass(tissueResult.StressResult), layer, injuryDamage, tissueResult);
+                    new MsrTissueLayerInjuryClass(bodyPart, layer, tissueResult), layer, injuryDamage, tissueResult);
             }
         }
     }

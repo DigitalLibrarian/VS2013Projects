@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Bodies;
 using Tiles.Materials;
 
 namespace Tiles.Injuries
@@ -48,20 +49,73 @@ namespace Tiles.Injuries
 
     public class MsrTissueLayerInjuryClass : ITissueLayerInjuryClass
     {
-        MaterialStressResult Msr { get; set; }
-        public MsrTissueLayerInjuryClass(MaterialStressResult msr)
+        IBodyPart BodyPart { get; set; }
+        ITissueLayer Layer { get; set; }
+        IMaterialStrikeResult StrikeResult { get; set; }
+        public MsrTissueLayerInjuryClass(IBodyPart bodyPart,  ITissueLayer layer, IMaterialStrikeResult strikeResult)
         {
-            Msr = msr;
+            BodyPart = bodyPart;
+            Layer = layer;
+            StrikeResult = strikeResult;
         }
 
         public string Adjective
         {
-            get { return Msr.ToString(); }
+            get { return StrikeResult.StressResult.ToString(); }
         }
 
         public string Gerund
         {
-            get { return Msr.ToString(); }
+            get 
+            {
+                switch (StrikeResult.StressResult)
+                {
+                    case MaterialStressResult.None:
+                        return "stopping at";
+                    case MaterialStressResult.Impact_Dent:
+                        return IsVascular() ? "bruising" : "denting";
+                    case MaterialStressResult.Impact_Bypass:
+                        return IsVascular() ? "bruising" : "denting";
+                    case MaterialStressResult.Impact_InitiateFracture:
+                        if (IsChip()) return "chipping";
+                        else
+                        {
+                            return IsTough() ? "tearing" : "fracturing";
+                        }
+                    case MaterialStressResult.Impact_CompleteFracture:
+                        return IsTough() ? "tearing apart" : "shattering";
+                    case MaterialStressResult.Shear_Dent:
+                        return "denting";
+                    case MaterialStressResult.Shear_Cut:
+                        return IsTough() ? "tearing" : "fracturing";
+                    case MaterialStressResult.Shear_CutThrough:
+                        return IsTough() ? "tearing apart" : "shattering";
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
+
+        private bool IsVascular()
+        {
+            return Layer.Class.VascularRating > 0;
+        }
+
+        private bool IsTough()
+        {
+            if (StrikeResult.StressMode == StressMode.Edge) 
+            { 
+                return Layer.Material.ImpactStrainAtYield >= 50000;
+            }
+            else
+            {
+                return Layer.Material.ShearStrainAtYield >= 50000;
+            }
+        }
+
+        public bool IsChip()
+        {
+            return StrikeResult.WoundArea <= BodyPart.GetContactArea() * 0.25d;
         }
 
         public DamageType DamageType

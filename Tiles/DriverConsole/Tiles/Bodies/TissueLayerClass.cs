@@ -17,6 +17,8 @@ namespace Tiles.Bodies
         public bool ThickensOnStrength { get; set; }
         public bool ThickensOnEnergyStorage { get; set; }
 
+        public string Name { get { return Material.Name; } }
+
         public TissueLayerClass(IMaterial material, int relThick)
         {
             Material = material;

@@ -50,7 +50,7 @@ namespace Tiles
 
         public void ReportMeleeItemStrikeBodyPart(ICombatMoveContext session, IVerb verb, IItem item, IBodyPart bodyPart, bool targetPartWasShed)
         {
-            DebugReportCombatMove(session.Move);
+            //DebugReportCombatMove(session.Move);
             var attackerName = session.Attacker.Name;
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
@@ -62,8 +62,8 @@ namespace Tiles
 
             var completionMessage = bpInjury.GetResultPhrase();
 
-            var message = string.Format("{0} {1} the {2}'s {3}{4}{5}({6})",
-                attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage, bpInjury.GetTotal());
+            var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
+                attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
 
             Log.AddLine(message);
             foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
@@ -74,7 +74,7 @@ namespace Tiles
 
         public void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, bool targetPartWasShed)
         {
-            DebugReportCombatMove(session.Move);
+            //DebugReportCombatMove(session.Move);
             var attackerName = session.Attacker.Name;
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
@@ -85,8 +85,8 @@ namespace Tiles
                 var bpInjury = session.InjuryReport.BodyPartInjuries.First();
                 var completionMessage = bpInjury.GetResultPhrase();
 
-                var message = string.Format("{0} {1} the {2}'s {3}{4} ({5})",
-                    attackerName, verbStr, defenderName, bodyPartName, completionMessage, bpInjury.GetTotal().ToString());
+                var message = string.Format("{0} {1} the {2}'s {3}{4}",
+                    attackerName, verbStr, defenderName, bodyPartName, completionMessage);
 
                 Log.AddLine(message);
                 foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
@@ -101,7 +101,7 @@ namespace Tiles
                 Log.AddLine(message);
             }
         }
-        
+
         public void ReportDeath(IAgent agent)
         {
             var message = string.Format("The {0} is struck down!", agent.Name);
