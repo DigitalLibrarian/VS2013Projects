@@ -223,6 +223,26 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.Shear_Cut);
         }
 
+
+        [TestMethod]
+        public void UnicornVsDwarf_StabLeftUpperLeg()
+        {
+            var attacker = GetNewUnicorn();
+            var defender = GetNewDwarf();
+
+            var targetBodyPart = defender.Body.Parts.Single(p => p.Name.Equals("left upper leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("stab"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut,
+                MaterialStressResult.Shear_Cut);
+        }
+
         IAgent GetNewDwarf()
         {
             return Dwarf;

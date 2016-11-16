@@ -81,6 +81,17 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_Moves()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            Assert.AreEqual(2, dwarf.Body.Moves.Count(x => x.Name.Equals("punch")));
+            Assert.AreEqual(2, dwarf.Body.Moves.Count(x => x.Name.Equals("kick")));
+            Assert.AreEqual(2, dwarf.Body.Moves.Count(x => x.Name.Equals("scratch")));
+            Assert.AreEqual(1, dwarf.Body.Moves.Count(x => x.Name.Equals("bite")));
+            Assert.AreEqual(7, dwarf.Body.Moves.Count());
+        }
+
+        [TestMethod]
         public void DwarfRightUpperArm()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
@@ -275,7 +286,7 @@ namespace Tiles.EngineIntegrationTests
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
 
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
 
             var reqs = moveClass.Requirements;
             Assert.AreEqual(1, reqs.Count());
@@ -296,7 +307,7 @@ namespace Tiles.EngineIntegrationTests
         public void DwarfBite_ContactArea()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
             Assert.AreEqual(3, moveClass.ContactArea);
         }
 
@@ -304,7 +315,7 @@ namespace Tiles.EngineIntegrationTests
         public void DwarfBite_StrikeMaterial()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
             var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
             var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
             var mat = dwarf.GetStrikeMaterial(move);
@@ -315,7 +326,7 @@ namespace Tiles.EngineIntegrationTests
         public void DwarfBite_StrikeMomentum()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
             var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
             var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
             var mom = dwarf.GetStrikeMomentum(move);
@@ -326,8 +337,8 @@ namespace Tiles.EngineIntegrationTests
         public void DwarfBite_MaxPenetration()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("bite"));
-            Assert.AreEqual(7, moveClass.MaxPenetration);
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
+            Assert.AreEqual(6, moveClass.MaxPenetration);
         }
 
         [TestMethod]
@@ -335,7 +346,7 @@ namespace Tiles.EngineIntegrationTests
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
 
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("scratch"));
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("scratch"));
             Assert.AreEqual(7, moveClass.ContactArea);
         }
 
@@ -347,7 +358,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
 
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("scratch"));
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("scratch"));
             var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
             var mom = dwarf.GetStrikeMomentum(move);
             Assert.AreEqual(17, (int) mom);
@@ -358,8 +369,8 @@ namespace Tiles.EngineIntegrationTests
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
 
-            var moveClass = dwarf.Body.Moves.Single(x => x.Name.Equals("scratch"));
-            Assert.AreEqual(26, moveClass.MaxPenetration);
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("scratch"));
+            Assert.AreEqual(25, moveClass.MaxPenetration);
         }
         [TestMethod]
         public void DwarfTotalBodyPartRelativeSize()
@@ -550,7 +561,7 @@ namespace Tiles.EngineIntegrationTests
         public void HumanBodyAttack_Punch_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
-            var punch = human.Body.Moves.Single(x => x.Name.Equals("punch"));
+            var punch = human.Body.Moves.First(x => x.Name.Equals("punch"));
             Assert.AreEqual(StressMode.Blunt, punch.StressMode);
 
             var parts = punch.GetRelatedBodyParts(human.Body);
@@ -567,7 +578,7 @@ namespace Tiles.EngineIntegrationTests
         public void HumanBodyAttack_Bite_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
-            var bite = human.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var bite = human.Body.Moves.First(x => x.Name.Equals("bite"));
             Assert.AreEqual(StressMode.Edge, bite.StressMode);
 
             var move = CombatMoveBuilder.BodyMove(human, human, bite, human.Body.Parts.First());
@@ -581,7 +592,7 @@ namespace Tiles.EngineIntegrationTests
         public void HumanBodyAttack_Scratch_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
-            var scratch = human.Body.Moves.Single(x => x.Name.Equals("scratch"));
+            var scratch = human.Body.Moves.First(x => x.Name.Equals("scratch"));
             Assert.AreEqual(StressMode.Edge, scratch.StressMode);
 
             var move = CombatMoveBuilder.BodyMove(human, human, scratch, human.Body.Parts.First());
@@ -610,7 +621,7 @@ namespace Tiles.EngineIntegrationTests
         public void HumanBodyAttack_Kick_Momentum()
         {
             var human = DfTagsFascade.CreateCreatureAgent(Atlas, "HUMAN", "MALE", Vector3.Zero);
-            var kick = human.Body.Moves.Single(x => x.Name.Equals("kick"));
+            var kick = human.Body.Moves.First(x => x.Name.Equals("kick"));
             Assert.AreEqual(StressMode.Blunt, kick.StressMode);
 
             var parts = kick.GetRelatedBodyParts(human.Body);
@@ -635,7 +646,7 @@ namespace Tiles.EngineIntegrationTests
         public void ParakeetBodyAttack_Scratch_ContactArea()
         {
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "BIRD_PARAKEET", "MALE", Vector3.Zero);
-            var moveClass = agent.Body.Moves.Single(x => x.Name.Equals("snatch at"));
+            var moveClass = agent.Body.Moves.First(x => x.Name.Equals("snatch at"));
             Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
             Assert.AreEqual(1, moveClass.ContactArea);
         }
@@ -645,11 +656,30 @@ namespace Tiles.EngineIntegrationTests
         public void ParakeetBodyAttack_Scratch_MaxPenetration()
         {
             var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "BIRD_PARAKEET", "MALE", Vector3.Zero);
-            var moveClass = agent.Body.Moves.Single(x => x.Name.Equals("snatch at"));
+            var moveClass = agent.Body.Moves.First(x => x.Name.Equals("snatch at"));
             Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
             Assert.AreEqual(1, moveClass.MaxPenetration);
         }
 
+        [TestMethod]
+        public void Unicorn_HornStabContactArea()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
+            var moveClass = agent.Body.Moves.First(x => x.Name.Equals("stab"));
+
+            Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
+            Assert.AreEqual(4, moveClass.ContactArea);
+        }
+
+        [TestMethod]
+        public void Unicorn_Moves()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
+            Assert.AreEqual(4, agent.Body.Moves.Count(x => x.Name.Equals("kick")));
+            Assert.AreEqual(1, agent.Body.Moves.Count(x => x.Name.Equals("stab")));
+            Assert.AreEqual(1, agent.Body.Moves.Count(x => x.Name.Equals("bite")));
+            Assert.AreEqual(6, agent.Body.Moves.Count());
+        }
 
         [TestMethod]
         public void Unicorn_SkinTissue_ImpactCostDent()

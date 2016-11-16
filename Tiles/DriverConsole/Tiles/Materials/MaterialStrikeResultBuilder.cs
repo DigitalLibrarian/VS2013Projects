@@ -122,17 +122,15 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
 
 
-            bool yieldOnly = false;
             bool bluntBypass = false;
 
-            double woundArea = 0;
+            double woundArea = 1d;
             double thresh = -1d;
             double resultMom = -1;
             double stress = (Momentum) * caRatio;
             bool defeated = false;
             bool partialPuncture = false;
             var msr = MaterialStressResult.None;
-            double totalUsed = 0;
             if (StressMode == Materials.StressMode.Edge)
             {
                 stress = Momentum / volDamaged;
@@ -164,29 +162,20 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 */
                 if (stress > dentCost)
                 {
-                    totalUsed = dentCost;
                     msr = MaterialStressResult.Shear_Dent;
                     // strain follows hooke's law here
-                    yieldOnly = true;
                     if (stress > cutCost)
                     {
-                        yieldOnly = false;
-                        totalUsed = cutCost;
                         msr = MaterialStressResult.Shear_Cut;
-                        // TODO - It looks like the attack is stopped unless at least 10% damage
-                        // is done here.....  I think that is what we were trying to get at
-                        // with woundRat
-                        var woundRat = (stress-cutCost) / (shearCost3 - cutCost);
-                        woundArea = contactArea * woundRat;
                         partialPuncture = true;
                         if ((stress > defeatCost)
                             && (StrikerContactArea >= StrickenContactArea
                             && RemainingPenetration >= LayerThickness)
                             )
                         {
+                            woundArea = contactArea;
                             msr = MaterialStressResult.Shear_CutThrough;
                             defeated = true;
-                            totalUsed = defeatCost;
                         }
                     }
                 }
@@ -208,7 +197,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
 
-                //stress = Momentum / contactArea;
                 var dentCost = (impactCost1);
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);
                 var defeatCost = cutCost + System.Math.Max(0, impactCost3);
@@ -235,7 +223,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
 
                 if (stress > dentCost)
                 {
-                    totalUsed = dentCost;
+                    woundArea = contactArea;
                     msr = MaterialStressResult.Impact_Dent;
                     if (bluntBypass)
                     {
@@ -243,16 +231,12 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     }
                     else
                     {
-                        yieldOnly = true;
                         if (stress > cutCost)
                         {
-                            yieldOnly = false;
-                            totalUsed = cutCost;
                             msr = MaterialStressResult.Impact_InitiateFracture;
                             if (stress > defeatCost)
                             {
                                 defeated = true;
-                                totalUsed = defeatCost;
                                 msr = MaterialStressResult.Impact_CompleteFracture;
                             }
                         }

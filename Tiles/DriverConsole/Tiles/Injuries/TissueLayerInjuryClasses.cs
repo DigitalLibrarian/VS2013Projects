@@ -68,31 +68,42 @@ namespace Tiles.Injuries
         {
             get 
             {
+                var gerund = "";
                 switch (StrikeResult.StressResult)
                 {
                     case MaterialStressResult.None:
-                        return "stopping at";
+                        gerund = "stopping at";
+                        break;
                     case MaterialStressResult.Impact_Dent:
-                        return IsVascular() ? "bruising" : "denting";
+                        gerund =  IsVascular() ? "bruising" : "denting";
+                        break;
                     case MaterialStressResult.Impact_Bypass:
-                        return IsVascular() ? "bruising" : "denting";
+                        gerund =  IsVascular() ? "bruising" : "denting";
+                        break;
                     case MaterialStressResult.Impact_InitiateFracture:
-                        if (IsChip()) return "chipping";
+                        if (IsChip()) gerund = "chipping";
                         else
                         {
-                            return IsSoft() ? "tearing" : "fracturing";
+                            gerund = IsSoft() ? "tearing" : "fracturing";
                         }
+                        break;
                     case MaterialStressResult.Impact_CompleteFracture:
-                        return IsSoft() ? "tearing apart" : "shattering";
+                        gerund = IsSoft() ? "tearing apart" : "shattering";
+                        break;
                     case MaterialStressResult.Shear_Dent:
-                        return "denting";
+                        gerund = "denting";
+                        break;
                     case MaterialStressResult.Shear_Cut:
-                        return IsSoft() ? "tearing" : "fracturing";
+                        gerund = IsSoft() ? "tearing" : "fracturing";
+                        break;
                     case MaterialStressResult.Shear_CutThrough:
-                        return IsSoft() ? "tearing apart" : "shattering";
+                        gerund = IsSoft() ? "tearing apart" : "shattering";
+                        break;
                     default:
                         throw new NotImplementedException();
                 }
+
+                return string.Format("{0} (ContactArea = {1}, WoundArea = {2})", gerund, StrikeResult.ContactArea, StrikeResult.WoundArea);
             }
         }
 
@@ -115,7 +126,8 @@ namespace Tiles.Injuries
 
         public bool IsChip()
         {
-            return StrikeResult.WoundArea <= BodyPart.GetContactArea() * 0.25d;
+            var maxCa = BodyPart.GetContactArea() * 0.25d;
+            return StrikeResult.WoundArea <= maxCa;
         }
 
         public DamageType DamageType

@@ -60,7 +60,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         public void Dwarf_Bite()
         {
             var agent = DfAgentFactory.Create("DWARF", "MALE");
-            var move = agent.Body.Moves.Single(x => x.Name.Equals("BITE"));
+            var move = agent.Body.Moves.First(x => x.Name.Equals("BITE"));
             Assert.AreEqual(1, move.Requirements.Count());
             Assert.AreEqual(2, move.Requirements.First().Constraints.Count());
             var con = move.Requirements.First().Constraints.ElementAt(0);
@@ -72,7 +72,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsTrue(new string[] { "TOOTH" }.SequenceEqual(con.Tokens));
 
             Assert.AreEqual(3, move.ContactArea);
-            Assert.AreEqual(7, move.MaxPenetration);
+            Assert.AreEqual(6, move.MaxPenetration);
         }
 
 
@@ -82,9 +82,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var agent = DfAgentFactory.Create("DWARF", "MALE");
             Assert.IsNotNull(agent);
 
-            var move = agent.Body.Moves.Single(x => x.Name.Equals("KICK"));
+            var move = agent.Body.Moves.First(x => x.Name.Equals("KICK"));
             Assert.AreEqual(25, move.ContactArea);
-            Assert.AreEqual(130, move.MaxPenetration);
+            Assert.AreEqual(129, move.MaxPenetration);
         }
 
         [TestMethod]
@@ -130,11 +130,11 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             
             Assert.IsTrue(leftHand.Types.SequenceEqual(new string[] { "GRASP", "LEFT" }));
 
-            Assert.AreEqual(4, agent.Body.Moves.Count());
+            Assert.AreEqual(7, agent.Body.Moves.Count());
             var moves = agent.Body.Moves;
-            var punch = moves.Single(x => x.Name.Equals("PUNCH"));
+            var punch = moves.First(x => x.Name.Equals("PUNCH"));
             Assert.AreEqual(19, punch.ContactArea);
-            Assert.AreEqual(87, punch.MaxPenetration);
+            Assert.AreEqual(86, punch.MaxPenetration);
             Assert.AreEqual(3, punch.PrepTime);
             Assert.AreEqual(3, punch.RecoveryTime);
             Assert.AreEqual("punch", punch.Verb.SecondPerson);
@@ -145,12 +145,10 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var constraint = req.Constraints.First();
             Assert.AreEqual(BprConstraintType.ByType, constraint.ConstraintType);
             Assert.IsTrue(constraint.Tokens.SequenceEqual(new string[] { "GRASP" }));
-            
-            var kick = moves.Single(x => x.Name.Equals("KICK"));
 
-            var scratch = moves.Single(x => x.Name.Equals("SCRATCH"));
-            //Assert.AreEqual(1604, scratch.ContactArea);
-            //Assert.AreEqual(1604, scratch.MaxPenetration);
+            var kick = moves.First(x => x.Name.Equals("KICK"));
+
+            var scratch = moves.First(x => x.Name.Equals("SCRATCH"));
 
             Assert.AreEqual(1, scratch.Requirements.Count);
             req = scratch.Requirements.First();
@@ -164,8 +162,6 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
 
             var bite = moves.Single(x => x.Name.Equals("BITE"));
-            //Assert.AreEqual(401, bite.ContactArea);
-            //Assert.AreEqual(401, bite.MaxPenetration);
 
             Assert.AreEqual(1, bite.Requirements.Count);
             req = bite.Requirements.First();
@@ -280,9 +276,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var agent = DfAgentFactory.Create("HUMAN");
             Assert.IsNotNull(agent);
 
-            var punch = agent.Body.Moves.Single(x => x.Name.Equals("PUNCH"));
+            var punch = agent.Body.Moves.First(x => x.Name.Equals("PUNCH"));
             Assert.AreEqual(21, punch.ContactArea);
-            Assert.AreEqual(101, punch.MaxPenetration);
+            Assert.AreEqual(100, punch.MaxPenetration);
         }
 
         [TestMethod]

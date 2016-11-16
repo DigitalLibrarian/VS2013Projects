@@ -398,20 +398,234 @@ namespace Tiles.Content.Bridge.DfNet
                 var t = IsReqMatch(attack, body, part);
                 if(t.Any())
                 {
-                    return t;
+                    foreach (var bp in t) 
+                    {
+                        yield return bp;
+                    }
                 }
             }
-            return Enumerable.Empty<BodyPart>();
         }
 
 
-        CombatMove CreateBodyCombatMove(DfBodyAttack attack, Body body)
+        IEnumerable<CombatMove> CreateBodyCombatMove(DfBodyAttack attack, Body body)
         {
             var bodySize = body.Size;
             int totalBpRelSize = body.Parts
                 .Where(x => !x.IsInternal && !x.IsEmbedded)
                 .Select(x => x.RelativeSize).Sum();
 
+            BaConstraint firstConstraint;
+            List<BodyPart> principalParts;
+            switch (attack.RequirementType)
+            {
+                case BodyPartRequirementType.BodyPart:
+                    // only one combat move per part match
+                    var parts = FindAttackParts(attack, body);
+                    foreach (var part in parts)
+                    {
+                        double totalContactArea = 0;
+                        double totalPartSize = 0;
+                        double maxLength = 1;
+                        GetAttackProps(attack, part, totalBpRelSize, out maxLength, out totalPartSize, out totalContactArea);
+                        var contactRatio = (double)attack.ContactPercent / 100d;
+                        var contactArea = totalContactArea * contactRatio;
+                        var maxPen = (int)(((double)attack.PenetrationPercent / 100d) * maxLength);
+
+                        var combatMove =
+                            new CombatMove
+                            {
+                                Name = attack.ReferenceName,
+                                Verb = attack.Verb,
+                                PrepTime = attack.PrepTime,
+                                RecoveryTime = attack.RecoveryTime,
+                                IsDefenderPartSpecific = true,
+                                IsStrike = true,
+                                IsMartialArts = true,
+                                ContactType = attack.ContactType,
+                                ContactArea = System.Math.Max(1, (int)contactArea),
+                                MaxPenetration = System.Math.Max(1, (int)maxPen),
+                                VelocityMultiplier = 1000,
+                            };
+
+                        combatMove.Requirements.Add(new BodyPartRequirement
+                        {
+                            Type = attack.RequirementType,
+                            Constraints = attack.Constraints.Select(a => new BprConstraint
+                            {
+                                ConstraintType = (BprConstraintType)(int)a.ConstraintType,
+                                Tokens = a.Tokens.ToList()
+                            }).ToList()
+                        });
+                        yield return combatMove;
+                    }
+                    break;
+                case BodyPartRequirementType.ChildBodyPartGroup:
+                    // the first constraint identifies a set of parts.  moves should one-to-one with this set
+                    firstConstraint = attack.Constraints.First();
+                    principalParts = new List<BodyPart>();
+                    switch (firstConstraint.ConstraintType)
+                    {
+                        case BaConstraintType.ByType:
+                            foreach (var part in body.Parts)
+                            {
+                                if (firstConstraint.Tokens.All(part.Types.Contains))
+                                {
+                                    principalParts.Add(part);
+                                }
+                            }
+                            break;
+                        case BaConstraintType.ByCategory:
+                            foreach (var part in body.Parts)
+                            {
+                                if (firstConstraint.Tokens.All(part.Categories.Contains))
+                                {
+                                    principalParts.Add(part);
+                                }
+                            }
+                            break;
+                    }
+
+                    foreach (var part in principalParts)
+                    {
+                        double totalContactArea = 0;
+                        double totalPartSize = 0;
+                        double maxLength = 0;
+
+                        var subParts = IsReqMatch(attack, body, part);
+                        foreach (var subPart in subParts)
+                        {
+                            double partCa = 0;
+                            double partSize = 0;
+                            double partLength = 0;
+                            GetAttackProps(attack, subPart, totalBpRelSize, out partLength, out partSize, out partCa);
+                            totalContactArea += partCa;
+                            totalPartSize += partSize;
+                            maxLength += partLength;
+                        }
+
+                        totalContactArea /= 2d;
+                        totalPartSize /= 2d;
+                        //maxLength /= 2d;
+                        var contactRatio = (double)attack.ContactPercent / 100d;
+                        var contactArea = totalContactArea * contactRatio;
+                        var maxPen = (int)(((double)attack.PenetrationPercent / 100d) * maxLength);
+
+                        var combatMove =
+                            new CombatMove
+                            {
+                                Name = attack.ReferenceName,
+                                Verb = attack.Verb,
+                                PrepTime = attack.PrepTime,
+                                RecoveryTime = attack.RecoveryTime,
+                                IsDefenderPartSpecific = true,
+                                IsStrike = true,
+                                IsMartialArts = true,
+                                ContactType = attack.ContactType,
+                                ContactArea = System.Math.Max(1, (int)contactArea),
+                                MaxPenetration = System.Math.Max(1, (int)maxPen),
+                                VelocityMultiplier = 1000,
+                            };
+
+                        combatMove.Requirements.Add(new BodyPartRequirement
+                        {
+                            Type = attack.RequirementType,
+                            Constraints = attack.Constraints.Select(a => new BprConstraint
+                            {
+                                ConstraintType = (BprConstraintType)(int)a.ConstraintType,
+                                Tokens = a.Tokens.ToList()
+                            }).ToList()
+                        });
+                        yield return combatMove;
+                    }
+                    break;
+                case BodyPartRequirementType.ChildTissueLayerGroup:
+
+                    if (attack.Verb.SecondPerson.Equals("scratch"))
+                    {
+                        int br = 0;
+                    }
+                    // the first constraint identifies a set of parts.  moves should one-to-one with this set
+                    firstConstraint = attack.Constraints.First();
+                    principalParts = new List<BodyPart>();
+                    switch (firstConstraint.ConstraintType)
+                    {
+                        case BaConstraintType.ByType:
+                            foreach (var part in body.Parts)
+                            {
+                                if (firstConstraint.Tokens.All(part.Types.Contains))
+                                {
+                                    principalParts.Add(part);
+                                }
+                            }
+                            break;
+                        case BaConstraintType.ByCategory:
+                            foreach (var part in body.Parts)
+                            {
+                                if (firstConstraint.Tokens.All(part.Categories.Contains))
+                                {
+                                    principalParts.Add(part);
+                                }
+                            }
+                            break;
+                    }
+
+                    foreach (var part in principalParts)
+                    {
+                        double totalContactArea = 0;
+                        double totalPartSize = 0;
+                        double maxLength = 0;
+
+                        var subParts = IsReqMatch(attack, body, part);
+                        foreach (var subPart in subParts)
+                        {
+                            double partCa = 0;
+                            double partSize = 0;
+                            double partLength = 0;
+                            GetAttackProps(attack, subPart, totalBpRelSize, out partLength, out partSize, out partCa);
+                            totalContactArea += partCa;
+                            totalPartSize += partSize;
+                            maxLength += partLength;
+                        }
+
+
+                        totalContactArea /= 2d;
+                        totalPartSize /= 2d;
+                        //maxLength /= 2d;
+                        var contactRatio = (double)attack.ContactPercent / 100d;
+                        var contactArea = totalContactArea * contactRatio;
+                        var maxPen = (int)(((double)attack.PenetrationPercent / 100d) * maxLength);
+
+                        var combatMove =
+                            new CombatMove
+                            {
+                                Name = attack.ReferenceName,
+                                Verb = attack.Verb,
+                                PrepTime = attack.PrepTime,
+                                RecoveryTime = attack.RecoveryTime,
+                                IsDefenderPartSpecific = true,
+                                IsStrike = true,
+                                IsMartialArts = true,
+                                ContactType = attack.ContactType,
+                                ContactArea = System.Math.Max(1, (int)contactArea),
+                                MaxPenetration = System.Math.Max(1, (int)maxPen),
+                                VelocityMultiplier = 1000,
+                            };
+
+                        combatMove.Requirements.Add(new BodyPartRequirement
+                        {
+                            Type = attack.RequirementType,
+                            Constraints = attack.Constraints.Select(a => new BprConstraint
+                            {
+                                ConstraintType = (BprConstraintType)(int)a.ConstraintType,
+                                Tokens = a.Tokens.ToList()
+                            }).ToList()
+                        });
+                        yield return combatMove;
+                    }
+                    break;
+            }
+
+            /*
             var parts = FindAttackParts(attack, body);
             if (!parts.Any())
             {
@@ -470,12 +684,29 @@ namespace Tiles.Content.Bridge.DfNet
                     Tokens = a.Tokens.ToList()
                 }).ToList()
             });
+             
             return combatMove;
+             * */
+        }
+
+        void GetAttackProps(DfBodyAttack attack, BodyPart part, int totalBpRelSize, out double maxLength, out double totalPartSize, out double totalContactArea)
+        {
+            maxLength = 0;
+            totalPartSize = 0;
+            totalContactArea = 0;
+            double partRatio = ((double)part.RelativeSize / totalBpRelSize);
+            var partSize = (partRatio * Size);
+            var partLength = System.Math.Pow(partSize, 0.3333d);
+            var bpContactArea = System.Math.Pow((partSize), 0.666d);
+            
+            maxLength += partSize;
+            totalPartSize += partSize;
+            totalContactArea += bpContactArea;
         }
 
         void SetMoves(Body body)
         {
-            body.Moves = BodyAttacks.Select(attack => CreateBodyCombatMove(attack, body)).ToList();
+            body.Moves = BodyAttacks.SelectMany(attack => CreateBodyCombatMove(attack, body)).ToList();
         }
 
         public Agent Build()

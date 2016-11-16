@@ -60,6 +60,10 @@ namespace Tiles.EngineIntegrationTests
         }
 
 
+        protected IAgent CreateAgent(string name, string caste)
+        {
+            return CreateAgent(name, caste, Vector3.Zero);
+        }
         protected IAgent CreateAgent(string name, string caste, Vector3 pos)
         {
             return DfTagsFascade.CreateCreatureAgent(Atlas, name, caste, pos);
