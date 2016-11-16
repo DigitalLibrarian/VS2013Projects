@@ -505,7 +505,6 @@ namespace Tiles.Content.Bridge.DfNet
 
                         totalContactArea /= 2d;
                         totalPartSize /= 2d;
-                        //maxLength /= 2d;
                         var contactRatio = (double)attack.ContactPercent / 100d;
                         var contactArea = totalContactArea * contactRatio;
                         var maxPen = (int)(((double)attack.PenetrationPercent / 100d) * maxLength);
@@ -540,10 +539,6 @@ namespace Tiles.Content.Bridge.DfNet
                     break;
                 case BodyPartRequirementType.ChildTissueLayerGroup:
 
-                    if (attack.Verb.SecondPerson.Equals("scratch"))
-                    {
-                        int br = 0;
-                    }
                     // the first constraint identifies a set of parts.  moves should one-to-one with this set
                     firstConstraint = attack.Constraints.First();
                     principalParts = new List<BodyPart>();

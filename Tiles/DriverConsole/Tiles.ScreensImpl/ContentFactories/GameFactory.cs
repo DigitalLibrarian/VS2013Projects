@@ -112,7 +112,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         private IPlayer CreatePlayer(IRandom random, IEntityManager entityManager, IAtlas atlas, Vector3 spawnPos)
         {
-            var agentClass = Df.CreateCreatureAgentClass(atlas, "DWARF", "MALE", spawnPos);
+            var agentClass = Df.CreateCreatureAgentClass(atlas, "UNICORN", "MALE", spawnPos);
             return new HardCodedAgentFactory(entityManager, random).CreatePlayer(atlas, agentClass, spawnPos);
         }
 

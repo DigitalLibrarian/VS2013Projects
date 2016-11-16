@@ -94,7 +94,18 @@ namespace Tiles.Injuries
                         gerund = "denting";
                         break;
                     case MaterialStressResult.Shear_Cut:
-                        gerund = IsSoft() ? "tearing" : "fracturing";
+                        if (!IsSoft())
+                        {
+                            if (IsChip()) gerund = "chipping";
+                            else
+                            {
+                                gerund = "fracturing";
+                            }
+                        }
+                        else
+                        {
+                            gerund = "tearing";
+                        }
                         break;
                     case MaterialStressResult.Shear_CutThrough:
                         gerund = IsSoft() ? "tearing apart" : "shattering";
