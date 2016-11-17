@@ -59,7 +59,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                 DfTags.MiscTags.ITEM_WEAPON_SPEAR,
                 DfTags.MiscTags.ITEM_WEAPON_HAMMER_WAR,
                 DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE,
-                DfTags.MiscTags.ITEM_WEAPON_WHIP
+                DfTags.MiscTags.ITEM_WEAPON_WHIP,
+                DfTags.MiscTags.ITEM_WEAPON_PICK
             };
             List<IItem> invItems = new List<IItem>();
             foreach (var weaponType in weaponTypes)
@@ -112,7 +113,7 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         private IPlayer CreatePlayer(IRandom random, IEntityManager entityManager, IAtlas atlas, Vector3 spawnPos)
         {
-            var agentClass = Df.CreateCreatureAgentClass(atlas, "UNICORN", "MALE", spawnPos);
+            var agentClass = Df.CreateCreatureAgentClass(atlas, "DWARF", "MALE", spawnPos);
             return new HardCodedAgentFactory(entityManager, random).CreatePlayer(atlas, agentClass, spawnPos);
         }
 

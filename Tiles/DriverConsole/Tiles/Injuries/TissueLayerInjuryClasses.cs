@@ -114,7 +114,8 @@ namespace Tiles.Injuries
                         throw new NotImplementedException();
                 }
 
-                return string.Format("{0} (ContactArea = {1}, WoundArea = {2})", gerund, StrikeResult.ContactArea, StrikeResult.WoundArea);
+                return gerund;
+                //return string.Format("{0} (ContactArea = {1}, WoundArea = {2})", gerund, StrikeResult.ContactArea, StrikeResult.WoundArea);
             }
         }
 

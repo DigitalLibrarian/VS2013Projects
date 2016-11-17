@@ -43,7 +43,7 @@ namespace Tiles.Injuries
         public string GetPhrase()
         {
             /*
-            return string.Format("{0}(Mode={6}, Mom={7}, Stress={2}, ContactArea={8}, WoundArea={9}, ResultMom={13}, RemPen={14}, Sharp={16}) the {1}(ShearCost1={3}, ShearCost2={4}, ShearCost3={5}, ImpactCost1={10}, ImpactCost2={11}, ImpactCost3={12}, Thick={15}) ", 
+            return string.Format("*{0}*(Mode={6}, Mom={7}, Stress={2}, ContactArea={8}, WoundArea={9}, ResultMom={13}, RemPen={14}, Sharp={16}) the {1}(ShearCost1={3}, ShearCost2={4}, ShearCost3={5}, ImpactCost1={10}, ImpactCost2={11}, ImpactCost3={12}, Thick={15}) ", 
                 Class.Gerund, 
                 Layer.Class.Material.Name, 
                 StrikeResult.Stress,
