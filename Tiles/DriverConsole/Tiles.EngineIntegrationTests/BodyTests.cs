@@ -92,6 +92,89 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_SkullAroundBrain()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var skull = dwarf.Body.Parts.First(x => x.Name.Equals("skull"));
+            var brain = dwarf.Body.Parts.First(x => x.Name.Equals("brain"));
+
+            Assert.AreEqual(1, skull.Class.BodyPartRelations.Count());
+            var aroundSkull = dwarf.Body.GetRelations(skull, BodyPartRelationType.Around);
+            var cleansSkull = dwarf.Body.GetRelations(skull, BodyPartRelationType.Cleans);
+
+            Assert.AreEqual(1, aroundSkull.Count());
+            Assert.AreSame(brain, aroundSkull.Single().Key);
+            Assert.AreEqual(100, aroundSkull.Single().Value);
+
+            Assert.AreEqual(0, cleansSkull.Count());
+
+            Assert.AreEqual(0, dwarf.Body.GetRelations(brain, BodyPartRelationType.Around).Count());
+            Assert.AreEqual(0, dwarf.Body.GetRelations(brain, BodyPartRelationType.Cleans).Count());
+        }
+
+        [TestMethod]
+        public void Dwarf_AroundTrueRib()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var trueRibs = dwarf.Body.Parts.Where(p => p.Class.Categories.Contains("RIB_TRUE"));
+            var heart = dwarf.Body.Parts.First(x => x.Name.Equals("heart"));
+            var lungs = dwarf.Body.Parts.Where(x => x.Class.Categories.Contains("LUNG"));
+            Assert.AreEqual(2, lungs.Count());
+            Assert.AreEqual(2, trueRibs.Count());
+            foreach (var rib in trueRibs)
+            {
+                var around = dwarf.Body.GetRelations(rib, BodyPartRelationType.Around);
+                Assert.AreEqual(3, around.Count());
+                Assert.IsTrue(around.ContainsKey(heart));
+                Assert.AreEqual(5, around[heart]);
+
+                foreach (var lung in lungs)
+                {
+                    Assert.IsTrue(around.ContainsKey(lung));
+                    Assert.AreEqual(5, around[lung]);
+                }
+
+                var cleans = dwarf.Body.GetRelations(rib, BodyPartRelationType.Cleans);
+                Assert.AreEqual(0, cleans.Count());
+            }
+        }
+
+        [TestMethod]
+        public void Dwarf_EyelidCleansEye()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var rEyeLid = dwarf.Body.Parts.Single(x => x.Class.TokenId.Equals("R_EYELID"));
+            var rEye = dwarf.Body.Parts.Single(x => x.Class.TokenId.Equals("REYE"));
+            var lEyeLid = dwarf.Body.Parts.Single(x => x.Class.TokenId.Equals("L_EYELID"));
+            var lEye = dwarf.Body.Parts.Single(x => x.Class.TokenId.Equals("LEYE"));
+
+            Assert.AreEqual(2, rEyeLid.Class.BodyPartRelations.Count());
+            Assert.AreEqual(0, rEye.Class.BodyPartRelations.Count());
+            Assert.AreEqual(2, lEyeLid.Class.BodyPartRelations.Count());
+            Assert.AreEqual(0, lEye.Class.BodyPartRelations.Count());
+
+            var relations = dwarf.Body.GetRelations(rEyeLid, BodyPartRelationType.Around);
+            Assert.AreEqual(1, relations.Count());
+            Assert.IsTrue(relations.ContainsKey(rEye));
+            Assert.AreEqual(50, relations[rEye]);
+
+            relations = dwarf.Body.GetRelations(lEyeLid, BodyPartRelationType.Around);
+            Assert.AreEqual(1, relations.Count());
+            Assert.IsTrue(relations.ContainsKey(lEye));
+            Assert.AreEqual(50, relations[lEye]);
+
+            relations = dwarf.Body.GetRelations(rEyeLid, BodyPartRelationType.Cleans);
+            Assert.AreEqual(1, relations.Count());
+            Assert.IsTrue(relations.ContainsKey(rEye));
+            Assert.AreEqual(100, relations[rEye]);
+
+            relations = dwarf.Body.GetRelations(lEyeLid, BodyPartRelationType.Cleans);
+            Assert.AreEqual(1, relations.Count());
+            Assert.IsTrue(relations.ContainsKey(lEye));
+            Assert.AreEqual(100, relations[lEye]);
+        }
+
+        [TestMethod]
         public void DwarfRightUpperArm()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);

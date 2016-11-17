@@ -11,6 +11,7 @@ namespace Tiles.Bodies
     public class BodyPartClass : IBodyPartClass
     {
         public string Name { get; set; }
+        public string TokenId { get; set; }
 
         public IBodyPartClass Parent { get; set; }
         public ITissueClass Tissue { get; set; }
@@ -39,9 +40,12 @@ namespace Tiles.Bodies
         public bool IsInternal { get; set; }
         public bool IsSmall { get; set; }
         public bool IsEmbedded { get; set; }
-        
+
+        public IEnumerable<IBodyPartRelation> BodyPartRelations { get; set; }
+
         public BodyPartClass(
             string name, 
+            string tokenId,
             ITissueClass tissueClass, 
             ArmorSlot armorSlotType, WeaponSlot weaponSlotType, 
             IEnumerable<string> categories,
@@ -56,9 +60,11 @@ namespace Tiles.Bodies
             bool isInternal = false,
             bool isSmall = false,
             bool isEmbedded = false,
-            IBodyPartClass parent = null)
+            IBodyPartClass parent = null,
+            IEnumerable<IBodyPartRelation> relations = null)
         {
             Name = name;
+            TokenId = tokenId;
             ArmorSlot = armorSlotType;
             WeaponSlot = weaponSlotType;
             Categories = categories;
@@ -81,6 +87,12 @@ namespace Tiles.Bodies
             IsInternal = isInternal;
             IsSmall = isSmall;
             IsEmbedded = isEmbedded;
+            if (relations == null)
+            {
+                BodyPartRelations = Enumerable.Empty<IBodyPartRelation>();
+            }else{
+                BodyPartRelations = relations;
+            }
         }
 
 

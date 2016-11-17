@@ -164,6 +164,7 @@ namespace Tiles.Content.Map
             {
                 if (part.Parent != null)
                 {
+                    // urgly
                     partMap[part].Parent = partMap[part.Parent];
                 }
             }
@@ -184,7 +185,8 @@ namespace Tiles.Content.Map
         EngineBodies.BodyPartClass Map(ContentModel.BodyPart bodyPart)
         {
             return new EngineBodies.BodyPartClass(
-                name: bodyPart.NameSingular, 
+                name: bodyPart.NameSingular,
+                tokenId: bodyPart.TokenId,
                 tissueClass: Map(bodyPart.Tissue), 
                 armorSlotType: Map(bodyPart.ArmorSlot), 
                 weaponSlotType: Map(bodyPart.WeaponSlot), 
@@ -203,8 +205,30 @@ namespace Tiles.Content.Map
                 isStance: bodyPart.IsStance,
                 isInternal: bodyPart.IsInternal,
                 isSmall: bodyPart.IsSmall,
-                isEmbedded: bodyPart.IsEmbedded
+                isEmbedded: bodyPart.IsEmbedded,
+                relations: bodyPart.BodyPartRelations.Select(x => Map(x))
                 );
+        }
+
+        EngineBodies.BodyPartRelationStrategy Map(ContentModel.BodyPartRelationStrategy s)
+        {
+            return (EngineBodies.BodyPartRelationStrategy)(int)s;
+        }
+
+        EngineBodies.BodyPartRelationType Map(ContentModel.BodyPartRelationType t)
+        {
+            return (EngineBodies.BodyPartRelationType)(int)t;
+        }
+
+        EngineBodies.IBodyPartRelation Map(ContentModel.BodyPartRelation rel)
+        {
+            return new EngineBodies.BodyPartRelation
+            {
+                Type = Map(rel.Type),
+                Strategy = Map(rel.Strategy),
+                StrategyParam = rel.StrategyParam,
+                Weight = rel.Weight
+            };
         }
 
         EngineBodies.ITissueClass Map(ContentModel.Tissue tissue)

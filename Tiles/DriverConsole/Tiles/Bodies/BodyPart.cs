@@ -46,6 +46,8 @@ namespace Tiles.Bodies
 
         public IDamageVector Damage { get; private set; }
 
+        public ICollection<IBodyPartRelation> BodyPartRelations { get; private set; }
+
         public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, double size, IBodyPart parent) 
         {
             Class = bodyPartClass;
@@ -53,6 +55,7 @@ namespace Tiles.Bodies
             Size = size;
             Parent = parent;
             Damage = new DamageVector();
+            BodyPartRelations = new List<IBodyPartRelation>();
         }
 
         public BodyPart(IBodyPartClass bodyPartClass, ITissue tissue, double size) 

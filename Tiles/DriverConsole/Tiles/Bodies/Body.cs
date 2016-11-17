@@ -64,6 +64,32 @@ namespace Tiles.Bodies
             return Attributes[name];
         }
         public IEnumerable<string> AttributeNames { get { return Attributes.Keys; } }
-    
+
+        public IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type)
+        {
+            var d = new Dictionary<IBodyPart, int>();
+            foreach (var bpRel in target.Class.BodyPartRelations.Where(r => r.Type == type))
+            {
+                foreach (var relatedPart in BpRelationQuery(bpRel.Strategy, bpRel.StrategyParam))
+                {
+                    d.Add(relatedPart, bpRel.Weight);
+                }
+            }
+            return d;
+        }
+        
+        private IEnumerable<IBodyPart> BpRelationQuery(BodyPartRelationStrategy strategy, string param)
+        {
+            switch (strategy)
+            {
+                case BodyPartRelationStrategy.ByToken:
+                    return Parts.Where(x => x.Class.TokenId.Equals(param));
+
+                case BodyPartRelationStrategy.ByCategory:
+                    return Parts.Where(x => x.Class.Categories.Contains(param));
+            }
+
+            return Enumerable.Empty<IBodyPart>();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Tiles.Bodies
     public interface IBodyPartClass
     {
         IBodyPartClass Parent { get; }
+        string TokenId { get; }
         string Name { get; }
         int RelativeSize { get; }
 
@@ -21,8 +22,7 @@ namespace Tiles.Bodies
         bool CanGrasp { get; }
 
         ITissueClass Tissue { get; }
-
-
+        
         bool IsNervous { get; }
         bool IsCirculatory { get; }
         bool IsSkeletal { get;}
@@ -39,5 +39,6 @@ namespace Tiles.Bodies
 
         IEnumerable<string> Categories { get; }
         IEnumerable<string> Types { get; }
+        IEnumerable<IBodyPartRelation> BodyPartRelations { get; set; }
     }
 }

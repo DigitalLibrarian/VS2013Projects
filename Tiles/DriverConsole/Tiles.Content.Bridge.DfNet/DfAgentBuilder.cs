@@ -21,6 +21,8 @@ namespace Tiles.Content.Bridge.DfNet
 
         Dictionary<string, DfTissueTemplate> MatNameToTT { get; set; }
 
+        List<BpRelationDefn> BpRelationDefns { get; set; }
+
         string Name { get; set; }
         int Symbol { get; set; }
 
@@ -42,6 +44,8 @@ namespace Tiles.Content.Bridge.DfNet
             Attributes = new List<DfAttributeRange>();
 
             MatNameToTT = new Dictionary<string, DfTissueTemplate>();
+
+            BpRelationDefns = new List<BpRelationDefn>();
         }
 
         #region Lookups
@@ -298,6 +302,7 @@ namespace Tiles.Content.Bridge.DfNet
             {
                 Parent = parent,
                 Tissue = tissue,
+                TokenId = defn.Name,
                 NameSingular = defn.Tags.First().GetParam(1),
                 NamePlural = defn.Tags.First().GetParam(2),
                 CanGrasp = defn.Tags.Any(t => t.IsSingleWord(DfTags.MiscTags.GRASP)),
@@ -322,7 +327,8 @@ namespace Tiles.Content.Bridge.DfNet
                 IsSmall = singleWords.Contains("SMALL"),
                 IsEmbedded = singleWords.Contains("EMBEDDED"),
                 RelativeSize = GetBpSize(defn.Name),
-                WeaponSlot = GetBodyPartCategories(defn).Contains("HAND") ? WeaponSlot.Main : WeaponSlot.None
+                WeaponSlot = GetBodyPartCategories(defn).Contains("HAND") ? WeaponSlot.Main : WeaponSlot.None,
+                BodyPartRelations = new List<BodyPartRelation>()
                 
             };
             return part;
@@ -619,69 +625,6 @@ namespace Tiles.Content.Bridge.DfNet
                     }
                     break;
             }
-
-            /*
-            var parts = FindAttackParts(attack, body);
-            if (!parts.Any())
-            {
-                throw new InvalidOperationException(string.Format("Could not find part for body attack {0}", attack.ReferenceName));
-            }
-
-            double totalContactArea = 0;
-            double totalPartSize = 0;
-            double maxLength = 1;
-
-            foreach (var part in parts)
-            {
-                double partRatio = ((double)part.RelativeSize / totalBpRelSize);
-                var partSize = (partRatio * Size);
-                var partLength = System.Math.Pow(partSize, 0.3333d);
-                var bpContactArea = System.Math.Pow((partSize), 0.666d);
-                // I think df cheats for teeth so the contact area is low enough 
-                // to penetrate
-                maxLength += partSize;
-                if (part.Types.Contains("SOCKET")
-                    || part.Types.Contains("SMALL"))
-                {
-                    partSize /= 2d;
-                    bpContactArea /= 2d;
-                }
-                totalPartSize += partSize;
-                totalContactArea += bpContactArea;
-            }
-
-            var contactRatio = (double)attack.ContactPercent / 100d;
-            var contactArea = totalContactArea * contactRatio;
-            var maxPen = (int)(((double)attack.PenetrationPercent/100d) * maxLength);
-
-            var combatMove =
-                new CombatMove
-                {
-                    Name = attack.ReferenceName,
-                    Verb = attack.Verb,
-                    PrepTime = attack.PrepTime,
-                    RecoveryTime = attack.RecoveryTime,
-                    IsDefenderPartSpecific = true,
-                    IsStrike = true,
-                    IsMartialArts = true,
-                    ContactType = attack.ContactType,
-                    ContactArea = System.Math.Max(1, (int) contactArea),
-                    MaxPenetration = System.Math.Max(1, (int) maxPen),
-                    VelocityMultiplier = 1000,
-                };
-
-            combatMove.Requirements.Add(new BodyPartRequirement
-            {
-                Type = attack.RequirementType,
-                Constraints = attack.Constraints.Select(a => new BprConstraint
-                {
-                    ConstraintType = (BprConstraintType)(int) a.ConstraintType,
-                    Tokens = a.Tokens.ToList()
-                }).ToList()
-            });
-             
-            return combatMove;
-             * */
         }
 
         void GetAttackProps(DfBodyAttack attack, BodyPart part, int totalBpRelSize, out double maxLength, out double totalPartSize, out double totalContactArea)
@@ -735,6 +678,22 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             }
 
+            foreach (var bpRelationDefn in BpRelationDefns)
+            {
+                var targetParts = BpRelationQuery(bpRelationDefn.TargetStrategy, bpRelationDefn.TargetStrategyParam, parts, partToDef);
+                foreach (var target in targetParts)
+                {
+                    var bpRelation = new BodyPartRelation
+                    {
+                        Type = bpRelationDefn.RelationType,
+                        Strategy = bpRelationDefn.RelatedPartStrategy,
+                        StrategyParam = bpRelationDefn.RelatedPartStrategyParam,
+                        Weight = bpRelationDefn.Weight
+                    };
+
+                    target.BodyPartRelations.Add(bpRelation);
+                }
+            }
             
             var sprite = new Sprite(Symbol, Foreground, Background);
 
@@ -774,8 +733,26 @@ namespace Tiles.Content.Bridge.DfNet
             return agent;
         }
 
+        private IEnumerable<BodyPart> BpRelationQuery(BodyPartRelationStrategy strategy, string param, List<BodyPart> parts, Dictionary<BodyPart,DfObject> partToDef)
+        {
+            switch (strategy)
+            {
+                case BodyPartRelationStrategy.ByToken:
+                    return parts.Where(x =>
+                    {
+                        var defn = partToDef[x];
+                        return defn.Name.Equals(param);
+                    });
+
+                case BodyPartRelationStrategy.ByCategory:
+                    return parts.Where(x => x.Categories.Contains(param));
+                default:
+                    throw new InvalidOperationException(string.Format("Unknown BpRelation part lookup strategy: '{0}'", strategy));
+            }
 
 
+        }
+        
         public void SetName(string singular, string plural)
         {
             Name = singular;
@@ -817,6 +794,47 @@ namespace Tiles.Content.Bridge.DfNet
         public void AddAttribute(DfAttributeRange ar)
         {
             Attributes.Add(ar);
+        }
+
+
+        public void AddBodyPartRelation(string targetStrategy, string targetStrategyParam, BodyPartRelationType relType, string relatedPartStrategy, string relatedPartStrategyParam, int weight)
+        {
+
+
+            BpRelationDefns.Add(
+                new BpRelationDefn
+                {
+                    TargetStrategy = Parse(targetStrategy),
+                    TargetStrategyParam = targetStrategyParam,
+                    RelationType = relType, 
+                    RelatedPartStrategy = Parse(relatedPartStrategy),
+                    RelatedPartStrategyParam = relatedPartStrategyParam,
+                    Weight = weight
+                }
+                );
+        }
+
+        BodyPartRelationStrategy Parse(string strat)
+        {
+            switch (strat)
+            {
+                case "BY_TOKEN":
+                    return BodyPartRelationStrategy.ByToken;
+                case "BY_CATEGORY":
+                    return BodyPartRelationStrategy.ByCategory;
+                default:
+                    throw new InvalidOperationException(string.Format("Unknown BpRelation part lookup strategy: '{0}'", strat));
+            }
+        }
+
+        class BpRelationDefn
+        {
+            public BodyPartRelationStrategy TargetStrategy { get; set; }
+            public string TargetStrategyParam { get; set; }
+            public BodyPartRelationType RelationType { get; set; }
+            public BodyPartRelationStrategy RelatedPartStrategy { get; set; }
+            public string RelatedPartStrategyParam { get; set; }
+            public int Weight { get; set; }
         }
     }
 }

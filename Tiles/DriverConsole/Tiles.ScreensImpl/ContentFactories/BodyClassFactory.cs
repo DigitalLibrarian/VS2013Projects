@@ -25,45 +25,45 @@ namespace Tiles.ScreensImpl.ContentFactories
         Dictionary<string, BodyPartClass> Human(ITissueClass tissueClass)
         {
             var torso = new BodyPartClass(
-                "torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<string>(), new List<string>(), 1000,
+                "torso", "torso", tissueClass, ArmorSlot.Torso, WeaponSlot.None, new List<string>(), new List<string>(), 1000,
                 canBeAmputated: false);
 
-            var head = new BodyPartClass("head", tissueClass, ArmorSlot.Head, WeaponSlot.None, new List<string>(), new List<string>(), 300,
+            var head = new BodyPartClass("head", "head", tissueClass, ArmorSlot.Head, WeaponSlot.None, new List<string>(), new List<string>(), 300,
                 parent: torso,
                 canBeAmputated: true,
                 isCritical: true);
 
-            var leftArm = new BodyPartClass("left arm", tissueClass, ArmorSlot.LeftArm, WeaponSlot.None, new List<string>(), new List<string>(), 400,
+            var leftArm = new BodyPartClass("left arm", "left arm", tissueClass, ArmorSlot.LeftArm, WeaponSlot.None, new List<string>(), new List<string>(), 400,
                 parent: torso,
                 canBeAmputated: true);
 
-            var leftHand = new BodyPartClass("left hand", tissueClass, ArmorSlot.LeftHand, WeaponSlot.None, new List<string>(), new List<string>(), 80,
+            var leftHand = new BodyPartClass("left hand", "left hand", tissueClass, ArmorSlot.LeftHand, WeaponSlot.None, new List<string>(), new List<string>(), 80,
                 parent: leftArm,
                 canGrasp: true,
                 canBeAmputated: true);
 
-            var rightArm = new BodyPartClass("right arm", tissueClass, ArmorSlot.RightArm, WeaponSlot.None, new List<string>(), new List<string>(), 400,
+            var rightArm = new BodyPartClass("right arm", "right arm", tissueClass, ArmorSlot.RightArm, WeaponSlot.None, new List<string>(), new List<string>(), 400,
                 parent: torso,
                 canBeAmputated: true);
 
-            var rightHand = new BodyPartClass("right hand", tissueClass, ArmorSlot.RightHand, WeaponSlot.Main, new List<string>(), new List<string>(), 80,
+            var rightHand = new BodyPartClass("right hand", "right hand", tissueClass, ArmorSlot.RightHand, WeaponSlot.Main, new List<string>(), new List<string>(), 80,
                 parent: rightArm,
                 canGrasp: true,
                 canBeAmputated: true);
 
-            var leftLeg = new BodyPartClass("left leg", tissueClass, ArmorSlot.LeftLeg, WeaponSlot.None, new List<string>(), new List<string>(), 900,
+            var leftLeg = new BodyPartClass("left leg", "left leg", tissueClass, ArmorSlot.LeftLeg, WeaponSlot.None, new List<string>(), new List<string>(), 900,
                 parent: torso,
                 canBeAmputated: true);
 
-            var leftFoot = new BodyPartClass("left foot", tissueClass, ArmorSlot.LeftFoot, WeaponSlot.None, new List<string>(), new List<string>(), 120,
+            var leftFoot = new BodyPartClass("left foot", "left foot", tissueClass, ArmorSlot.LeftFoot, WeaponSlot.None, new List<string>(), new List<string>(), 120,
                 parent: leftLeg,
                 canBeAmputated: true);
 
-            var rightLeg = new BodyPartClass("right leg", tissueClass, ArmorSlot.RightLeg, WeaponSlot.None, new List<string>(), new List<string>(), 900,
+            var rightLeg = new BodyPartClass("right leg", "right leg", tissueClass, ArmorSlot.RightLeg, WeaponSlot.None, new List<string>(), new List<string>(), 900,
                 parent: torso,
                 canBeAmputated: true);
 
-            var rightFoot = new BodyPartClass("right foot", tissueClass, ArmorSlot.RightFoot, WeaponSlot.None, new List<string>(), new List<string>(), 120,
+            var rightFoot = new BodyPartClass("right foot", "right foot", tissueClass, ArmorSlot.RightFoot, WeaponSlot.None, new List<string>(), new List<string>(), 120,
                 parent: rightLeg,
                 canBeAmputated: true);
 

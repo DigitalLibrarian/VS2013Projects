@@ -219,8 +219,9 @@ namespace Tiles.Content.Bridge.DfNet
 
                     //case DfTags.MiscTags.BP_POSITION:
                     //    break;
-                    //case DfTags.MiscTags.BP_RELATION:
-                    //    break;
+                    case DfTags.MiscTags.BP_RELATION:
+                        HandleBpRelation(tag, agentContext);
+                        break;
 
                     // TODO - these add tags to the various tissue
                     // not currently needed for Tiles sime
@@ -234,6 +235,34 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleBpRelation(DfTag tag, IDfAgentBuilder agentContext)
+        {
+            // [BP_RELATION:BY_TOKEN:EYELID:AROUND:BY_TOKEN:EYE:50]
+            // [BP_RELATION:BY_TOKEN:R_EYELID:CLEANS:BY_TOKEN:REYE:100]
+
+            var targetStrategy = tag.GetParam(0);
+            var targetStrategyParam = tag.GetParam(1);
+            var relTypeStr = tag.GetParam(2);
+            var relatedPartStrategy = tag.GetParam(3);
+            var relatedPartStrategyParam = tag.GetParam(4);
+            var weight = int.Parse(tag.GetParam(5));
+
+            BodyPartRelationType relType;
+            switch (relTypeStr)
+            {
+                case "AROUND":
+                    relType = BodyPartRelationType.Around;
+                    break;
+                case "CLEANS":
+                    relType = BodyPartRelationType.Cleans;
+                    break;
+                default:
+                    throw new InvalidOperationException(string.Format("Unknown BP_RELATION: '{0}'", relTypeStr));
+            }
+
+            agentContext.AddBodyPartRelation(targetStrategy, targetStrategyParam, relType, relatedPartStrategy, relatedPartStrategyParam, weight);
         }
 
         private void HandleAttributeRange(DfTag tag, IDfAgentBuilder agentContext)

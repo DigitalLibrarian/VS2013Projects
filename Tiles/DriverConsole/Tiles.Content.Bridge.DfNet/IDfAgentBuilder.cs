@@ -34,5 +34,7 @@ namespace Tiles.Content.Bridge.DfNet
         void AddBodyAttack(DfBodyAttack move);
 
         void AddAttribute(DfAttributeRange ar);
+
+        void AddBodyPartRelation(string targetStrategy, string targetStrategyParam, BodyPartRelationType relType, string relatedPartStrategy, string relatedPartStrategyParam, int weight);
     }
 }

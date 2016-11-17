@@ -26,5 +26,6 @@ namespace Tiles.Bodies
         void SetAttribute(string name, int value);
         int GetAttribute(string name);
         IEnumerable<string> AttributeNames { get; }
+        IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type);
     }
 }
