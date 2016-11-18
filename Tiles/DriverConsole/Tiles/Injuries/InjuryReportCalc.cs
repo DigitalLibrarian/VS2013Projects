@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
 using Tiles.Materials;
+using Tiles.Random;
 
 namespace Tiles.Injuries
 {
@@ -23,14 +24,6 @@ namespace Tiles.Injuries
 
     public class InjuryReportCalc : IInjuryReportCalc
     {
-        ILayeredMaterialStrikeResultBuilder Builder { get; set; }
-
-        public InjuryReportCalc(ILayeredMaterialStrikeResultBuilder builder)
-        {
-            Builder = builder;
-        }
-
-
         IDamageVector GetUnitDamage(StressMode mode, int contactArea, int penetration)
         {
             if (mode == StressMode.Edge)
@@ -80,11 +73,16 @@ namespace Tiles.Injuries
             return maxPenetation < 2000;
         }
 
+        ILayeredMaterialStrikeResultBuilder CreateBuilder()
+        {
+            // TODO - inject factory
+            return new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()); 
+        }
         
 
         public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, int contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
         {
-            Builder.Clear();
+            var builder = CreateBuilder();
 
             // resize contact area if the body part is smaller
             // body part size in cm3, contact area in mm3
@@ -93,13 +91,13 @@ namespace Tiles.Injuries
             var partCa = targetPart.GetContactArea();
             var weaponCa = contactArea;
 
-            Builder.SetMomentum(momentum);
-            Builder.SetStrikerContactArea(contactArea);
-            Builder.SetStrickenContactArea(partCa);
-            Builder.SetStrikerSharpness(sharpness);
-            Builder.SetMaxPenetration(maxPenetration);
-            Builder.SetStressMode(stressMode);
-            Builder.SetStrikerMaterial(strikerMat);
+            builder.SetMomentum(momentum);
+            builder.SetStrikerContactArea(contactArea);
+            builder.SetStrickenContactArea(partCa);
+            builder.SetStrikerSharpness(sharpness);
+            builder.SetMaxPenetration(maxPenetration);
+            builder.SetStressMode(stressMode);
+            builder.SetStrikerMaterial(strikerMat);
 
             var armorItems = context.Defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor);
             var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
@@ -108,33 +106,32 @@ namespace Tiles.Injuries
 
             foreach (var armorItem in armorItems)
             {
-                Builder.AddLayer(armorItem.Class.Material);
+                builder.AddLayer(armorItem.Class.Material);
             }
 
             foreach (var tissueLayer in tissueLayers)
             {
                 if (!tissueLayer.Class.IsCosmetic)
                 {
-                    Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                    builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
                     tlParts.Add(tissueLayer, targetPart);
                 }
             }
 
             // TODO - it should not be possible to sever internal parts
-            var internalParts = context.Defender.Body.GetInternalParts(targetPart);
-            foreach (var internalPart in internalParts)
+            foreach(var internalPart in context.Defender.Body.GetInternalParts(targetPart))
             {
                 foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
                 {
                     if (!tissueLayer.Class.IsCosmetic)
                     {
-                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                        builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
                         tlParts.Add(tissueLayer, internalPart);
                     }
                 }
             }
             
-            var result = Builder.Build();
+            var result = builder.Build();
             // TODO - once the results are built, we should scan the defeated parts to find
             // any "around" it.  Then we roll die and if we have to, we do another strike test
             // to simulate the coupe.
@@ -157,7 +154,7 @@ namespace Tiles.Injuries
                     );
 
                 var momComp = 100d;
-                if (!tissueResult.BreaksThrough)
+                if (!tissueResult.IsDefeated)
                 {
                     double momLeft = (tissueResult.MomentumThreshold - tissueResult.Momentum) / tissueResult.MomentumThreshold;
 

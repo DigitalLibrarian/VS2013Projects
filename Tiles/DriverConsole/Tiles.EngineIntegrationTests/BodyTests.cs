@@ -55,7 +55,7 @@ namespace Tiles.EngineIntegrationTests
 
             Atlas = new Mock<IAtlas>().Object;
             CombatMoveBuilder = new CombatMoveBuilder();
-            InjuryReportCalc = new InjuryReportCalc(new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()));
+            InjuryReportCalc = new InjuryReportCalc();
         }
 
         [TestMethod]
@@ -172,6 +172,32 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, relations.Count());
             Assert.IsTrue(relations.ContainsKey(lEye));
             Assert.AreEqual(100, relations[lEye]);
+        }
+
+        [TestMethod]
+        public void Dwarf_LowerBodyInternalParts()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var lb = dwarf.Body.Parts.First(x => x.Name.Equals("lower body"));
+            var lbInternal = dwarf.Body.GetInternalParts(lb);
+
+            var guts = lbInternal.FirstOrDefault(x => x.Name.Equals("guts"));
+            Assert.IsNotNull(guts);
+            var spleen = lbInternal.FirstOrDefault(x => x.Name.Equals("spleen"));
+            Assert.IsNotNull(spleen);
+            var lowerSpine = lbInternal.FirstOrDefault(x => x.Name.Equals("lower spine"));
+            Assert.IsNotNull(lowerSpine);
+            var leftKidney = lbInternal.FirstOrDefault(x => x.Name.Equals("left kidney"));
+            Assert.IsNotNull(leftKidney);
+            var rightKidney = lbInternal.FirstOrDefault(x => x.Name.Equals("right kidney"));
+            Assert.IsNotNull(rightKidney);
+            var pancreas = lbInternal.FirstOrDefault(x => x.Name.Equals("pancreas"));
+            Assert.IsNotNull(pancreas);
+            var stomach = lbInternal.FirstOrDefault(x => x.Name.Equals("stomach"));
+            Assert.IsNotNull(stomach);
+
+
+            Assert.AreEqual(7, lbInternal.Count());
         }
 
         [TestMethod]

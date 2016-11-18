@@ -183,7 +183,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 }
                 else
                 {
-                    stress = Momentum / volDamaged;// -(Momentum * caRatio);// (Momentum / contactArea) / caRatio;
+                    stress = Momentum / volDamaged;
 
                 }
                 resultMom = MaterialStressCalc.ImpactMomentumAfterUnbrokenRigidLayer(

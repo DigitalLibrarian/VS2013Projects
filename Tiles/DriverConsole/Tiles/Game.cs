@@ -45,8 +45,7 @@ namespace Tiles
             ActionLog = log;
             Random = random;
 
-            var layerBuilder = new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder());
-            var injuryCalc = new InjuryReportCalc(layerBuilder);
+            var injuryCalc = new InjuryReportCalc();
             var reporter = new ActionReporter(log);
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
             var evolutions = new List<ICombatEvolution>{

@@ -9,9 +9,9 @@ namespace Tiles.Random
 {
     public interface IRandom
     {
-        int NextIndex<T>(ICollection<T> list);
-        T NextElement<T>(ICollection<T> list);
-
+        int NextIndex<T>(IEnumerable<T> list);
+        T NextElement<T>(IEnumerable<T> list);
+        
         double NextDouble();
         int Next(int max);
         int Next(int min, int max);

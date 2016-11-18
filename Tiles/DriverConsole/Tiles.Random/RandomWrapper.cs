@@ -16,12 +16,12 @@ namespace Tiles.Random
             Inner = random;
         }
 
-        public int NextIndex<T>(ICollection<T> list)
+        public int NextIndex<T>(IEnumerable<T> list)
         {
-            return Next(list.Count);
+            return Next(list.Count());
         }
 
-        public T NextElement<T>(ICollection<T> list)
+        public T NextElement<T>(IEnumerable<T> list)
         {
             return list.ElementAt(NextIndex(list));
         }

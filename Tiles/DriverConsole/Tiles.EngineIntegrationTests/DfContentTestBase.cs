@@ -56,7 +56,7 @@ namespace Tiles.EngineIntegrationTests
 
             Atlas = new Mock<IAtlas>().Object;
             CombatMoveBuilder = new CombatMoveBuilder();
-            InjuryReportCalc = new InjuryReportCalc(new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()));
+            InjuryReportCalc = new InjuryReportCalc();
         }
 
 

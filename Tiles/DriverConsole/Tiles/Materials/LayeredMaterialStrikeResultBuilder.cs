@@ -160,7 +160,6 @@ namespace Tiles.Materials
                     if (mode == Materials.StressMode.Edge)
                     {
                         penetration += layer.Thickness;
-                        //contactArea = System.Math.Min(layerResult.WoundArea, 1);
                     }
                     else
                     {
@@ -179,10 +178,6 @@ namespace Tiles.Materials
                     {
                         // retry this layer with the mode change
                        layerIndex--;
-                    }
-                    else
-                    {
-                        momentum = layerResult.ResultMomentum;
                     }
                 }
                 else if (layerResult.StressResult == MaterialStressResult.None)
