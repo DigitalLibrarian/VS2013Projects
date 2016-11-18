@@ -141,7 +141,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 }
                 else
                 {
-                    stress = Momentum / volDamaged;// -(Momentum * caRatio);// (Momentum / contactArea) / caRatio;
+                    stress = Momentum / volDamaged;
 
                 }
                 resultMom = MaterialStressCalc.ShearMomentumAfterUnbrokenRigidLayer(
@@ -155,11 +155,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 shearCost1 = dentCost;
                 shearCost2 = cutCost;
                 shearCost3 = defeatCost;
-                 /*
-                var dentCost = shearCost1;
-                var cutCost = shearCost2;
-                var defeatCost = shearCost3;
-                */
                 if (stress > dentCost)
                 {
                     msr = MaterialStressResult.Shear_Dent;
@@ -194,7 +189,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 resultMom = MaterialStressCalc.ImpactMomentumAfterUnbrokenRigidLayer(
                     Momentum,
                     StrickenMaterial);
-                // TODO - weapon deflection (soft meaty fists vs metal colossus)
+                // TODO - weapon deflection (soft meaty fists vs metal colossus) -  NEED TEST
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
 
                 var dentCost = (impactCost1);
@@ -257,9 +252,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             //[IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt 
             //fracture the steel helm, only 940/50000=0.0188=1.88% of the momentum 
             //is passed to the skin layer
-            if (!defeated
-                    //&& (msr == MaterialStressResult.Impact_Bypass || msr == MaterialStressResult.Impact_Dent)
-                    )
+            if (!defeated)
             {
                 resultMom = Momentum * ((double)say / 50000d);
                 resultMom = System.Math.Max(0d, resultMom);

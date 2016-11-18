@@ -169,14 +169,13 @@ namespace Tiles.Materials
                             mode = Materials.StressMode.Edge;
                             turnsToBlunt = 1;
                         }
-
                     }
                 }
                 else if (mode != StressMode.Blunt)
                 {
                     mode = StressMode.Blunt;
                     momentum = layerResult.ResultMomentum;
-                    // TODO - need to redo with blunt
+                    // redo as blunt
                     if (layerResult.StressResult == MaterialStressResult.None)
                     {
                         layerResult = PerformSingleLayerTest(

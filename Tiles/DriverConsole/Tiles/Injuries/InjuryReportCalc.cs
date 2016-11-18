@@ -120,21 +120,24 @@ namespace Tiles.Injuries
                 }
             }
 
-            // TODO - these will use the wrong contact area, should be stored in MLayer
+            // TODO - it should not be possible to sever internal parts
             var internalParts = context.Defender.Body.GetInternalParts(targetPart);
-            //foreach (var internalPart in internalParts)
-            //{
-            //    foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
-            //    {
-            //        if (!tissueLayer.Class.IsCosmetic)
-            //        {
-            //            Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume * volFact, tissueLayer);
-            //            tlParts.Add(tissueLayer, internalPart);
-            //        }
-            //    }
-            //}
+            foreach (var internalPart in internalParts)
+            {
+                foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
+                {
+                    if (!tissueLayer.Class.IsCosmetic)
+                    {
+                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                        tlParts.Add(tissueLayer, internalPart);
+                    }
+                }
+            }
             
             var result = Builder.Build();
+            // TODO - once the results are built, we should scan the defeated parts to find
+            // any "around" it.  Then we roll die and if we have to, we do another strike test
+            // to simulate the coupe.
             
             var tissueInjuries = new Dictionary<IBodyPart, List<ITissueLayerInjury>>();
             foreach (var taggedResult in result.TaggedResults)
@@ -293,19 +296,6 @@ namespace Tiles.Injuries
                 TissueLayerInjuryClasses.Tear,
                 TissueLayerInjuryClasses.TearApart,
             };
-            /*
-            foreach (var injuryClass in injuryClasses)
-            {
-                var newDVal = tissueDamage.GetFraction(injuryClass.DamageType).AsDouble();
-
-                if (injuryClass.IsInRange(newDVal))
-                {
-                    var injuryDamage = new DamageVector();
-                    injuryDamage.Set(injuryClass.DamageType, tissueDamage.Get(injuryClass.DamageType));
-                    yield return new TissueLayerInjury(injuryClass, layer, injuryDamage, tissueResult);
-                }
-            }
-             * */
             foreach (var dt in tissueDamage.GetTypes())
             {
 
