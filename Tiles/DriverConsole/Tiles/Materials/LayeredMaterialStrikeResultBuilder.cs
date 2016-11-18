@@ -134,7 +134,7 @@ namespace Tiles.Materials
             double epsilon = 0.00001d;
             int turnsToBlunt = -1;
             var strikeMaterial = StrikerMaterial;
-            foreach (var layer in Layers)
+            for (int layerIndex = 0; layerIndex < Layers.Count(); layerIndex++)
             {
                 if (momentum <= epsilon) break;
                 if (mode == StressMode.Edge && penetration >= MaxPenetration) mode = Materials.StressMode.Blunt;
@@ -143,6 +143,7 @@ namespace Tiles.Materials
                     mode = Materials.StressMode.Blunt;
                 }
 
+                var layer = Layers[layerIndex];
                 var layerResult = PerformSingleLayerTest(
                     strikeMaterial,
                     momentum,
@@ -151,7 +152,6 @@ namespace Tiles.Materials
                     mode,
                     layer);
 
-            shitty_cheat:
 
                 momentum = layerResult.ResultMomentum;
 
@@ -174,21 +174,18 @@ namespace Tiles.Materials
                 else if (mode != StressMode.Blunt)
                 {
                     mode = StressMode.Blunt;
-                    momentum = layerResult.ResultMomentum;
                     // redo as blunt
                     if (layerResult.StressResult == MaterialStressResult.None)
                     {
-                        layerResult = PerformSingleLayerTest(
-                            strikeMaterial,
-                            momentum,
-                            contactArea,
-                            MaxPenetration - penetration,
-                            mode,
-                            layer);
-                        goto shitty_cheat;
+                        // retry this layer with the mode change
+                       layerIndex--;
+                    }
+                    else
+                    {
+                        momentum = layerResult.ResultMomentum;
                     }
                 }
-                else if(layerResult.StressResult == MaterialStressResult.None)
+                else if (layerResult.StressResult == MaterialStressResult.None)
                 {
                     done = true;
                 }
