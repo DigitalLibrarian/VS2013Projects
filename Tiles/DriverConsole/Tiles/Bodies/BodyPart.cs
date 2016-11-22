@@ -83,7 +83,7 @@ namespace Tiles.Bodies
         
         public double GetContactArea()
         {
-            return (int)System.Math.Pow((Size), 0.666d);
+            return System.Math.Pow((Size), 0.666d);
         }
         public double GetThickness()
         {

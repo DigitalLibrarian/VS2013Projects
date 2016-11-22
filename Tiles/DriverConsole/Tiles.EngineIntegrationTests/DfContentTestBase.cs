@@ -79,7 +79,7 @@ namespace Tiles.EngineIntegrationTests
             return DfTagsFascade.CreateMaterialTemplateWeapon(name, matTempName);
         }
 
-        protected void AssertTissueStrikeResults(
+        protected IInjuryReport AssertTissueStrikeResults(
             IAgent attacker, IAgent defender, IBodyPart targetPart, 
             ICombatMove move, 
             params MaterialStressResult[] expectedLayerResults
@@ -134,6 +134,7 @@ namespace Tiles.EngineIntegrationTests
                     }
                 }
             }
+            return injuryReport;
         }
     }
 }

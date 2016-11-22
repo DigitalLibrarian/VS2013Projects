@@ -88,7 +88,11 @@ namespace Tiles.Injuries
                         }
                         break;
                     case MaterialStressResult.Impact_CompleteFracture:
-                        gerund = IsSoft() ? "tearing apart" : "shattering";
+                        if (IsChip()) gerund = "chipping";
+                        else
+                        {
+                            gerund = IsSoft() ? "tearing apart" : "shattering";
+                        }
                         break;
                     case MaterialStressResult.Shear_Dent:
                         gerund = "denting";
@@ -108,7 +112,11 @@ namespace Tiles.Injuries
                         }
                         break;
                     case MaterialStressResult.Shear_CutThrough:
-                        gerund = IsSoft() ? "tearing apart" : "shattering";
+                        if (IsChip()) gerund = "chipping";
+                        else
+                        {
+                            gerund = IsSoft() ? "tearing apart" : "shattering";
+                        }
                         break;
                     default:
                         throw new NotImplementedException();

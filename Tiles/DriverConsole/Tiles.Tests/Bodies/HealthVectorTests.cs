@@ -70,7 +70,7 @@ namespace Tiles.Tests.Bodies
         }
 
         [TestMethod]
-        public void ToString()
+        public void TestToString()
         {
             var hv1 = new HealthVector(1);
             var hv2 = new HealthVector(2);

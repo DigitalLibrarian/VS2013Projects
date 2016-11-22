@@ -15,7 +15,7 @@ namespace Tiles.Injuries
         IInjuryReport CalculateMaterialStrike(
             ICombatMoveContext context,
             StressMode stressMode,
-            double momentum, int contactArea, int maxPenetration,
+            double momentum, double contactArea, int maxPenetration,
             IBodyPart targetPart,
             IMaterial strikerMat,
             double sharpness
@@ -24,7 +24,7 @@ namespace Tiles.Injuries
 
     public class InjuryReportCalc : IInjuryReportCalc
     {
-        IDamageVector GetUnitDamage(StressMode mode, int contactArea, int penetration)
+        IDamageVector GetUnitDamage(StressMode mode, double contactArea, int penetration)
         {
             if (mode == StressMode.Edge)
             {
@@ -54,7 +54,7 @@ namespace Tiles.Injuries
             }
             throw new NotImplementedException();
         }
-        bool IsHighContactArea(int contactArea)
+        bool IsHighContactArea(double contactArea)
         {
             return contactArea > 50;
         }
@@ -63,7 +63,7 @@ namespace Tiles.Injuries
         {
             return maxPenetation > 2000;
         }
-        bool IsLowContactArea(int contactArea)
+        bool IsLowContactArea(double contactArea)
         {
             return contactArea <= 50;
         }
@@ -80,13 +80,13 @@ namespace Tiles.Injuries
         }
         
 
-        public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, int contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
+        public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, double contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
         {
             var builder = CreateBuilder();
 
             // resize contact area if the body part is smaller
             // body part size in cm3, contact area in mm3
-            int originalContactArea = contactArea;
+            double originalContactArea = contactArea;
 
             var partCa = targetPart.GetContactArea();
             var weaponCa = contactArea;
@@ -132,9 +132,6 @@ namespace Tiles.Injuries
             }
             
             var result = builder.Build();
-            // TODO - once the results are built, we should scan the defeated parts to find
-            // any "around" it.  Then we roll die and if we have to, we do another strike test
-            // to simulate the coupe.
             
             var tissueInjuries = new Dictionary<IBodyPart, List<ITissueLayerInjury>>();
             foreach (var taggedResult in result.TaggedResults)
@@ -194,7 +191,7 @@ namespace Tiles.Injuries
         }
 
         private IBodyPartInjury CreateBodyPartInjury(
-            IBodyPart part, int contactArea,
+            IBodyPart part, double contactArea,
             ILayeredMaterialStrikeResult result,
             List<ITissueLayerInjury> tissueInjuries)
         {
@@ -228,7 +225,7 @@ namespace Tiles.Injuries
         }
 
 
-        bool WillSever(IBodyPart part, IDamageVector d, int contactArea)
+        bool WillSever(IBodyPart part, IDamageVector d, double contactArea)
         {
             if (!part.CanBeAmputated) return false;
 

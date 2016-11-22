@@ -209,7 +209,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(bp);
 
             var ca = bp.GetContactArea();
-            Assert.AreEqual(35d, ca);
+            Assert.AreEqual(35, (int)ca);
         }
 
         [TestMethod]
@@ -221,7 +221,6 @@ namespace Tiles.EngineIntegrationTests
             var muscle = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
             Assert.AreEqual(338, (int)muscle.Volume);
         }
-
 
         [TestMethod]
         public void DwarfHeadMuscleThickness()
@@ -244,6 +243,15 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfHeadContactArea()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            Assert.AreEqual(47, (int)bp.GetContactArea());
+        }
+
+        [TestMethod]
         public void DwarfUpperBodySkinVolume()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
@@ -262,7 +270,6 @@ namespace Tiles.EngineIntegrationTests
             var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
             Assert.AreEqual(3, (int)layer.Thickness);
         }
-
 
         [TestMethod]
         public void DwarfUpperBodyContactArea()
@@ -353,7 +360,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(bp);
 
             var ca = bp.GetContactArea();
-            Assert.AreEqual(2d, ca);
+            Assert.AreEqual(2, (int)ca);
 
             var nailLayer = bp.Tissue.TissueLayers.First(x => x.Material.Name.Equals("nail"));
             Assert.AreEqual(2, nailLayer.Class.RelativeThickness);
@@ -369,7 +376,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(bp);
 
             var ca = bp.GetContactArea();
-            Assert.AreEqual(2d, ca);
+            Assert.AreEqual(2, (int)ca);
 
             var nailLayer = bp.Tissue.TissueLayers.First(x => x.Material.Name.Equals("nail"));
             Assert.AreEqual(1d, nailLayer.Volume);
@@ -384,10 +391,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(bp);
 
             var ca = bp.GetContactArea();
-            Assert.AreEqual(2d, ca);
+            Assert.AreEqual(2, (int)ca);
 
             var nailLayer = bp.Tissue.TissueLayers.First(x => x.Material.Name.Equals("nail"));
             Assert.AreEqual(1d, (int)nailLayer.Thickness);
+        }
+
+        [TestMethod]
+        public void DwarfPunch_ContactArea()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("punch"));
+            Assert.AreEqual(19, (int)moveClass.ContactArea);
         }
 
         [TestMethod]
@@ -777,7 +792,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = agent.Body.Moves.First(x => x.Name.Equals("stab"));
 
             Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
-            Assert.AreEqual(4, moveClass.ContactArea);
+            Assert.AreEqual(4, (int)moveClass.ContactArea);
         }
 
         [TestMethod]

@@ -99,15 +99,26 @@ For blunt defense, there is:
 After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). 
 If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility.
     */
-
-
+            double surfaceAreaRatio = 1;
             double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
-            contactArea = System.Math.Max(1d, contactArea);
+            
             var volDamaged = LayerVolume;
             var caRatio = (StrikerContactArea / StrickenContactArea);
             if (caRatio < 1d)
             {
+                // TODO - somehow the contact area is augmented here
+                contactArea += contactArea * 0.09d;
+                //contactArea = System.Math.Ceiling(contactArea);
+                caRatio = ((contactArea) / StrickenContactArea);
+
                 volDamaged *= caRatio;
+                surfaceAreaRatio = ((contactArea) / StrickenContactArea);
+            }
+            else
+            {
+                surfaceAreaRatio = 1d;
+                caRatio = 1d;
+                contactArea = StrickenContactArea - 1;
             }
             volDamaged = System.Math.Max(1d, volDamaged);
 
@@ -121,7 +132,8 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
 
-
+            double cutFraction = 0, dentFraction = 0, effectFraction = 0;
+            double maxCut = 10000, maxDent = 10000 * surfaceAreaRatio, maxEffect = 25000;
             bool bluntBypass = false;
 
             double woundArea = 1d;
@@ -174,6 +186,21 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                         }
                     }
                 }
+                switch (msr)
+                {
+                    case MaterialStressResult.Shear_Dent:
+                        dentCost = ((stress - dentCost) / (cutCost - dentCost)) * maxDent;
+                        break;
+                    case MaterialStressResult.Shear_Cut:
+                        dentCost = maxDent;
+                        cutCost = ((stress - cutCost) / (defeatCost - cutCost)) * maxCut;
+                        break;
+                    case MaterialStressResult.Shear_CutThrough:
+                        dentCost = maxDent;
+                        cutCost = maxCut;
+                        break;
+                }
+
             }
             else
             {
@@ -282,6 +309,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 StressMode = StressMode,
                 Momentum = Momentum,
                 ContactArea = contactArea,
+                SurfaceAreaRatio = surfaceAreaRatio,
                 MomentumThreshold = thresh,
 
                 StressResult = msr,

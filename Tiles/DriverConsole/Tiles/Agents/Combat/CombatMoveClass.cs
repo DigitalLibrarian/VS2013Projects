@@ -37,7 +37,7 @@ namespace Tiles.Agents.Combat
         public bool IsItem { get; set; }
 
         public StressMode StressMode { get; set; }
-        public int ContactArea { get; set; }
+        public double ContactArea { get; set; }
         public int MaxPenetration { get; set; }
         public int VelocityMultiplier { get; set; }
 

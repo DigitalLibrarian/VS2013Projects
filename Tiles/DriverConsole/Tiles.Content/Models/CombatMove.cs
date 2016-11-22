@@ -27,7 +27,7 @@ namespace Tiles.Content.Models
         public bool IsItem { get; set; }
 
         public ContactType ContactType { get; set; }
-        public int ContactArea { get; set; }
+        public double ContactArea { get; set; }
         public int MaxPenetration { get; set; }
         public int VelocityMultiplier { get; set; }
 

@@ -45,10 +45,6 @@ namespace Tiles.Render.WindowsForms
 
         public Image Get(int charCode)
         {
-            if (Map.Count() - 1 < charCode)
-            {
-                int br = 0;
-            }
             return Map[charCode];
         }
     }

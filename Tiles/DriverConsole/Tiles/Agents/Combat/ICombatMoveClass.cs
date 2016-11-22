@@ -28,7 +28,7 @@ namespace Tiles.Agents.Combat
 
         StressMode StressMode { get; }
 
-        int ContactArea { get; }
+        double ContactArea { get; }
         int MaxPenetration { get; }
         int VelocityMultiplier { get; }
 

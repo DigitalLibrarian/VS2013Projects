@@ -436,7 +436,7 @@ namespace Tiles.Content.Bridge.DfNet
                         var contactRatio = (double)attack.ContactPercent / 100d;
                         var contactArea = totalContactArea * contactRatio;
                         var maxPen = (int)(((double)attack.PenetrationPercent / 100d) * maxLength);
-
+                        // NOTE - the contact area is < 1 here for the parakeet scratch
                         var combatMove =
                             new CombatMove
                             {
@@ -448,7 +448,7 @@ namespace Tiles.Content.Bridge.DfNet
                                 IsStrike = true,
                                 IsMartialArts = true,
                                 ContactType = attack.ContactType,
-                                ContactArea = System.Math.Max(1, (int)contactArea),
+                                ContactArea = System.Math.Max(1, contactArea),
                                 MaxPenetration = System.Math.Max(1, (int)maxPen),
                                 VelocityMultiplier = 1000,
                             };

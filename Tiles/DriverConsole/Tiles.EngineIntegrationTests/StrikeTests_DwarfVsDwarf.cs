@@ -95,6 +95,145 @@ namespace Tiles.EngineIntegrationTests
                 MaterialStressResult.Impact_Bypass);
         }
 
+        [TestMethod]
+        public void DwarfVsDwarf_PunchHead_ContactAreas()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass);
+
+            Assert.AreEqual(47, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(19, (int)move.Class.ContactArea);
+
+            var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
+            Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
+            Assert.AreEqual(46, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+        }
+
+
+        [TestMethod]
+        public void DwarfVsDwarf_PunchUpperBody_ContactAreas()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass);
+
+            Assert.AreEqual(104, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(19, (int)move.Class.ContactArea);
+
+            var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
+            Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
+            Assert.AreEqual(21, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_PunchRightUpperArm_ContactAreas()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass);
+
+            Assert.AreEqual(35, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(19, (int)move.Class.ContactArea);
+
+            var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
+            Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
+            Assert.AreEqual(60, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+        }
+
+
+        [TestMethod]
+        public void DwarfVsDwarf_PunchRightLowerLeg_ContactAreas()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right lower leg"));
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass);
+
+            Assert.AreEqual(19, (int)move.Class.ContactArea);
+            Assert.AreEqual(56, (int)targetBodyPart.GetContactArea());
+
+            var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
+            Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
+            Assert.AreEqual(38, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+        }
+        
+        [TestMethod]
+        public void DwarfVsDwarf_PunchLeftLowerArm_ContactAreas()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left lower arm"));
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_Bypass);
+
+            Assert.AreEqual(35, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(19, (int)move.Class.ContactArea);
+
+            var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
+            Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
+            Assert.AreEqual(60, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_PunchNose_ContactAreas()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("nose"));
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                MaterialStressResult.Impact_Bypass,
+                MaterialStressResult.Impact_CompleteFracture);
+
+            Assert.AreEqual(4, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(19, (int)move.Class.ContactArea);
+
+            var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
+            Assert.AreEqual(3, (int)skinInjury.StrikeResult.ContactArea);
+            Assert.AreEqual(100, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+        }
+
 
         [TestMethod]
         public void DwarfVsDwarf_PunchRightFoot()
