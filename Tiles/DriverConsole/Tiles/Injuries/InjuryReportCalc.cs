@@ -52,7 +52,8 @@ namespace Tiles.Injuries
                         {DamageType.Bludgeon, 1},
                     });
             }
-            throw new NotImplementedException();
+            return new DamageVector();
+            //throw new NotImplementedException();
         }
         bool IsHighContactArea(double contactArea)
         {

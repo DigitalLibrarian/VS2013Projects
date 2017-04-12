@@ -13,6 +13,7 @@ using Tiles.Agents.CommandInterpreters;
 using Tiles.Items.Outfits;
 using Tiles.Bodies;
 using Tiles.Ecs;
+using Tiles.Materials;
 
 namespace Tiles.ScreensImpl.ContentFactories
 {
@@ -21,12 +22,20 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
         static IBodyFactory BodyFactory = new BodyFactory(new TissueFactory());
         static IBodyClassFactory BodyClassFactory = new BodyClassFactory();
+        class Mats
+        {
+            public static readonly IMaterial Flesh = new Material("flesh", "flesh");
+            public static readonly IMaterial Nail = new Material("nail", "nail");
+            public static readonly IMaterial Tooth = new Material("tooth", "tooth");
+        }
+        
+        
         
         static IItemClass ZombieClawClass = new ItemClass(
             name: "zombie claw", 
             sprite: null, 
             size: 100,
-            material: null, 
+            material: Mats.Nail, 
             weaponClass: ZombieClaw.WeaponClass, 
             armorClass: null);
 
@@ -34,7 +43,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             name: "zombie teeth", 
             sprite: null, 
             size: 50,
-            material: null, 
+            material: Mats.Tooth, 
             weaponClass: ZombieTeeth.WeaponClass, 
             armorClass: null);
 

@@ -21,8 +21,12 @@ namespace Tiles.Bodies
         {
             int totalBpRelSize = bodyClass.TotalBodyPartRelSize;
             // TODO - this should be based on the instance strength
-            var strength = bodyClass.Attributes.Single(x => x.Name.Equals("STRENGTH")).Median;
-
+            var strength = 0d;
+            var strengthAttr = bodyClass.Attributes.SingleOrDefault(x => x.Name.Equals("STRENGTH"));
+            if (strengthAttr != null)
+            {
+                strength = strengthAttr.Median;
+            }
             var partMap = bodyClass.Parts
                 .ToDictionary(x => x, x => Convert(x, bodyClass.Size, totalBpRelSize, strength));
 

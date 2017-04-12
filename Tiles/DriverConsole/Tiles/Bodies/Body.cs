@@ -61,6 +61,10 @@ namespace Tiles.Bodies
         }
         public int GetAttribute(string name)
         {
+            if (!Attributes.ContainsKey(name))
+            {
+                return 0;
+            }
             return Attributes[name];
         }
         public IEnumerable<string> AttributeNames { get { return Attributes.Keys; } }
