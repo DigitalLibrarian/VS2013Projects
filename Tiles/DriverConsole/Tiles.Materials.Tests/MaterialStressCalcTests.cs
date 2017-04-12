@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Materials;
 
-namespace Tiles.Tests.Materials
+namespace Tiles.Materials.Tests
 {
     [TestClass]
     public class MaterialStressCalcTests

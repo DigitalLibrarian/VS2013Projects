@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Materials;
 
-namespace Tiles.Tests
+namespace Tiles.Materials
 {
-    public static class TestMaterials
+    public static class StockMaterials
     {
         public static readonly IMaterial Skin = new Material("skin", "skin")
         {

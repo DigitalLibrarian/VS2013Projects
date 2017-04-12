@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{06E5B290-28D4-4713-B20C-0CB180B69494}</ProjectGuid>
+    <ProjectGuid>{4C1D66EB-9841-4703-B31C-6FE081152718}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tiles.Content.Map</RootNamespace>
-    <AssemblyName>Tiles.Content.Map</AssemblyName>
+    <RootNamespace>Tiles.Materials</RootNamespace>
+    <AssemblyName>Tiles.Materials</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,27 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentMapper.cs" />
-    <Compile Include="IContentMapper.cs" />
+    <Compile Include="IMaterial.cs" />
+    <Compile Include="IMaterialStrikeResultBuilder.cs" />
+    <Compile Include="LayeredMaterialStrikeResult.cs" />
+    <Compile Include="LayeredMaterialStrikeResultBuilder.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="MaterialStressCalc.cs" />
+    <Compile Include="MaterialStrikeResult.cs" />
+    <Compile Include="MaterialStrikeResultBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tiles.Content\Tiles.Content.csproj">
-      <Project>{cc16a028-84d2-4018-9d6c-d282b01bd00c}</Project>
-      <Name>Tiles.Content</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles.Materials\Tiles.Materials.csproj">
-      <Project>{4c1d66eb-9841-4703-b31c-6fe081152718}</Project>
-      <Name>Tiles.Materials</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
-      <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
-      <Name>Tiles.Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles\Tiles.csproj">
-      <Project>{dbe6c63c-cd28-4c24-920c-2776da05fff4}</Project>
-      <Name>Tiles</Name>
-    </ProjectReference>
+    <Compile Include="StressMode.cs" />
+    <Compile Include="StressResult.cs" />
+    <Compile Include="StockMaterials.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

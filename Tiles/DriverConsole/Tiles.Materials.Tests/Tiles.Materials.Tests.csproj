@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5089581E-FB76-4D6F-A8A1-374339059B03}</ProjectGuid>
+    <ProjectGuid>{0BB048BF-B33D-462E-A745-F5AFD5ACFC93}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tiles.EngineIntegrationTests</RootNamespace>
-    <AssemblyName>Tiles.EngineIntegrationTests</AssemblyName>
+    <RootNamespace>Tiles.Materials.Tests</RootNamespace>
+    <AssemblyName>Tiles.Materials.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -25,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,7 +44,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -60,53 +58,20 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BodyTests.cs" />
-    <Compile Include="DfContentTestBase.cs" />
-    <Compile Include="StrikeTests_ElfVsElfStrike.cs" />
-    <Compile Include="StrikeTests_DwarfVsDwarf.cs" />
-    <Compile Include="StrikeTests_UnicornVsUnicorn.cs" />
-    <Compile Include="TestContentStore.cs" />
-    <Compile Include="StrikeTests_DwarfVsUnicorn.cs" />
+    <Compile Include="LayeredMaterialStrikeResultBuilderTests.cs" />
+    <Compile Include="MaterialStressCalcTests.cs" />
+    <Compile Include="MaterialStrikeResultBuilderTests.cs" />
+    <Compile Include="MaterialTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WeaponTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DfNet.Raws\DfNet.Raws.csproj">
-      <Project>{559e9c2c-01ca-4665-83bf-6a757e71818b}</Project>
-      <Name>DfNet.Raws</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles.Content.Bridge.DfNet\Tiles.Content.Bridge.DfNet.csproj">
-      <Project>{ea837af3-7951-4923-b5df-98259c0d3454}</Project>
-      <Name>Tiles.Content.Bridge.DfNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles.Content.Map\Tiles.Content.Map.csproj">
-      <Project>{06e5b290-28d4-4713-b20c-0cb180b69494}</Project>
-      <Name>Tiles.Content.Map</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tiles.Materials\Tiles.Materials.csproj">
       <Project>{4c1d66eb-9841-4703-b31c-6fe081152718}</Project>
       <Name>Tiles.Materials</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
-      <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
-      <Name>Tiles.Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles.Random\Tiles.Random.csproj">
-      <Project>{604a0f97-f866-4852-9882-0708f88b2ba1}</Project>
-      <Name>Tiles.Random</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles.ScreensImpl\Tiles.ScreensImpl.csproj">
-      <Project>{1a551a35-8e59-4a0d-b2c0-b87ca7fcb57f}</Project>
-      <Name>Tiles.ScreensImpl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tiles\Tiles.csproj">
-      <Project>{dbe6c63c-cd28-4c24-920c-2776da05fff4}</Project>
-      <Name>Tiles</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

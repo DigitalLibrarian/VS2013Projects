@@ -230,8 +230,6 @@ namespace Tiles.ScreensImpl.ContentFactories
         #endregion
 
         IItemFactory ItemFactory = new ItemFactory();
-        
-        
 
         static IWeaponClass DefaultWeaponClass = new WeaponClass(
             slots: new WeaponSlot[] {  WeaponSlot.Main},

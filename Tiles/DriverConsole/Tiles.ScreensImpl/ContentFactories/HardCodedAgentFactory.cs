@@ -22,20 +22,11 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IAgentCommandInterpreter CommandInterpreter = new DefaultAgentCommandInterpreter();
         static IBodyFactory BodyFactory = new BodyFactory(new TissueFactory());
         static IBodyClassFactory BodyClassFactory = new BodyClassFactory();
-        class Mats
-        {
-            public static readonly IMaterial Flesh = new Material("flesh", "flesh");
-            public static readonly IMaterial Nail = new Material("nail", "nail");
-            public static readonly IMaterial Tooth = new Material("tooth", "tooth");
-        }
-        
-        
-        
         static IItemClass ZombieClawClass = new ItemClass(
             name: "zombie claw", 
             sprite: null, 
             size: 100,
-            material: Mats.Nail, 
+            material: StockMaterials.Nail, 
             weaponClass: ZombieClaw.WeaponClass, 
             armorClass: null);
 
@@ -43,16 +34,14 @@ namespace Tiles.ScreensImpl.ContentFactories
             name: "zombie teeth", 
             sprite: null, 
             size: 50,
-            material: Mats.Tooth, 
+            material: StockMaterials.Bone, 
             weaponClass: ZombieTeeth.WeaponClass, 
             armorClass: null);
 
         IEntityManager EntityManager { get; set; }
         public IRandom Random { get; set; }
 
-        public HardCodedAgentFactory(IEntityManager entityManager) : this(entityManager, new RandomWrapper(new System.Random()))
-        {
-        }
+        public HardCodedAgentFactory(IEntityManager entityManager) : this(entityManager, new RandomWrapper(new System.Random())) { }
 
         public HardCodedAgentFactory(IEntityManager entityManager, IRandom random)
         {

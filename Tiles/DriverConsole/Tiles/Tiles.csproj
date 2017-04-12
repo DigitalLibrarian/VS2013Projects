@@ -78,12 +78,6 @@
     <Compile Include="Injuries\TissueLayerInjury.cs" />
     <Compile Include="Injuries\TissueLayerInjuryClass.cs" />
     <Compile Include="Injuries\TissueLayerInjuryClasses.cs" />
-    <Compile Include="Materials\LayeredMaterialStrikeResult.cs" />
-    <Compile Include="Materials\LayeredMaterialStrikeResultBuilder.cs" />
-    <Compile Include="Materials\IMaterialStrikeResultBuilder.cs" />
-    <Compile Include="Materials\MaterialStrikeResult.cs" />
-    <Compile Include="Materials\MaterialStrikeResultBuilder.cs" />
-    <Compile Include="Materials\StressMode.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />
@@ -192,10 +186,6 @@
     <Compile Include="ITile.cs" />
     <Compile Include="Agents\Player.cs" />
     <Compile Include="IVerb.cs" />
-    <Compile Include="Materials\IMaterial.cs" />
-    <Compile Include="Materials\Material.cs" />
-    <Compile Include="Materials\MaterialStressCalc.cs" />
-    <Compile Include="Materials\StressResult.cs" />
     <Compile Include="MissingVerbConjugationException.cs" />
     <Compile Include="PositionFinder.cs" />
     <Compile Include="Render\ICanvas.cs" />
@@ -217,6 +207,10 @@
       <Project>{da61f81d-cd5c-4b0e-b6d2-bc1e444cffd6}</Project>
       <Name>Tiles.Control</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tiles.Materials\Tiles.Materials.csproj">
+      <Project>{4c1d66eb-9841-4703-b31c-6fe081152718}</Project>
+      <Name>Tiles.Materials</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
       <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
       <Name>Tiles.Math</Name>
@@ -226,7 +220,9 @@
       <Name>Tiles.Random</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Materials\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

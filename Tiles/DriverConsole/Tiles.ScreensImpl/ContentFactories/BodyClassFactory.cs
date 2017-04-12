@@ -16,9 +16,9 @@ namespace Tiles.ScreensImpl.ContentFactories
         {
             return new TissueClass(new List<ITissueLayerClass>
             {
-                new TissueLayerClass(new Material("bone", "bone"), 25),
-                new TissueLayerClass(new Material("fat", "fat"), 15),
-                new TissueLayerClass(new Material("skin", "skin"), 5),
+                new TissueLayerClass(StockMaterials.Bone, 25),
+                new TissueLayerClass(StockMaterials.Muscle, 15),
+                new TissueLayerClass(StockMaterials.Skin, 5),
             });
         }
 

@@ -99,6 +99,10 @@
       <Project>{ef3e4903-2fec-48c1-b05b-8d8763b04337}</Project>
       <Name>Tiles.Gsm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tiles.Materials\Tiles.Materials.csproj">
+      <Project>{4c1d66eb-9841-4703-b31c-6fe081152718}</Project>
+      <Name>Tiles.Materials</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
       <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
       <Name>Tiles.Math</Name>
