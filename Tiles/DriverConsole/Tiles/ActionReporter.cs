@@ -58,17 +58,24 @@ namespace Tiles
             var limbMessage = targetPartWasShed ? " and the severed part falls away!" : ".";
             string withWeapon = string.Format(" with it's {0}", item.Class.Name);
             
-            var bpInjury = session.InjuryReport.BodyPartInjuries.First();
+            var bpInjury = session.InjuryReport.BodyPartInjuries.FirstOrDefault();
+            if (bpInjury != null) 
+            { 
+                var completionMessage = bpInjury.GetResultPhrase();
 
-            var completionMessage = bpInjury.GetResultPhrase();
+                var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
+                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
 
-            var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
-                attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
-
-            Log.AddLine(message);
-            foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
+                Log.AddLine(message);
+                foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
+                {
+                    ReportAdditionalBodyPartInjury(session, addInjury);
+                }
+            }
+            else
             {
-                ReportAdditionalBodyPartInjury(session, addInjury);
+                var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
+                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, " but nothing happens.");
             }
         }
 
