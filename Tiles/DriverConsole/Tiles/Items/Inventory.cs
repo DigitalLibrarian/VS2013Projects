@@ -44,6 +44,7 @@ namespace Tiles.Items
             }
         }
         
+        //TODO - this "Worn" construct needs to go away.  Outfit can play the role of anything "Worn"
         Dictionary<object, IItem> Worn = new Dictionary<object, IItem>();
         public void AddToWorn(object key, IItem item)
         {
