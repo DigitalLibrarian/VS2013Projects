@@ -178,6 +178,7 @@ namespace Tiles.Materials
                     {
                         // retry this layer with the mode change
                        layerIndex--;
+                       continue;
                     }
                 }
                 else if (layerResult.StressResult == MaterialStressResult.None)
