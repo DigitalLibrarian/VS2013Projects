@@ -87,7 +87,7 @@ namespace Tiles.ScreensImpl.UI
         bool CanWear { get { return Player.Agent.Outfit.CanWear(Item); } }
         bool CanTakeOff { get { return IsWorn; } }
         bool CanUnwield { get { return IsWielded; } }
-        bool CanDrop { get { return !IsWorn; } }
+        bool CanDrop { get { return !IsWorn && !IsWielded; } }
                 
         void Wield()
         {
