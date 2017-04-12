@@ -71,33 +71,33 @@ namespace Tiles.Injuries
                 var gerund = "";
                 switch (StrikeResult.StressResult)
                 {
-                    case MaterialStressResult.None:
+                    case StressResult.None:
                         gerund = "stopping at";
                         break;
-                    case MaterialStressResult.Impact_Dent:
+                    case StressResult.Impact_Dent:
                         gerund =  IsVascular() ? "bruising" : "denting";
                         break;
-                    case MaterialStressResult.Impact_Bypass:
+                    case StressResult.Impact_Bypass:
                         gerund =  IsVascular() ? "bruising" : "denting";
                         break;
-                    case MaterialStressResult.Impact_InitiateFracture:
+                    case StressResult.Impact_InitiateFracture:
                         if (IsChip()) gerund = "chipping";
                         else
                         {
                             gerund = IsSoft() ? "tearing" : "fracturing";
                         }
                         break;
-                    case MaterialStressResult.Impact_CompleteFracture:
+                    case StressResult.Impact_CompleteFracture:
                         if (IsChip()) gerund = "chipping";
                         else
                         {
                             gerund = IsSoft() ? "tearing apart" : "shattering";
                         }
                         break;
-                    case MaterialStressResult.Shear_Dent:
+                    case StressResult.Shear_Dent:
                         gerund = "denting";
                         break;
-                    case MaterialStressResult.Shear_Cut:
+                    case StressResult.Shear_Cut:
                         if (!IsSoft())
                         {
                             if (IsChip()) gerund = "chipping";
@@ -111,7 +111,7 @@ namespace Tiles.Injuries
                             gerund = "tearing";
                         }
                         break;
-                    case MaterialStressResult.Shear_CutThrough:
+                    case StressResult.Shear_CutThrough:
                         if (IsChip()) gerund = "chipping";
                         else
                         {

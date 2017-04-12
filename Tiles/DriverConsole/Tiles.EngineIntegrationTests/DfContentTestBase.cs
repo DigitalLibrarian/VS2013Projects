@@ -82,7 +82,7 @@ namespace Tiles.EngineIntegrationTests
         protected IInjuryReport AssertTissueStrikeResults(
             IAgent attacker, IAgent defender, IBodyPart targetPart, 
             ICombatMove move, 
-            params MaterialStressResult[] expectedLayerResults
+            params StressResult[] expectedLayerResults
             )
         {
             IMaterial strikerMaterial = attacker.GetStrikeMaterial(move);
@@ -128,7 +128,7 @@ namespace Tiles.EngineIntegrationTests
             {
                 foreach (var tInjury in partInjury.TissueLayerInjuries.Skip(i))
                 {
-                    if(tInjury.StrikeResult.StressResult != MaterialStressResult.None)
+                    if(tInjury.StrikeResult.StressResult != StressResult.None)
                     {
                         Assert.Fail(string.Format("Unexpected tissue layer result {0} for {1} layer", tInjury.StrikeResult.StressResult, tInjury.Layer.Material.Name));
                     }

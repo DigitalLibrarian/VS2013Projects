@@ -142,7 +142,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             double stress = (Momentum) * caRatio;
             bool defeated = false;
             bool partialPuncture = false;
-            var msr = MaterialStressResult.None;
+            var msr = StressResult.None;
             if (StressMode == Materials.StressMode.Edge)
             {
                 stress = Momentum / volDamaged;
@@ -169,11 +169,11 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 shearCost3 = defeatCost;
                 if (stress > dentCost)
                 {
-                    msr = MaterialStressResult.Shear_Dent;
+                    msr = StressResult.Shear_Dent;
                     // strain follows hooke's law here
                     if (stress > cutCost)
                     {
-                        msr = MaterialStressResult.Shear_Cut;
+                        msr = StressResult.Shear_Cut;
                         partialPuncture = true;
                         if ((stress > defeatCost)
                             && (StrikerContactArea >= StrickenContactArea
@@ -181,21 +181,21 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                             )
                         {
                             woundArea = contactArea;
-                            msr = MaterialStressResult.Shear_CutThrough;
+                            msr = StressResult.Shear_CutThrough;
                             defeated = true;
                         }
                     }
                 }
                 switch (msr)
                 {
-                    case MaterialStressResult.Shear_Dent:
+                    case StressResult.Shear_Dent:
                         dentCost = ((stress - dentCost) / (cutCost - dentCost)) * maxDent;
                         break;
-                    case MaterialStressResult.Shear_Cut:
+                    case StressResult.Shear_Cut:
                         dentCost = maxDent;
                         cutCost = ((stress - cutCost) / (defeatCost - cutCost)) * maxCut;
                         break;
-                    case MaterialStressResult.Shear_CutThrough:
+                    case StressResult.Shear_CutThrough:
                         dentCost = maxDent;
                         cutCost = maxCut;
                         break;
@@ -246,20 +246,20 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 if (stress > dentCost)
                 {
                     woundArea = contactArea;
-                    msr = MaterialStressResult.Impact_Dent;
+                    msr = StressResult.Impact_Dent;
                     if (bluntBypass)
                     {
-                        msr = MaterialStressResult.Impact_Bypass;
+                        msr = StressResult.Impact_Bypass;
                     }
                     else
                     {
                         if (stress > cutCost)
                         {
-                            msr = MaterialStressResult.Impact_InitiateFracture;
+                            msr = StressResult.Impact_InitiateFracture;
                             if (stress > defeatCost)
                             {
                                 defeated = true;
-                                msr = MaterialStressResult.Impact_CompleteFracture;
+                                msr = StressResult.Impact_CompleteFracture;
                             }
                         }
                     }

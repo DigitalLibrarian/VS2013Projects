@@ -8,8 +8,14 @@ namespace Tiles.Materials
 {
     public enum StressResult
     {
-        Elastic,
-        Plastic,
-        Fracture
+        None,
+        Shear_Dent,
+        Shear_Cut,
+        Shear_CutThrough,
+        Impact_Dent,
+        Impact_InitiateFracture,
+        Impact_CompleteFracture,
+
+        Impact_Bypass
     }
 }

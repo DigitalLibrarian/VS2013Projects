@@ -33,9 +33,9 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass);
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass);
         }
         [TestMethod]
         public void ElfVsElf_PunchLeftFoot()
@@ -48,10 +48,10 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.None);
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.None);
         }
 
         [TestMethod]
@@ -65,11 +65,11 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Impact_CompleteFracture,
-                MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_CompleteFracture);
+                StressResult.Impact_CompleteFracture,
+                StressResult.Shear_CutThrough,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_CompleteFracture);
         }
         [TestMethod]
         public void ElfVsElf_KickRightUpperLeg()
@@ -82,10 +82,10 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.None);
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.None);
         }
     }
 }

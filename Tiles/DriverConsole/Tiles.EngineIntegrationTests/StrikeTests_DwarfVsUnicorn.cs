@@ -49,10 +49,10 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
 
 
@@ -72,9 +72,9 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_CutThrough,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
 
 
@@ -94,10 +94,10 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
 
         [TestMethod]
@@ -116,9 +116,9 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
 
 
@@ -138,9 +138,9 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
 
 
@@ -160,8 +160,8 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass);
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass);
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.None);
+                StressResult.None);
         }
 
 
@@ -200,8 +200,8 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Impact_Bypass,
-                MaterialStressResult.Impact_Bypass);
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass);
         }
 
 
@@ -218,9 +218,9 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
 
 
@@ -237,10 +237,10 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
 
         IAgent GetNewDwarf()

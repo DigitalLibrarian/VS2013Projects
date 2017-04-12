@@ -44,10 +44,10 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut,
-                MaterialStressResult.Shear_Cut);
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
         }
     }
 }

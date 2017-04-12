@@ -163,7 +163,7 @@ namespace Tiles.Materials
                     }
                     else
                     {
-                        if (layerResult.StressResult == MaterialStressResult.Impact_CompleteFracture)
+                        if (layerResult.StressResult == StressResult.Impact_CompleteFracture)
                         {
                             mode = Materials.StressMode.Edge;
                             turnsToBlunt = 1;
@@ -174,14 +174,14 @@ namespace Tiles.Materials
                 {
                     mode = StressMode.Blunt;
                     // redo as blunt
-                    if (layerResult.StressResult == MaterialStressResult.None)
+                    if (layerResult.StressResult == StressResult.None)
                     {
                         // retry this layer with the mode change
                        layerIndex--;
                        continue;
                     }
                 }
-                else if (layerResult.StressResult == MaterialStressResult.None)
+                else if (layerResult.StressResult == StressResult.None)
                 {
                     done = true;
                 }

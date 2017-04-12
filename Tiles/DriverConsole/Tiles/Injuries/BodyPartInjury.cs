@@ -45,7 +45,7 @@ namespace Tiles.Injuries
         
         public string GetResultPhrase()
         {
-            var injuries = TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.MaterialStressResult.None);
+            var injuries = TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
             if (Class.IsCompletion)
             {
                 return string.Format(" and {0}!", Class.CompletionPhrase);

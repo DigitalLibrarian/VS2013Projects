@@ -6,48 +6,36 @@ using System.Threading.Tasks;
 
 namespace Tiles.Materials
 {
-    public enum MaterialStressResult
-    {
-        None,
-        Shear_Dent,
-        Shear_Cut,
-        Shear_CutThrough,
-        Impact_Dent,
-        Impact_InitiateFracture,
-        Impact_CompleteFracture,
-
-        Impact_Bypass
-    }
-
-
-
     public interface IMaterialStrikeResult
     {
         StressMode StressMode { get; set; }
+        StressResult StressResult { get; }
 
         double ContactArea { get; }
         double SurfaceAreaRatio { get; }
+
+        double Stress { get; }
+        double WoundArea { get; }
+        double RemainingPenetration { get; }
 
         double Momentum { get; }
         double MomentumThreshold { get; }
 
         double ExcessMomentum { get; }
+
         bool BreaksThrough { get; }
 
-        MaterialStressResult StressResult { get; }
         double ResultMomentum { get; }
+
         bool IsDefeated { get; }
+
         double ShearDentCost { get; }
         double ShearCutCost { get; }
         double ShearCutThroughCost { get; }
         double ImpactDentCost { get; }
         double ImpactInitiateFractureCost { get; }
         double ImpactCompleteFractureCost { get; }
-        double Stress { get; }
 
-        double WoundArea { get;}
-
-        double RemainingPenetration { get; }
         double LayerThickness { get; }
         double Sharpness { get; }
     }
@@ -65,7 +53,7 @@ namespace Tiles.Materials
         public double ExcessMomentum { get { return Momentum - (MomentumThreshold); } }
         public bool BreaksThrough { get { return Momentum >= MomentumThreshold; } }
 
-        public MaterialStressResult StressResult { get; set; }
+        public StressResult StressResult { get; set; }
         public double ResultMomentum { get; set; }
         public bool IsDefeated { get; set; }
         public double ShearDentCost { get; set; }
