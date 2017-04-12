@@ -26,6 +26,11 @@ namespace Tiles.EntityComponents
     public interface IAtlasPosition
     {
         Vector3 Position { get; }
+
+        // TODO: Add these methods.  Then you can get rid of IAtlasBoxUpdateSystem.  Observing a box is an implementation detail.
+
+        // bool InRealityBubble();
+        // bool InViewBox();
     }
 
     public class AtlasPosition : IAtlasPosition
