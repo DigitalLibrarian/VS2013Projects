@@ -27,5 +27,10 @@ namespace Tiles.Bodies
         int GetAttribute(string name);
         IEnumerable<string> AttributeNames { get; }
         IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type);
+
+
+        // Wounds += injuries
+        //IEnumerable<IWound> Wounds { get; }
+        //void AddInjury(IBodyPartInjury injury);
     }
 }

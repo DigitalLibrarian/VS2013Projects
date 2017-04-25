@@ -48,7 +48,6 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             IMaterial weaponMat = attacker.GetStrikeMaterial(move);
 
-            bool targetPartWasShed = false;
             IInjuryReport report = InjuryReportCalc.CalculateMaterialStrike(
                     session,
                     move.Class.StressMode,
@@ -60,20 +59,24 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                     move.Sharpness
                     );
 
+            // TODO - need better way to give injury
             foreach (var bpInjury in report.BodyPartInjuries)
             {
                 bpInjury.BodyPart.Damage.Add(bpInjury.GetTotal());
             }
 
-            targetPartWasShed = report.BodyPartInjuries.Any(x => x.Class.IsSever);
             session.InjuryReport = report;
 
-            if (targetPartWasShed)
+            bool targetPartWasShed = false;
+            foreach (var sever in report.BodyPartInjuries.Where(x => x.Class.IsSever))
             {
-                defender.Body.Amputate(move.DefenderBodyPart);
-                HandleShedPart(attacker, defender, move, move.DefenderBodyPart);
+                defender.Body.Amputate(sever.BodyPart);
+                HandleShedPart(attacker, defender, move, sever.BodyPart);
+                if (sever.BodyPart == move.DefenderBodyPart)
+                {
+                    targetPartWasShed = true;
+                }
             }
-
 
             if (isWeaponBased)
             {

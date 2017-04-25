@@ -12,7 +12,6 @@ namespace Tiles.Bodies
     {
         public ITissueLayerClass Class { get; private set; }
         public IMaterial Material { get; private set; }
-        public ITissueLayerStatus Status { get; private set; }
         public double Thickness { get; private set; }
         public double Volume { get; private set; }
 
@@ -22,41 +21,6 @@ namespace Tiles.Bodies
             Material = material;
             Thickness = thickness;
             Volume = volume;
-            Status = new TissueLayerStatus();
-        }
-        
-        public bool CanBeBruised { get; set; }
-        public bool CanBeTorn { get; set; }
-        public bool CanBePunctured { get; set; }
-    }
-
-    public interface ITissueLayerStatus
-    {
-        Fraction DentFraction { get; }
-        Fraction CutFraction { get; }
-
-        double WoundArea { get; }
-
-        bool IsPulped();
-    }
-
-    public class TissueLayerStatus : ITissueLayerStatus
-    {
-        public Fraction DentFraction { get; set; }
-        public Fraction CutFraction { get; set; }
-        public double WoundArea { get; set; }
-
-        public TissueLayerStatus()
-        {
-            const int denom = 10000;
-            DentFraction = new Fraction(0, denom);
-            CutFraction = new Fraction(0, denom);
-        }
-
-        public bool IsPulped()
-        {
-            return DentFraction.AsDouble() >= 2.5d
-                || CutFraction.AsDouble() >= 1d;
         }
     }
 }

@@ -70,9 +70,12 @@
     <Compile Include="Bodies\AttributeClass.cs" />
     <Compile Include="Bodies\BodyPartRelation.cs" />
     <Compile Include="Bodies\BodyPartRelationType.cs" />
+    <Compile Include="Bodies\ITissueLayerWound.cs" />
+    <Compile Include="Bodies\TissueLayerWound.cs" />
     <Compile Include="Injuries\BodyPartInjury.cs" />
     <Compile Include="Injuries\BodyPartInjuryClass.cs" />
     <Compile Include="Injuries\BodyPartInjuryClasses.cs" />
+    <Compile Include="Injuries\IInjuryReportCalc.cs" />
     <Compile Include="Injuries\InjuryReport.cs" />
     <Compile Include="Injuries\InjuryReportCalc.cs" />
     <Compile Include="Injuries\TissueLayerInjury.cs" />

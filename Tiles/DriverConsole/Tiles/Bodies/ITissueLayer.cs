@@ -12,15 +12,10 @@ namespace Tiles.Bodies
     {
         ITissueLayerClass Class { get; }
         IMaterial Material { get; }
-        ITissueLayerStatus Status { get; }
         /// <summary>
         /// Thickness in m^-5
         /// </summary>
         double Thickness { get; }
         double Volume { get; }
-
-        bool CanBeBruised { get; }
-        bool CanBeTorn { get; }
-        bool CanBePunctured { get; }
     }
 }

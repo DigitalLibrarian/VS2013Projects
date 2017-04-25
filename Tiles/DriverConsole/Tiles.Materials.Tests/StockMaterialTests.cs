@@ -9,20 +9,9 @@ using Tiles.Materials;
 namespace Tiles.Materials.Tests
 {
     [TestClass]
-    public class MaterialTests
+    public class StockMaterialTests
     {
-        Material Steel = new Material("steel", "steel")
-        {
-            ImpactYield = 1505000,
-            ImpactFracture = 2520000,
-            ImpactStrainAtYield = 940,
-
-            ShearYield = 430000,
-            ShearFracture = 720000,
-            ShearStrainAtYield = 215,
-
-            SolidDensity = 7850
-        };
+        IMaterial Steel = StockMaterials.Steel;
 
         [TestMethod]
         public void GetMassUniformVolume_UnitVolume()

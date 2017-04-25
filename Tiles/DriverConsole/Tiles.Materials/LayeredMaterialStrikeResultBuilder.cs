@@ -6,26 +6,6 @@ using System.Threading.Tasks;
 
 namespace Tiles.Materials
 {
-    public interface ILayeredMaterialStrikeResultBuilder
-    {
-        void AddLayer(IMaterial mat);
-        void AddLayer(IMaterial mat, double thick, double volume, object tag);
-
-        void SetStrikerMaterial(IMaterial mat);
-
-        void SetMomentum(double momentum);
-
-        void SetStrikerContactArea(double contactArea);
-        void SetStrickenContactArea(double contactArea);
-        void SetStrikerSharpness(double sharpness);
-        void SetMaxPenetration(double maxPenetration);
-        void SetStressMode(StressMode mode);
-
-        ILayeredMaterialStrikeResult Build();
-
-        void Clear();
-    }
-
     public class LayeredMaterialStrikeResultBuilder : ILayeredMaterialStrikeResultBuilder
     {
         class MLayer
@@ -137,8 +117,7 @@ namespace Tiles.Materials
             for (int layerIndex = 0; layerIndex < Layers.Count(); layerIndex++)
             {
                 if (momentum <= epsilon) break;
-                if (mode == StressMode.Edge && penetration >= MaxPenetration) mode = Materials.StressMode.Blunt;
-                if (turnsToBlunt-- == 0)
+                if (turnsToBlunt-- == 0  || penetration >= MaxPenetration)
                 {
                     mode = Materials.StressMode.Blunt;
                 }
@@ -165,8 +144,12 @@ namespace Tiles.Materials
                     {
                         if (layerResult.StressResult == StressResult.Impact_CompleteFracture)
                         {
-                            mode = Materials.StressMode.Edge;
-                            turnsToBlunt = 1;
+                            if (mode == Materials.StressMode.Blunt)
+                            {
+                                strikeMaterial = layer.Material;
+                                mode = Materials.StressMode.Edge;
+                                turnsToBlunt = 1;
+                            }
                         }
                     }
                 }

@@ -25,10 +25,12 @@ namespace Tiles
             entity.AddComponent(
                 new AtlasPositionComponent(
                     new AtlasPosition(() => agent.Pos)));
+
             if(agent.EntityId != 0)
             {
                 throw new InvalidOperationException();
             }
+
             agent.EntityId = entity.Id;
             return entity.Id;
         }

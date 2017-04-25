@@ -10,18 +10,6 @@ using Tiles.Random;
 
 namespace Tiles.Injuries
 {
-    public interface IInjuryReportCalc
-    {
-        IInjuryReport CalculateMaterialStrike(
-            ICombatMoveContext context,
-            StressMode stressMode,
-            double momentum, double contactArea, int maxPenetration,
-            IBodyPart targetPart,
-            IMaterial strikerMat,
-            double sharpness
-            );
-    }
-
     public class InjuryReportCalc : IInjuryReportCalc
     {
         IDamageVector GetUnitDamage(StressMode mode, double contactArea, int penetration)
@@ -55,6 +43,7 @@ namespace Tiles.Injuries
             return new DamageVector();
             //throw new NotImplementedException();
         }
+
         bool IsHighContactArea(double contactArea)
         {
             return contactArea > 50;
@@ -219,10 +208,8 @@ namespace Tiles.Injuries
                 return new BodyPartInjury(
                     BodyPartInjuryClasses.Severed, part, tissueInjuries);
             }
-            {
-                return new BodyPartInjury(
-                    BodyPartInjuryClasses.JustTissueDamage, part, tissueInjuries);
-            }
+            return new BodyPartInjury(
+                BodyPartInjuryClasses.JustTissueDamage, part, tissueInjuries);
         }
 
 

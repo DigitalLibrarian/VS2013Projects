@@ -62,6 +62,10 @@ namespace Tiles
             if (bpInjury != null) 
             { 
                 var completionMessage = bpInjury.GetResultPhrase();
+                if (bpInjury.Class.IsSever)
+                {
+                    completionMessage = limbMessage;
+                }
 
                 var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
                     attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);

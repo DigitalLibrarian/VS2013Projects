@@ -20,6 +20,8 @@ namespace Tiles.Materials
         IMaterial StrikerMaterial { get; set; }
         IMaterial StrickenMaterial { get; set; }
 
+        IMaterialStressCalc MaterialStressCalc = new MaterialStressCalc();
+
         public void Clear()
         {
             StrikerContactArea = 0;
@@ -75,12 +77,7 @@ namespace Tiles.Materials
             LayerThickness = thick;
         }
 
-        double CalculateStrain(double strainAtYield, double stressAtYield, double currentStress)
-        {
-            var say = strainAtYield;
-            var youngs = stressAtYield / say;
-            return (currentStress / youngs) * 100000d;
-        }
+        
 
         public IMaterialStrikeResult Build()
         {
@@ -108,11 +105,10 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             {
                 // TODO - somehow the contact area is augmented here
                 contactArea += contactArea * 0.09d;
-                //contactArea = System.Math.Ceiling(contactArea);
-                caRatio = ((contactArea) / StrickenContactArea);
+                caRatio = (contactArea / StrickenContactArea);
 
                 volDamaged *= caRatio;
-                surfaceAreaRatio = ((contactArea) / StrickenContactArea);
+                surfaceAreaRatio = (contactArea / StrickenContactArea);
             }
             else
             {
@@ -132,8 +128,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
 
-            double cutFraction = 0, dentFraction = 0, effectFraction = 0;
-            double maxCut = 10000, maxDent = 10000 * surfaceAreaRatio, maxEffect = 25000;
+            double maxCut = 10000, maxDent = 10000 * surfaceAreaRatio;
             bool bluntBypass = false;
 
             double woundArea = 1d;
@@ -156,11 +151,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     stress = Momentum / volDamaged;
 
                 }
-                resultMom = MaterialStressCalc.ShearMomentumAfterUnbrokenRigidLayer(
-                    Momentum,
-                    StrickenMaterial);
-
-                
+                                
                 var dentCost = (shearCost1);
                 var cutCost = dentCost + System.Math.Max(0, shearCost2);
                 var defeatCost = cutCost + System.Math.Max(0, shearCost3);
@@ -213,11 +204,10 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     stress = Momentum / volDamaged;
 
                 }
-                resultMom = MaterialStressCalc.ImpactMomentumAfterUnbrokenRigidLayer(
-                    Momentum,
-                    StrickenMaterial);
+
                 // TODO - weapon deflection (soft meaty fists vs metal colossus) -  NEED TEST
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
+                // This should be visible in action log
 
                 var dentCost = (impactCost1);
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);
@@ -238,7 +228,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     var impactY = StressMode == Materials.StressMode.Blunt
                         ? StrickenMaterial.ImpactYield
                         : StrickenMaterial.ShearYield;
-                    var impactStrain = CalculateStrain(impactSay, impactY, stress);
+                    var impactStrain = MaterialStressCalc.CalculateStrain(impactSay, impactY, stress);
 
                     bluntBypass = impactStrain > impactSay;
                 }
@@ -266,14 +256,8 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 }
             }
 
-            var say = StressMode == Materials.StressMode.Blunt
-                ? StrickenMaterial.ImpactStrainAtYield
-                : StrickenMaterial.ShearStrainAtYield;
-            var y = StressMode == Materials.StressMode.Blunt
-                ? StrickenMaterial.ImpactYield
-                : StrickenMaterial.ShearYield;
-            var strain = CalculateStrain(say, y, stress);
-
+            int strainAtYield, yield, fractureForce;
+            StrickenMaterial.GetModeProperties(StressMode, out yield, out fractureForce, out strainAtYield);
 
             // For example if you punch someone in a steel helm, 
             //[IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt 
@@ -281,7 +265,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             //is passed to the skin layer
             if (!defeated)
             {
-                resultMom = Momentum * ((double)say / 50000d);
+                resultMom = Momentum * ((double)strainAtYield / 50000d);
                 resultMom = System.Math.Max(0d, resultMom);
             }
             else

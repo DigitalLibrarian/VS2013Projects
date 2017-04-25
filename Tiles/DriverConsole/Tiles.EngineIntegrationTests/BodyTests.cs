@@ -35,6 +35,8 @@ namespace Tiles.EngineIntegrationTests
         ICombatMoveBuilder CombatMoveBuilder { get; set; }
         IInjuryReportCalc InjuryReportCalc { get; set; }
 
+        IMaterialStressCalc MaterialStressCalc { get; set; }
+
         [TestInitialize]
         public void Initialize()
         {
@@ -56,6 +58,8 @@ namespace Tiles.EngineIntegrationTests
             Atlas = new Mock<IAtlas>().Object;
             CombatMoveBuilder = new CombatMoveBuilder();
             InjuryReportCalc = new InjuryReportCalc();
+
+            MaterialStressCalc = new MaterialStressCalc();
         }
 
         [TestMethod]

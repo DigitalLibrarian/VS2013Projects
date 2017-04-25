@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Tiles.Materials
 {
-    public static class MaterialStressCalc
+    public class MaterialStressCalc : Tiles.Materials.IMaterialStressCalc
     {
         private static readonly double MinRelativeToughness = 0.01d;
-        public static double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
+        public double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
             var factor = 1d;
             if (strikerMat.ShearYield > strickenMat.ShearYield)
@@ -21,7 +21,7 @@ namespace Tiles.Materials
                 / (((double)strikerMat.ShearYield) * sharpness * 10d);
         }
 
-        public static double ShearCost2(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
+        public double ShearCost2(IMaterial strikerMat, IMaterial strickenMat, double sharpness)
         {
             var factor = 1d;
             if (strikerMat.ShearFracture > strickenMat.ShearFracture)
@@ -33,7 +33,7 @@ namespace Tiles.Materials
                 / (((double)strikerMat.ShearFracture) * sharpness * 10d);
         }
 
-        public static double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
+        public double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
         {
 
             var factor = 1d;
@@ -48,44 +48,29 @@ namespace Tiles.Materials
         }
 
 
-        public static double ImpactCost1(IMaterial strickenMat, double layerVolume)
+        public double ImpactCost1(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * (double)(strickenMat.ImpactYield))
                 / 100d / 500d / 10d;
         }
 
-        public static double ImpactCost2(IMaterial strickenMat, double layerVolume)
+        public double ImpactCost2(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * ((double)(strickenMat.ImpactFracture) - (double)(strickenMat.ImpactYield)))
                 / 100d / 500d / 10d;
         }
 
-        public static double ImpactCost3(IMaterial strickenMat, double layerVolume)
+        public double ImpactCost3(IMaterial strickenMat, double layerVolume)
         {
             return (layerVolume * ((double)(strickenMat.ImpactFracture) - (double)(strickenMat.ImpactYield)))
                 / 100d / 500d / 10d;
         }
         
-        public static double DefeatedLayerMomentumDeduction(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume)
+        public double CalculateStrain(double strainAtYield, double stressAtYield, double currentStress)
         {
-            var shearCost1 = ShearCost1(strikerMat, strickenMat, sharpness);
-            var impactCost1 = ImpactCost1(strickenMat, layerVolume);
-            return (System.Math.Max(
-                shearCost1,
-                impactCost1)) / 10d;
+            var say = strainAtYield;
+            var youngs = stressAtYield / say;
+            return (currentStress / youngs) * 100000d;
         }
-
-        
-        public static double ShearMomentumAfterUnbrokenRigidLayer(double momentum, IMaterial strickenMat)
-        {
-            return (((double)strickenMat.ShearStrainAtYield) * momentum) / 50000d;
-        }
-
-        public static double ImpactMomentumAfterUnbrokenRigidLayer(double momentum, IMaterial strickenMat)
-        {
-            return (((double)strickenMat.ImpactStrainAtYield) * momentum) / 50000d;
-        }
-        
-
     }
 }

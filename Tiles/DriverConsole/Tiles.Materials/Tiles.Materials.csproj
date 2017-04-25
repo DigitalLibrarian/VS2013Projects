@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILayeredMaterialStrikeResultBuilder.cs" />
     <Compile Include="IMaterial.cs" />
+    <Compile Include="IMaterialStressCalc.cs" />
     <Compile Include="IMaterialStrikeResultBuilder.cs" />
     <Compile Include="LayeredMaterialStrikeResult.cs" />
     <Compile Include="LayeredMaterialStrikeResultBuilder.cs" />
