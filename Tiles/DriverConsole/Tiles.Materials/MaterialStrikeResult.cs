@@ -12,19 +12,13 @@ namespace Tiles.Materials
         StressResult StressResult { get; }
 
         double ContactArea { get; }
-        double SurfaceAreaRatio { get; }
+        double ContactAreaRatio { get; }
 
         double Stress { get; }
         double WoundArea { get; }
         double RemainingPenetration { get; }
 
         double Momentum { get; }
-        double MomentumThreshold { get; }
-
-        double ExcessMomentum { get; }
-
-        bool BreaksThrough { get; }
-
         double ResultMomentum { get; }
 
         bool IsDefeated { get; }
@@ -45,13 +39,9 @@ namespace Tiles.Materials
         public StressMode StressMode { get; set; }
 
         public double ContactArea { get; set; }
-        public double SurfaceAreaRatio { get; set; }
+        public double ContactAreaRatio { get; set; }
         public double Momentum { get; set; }
-        public double MomentumThreshold { get; set; }
         public double Stress { get; set; }
-
-        public double ExcessMomentum { get { return Momentum - (MomentumThreshold); } }
-        public bool BreaksThrough { get { return Momentum >= MomentumThreshold; } }
 
         public StressResult StressResult { get; set; }
         public double ResultMomentum { get; set; }

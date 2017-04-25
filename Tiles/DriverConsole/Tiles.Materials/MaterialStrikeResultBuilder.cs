@@ -20,7 +20,17 @@ namespace Tiles.Materials
         IMaterial StrikerMaterial { get; set; }
         IMaterial StrickenMaterial { get; set; }
 
-        IMaterialStressCalc MaterialStressCalc = new MaterialStressCalc();
+        IMaterialStressCalc MaterialStressCalc { get; set; }
+
+        public MaterialStrikeResultBuilder()
+        {
+            MaterialStressCalc = new MaterialStressCalc();
+        }
+
+        public MaterialStrikeResultBuilder(IMaterialStressCalc materialStressCalc)
+        {
+            MaterialStressCalc = materialStressCalc;
+        }
 
         public void Clear()
         {
@@ -96,24 +106,21 @@ For blunt defense, there is:
 After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). 
 If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility.
     */
-            double surfaceAreaRatio = 1;
             double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
             
             var volDamaged = LayerVolume;
-            var caRatio = (StrikerContactArea / StrickenContactArea);
-            if (caRatio < 1d)
+            var contactAreaRatio = (StrikerContactArea / StrickenContactArea);
+            if (contactAreaRatio < 1d)
             {
                 // TODO - somehow the contact area is augmented here
                 contactArea += contactArea * 0.09d;
-                caRatio = (contactArea / StrickenContactArea);
+                contactAreaRatio = (contactArea / StrickenContactArea);
 
-                volDamaged *= caRatio;
-                surfaceAreaRatio = (contactArea / StrickenContactArea);
+                volDamaged *= contactAreaRatio;
             }
             else
             {
-                surfaceAreaRatio = 1d;
-                caRatio = 1d;
+                contactAreaRatio = 1d;
                 contactArea = StrickenContactArea - 1;
             }
             volDamaged = System.Math.Max(1d, volDamaged);
@@ -128,13 +135,12 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
 
-            double maxCut = 10000, maxDent = 10000 * surfaceAreaRatio;
+            double maxCut = 10000, maxDent = 10000 * contactAreaRatio;
             bool bluntBypass = false;
 
             double woundArea = 1d;
-            double thresh = -1d;
             double resultMom = -1;
-            double stress = (Momentum) * caRatio;
+            double stress = (Momentum) * contactAreaRatio;
             bool defeated = false;
             bool partialPuncture = false;
             var msr = StressResult.None;
@@ -142,9 +148,9 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             {
                 stress = Momentum / volDamaged;
 
-                if (caRatio < 1d)
+                if (contactAreaRatio < 1d)
                 {
-                    stress = (Momentum / volDamaged) - ((Momentum / volDamaged) * caRatio);
+                    stress = (Momentum / volDamaged) - ((Momentum / volDamaged) * contactAreaRatio);
                 }
                 else
                 {
@@ -195,9 +201,9 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             }
             else
             {
-                if (caRatio < 1d)
+                if (contactAreaRatio < 1d)
                 {
-                    stress = (Momentum - (Momentum * caRatio));
+                    stress = (Momentum - (Momentum * contactAreaRatio));
                 }
                 else
                 {
@@ -293,8 +299,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 StressMode = StressMode,
                 Momentum = Momentum,
                 ContactArea = contactArea,
-                SurfaceAreaRatio = surfaceAreaRatio,
-                MomentumThreshold = thresh,
+                ContactAreaRatio = contactAreaRatio,
 
                 StressResult = msr,
                 IsDefeated = defeated || partialPuncture,

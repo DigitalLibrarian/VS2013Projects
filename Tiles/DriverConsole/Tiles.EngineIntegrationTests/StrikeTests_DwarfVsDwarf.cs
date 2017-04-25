@@ -115,7 +115,7 @@ namespace Tiles.EngineIntegrationTests
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
-            Assert.AreEqual(46, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+            Assert.AreEqual(46, System.Math.Ceiling(skinInjury.StrikeResult.ContactAreaRatio * 100));
         }
 
 
@@ -139,7 +139,7 @@ namespace Tiles.EngineIntegrationTests
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
-            Assert.AreEqual(21, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+            Assert.AreEqual(21, System.Math.Ceiling(skinInjury.StrikeResult.ContactAreaRatio * 100));
         }
 
         [TestMethod]
@@ -162,7 +162,7 @@ namespace Tiles.EngineIntegrationTests
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
-            Assert.AreEqual(60, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+            Assert.AreEqual(60, System.Math.Ceiling(skinInjury.StrikeResult.ContactAreaRatio * 100));
         }
 
 
@@ -186,7 +186,7 @@ namespace Tiles.EngineIntegrationTests
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
-            Assert.AreEqual(38, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+            Assert.AreEqual(38, System.Math.Ceiling(skinInjury.StrikeResult.ContactAreaRatio * 100));
         }
         
         [TestMethod]
@@ -209,7 +209,7 @@ namespace Tiles.EngineIntegrationTests
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
-            Assert.AreEqual(60, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+            Assert.AreEqual(60, System.Math.Ceiling(skinInjury.StrikeResult.ContactAreaRatio * 100));
         }
 
         [TestMethod]
@@ -231,7 +231,7 @@ namespace Tiles.EngineIntegrationTests
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(3, (int)skinInjury.StrikeResult.ContactArea);
-            Assert.AreEqual(100, System.Math.Ceiling(skinInjury.StrikeResult.SurfaceAreaRatio * 100));
+            Assert.AreEqual(100, System.Math.Ceiling(skinInjury.StrikeResult.ContactAreaRatio * 100));
         }
 
 

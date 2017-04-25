@@ -108,7 +108,7 @@ namespace Tiles.Injuries
                 }
             }
 
-            // TODO - it should not be possible to sever internal parts
+            // TODO - it should not be possible to sever internal parts, but we can "spill" them
             foreach(var internalPart in context.Defender.Body.GetInternalParts(targetPart))
             {
                 foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
@@ -139,20 +139,8 @@ namespace Tiles.Injuries
                     originalContactArea,
                     maxPenetration
                     );
-
-                var momComp = 100d;
-                if (!tissueResult.IsDefeated)
-                {
-                    double momLeft = (tissueResult.MomentumThreshold - tissueResult.Momentum) / tissueResult.MomentumThreshold;
-
-                    // if momLeft = 0, we want 100% dmg
-                    // if momLeft = .5, we want 50 pts
-                    // if momLeft = 100, we want 0 pts
-
-                    momComp = (1d - momLeft) * 100;
-                }
-
-                double newDamage = System.Math.Max(1d, momComp * ttFact);
+                           
+                double newDamage = System.Math.Max(1d, ttFact);
                 tissueDamage.ScalarMultiply(newDamage);
                 var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult, tissueDamage, tlBodyPart.Damage);
 
@@ -280,12 +268,12 @@ namespace Tiles.Injuries
             };
             foreach (var dt in tissueDamage.GetTypes())
             {
-
                 var injuryDamage = new DamageVector();
                 injuryDamage.Set(dt, tissueDamage.Get(dt));
                 yield return
                 new TissueLayerInjury(
-                    new MsrTissueLayerInjuryClass(bodyPart, layer, tissueResult), layer, injuryDamage, tissueResult);
+                    new MsrTissueLayerInjuryClass(bodyPart, layer, tissueResult),
+                    layer, injuryDamage, tissueResult);
             }
         }
     }

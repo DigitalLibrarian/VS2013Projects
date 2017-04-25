@@ -12,8 +12,10 @@ namespace Tiles.Bodies
         bool IsGrasping { get; }
         bool IsBeingGrasped { get; }
         bool IsWrestling { get; }
+
         double Size { get; }
         double StoredFat { get; }
+
         IList<IBodyPart> Parts { get; }
         IBodyClass Class { get; }
 
