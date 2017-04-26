@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
+using Tiles.Items;
 using Tiles.Materials;
 using Tiles.Random;
 
@@ -27,7 +28,10 @@ namespace Tiles.Bodies.Injuries
             Builder = resultBuilder;
         }
 
-        public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, double contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
+        public IInjuryReport CalculateMaterialStrike(
+            IEnumerable<IItem> armorItems, StressMode stressMode, 
+            double momentum, double contactArea, int maxPenetration, 
+            IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
         {
             // tlParts is an index of all involved tissue layers to their containing parts.  
             // It will contain this data for all parts nested inside the target
@@ -36,15 +40,14 @@ namespace Tiles.Bodies.Injuries
             Builder.Clear();
             // setup builder and generate tlParts
             {
+                Builder.SetStressMode(stressMode);
                 Builder.SetMomentum(momentum);
                 Builder.SetStrikerContactArea(contactArea);
                 Builder.SetStrickenContactArea(targetPart.GetContactArea());
-                Builder.SetStrikerSharpness(sharpness);
                 Builder.SetMaxPenetration(maxPenetration);
-                Builder.SetStressMode(stressMode);
                 Builder.SetStrikerMaterial(strikerMat);
+                Builder.SetStrikerSharpness(sharpness);
 
-                var armorItems = context.Defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor);
                 var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
 
                 foreach (var armorItem in armorItems)
@@ -62,7 +65,7 @@ namespace Tiles.Bodies.Injuries
                 }
 
                 // TODO - it should not be possible to sever internal parts, but we can "spill" them
-                foreach (var internalPart in context.Defender.Body.GetInternalParts(targetPart))
+                foreach (var internalPart in targetBody.GetInternalParts(targetPart))
                 {
                     foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
                     {

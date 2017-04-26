@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
+using Tiles.Items;
 using Tiles.Materials;
 
 namespace Tiles.Bodies.Injuries
@@ -12,12 +13,8 @@ namespace Tiles.Bodies.Injuries
     public interface IInjuryReportCalc
     {
         IInjuryReport CalculateMaterialStrike(
-            ICombatMoveContext context,
-            StressMode stressMode,
+            IEnumerable<IItem> armorItems, StressMode stressMode,
             double momentum, double contactArea, int maxPenetration,
-            IBodyPart targetPart,
-            IMaterial strikerMat,
-            double sharpness
-            );
+            IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, double sharpness);
     }
 }

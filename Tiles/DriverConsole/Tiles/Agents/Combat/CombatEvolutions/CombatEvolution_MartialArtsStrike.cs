@@ -47,17 +47,19 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var momentum = attacker.GetStrikeMomentum(move);
 
             IMaterial weaponMat = attacker.GetStrikeMaterial(move);
+            var armorItems = session.Defender.Outfit
+                .GetItems(move.DefenderBodyPart).Where(x => x.IsArmor);
 
             IInjuryReport report = InjuryReportCalc.CalculateMaterialStrike(
-                    session,
-                    move.Class.StressMode,
-                    momentum,
-                    move.Class.ContactArea,
-                    move.Class.MaxPenetration,
-                    move.DefenderBodyPart,
-                    weaponMat,
-                    move.Sharpness
-                    );
+                armorItems,
+                move.Class.StressMode,
+                momentum,
+                move.Class.ContactArea,
+                move.Class.MaxPenetration,
+                move.Defender.Body,
+                move.DefenderBodyPart,
+                weaponMat,
+                move.Sharpness);
 
             // TODO - need better way to give injury
             foreach (var bpInjury in report.BodyPartInjuries)

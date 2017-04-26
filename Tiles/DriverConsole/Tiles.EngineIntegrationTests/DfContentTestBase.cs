@@ -91,11 +91,12 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = move.Class;
 
             var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
-                context,
+                context.Defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor),
                 moveClass.StressMode,
                 mom,
                 moveClass.ContactArea,
                 moveClass.MaxPenetration,
+                defender.Body,
                 targetPart,
                 strikerMaterial,
                 move.Sharpness
