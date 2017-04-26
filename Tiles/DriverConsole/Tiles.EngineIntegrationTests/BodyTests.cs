@@ -12,7 +12,7 @@ using Tiles.Math;
 using Moq;
 using Tiles.Items;
 using Tiles.Agents.Combat;
-using Tiles.Injuries;
+using Tiles.Bodies.Injuries;
 using Tiles.Materials;
 using Tiles.Bodies;
 

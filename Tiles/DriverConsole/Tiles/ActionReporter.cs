@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
-using Tiles.Injuries;
+using Tiles.Bodies.Injuries;
 using Tiles.Items;
 
 namespace Tiles

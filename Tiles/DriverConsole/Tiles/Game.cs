@@ -15,7 +15,7 @@ using Tiles.Items;
 using Tiles.Ecs;
 using Tiles.EntitySystems;
 using Tiles.Materials;
-using Tiles.Injuries;
+using Tiles.Bodies.Injuries;
 
 namespace Tiles
 {

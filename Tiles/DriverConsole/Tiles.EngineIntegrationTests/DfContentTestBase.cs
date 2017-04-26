@@ -12,7 +12,7 @@ using Tiles.Bodies;
 using Tiles.Content.Bridge.DfNet;
 using Tiles.Content.Map;
 using Tiles.Ecs;
-using Tiles.Injuries;
+using Tiles.Bodies.Injuries;
 using Tiles.Items;
 using Tiles.Materials;
 using Tiles.Math;

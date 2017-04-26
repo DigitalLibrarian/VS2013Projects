@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
 
-namespace Tiles.Injuries
+namespace Tiles.Bodies.Injuries
 {
     public interface IBodyPartInjury
     {

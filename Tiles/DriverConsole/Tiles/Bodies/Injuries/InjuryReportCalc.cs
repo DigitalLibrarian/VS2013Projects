@@ -8,7 +8,7 @@ using Tiles.Bodies;
 using Tiles.Materials;
 using Tiles.Random;
 
-namespace Tiles.Injuries
+namespace Tiles.Bodies.Injuries
 {
     public class InjuryReportCalc : IInjuryReportCalc
     {

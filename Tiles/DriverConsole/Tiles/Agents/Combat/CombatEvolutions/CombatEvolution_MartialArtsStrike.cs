@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
-using Tiles.Injuries;
+using Tiles.Bodies.Injuries;
 using Tiles.Items;
 using Tiles.Materials;
 using Tiles.Math;

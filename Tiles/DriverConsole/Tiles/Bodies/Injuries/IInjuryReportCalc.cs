@@ -7,7 +7,7 @@ using Tiles.Agents.Combat;
 using Tiles.Bodies;
 using Tiles.Materials;
 
-namespace Tiles.Injuries
+namespace Tiles.Bodies.Injuries
 {
     public interface IInjuryReportCalc
     {

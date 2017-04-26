@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
-using Tiles.Injuries;
+using Tiles.Bodies.Injuries;
 using Tiles.Materials;
 
-namespace Tiles.Tests.Injuries
+namespace Tiles.Tests.Bodies.Injuries
 {
     [TestClass]
     public class InjuryReportCalcTests

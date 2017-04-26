@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tiles.Injuries
+namespace Tiles.Bodies.Injuries
 {
     public interface ITissueLayerInjuryClass
     {
