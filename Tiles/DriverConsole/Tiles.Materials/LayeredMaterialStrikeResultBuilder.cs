@@ -190,7 +190,7 @@ namespace Tiles.Materials
             return result;
         }
 
-        IMaterialStrikeResult PerformSingleLayerTest(
+        MaterialStrikeResult PerformSingleLayerTest(
             IMaterial strikerMat, double momentum, double contactArea, double penetrationLeft,
             StressMode mode, MLayer layer)
         {

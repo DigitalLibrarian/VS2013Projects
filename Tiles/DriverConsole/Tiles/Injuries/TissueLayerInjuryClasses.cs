@@ -51,8 +51,8 @@ namespace Tiles.Injuries
     {
         IBodyPart BodyPart { get; set; }
         ITissueLayer Layer { get; set; }
-        IMaterialStrikeResult StrikeResult { get; set; }
-        public MsrTissueLayerInjuryClass(IBodyPart bodyPart,  ITissueLayer layer, IMaterialStrikeResult strikeResult)
+        MaterialStrikeResult StrikeResult { get; set; }
+        public MsrTissueLayerInjuryClass(IBodyPart bodyPart,  ITissueLayer layer, MaterialStrikeResult strikeResult)
         {
             BodyPart = bodyPart;
             Layer = layer;
@@ -147,7 +147,7 @@ namespace Tiles.Injuries
         public bool IsChip()
         {
             var maxCa = BodyPart.GetContactArea() * 0.25d;
-            return StrikeResult.WoundArea <= maxCa;
+            return StrikeResult.ContactArea <= maxCa;
         }
 
         public DamageType DamageType

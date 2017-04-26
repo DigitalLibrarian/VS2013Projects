@@ -27,7 +27,7 @@ namespace Tiles.Injuries
             CompletionPhrase = "the injured part is cloven asunder"
         };
 
-        public static IBodyPartInjuryClass JustTissueDamage = new BodyPartInjuryClass
+        public static IBodyPartInjuryClass TissueDamage = new BodyPartInjuryClass
         {
 
         };

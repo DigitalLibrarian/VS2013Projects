@@ -19,7 +19,7 @@ namespace Tiles.Materials
         void SetStrickenMaterial(IMaterial mat);
         void SetLayerVolume(double vol);
 
-        IMaterialStrikeResult Build();
+        MaterialStrikeResult Build();
         void Clear();
 
         void SetLayerThickness(double p);

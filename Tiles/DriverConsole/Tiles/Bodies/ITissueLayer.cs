@@ -17,5 +17,7 @@ namespace Tiles.Bodies
         /// </summary>
         double Thickness { get; }
         double Volume { get; }
+
+        string Name { get; }
     }
 }

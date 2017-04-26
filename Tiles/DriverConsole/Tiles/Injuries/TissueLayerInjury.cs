@@ -12,7 +12,7 @@ namespace Tiles.Injuries
     {
         ITissueLayer Layer { get; }
         ITissueLayerInjuryClass Class { get; }
-        IMaterialStrikeResult StrikeResult { get; }
+        MaterialStrikeResult StrikeResult { get; }
 
         IDamageVector GetTotal();
         string GetPhrase();
@@ -25,8 +25,8 @@ namespace Tiles.Injuries
 
         public IDamageVector Damage { get; private set; }
 
-        public IMaterialStrikeResult StrikeResult { get; private set; }
-        public TissueLayerInjury(ITissueLayerInjuryClass injuryClass, ITissueLayer layer, IDamageVector damage, IMaterialStrikeResult strikeResult)
+        public MaterialStrikeResult StrikeResult { get; private set; }
+        public TissueLayerInjury(ITissueLayerInjuryClass injuryClass, ITissueLayer layer, IDamageVector damage, MaterialStrikeResult strikeResult)
         {
             Class = injuryClass;
             Layer = layer;

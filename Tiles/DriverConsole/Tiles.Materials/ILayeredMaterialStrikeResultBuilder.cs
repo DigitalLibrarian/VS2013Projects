@@ -13,6 +13,10 @@ namespace Tiles.Materials
 
         void SetStrikerMaterial(IMaterial mat);
 
+        /// <summary>
+        /// Set the total amount of momentum going in
+        /// </summary>
+        /// <param name="momentum"></param>
         void SetMomentum(double momentum);
 
         void SetStrikerContactArea(double contactArea);

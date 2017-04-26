@@ -15,6 +15,8 @@ namespace Tiles.Bodies
         public double Thickness { get; private set; }
         public double Volume { get; private set; }
 
+        public string Name { get { return Material.Name; } }
+
         public TissueLayer(ITissueLayerClass layerClass, IMaterial material, double thickness, double volume)
         {
             Class = layerClass;

@@ -12,269 +12,75 @@ namespace Tiles.Injuries
 {
     public class InjuryReportCalc : IInjuryReportCalc
     {
-        IDamageVector GetUnitDamage(StressMode mode, double contactArea, int penetration)
-        {
-            if (mode == StressMode.Edge)
-            {
-                if (IsLowContactArea(contactArea) && IsHighPenetration(penetration))
-                {
-                    return new DamageVector(new Dictionary<DamageType, int>
-                    {
-                        {DamageType.Bludgeon, 1},
-                        {DamageType.Slash, 1},
-                    });
-                }
-                else
-                {
-                    return new DamageVector(new Dictionary<DamageType, int>
-                    {
-                        {DamageType.Slash, 1},
-                    });
-                }
+        private IInjuryFactory InjuryFactory { get; set; }
+        private ILayeredMaterialStrikeResultBuilder Builder { get; set; }
 
-            }
-            else if (mode == StressMode.Blunt || mode == StressMode.Other)
-            {
-                return new DamageVector(new Dictionary<DamageType, int>
-                    {
-                        {DamageType.Bludgeon, 1},
-                    });
-            }
-            return new DamageVector();
-            //throw new NotImplementedException();
+        public InjuryReportCalc()
+        {
+            InjuryFactory = new InjuryFactory();
+            Builder = new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()); 
         }
 
-        bool IsHighContactArea(double contactArea)
+        public InjuryReportCalc(IInjuryFactory injuryFactory, ILayeredMaterialStrikeResultBuilder resultBuilder)
         {
-            return contactArea > 50;
+            InjuryFactory = injuryFactory;
+            Builder = resultBuilder;
         }
-
-        bool IsHighPenetration(int maxPenetation)
-        {
-            return maxPenetation > 2000;
-        }
-        bool IsLowContactArea(double contactArea)
-        {
-            return contactArea <= 50;
-        }
-
-        bool IsLowPenetration(int maxPenetation)
-        {
-            return maxPenetation < 2000;
-        }
-
-        ILayeredMaterialStrikeResultBuilder CreateBuilder()
-        {
-            // TODO - inject factory
-            return new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()); 
-        }
-        
 
         public IInjuryReport CalculateMaterialStrike(ICombatMoveContext context, StressMode stressMode, double momentum, double contactArea, int maxPenetration, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
         {
-            var builder = CreateBuilder();
-
-            // resize contact area if the body part is smaller
-            // body part size in cm3, contact area in mm3
-            double originalContactArea = contactArea;
-
-            var partCa = targetPart.GetContactArea();
-            var weaponCa = contactArea;
-
-            builder.SetMomentum(momentum);
-            builder.SetStrikerContactArea(contactArea);
-            builder.SetStrickenContactArea(partCa);
-            builder.SetStrikerSharpness(sharpness);
-            builder.SetMaxPenetration(maxPenetration);
-            builder.SetStressMode(stressMode);
-            builder.SetStrikerMaterial(strikerMat);
-
-            var armorItems = context.Defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor);
-            var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
-
+            // tlParts is an index of all involved tissue layers to their containing parts.  
+            // It will contain this data for all parts nested inside the target
             var tlParts = new Dictionary<ITissueLayer, IBodyPart>();
 
-            foreach (var armorItem in armorItems)
+            Builder.Clear();
+            // setup builder and generate tlParts
             {
-                builder.AddLayer(armorItem.Class.Material);
-            }
+                Builder.SetMomentum(momentum);
+                Builder.SetStrikerContactArea(contactArea);
+                Builder.SetStrickenContactArea(targetPart.GetContactArea());
+                Builder.SetStrikerSharpness(sharpness);
+                Builder.SetMaxPenetration(maxPenetration);
+                Builder.SetStressMode(stressMode);
+                Builder.SetStrikerMaterial(strikerMat);
 
-            foreach (var tissueLayer in tissueLayers)
-            {
-                if (!tissueLayer.Class.IsCosmetic)
+                var armorItems = context.Defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor);
+                var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
+
+                foreach (var armorItem in armorItems)
                 {
-                    builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
-                    tlParts.Add(tissueLayer, targetPart);
+                    Builder.AddLayer(armorItem.Class.Material);
                 }
-            }
 
-            // TODO - it should not be possible to sever internal parts, but we can "spill" them
-            foreach(var internalPart in context.Defender.Body.GetInternalParts(targetPart))
-            {
-                foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
+                foreach (var tissueLayer in tissueLayers)
                 {
                     if (!tissueLayer.Class.IsCosmetic)
                     {
-                        builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
-                        tlParts.Add(tissueLayer, internalPart);
+                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                        tlParts.Add(tissueLayer, targetPart);
+                    }
+                }
+
+                // TODO - it should not be possible to sever internal parts, but we can "spill" them
+                foreach (var internalPart in context.Defender.Body.GetInternalParts(targetPart))
+                {
+                    foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
+                    {
+                        if (!tissueLayer.Class.IsCosmetic)
+                        {
+                            Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                            tlParts.Add(tissueLayer, internalPart);
+                        }
                     }
                 }
             }
-            
-            var result = builder.Build();
-            
-            var tissueInjuries = new Dictionary<IBodyPart, List<ITissueLayerInjury>>();
-            foreach (var taggedResult in result.TaggedResults)
-            {
-                var layerInjuries = Enumerable.Empty<ITissueLayerInjury>();
-                var tissueLayer = taggedResult.Key as ITissueLayer;
-                var tissueResult = taggedResult.Value;
 
-                var tlBodyPart = tlParts[tissueLayer];
+            var result = Builder.Build();
 
-                var totalThick = tlBodyPart.GetThickness();
-                double ttFact = (double)(tissueLayer.Thickness) / (double)(totalThick);
-                var tissueDamage = GetUnitDamage(
-                    tissueResult.StressMode,
-                    originalContactArea,
-                    maxPenetration
-                    );
-                           
-                double newDamage = System.Math.Max(1d, ttFact);
-                tissueDamage.ScalarMultiply(newDamage);
-                var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult, tissueDamage, tlBodyPart.Damage);
+            // the injury factory translates from material strike results to injury descriptions
+            var bpInjuries = InjuryFactory.Create(targetPart, contactArea, maxPenetration, result, tlParts);
 
-                if (!tissueInjuries.ContainsKey(tlBodyPart))
-                {
-                    tissueInjuries[tlBodyPart] = new List<ITissueLayerInjury>();
-                }
-                tissueInjuries[tlBodyPart].AddRange(tlInjuries);
-            }
-
-            var bpInjuries = new List<IBodyPartInjury>();
-
-            if (tissueInjuries.ContainsKey(targetPart))
-            {
-                var rootInjury = CreateBodyPartInjury(targetPart, contactArea, result, tissueInjuries[targetPart]);
-                bpInjuries.Add(rootInjury);
-            }
-            foreach (var bp in tissueInjuries.Keys)
-            {
-                if (bp != targetPart)
-                {
-                    bpInjuries.Add(CreateBodyPartInjury(bp, contactArea, result, tissueInjuries[bp]));
-                }
-            }
             return new InjuryReport(bpInjuries);
-        }
-
-        private IBodyPartInjury CreateBodyPartInjury(
-            IBodyPart part, double contactArea,
-            ILayeredMaterialStrikeResult result,
-            List<ITissueLayerInjury> tissueInjuries)
-        {
-            // TODO - if the body part only has a single tissue, then the
-            // body part injury can just mirror it (look at throat injuries in df combat logs)
-            var damage = new DamageVector();
-            foreach (var ti in tissueInjuries)
-            {
-                damage.Add(ti.GetTotal());
-            }
-
-            if (WillSever(part, damage, contactArea))
-            {
-                return new BodyPartInjury(
-                    BodyPartInjuryClasses.Severed, part, tissueInjuries);
-            }
-            else if (!IsBroken(part.Damage) && WillBreak(part.Damage, damage))
-            {
-                return new BodyPartInjury(
-                    BodyPartInjuryClasses.ExplodesIntoGore, part, tissueInjuries);
-            }
-            else if (!IsMangled(part.Damage) && WillMangle(part.Damage, damage))
-            {
-                return new BodyPartInjury(
-                    BodyPartInjuryClasses.Severed, part, tissueInjuries);
-            }
-            return new BodyPartInjury(
-                BodyPartInjuryClasses.JustTissueDamage, part, tissueInjuries);
-        }
-
-
-        bool WillSever(IBodyPart part, IDamageVector d, double contactArea)
-        {
-            if (!part.CanBeAmputated) return false;
-
-            var p = part.Damage;
-            var dSlash = d.GetFraction(DamageType.Slash).AsDouble();
-            if (dSlash <= 0) return false;
-
-            var pSlash = p.GetFraction(DamageType.Slash).AsDouble();
-            if (pSlash + dSlash >= 1)
-            {
-                if (contactArea >= part.Size * 10)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool IsBroken(IDamageVector d)
-        {
-            return d.GetFraction(DamageType.Bludgeon).AsDouble() >= 1d;
-        }
-
-        public bool WillBreak(IDamageVector p, IDamageVector d)
-        {
-            return d.GetFraction(DamageType.Bludgeon).AsDouble()
-                + p.GetFraction(DamageType.Bludgeon).AsDouble()
-                >= 1f;
-        }
-
-        public bool IsMangled(IDamageVector d)
-        {
-            return new DamageType[]{
-                DamageType.Slash,
-            }.Select(x => d.GetFraction(x).AsDouble())
-            .Sum() >= 1d;
-        }
-
-        public bool WillMangle(IDamageVector p, IDamageVector d)
-        {
-            return new DamageType[]{
-                DamageType.Slash,
-            }.Select(x =>
-                d.GetFraction(x).AsDouble()
-                + p.GetFraction(x).AsDouble()
-                )
-            .Sum() >= 1d;
-        }
-
-
-        private IEnumerable<ITissueLayerInjury> CreateTissueInjury(
-            IBodyPart bodyPart, 
-            ITissueLayer layer,
-            IMaterialStrikeResult tissueResult,
-            IDamageVector tissueDamage,
-            IDamageVector existingDamage)
-        {
-            var injuryClasses = new ITissueLayerInjuryClass[]{
-                TissueLayerInjuryClasses.Bruise,
-                TissueLayerInjuryClasses.Fracture,
-                TissueLayerInjuryClasses.Tear,
-                TissueLayerInjuryClasses.TearApart,
-            };
-            foreach (var dt in tissueDamage.GetTypes())
-            {
-                var injuryDamage = new DamageVector();
-                injuryDamage.Set(dt, tissueDamage.Get(dt));
-                yield return
-                new TissueLayerInjury(
-                    new MsrTissueLayerInjuryClass(bodyPart, layer, tissueResult),
-                    layer, injuryDamage, tissueResult);
-            }
         }
     }
 }

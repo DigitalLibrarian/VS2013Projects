@@ -76,6 +76,7 @@
     <Compile Include="Injuries\BodyPartInjuryClass.cs" />
     <Compile Include="Injuries\BodyPartInjuryClasses.cs" />
     <Compile Include="Injuries\IInjuryReportCalc.cs" />
+    <Compile Include="Injuries\InjuryFactory.cs" />
     <Compile Include="Injuries\InjuryReport.cs" />
     <Compile Include="Injuries\InjuryReportCalc.cs" />
     <Compile Include="Injuries\TissueLayerInjury.cs" />

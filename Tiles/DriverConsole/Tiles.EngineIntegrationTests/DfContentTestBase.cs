@@ -102,16 +102,21 @@ namespace Tiles.EngineIntegrationTests
                 );
 
             var partInjury = injuryReport.BodyPartInjuries.First();
+
+            var got = partInjury.TissueLayerInjuries.Count();
+            var expected = expectedLayerResults.Count();
+
             int i = 0;
             foreach(var exp in expectedLayerResults)
             {
                 if (partInjury.TissueLayerInjuries.Count() <= i)
                 {
-                    Assert.Fail(string.Format("Expected <{0}>, got <{1}> for {2} tissue #{3}",
+                    Assert.Fail(string.Format("Expected <{0}>, got <{1}> for {2} tissue #{3}: {4}",
                         exp,
                         "nothing",
                         partInjury.BodyPart.Name,
-                        i));
+                        i,
+                        partInjury.TissueLayerInjuries.ElementAt(i).Layer.Name));
                 }
                 var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
                 Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
@@ -123,16 +128,19 @@ namespace Tiles.EngineIntegrationTests
                 i++;
             }
 
-            var diff = partInjury.TissueLayerInjuries.Count() - expectedLayerResults.Count();
-            if (diff > 0)
+            if (got > expected)
             {
-                foreach (var tInjury in partInjury.TissueLayerInjuries.Skip(i))
+                foreach (var tInjury in partInjury.TissueLayerInjuries.Skip(expected))
                 {
-                    if(tInjury.StrikeResult.StressResult != StressResult.None)
+                    if (tInjury.StrikeResult.StressResult != StressResult.None)
                     {
                         Assert.Fail(string.Format("Unexpected tissue layer result {0} for {1} layer", tInjury.StrikeResult.StressResult, tInjury.Layer.Material.Name));
                     }
                 }
+            }
+            else if (got < expected)
+            {
+                Assert.Fail("Got {0} layers results, expected {1}.", expected);
             }
             return injuryReport;
         }

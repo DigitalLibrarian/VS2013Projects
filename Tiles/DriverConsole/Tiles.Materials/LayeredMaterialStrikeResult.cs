@@ -9,33 +9,30 @@ namespace Tiles.Materials
     public interface ILayeredMaterialStrikeResult
     {
         int Penetration { get; }
-        IEnumerable<IMaterialStrikeResult> LayerResults { get; }
-        IDictionary<object, IMaterialStrikeResult> TaggedResults { get; }
-
-        void AddLayerResult(IMaterialStrikeResult result);
-        void AddLayerResult(IMaterialStrikeResult result, object tag);
+        IEnumerable<MaterialStrikeResult> LayerResults { get; }
+        IDictionary<object, MaterialStrikeResult> TaggedResults { get; }
     }
 
     public class LayeredMaterialStrikeResult : ILayeredMaterialStrikeResult
     {
-        List<IMaterialStrikeResult> Results { get; set; }
-        Dictionary<object, IMaterialStrikeResult> Tagged { get; set; }
+        List<MaterialStrikeResult> Results { get; set; }
+        Dictionary<object, MaterialStrikeResult> Tagged { get; set; }
         public int Penetration { get; set; }
         public LayeredMaterialStrikeResult()
         {
-            Results = new List<IMaterialStrikeResult>();
-            Tagged = new Dictionary<object, IMaterialStrikeResult>();
+            Results = new List<MaterialStrikeResult>();
+            Tagged = new Dictionary<object, MaterialStrikeResult>();
         }
 
-        public IEnumerable<IMaterialStrikeResult> LayerResults { get { return Results; } }
-        public IDictionary<object, IMaterialStrikeResult> TaggedResults { get { return Tagged; } }
+        public IEnumerable<MaterialStrikeResult> LayerResults { get { return Results; } }
+        public IDictionary<object, MaterialStrikeResult> TaggedResults { get { return Tagged; } }
 
-        public void AddLayerResult(IMaterialStrikeResult result)
+        public void AddLayerResult(MaterialStrikeResult result)
         {
             Results.Add(result);
         }
 
-        public void AddLayerResult(IMaterialStrikeResult result, object tag)
+        public void AddLayerResult(MaterialStrikeResult result, object tag)
         {
             AddLayerResult(result);
             Tagged.Add(tag, result);
