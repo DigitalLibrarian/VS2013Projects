@@ -568,7 +568,6 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.Is<Dictionary<ITissueLayer, IBodyPart>>(d => d.Count() == 0)), Times.Once());
-
         }
     }
 }

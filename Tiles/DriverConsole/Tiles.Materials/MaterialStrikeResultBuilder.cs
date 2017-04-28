@@ -87,6 +87,11 @@ namespace Tiles.Materials
             LayerThickness = thick;
         }
 
+        public void SetRemainingPenetration(double penetrationLeft)
+        {
+            RemainingPenetration = penetrationLeft;
+        }
+
         public MaterialStrikeResult Build()
         {
             /*
@@ -154,7 +159,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 else
                 {
                     stress = Momentum / volDamaged;
-
                 }
                    
                 var dentCost = (shearCost1);
@@ -169,7 +173,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     {
                         msr = StressResult.Shear_Cut;
                         partialPuncture = true;
-                        if ((stress > defeatCost)
+                        if (stress > defeatCost
                             && (StrikerContactArea >= StrickenContactArea
                             && RemainingPenetration >= LayerThickness))
                         {
@@ -270,18 +274,8 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 IsDefeated = defeated || partialPuncture,
 
                 Stress = stress,
-                ResultMomentum = resultMom,
-
-                RemainingPenetration = RemainingPenetration,
-                LayerThickness = LayerThickness,
-                Sharpness = StrikerSharpness
+                ResultMomentum = resultMom
             };
-        }
-
-
-        public void SetRemainingPenetration(double penetrationLeft)
-        {
-            RemainingPenetration = penetrationLeft;
         }
     }
 }

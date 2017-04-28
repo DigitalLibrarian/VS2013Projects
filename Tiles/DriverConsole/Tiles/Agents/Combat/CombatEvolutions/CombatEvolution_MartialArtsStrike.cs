@@ -95,7 +95,5 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 HandleDeath(attacker, defender, move);
             }
         }
-
-        
     }
 }

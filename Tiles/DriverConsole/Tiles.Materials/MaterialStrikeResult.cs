@@ -20,10 +20,5 @@ namespace Tiles.Materials
         public bool IsDefeated { get; set; }
 
         public double WoundArea { get; set; }
-        public double RemainingPenetration { get; set; }
-
-        public double LayerThickness { get; set; }
-
-        public double Sharpness { get; set; }
     }
 }
