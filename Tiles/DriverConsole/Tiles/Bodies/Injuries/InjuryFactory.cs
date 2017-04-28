@@ -106,6 +106,7 @@ namespace Tiles.Bodies.Injuries
                 BodyPartInjuryClasses.TissueDamage, part, tissueInjuries);
         }
 
+        #region Body Part Damage State Machine
 
         bool WillSever(IBodyPart part, IDamageVector d, double contactArea)
         {
@@ -157,7 +158,7 @@ namespace Tiles.Bodies.Injuries
                 )
             .Sum() >= 1d;
         }
-
+#endregion
 
         private IEnumerable<ITissueLayerInjury> CreateTissueInjury(
             IBodyPart bodyPart,
@@ -171,6 +172,8 @@ namespace Tiles.Bodies.Injuries
                     new MsrTissueLayerInjuryClass(bodyPart, layer, tissueResult),
                     layer, tissueDamage, tissueResult);
         }
+
+        #region Damage Classifiction
 
         IDamageVector GetUnitDamage(StressMode mode, double contactArea, int penetration)
         {
@@ -220,5 +223,6 @@ namespace Tiles.Bodies.Injuries
         {
             return maxPenetation < 2000;
         }
+        #endregion
     }
 }

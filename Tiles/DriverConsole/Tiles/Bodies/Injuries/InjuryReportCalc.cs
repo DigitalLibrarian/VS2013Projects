@@ -50,6 +50,7 @@ namespace Tiles.Bodies.Injuries
 
                 var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
 
+                // TODO - these armor items might need to be reversed
                 foreach (var armorItem in armorItems)
                 {
                     Builder.AddLayer(armorItem.Class.Material);
