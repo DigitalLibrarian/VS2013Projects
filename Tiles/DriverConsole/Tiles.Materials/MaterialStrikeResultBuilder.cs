@@ -101,7 +101,7 @@ namespace Tiles.Materials
 3. A large momentum cost to cut through the volume of the layer material, using the ratio of weapon to layer shear fractures and the weapon's sharpness.
              * 
 For blunt defense, there is:
-1. A check on the yielding of the weapon vs the attack momentum, to prevent soft meaty fists from punching bronze colossuses etc.
+1. A check on the yielding of the weapon vs the attack momentum, to prevent soft meaty fists from punching bronze colossuses etc. (TODO)
 2. A momentum cost to dent the layer volume, using the layer's impact yield.
 3. A momentum cost to initiate fracture in the layer volume, using the difference between the layer's impact fracture and impact yield.
 4. A momentum cost to complete fracture in the layer volume, which is the same as step 3.
@@ -233,6 +233,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 }
             }
 
+            defeated = defeated || partialPuncture;
 
             // For example if you punch someone in a steel helm, 
             //[IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt 
@@ -245,24 +246,25 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             }
             else
             {
-                resultMom = Momentum;
+                resultMom = Momentum;            
+                // flat deduction of 10% of yield cost, regardless of outcome
+                double deduction = 0;
+                var deductPercent = 0.1d;
+                if (StressMode == Materials.StressMode.Edge)
+                {
+                    var sharpFactor = 5000d / sharpness;
+                    deduction = ((shearCost1 * volDamaged * LayerThickness) * deductPercent) * sharpFactor;
+                }
+                else
+                {
+                    deduction = (impactCost1 * volDamaged) * deductPercent;
+                }
+
+                resultMom -= deduction;
+                resultMom = System.Math.Max(0d, resultMom);
             }
 
-            // flat deduction of 10% of yield cost, regardless of outcome
-            double deduction = 0;
-            var deductPercent = 0.1d;
-            if (StressMode == Materials.StressMode.Edge)
-            {
-                var sharpFactor = 5000d / sharpness;
-                deduction = ((shearCost1 * volDamaged * LayerThickness) * deductPercent) * sharpFactor;
-            }
-            else
-            {
-                deduction = (impactCost1 * volDamaged) * deductPercent;
-            }
 
-            resultMom -= deduction;
-            resultMom = System.Math.Max(0d, resultMom);
             return new MaterialStrikeResult
             {
                 StressMode = StressMode,

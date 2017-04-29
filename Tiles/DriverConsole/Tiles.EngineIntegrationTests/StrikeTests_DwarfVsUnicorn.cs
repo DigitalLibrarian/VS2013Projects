@@ -161,6 +161,7 @@ namespace Tiles.EngineIntegrationTests
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass);
         }
 
@@ -200,6 +201,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass);
         }

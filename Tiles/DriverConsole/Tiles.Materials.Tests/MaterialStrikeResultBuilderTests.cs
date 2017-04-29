@@ -32,7 +32,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_None()
+        public void Edged_None_NoStrainResist()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 1d, momentum = 1d;
@@ -70,13 +70,12 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.None, result.StressResult);
             Assert.IsFalse(result.IsDefeated);
-            Assert.AreEqual(0, result.ResultMomentum);
+            Assert.AreEqual(momentum, result.ResultMomentum);
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
-            Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
         }
 
         [TestMethod]
-        public void Edged_Shear_Dent()
+        public void Edged_Shear_Dent_NoStrainResist()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 1d, momentum = 1d;
@@ -117,13 +116,12 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.Shear_Dent, result.StressResult);
             Assert.IsFalse(result.IsDefeated);
+            Assert.AreEqual(momentum, result.ResultMomentum);
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
-            Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
-            Assert.AreEqual(0, result.ResultMomentum);
         }
 
         [TestMethod]
-        public void Edged_Shear_Cut()
+        public void Edged_Shear_Cut_NoStrainResist()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -174,7 +172,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_CutThrough()
+        public void Edged_Shear_CutThrough_NoStrainResist()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -226,35 +224,35 @@ namespace Tiles.Materials.Tests
 
         [Ignore]
         [TestMethod]
+        public void Blunt_None_NoStrainResist()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void Blunt_Dent_NoStrainResist()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void Blunt_InitiateFracture_NoStrainResist()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [Ignore]
+        [TestMethod]
+        public void Blunt_CompleteFracture_NoStrainResist()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
         public void Blunt_Deflection()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void Blunt_PartialDent()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void Blunt_CompleteDent()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void Blunt_PartialFracture()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void Blunt_CompleteFracture()
         {
             throw new NotImplementedException();
         }
