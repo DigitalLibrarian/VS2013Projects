@@ -342,6 +342,50 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfVsDwarf_SlabLowerBodyWithSteelSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("lower body"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "STEEL");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_SlashUpperRightArmWithSteelSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "STEEL");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough);
+        }
+
+
+        [TestMethod]
         public void DwarfVsDwarf_SlashRightHandSteelSword()
         {
             var attacker = Dwarf;
@@ -447,7 +491,6 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut);
-
         }
 
         [TestMethod]

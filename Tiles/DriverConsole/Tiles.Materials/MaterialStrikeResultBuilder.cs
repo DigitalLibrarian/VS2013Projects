@@ -174,8 +174,8 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                         msr = StressResult.Shear_Cut;
                         partialPuncture = true;
                         if (stress > defeatCost
-                            && (StrikerContactArea >= StrickenContactArea
-                            && RemainingPenetration >= LayerThickness))
+                            && StrikerContactArea >= StrickenContactArea
+                            && RemainingPenetration >= LayerThickness)
                         {
                             msr = StressResult.Shear_CutThrough;
                             defeated = true;
@@ -254,11 +254,11 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             if (StressMode == Materials.StressMode.Edge)
             {
                 var sharpFactor = 5000d / sharpness;
-                deduction = ((shearCost1*volDamaged*LayerThickness) * deductPercent) * sharpFactor;
+                deduction = ((shearCost1 * volDamaged * LayerThickness) * deductPercent) * sharpFactor;
             }
             else
             {
-                deduction = ((impactCost1 * volDamaged)) * deductPercent;
+                deduction = (impactCost1 * volDamaged) * deductPercent;
             }
 
             resultMom -= deduction;
