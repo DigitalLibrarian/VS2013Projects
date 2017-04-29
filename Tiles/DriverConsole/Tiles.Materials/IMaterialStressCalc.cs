@@ -9,6 +9,5 @@ namespace Tiles.Materials
         double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness);
         double ShearCost2(IMaterial strikerMat, IMaterial strickenMat, double sharpness);
         double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume);
-        double CalculateStrain(double strainAtYield, double stressAtYield, double currentStress);
     }
 }

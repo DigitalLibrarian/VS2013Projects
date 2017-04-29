@@ -11,7 +11,6 @@ namespace Tiles.Materials.Tests
     [TestClass]
     public class MaterialStressCalcTests
     {
-       
         void AssertRoughly(double expected, double actual, string message)
         {
             Assert.AreEqual(

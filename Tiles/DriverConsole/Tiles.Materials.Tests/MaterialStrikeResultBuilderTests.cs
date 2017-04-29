@@ -121,7 +121,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_Cut_NoStrainResist()
+        public void Edged_Shear_Cut_NoStrainResist_InadequateStress()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -169,6 +169,20 @@ namespace Tiles.Materials.Tests
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
             Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
             Assert.AreEqual(9, (int)result.ResultMomentum);
+        }
+        
+        [Ignore]
+        [TestMethod]
+        public void Edged_Shear_Cut_NoStrainResist_EnoughStress_LowWeaponContactArea()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void Edged_Shear_Cut_NoStrainResist_EnoughStress_EnoughContactArea_LowPenetrationRemaining()
+        {
+            throw new NotImplementedException();
         }
 
         [TestMethod]

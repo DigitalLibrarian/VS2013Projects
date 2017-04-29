@@ -32,6 +32,8 @@ namespace Tiles.Materials
             MaterialStressCalc = materialStressCalc;
         }
 
+        #region Builder State
+
         public void Clear()
         {
             StrikerContactArea = 0;
@@ -91,24 +93,10 @@ namespace Tiles.Materials
         {
             RemainingPenetration = penetrationLeft;
         }
+        #endregion
 
         public MaterialStrikeResult Build()
         {
-            /*
-            For edged defense, there is:
-1. A small momentum cost to start denting the layer material, if the weapon has a higher shear yield than the layer.
-2. A small momentum cost to start cutting the layer material, if the weapon has a higher shear fracture than the layer.
-3. A large momentum cost to cut through the volume of the layer material, using the ratio of weapon to layer shear fractures and the weapon's sharpness.
-             * 
-For blunt defense, there is:
-1. A check on the yielding of the weapon vs the attack momentum, to prevent soft meaty fists from punching bronze colossuses etc. (TODO)
-2. A momentum cost to dent the layer volume, using the layer's impact yield.
-3. A momentum cost to initiate fracture in the layer volume, using the difference between the layer's impact fracture and impact yield.
-4. A momentum cost to complete fracture in the layer volume, which is the same as step 3.
-
-After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). 
-If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility.
-    */
             double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
             
             var volDamaged = LayerVolume;
@@ -132,7 +120,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             bool bluntBypass = false;
 
             double resultMom = -1;
-            double stress = (Momentum) * contactAreaRatio;
+            double stress = -1;
             bool defeated = false;
             var msr = StressResult.None;
             
@@ -153,13 +141,9 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
 
                 if (contactAreaRatio < 1d)
                 {
-                    stress = (Momentum / volDamaged) - ((Momentum / volDamaged) * contactAreaRatio);
+                    stress -= (stress * contactAreaRatio);
                 }
-                else
-                {
-                    stress = Momentum / volDamaged;
-                }
-                   
+
                 var dentCost = (shearCost1);
                 var cutCost = dentCost + System.Math.Max(0, shearCost2);
                 var defeatCost = cutCost + System.Math.Max(0, shearCost3);
@@ -167,7 +151,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 if (stress > dentCost)
                 {
                     msr = StressResult.Shear_Dent;
-                    // strain follows hooke's law here
                     if (stress > cutCost)
                     {
                         msr = StressResult.Shear_Cut;
@@ -190,7 +173,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 else
                 {
                     stress = Momentum / volDamaged;
-
                 }
 
                 // TODO - weapon deflection (soft meaty fists vs metal colossus) -  NEED TEST
@@ -200,7 +182,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 var dentCost = (impactCost1);
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);
                 var defeatCost = cutCost + System.Math.Max(0, impactCost3);
-
 
                 if (StrickenMaterial.ImpactStrainAtYield >= 50000 || (cutCost == 0 && defeatCost == 0))
                 {
@@ -231,35 +212,32 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 }
             }
 
-            // For example if you punch someone in a steel helm, 
-            //[IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt 
-            //fracture the steel helm, only 940/50000=0.0188=1.88% of the momentum 
-            //is passed to the skin layer
             if (!defeated)
             {
+
+                /* If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility. 
+                 * For example if you punch someone in a steel helm,  [IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt fracture the steel helm, only 
+                 * 940/50000=0.0188=1.88% of the momentum is passed to the skin layer */
                 resultMom = Momentum * ((double)strainAtYield / 50000d);
                 resultMom = System.Math.Max(0d, resultMom);
             }
             else
             {
-                resultMom = Momentum;            
-                // flat deduction of 10% of yield cost, regardless of outcome
-                double deduction = 0;
-                var deductPercent = 0.1d;
+                // After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). 
+                double deduction = 0, deductPercent = 0.1d;
                 if (StressMode == Materials.StressMode.Edge)
                 {
                     var sharpFactor = 5000d / sharpness;
-                    deduction = ((shearCost1 * volDamaged * LayerThickness) * deductPercent) * sharpFactor;
+                    deduction = shearCost1 * volDamaged * LayerThickness * deductPercent * sharpFactor;
                 }
                 else
                 {
-                    deduction = (impactCost1 * volDamaged) * deductPercent;
+                    deduction = impactCost1 * volDamaged * deductPercent;
                 }
 
-                resultMom -= deduction;
+                resultMom = Momentum - deduction;
                 resultMom = System.Math.Max(0d, resultMom);
             }
-
 
             return new MaterialStrikeResult
             {
