@@ -172,7 +172,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_CutThrough_NoStrainResist()
+        public void Edged_Shear_CutThrough_NoStrainResist_NoSharpnessContribution()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;

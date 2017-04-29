@@ -134,7 +134,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
             double resultMom = -1;
             double stress = (Momentum) * contactAreaRatio;
             bool defeated = false;
-            bool partialPuncture = false;
             var msr = StressResult.None;
             
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness);
@@ -172,13 +171,12 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                     if (stress > cutCost)
                     {
                         msr = StressResult.Shear_Cut;
-                        partialPuncture = true;
+                        defeated = true;
                         if (stress > defeatCost
                             && StrikerContactArea >= StrickenContactArea
                             && RemainingPenetration >= LayerThickness)
                         {
                             msr = StressResult.Shear_CutThrough;
-                            defeated = true;
                         }
                     }
                 }
@@ -233,8 +231,6 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 }
             }
 
-            defeated = defeated || partialPuncture;
-
             // For example if you punch someone in a steel helm, 
             //[IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt 
             //fracture the steel helm, only 940/50000=0.0188=1.88% of the momentum 
@@ -273,7 +269,7 @@ If the layer was not defeated, reduced blunt damage is passed through to the lay
                 ContactAreaRatio = contactAreaRatio,
 
                 StressResult = msr,
-                IsDefeated = defeated || partialPuncture,
+                IsDefeated = defeated,
 
                 Stress = stress,
                 ResultMomentum = resultMom
