@@ -171,11 +171,59 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(9, (int)result.ResultMomentum);
         }
         
-        [Ignore]
         [TestMethod]
         public void Edged_Shear_Cut_NoStrainResist_EnoughStress_LowWeaponContactArea()
         {
-            throw new NotImplementedException();
+            var stressMode = StressMode.Edge;
+            double strickenContactArea = 10d;
+            double strikerContactArea = strickenContactArea - 1d;
+            double sharpness = 5000d, momentum = 10d;
+            double thickness = 1d, volume = 1d;
+            var remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            var expectedStress = 0.189999999999999d;
+            var episilon = 0.0001d;
+            StressCalcMock.Setup(x => x.ShearCost1(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness))
+                .Returns(expectedStress - episilon - episilon - episilon);
+
+            StressCalcMock.Setup(x => x.ShearCost2(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness))
+                .Returns(episilon);
+
+            StressCalcMock.Setup(x => x.ShearCost3(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness, volume))
+                .Returns(episilon);
+
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetStrikerContactArea(strikerContactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(strickenContactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikerSharpness(sharpness);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual((int)(10000 * expectedStress / 100), (int)(10000 * result.Stress / 100));
+            Assert.AreEqual(momentum, result.Momentum);
+            var expectedContactArea = strikerContactArea + (strikerContactArea * 0.09d);
+
+            Assert.AreEqual(expectedContactArea, result.ContactArea);
+            Assert.AreEqual(981, (int)(result.ContactAreaRatio*1000));
+            Assert.AreEqual(StressMode.Edge, result.StressMode);
+            Assert.AreEqual(StressResult.Shear_Cut, result.StressResult);
+            Assert.IsTrue(result.IsDefeated);
+            Assert.IsTrue(result.ResultMomentum > 0, "Non-Positive Result Momentum");
+            Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
+            Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
+            Assert.AreEqual(9, (int)result.ResultMomentum);
         }
 
         [Ignore]

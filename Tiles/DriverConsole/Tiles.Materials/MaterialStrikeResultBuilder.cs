@@ -175,9 +175,9 @@ namespace Tiles.Materials
                     stress = Momentum / volDamaged;
                 }
 
-                // TODO - weapon deflection (soft meaty fists vs metal colossus) -  NEED TEST
+                // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
-                // This should be visible in action log
+                // This should be visible in action log.  Probably happens before any other layer testing
 
                 var dentCost = (impactCost1);
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);
