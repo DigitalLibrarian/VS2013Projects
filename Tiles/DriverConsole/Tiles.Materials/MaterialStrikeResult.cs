@@ -18,7 +18,5 @@ namespace Tiles.Materials
         public StressResult StressResult { get; set; }
         public double ResultMomentum { get; set; }
         public bool IsDefeated { get; set; }
-
-        public double WoundArea { get; set; }
     }
 }

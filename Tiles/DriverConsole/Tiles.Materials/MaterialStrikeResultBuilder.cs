@@ -136,10 +136,9 @@ namespace Tiles.Materials
             int strainAtYield, yield, fractureForce;
             StrickenMaterial.GetModeProperties(StressMode, out yield, out fractureForce, out strainAtYield);
 
+            stress = Momentum / volDamaged;
             if (StressMode == Materials.StressMode.Edge)
             {
-                stress = Momentum / volDamaged;
-
                 if (contactAreaRatio < 1d)
                 {
                     stress -= (stress * contactAreaRatio);
@@ -171,14 +170,11 @@ namespace Tiles.Materials
                 {
                     stress = (Momentum - (Momentum * contactAreaRatio));
                 }
-                else
-                {
-                    stress = Momentum / volDamaged;
-                }
 
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
                 // This should be visible in action log.  Probably happens before any other layer testing
+                // use copy "glances away"
 
                 var dentCost = (impactCost1);
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);
