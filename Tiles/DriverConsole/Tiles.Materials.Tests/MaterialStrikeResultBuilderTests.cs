@@ -161,7 +161,7 @@ namespace Tiles.Materials.Tests
             {
                 { 25000, 5d },          // absorb 50%
                 { 50000, 10d },         // no contribution
-                { 100000, 20d },          // yield
+                { 100000, 20d },        // yield more momentum than input (not realistic, but math works)
             };
 
             foreach (var pair in d)
@@ -276,7 +276,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_Dent_NoStrainResist()
+        public void Edged_Shear_Dent()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 1d;
@@ -322,7 +322,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_Cut_NoStrainResist_InadequateStress()
+        public void Edged_Shear_Cut_InadequateStress()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -373,7 +373,7 @@ namespace Tiles.Materials.Tests
         }
         
         [TestMethod]
-        public void Edged_Shear_Cut_NoStrainResist_EnoughStress_LowWeaponContactArea()
+        public void Edged_Shear_Cut_EnoughStress_LowWeaponContactArea()
         {
             var stressMode = StressMode.Edge;
             double strickenContactArea = 10d;
@@ -385,7 +385,7 @@ namespace Tiles.Materials.Tests
             var strikerMaterialMock = new Mock<IMaterial>();
             var strickenMaterialMock = new Mock<IMaterial>();
 
-            var expectedStress = 0.189999999999999d;
+            var expectedStress = 10d;
             var episilon = 0.0001d;
             StressCalcMock.Setup(x => x.ShearCost1(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness))
                 .Returns(expectedStress - episilon - episilon - episilon);
@@ -410,11 +410,9 @@ namespace Tiles.Materials.Tests
             Builder.SetLayerVolume(volume);
             Builder.SetRemainingPenetration(remainingPen);
 
-            var result = Builder.Build();
-
-            Assert.AreEqual((int)(10000 * expectedStress / 100), (int)(10000 * result.Stress / 100));
-            Assert.AreEqual(momentum, result.Momentum);
             var expectedContactArea = strikerContactArea + (strikerContactArea * 0.09d);
+
+            var result = Builder.Build();
 
             Assert.AreEqual(expectedContactArea, result.ContactArea);
             Assert.AreEqual(981, (int)(result.ContactAreaRatio*1000));
@@ -425,10 +423,13 @@ namespace Tiles.Materials.Tests
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
             Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
             Assert.AreEqual(9, (int)result.ResultMomentum);
+
+            Assert.AreEqual((int)(10000 * expectedStress / 100), (int)(10000 * result.Stress / 100));
+            Assert.AreEqual(momentum, result.Momentum);
         }
 
         [TestMethod]
-        public void Edged_Shear_Cut_NoStrainResist_EnoughStress_EnoughContactArea_LowPenetrationRemaining()
+        public void Edged_Shear_Cut_EnoughStress_EnoughContactArea_LowPenetrationRemaining()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -531,28 +532,28 @@ namespace Tiles.Materials.Tests
 
         [Ignore]
         [TestMethod]
-        public void Blunt_None_NoStrainResist()
+        public void Blunt_None()
         {
             throw new NotImplementedException();
         }
 
         [Ignore]
         [TestMethod]
-        public void Blunt_Dent_NoStrainResist()
+        public void Blunt_Dent()
         {
             throw new NotImplementedException();
         }
 
         [Ignore]
         [TestMethod]
-        public void Blunt_InitiateFracture_NoStrainResist()
+        public void Blunt_InitiateFracture()
         {
             throw new NotImplementedException();
         }
         
         [Ignore]
         [TestMethod]
-        public void Blunt_CompleteFracture_NoStrainResist()
+        public void Blunt_CompleteFracture()
         {
             throw new NotImplementedException();
         }

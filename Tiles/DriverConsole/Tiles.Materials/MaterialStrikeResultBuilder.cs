@@ -98,14 +98,18 @@ namespace Tiles.Materials
         public MaterialStrikeResult Build()
         {
             double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
-            
+
             var volDamaged = LayerVolume;
             var contactAreaRatio = (StrikerContactArea / StrickenContactArea);
             if (contactAreaRatio < 1d)
             {
                 // If the striker is smaller than the strikee, then we can make the damaged area spread out a tad.
                 // Think about how if you punched, then you are slightly sore around the impacted area to a degree.
-                contactArea += contactArea * 0.09d;
+                contactArea *= 1.09d;
+                if (contactArea > StrickenContactArea) // cap at strikee size
+                {
+                    contactArea = StrickenContactArea;
+                }
                 contactAreaRatio = (contactArea / StrickenContactArea);
 
                 volDamaged *= contactAreaRatio;
@@ -139,11 +143,6 @@ namespace Tiles.Materials
             stress = Momentum / volDamaged;
             if (StressMode == Materials.StressMode.Edge)
             {
-                if (contactAreaRatio < 1d)
-                {
-                    stress -= (stress * contactAreaRatio);
-                }
-
                 var dentCost = (shearCost1);
                 var cutCost = dentCost + System.Math.Max(0, shearCost2);
                 var defeatCost = cutCost + System.Math.Max(0, shearCost3);
