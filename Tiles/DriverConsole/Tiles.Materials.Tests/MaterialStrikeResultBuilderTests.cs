@@ -32,10 +32,89 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
+        public void ContactArea_StrikerIsSmaller()
+        {
+            double sharpness = 1d, momentum = 1d, thickness = 1d, volume = 1d, remainingPen = 10d;
+            double strickenContactArea = 10d;
+            double strikerContactArea = 9d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            Builder.SetStressMode(StressMode.None);
+            Builder.SetStrikerContactArea(strikerContactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(strickenContactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikerSharpness(sharpness);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(981, (int) (result.ContactAreaRatio * 1000));
+            Assert.AreEqual(981, (int) (result.ContactArea * 100));
+        }
+
+        [TestMethod]
+        public void ContactArea_StrickenIsSmaller()
+        {
+            double sharpness = 5000d, momentum = 1d, thickness = 1d, volume = 1d, remainingPen = 10d;
+            double strickenContactArea = 9d;
+            double strikerContactArea = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            Builder.SetStressMode(StressMode.None);
+            Builder.SetStrikerContactArea(strikerContactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(strickenContactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikerSharpness(sharpness);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(1000, (int)(result.ContactAreaRatio * 1000));
+            Assert.AreEqual((int)(strickenContactArea - 1d), (int) result.ContactArea);
+        }
+
+        [TestMethod]
+        public void ContactArea_SameSizeStriker()
+        {
+            double contactArea = 10d, sharpness = 5000d, momentum = 1d, thickness = 1d, volume = 1d, remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            Builder.SetStressMode(StressMode.None);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(contactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikerSharpness(sharpness);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(1d, result.ContactAreaRatio);
+            Assert.AreEqual(contactArea - 1d, result.ContactArea);
+        }
+
+        [TestMethod]
         public void Edged_None_NoStrainResist()
         {
             var stressMode = StressMode.Edge;
-            double contactArea = 10d, sharpness = 1d, momentum = 1d;
+            double contactArea = 10d, sharpness = 5000d, momentum = 1d;
             double thickness = 1d, volume = 1d;
             var remainingPen = 10d;
 
@@ -78,7 +157,7 @@ namespace Tiles.Materials.Tests
         public void Edged_Shear_Dent_NoStrainResist()
         {
             var stressMode = StressMode.Edge;
-            double contactArea = 10d, sharpness = 1d, momentum = 1d;
+            double contactArea = 10d, sharpness = 5000d, momentum = 1d;
             double thickness = 1d, volume = 1d;
             var remainingPen = 10d;
 
