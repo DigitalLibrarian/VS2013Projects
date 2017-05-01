@@ -103,7 +103,8 @@ namespace Tiles.Materials
             var contactAreaRatio = (StrikerContactArea / StrickenContactArea);
             if (contactAreaRatio < 1d)
             {
-                // TODO - somehow the contact area is augmented here
+                // If the striker is smaller than the strikee, then we can make the damaged area spread out a tad.
+                // Think about how if you punched, then you are slightly sore around the impacted area to a degree.
                 contactArea += contactArea * 0.09d;
                 contactAreaRatio = (contactArea / StrickenContactArea);
 
