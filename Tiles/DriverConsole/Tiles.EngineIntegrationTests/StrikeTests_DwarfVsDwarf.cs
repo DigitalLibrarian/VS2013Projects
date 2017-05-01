@@ -475,6 +475,27 @@ namespace Tiles.EngineIntegrationTests
 
 
         [TestMethod]
+        public void DwarfVsDwarf_LashRightLowerArmWithWoodWhip()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right lower arm"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_WHIP, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("lash"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass);
+        }
+
+        [TestMethod]
         public void DwarfVsDwarf_StabLowerBodyWithWoodSword()
         {
             var attacker = Dwarf;
