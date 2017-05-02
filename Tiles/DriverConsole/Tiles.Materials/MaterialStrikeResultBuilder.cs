@@ -120,7 +120,7 @@ namespace Tiles.Materials
             }
 
             var msr = StressResult.None;
-            bool bluntBypass = false, defeated = false;
+            bool defeated = false;
             double stress = -1, resultMom = -1, 
                 sharpness = StrikerSharpness,
                 volDamaged = LayerVolume * contactAreaRatio;
@@ -175,15 +175,10 @@ namespace Tiles.Materials
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);
                 var defeatCost = cutCost + System.Math.Max(0, impactCost3);
 
-                if (StrickenMaterial.ImpactStrainAtYield >= 50000 || (cutCost == 0 && defeatCost == 0))
-                {
-                    bluntBypass = true;
-                }
-
                 if (stress > dentCost)
                 {
                     msr = StressResult.Impact_Dent;
-                    if (bluntBypass)
+                    if (strainAtYield >= 50000)
                     {
                         msr = StressResult.Impact_Bypass;
                     }
@@ -210,6 +205,13 @@ namespace Tiles.Materials
                  * 940/50000=0.0188=1.88% of the momentum is passed to the skin layer */
                 resultMom = Momentum * ((double)strainAtYield / 50000d);
                 resultMom = System.Math.Max(0d, resultMom);
+
+                if(StressMode == Materials.StressMode.Blunt
+                    && msr == StressResult.None)
+                {
+                    // the buck stops here
+                    resultMom = 0d;
+                }
             }
             else
             {

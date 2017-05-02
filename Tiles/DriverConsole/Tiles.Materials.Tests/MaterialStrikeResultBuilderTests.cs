@@ -24,13 +24,6 @@ namespace Tiles.Materials.Tests
             Builder = new MaterialStrikeResultBuilder(StressCalcMock.Object);
         }
 
-        [Ignore]
-        [TestMethod]
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
         #region Relative Contact Areas
         [TestMethod]
         public void ContactArea_StrikerIsSmaller()
@@ -112,15 +105,8 @@ namespace Tiles.Materials.Tests
         }
         #endregion
 
-        [Ignore]
         [TestMethod]
-        public void ProtectZeroSharpness()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod]
-        public void Edged_None()
+        public void Edge_None()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 1d;
@@ -163,7 +149,7 @@ namespace Tiles.Materials.Tests
         }
         
         [TestMethod]
-        public void Edged_Undefeated_StrainAtYield_To_ResultMomentum()
+        public void Edge_Undefeated_StrainAtYield_To_ResultMomentum()
         {
             // Stricken strain at yield -> result momentum
             var d = new Dictionary<int, double>
@@ -219,7 +205,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Defeated_Sharpness_To_ResultMomentum()
+        public void Edge_Defeated_Sharpness_To_ResultMomentum()
         {
             // Weapon Sharpness -> result momentum
             var d = new Dictionary<double, double>
@@ -254,7 +240,7 @@ namespace Tiles.Materials.Tests
                 StressCalcMock.Setup(x => x.ShearCost3(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness, volume))
                     .Returns(episilon);
 
-                int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+                int strickenYield = 1, strickenFracture = 1, strainAtYield = 1;
                 strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
 
                 Builder.SetStressMode(stressMode);
@@ -285,7 +271,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_Dent()
+        public void Edge_Shear_Dent()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 1d;
@@ -331,7 +317,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_Cut_InadequateStress()
+        public void Edge_Shear_Cut_InadequateStress()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -352,7 +338,7 @@ namespace Tiles.Materials.Tests
             StressCalcMock.Setup(x => x.ShearCost3(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness, volume))
                 .Returns(episilon);
 
-            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 1;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
 
             Builder.SetStressMode(stressMode);
@@ -382,7 +368,7 @@ namespace Tiles.Materials.Tests
         }
         
         [TestMethod]
-        public void Edged_Shear_Cut_EnoughStress_InadequateWeaponContactArea()
+        public void Edge_Shear_Cut_EnoughStress_InadequateWeaponContactArea()
         {
             var stressMode = StressMode.Edge;
             double strickenContactArea = 10d;
@@ -405,7 +391,7 @@ namespace Tiles.Materials.Tests
             StressCalcMock.Setup(x => x.ShearCost3(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness, volume))
                 .Returns(episilon);
 
-            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 1;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
 
             Builder.SetStressMode(stressMode);
@@ -438,7 +424,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_Cut_EnoughStress_EnoughContactArea_InadequatePenetrationRemaining()
+        public void Edge_Shear_Cut_EnoughStress_EnoughContactArea_InadequatePenetrationRemaining()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -459,7 +445,7 @@ namespace Tiles.Materials.Tests
             StressCalcMock.Setup(x => x.ShearCost3(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness, volume))
                 .Returns(episilon);
 
-            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 1;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
 
             Builder.SetStressMode(stressMode);
@@ -489,7 +475,7 @@ namespace Tiles.Materials.Tests
         }
 
         [TestMethod]
-        public void Edged_Shear_CutThrough()
+        public void Edge_Shear_CutThrough()
         {
             var stressMode = StressMode.Edge;
             double contactArea = 10d, sharpness = 5000d, momentum = 10d;
@@ -510,7 +496,7 @@ namespace Tiles.Materials.Tests
             StressCalcMock.Setup(x => x.ShearCost3(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness, volume))
                 .Returns(episilon);
 
-            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 1;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
 
             Builder.SetStressMode(stressMode);
@@ -555,7 +541,7 @@ namespace Tiles.Materials.Tests
             StressCalcMock.Setup(x => x.ImpactCost1(strickenMaterialMock.Object, volume))
                 .Returns(expectedStress + episilon);
 
-            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 1;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
 
             Builder.SetStrikerSharpness(0);
@@ -575,30 +561,130 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(momentum, result.Momentum);
             Assert.AreEqual(StressMode.Blunt, result.StressMode);
             Assert.AreEqual(StressResult.None, result.StressResult);
-            Assert.AreEqual(momentum, result.ResultMomentum);
+            Assert.AreEqual(0d, result.ResultMomentum);
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea-1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
             Assert.IsFalse(result.IsDefeated);
         }
 
+        [TestMethod]
+        public void Blunt_Impact_Dent()
+        {
+            var stressMode = StressMode.Blunt;
+            double contactArea = 10d, momentum = 1d;
+            double thickness = 1d, volume = 1d;
+            var remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            var expectedStress = 1d;
+            var episilon = 0.0001d;
+            StressCalcMock.Setup(x => x.ImpactCost1(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress - episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress + episilon);
+
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 25000;
+            strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
+
+            Builder.SetStrikerSharpness(0);
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(contactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(momentum, result.Momentum);
+            Assert.AreEqual(StressMode.Blunt, result.StressMode);
+            Assert.AreEqual(StressResult.Impact_Dent, result.StressResult);
+            Assert.AreEqual(0.5d, result.ResultMomentum, 0.001d);
+            Assert.AreEqual(expectedStress, result.Stress, 0.1d);
+            Assert.AreEqual(contactArea - 1, result.ContactArea);
+            Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.IsFalse(result.IsDefeated);
+        }
+
+        [TestMethod]
+        public void Blunt_Impact_Bypass_WouldHaveBeen_Impact_Dent()
+        {
+            var stressMode = StressMode.Blunt;
+            double contactArea = 10d, momentum = 1d;
+            double thickness = 1d, volume = 1d;
+            var remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            var expectedStress = 1d;
+            var episilon = 0.0001d;
+            StressCalcMock.Setup(x => x.ImpactCost1(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress - episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress + episilon);
+
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
+
+            Builder.SetStrikerSharpness(0);
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(contactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(momentum, result.Momentum);
+            Assert.AreEqual(StressMode.Blunt, result.StressMode);
+            Assert.AreEqual(StressResult.Impact_Bypass, result.StressResult);
+            Assert.AreEqual(momentum, result.ResultMomentum, 0.001d);
+            Assert.AreEqual(expectedStress, result.Stress, 0.1d);
+            Assert.AreEqual(contactArea - 1, result.ContactArea);
+            Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.IsFalse(result.IsDefeated);
+        }
+        
         [Ignore]
         [TestMethod]
-        public void Blunt_Dent()
+        public void Blunt_Impact_Bypass_WouldHaveBeen_Impact_InitiateFracture()
         {
             throw new NotImplementedException();
         }
 
         [Ignore]
         [TestMethod]
-        public void Blunt_InitiateFracture()
+        public void Blunt_Impact_InitiateFracture()
         {
             throw new NotImplementedException();
         }
-        
+
+
         [Ignore]
         [TestMethod]
-        public void Blunt_CompleteFracture()
+        public void Blunt_Impact_Bypass_WouldHaveBeen_Impact_CompleteFracture()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void Blunt_Impact_CompleteFracture()
         {
             throw new NotImplementedException();
         }
@@ -609,5 +695,27 @@ namespace Tiles.Materials.Tests
         {
             throw new NotImplementedException();
         }
+
+        [Ignore]
+        [TestMethod]
+        public void Blunt_Impact_SmallerWeaponContactArea()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void ProtectZeroSharpnessDivideByZero()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
