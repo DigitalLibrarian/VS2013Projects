@@ -13,27 +13,24 @@ namespace Tiles.EngineIntegrationTests
     [TestClass]
     public class StrikeTests_BronzeColossusVsDwarf : DfContentTestBase
     {
-        IAgent Colossus { get; set; }
-        IAgent Dwarf { get; set; }
+        IAgent Attacker { get; set; }
+        IAgent Defender { get; set; }
 
         [TestInitialize]
         public override void Initialize()
         {
             base.Initialize();
 
-            Colossus = CreateAgent("COLOSSUS_BRONZE", "MALE", Vector3.Zero);
-            Dwarf = CreateAgent("DWARF", "MALE", Vector3.Zero);
+            Attacker = CreateAgent("COLOSSUS_BRONZE", "MALE", Vector3.Zero);
+            Defender = CreateAgent("DWARF", "MALE", Vector3.Zero);
         }
 
         [TestMethod]
         public void BronzeColossus_PunchStrikeMomentum()
         {
-            var attacker = Colossus;
-            var defender = Dwarf;
-
-            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
-            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
+            var moveClass = Attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
             var strikeMom = move.Attacker.GetStrikeMomentum(move);
             Assert.AreEqual(236984, strikeMom, 1d);
@@ -42,21 +39,18 @@ namespace Tiles.EngineIntegrationTests
         [TestMethod]
         public void BronzeColossus_PunchContactArea()
         {
-            var moveClass = Colossus.Body.Moves.First(x => x.Name.Equals("punch"));
+            var moveClass = Attacker.Body.Moves.First(x => x.Name.Equals("punch"));
             Assert.AreEqual(931, moveClass.ContactArea, 1d);
         }
 
         [TestMethod]
         public void BronzeColossusVsDwarf_PunchRightUpperArm()
         {
-            var attacker = Colossus;
-            var defender = Dwarf;
+            var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
+            var moveClass = Attacker.Body.Moves.First(x => x.Name.Equals("punch"));
+            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
-            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
-            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
-
-            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+            AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
