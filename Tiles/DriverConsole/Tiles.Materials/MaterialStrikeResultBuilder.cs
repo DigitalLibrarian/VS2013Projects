@@ -103,8 +103,8 @@ namespace Tiles.Materials
             var contactAreaRatio = (StrikerContactArea / StrickenContactArea);
             if (contactAreaRatio < 1d)
             {
-                // If the striker is smaller than the strikee, then we can make the damaged area spread out a tad.
-                // Think about how if you punched, then you are slightly sore around the impacted area to a degree.
+                // If the striker is smaller than the strikee, then we can make the damaged area spread out a bit.
+                // Think about how if you are punched, then you are slightly sore around the impacted area to a degree.
                 contactArea *= 1.09d;
                 if (contactArea > StrickenContactArea) // cap at strikee size
                 {
@@ -121,12 +121,8 @@ namespace Tiles.Materials
             }
             volDamaged = System.Math.Max(1d, volDamaged);
 
-            var sharpness = StrikerSharpness;
-            bool bluntBypass = false;
-
-            double resultMom = -1;
-            double stress = -1;
-            bool defeated = false;
+            bool bluntBypass = false, defeated = false;
+            double stress = -1, resultMom = -1, sharpness = StrikerSharpness;
             var msr = StressResult.None;
             
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness);
@@ -173,7 +169,7 @@ namespace Tiles.Materials
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
                 // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
                 // This should be visible in action log.  Probably happens before any other layer testing
-                // use copy "glances away"
+                // use copy "glances away".  This probably belongs at a higher level.
 
                 var dentCost = (impactCost1);
                 var cutCost = dentCost + System.Math.Max(0, impactCost2);

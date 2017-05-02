@@ -23,13 +23,12 @@ namespace Tiles.EngineIntegrationTests
         IAgent Unicorn { get; set; }
 
         [TestInitialize]
-        public void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 
             Unicorn = CreateAgent("UNICORN", "MALE");
         }
-
 
         [TestMethod]
         public void UnicornVsUnicorn_StabLeftRearLeg()

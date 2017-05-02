@@ -31,6 +31,7 @@ namespace Tiles.Materials.Tests
             throw new NotImplementedException();
         }
 
+        #region Relative Contact Areas
         [TestMethod]
         public void ContactArea_StrikerIsSmaller()
         {
@@ -109,6 +110,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(1d, result.ContactAreaRatio);
             Assert.AreEqual(contactArea - 1d, result.ContactArea);
         }
+        #endregion
 
         [TestMethod]
         public void Edged_None_NoStrainResist()
