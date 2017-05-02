@@ -99,8 +99,8 @@ namespace Tiles.Materials
         {
             double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
 
-            var volDamaged = LayerVolume;
             var contactAreaRatio = (StrikerContactArea / StrickenContactArea);
+
             if (contactAreaRatio < 1d)
             {
                 // If the striker is smaller than the strikee, then we can make the damaged area spread out a bit.
@@ -112,18 +112,18 @@ namespace Tiles.Materials
                 }
                 contactAreaRatio = (contactArea / StrickenContactArea);
 
-                volDamaged *= contactAreaRatio;
             }
             else
             {
                 contactAreaRatio = 1d;
                 contactArea = StrickenContactArea - 1;
             }
-            volDamaged = System.Math.Max(1d, volDamaged);
 
-            bool bluntBypass = false, defeated = false;
-            double stress = -1, resultMom = -1, sharpness = StrikerSharpness;
             var msr = StressResult.None;
+            bool bluntBypass = false, defeated = false;
+            double stress = -1, resultMom = -1, 
+                sharpness = StrikerSharpness,
+                volDamaged = LayerVolume * contactAreaRatio;
             
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness);
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, sharpness);
@@ -177,8 +177,6 @@ namespace Tiles.Materials
 
                 if (StrickenMaterial.ImpactStrainAtYield >= 50000 || (cutCost == 0 && defeatCost == 0))
                 {
-                    //var impactStrain = MaterialStressCalc.CalculateStrain(strainAtYield, yield, stress);
-                    //bluntBypass = impactStrain > strainAtYield;
                     bluntBypass = true;
                 }
 
@@ -216,17 +214,16 @@ namespace Tiles.Materials
             else
             {
                 // After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). 
-                double deduction = 0, deductPercent = 0.1d;
+                double deduction = 0;
                 if (StressMode == Materials.StressMode.Edge)
                 {
                     var sharpFactor = 5000d / sharpness;
-                    deduction = shearCost1 * volDamaged * LayerThickness * deductPercent * sharpFactor;
+                    deduction = shearCost1 * volDamaged * LayerThickness * sharpFactor / 10d;
                 }
                 else
                 {
-                    deduction = impactCost1 * volDamaged * deductPercent;
+                    deduction = impactCost1 / 10d;
                 }
-
                 resultMom = Momentum - deduction;
                 resultMom = System.Math.Max(0d, resultMom);
             }

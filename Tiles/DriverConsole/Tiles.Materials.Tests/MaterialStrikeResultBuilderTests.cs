@@ -426,7 +426,7 @@ namespace Tiles.Materials.Tests
             Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
             Assert.AreEqual(9, (int)result.ResultMomentum);
 
-            Assert.AreEqual((int)(10000 * expectedStress / 100), (int)(10000 * result.Stress / 100));
+            Assert.AreEqual(expectedStress, result.Stress, 1d);
             Assert.AreEqual(momentum, result.Momentum);
         }
 

@@ -107,29 +107,22 @@ namespace Tiles.EngineIntegrationTests
             var got = partInjury.TissueLayerInjuries.Count();
             var expected = expectedLayerResults.Count();
 
-            int i = 0;
-            foreach(var exp in expectedLayerResults)
+            if (got == expected)
             {
-                if (partInjury.TissueLayerInjuries.Count() <= i)
+                int i = 0;
+                foreach (var exp in expectedLayerResults)
                 {
-                    Assert.Fail(string.Format("Expected <{0}>, got <{1}> for {2} tissue #{3}: {4}",
-                        exp,
-                        "nothing",
-                        partInjury.BodyPart.Name,
-                        i,
-                        partInjury.TissueLayerInjuries.ElementAt(i).Layer.Name));
+                    var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
+                    Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
+                        string.Format("Expected <{0}>, got <{1}> for {2} {3}",
+                            exp,
+                            tInjury.StrikeResult.StressResult,
+                            partInjury.BodyPart.Name,
+                            tInjury.Layer.Material.Name));
+                    i++;
                 }
-                var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
-                Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
-                    string.Format("Expected <{0}>, got <{1}> for {2} {3}",
-                        exp,
-                        tInjury.StrikeResult.StressResult,
-                        partInjury.BodyPart.Name,
-                        tInjury.Layer.Material.Name));
-                i++;
-            }
-
-            if (got > expected)
+            } 
+            else if (got > expected)
             {
                 foreach (var tInjury in partInjury.TissueLayerInjuries.Skip(expected))
                 {
@@ -141,7 +134,7 @@ namespace Tiles.EngineIntegrationTests
             }
             else if (got < expected)
             {
-                Assert.Fail("Got {0} layers results, expected {1}.", expected);
+                Assert.Fail("Got {0} layer result(s), expected {1}.", got, expected);
             }
             return injuryReport;
         }

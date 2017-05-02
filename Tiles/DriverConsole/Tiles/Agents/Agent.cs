@@ -104,7 +104,7 @@ namespace Tiles.Agents
             {
                 var relatedParts = move.Class.GetRelatedBodyParts(Body);
                 var strikePart = relatedParts.First();
-                var weaponMat = strikePart.Tissue.TissueLayers.First().Material;
+                var weaponMat = strikePart.Tissue.TissueLayers.Select(x => x.Material).OrderByDescending(x => x.ShearFracture).First();
                 return weaponMat;
             }
         }

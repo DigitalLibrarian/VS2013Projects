@@ -868,6 +868,17 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1395d, (int)cost);
         }
 
+        [TestMethod]
+        public void GiantCaveSpider_Moves()
+        {
+            var attacker = GetNewGiantCaveSpider();
+            var defender = GetNewDwarf();
+
+            var move = attacker.Body.Moves.Single();
+            Assert.AreEqual("bite", move.Name);
+            Assert.AreEqual(18d, move.ContactArea, 1d);
+            Assert.AreEqual(71, move.MaxPenetration, 1d);
+        }
 
         IAgent GetNewDwarf()
         {
@@ -877,6 +888,11 @@ namespace Tiles.EngineIntegrationTests
         IAgent GetNewUnicorn()
         {
             return DfTagsFascade.CreateCreatureAgent(Atlas, "UNICORN", "MALE", Vector3.Zero);
+        }
+
+        IAgent GetNewGiantCaveSpider()
+        {
+            return DfTagsFascade.CreateCreatureAgent(Atlas, "SPIDER_CAVE_GIANT", "MALE", Vector3.Zero);
         }
     }
 }
