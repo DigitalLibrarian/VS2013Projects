@@ -585,7 +585,7 @@ namespace Tiles.Materials.Tests
                 .Returns(expectedStress - episilon);
 
             StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
-                .Returns(expectedStress + episilon);
+                .Returns(episilon);
 
             int strickenYield = 1, strickenFracture = 1, strainAtYield = 25000;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
@@ -631,7 +631,7 @@ namespace Tiles.Materials.Tests
                 .Returns(expectedStress - episilon);
 
             StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
-                .Returns(expectedStress + episilon);
+                .Returns(episilon);
 
             int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
@@ -660,33 +660,200 @@ namespace Tiles.Materials.Tests
             Assert.IsFalse(result.IsDefeated);
         }
         
-        [Ignore]
-        [TestMethod]
-        public void Blunt_Impact_Bypass_WouldHaveBeen_Impact_InitiateFracture()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Ignore]
         [TestMethod]
         public void Blunt_Impact_InitiateFracture()
         {
-            throw new NotImplementedException();
+            var stressMode = StressMode.Blunt;
+            double contactArea = 10d, momentum = 1d;
+            double thickness = 1d, volume = 1d;
+            var remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            var expectedStress = 1d;
+            var episilon = 0.0001d;
+            StressCalcMock.Setup(x => x.ImpactCost1(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress - episilon - episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost3(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 25000;
+            strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
+
+            Builder.SetStrikerSharpness(0);
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(contactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(momentum, result.Momentum);
+            Assert.AreEqual(StressMode.Blunt, result.StressMode);
+            Assert.AreEqual(StressResult.Impact_InitiateFracture, result.StressResult);
+            Assert.AreEqual(0.5d, result.ResultMomentum, 0.001d);
+            Assert.AreEqual(expectedStress, result.Stress, 0.1d);
+            Assert.AreEqual(contactArea - 1, result.ContactArea);
+            Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.IsFalse(result.IsDefeated);
         }
 
-
-        [Ignore]
         [TestMethod]
-        public void Blunt_Impact_Bypass_WouldHaveBeen_Impact_CompleteFracture()
+        public void Blunt_Impact_Bypass_WouldHaveBeen_Impact_InitiateFracture()
         {
-            throw new NotImplementedException();
+            var stressMode = StressMode.Blunt;
+            double contactArea = 10d, momentum = 1d;
+            double thickness = 1d, volume = 1d;
+            var remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            var expectedStress = 1d;
+            var episilon = 0.0001d;
+            StressCalcMock.Setup(x => x.ImpactCost1(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress - episilon - episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost3(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
+
+            Builder.SetStrikerSharpness(0);
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(contactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(momentum, result.Momentum);
+            Assert.AreEqual(StressMode.Blunt, result.StressMode);
+            Assert.AreEqual(StressResult.Impact_Bypass, result.StressResult);
+            Assert.AreEqual(1d, result.ResultMomentum, 0.001d);
+            Assert.AreEqual(expectedStress, result.Stress, 0.1d);
+            Assert.AreEqual(contactArea - 1, result.ContactArea);
+            Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.IsFalse(result.IsDefeated);
         }
 
-        [Ignore]
         [TestMethod]
         public void Blunt_Impact_CompleteFracture()
         {
-            throw new NotImplementedException();
+            var stressMode = StressMode.Blunt;
+            double contactArea = 10d, momentum = 1d;
+            double thickness = 1d, volume = 1d;
+            var remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            var expectedStress = 1d;
+            var episilon = 0.0001d;
+            StressCalcMock.Setup(x => x.ImpactCost1(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress - episilon - episilon - episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost3(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 25000;
+            strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
+
+            Builder.SetStrikerSharpness(0);
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(contactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(momentum, result.Momentum);
+            Assert.AreEqual(StressMode.Blunt, result.StressMode);
+            Assert.AreEqual(StressResult.Impact_CompleteFracture, result.StressResult);
+            Assert.AreEqual(0.9d, result.ResultMomentum, 0.001d);
+            Assert.AreEqual(expectedStress, result.Stress, 0.1d);
+            Assert.AreEqual(contactArea - 1, result.ContactArea);
+            Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.IsTrue(result.IsDefeated);
+        }
+
+        [TestMethod]
+        public void Blunt_Impact_Bypass_WouldHaveBeen_Impact_CompleteFracture()
+        {
+            var stressMode = StressMode.Blunt;
+            double contactArea = 10d, momentum = 1d;
+            double thickness = 1d, volume = 1d;
+            var remainingPen = 10d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            var expectedStress = 1d;
+            var episilon = 0.0001d;
+            StressCalcMock.Setup(x => x.ImpactCost1(strickenMaterialMock.Object, volume))
+                .Returns(expectedStress - episilon - episilon - episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost2(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            StressCalcMock.Setup(x => x.ImpactCost3(strickenMaterialMock.Object, volume))
+                .Returns(episilon);
+
+            int strickenYield = 1, strickenFracture = 1, strainAtYield = 50000;
+            strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));
+
+            Builder.SetStrikerSharpness(0);
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetStrikerContactArea(contactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(contactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(momentum, result.Momentum);
+            Assert.AreEqual(StressMode.Blunt, result.StressMode);
+            Assert.AreEqual(StressResult.Impact_Bypass, result.StressResult);
+            Assert.AreEqual(1d, result.ResultMomentum, 0.001d);
+            Assert.AreEqual(expectedStress, result.Stress, 0.1d);
+            Assert.AreEqual(contactArea - 1, result.ContactArea);
+            Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.IsFalse(result.IsDefeated);
         }
 
         [Ignore]
@@ -716,6 +883,5 @@ namespace Tiles.Materials.Tests
         {
             throw new NotImplementedException();
         }
-
     }
 }
