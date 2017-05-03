@@ -28,8 +28,8 @@ namespace Tiles.EngineIntegrationTests
         {
             base.Initialize();
 
-            Attacker = CreateAgent("DWARF", "MALE", Vector3.Zero);
-            Defender = CreateAgent("UNICORN", "MALE", Vector3.Zero);
+            Attacker = CreateAgent("DWARF", "MALE");
+            Defender = CreateAgent("UNICORN", "MALE");
         }
 
 

@@ -226,6 +226,7 @@ namespace Tiles.Materials
                 {
                     deduction = impactCost1 / 10d;
                 }
+
                 resultMom = Momentum - deduction;
                 resultMom = System.Math.Max(0d, resultMom);
             }
