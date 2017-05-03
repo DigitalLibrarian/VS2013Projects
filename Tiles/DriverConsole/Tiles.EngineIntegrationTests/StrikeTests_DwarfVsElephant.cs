@@ -146,5 +146,40 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut);
         }
+
+        [TestMethod]
+        public void DwarfVsElephant_StrikeLeftFrontFootWithSteelPick()
+        {
+            var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("left front foot"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_PICK, "STEEL");
+            Attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("strike"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
+            AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
+        }
+
+        [TestMethod]
+        public void DwarfVsElephant_StrikeLeftFrontFootWithWoodPick()
+        {
+            var targetBodyPart = Defender.Body.Parts.FirstOrDefault(x => x.Name.Equals("left front foot"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_PICK, "WOOD_TEMPLATE");
+            Attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("strike"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
+            AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
+                StressResult.Shear_Cut);
+        }
     }
 }
