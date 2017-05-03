@@ -96,7 +96,7 @@ namespace Tiles.EngineIntegrationTests
 
 
         [TestMethod]
-        public void DwarfVsElephant_SlabUpperBodyWithSteelHalberd()
+        public void DwarfVsElephant_StabUpperBodyWithSteelHalberd()
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("upper body"));
             Assert.IsNotNull(targetBodyPart);
@@ -110,6 +110,22 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
+        }
+
+        [TestMethod]
+        public void DwarfVsElephant_StabHeadWithWoodHalberd()
+        {
+            var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("head"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_HALBERD, "WOOD_TEMPLATE");
+            Attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
+            AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut);
         }
 
