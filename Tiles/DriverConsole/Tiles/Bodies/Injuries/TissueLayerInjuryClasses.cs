@@ -112,10 +112,14 @@ namespace Tiles.Bodies.Injuries
                         }
                         break;
                     case StressResult.Shear_CutThrough:
-                        if (IsChip()) gerund = "chipping";
+
+                        if (IsSoft())
+                        {
+                            gerund = "tearing apart";
+                        }
                         else
                         {
-                            gerund = IsSoft() ? "tearing apart" : "shattering";
+                            gerund = IsChip() ? "tearing through" : "shattering";
                         }
                         break;
                     default:

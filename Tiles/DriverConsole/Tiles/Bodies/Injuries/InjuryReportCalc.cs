@@ -19,7 +19,7 @@ namespace Tiles.Bodies.Injuries
         public InjuryReportCalc()
         {
             InjuryFactory = new InjuryFactory();
-            Builder = new LayeredMaterialStrikeResultBuilder(new MaterialStrikeResultBuilder()); 
+            Builder = new LayeredMaterialStrikeResultBuilder(new SingleLayerStrikeTester(new MaterialStrikeResultBuilder())); 
         }
 
         public InjuryReportCalc(IInjuryFactory injuryFactory, ILayeredMaterialStrikeResultBuilder resultBuilder)

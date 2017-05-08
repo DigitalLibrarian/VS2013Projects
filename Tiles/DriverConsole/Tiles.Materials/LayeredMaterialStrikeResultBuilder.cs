@@ -8,7 +8,7 @@ namespace Tiles.Materials
 {
     public class LayeredMaterialStrikeResultBuilder : ILayeredMaterialStrikeResultBuilder
     {
-        class MLayer
+        class MaterialLayer
         {
             public object Tag { get; set; }
             public bool IsTagged { get { return Tag != null; } }
@@ -18,7 +18,7 @@ namespace Tiles.Materials
             public IMaterial Material { get; set; }
         }
 
-        IMaterialStrikeResultBuilder Builder { get; set; }
+        ISingleLayerStrikeTester LayerTester { get; set; }
 
         double Momentum { get; set; }
         double StrikerContactArea { get; set; }
@@ -28,12 +28,12 @@ namespace Tiles.Materials
         StressMode StressMode { get; set; }
 
         IMaterial StrikerMaterial { get; set; }
-        List<MLayer> Layers { get; set; }
+        List<MaterialLayer> Layers { get; set; }
 
-        public LayeredMaterialStrikeResultBuilder(IMaterialStrikeResultBuilder matStrikeBuilder)
+        public LayeredMaterialStrikeResultBuilder(ISingleLayerStrikeTester tester)//IMaterialStrikeResultBuilder matStrikeBuilder)
         {
-            Builder = matStrikeBuilder;
-            Layers = new List<MLayer>();
+            LayerTester = tester;
+            Layers = new List<MaterialLayer>();
             Clear();
         }
 
@@ -85,14 +85,14 @@ namespace Tiles.Materials
 
         public void AddLayer(IMaterial mat)
         {
-            Layers.Add(new MLayer
+            Layers.Add(new MaterialLayer
             {
                 Material = mat
             });
         }
         public void AddLayer(IMaterial mat, double thick, double volume, object tag)
         {
-            Layers.Add(new MLayer
+            Layers.Add(new MaterialLayer
             {
                 Material = mat,
                 Thickness = thick,
@@ -192,23 +192,19 @@ namespace Tiles.Materials
 
         MaterialStrikeResult PerformSingleLayerTest(
             IMaterial strikerMat, double momentum, double contactArea, double penetrationLeft,
-            StressMode mode, MLayer layer)
+            StressMode mode, MaterialLayer layer)
         {
-            Builder.Clear();
-
-            Builder.SetStressMode(mode);
-            Builder.SetStrikerMaterial(strikerMat);
-            Builder.SetStrikerSharpness(StrikerSharpness);
-            Builder.SetStrickenMaterial(layer.Material);
-            Builder.SetStrikeMomentum(momentum);
-            Builder.SetLayerVolume(System.Math.Max(1d, layer.Volume));
-            Builder.SetLayerThickness(layer.Thickness);
-            Builder.SetRemainingPenetration(penetrationLeft);
-
-            Builder.SetStrikerContactArea(contactArea);
-            Builder.SetStrickenContactArea(StrickenContactArea);
-
-            return Builder.Build();
+            return LayerTester.StrikeTest(
+                mode,
+                strikerMat,
+                StrikerSharpness,
+                contactArea,
+                momentum, 
+                penetrationLeft,
+                layer.Material,
+                layer.Thickness,
+                layer.Volume,
+                StrickenContactArea);
         }
     }
 }

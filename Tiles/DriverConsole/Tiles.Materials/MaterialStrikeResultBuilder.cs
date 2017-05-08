@@ -36,8 +36,10 @@ namespace Tiles.Materials
 
         public void Clear()
         {
-            StrikerContactArea = 0;
+            StrikerContactArea = StrickenContactArea = 0;
             Momentum = 0;
+            LayerVolume = LayerThickness = 0;
+            RemainingPenetration = 0;
             StrikerSharpness = 0;
             StressMode = Materials.StressMode.None;
             StrikerMaterial = null;
