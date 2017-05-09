@@ -176,11 +176,6 @@ namespace Tiles.Materials
                     result.AddLayerResult(layerResult);
                 }
 
-                if (mode == Materials.StressMode.Blunt)
-                {
-                    strikeMaterial = layer.Material;
-                }
-
                 if (done) break;
             }
 

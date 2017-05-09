@@ -342,10 +342,10 @@ namespace Tiles.Materials.Tests
 
             LayerTesterMock.Verify(x => x.StrikeTest(
                 StressMode.Blunt,
-                Layer0.Material,
+                strikerMatMock.Object,
                 strikerSharpness,
                 strikerContactArea,
-                momentum,
+                layerResult0.ResultMomentum,
                 penetrationLeft,
                 Layer1.Material,
                 Layer1.Thickness,
@@ -356,11 +356,84 @@ namespace Tiles.Materials.Tests
             AssertTotalLayerTests(2);
         }
 
-        [Ignore]
         [TestMethod]
         public void Edge_PenetrationCap_BluntConversion()
         {
-            throw new NotImplementedException();
+            var stressMode = StressMode.Edge;
+            double momentum = 1d, penetrationLeft = Layer0.Thickness;
+
+            var strikerMatMock = new Mock<IMaterial>();
+            double strikerContactArea = 1.1d,
+                strikerSharpness = 1.2d;
+
+            double strickenContactArea = 1.3d;
+
+            var layerResult0 = new MaterialStrikeResult
+            {
+                IsDefeated = true,
+                StressResult = StressResult.Shear_Cut,
+                ResultMomentum = momentum
+            };
+
+            var layerResult1 = new MaterialStrikeResult
+            {
+                IsDefeated = false,
+                StressResult = StressResult.None
+            };
+
+            SetupLayerResponse(layerResult0, layerResult1);
+
+            Builder.SetStressMode(stressMode);
+            Builder.SetMomentum(momentum);
+            Builder.SetMaxPenetration(penetrationLeft);
+            Builder.SetStrikerMaterial(strikerMatMock.Object);
+            Builder.SetStrikerContactArea(strikerContactArea);
+            Builder.SetStrikerSharpness(strikerSharpness);
+
+            Builder.SetStrickenContactArea(strickenContactArea);
+
+            Builder.AddLayer(Layer0.Material, Layer0.Thickness, Layer0.Volume, Layer0.Tag);
+            Builder.AddLayer(Layer1.Material, Layer1.Thickness, Layer1.Volume, Layer1.Tag);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(Layer0.Thickness, result.Penetration);
+            Assert.AreEqual(2, result.LayerResults.Count());
+            Assert.AreSame(layerResult0, result.LayerResults.ElementAt(0));
+            Assert.AreSame(layerResult1, result.LayerResults.ElementAt(1));
+            Assert.AreEqual(2, result.TaggedResults.Count());
+            Assert.IsTrue(result.TaggedResults.ContainsKey(Layer0.Tag));
+            Assert.AreEqual(layerResult0, result.TaggedResults[Layer0.Tag]);
+
+            Assert.IsTrue(result.TaggedResults.ContainsKey(Layer1.Tag));
+            Assert.AreEqual(layerResult1, result.TaggedResults[Layer1.Tag]);
+
+            LayerTesterMock.Verify(x => x.StrikeTest(
+                stressMode,
+                strikerMatMock.Object,
+                strikerSharpness,
+                strikerContactArea,
+                momentum,
+                penetrationLeft,
+                Layer0.Material,
+                Layer0.Thickness,
+                Layer0.Volume,
+                strickenContactArea), Times.Once());
+
+            LayerTesterMock.Verify(x => x.StrikeTest(
+                StressMode.Blunt,
+                strikerMatMock.Object,
+                strikerSharpness,
+                strikerContactArea,
+                layerResult0.ResultMomentum,
+                penetrationLeft - Layer0.Thickness,
+                Layer1.Material,
+                Layer1.Thickness,
+                Layer1.Volume,
+                strickenContactArea
+                ), Times.Once());
+
+            AssertTotalLayerTests(2);
         }
 
         [Ignore]
