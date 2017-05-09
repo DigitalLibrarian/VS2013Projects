@@ -105,8 +105,6 @@ namespace Tiles.Materials
 
         public ILayeredMaterialStrikeResult Build()
         {
-            const double epsilon = 0.00001d;
-
             var result = new LayeredMaterialStrikeResult();
             var contactArea = StrikerContactArea;
             
@@ -120,7 +118,6 @@ namespace Tiles.Materials
             double lastMomentumIn;
             for (int layerIndex = 0; layerIndex < Layers.Count(); layerIndex++)
             {
-                if (momentum <= epsilon) break;
                 if (turnsToBlunt-- == 0  || penetration >= MaxPenetration)
                 {
                     mode = Materials.StressMode.Blunt;
