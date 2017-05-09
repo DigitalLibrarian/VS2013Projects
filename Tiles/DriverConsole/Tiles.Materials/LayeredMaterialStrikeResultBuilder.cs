@@ -105,6 +105,8 @@ namespace Tiles.Materials
 
         public ILayeredMaterialStrikeResult Build()
         {
+            const double epsilon = 0.00001d;
+
             var result = new LayeredMaterialStrikeResult();
             var contactArea = StrikerContactArea;
             
@@ -113,9 +115,9 @@ namespace Tiles.Materials
 
             double penetration = 0;
             bool done = false;
-            double epsilon = 0.00001d;
             int turnsToBlunt = -1;
             var strikeMaterial = StrikerMaterial;
+            double lastMomentumIn;
             for (int layerIndex = 0; layerIndex < Layers.Count(); layerIndex++)
             {
                 if (momentum <= epsilon) break;
@@ -124,6 +126,7 @@ namespace Tiles.Materials
                     mode = Materials.StressMode.Blunt;
                 }
 
+                lastMomentumIn = momentum;
                 var layer = Layers[layerIndex];
                 var layerResult = PerformSingleLayerTest(
                     strikeMaterial,
@@ -156,6 +159,7 @@ namespace Tiles.Materials
                     {
                         // retry this layer with the mode change
                        layerIndex--;
+                       momentum = lastMomentumIn;
                        continue;
                     }
                 }
