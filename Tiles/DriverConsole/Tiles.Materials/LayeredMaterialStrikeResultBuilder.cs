@@ -30,13 +30,14 @@ namespace Tiles.Materials
         IMaterial StrikerMaterial { get; set; }
         List<MaterialLayer> Layers { get; set; }
 
-        public LayeredMaterialStrikeResultBuilder(ISingleLayerStrikeTester tester)//IMaterialStrikeResultBuilder matStrikeBuilder)
+        public LayeredMaterialStrikeResultBuilder(ISingleLayerStrikeTester tester)
         {
             LayerTester = tester;
             Layers = new List<MaterialLayer>();
             Clear();
         }
 
+        #region Configuration
         public void Clear()
         {
             Layers.Clear();
@@ -100,6 +101,7 @@ namespace Tiles.Materials
                 Tag = tag
             });
         }
+        #endregion
 
         public ILayeredMaterialStrikeResult Build()
         {
@@ -130,8 +132,7 @@ namespace Tiles.Materials
                     MaxPenetration - penetration,
                     mode,
                     layer);
-
-
+                 
                 momentum = layerResult.ResultMomentum;
 
                 if (layerResult.IsDefeated)
@@ -140,17 +141,11 @@ namespace Tiles.Materials
                     {
                         penetration += layer.Thickness;
                     }
-                    else
+                    else if (layerResult.StressResult == StressResult.Impact_CompleteFracture)
                     {
-                        if (layerResult.StressResult == StressResult.Impact_CompleteFracture)
-                        {
-                            if (mode == Materials.StressMode.Blunt)
-                            {
-                                strikeMaterial = layer.Material;
-                                mode = Materials.StressMode.Edge;
-                                turnsToBlunt = 1;
-                            }
-                        }
+                        strikeMaterial = layer.Material;
+                        mode = Materials.StressMode.Edge;
+                        turnsToBlunt = 1;
                     }
                 }
                 else if (mode != StressMode.Blunt)
@@ -185,7 +180,7 @@ namespace Tiles.Materials
                 if (done) break;
             }
 
-            result.Penetration = (int) System.Math.Min(penetration, MaxPenetration);
+            result.Penetration = penetration;
 
             return result;
         }

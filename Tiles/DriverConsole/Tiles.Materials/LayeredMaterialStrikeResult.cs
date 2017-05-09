@@ -8,7 +8,7 @@ namespace Tiles.Materials
 {
     public interface ILayeredMaterialStrikeResult
     {
-        int Penetration { get; }
+        double Penetration { get; }
         IEnumerable<MaterialStrikeResult> LayerResults { get; }
         IDictionary<object, MaterialStrikeResult> TaggedResults { get; }
     }
@@ -17,7 +17,7 @@ namespace Tiles.Materials
     {
         List<MaterialStrikeResult> Results { get; set; }
         Dictionary<object, MaterialStrikeResult> Tagged { get; set; }
-        public int Penetration { get; set; }
+        public double Penetration { get; set; }
         public LayeredMaterialStrikeResult()
         {
             Results = new List<MaterialStrikeResult>();

@@ -53,6 +53,7 @@ namespace Tiles.Bodies.Injuries
                 // TODO - these armor items might need to be reversed
                 foreach (var armorItem in armorItems)
                 {
+                    // TODO - probably need to *find* a thickness and volume given the striking agent size
                     Builder.AddLayer(armorItem.Class.Material);
                 }
 
