@@ -64,13 +64,26 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+            var results = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_CompleteFracture,
                 StressResult.Shear_CutThrough,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_CompleteFracture);
+
+            var layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("nail", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+
+            layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+
+            layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
         }
+
         [TestMethod]
         public void ElfVsElf_KickRightUpperLeg()
         {

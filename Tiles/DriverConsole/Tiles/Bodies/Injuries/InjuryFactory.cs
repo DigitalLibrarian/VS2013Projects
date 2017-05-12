@@ -31,7 +31,7 @@ namespace Tiles.Bodies.Injuries
             foreach (var taggedResult in result.TaggedResults)
             {
                 var layerInjuries = Enumerable.Empty<ITissueLayerInjury>();
-                var tissueLayer = taggedResult.Key as ITissueLayer; // typing failure
+                var tissueLayer = taggedResult.Key as ITissueLayer;
                 var tissueResult = taggedResult.Value;
 
                 var tlBodyPart = tlParts[tissueLayer];

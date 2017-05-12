@@ -81,7 +81,7 @@
     <Compile Include="Bodies\Injuries\InjuryReportCalc.cs" />
     <Compile Include="Bodies\Injuries\TissueLayerInjury.cs" />
     <Compile Include="Bodies\Injuries\TissueLayerInjuryClass.cs" />
-    <Compile Include="Bodies\Injuries\TissueLayerInjuryClasses.cs" />
+    <Compile Include="Bodies\Injuries\MsrTissueLayerInjuryClass.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />

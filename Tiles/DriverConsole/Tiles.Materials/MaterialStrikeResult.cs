@@ -15,6 +15,8 @@ namespace Tiles.Materials
         public double Momentum { get; set; }
         public double Stress { get; set; }
 
+        public double PenetrationRatio { get; set; }
+
         public StressResult StressResult { get; set; }
         public double ResultMomentum { get; set; }
         public bool IsDefeated { get; set; }

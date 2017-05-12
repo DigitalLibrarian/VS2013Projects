@@ -126,6 +126,8 @@ namespace Tiles.Materials
             double stress = -1, resultMom = -1, 
                 sharpness = StrikerSharpness,
                 volDamaged = LayerVolume * contactAreaRatio;
+
+            double penetrationRatio = 0d;
             
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness);
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, sharpness);
@@ -152,11 +154,22 @@ namespace Tiles.Materials
                     {
                         msr = StressResult.Shear_Cut;
                         defeated = true;
+
+                        if (LayerThickness > RemainingPenetration)
+                        {
+                            penetrationRatio = RemainingPenetration / LayerThickness;
+                        }
+                        else
+                        {
+                            penetrationRatio = 1d;
+                        }
+
                         if (stress > defeatCost
                             && StrikerContactArea >= StrickenContactArea
                             && RemainingPenetration >= LayerThickness)
                         {
                             msr = StressResult.Shear_CutThrough;
+                            penetrationRatio = 1d;
                         }
                     }
                 }
@@ -193,6 +206,7 @@ namespace Tiles.Materials
                             {
                                 defeated = true;
                                 msr = StressResult.Impact_CompleteFracture;
+                                penetrationRatio = 1d;
                             }
                         }
                     }
@@ -239,6 +253,8 @@ namespace Tiles.Materials
                 Momentum = Momentum,
                 ContactArea = contactArea,
                 ContactAreaRatio = contactAreaRatio,
+
+                PenetrationRatio = penetrationRatio,
 
                 StressResult = msr,
                 IsDefeated = defeated,

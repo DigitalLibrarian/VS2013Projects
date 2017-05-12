@@ -143,6 +143,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(1d, result.ContactAreaRatio);
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.None, result.StressResult);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.IsFalse(result.IsDefeated);
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
             Assert.AreEqual(momentum, result.ResultMomentum);
@@ -312,6 +313,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.Shear_Dent, result.StressResult);
             Assert.IsFalse(result.IsDefeated);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.AreEqual(momentum, result.ResultMomentum);
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
         }
@@ -361,6 +363,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.Shear_Cut, result.StressResult);
             Assert.IsTrue(result.IsDefeated);
+            Assert.AreEqual(1d, result.PenetrationRatio);
             Assert.IsTrue(result.ResultMomentum > 0, "Non-Positive Result Momentum");
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
             Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
@@ -414,6 +417,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.Shear_Cut, result.StressResult);
             Assert.IsTrue(result.IsDefeated);
+            Assert.AreEqual(1d, result.PenetrationRatio);
             Assert.IsTrue(result.ResultMomentum > 0, "Non-Positive Result Momentum");
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
             Assert.IsTrue(result.ResultMomentum < momentum, "Slows down");
@@ -467,6 +471,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(1d, result.ContactAreaRatio);
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.Shear_Cut, result.StressResult);
+            Assert.AreEqual(0.5d, result.PenetrationRatio);
             Assert.IsTrue(result.IsDefeated);
             Assert.IsTrue(result.ResultMomentum > 0, "Non-Positive Result Momentum");
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
@@ -518,6 +523,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(1d, result.ContactAreaRatio);
             Assert.AreEqual(StressMode.Edge, result.StressMode);
             Assert.AreEqual(StressResult.Shear_CutThrough, result.StressResult);
+            Assert.AreEqual(1d, result.PenetrationRatio);
             Assert.IsTrue(result.IsDefeated);
             Assert.IsTrue(result.ResultMomentum > 0, "Non-Positive Result Momentum");
             Assert.IsTrue(result.ResultMomentum <= momentum, "Conserve energy");
@@ -562,6 +568,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(StressMode.Blunt, result.StressMode);
             Assert.AreEqual(StressResult.None, result.StressResult);
             Assert.AreEqual(0d, result.ResultMomentum);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea-1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
@@ -608,6 +615,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(StressMode.Blunt, result.StressMode);
             Assert.AreEqual(StressResult.Impact_Dent, result.StressResult);
             Assert.AreEqual(0.5d, result.ResultMomentum, 0.001d);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea - 1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
@@ -657,6 +665,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea - 1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.IsFalse(result.IsDefeated);
         }
         
@@ -706,6 +715,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea - 1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.IsFalse(result.IsDefeated);
         }
 
@@ -755,6 +765,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea - 1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.IsFalse(result.IsDefeated);
         }
 
@@ -804,6 +815,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea - 1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(1d, result.PenetrationRatio);
             Assert.IsTrue(result.IsDefeated);
         }
 
@@ -853,6 +865,7 @@ namespace Tiles.Materials.Tests
             Assert.AreEqual(expectedStress, result.Stress, 0.1d);
             Assert.AreEqual(contactArea - 1, result.ContactArea);
             Assert.AreEqual(1d, result.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0d, result.PenetrationRatio);
             Assert.IsFalse(result.IsDefeated);
         }
 

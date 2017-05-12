@@ -9,10 +9,13 @@ namespace Tiles.Bodies
 {
     public interface ITissueLayerWound
     {
+        Fraction EffectFraction { get; }
         Fraction DentFraction { get; }
         Fraction CutFraction { get; }
 
-        double AreaPercent { get; }
+        double WoundArea { get; }
+        double WoundAreaRatio { get; }
+        double PenetrationRatio { get; }
 
         bool IsPulped();
     }
