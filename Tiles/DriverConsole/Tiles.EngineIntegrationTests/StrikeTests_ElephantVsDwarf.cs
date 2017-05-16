@@ -38,5 +38,19 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass);
         }
+
+        [TestMethod]
+        public void ElephantVsDwarf_KickLeftUpperLeg()
+        {
+            var targetBodyPart = Defender.Body.Parts.FirstOrDefault(x => x.Name.Equals("left upper leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var moveClass = Attacker.Body.Moves.First(mc => mc.Name.Equals("kick"));
+            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass);
+        }
     }
 }
