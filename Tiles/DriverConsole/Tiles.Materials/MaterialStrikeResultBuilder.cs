@@ -99,10 +99,8 @@ namespace Tiles.Materials
 
         public MaterialStrikeResult Build()
         {
-            double contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
-
+            var contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
             var contactAreaRatio = (StrikerContactArea / StrickenContactArea);
-
             if (contactAreaRatio < 1d)
             {
                 // If the striker is smaller than the strikee, then we can make the damaged area spread out a bit.
@@ -113,7 +111,6 @@ namespace Tiles.Materials
                     contactArea = StrickenContactArea;
                 }
                 contactAreaRatio = (contactArea / StrickenContactArea);
-
             }
             else
             {
@@ -152,24 +149,29 @@ namespace Tiles.Materials
                     msr = StressResult.Shear_Dent;
                     if (stress > cutCost)
                     {
-                        msr = StressResult.Shear_Cut;
-                        defeated = true;
 
+                        penetrationRatio = (stress - cutCost) / (defeatCost - cutCost);
+                        penetrationRatio = System.Math.Min(1d, penetrationRatio);
                         if (LayerThickness > RemainingPenetration)
                         {
-                            penetrationRatio = RemainingPenetration / LayerThickness;
+                            penetrationRatio = System.Math.Min(RemainingPenetration / LayerThickness, penetrationRatio);
+                        }
+
+                        if (penetrationRatio > 0.01d)
+                        {
+                            msr = StressResult.Shear_Cut;
+                            defeated = true;
+
+                            if (stress > defeatCost
+                                && StrikerContactArea >= StrickenContactArea
+                                && RemainingPenetration >= LayerThickness)
+                            {
+                                msr = StressResult.Shear_CutThrough;
+                            }
                         }
                         else
                         {
-                            penetrationRatio = 1d;
-                        }
-
-                        if (stress > defeatCost
-                            && StrikerContactArea >= StrickenContactArea
-                            && RemainingPenetration >= LayerThickness)
-                        {
-                            msr = StressResult.Shear_CutThrough;
-                            penetrationRatio = 1d;
+                            penetrationRatio = 0d;
                         }
                     }
                 }

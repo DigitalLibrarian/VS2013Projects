@@ -46,7 +46,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
     }
 }

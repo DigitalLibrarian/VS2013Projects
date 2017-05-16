@@ -439,15 +439,15 @@ namespace Tiles.Materials.Tests
             var strickenMaterialMock = new Mock<IMaterial>();
 
             var expectedStress = 10d;
-            var episilon = 0.0001d;
+            var epsilon = 0.0001d;
             StressCalcMock.Setup(x => x.ShearCost1(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness))
-                .Returns(expectedStress - episilon - episilon - episilon);
+                .Returns(expectedStress - epsilon - epsilon);
 
             StressCalcMock.Setup(x => x.ShearCost2(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness))
-                .Returns(episilon);
+                .Returns(epsilon);
 
             StressCalcMock.Setup(x => x.ShearCost3(strikerMaterialMock.Object, strickenMaterialMock.Object, sharpness, volume))
-                .Returns(episilon);
+                .Returns(epsilon);
 
             int strickenYield = 1, strickenFracture = 1, strainAtYield = 1;
             strickenMaterialMock.Setup(x => x.GetModeProperties(stressMode, out strickenYield, out strickenFracture, out strainAtYield));

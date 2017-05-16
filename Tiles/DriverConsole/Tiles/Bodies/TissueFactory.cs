@@ -28,12 +28,12 @@ namespace Tiles.Bodies
 
                 if (tc.ThickensOnEnergyStorage)
                 {
-                    mlpf = storedFat * tlFact / 250000d;
+                    mlpf = storedFat * tlFact / 2500 / 100;
                 }
 
 
                 var tissueThick = partThick * mlpf / fractionTotal;
-                var tissueVol = partSize * mlpf/fractionTotal;
+                var tissueVol = partSize * mlpf / fractionTotal;
                 tissueThick = System.Math.Max(1d, tissueThick);
                 tissueVol = System.Math.Max(1d, tissueVol);
 

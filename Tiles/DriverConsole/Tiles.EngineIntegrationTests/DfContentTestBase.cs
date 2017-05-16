@@ -107,22 +107,25 @@ namespace Tiles.EngineIntegrationTests
             var got = partInjury.TissueLayerInjuries.Count();
             var expected = expectedLayerResults.Count();
 
-            if (got == expected)
+            if (got < expected)
             {
-                int i = 0;
-                foreach (var exp in expectedLayerResults)
-                {
-                    var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
-                    Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
-                        string.Format("Expected <{0}>, got <{1}> for {2} {3}",
-                            exp,
-                            tInjury.StrikeResult.StressResult,
-                            partInjury.BodyPart.Name,
-                            tInjury.Layer.Material.Name));
-                    i++;
-                }
-            } 
-            else if (got > expected)
+                Assert.Fail("Got {0} layer result(s), expected {1}.", got, expected);
+            }
+
+            int i = 0;
+            foreach (var exp in expectedLayerResults)
+            {
+                var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
+                Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
+                    string.Format("Expected <{0}>, got <{1}> for {2} {3}",
+                        exp,
+                        tInjury.StrikeResult.StressResult,
+                        partInjury.BodyPart.Name,
+                        tInjury.Layer.Material.Name));
+                i++;
+            }
+
+            if (got > expected)
             {
                 foreach (var tInjury in partInjury.TissueLayerInjuries.Skip(expected))
                 {
@@ -131,10 +134,6 @@ namespace Tiles.EngineIntegrationTests
                         Assert.Fail(string.Format("Unexpected tissue layer result {0} for {1} layer", tInjury.StrikeResult.StressResult, tInjury.Layer.Material.Name));
                     }
                 }
-            }
-            else if (got < expected)
-            {
-                Assert.Fail("Got {0} layer result(s), expected {1}.", got, expected);
             }
             return injuryReport;
         }

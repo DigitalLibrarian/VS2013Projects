@@ -55,7 +55,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
 
@@ -110,7 +110,7 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
             AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
         [TestMethod]
@@ -180,6 +180,22 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
             AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut);
+        }
+
+        [TestMethod]
+        public void DwarfVsElephant_StrikeLeftRearLegWithWoodPick()
+        {
+            var targetBodyPart = Defender.Body.Parts.FirstOrDefault(x => x.Name.Equals("left rear leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_PICK, "WOOD_TEMPLATE");
+            Attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("strike"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
+            AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
+                StressResult.Shear_Dent);
         }
     }
 }

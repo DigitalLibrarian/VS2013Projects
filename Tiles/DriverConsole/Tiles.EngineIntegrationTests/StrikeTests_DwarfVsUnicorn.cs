@@ -49,12 +49,12 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
 
         [TestMethod]
-        public void DwarfVsUnicorn_SlashLegWithCopperSword()
+        public void DwarfVsUnicorn_SlashRightFrontLegWithCopperSword()
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
             Assert.IsNotNull(targetBodyPart);
@@ -68,7 +68,7 @@ namespace Tiles.EngineIntegrationTests
             AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
 
@@ -88,7 +88,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
-                StressResult.Shear_Cut);
+                StressResult.Shear_Dent);
         }
 
         [TestMethod]
