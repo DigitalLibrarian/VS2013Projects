@@ -73,6 +73,7 @@ namespace Tiles.Bodies.Injuries
                     {
                         if (!tissueLayer.Class.IsCosmetic)
                         {
+                            // TODO - need to figure in the effective thickness and volume by accounting for existing wounds
                             Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
                             tlParts.Add(tissueLayer, internalPart);
                         }
