@@ -55,7 +55,7 @@ namespace Tiles.Bodies
 
         public bool IsPulped()
         {
-            return GetDamageFractions().All(x => x.AsDouble() >= 1d);
+            return GetDamageFractions().Any(x => x.AsDouble() >= 1d);
         }
     }
 }
