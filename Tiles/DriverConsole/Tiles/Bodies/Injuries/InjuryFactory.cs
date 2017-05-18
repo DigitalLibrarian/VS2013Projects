@@ -79,86 +79,10 @@ namespace Tiles.Bodies.Injuries
             ILayeredMaterialStrikeResult result,
             List<ITissueLayerInjury> tissueInjuries)
         {
-            // TODO - if the body part only has a single tissue, then the
-            // body part injury can just mirror it (look at throat injuries in df combat logs)
-            var damage = new DamageVector();
-            foreach (var ti in tissueInjuries)
-            {
-                damage.Add(ti.GetTotal());
-            }
-
-            if (WillSever(part, damage, contactArea))
-            {
-                return new BodyPartInjury(
-                    BodyPartInjuryClasses.Severed, part, tissueInjuries);
-            }
-            else if (!IsBroken(part.Damage) && WillBreak(part.Damage, damage))
-            {
-                return new BodyPartInjury(
-                    BodyPartInjuryClasses.ExplodesIntoGore, part, tissueInjuries);
-            }
-            else if (!IsMangled(part.Damage) && WillMangle(part.Damage, damage))
-            {
-                return new BodyPartInjury(
-                    BodyPartInjuryClasses.Severed, part, tissueInjuries);
-            }
-            return new BodyPartInjury(
-                BodyPartInjuryClasses.TissueDamage, part, tissueInjuries);
+            
+            return new BodyPartInjury(part, tissueInjuries);
         }
 
-        #region Body Part Damage State Machine
-
-        bool WillSever(IBodyPart part, IDamageVector d, double contactArea)
-        {
-            if (!part.CanBeAmputated) return false;
-
-            var p = part.Damage;
-            var dSlash = d.GetFraction(DamageType.Slash).AsDouble();
-            if (dSlash <= 0) return false;
-
-            var pSlash = p.GetFraction(DamageType.Slash).AsDouble();
-            if (pSlash + dSlash >= 1)
-            {
-                if (contactArea >= part.Size * 10)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool IsBroken(IDamageVector d)
-        {
-            return d.GetFraction(DamageType.Bludgeon).AsDouble() >= 1d;
-        }
-
-        public bool WillBreak(IDamageVector p, IDamageVector d)
-        {
-            return d.GetFraction(DamageType.Bludgeon).AsDouble()
-                + p.GetFraction(DamageType.Bludgeon).AsDouble()
-                >= 1f;
-        }
-
-        public bool IsMangled(IDamageVector d)
-        {
-            return new DamageType[]{
-                DamageType.Slash,
-            }.Select(x => d.GetFraction(x).AsDouble())
-            .Sum() >= 1d;
-        }
-
-        public bool WillMangle(IDamageVector p, IDamageVector d)
-        {
-            return new DamageType[]{
-                DamageType.Slash,
-            }.Select(x =>
-                d.GetFraction(x).AsDouble()
-                + p.GetFraction(x).AsDouble()
-                )
-            .Sum() >= 1d;
-        }
-#endregion
 
         private IEnumerable<ITissueLayerInjury> CreateTissueInjury(
             IBodyPart bodyPart,

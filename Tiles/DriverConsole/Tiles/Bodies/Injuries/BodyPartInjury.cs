@@ -10,8 +10,10 @@ namespace Tiles.Bodies.Injuries
     public interface IBodyPartInjury
     {
         IBodyPart BodyPart { get; }
-        IBodyPartInjuryClass Class { get; }
+        //IBodyPartInjuryClass Class { get; }
         IEnumerable<ITissueLayerInjury> TissueLayerInjuries { get; }
+
+        bool IsSever { get; }
 
         IDamageVector GetTotal();
         string GetResultPhrase();
@@ -20,15 +22,14 @@ namespace Tiles.Bodies.Injuries
     public class BodyPartInjury : IBodyPartInjury
     {
         public IBodyPart BodyPart { get; private set; }
-        public IBodyPartInjuryClass Class { get; private set; }
         public IEnumerable<ITissueLayerInjury> TissueLayerInjuries { get; private set; }
 
-        public BodyPartInjury(IBodyPartInjuryClass injuryClass,
-            IBodyPart bodyPart,
+        public bool IsSever { get { return false; } }
+
+        public BodyPartInjury(IBodyPart bodyPart,
             IEnumerable<ITissueLayerInjury> tissueLayerInjuries)
         {
             BodyPart = bodyPart;
-            Class = injuryClass;
             TissueLayerInjuries = tissueLayerInjuries;
         }
 
@@ -46,11 +47,7 @@ namespace Tiles.Bodies.Injuries
         public string GetResultPhrase()
         {
             var injuries = TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
-            if (Class.IsCompletion)
-            {
-                return string.Format(" and {0}!", Class.CompletionPhrase);
-            }
-            else if (injuries.Any())
+            if (injuries.Any())
             {
                 var phrases = injuries
                     .Select(injury =>

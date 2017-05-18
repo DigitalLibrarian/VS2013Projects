@@ -62,7 +62,7 @@ namespace Tiles
             if (bpInjury != null) 
             { 
                 var completionMessage = bpInjury.GetResultPhrase();
-                if (bpInjury.Class.IsSever)
+                if (bpInjury.IsSever)
                 {
                     completionMessage = limbMessage;
                 }

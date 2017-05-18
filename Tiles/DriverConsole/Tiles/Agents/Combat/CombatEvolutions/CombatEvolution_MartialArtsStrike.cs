@@ -70,7 +70,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             session.InjuryReport = report;
 
             bool targetPartWasShed = false;
-            foreach (var sever in report.BodyPartInjuries.Where(x => x.Class.IsSever))
+            foreach (var sever in report.BodyPartInjuries.Where(x => x.IsSever))
             {
                 defender.Body.Amputate(sever.BodyPart);
                 HandleShedPart(attacker, defender, move, sever.BodyPart);

@@ -72,7 +72,6 @@
     <Compile Include="Bodies\BodyPartRelationType.cs" />
     <Compile Include="Bodies\Injuries\BodyPartInjury.cs" />
     <Compile Include="Bodies\Injuries\BodyPartInjuryClass.cs" />
-    <Compile Include="Bodies\Injuries\BodyPartInjuryClasses.cs" />
     <Compile Include="Bodies\Injuries\IInjuryReportCalc.cs" />
     <Compile Include="Bodies\Injuries\InjuryFactory.cs" />
     <Compile Include="Bodies\Injuries\InjuryReport.cs" />
