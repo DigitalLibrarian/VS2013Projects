@@ -61,16 +61,10 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 weaponMat,
                 move.Sharpness);
 
-            // TODO - need better way to give injury
-            foreach (var bpInjury in report.BodyPartInjuries)
-            {
-                bpInjury.BodyPart.Damage.Add(bpInjury.GetTotal());
-            }
-
             session.InjuryReport = report;
 
             bool targetPartWasShed = false;
-            foreach (var sever in report.BodyPartInjuries.Where(x => x.IsSever))
+            foreach (var sever in report.GetSeverings())
             {
                 defender.Body.Amputate(sever.BodyPart);
                 HandleShedPart(attacker, defender, move, sever.BodyPart);

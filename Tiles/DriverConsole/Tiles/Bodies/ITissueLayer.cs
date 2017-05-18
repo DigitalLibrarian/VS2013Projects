@@ -19,5 +19,7 @@ namespace Tiles.Bodies
         double Volume { get; }
 
         string Name { get; }
+
+        bool IsPulped();
     }
 }

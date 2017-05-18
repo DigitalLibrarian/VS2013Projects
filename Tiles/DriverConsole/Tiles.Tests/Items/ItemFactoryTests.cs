@@ -30,6 +30,10 @@ namespace Tiles.Tests.Items
         {
             var agentMock = new Mock<IAgent>();
             var partMock = new Mock<IBodyPart>();
+            var tissueMock = new Mock<ITissue>();
+            partMock.Setup(x => x.Tissue)
+                .Returns(tissueMock.Object);
+
             int partSize = 11;
             partMock.Setup(x => x.Size)
                 .Returns(partSize);
@@ -56,6 +60,11 @@ namespace Tiles.Tests.Items
         public void CreateCorpse()
         {
             var agentMock = new Mock<IAgent>();
+            var partMock = new Mock<IBodyPart>();
+            var tissueMock = new Mock<ITissue>();
+            partMock.Setup(x => x.Tissue)
+                .Returns(tissueMock.Object);
+
             var agentName = "Waldo";
             agentMock.Setup(x => x.Name).Returns(agentName);
             
@@ -63,6 +72,8 @@ namespace Tiles.Tests.Items
             int bodySize = 10;
             bodyMock.Setup(x => x.Size)
                 .Returns(bodySize);
+            bodyMock.Setup(x => x.Parts)
+                .Returns(new IBodyPart[] { partMock.Object });
             agentMock.Setup(x => x.Body).Returns(bodyMock.Object);
 
             var factory = new ItemFactory();
@@ -76,6 +87,20 @@ namespace Tiles.Tests.Items
             Assert.IsNotNull(item.Class.WeaponClass);
             Assert.IsTrue(item.Class.WeaponClass.AttackMoveClasses.Any());
             Assert.AreEqual(bodySize, item.Class.Size);
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void CreateShedLimb_ItemMaterial()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void CreateCorpse_ItemMaterial()
+        {
+            throw new NotImplementedException();
         }
     }
 }

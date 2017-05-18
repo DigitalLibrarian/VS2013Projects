@@ -12,6 +12,8 @@ namespace Tiles.Bodies.Injuries
     public interface IInjuryReport
     {
         IEnumerable<IBodyPartInjury> BodyPartInjuries { get; }
+
+        IEnumerable<IBodyPartInjury> GetSeverings();
     }
 
     public class InjuryReport : IInjuryReport
@@ -20,6 +22,11 @@ namespace Tiles.Bodies.Injuries
         public InjuryReport(IEnumerable<IBodyPartInjury> injuries)
         {
             BodyPartInjuries = injuries;
+        }
+
+        public IEnumerable<IBodyPartInjury> GetSeverings()
+        {
+            return BodyPartInjuries.Where(x => x.IsSever);
         }
     }
 }

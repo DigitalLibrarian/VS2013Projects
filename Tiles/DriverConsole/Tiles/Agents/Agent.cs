@@ -33,7 +33,7 @@ namespace Tiles.Agents
             get 
             {
                 return !Body.Parts.Any()
-                    || Body.Parts.First().IsPulped();
+                    || Body.Parts.First().IsEffectivelyPulped();
             } 
         }
 

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Bodies;
+using Tiles.Materials;
 using Tiles.Math;
 
 namespace Tiles.Items
@@ -15,21 +17,40 @@ namespace Tiles.Items
 
         public IItem CreateShedLimb(IAgent agent, IBodyPart part)
         {
+            IMaterial material = null;
+            var layer = part.Tissue.TissueLayers.FirstOrDefault();
+            if (layer != null)
+            {
+                material = layer.Material;
+            }
+
             return Create(new ItemClass(
                 name: string.Format("{0}'s {1}", agent.Name, part.Name), 
                 sprite: new Sprite(Symbol.CorpseBodyPart, Color.DarkGray, Color.Black), 
                 size: part.Size,
-                material: null, weaponClass: DefaultWeaponClass, 
+                material: material, 
+                weaponClass: DefaultWeaponClass, 
                 armorClass: null));
         }
 
         public IItem CreateCorpse(IAgent agent)
         {
+            IMaterial material = null;
+            var part = agent.Body.Parts.FirstOrDefault();
+            if (part != null)
+            {
+                var layer = part.Tissue.TissueLayers.FirstOrDefault();
+                if (layer != null)
+                {
+                    material = layer.Material;
+                }
+            }
+
             return Create(new ItemClass(
                 name: string.Format("{0}'s corpse", agent.Name), 
                 sprite: new Sprite(Symbol.Corpse, Color.DarkGray, Color.Black), 
                 size: agent.Body.Size,
-                material: null, 
+                material: material, 
                 weaponClass: DefaultWeaponClass, 
                 armorClass: null));
         }

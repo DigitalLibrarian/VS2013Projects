@@ -10,12 +10,10 @@ namespace Tiles.Bodies.Injuries
     public interface IBodyPartInjury
     {
         IBodyPart BodyPart { get; }
-        //IBodyPartInjuryClass Class { get; }
         IEnumerable<ITissueLayerInjury> TissueLayerInjuries { get; }
 
         bool IsSever { get; }
 
-        IDamageVector GetTotal();
         string GetResultPhrase();
     }
 
@@ -24,7 +22,36 @@ namespace Tiles.Bodies.Injuries
         public IBodyPart BodyPart { get; private set; }
         public IEnumerable<ITissueLayerInjury> TissueLayerInjuries { get; private set; }
 
-        public bool IsSever { get { return false; } }
+        public bool IsSever
+        {
+            get
+            {
+                var connectiveLayers = BodyPart.Tissue.TissueLayers
+                    .Where(x => x.Class.IsConnective && !x.IsPulped());
+
+                if (!connectiveLayers.Any())
+                {
+                    return false;
+                }
+
+                foreach (var layer in connectiveLayers)
+                {
+                    var layerInjuries = TissueLayerInjuries
+                        .Where(x => x.Layer == layer);
+
+                    if (!layerInjuries.Any()) return false;
+
+                    foreach (var injury in layerInjuries)
+                    {
+                        if (!injury.StrikeResult.IsDefeated)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+        }
 
         public BodyPartInjury(IBodyPart bodyPart,
             IEnumerable<ITissueLayerInjury> tissueLayerInjuries)
@@ -33,17 +60,6 @@ namespace Tiles.Bodies.Injuries
             TissueLayerInjuries = tissueLayerInjuries;
         }
 
-
-        public IDamageVector GetTotal()
-        {
-            var d = new DamageVector();
-            foreach (var tissueInjury in TissueLayerInjuries)
-            {
-                d.Add(tissueInjury.GetTotal());
-            }
-            return d;
-        }
-        
         public string GetResultPhrase()
         {
             var injuries = TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);

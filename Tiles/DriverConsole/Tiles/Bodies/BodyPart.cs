@@ -91,10 +91,11 @@ namespace Tiles.Bodies
             return (int)System.Math.Pow((Size * 10000d), 0.333d);
         }
 
-
-        public bool IsPulped()
+        public bool IsEffectivelyPulped()
         {
-            return Damage.GetTypes().Any(dt => Damage.GetFraction(dt).AsDouble() >= 1d);
+            return Tissue.TissueLayers
+                .Where(x => !x.Class.IsCosmetic)
+                .All(x => x.IsPulped());
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Tiles.Bodies
     public interface ITissue
     {
         double TotalThickness { get; }
-        IList<ITissueLayer> TissueLayers { get; }
+        IEnumerable<ITissueLayer> TissueLayers { get; }
     }
 }

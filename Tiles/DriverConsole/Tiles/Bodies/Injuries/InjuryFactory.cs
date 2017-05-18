@@ -46,7 +46,7 @@ namespace Tiles.Bodies.Injuries
 
                 double newDamage = System.Math.Max(1d, ttFact);
                 tissueDamage.ScalarMultiply(newDamage);
-                var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult, tissueDamage, tlBodyPart.Damage);
+                var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult);
 
                 if (!tissueInjuries.ContainsKey(tlBodyPart))
                 {
@@ -87,12 +87,10 @@ namespace Tiles.Bodies.Injuries
         private IEnumerable<ITissueLayerInjury> CreateTissueInjury(
             IBodyPart bodyPart,
             ITissueLayer layer,
-            MaterialStrikeResult tissueResult,
-            IDamageVector tissueDamage,
-            IDamageVector existingDamage)
+            MaterialStrikeResult tissueResult)
         {
             yield return
-                new TissueLayerInjury(bodyPart, layer, tissueDamage, tissueResult);
+                new TissueLayerInjury(bodyPart, layer, tissueResult);
         }
 
         #region Damage Classifiction

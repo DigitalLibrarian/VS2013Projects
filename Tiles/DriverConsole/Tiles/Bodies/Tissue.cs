@@ -8,7 +8,7 @@ namespace Tiles.Bodies
 {
     public class Tissue : ITissue
     {
-        public IList<ITissueLayer> TissueLayers { get; private set; }
+        public IEnumerable<ITissueLayer> TissueLayers { get; private set; }
         public Tissue(IList<ITissueLayer> layers)
         {
             TissueLayers = layers;

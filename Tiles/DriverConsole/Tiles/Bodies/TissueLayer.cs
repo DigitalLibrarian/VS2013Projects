@@ -45,5 +45,17 @@ namespace Tiles.Bodies
 
         // ratio of the penetrated depth
         public double PenetrationRatio { get; set; }
+
+        private IEnumerable<Fraction> GetDamageFractions() 
+        { 
+            yield return EffectFraction;
+            yield return DentFraction;
+            yield return CutFraction;
+        }
+
+        public bool IsPulped()
+        {
+            return GetDamageFractions().All(x => x.AsDouble() >= 1d);
+        }
     }
 }

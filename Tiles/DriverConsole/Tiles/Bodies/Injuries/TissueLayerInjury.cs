@@ -11,12 +11,9 @@ namespace Tiles.Bodies.Injuries
     public interface ITissueLayerInjury
     {
         ITissueLayer Layer { get; }
-        //ITissueLayerInjuryClass Class { get; }
         MaterialStrikeResult StrikeResult { get; }
 
         string Gerund { get; }
-
-        IDamageVector GetTotal();
         string GetPhrase();
     }
 
@@ -25,20 +22,12 @@ namespace Tiles.Bodies.Injuries
         public ITissueLayer Layer { get; private set; }
         public IBodyPart BodyPart { get; private set; }
 
-        public IDamageVector Damage { get; private set; }
-
         public MaterialStrikeResult StrikeResult { get; private set; }
-        public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, IDamageVector damage, MaterialStrikeResult strikeResult)
+        public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult)
         {
             BodyPart = bodyPart;
             Layer = layer;
-            Damage = damage;
             StrikeResult = strikeResult;
-        }
-
-        public IDamageVector GetTotal()
-        {
-            return Damage;
         }
 
         public string GetPhrase()
