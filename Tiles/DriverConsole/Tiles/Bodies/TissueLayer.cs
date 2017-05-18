@@ -23,6 +23,27 @@ namespace Tiles.Bodies
             Material = material;
             Thickness = thickness;
             Volume = volume;
+
+            const int denom = 10000;
+            EffectFraction = new Fraction(0, denom);
+            DentFraction = new Fraction(0, denom);
+            CutFraction = new Fraction(0, denom);
         }
+
+        public Fraction EffectFraction { get; private set; }
+
+        // looks like it is based off the surface percentage
+        public Fraction DentFraction { get; private set; }
+
+        public Fraction CutFraction { get; private set; }
+
+        // affected surface area
+        public double WoundArea { get; set; }
+
+        // ratio of layer surface area to wounded area
+        public double WoundAreaRatio { get; set; }
+
+        // ratio of the penetrated depth
+        public double PenetrationRatio { get; set; }
     }
 }

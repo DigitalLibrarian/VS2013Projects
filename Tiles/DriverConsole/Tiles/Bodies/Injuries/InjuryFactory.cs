@@ -168,9 +168,7 @@ namespace Tiles.Bodies.Injuries
             IDamageVector existingDamage)
         {
             yield return
-                new TissueLayerInjury(
-                    new MsrTissueLayerInjuryClass(bodyPart, layer, tissueResult),
-                    layer, tissueDamage, tissueResult);
+                new TissueLayerInjury(bodyPart, layer, tissueDamage, tissueResult);
         }
 
         #region Damage Classifiction

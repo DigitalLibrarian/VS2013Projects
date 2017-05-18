@@ -70,8 +70,6 @@
     <Compile Include="Bodies\AttributeClass.cs" />
     <Compile Include="Bodies\BodyPartRelation.cs" />
     <Compile Include="Bodies\BodyPartRelationType.cs" />
-    <Compile Include="Bodies\ITissueLayerWound.cs" />
-    <Compile Include="Bodies\TissueLayerWound.cs" />
     <Compile Include="Bodies\Injuries\BodyPartInjury.cs" />
     <Compile Include="Bodies\Injuries\BodyPartInjuryClass.cs" />
     <Compile Include="Bodies\Injuries\BodyPartInjuryClasses.cs" />
@@ -80,8 +78,6 @@
     <Compile Include="Bodies\Injuries\InjuryReport.cs" />
     <Compile Include="Bodies\Injuries\InjuryReportCalc.cs" />
     <Compile Include="Bodies\Injuries\TissueLayerInjury.cs" />
-    <Compile Include="Bodies\Injuries\TissueLayerInjuryClass.cs" />
-    <Compile Include="Bodies\Injuries\MsrTissueLayerInjuryClass.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMelee.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_DropInventoryItem.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_PickUpItemsOnAgentTile.cs" />

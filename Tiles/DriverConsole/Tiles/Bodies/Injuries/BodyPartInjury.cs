@@ -56,7 +56,7 @@ namespace Tiles.Bodies.Injuries
                     .Select(injury =>
                     {
                         var remaining = injuries.SkipWhile(x => x != injury);
-                        var grouped = remaining.TakeWhile(x => x.Class.Gerund.Equals(injury.Class.Gerund));
+                        var grouped = remaining.TakeWhile(x => x.Gerund.Equals(injury.Gerund));
                         if (grouped.Last() == injury)
                         {
                             return injury;

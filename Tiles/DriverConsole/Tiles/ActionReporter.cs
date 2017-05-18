@@ -80,6 +80,8 @@ namespace Tiles
             {
                 var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
                     attackerName, verbStr, defenderName, bodyPartName, withWeapon, " but nothing happens.");
+
+                Log.AddLine(message);
             }
         }
 

@@ -24,15 +24,10 @@ namespace Tiles.Bodies
         IEnumerable<ICombatMoveClass> Moves { get; set; }
         IEnumerable<IBodyPart> GetInternalParts(IBodyPart part);
 
-
         void SetAttribute(string name, int value);
         int GetAttribute(string name);
         IEnumerable<string> AttributeNames { get; }
+
         IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type);
-
-
-        // Wounds += injuries
-        //IEnumerable<IWound> Wounds { get; }
-        //void AddInjury(IBodyPartInjury injury);
     }
 }

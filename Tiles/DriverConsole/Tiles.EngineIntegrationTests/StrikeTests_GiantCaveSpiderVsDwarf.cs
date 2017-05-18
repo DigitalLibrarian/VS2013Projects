@@ -41,6 +41,22 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void GiantCaveSpiderVsDwarf_BiteMomentum()
+        {
+            var attacker = Spider;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.Single(p => p.Name.Equals("head"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            var mom = attacker.GetStrikeMomentum(move);
+            Assert.AreEqual(76d, mom, 1d);
+        }
+
+        [TestMethod]
         public void GiantCaveSpiderVsDwarf_BiteHead()
         {
             var attacker = Spider;

@@ -75,6 +75,7 @@ namespace Tiles.Bodies
 
         public double GetMass()
         {
+            // TODO - test with invertebrates to verify this
             // body part mass just uses the inner most layer of tissue's density.  Kinda silly
             var dense = Tissue.TissueLayers.First();
             var density = (double)dense.Material.SolidDensity/100d;

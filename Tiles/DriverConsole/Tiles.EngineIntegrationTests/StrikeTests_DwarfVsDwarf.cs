@@ -610,6 +610,32 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfVsDwarf_StabUpperBodyWithWoodSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(0.22d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+
+            Assert.AreEqual(0.5d, layerResult.StrikeResult.ContactAreaRatio, 0.05d);
+            Assert.AreEqual(55d, layerResult.StrikeResult.ContactArea, 1d);
+        }
+
+        [TestMethod]
         public void DwarfVsDwarf_StabLowerBodyWithWoodSword()
         {
             var attacker = Dwarf;
