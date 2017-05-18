@@ -26,8 +26,9 @@ namespace Tiles.ScreensImpl.Panels
             int leftX = camPos.X - (Box.Size.X / 2);
             int topY = camPos.Y - (Box.Size.Y / 2);
             Vector3 topLeftWorld = new Vector3(leftX, topY, camPos.Z);
+            var blockStr = ViewModel.BlockingForInput ? "BLOCKING" : "";
 
-            Canvas.DrawString(string.Format("Time: {0}", ViewModel.GlobalTime), Vector2.Zero, Color.White, Color.Black);
+            Canvas.DrawString(string.Format("Time: {0} {1}", ViewModel.GlobalTime, blockStr), Vector2.Zero, Color.White, Color.Black);
             for (int x = 0; x < Box.Size.X; x++)
             {
                 for (int y = 0; y < Box.Size.Y; y++)

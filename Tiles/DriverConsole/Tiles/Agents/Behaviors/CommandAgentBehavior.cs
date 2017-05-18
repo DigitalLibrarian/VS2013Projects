@@ -33,12 +33,7 @@ namespace Tiles.Agents.Behaviors
                     Context.StartNewCommand(game, GetNextCommand(game, agent));
                 }
 
-                var timeUsed = Context.Execute(game, agent, timeLeft);
-                if (timeUsed == timeLeft)
-                {
-                    break;
-                }
-                timeLeft -= timeUsed;
+                timeLeft -= Context.Execute(game, agent, timeLeft);
             }
         }
 

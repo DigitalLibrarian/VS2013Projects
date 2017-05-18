@@ -74,7 +74,6 @@
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolutionTests.cs" />
     <Compile Include="Agents\Combat\CombatMoveDiscovererTests.cs" />
     <Compile Include="Bodies\Injuries\InjuryFactoryTests.cs" />
-    <Compile Include="DamageVectorTests.cs" />
     <Compile Include="Agents\PlayerTests.cs" />
     <Compile Include="AtlasTests.cs" />
     <Compile Include="ActionLogTests.cs" />

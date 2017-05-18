@@ -110,22 +110,22 @@ namespace Driver.Tiles.WindowsForms
             {
                 ScreenManager.Update();
                 this.Refresh();
+
+                if (!ScreenManager.BlockForInput && !timer1.Enabled)
+                {
+                    timer1.Start();
+                }
             }
 
-            if(!ScreenManager.BlockForInput)
-            {
-                timer1.Start();
-            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            timer1.Stop();
             lock (ScreenManager)
             {
                 UpdateGame();
             }
-
-            timer1.Stop();
         }
     }
 }

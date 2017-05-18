@@ -85,6 +85,7 @@ namespace Tiles.ScreensImpl.UI
         void UpdateViewModel()
         {
             ViewModel.GlobalTime = GlobalTime;
+            ViewModel.BlockingForInput = BlockForInput;
             ViewModel.Camera = Game.Camera;
             ViewModel.CameraTile = Game.CameraTile;
             ViewModel.Atlas = Game.Atlas;
@@ -136,7 +137,8 @@ namespace Tiles.ScreensImpl.UI
             }
 
             GlobalTime += Game.DesiredFrameLength;
-            BlockForInput = !Game.Player.Agent.CommandQueue.Any() && !Game.Player.Agent.AgentBehavior.Context.HasCommand;
+            BlockForInput = !Game.Player.Agent.CommandQueue.Any()
+                && !Game.Player.Agent.AgentBehavior.Context.HasCommand;
         }
 
         #region Controls
@@ -212,7 +214,8 @@ namespace Tiles.ScreensImpl.UI
         {
             if (args.Key == ConsoleKey.G)
             {
-                Game.Player.EnqueueCommands(CommandFactory.PickUpItemsOnAgentTile(Game, Game.Player.Agent));
+                var commands = CommandFactory.PickUpItemsOnAgentTile(Game, Game.Player.Agent).ToList();
+                Game.Player.EnqueueCommands(commands);
             }
         }
 

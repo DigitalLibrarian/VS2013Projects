@@ -39,7 +39,7 @@ namespace Tiles.Agents
                 yield return new AgentCommand
                 {
                     CommandType = AgentCommandType.PickUpItemOnAgentTile,
-                    RequiredTime = MinTime,
+                    RequiredTime = MinTime*2,
                     Item = item
                 };
             }

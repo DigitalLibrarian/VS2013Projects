@@ -38,14 +38,6 @@ namespace Tiles.Bodies.Injuries
 
                 var totalThick = tlBodyPart.GetThickness();
                 double ttFact = (double)(tissueLayer.Thickness) / (double)(totalThick);
-                var tissueDamage = GetUnitDamage(
-                    tissueResult.StressMode,
-                    tissueResult.ContactArea,
-                    maxPenetration
-                    );
-
-                double newDamage = System.Math.Max(1d, ttFact);
-                tissueDamage.ScalarMultiply(newDamage);
                 var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult);
 
                 if (!tissueInjuries.ContainsKey(tlBodyPart))
@@ -94,36 +86,6 @@ namespace Tiles.Bodies.Injuries
         }
 
         #region Damage Classifiction
-
-        IDamageVector GetUnitDamage(StressMode mode, double contactArea, int penetration)
-        {
-            if (mode == StressMode.Edge)
-            {
-                if (IsLowContactArea(contactArea) && IsHighPenetration(penetration))
-                {
-                    return new DamageVector(new Dictionary<DamageType, int>
-                    {
-                        {DamageType.Bludgeon, 1},
-                        {DamageType.Slash, 1},
-                    });
-                }
-                else
-                {
-                    return new DamageVector(new Dictionary<DamageType, int>
-                    {
-                        {DamageType.Slash, 1},
-                    });
-                }
-
-            }
-            else
-            {
-                return new DamageVector(new Dictionary<DamageType, int>
-                    {
-                        {DamageType.Bludgeon, 1},
-                    });
-            }
-        }
 
         bool IsHighContactArea(double contactArea)
         {

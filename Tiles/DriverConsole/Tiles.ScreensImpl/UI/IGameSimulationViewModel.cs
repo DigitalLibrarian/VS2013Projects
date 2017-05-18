@@ -15,5 +15,6 @@ namespace Tiles.ScreensImpl.UI
         IActionLog ActionLog { get; set; }
 
         long GlobalTime { get; set; }
+        bool BlockingForInput { get; set; }
     }
 }

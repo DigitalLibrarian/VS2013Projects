@@ -15,6 +15,14 @@ namespace Tiles.Agents.Behaviors
 
         public bool Executed { get; private set; }
         public bool HasCommand { get { return Command != null; } }
+        public bool IsBusy
+        {
+            get
+            {
+                return HasCommand && !Executed;
+            }
+        }
+
 
         public AgentCommandExecutionContext(IAgentCommandInterpreter interpreter)
         {
@@ -39,7 +47,7 @@ namespace Tiles.Agents.Behaviors
             }
             else
             {
-                timeUsed = TimeRemaining;
+                timeUsed = System.Math.Min(maxTimeSlice, TimeRemaining);
                 TimeRemaining = 0;
                 Interpreter.Execute(game, agent, Command);
                 Executed = true;
