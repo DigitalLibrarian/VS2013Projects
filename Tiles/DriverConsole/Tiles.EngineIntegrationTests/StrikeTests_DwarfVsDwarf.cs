@@ -40,10 +40,25 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.29d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0.29d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(0.06d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0.29d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
         }
 
 
@@ -57,10 +72,25 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
                 StressResult.Impact_Bypass);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0.91d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
         }
 
         [TestMethod]
@@ -73,10 +103,25 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
                 StressResult.None);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0.53d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
         }
 
         [TestMethod]
@@ -201,7 +246,7 @@ namespace Tiles.EngineIntegrationTests
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
-            Assert.AreEqual(38, System.Math.Ceiling(skinInjury.StrikeResult.ContactAreaRatio * 100));
+            Assert.AreEqual(0.38d, skinInjury.StrikeResult.ContactAreaRatio, 0.01d);
         }
         
         [TestMethod]
@@ -300,14 +345,17 @@ namespace Tiles.EngineIntegrationTests
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.2d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.2d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.2d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
         }
 
         [TestMethod]
@@ -327,17 +375,30 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Impact_Bypass,
                 StressResult.Impact_CompleteFracture);
 
-            var nailResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
-            Assert.AreEqual("nail", nailResult.Layer.Name);
-            Assert.AreEqual(1d, nailResult.StrikeResult.PenetrationRatio);
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("nail", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
 
-            var skinResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
-            Assert.AreEqual("skin", skinResult.Layer.Name);
-            Assert.AreEqual(1d, skinResult.StrikeResult.PenetrationRatio);
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
 
-            var fatResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
-            Assert.AreEqual("fat", fatResult.Layer.Name);
-            Assert.AreEqual(0d, fatResult.StrikeResult.PenetrationRatio);
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(4);
+            Assert.AreEqual("bone", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
         }
 
         [TestMethod]
@@ -358,14 +419,17 @@ namespace Tiles.EngineIntegrationTests
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.59d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.59d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.59d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
         }
         
         [TestMethod]
@@ -638,14 +702,17 @@ namespace Tiles.EngineIntegrationTests
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.05d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
         }
 
 
@@ -673,11 +740,13 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(StressResult.Shear_Cut, layerResult.StrikeResult.StressResult);
             Assert.AreEqual(0.63d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(StressResult.Shear_Dent, layerResult.StrikeResult.StressResult);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
         }
 
         [TestMethod]
@@ -761,7 +830,6 @@ namespace Tiles.EngineIntegrationTests
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0.22d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-
             Assert.AreEqual(0.5d, layerResult.StrikeResult.ContactAreaRatio, 0.05d);
             Assert.AreEqual(55d, layerResult.StrikeResult.ContactArea, 1d);
         }
@@ -811,7 +879,7 @@ namespace Tiles.EngineIntegrationTests
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0.1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(1, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
         }
 
         [TestMethod]
