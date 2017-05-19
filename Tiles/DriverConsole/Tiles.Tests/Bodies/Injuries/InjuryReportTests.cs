@@ -26,7 +26,7 @@ namespace Tiles.Tests.Bodies.Injuries
         }
 
         [TestMethod]
-        public void SeveredParts()
+        public void NoSeveredParts()
         {
             var injuryMocks = new List<Mock<IBodyPartInjury>>
             {
@@ -37,11 +37,8 @@ namespace Tiles.Tests.Bodies.Injuries
             };
 
             injuryMocks[0].Setup(x => x.BodyPart).Returns(new Mock<IBodyPart>().Object);
-
             injuryMocks[1].Setup(x => x.BodyPart).Returns(new Mock<IBodyPart>().Object);
-
             injuryMocks[2].Setup(x => x.BodyPart).Returns(new Mock<IBodyPart>().Object);
-
             injuryMocks[3].Setup(x => x.BodyPart).Returns(new Mock<IBodyPart>().Object);
 
             var report = new InjuryReport(injuryMocks.Select(x => x.Object));
