@@ -63,15 +63,13 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             session.InjuryReport = report;
 
-            bool targetPartWasShed = false;
+
+            bool targetPartWasShed = report.IsSever(move.DefenderBodyPart);
+
             foreach (var sever in report.GetSeverings())
             {
                 defender.Body.Amputate(sever.BodyPart);
                 HandleShedPart(attacker, defender, move, sever.BodyPart);
-                if (sever.BodyPart == move.DefenderBodyPart)
-                {
-                    targetPartWasShed = true;
-                }
             }
 
             if (isWeaponBased)

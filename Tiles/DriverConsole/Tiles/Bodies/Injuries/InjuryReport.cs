@@ -14,6 +14,8 @@ namespace Tiles.Bodies.Injuries
         IEnumerable<IBodyPartInjury> BodyPartInjuries { get; }
 
         IEnumerable<IBodyPartInjury> GetSeverings();
+
+        bool IsSever(IBodyPart bodyPart);
     }
 
     public class InjuryReport : IInjuryReport
@@ -27,6 +29,11 @@ namespace Tiles.Bodies.Injuries
         public IEnumerable<IBodyPartInjury> GetSeverings()
         {
             return BodyPartInjuries.Where(x => x.IsSever);
+        }
+
+        public bool IsSever(IBodyPart bodyPart)
+        {
+            return GetSeverings().FirstOrDefault(x => x.BodyPart == bodyPart) != null;
         }
     }
 }
