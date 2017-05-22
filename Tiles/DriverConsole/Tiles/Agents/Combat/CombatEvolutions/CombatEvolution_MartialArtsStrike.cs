@@ -63,7 +63,6 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             session.InjuryReport = report;
 
-
             bool targetPartWasShed = report.IsSever(move.DefenderBodyPart);
 
             foreach (var sever in report.GetSeverings())

@@ -30,6 +30,7 @@ namespace Tiles.Bodies.Injuries
             StrikeResult = strikeResult;
         }
 
+        #region Language Generation
         public string GetPhrase()
         {
             return string.Format("{0} the {1}", Gerund, Layer.Class.Name);
@@ -100,28 +101,22 @@ namespace Tiles.Bodies.Injuries
                 return gerund;
             }
         }
-
-        private bool IsVascular()
-        {
-            return Layer.Class.VascularRating > 0;
-        }
-
-        private bool IsSoft()
-        {
-            if (StrikeResult.StressMode == StressMode.Edge)
-            {
-                return Layer.Material.ImpactStrainAtYield >= 50000;
-            }
-            else
-            {
-                return Layer.Material.ShearStrainAtYield >= 50000;
-            }
-        }
+        #endregion
 
         public bool IsChip()
         {
             var maxCa = BodyPart.GetContactArea() * 0.25d;
             return StrikeResult.ContactArea <= maxCa;
+        }
+
+        private bool IsSoft()
+        {
+            return Layer.IsSoft(StrikeResult.StressMode);
+        }
+
+        private bool IsVascular()
+        {
+            return Layer.IsVascular();
         }
     }
 }

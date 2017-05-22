@@ -9,7 +9,6 @@ namespace Tiles.Tests.Bodies.Injuries
 {
     [TestClass]
     public class InjuryFactoryTests
-    {
-
+    {   
     }
 }

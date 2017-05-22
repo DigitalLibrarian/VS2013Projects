@@ -57,5 +57,22 @@ namespace Tiles.Bodies
         {
             return GetDamageFractions().Any(x => x.AsDouble() >= 1d);
         }
+
+        public bool IsVascular()
+        {
+            return Class.VascularRating > 0;
+        }
+
+        public bool IsSoft(StressMode stressMode)
+        {
+            if (stressMode == StressMode.Edge)
+            {
+                return Material.ImpactStrainAtYield >= 50000;
+            }
+            else
+            {
+                return Material.ShearStrainAtYield >= 50000;
+            }
+        }
     }
 }

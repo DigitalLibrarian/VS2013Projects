@@ -21,5 +21,7 @@ namespace Tiles.Bodies
         string Name { get; }
 
         bool IsPulped();
+        bool IsVascular();
+        bool IsSoft(StressMode stressMode);
     }
 }
