@@ -70,6 +70,7 @@
     <Compile Include="Bodies\AttributeClass.cs" />
     <Compile Include="Bodies\BodyPartRelation.cs" />
     <Compile Include="Bodies\BodyPartRelationType.cs" />
+    <Compile Include="Bodies\DamageVector.cs" />
     <Compile Include="Bodies\Injuries\BodyPartInjury.cs" />
     <Compile Include="Bodies\Injuries\IInjuryReportCalc.cs" />
     <Compile Include="Bodies\Injuries\InjuryFactory.cs" />

@@ -15,6 +15,8 @@ namespace Tiles.Bodies.Injuries
 
         string Gerund { get; }
         string GetPhrase();
+
+        IDamageVector GetDamage();
     }
 
     class TissueLayerInjury : ITissueLayerInjury
@@ -117,6 +119,40 @@ namespace Tiles.Bodies.Injuries
         private bool IsVascular()
         {
             return Layer.IsVascular();
+        }
+
+        public IDamageVector GetDamage()
+        {
+            var damage = new DamageVector();
+            switch (StrikeResult.StressResult)
+            {
+                case StressResult.Impact_Bypass:
+                    damage.EffectFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double) damage.EffectFraction.Denominator);
+                    break;
+                case StressResult.Impact_CompleteFracture:
+                    damage.CutFraction.Numerator = Round(StrikeResult.PenetrationRatio * StrikeResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
+                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                case StressResult.Shear_Dent:
+                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                case StressResult.Shear_Cut:
+                    damage.CutFraction.Numerator = Round(StrikeResult.PenetrationRatio * StrikeResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
+                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                case StressResult.Shear_CutThrough:
+                    damage.CutFraction.Numerator = Round(StrikeResult.PenetrationRatio * StrikeResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
+                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                default:
+                    break;
+            }
+            return damage;
+        }
+
+        private long Round(double d)
+        {
+            return ((long) ((double)d / 100d)) * 100L;
         }
     }
 }
