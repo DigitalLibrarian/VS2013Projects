@@ -152,7 +152,7 @@ namespace Tiles.Bodies.Injuries
 
         private long Round(double d)
         {
-            return ((long) ((double)d / 100d)) * 100L;
+            return ((long) ((double)d / 10d)) * 10L;
         }
     }
 }
