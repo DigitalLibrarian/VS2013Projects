@@ -302,6 +302,55 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfVsElephant_SlashRightTuskWithSteelHalberd()
+        {
+            var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right tusk"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_HALBERD, "STEEL");
+            Attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
+            var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
+                StressResult.Shear_Dent);
+
+            var layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("ivory", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(146.4d, layerResult.StrikeResult.ContactArea, 0.1d);
+            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+        }
+
+        [TestMethod]
+        public void DwarfVsElephant_StabRightTuskWithSteelHalberd()
+        {
+            var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right tusk"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_HALBERD, "STEEL");
+            Attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(Attacker, Defender, moveClass, targetBodyPart, weapon);
+            var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
+                StressResult.Shear_Cut);
+
+            var layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("ivory", layerResult.Layer.Name);
+            Assert.AreEqual(0.01d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+//            Assert.AreEqual(0.36d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(60, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(3690, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+        }
+
+        [TestMethod]
         public void DwarfVsElephant_StrikeLeftFrontFootWithSteelPick()
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("left front foot"));
