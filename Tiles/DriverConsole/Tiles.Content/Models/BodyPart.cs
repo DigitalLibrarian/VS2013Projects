@@ -45,8 +45,7 @@ namespace Tiles.Content.Models
         public int RelativeSize { get; set; }
 
         public List<BodyPartRelation> BodyPartRelations { get; set; }
-
-
+        
         public string TokenId { get; set; }
     }
 

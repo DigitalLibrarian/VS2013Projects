@@ -526,8 +526,8 @@ namespace Tiles.Content.Bridge.DfNet
                                 IsStrike = true,
                                 IsMartialArts = true,
                                 ContactType = attack.ContactType,
-                                ContactArea = System.Math.Max(1, (int)contactArea),
-                                MaxPenetration = System.Math.Max(1, (int)maxPen),
+                                ContactArea = System.Math.Max(1, contactArea),
+                                MaxPenetration = System.Math.Max(1, maxPen),
                                 VelocityMultiplier = 1000,
                             };
 

@@ -224,7 +224,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1280, layerResult.GetDamage().DentFraction.Numerator);
         }
 
-
         [TestMethod]
         public void DwarfVsUnicorn_StabHeadWithCopperSword()
         {
