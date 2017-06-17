@@ -11,6 +11,9 @@ namespace Tiles
 {
     public interface IActionReporter
     {
+        // TODO - there should be an event source for each of these actions 
+        // and the ActionReporter should subscribe
+
         void ReportGrabStartBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart grasper, IBodyPart graspee);
         void ReportGrabMiss(ICombatMoveContext session, IVerb verb, IBodyPart grasper, IBodyPart graspee);
         void ReportGrabReleaseBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart grasper, IBodyPart graspee);

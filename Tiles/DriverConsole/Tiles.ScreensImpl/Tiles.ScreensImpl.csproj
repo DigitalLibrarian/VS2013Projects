@@ -71,7 +71,6 @@
     <Compile Include="UI\GameSimulationViewModel.cs" />
     <Compile Include="ContentFactories\StructureFactory.cs" />
     <Compile Include="UI\ScreenLoadingMenuScreen.cs" />
-    <Compile Include="UI\ThrowingCommandScreen.cs" />
     <Compile Include="UI\YouDiedScreen.cs" />
   </ItemGroup>
   <ItemGroup>

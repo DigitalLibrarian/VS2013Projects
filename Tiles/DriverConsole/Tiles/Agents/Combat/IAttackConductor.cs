@@ -13,5 +13,7 @@ namespace Tiles.Agents.Combat
     public interface IAttackConductor
     {
         void Conduct(IAgent attacker, IAgent defender, ICombatMove move);
+
+        // event source for action logging
     }
 }
