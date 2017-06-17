@@ -23,6 +23,10 @@ namespace Tiles.Bodies
             Material = material;
             Thickness = thickness;
             Volume = volume;
+
+            EffectFraction = new Fraction(0, 10000);
+            DentFraction = new Fraction(0, 10000);
+            CutFraction = new Fraction(0, 10000);
         }
 
         public Fraction EffectFraction { get; private set; }

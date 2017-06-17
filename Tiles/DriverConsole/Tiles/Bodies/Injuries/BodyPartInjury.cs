@@ -26,6 +26,8 @@ namespace Tiles.Bodies.Injuries
         {
             get
             {
+                if (BodyPart.Class.IsInternal) return false;
+
                 var connectiveLayers = BodyPart.Tissue.TissueLayers
                     .Where(x => x.Class.IsConnective && !x.IsPulped());
 
@@ -43,7 +45,8 @@ namespace Tiles.Bodies.Injuries
 
                     foreach (var injury in layerInjuries)
                     {
-                        if (!injury.StrikeResult.IsDefeated)
+                        if (!injury.StrikeResult.IsDefeated
+                            || injury.StrikeResult.PenetrationRatio < 1d)
                         {
                             return false;
                         }
