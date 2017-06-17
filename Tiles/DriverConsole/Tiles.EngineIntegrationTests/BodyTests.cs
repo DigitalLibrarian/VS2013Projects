@@ -436,7 +436,7 @@ namespace Tiles.EngineIntegrationTests
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
             var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
-            Assert.AreEqual(3, moveClass.ContactArea, 0.5);
+            Assert.AreEqual(9, moveClass.ContactArea, 0.5);
         }
 
         [TestMethod]

@@ -509,7 +509,7 @@ namespace Tiles.Content.Bridge.DfNet
                             maxLength += partLength;
                         }
 
-                        totalContactArea /= 2d;
+                        totalContactArea *= 1.5d;
                         totalPartSize /= 2d;
                         var contactRatio = (double)attack.ContactPercent / 100d;
                         var contactArea = totalContactArea * contactRatio;
