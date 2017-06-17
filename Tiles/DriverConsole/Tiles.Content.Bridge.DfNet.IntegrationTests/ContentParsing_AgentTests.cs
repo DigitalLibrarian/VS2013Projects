@@ -73,6 +73,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             Assert.AreEqual(9, move.ContactArea, 0.5);
             Assert.AreEqual(6, move.MaxPenetration, 0.5);
+
+            Assert.AreEqual(3, move.PrepTime);
+            Assert.AreEqual(3, move.RecoveryTime);
         }
 
 
@@ -85,6 +88,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var move = agent.Body.Moves.First(x => x.Name.Equals("KICK"));
             Assert.AreEqual(25d, move.ContactArea, 1d);
             Assert.AreEqual(129d, move.MaxPenetration, 1d);
+
+            Assert.AreEqual(4, move.PrepTime);
+            Assert.AreEqual(4, move.RecoveryTime);
         }
 
         [TestMethod]
@@ -133,6 +139,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var punch = agent.Body.Moves.First(x => x.Name.Equals("PUNCH"));
             Assert.AreEqual(21d, punch.ContactArea, 1d);
             Assert.AreEqual(100, punch.MaxPenetration, 1d);
+
+            Assert.AreEqual(3, punch.PrepTime);
+            Assert.AreEqual(3, punch.RecoveryTime);
         }
 
         [TestMethod]
@@ -162,6 +171,5 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             Assert.AreEqual(1, hand.Tissue.Layers.Count());
         }
-
     }
 }

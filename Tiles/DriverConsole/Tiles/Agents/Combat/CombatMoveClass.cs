@@ -16,6 +16,10 @@ namespace Tiles.Agents.Combat
         {
             Name = name;
             Verb = meleeVerb;
+
+            PrepTime = prepTime;
+            RecoveryTime = recoveryTime;
+
             Requirements = new List<IBodyPartRequirement>();
         }
 

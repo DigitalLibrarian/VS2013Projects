@@ -96,6 +96,16 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_PunchTimes()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var move = dwarf.Body.Moves.First(x => x.Name.Equals("punch"));
+
+            Assert.AreEqual(3, move.PrepTime);
+            Assert.AreEqual(3, move.RecoveryTime);
+        }
+
+        [TestMethod]
         public void Dwarf_SkullAroundBrain()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
