@@ -13,7 +13,7 @@ namespace Tiles.Bodies.Injuries
         IEnumerable<IBodyPartInjury> Create(
             IBodyPart targetPart,
             double contactArea,
-            int maxPenetration,
+            double maxPenetration,
             ILayeredMaterialStrikeResult result,
             Dictionary<ITissueLayer, IBodyPart> tlParts);
     }
@@ -23,7 +23,7 @@ namespace Tiles.Bodies.Injuries
         public IEnumerable<IBodyPartInjury> Create(
             IBodyPart targetPart,
             double contactArea,
-            int maxPenetration,
+            double maxPenetration,
             ILayeredMaterialStrikeResult result,
             Dictionary<ITissueLayer, IBodyPart> tlParts)
         {

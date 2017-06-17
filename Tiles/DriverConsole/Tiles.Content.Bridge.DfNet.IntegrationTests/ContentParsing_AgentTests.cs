@@ -83,8 +83,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(agent);
 
             var move = agent.Body.Moves.First(x => x.Name.Equals("KICK"));
-            Assert.AreEqual(25, (int)move.ContactArea);
-            Assert.AreEqual(129, move.MaxPenetration);
+            Assert.AreEqual(25d, move.ContactArea, 1d);
+            Assert.AreEqual(129d, move.MaxPenetration, 1d);
         }
 
         [TestMethod]
@@ -131,8 +131,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(agent);
 
             var punch = agent.Body.Moves.First(x => x.Name.Equals("PUNCH"));
-            Assert.AreEqual(21, (int)punch.ContactArea);
-            Assert.AreEqual(100, punch.MaxPenetration);
+            Assert.AreEqual(21d, punch.ContactArea, 1d);
+            Assert.AreEqual(100, punch.MaxPenetration, 1d);
         }
 
         [TestMethod]

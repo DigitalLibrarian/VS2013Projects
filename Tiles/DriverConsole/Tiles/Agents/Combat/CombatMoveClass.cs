@@ -38,7 +38,7 @@ namespace Tiles.Agents.Combat
 
         public StressMode StressMode { get; set; }
         public double ContactArea { get; set; }
-        public int MaxPenetration { get; set; }
+        public double MaxPenetration { get; set; }
         public int VelocityMultiplier { get; set; }
 
         public IEnumerable<IBodyPartRequirement> Requirements { get; set; }

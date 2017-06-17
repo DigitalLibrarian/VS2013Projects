@@ -28,7 +28,7 @@ namespace Tiles.Content.Models
 
         public ContactType ContactType { get; set; }
         public double ContactArea { get; set; }
-        public int MaxPenetration { get; set; }
+        public double MaxPenetration { get; set; }
         public int VelocityMultiplier { get; set; }
 
         public List<BodyPartRequirement> Requirements { get; set; }

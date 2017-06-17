@@ -466,7 +466,7 @@ namespace Tiles.EngineIntegrationTests
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
             var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
-            Assert.AreEqual(6, moveClass.MaxPenetration);
+            Assert.AreEqual(6.5d, moveClass.MaxPenetration, 0.1d);
         }
 
         [TestMethod]
@@ -498,7 +498,7 @@ namespace Tiles.EngineIntegrationTests
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
 
             var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("scratch"));
-            Assert.AreEqual(25, moveClass.MaxPenetration);
+            Assert.AreEqual(25d, moveClass.MaxPenetration, 1d);
         }
         [TestMethod]
         public void DwarfTotalBodyPartRelativeSize()

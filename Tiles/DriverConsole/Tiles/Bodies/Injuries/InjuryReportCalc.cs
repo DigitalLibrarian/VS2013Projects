@@ -30,7 +30,7 @@ namespace Tiles.Bodies.Injuries
 
         public IInjuryReport CalculateMaterialStrike(
             IEnumerable<IItem> armorItems, StressMode stressMode, 
-            double momentum, double contactArea, int maxPenetration, 
+            double momentum, double contactArea, double maxPenetration, 
             IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, double sharpness)
         {
             // tlParts is an index of all involved tissue layers to their containing parts.  

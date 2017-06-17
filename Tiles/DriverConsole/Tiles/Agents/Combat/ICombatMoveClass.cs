@@ -29,7 +29,7 @@ namespace Tiles.Agents.Combat
         StressMode StressMode { get; }
 
         double ContactArea { get; }
-        int MaxPenetration { get; }
+        double MaxPenetration { get; }
         int VelocityMultiplier { get; }
 
         IEnumerable<IBodyPartRequirement> Requirements { get; }
