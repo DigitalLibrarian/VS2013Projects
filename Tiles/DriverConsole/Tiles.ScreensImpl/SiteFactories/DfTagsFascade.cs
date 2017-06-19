@@ -105,6 +105,12 @@ namespace Tiles.ScreensImpl.SiteFactories
             return Store.Get(DfTags.ITEM_WEAPON).Select(t => t.Name).ToList();
         }
 
+        public IMaterial GetInorganic(string matName)
+        {
+            var materialContent = DfMaterialFactory.CreateInorganic(matName);
+            return ContentMapper.Map(materialContent);
+        }
+
         
         public IItem CreateInorganicWeapon(string w, string m)
         {

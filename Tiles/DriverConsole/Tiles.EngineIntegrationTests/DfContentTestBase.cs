@@ -137,5 +137,10 @@ namespace Tiles.EngineIntegrationTests
             }
             return injuryReport;
         }
+
+        public IMaterial CreateInorganicMaterial(string matName)
+        {
+            return DfTagsFascade.GetInorganic(matName);
+        }
     }
 }
