@@ -183,6 +183,23 @@ namespace DfNet.Raws
             public const string SHEAR_YIELD = "SHEAR_YIELD";
             public const string SHEAR_FRACTURE = "SHEAR_FRACTURE";
             public const string SHEAR_STRAIN_AT_YIELD = "SHEAR_STRAIN_AT_YIELD";
+
+            public const string COMPRESSIVE_YIELD = "COMPRESSIVE_YIELD";
+            public const string COMPRESSIVE_FRACTURE = "COMPRESSIVE_FRACTURE";
+            public const string COMPRESSIVE_STRAIN_AT_YIELD = "COMPRESSIVE_STRAIN_AT_YIELD";
+
+            public const string TENSILE_YIELD = "TENSILE_YIELD";
+            public const string TENSILE_FRACTURE = "TENSILE_FRACTURE";
+            public const string TENSILE_STRAIN_AT_YIELD = "TENSILE_STRAIN_AT_YIELD";
+
+            public const string TORSION_YIELD = "TORSION_YIELD";
+            public const string TORSION_FRACTURE = "TORSION_FRACTURE";
+            public const string TORSION_STRAIN_AT_YIELD = "TORSION_STRAIN_AT_YIELD";
+
+            public const string BENDING_YIELD = "BENDING_YIELD";
+            public const string BENDING_FRACTURE = "BENDING_FRACTURE";
+            public const string BENDING_STRAIN_AT_YIELD = "BENDING_STRAIN_AT_YIELD";
+
             public const string MAX_EDGE = "MAX_EDGE";
 
             public const string DEFAULT_RELSIZE = "DEFAULT_RELSIZE";

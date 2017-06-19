@@ -13,7 +13,6 @@ namespace Tiles.Content.Bridge.DfNet
 
     public class DfMaterialBuilderFactory : IDfMaterialBuilderFactory
     {
-
         public IDfMaterialBuilder Create()
         {
             return new DfMaterialBuilder();

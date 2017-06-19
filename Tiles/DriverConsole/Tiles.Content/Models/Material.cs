@@ -24,6 +24,22 @@ namespace Tiles.Content.Models
         public int ShearFracture { get; set; }
         public int ShearStrainAtYield { get; set; }
 
+        public int CompressiveYield { get; set; }
+        public int CompressiveFracture { get; set; }
+        public int CompressiveStrainAtYield { get; set; }
+
+        public int TensileYield { get; set; }
+        public int TensileFracture { get; set; }
+        public int TensileStrainAtYield { get; set; }
+
+        public int TorsionYield { get; set; }
+        public int TorsionFracture { get; set; }
+        public int TorsionStrainAtYield { get; set; }
+
+        public int BendingYield { get; set; }
+        public int BendingFracture { get; set; }
+        public int BendingStrainAtYield { get; set; }
+
         public int SolidDensity { get; set; }
         public double SharpnessMultiplier { get; set; }
     }

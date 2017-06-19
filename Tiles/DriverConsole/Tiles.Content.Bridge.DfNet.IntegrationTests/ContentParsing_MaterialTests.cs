@@ -41,10 +41,35 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         [TestMethod]
         public void Iron()
         {
-            var iron = DfMaterialFactory.CreateInorganic("IRON");
-            Assert.AreEqual("iron", iron.Name);
-            Assert.AreEqual("iron", iron.Adjective);
-            Assert.AreEqual(1d, iron.SharpnessMultiplier);
+            var mat = DfMaterialFactory.CreateInorganic("IRON");
+            Assert.AreEqual("iron", mat.Name);
+            Assert.AreEqual("iron", mat.Adjective);
+            Assert.AreEqual(1d, mat.SharpnessMultiplier);
+
+            Assert.AreEqual(542500, mat.ImpactYield);
+            Assert.AreEqual(1085000, mat.ImpactFracture);
+            Assert.AreEqual(319, mat.ImpactStrainAtYield);
+
+            Assert.AreEqual(542500, mat.CompressiveYield);
+            Assert.AreEqual(1085000, mat.CompressiveFracture);
+            Assert.AreEqual(319, mat.CompressiveStrainAtYield);
+
+            Assert.AreEqual(155000, mat.TensileYield);
+            Assert.AreEqual(310000, mat.TensileFracture);
+            Assert.AreEqual(73, mat.TensileStrainAtYield);
+
+            Assert.AreEqual(155000, mat.TorsionYield);
+            Assert.AreEqual(310000, mat.TorsionFracture);
+            Assert.AreEqual(189, mat.TorsionStrainAtYield);
+
+            Assert.AreEqual(155000, mat.ShearYield);
+            Assert.AreEqual(310000, mat.ShearFracture);
+            Assert.AreEqual(189, mat.ShearStrainAtYield);
+
+            Assert.AreEqual(155000, mat.BendingYield);
+            Assert.AreEqual(310000, mat.BendingFracture);
+            Assert.AreEqual(73, mat.BendingStrainAtYield);
+
         }
 
         [TestMethod]
@@ -107,6 +132,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
                 Assert.AreNotEqual(0, m.SharpnessMultiplier,
                     string.Format("Sharpness == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
+
             }
         }
     }

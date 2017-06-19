@@ -159,6 +159,42 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.SHEAR_STRAIN_AT_YIELD:
                         b.SetShearStrainAtYield(int.Parse(tag.GetParam(0)));
                         break;
+                    case DfTags.MiscTags.COMPRESSIVE_YIELD:
+                        b.SetCompressiveYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.COMPRESSIVE_FRACTURE:
+                        b.SetCompressiveFracture(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.COMPRESSIVE_STRAIN_AT_YIELD:
+                        b.SetCompressiveStrainAtYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.TENSILE_YIELD:
+                        b.SetTensileYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.TENSILE_FRACTURE:
+                        b.SetTensileFracture(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.TENSILE_STRAIN_AT_YIELD:
+                        b.SetTensileStrainAtYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.TORSION_YIELD:
+                        b.SetTorsionYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.TORSION_FRACTURE:
+                        b.SetTorsionFracture(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.TORSION_STRAIN_AT_YIELD:
+                        b.SetTorsionStrainAtYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.BENDING_YIELD:
+                        b.SetBendingYield(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.BENDING_FRACTURE:
+                        b.SetBendingFracture(int.Parse(tag.GetParam(0)));
+                        break;
+                    case DfTags.MiscTags.BENDING_STRAIN_AT_YIELD:
+                        b.SetBendingStrainAtYield(int.Parse(tag.GetParam(0)));
+                        break;
                     case DfTags.MiscTags.SOLID_DENSITY:
                         b.SetSolidDensity(int.Parse(tag.GetParam(0)));
                         break;
