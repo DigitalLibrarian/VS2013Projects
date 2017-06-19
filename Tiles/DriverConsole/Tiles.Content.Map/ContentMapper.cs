@@ -28,6 +28,23 @@ namespace Tiles.Content.Map
                 ShearFracture = m.ShearFracture,
                 ShearYield = m.ShearYield,
                 ShearStrainAtYield = m.ShearStrainAtYield,
+
+                CompressiveFracture = m.CompressiveFracture,
+                CompressiveStrainAtYield = m.CompressiveStrainAtYield,
+                CompressiveYield = m.CompressiveYield,
+
+                TensileFracture = m.TensileFracture,
+                TensileStrainAtYield = m.TensileStrainAtYield,
+                TensileYield = m.TensileYield,
+
+                TorsionFracture = m.TorsionFracture,
+                TorsionStrainAtYield = m.TorsionStrainAtYield,
+                TorsionYield = m.TorsionYield,
+
+                BendingFracture = m.BendingFracture,
+                BendingStrainAtYield = m.BendingStrainAtYield,
+                BendingYield = m.BendingYield,
+
                 SolidDensity = m.SolidDensity,
                 SharpnessMultiplier = m.SharpnessMultiplier
             };

@@ -19,6 +19,22 @@ namespace Tiles.Materials
         int ShearFracture { get; }
         int ShearStrainAtYield { get; }
 
+        int CompressiveYield { get; }
+        int CompressiveFracture { get; }
+        int CompressiveStrainAtYield { get; }
+
+        int TensileYield { get; }
+        int TensileFracture { get; }
+        int TensileStrainAtYield { get; }
+
+        int TorsionYield { get; }
+        int TorsionFracture { get; }
+        int TorsionStrainAtYield { get; }
+
+        int BendingYield { get; }
+        int BendingFracture { get; }
+        int BendingStrainAtYield { get; }
+
         /// <summary>
         /// Density of material, in solid state, measured in kg/m^3
         /// </summary>
