@@ -90,6 +90,7 @@ namespace Tiles.Bodies
 
         public bool IsEffectivelyPulped()
         {
+            // TODO - Enforce [PREVENTS_PARENT_COLLAPSE]
             return Tissue.TissueLayers
                 .Where(x => !x.Class.IsCosmetic)
                 .All(x => x.IsPulped());

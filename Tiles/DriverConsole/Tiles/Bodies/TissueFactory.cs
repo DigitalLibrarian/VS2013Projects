@@ -18,9 +18,8 @@ namespace Tiles.Bodies
             {
                 var fractionTotal = (double)totalRelThick;
                 var tlFact = (double)tc.RelativeThickness;
-
-
                 var mlpf = tlFact;
+
                 if (tc.ThickensOnStrength)
                 {
                     mlpf = strength * tlFact / 1000d;
@@ -31,13 +30,13 @@ namespace Tiles.Bodies
                     mlpf = storedFat * tlFact / 2500 / 100;
                 }
 
-
                 var tissueThick = partThick * mlpf / fractionTotal;
                 var tissueVol = partSize * mlpf / fractionTotal;
                 tissueThick = System.Math.Max(1d, tissueThick);
                 tissueVol = System.Math.Max(1d, tissueVol);
 
-                layers.Add(new TissueLayer(tc, tc.Material, tissueThick, tissueVol));
+                var damage = new DamageVector();
+                layers.Add(new TissueLayer(tc, tissueThick, tissueVol, damage));
             }
             return new Tissue(layers);
         }

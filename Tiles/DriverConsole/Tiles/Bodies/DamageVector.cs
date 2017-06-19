@@ -12,6 +12,8 @@ namespace Tiles.Bodies
         Fraction EffectFraction { get; }
         Fraction DentFraction { get; }
         Fraction CutFraction { get; }
+
+        bool IsPulped();
     }
 
     public class DamageVector : IDamageVector
@@ -30,5 +32,11 @@ namespace Tiles.Bodies
         public Fraction DentFraction { get; private set; }
 
         public Fraction CutFraction { get; private set; }
+
+        public bool IsPulped() { 
+            return EffectFraction.AsDouble() >= 1d
+                || DentFraction.AsDouble() >= 2.5d
+                || CutFraction.AsDouble() >= 1d;
+        }
     }
 }

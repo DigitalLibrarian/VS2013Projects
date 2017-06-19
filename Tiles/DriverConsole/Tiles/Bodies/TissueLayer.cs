@@ -11,30 +11,22 @@ namespace Tiles.Bodies
     public class TissueLayer : ITissueLayer
     {
         public ITissueLayerClass Class { get; private set; }
-        public IMaterial Material { get; private set; }
+        public IMaterial Material { get { return Class.Material; } }
         public double Thickness { get; private set; }
         public double Volume { get; private set; }
 
         public string Name { get { return Material.Name; } }
 
-        public TissueLayer(ITissueLayerClass layerClass, IMaterial material, double thickness, double volume)
+        public IDamageVector Damage { get; private set; }
+
+        public TissueLayer(ITissueLayerClass layerClass, double thickness, double volume, IDamageVector damage)
         {
             Class = layerClass;
-            Material = material;
             Thickness = thickness;
             Volume = volume;
 
-            EffectFraction = new Fraction(0, 10000);
-            DentFraction = new Fraction(0, 10000);
-            CutFraction = new Fraction(0, 10000);
+            Damage = damage;
         }
-
-        public Fraction EffectFraction { get; private set; }
-
-        // looks like it is based off the surface percentage
-        public Fraction DentFraction { get; private set; }
-
-        public Fraction CutFraction { get; private set; }
 
         // affected surface area
         public double WoundArea { get; set; }
@@ -45,16 +37,9 @@ namespace Tiles.Bodies
         // ratio of the penetrated depth
         public double PenetrationRatio { get; set; }
 
-        private IEnumerable<Fraction> GetDamageFractions() 
-        { 
-            yield return EffectFraction;
-            yield return DentFraction;
-            yield return CutFraction;
-        }
-
         public bool IsPulped()
         {
-            return GetDamageFractions().Any(x => x.AsDouble() >= 1d);
+            return Damage.IsPulped();
         }
 
         public bool IsVascular()
