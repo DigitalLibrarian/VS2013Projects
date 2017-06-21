@@ -53,21 +53,43 @@ namespace Tiles.Materials
         }
 
         public void GetModeProperties(StressMode contactType,
-            out int yield, out int fractureForce, out int strainAtYield)
+            out int yield, out int fracture, out int strainAtYield)
         {
             // TODO - Wrestling moves are special: breaking bones uses [BENDING_*] values, pinching utilizes [COMPRESSIVE_*] properties, and biting can deal [TENSILE] or [TORSION] damage depending on whether the attack is edged. Those attacks generally ignore armor.
             switch (contactType)
             {
                 case StressMode.Edge:
                     yield = ShearYield;
-                    fractureForce = ShearFracture;
+                    fracture = ShearFracture;
                     strainAtYield = ShearStrainAtYield;
                     break;
-                default:
+                case StressMode.Blunt:
                     yield = ImpactYield;
-                    fractureForce = ImpactFracture;
+                    fracture = ImpactFracture;
                     strainAtYield = ImpactStrainAtYield;
                     break;
+                case StressMode.Compressive:
+                    yield = CompressiveYield;
+                    fracture = CompressiveFracture;
+                    strainAtYield = CompressiveStrainAtYield;
+                    break;
+                case StressMode.Tensile:
+                    yield = TensileYield;
+                    fracture = TensileFracture;
+                    strainAtYield = TensileStrainAtYield;
+                    break;
+                case StressMode.Torsion:
+                    yield = TorsionYield;
+                    fracture = TorsionFracture;
+                    strainAtYield = TorsionStrainAtYield;
+                    break;
+                case StressMode.Bending:
+                    yield = BendingYield;
+                    fracture = BendingFracture;
+                    strainAtYield = BendingStrainAtYield;
+                    break;
+                default:
+                    throw new InvalidOperationException(string.Format("The stress mode {0} is unknown.", contactType));
             }
         }
     }

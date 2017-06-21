@@ -51,7 +51,7 @@ namespace Tiles.Tests.Bodies.Injuries
         public void MaterialStrike_ZeroCase()
         {
             var armorItems = new List<IItem>();
-            var stressMode = StressMode.Other;
+            var stressMode = StressMode.None;
             double momentum = 1d, contactArea = 2d, sharpness = 4d;
             double partContactArea = 5d;
             var maxPen = 3;
@@ -121,7 +121,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
             var armorItems = new List<IItem>() { armorItem1Mock.Object, armorItem2Mock.Object };
 
-            var stressMode = StressMode.Other;
+            var stressMode = StressMode.None;
             double momentum = 1d, contactArea = 2d, sharpness = 4d;
             double partContactArea = 5d;
             var maxPen = 3;
@@ -179,7 +179,7 @@ namespace Tiles.Tests.Bodies.Injuries
         public void MaterialStrike_NonCosmeticTissueLayer()
         {
             var armorItems = new List<IItem>();
-            var stressMode = StressMode.Other;
+            var stressMode = StressMode.None;
             double momentum = 1d, contactArea = 2d, sharpness = 4d;
             double partContactArea = 5d;
             var maxPen = 3;
@@ -291,7 +291,7 @@ namespace Tiles.Tests.Bodies.Injuries
         public void MaterialStrike_CosmeticTissueLayer()
         {
             var armorItems = new List<IItem>();
-            var stressMode = StressMode.Other;
+            var stressMode = StressMode.None;
             double momentum = 1d, contactArea = 2d, sharpness = 4d;
             double partContactArea = 5d;
             var maxPen = 3;
@@ -362,7 +362,7 @@ namespace Tiles.Tests.Bodies.Injuries
         public void MaterialStrike_InternalNonCosmeticTissueLayer()
         {
             var armorItems = new List<IItem>();
-            var stressMode = StressMode.Other;
+            var stressMode = StressMode.None;
             double momentum = 1d, contactArea = 2d, sharpness = 4d;
             double partContactArea = 5d;
             var maxPen = 3;
@@ -482,7 +482,7 @@ namespace Tiles.Tests.Bodies.Injuries
         public void MaterialStrike_InternalCosmeticTissueLayer()
         {
             var armorItems = new List<IItem>();
-            var stressMode = StressMode.Other;
+            var stressMode = StressMode.None;
             double momentum = 1d, contactArea = 2d, sharpness = 4d;
             double partContactArea = 5d;
             var maxPen = 3;

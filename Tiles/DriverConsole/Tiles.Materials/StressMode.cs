@@ -11,13 +11,9 @@ namespace Tiles.Materials
         None,
         Edge,
         Blunt,
-        Other
-            /* TODO - Implement
-            ,
         Compressive,
         Tensile,
         Torsion,
-        Bending,
-        */
+        Bending
     }
 }
