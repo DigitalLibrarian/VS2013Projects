@@ -184,7 +184,8 @@ namespace Tiles.Materials
                 }
 
                 // TODO - weapon deflection (soft meaty fists vs metal colossus)
-                // bool deflection = layerWeight > (weaponVolume * weaponYield)/ (100d * 500d)
+                
+                //bool deflection = layerWeight > (weaponVolume * weaponYield) / (100d * 500d);
                 // This should be visible in action log.  Probably happens before any other layer testing
                 // use copy "glances away".  This probably belongs at a higher level.
 
