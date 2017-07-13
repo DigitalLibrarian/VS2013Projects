@@ -16,8 +16,6 @@ namespace Tiles.Tests.Bodies
         [TestMethod]
         public void Create()
         {
-            int totalRelThick = 10;
-            
             var layerClassMock1 = new Mock<ITissueLayerClass>();
             layerClassMock1.Setup(x => x.RelativeThickness).Returns(1);
 

@@ -44,6 +44,18 @@ namespace Tiles.Materials
         public int SolidDensity { get; set; }
         public double SharpnessMultiplier { get; set; }
 
+        public bool IsSoft(StressMode stressMode)
+        {
+            if (stressMode == StressMode.Edge)
+            {
+                return ShearStrainAtYield >= 50000;
+            }
+            else
+            {
+                return ImpactStrainAtYield >= 50000;
+            }
+        }
+
         public double GetMassForUniformVolume(double volumeCubicCm)
         {
             //Weight (in Γ) = Density (in kg/m3) * Volume*10 (in cm3) / 1,000,000 (cm3/m3)

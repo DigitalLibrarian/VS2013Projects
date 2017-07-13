@@ -113,7 +113,7 @@ namespace Tiles.Bodies.Injuries
 
         private bool IsSoft()
         {
-            return Layer.IsSoft(StrikeResult.StressMode);
+            return Layer.Material.IsSoft(StrikeResult.StressMode);
         }
 
         private bool IsVascular()

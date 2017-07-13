@@ -127,5 +127,38 @@ namespace Tiles.Materials.Tests
 
             M1.GetModeProperties(StressMode.None, out yield, out fracture, out strainAtYield);
         }
+
+        [TestMethod]
+        public void IsSoft_Edge()
+        {
+            M1.ShearStrainAtYield = 49999;
+            Assert.IsFalse(M1.IsSoft(StressMode.Edge));
+
+            M1.ShearStrainAtYield = 50000;
+            Assert.IsTrue(M1.IsSoft(StressMode.Edge));
+        }
+
+        [TestMethod]
+        public void IsSoft_NotEdged()
+        {
+            var enumValues = Enum.GetValues(typeof(StressMode))
+                .AsQueryable()
+                .Cast<StressMode>()
+                .Where(x => x != StressMode.Edge);
+
+            M1.ImpactStrainAtYield = 49999;
+
+            foreach (var enumValue in enumValues)
+            {
+                Assert.IsFalse(M1.IsSoft(enumValue));
+            }
+
+            M1.ImpactStrainAtYield = 50000;
+
+            foreach (var enumValue in enumValues)
+            {
+                Assert.IsTrue(M1.IsSoft(enumValue));
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Bodies.Injuries;
 using Tiles.Materials;
 using Tiles.Math;
 
@@ -45,18 +46,6 @@ namespace Tiles.Bodies
         public bool IsVascular()
         {
             return Class.VascularRating > 0;
-        }
-
-        public bool IsSoft(StressMode stressMode)
-        {
-            if (stressMode == StressMode.Edge)
-            {
-                return Material.ImpactStrainAtYield >= 50000;
-            }
-            else
-            {
-                return Material.ShearStrainAtYield >= 50000;
-            }
         }
     }
 }

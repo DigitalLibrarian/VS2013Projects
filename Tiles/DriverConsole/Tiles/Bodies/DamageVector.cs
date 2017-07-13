@@ -26,14 +26,14 @@ namespace Tiles.Bodies
             CutFraction = new Fraction(0, denom);
         }
 
-        public Fraction EffectFraction { get; private set; }
+        public virtual Fraction EffectFraction { get; private set; }
 
         // looks like it is based off the surface percentage
-        public Fraction DentFraction { get; private set; }
+        public virtual Fraction DentFraction { get; private set; }
 
-        public Fraction CutFraction { get; private set; }
+        public virtual Fraction CutFraction { get; private set; }
 
-        public bool IsPulped() { 
+        public virtual bool IsPulped() { 
             return EffectFraction.AsDouble() >= 1d
                 || DentFraction.AsDouble() >= 2.5d
                 || CutFraction.AsDouble() >= 1d;

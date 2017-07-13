@@ -83,6 +83,7 @@
     <Compile Include="Bodies\HealthVectorTests.cs" />
     <Compile Include="Bodies\Injuries\InjuryReportTests.cs" />
     <Compile Include="Bodies\TissueFactoryTests.cs" />
+    <Compile Include="Bodies\TissueLayerTests.cs" />
     <Compile Include="Bodies\TissueTests.cs" />
     <Compile Include="ConjugatedWordTests.cs" />
     <Compile Include="Ecs\EntityManagerTests.cs" />

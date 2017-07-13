@@ -42,6 +42,8 @@ namespace Tiles.Materials
 
         double SharpnessMultiplier { get; }
 
+        bool IsSoft(StressMode stressMode);
+
         /// <summary>
         /// Get mass of a solid uniform density volume
         /// </summary>
