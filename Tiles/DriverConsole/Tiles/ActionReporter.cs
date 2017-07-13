@@ -92,11 +92,16 @@ namespace Tiles
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
             var bodyPartName = bodyPart.Name;
+            var limbMessage = targetPartWasShed ? " and the severed part falls away!" : ".";
 
             if (session.InjuryReport.BodyPartInjuries.Any())
             {
                 var bpInjury = session.InjuryReport.BodyPartInjuries.First();
                 var completionMessage = bpInjury.GetResultPhrase();
+                if (bpInjury.IsSever)
+                {
+                    completionMessage = limbMessage;
+                }
 
                 var message = string.Format("{0} {1} the {2}'s {3}{4}",
                     attackerName, verbStr, defenderName, bodyPartName, completionMessage);
