@@ -708,6 +708,40 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
             Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
         }
+
+        [TestMethod]
+        public void DwarfVsDwarf_BiteUpperBody()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("bite"));
+            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+
+            Assert.AreEqual(9.48d, move.Class.ContactArea, 0.01d);
+
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(0.1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(980, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(980, layerResult.GetDamage().DentFraction.Numerator);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0.06d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0.1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(60, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(980, layerResult.GetDamage().DentFraction.Numerator);
+        }
         
         [TestMethod]
         public void DwarfVsDwarf_BiteRightUpperArm()
@@ -1466,6 +1500,35 @@ namespace Tiles.EngineIntegrationTests
 
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(103.89d, layerResult.StrikeResult.ContactArea, 0.01d);
+            Assert.AreEqual(0.1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(1080, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_SlashUpperBodyWithWoodSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(103.89d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(0.1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
             Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
