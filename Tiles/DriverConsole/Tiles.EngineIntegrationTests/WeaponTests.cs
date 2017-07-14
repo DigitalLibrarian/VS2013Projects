@@ -25,5 +25,33 @@ namespace Tiles.EngineIntegrationTests
 
             Assert.AreEqual(4000, w.Class.WeaponClass.AttackMoveClasses.Single().MaxPenetration);
         }
+
+        [TestMethod]
+        public void WoodShortSword_Stab_MaxPenetration()
+        {
+            var w = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            Assert.AreEqual(2000, w.Class.WeaponClass.AttackMoveClasses.Single(x => x.Name.Equals("stab")).MaxPenetration);
+        }
+
+        [TestMethod]
+        public void WoodShortSword_Stab_ContactArea()
+        {
+            var w = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            Assert.AreEqual(50, w.Class.WeaponClass.AttackMoveClasses.Single(x => x.Name.Equals("stab")).ContactArea);
+        }
+
+        [TestMethod]
+        public void WoodShortSword_Slash_MaxPenetration()
+        {
+            var w = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            Assert.AreEqual(4000, w.Class.WeaponClass.AttackMoveClasses.Single(x => x.Name.Equals("slash")).MaxPenetration);
+        }
+
+        [TestMethod]
+        public void WoodShortSword_Slash_ContactArea()
+        {
+            var w = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
+            Assert.AreEqual(20000, w.Class.WeaponClass.AttackMoveClasses.Single(x => x.Name.Equals("slash")).ContactArea);
+        }
     }
 }
