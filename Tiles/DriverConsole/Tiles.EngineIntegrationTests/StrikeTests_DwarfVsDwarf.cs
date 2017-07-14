@@ -1353,6 +1353,7 @@ namespace Tiles.EngineIntegrationTests
 
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(46.04d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
@@ -1361,6 +1362,7 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(46.04d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0.03d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
