@@ -890,6 +890,19 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(71, move.MaxPenetration, 1d);
         }
 
+        [TestMethod]
+        public void BandedKnifeFish_BiteStrikeMaterial()
+        {
+            var attacker = GetNewBandedKnifeFish();
+
+            var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
+            Assert.IsNotNull(moveClass);
+
+            var move = CombatMoveBuilder.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
+            var mat = attacker.GetStrikeMaterial(move);
+
+        }
+
         IAgent GetNewDwarf()
         {
             return DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
@@ -904,5 +917,11 @@ namespace Tiles.EngineIntegrationTests
         {
             return DfTagsFascade.CreateCreatureAgent(Atlas, "SPIDER_CAVE_GIANT", "MALE", Vector3.Zero);
         }
+
+        IAgent GetNewBandedKnifeFish()
+        {
+            return DfTagsFascade.CreateCreatureAgent(Atlas, "FISH_KNIFEFISH_BANDED", "MALE", Vector3.Zero);
+        }
+        
     }
 }
