@@ -1517,6 +1517,8 @@ namespace Tiles.EngineIntegrationTests
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
             Assert.IsNotNull(targetBodyPart);
 
+            Assert.AreEqual(104.89d, targetBodyPart.GetContactArea(), 0.01d);
+
             var sword = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
             attacker.Outfit.Wield(sword);
 

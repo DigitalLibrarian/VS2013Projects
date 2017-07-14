@@ -106,10 +106,6 @@ namespace Tiles.Materials
                 // If the striker is smaller than the strikee, then we can make the damaged area spread out a bit.
                 // Think about how if you are punched, then you are slightly sore around the impacted area to a degree.
                 contactArea *= 1.09d;
-                if (contactArea > StrickenContactArea) // cap at strikee size
-                {
-                    contactArea = StrickenContactArea;
-                }
                 contactAreaRatio = (contactArea / StrickenContactArea);
             }
             else
