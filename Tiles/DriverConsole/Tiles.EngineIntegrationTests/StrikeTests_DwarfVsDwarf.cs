@@ -102,7 +102,7 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
-            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.22d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(2270, layerResult.GetDamage().CutFraction.Numerator);
             Assert.AreEqual(2270, layerResult.GetDamage().DentFraction.Numerator);
@@ -111,7 +111,7 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
-            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.22d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
             Assert.AreEqual(2270, layerResult.GetDamage().DentFraction.Numerator);
@@ -1932,6 +1932,204 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.WoundArea);
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_HackUpperBodyWithWoodenAxe()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Dent);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(.31d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(3090, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+        }
+
+
+        [TestMethod]
+        public void DwarfVsDwarf_HackUpperArmWithWoodenAxe()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left upper arm"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0.33d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(3370, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+        }
+
+
+        [TestMethod]
+        public void DwarfVsDwarf_HackUpperArmWithSilverAxe()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left upper arm"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE, "SILVER");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
+            Assert.AreEqual("bone", layerResult.Layer.Name);
+            Assert.AreEqual(0.12d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(1240, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+        }
+
+        [TestMethod]
+        public void DwarfVsDwarf_HackUpperLegWithSilverAxe()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left upper leg"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_AXE_BATTLE, "SILVER");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
+
+            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Dent);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(0.68d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(6860, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
+            Assert.AreEqual("bone", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
+            Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
         [TestMethod]

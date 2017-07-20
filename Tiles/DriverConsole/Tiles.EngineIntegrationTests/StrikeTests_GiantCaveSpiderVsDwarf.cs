@@ -91,10 +91,10 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
-            Assert.AreEqual(0.06d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0.28d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.39d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(240, layerResult.GetDamage().CutFraction.Numerator);
+            Assert.AreEqual(1150, layerResult.GetDamage().CutFraction.Numerator);
             Assert.AreEqual(3970, layerResult.GetDamage().DentFraction.Numerator);
         }
     }

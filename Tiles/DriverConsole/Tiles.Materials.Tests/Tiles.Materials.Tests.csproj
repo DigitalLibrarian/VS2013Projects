@@ -58,7 +58,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="LayeredMaterialStrikeResultBuilderTests.cs" />
     <Compile Include="MaterialStressCalcTests.cs" />
     <Compile Include="MaterialStrikeResultBuilderTests.cs" />
     <Compile Include="MaterialTests.cs" />

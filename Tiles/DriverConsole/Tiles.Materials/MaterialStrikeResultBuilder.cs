@@ -100,7 +100,7 @@ namespace Tiles.Materials
         public MaterialStrikeResult Build()
         {
             var contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
-            var contactAreaRatio = (StrikerContactArea / StrickenContactArea);
+            var contactAreaRatio = (contactArea / StrickenContactArea);
             if (contactAreaRatio < 1d)
             {
                 // If the striker is smaller than the strikee, then we can make the damaged area spread out a bit.
@@ -111,7 +111,7 @@ namespace Tiles.Materials
             else
             {
                 contactAreaRatio = 1d;
-                contactArea = StrickenContactArea - 1;
+                contactArea = contactArea - 1;
             }
 
             var msr = StressResult.None;
@@ -143,19 +143,23 @@ namespace Tiles.Materials
                 if (stress > dentCost)
                 {
                     msr = StressResult.Shear_Dent;
-                    if (stress > cutCost)
+                    if (stress > cutCost && RemainingPenetration > 0)
                     {
-
-                        penetrationRatio = (stress - cutCost) / (defeatCost - cutCost);
-                        penetrationRatio = System.Math.Min(1d, penetrationRatio);
                         if (LayerThickness > RemainingPenetration)
                         {
-                            penetrationRatio = System.Math.Min(RemainingPenetration / LayerThickness, penetrationRatio);
+                            penetrationRatio = RemainingPenetration / LayerThickness;
                         }
+                        else
+                        {
+                            penetrationRatio = (stress - cutCost) / (defeatCost - cutCost);
+                        }
+                        penetrationRatio = System.Math.Min(1d, penetrationRatio);
+                        penetrationRatio = System.Math.Max(0d, penetrationRatio);
 
                         if (penetrationRatio > 0.01d)
                         {
                             msr = StressResult.Shear_Cut;
+
                             defeated = true;
 
                             if (stress > defeatCost
