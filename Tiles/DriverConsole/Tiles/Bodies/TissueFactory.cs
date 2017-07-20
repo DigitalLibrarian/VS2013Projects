@@ -35,8 +35,7 @@ namespace Tiles.Bodies
                 tissueThick = System.Math.Max(1d, tissueThick);
                 tissueVol = System.Math.Max(1d, tissueVol);
 
-                var damage = new DamageVector();
-                layers.Add(new TissueLayer(tc, tissueThick, tissueVol, damage));
+                layers.Add(new TissueLayer(tc, tissueThick, tissueVol));
             }
             return new Tissue(layers);
         }

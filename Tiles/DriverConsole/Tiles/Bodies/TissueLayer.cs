@@ -18,29 +18,16 @@ namespace Tiles.Bodies
 
         public string Name { get { return Material.Name; } }
 
-        public IDamageVector Damage { get; private set; }
-
-        public TissueLayer(ITissueLayerClass layerClass, double thickness, double volume, IDamageVector damage)
+        public TissueLayer(ITissueLayerClass layerClass, double thickness, double volume)
         {
             Class = layerClass;
             Thickness = thickness;
             Volume = volume;
-
-            Damage = damage;
         }
-
-        // affected surface area
-        public double WoundArea { get; set; }
-
-        // ratio of layer surface area to wounded area
-        public double WoundAreaRatio { get; set; }
-
-        // ratio of the penetrated depth
-        public double PenetrationRatio { get; set; }
 
         public bool IsPulped()
         {
-            return Damage.IsPulped();
+            return false;
         }
 
         public bool IsVascular()

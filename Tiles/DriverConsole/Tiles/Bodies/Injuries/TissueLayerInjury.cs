@@ -16,6 +16,8 @@ namespace Tiles.Bodies.Injuries
         string Gerund { get; }
         string GetPhrase();
 
+        double WoundArea { get; }
+
         IDamageVector GetDamage();
     }
 
@@ -32,12 +34,15 @@ namespace Tiles.Bodies.Injuries
             StrikeResult = strikeResult;
         }
 
+        // TODO - move to action reporter
         #region Language Generation
+        // TODO - move to action reporter
         public string GetPhrase()
         {
             return string.Format("{0} the {1}", Gerund, Layer.Class.Name);
         }
 
+        // TODO - move to action reporter
         public string Gerund
         {
             get
@@ -104,6 +109,18 @@ namespace Tiles.Bodies.Injuries
             }
         }
         #endregion
+
+        public double WoundArea
+        {
+            get
+            {
+                if (StrikeResult.PenetrationRatio >= 1d)
+                {
+                    return StrikeResult.ContactArea;
+                }
+                return 0;
+            }
+        }
 
         public bool IsChip()
         {
