@@ -46,6 +46,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             var momentum = attacker.GetStrikeMomentum(move);
 
+            // TODO - need to account for having lost the part since the command was planned
             IMaterial weaponMat = attacker.GetStrikeMaterial(move);
             var armorItems = session.Defender.Outfit
                 .GetItems(move.DefenderBodyPart).Where(x => x.IsArmor);

@@ -900,7 +900,20 @@ namespace Tiles.EngineIntegrationTests
 
             var move = CombatMoveBuilder.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
             var mat = attacker.GetStrikeMaterial(move);
+            Assert.IsNotNull(mat);
+        }
 
+        [TestMethod]
+        public void BlueShark_BiteStrikeMaterial()
+        {
+            var attacker = GetNewBlueShark();
+
+            var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
+            Assert.IsNotNull(moveClass);
+
+            var move = CombatMoveBuilder.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
+            var mat = attacker.GetStrikeMaterial(move);
+            Assert.IsNotNull(mat);
         }
 
         IAgent GetNewDwarf()
@@ -923,5 +936,9 @@ namespace Tiles.EngineIntegrationTests
             return DfTagsFascade.CreateCreatureAgent(Atlas, "FISH_KNIFEFISH_BANDED", "MALE", Vector3.Zero);
         }
         
+        IAgent GetNewBlueShark()
+        {
+            return DfTagsFascade.CreateCreatureAgent(Atlas, "SHARK_BLUE", "MALE", Vector3.Zero);
+        }
     }
 }

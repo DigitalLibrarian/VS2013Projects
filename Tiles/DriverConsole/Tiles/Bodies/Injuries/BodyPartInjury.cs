@@ -63,6 +63,7 @@ namespace Tiles.Bodies.Injuries
             TissueLayerInjuries = tissueLayerInjuries;
         }
 
+        // TODO - move to action reporter
         public string GetResultPhrase()
         {
             var injuries = TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
