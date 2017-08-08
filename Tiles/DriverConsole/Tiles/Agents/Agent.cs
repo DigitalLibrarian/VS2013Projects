@@ -93,6 +93,19 @@ namespace Tiles.Agents
             }
             return false;
         }
+
+        public bool CanPerform(ICombatMove move)
+        {
+            if (move.Class.IsItem)
+            {
+                return this.Outfit.IsWielded(move.Weapon);
+            }
+            else
+            {
+                return move.Class.GetRelatedBodyParts(Body).Any();
+            }
+
+        }
         
         public IMaterial GetStrikeMaterial(ICombatMove move)
         {

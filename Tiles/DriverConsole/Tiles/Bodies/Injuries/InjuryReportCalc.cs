@@ -59,9 +59,13 @@ namespace Tiles.Bodies.Injuries
 
                 foreach (var tissueLayer in tissueLayers)
                 {
-                    if (!tissueLayer.Class.IsCosmetic)
+                    if (IsSuitable(tissueLayer))
                     {
-                        Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                        Builder.AddLayer(
+                            tissueLayer.Material, 
+                            tissueLayer.EffectiveThickness,
+                            tissueLayer.EffectiveVolume, 
+                            tissueLayer);
                         tlParts.Add(tissueLayer, targetPart);
                     }
                 }
@@ -71,7 +75,7 @@ namespace Tiles.Bodies.Injuries
                 {
                     foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
                     {
-                        if (!tissueLayer.Class.IsCosmetic)
+                        if (IsSuitable(tissueLayer))
                         {
                             // TODO - need to figure in the effective thickness and volume by accounting for existing wounds
                             Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
@@ -87,6 +91,11 @@ namespace Tiles.Bodies.Injuries
             var bpInjuries = InjuryFactory.Create(targetPart, contactArea, maxPenetration, result, tlParts);
 
             return new InjuryReport(bpInjuries);
+        }
+
+        private bool IsSuitable(ITissueLayer layer)
+        {
+            return !layer.Class.IsCosmetic && !layer.IsPulped();
         }
     }
 }

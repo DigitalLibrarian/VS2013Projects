@@ -29,11 +29,16 @@ namespace Tiles.Bodies.Injuries
                 if (BodyPart.Class.IsInternal) return false;
 
                 var connectiveLayers = BodyPart.Tissue.TissueLayers
-                    .Where(x => x.Class.IsConnective && !x.IsPulped());
+                    .Where(x => x.Class.IsConnective);
 
                 if (!connectiveLayers.Any())
                 {
                     return false;
+                }
+
+                if (!connectiveLayers.Any(x => !x.IsPulped()))
+                {
+                    return true;
                 }
 
                 foreach (var layer in connectiveLayers)

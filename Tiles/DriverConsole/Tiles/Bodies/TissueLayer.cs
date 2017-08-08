@@ -18,21 +18,43 @@ namespace Tiles.Bodies
 
         public string Name { get { return Material.Name; } }
 
+        public IDamageVector Damage { get; private set; }
+        public double WoundAreaRatio { get; private set; }
+        public double PenetrationRatio { get; private set; }
+
+        public double EffectiveThickness { get { return Thickness * (1d - PenetrationRatio); } }
+        public double EffectiveVolume { get { return Volume * (1d - WoundAreaRatio); } }
+
         public TissueLayer(ITissueLayerClass layerClass, double thickness, double volume)
         {
             Class = layerClass;
             Thickness = thickness;
             Volume = volume;
+
+            Damage = new DamageVector();
         }
 
         public bool IsPulped()
         {
-            return false;
+            return Damage.IsPulped() || (EffectiveThickness <= 0d && EffectiveVolume <= 0d);
         }
 
         public bool IsVascular()
         {
             return Class.VascularRating > 0;
+        }   
+
+        public void AddInjury(ITissueLayerInjury injury)
+        {
+            WoundAreaRatio += injury.StrikeResult.ContactAreaRatio;
+            WoundAreaRatio = System.Math.Min(WoundAreaRatio, 1d);
+            WoundAreaRatio = System.Math.Max(WoundAreaRatio, 0d);
+
+            PenetrationRatio += injury.StrikeResult.PenetrationRatio;
+            PenetrationRatio = System.Math.Min(PenetrationRatio, 1d);
+            PenetrationRatio = System.Math.Max(PenetrationRatio, 0d);
+
+            Damage.Add(injury.GetDamage());
         }
     }
 }

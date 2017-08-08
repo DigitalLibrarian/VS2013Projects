@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Bodies.Injuries;
 using Tiles.Materials;
 using Tiles.Math;
 
@@ -18,10 +19,14 @@ namespace Tiles.Bodies
         double Thickness { get; }
         double Volume { get; }
 
+        double EffectiveThickness { get; }
+        double EffectiveVolume { get; }
+
         string Name { get; }
 
         // TODO - these should be properties
         bool IsPulped();
         bool IsVascular();
+        void AddInjury(ITissueLayerInjury injury);
     }
 }

@@ -194,9 +194,10 @@ namespace Tiles.Tests.Bodies.Injuries
             var tissueLayer1MaterialMock = new Mock<IMaterial>();
             var tissueLayer1Mock = new Mock<ITissueLayer>();
             tissueLayer1Mock.Setup(x => x.Material).Returns(tissueLayer1MaterialMock.Object);
-            tissueLayer1Mock.Setup(x => x.Volume).Returns(tissueLayer1Volume);
-            tissueLayer1Mock.Setup(x => x.Thickness).Returns(tissueLayer1Thickness);
+            tissueLayer1Mock.Setup(x => x.EffectiveVolume).Returns(tissueLayer1Volume);
+            tissueLayer1Mock.Setup(x => x.EffectiveThickness).Returns(tissueLayer1Thickness);
             tissueLayer1Mock.Setup(x => x.Class).Returns(tissueLayer1ClassMock.Object);
+            tissueLayer1Mock.Setup(x => x.IsPulped()).Returns(false);
 
             var tissueLayer2ClassMock = new Mock<ITissueLayerClass>();
             tissueLayer2ClassMock.Setup(x => x.IsCosmetic).Returns(false);
@@ -205,9 +206,10 @@ namespace Tiles.Tests.Bodies.Injuries
             var tissueLayer2MaterialMock = new Mock<IMaterial>();
             var tissueLayer2Mock = new Mock<ITissueLayer>();
             tissueLayer2Mock.Setup(x => x.Material).Returns(tissueLayer2MaterialMock.Object);
-            tissueLayer2Mock.Setup(x => x.Volume).Returns(tissueLayer2Volume);
-            tissueLayer2Mock.Setup(x => x.Thickness).Returns(tissueLayer2Thickness);
+            tissueLayer2Mock.Setup(x => x.EffectiveVolume).Returns(tissueLayer2Volume);
+            tissueLayer2Mock.Setup(x => x.EffectiveThickness).Returns(tissueLayer2Thickness);
             tissueLayer2Mock.Setup(x => x.Class).Returns(tissueLayer2ClassMock.Object);
+            tissueLayer2Mock.Setup(x => x.IsPulped()).Returns(false);
 
             var tissueLayers = new List<ITissueLayer>{ tissueLayer1Mock.Object, tissueLayer2Mock.Object };
             TargetPartTissueMock.Setup(x => x.TissueLayers)

@@ -35,8 +35,8 @@ namespace Tiles.Agents
 
         IAgentCommandQueue CommandQueue { get; }
 
+        bool CanPerform(ICombatMove move);
         double GetStrikeMomentum(ICombatMove move);
-
         IMaterial GetStrikeMaterial(ICombatMove move);
     }
 }

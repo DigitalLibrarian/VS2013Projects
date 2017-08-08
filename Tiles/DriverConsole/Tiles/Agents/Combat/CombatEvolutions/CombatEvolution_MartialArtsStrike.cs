@@ -42,12 +42,18 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 return;
             }
 
+            if (!attacker.CanPerform(move))
+            {
+                return;
+            }
+
             bool isWeaponBased = move.Class.IsItem;
-
             var momentum = attacker.GetStrikeMomentum(move);
-
-            // TODO - need to account for having lost the part since the command was planned
             IMaterial weaponMat = attacker.GetStrikeMaterial(move);
+            if (weaponMat == null)
+            {
+                return;
+            }
             var armorItems = session.Defender.Outfit
                 .GetItems(move.DefenderBodyPart).Where(x => x.IsArmor);
 
@@ -64,8 +70,15 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             session.InjuryReport = report;
 
-            bool targetPartWasShed = report.IsSever(move.DefenderBodyPart);
+            foreach (var bpInjury in report.BodyPartInjuries)
+            {
+                foreach (var tlInjury in bpInjury.TissueLayerInjuries)
+                {
+                    tlInjury.Layer.AddInjury(tlInjury);
+                }
+            }
 
+            bool targetPartWasShed = report.IsSever(move.DefenderBodyPart);
             foreach (var sever in report.GetSeverings())
             {
                 defender.Body.Amputate(sever.BodyPart);
