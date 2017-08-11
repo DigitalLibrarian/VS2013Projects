@@ -40,6 +40,9 @@ namespace Tiles.Bodies
         public bool IsInternal { get; set; }
         public bool IsSmall { get; set; }
         public bool IsEmbedded { get; set; }
+        public bool IsConnector { get; set; }
+
+        public bool PreventsParentCollapse { get; set; }
 
         public IEnumerable<IBodyPartRelation> BodyPartRelations { get; set; }
 
@@ -60,6 +63,8 @@ namespace Tiles.Bodies
             bool isInternal = false,
             bool isSmall = false,
             bool isEmbedded = false,
+            bool isConnector = false,
+            bool preventsParentCollapse = false,
             IBodyPartClass parent = null,
             IEnumerable<IBodyPartRelation> relations = null)
         {
@@ -87,6 +92,9 @@ namespace Tiles.Bodies
             IsInternal = isInternal;
             IsSmall = isSmall;
             IsEmbedded = isEmbedded;
+            IsConnector = isConnector;
+            PreventsParentCollapse = preventsParentCollapse;
+
             if (relations == null)
             {
                 BodyPartRelations = Enumerable.Empty<IBodyPartRelation>();

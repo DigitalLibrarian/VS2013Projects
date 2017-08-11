@@ -223,6 +223,8 @@ namespace Tiles.Content.Map
                 isInternal: bodyPart.IsInternal,
                 isSmall: bodyPart.IsSmall,
                 isEmbedded: bodyPart.IsEmbedded,
+                isConnector: bodyPart.IsConnector,
+                preventsParentCollapse: bodyPart.PreventsParentCollapse,
                 relations: bodyPart.BodyPartRelations.Select(x => Map(x))
                 );
         }

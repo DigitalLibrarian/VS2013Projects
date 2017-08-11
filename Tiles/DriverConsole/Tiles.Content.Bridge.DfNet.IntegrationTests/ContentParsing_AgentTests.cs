@@ -94,6 +94,15 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_Skull()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            var part = agent.Body.Parts.Single(x => x.NameSingular == "skull");
+            Assert.IsTrue(part.IsConnector);
+            Assert.IsTrue(part.PreventsParentCollapse);
+        }
+
+        [TestMethod]
         public void GreenDevourer()
         {
             var agent = DfAgentFactory.Create("GREEN_DEVOURER");

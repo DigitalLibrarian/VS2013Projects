@@ -36,6 +36,8 @@ namespace Tiles.Bodies
         bool IsInternal { get; }
         bool IsSmall { get; }
         bool IsEmbedded { get; }
+        bool IsConnector { get; }
+        bool PreventsParentCollapse { get; }
 
         IEnumerable<string> Categories { get; }
         IEnumerable<string> Types { get; }

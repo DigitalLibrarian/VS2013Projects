@@ -266,6 +266,17 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfSkull_ConnectionProperties()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("skull"));
+            Assert.IsTrue(bp.IsConnector);
+            Assert.IsTrue(bp.PreventsParentCollapse);
+        }
+
+
+        [TestMethod]
         public void DwarfUpperBodySkinVolume()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);

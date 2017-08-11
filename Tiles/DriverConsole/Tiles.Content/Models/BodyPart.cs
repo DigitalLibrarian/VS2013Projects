@@ -42,6 +42,9 @@ namespace Tiles.Content.Models
         public bool IsSmall { get; set; }
         public bool IsEmbedded { get; set; }
 
+        public bool IsConnector { get; set; }
+        public bool PreventsParentCollapse { get; set; }
+
         public int RelativeSize { get; set; }
 
         public List<BodyPartRelation> BodyPartRelations { get; set; }

@@ -29,6 +29,10 @@ namespace Tiles.Bodies
         public bool IsStance { get { return Class.IsStance; } }
         public bool IsInternal { get { return Class.IsInternal; } }
 
+        public bool IsConnector { get { return Class.IsConnector; } }
+
+        public bool PreventsParentCollapse { get { return Class.PreventsParentCollapse; } }
+
         public IBodyPart Grasped { get; private set; }
         public IBodyPart GraspedBy { get; set; }
         public bool IsGrasping { get { return Grasped != null; } }

@@ -32,6 +32,9 @@ namespace Tiles.Bodies
 
         bool IsStance { get; }
         bool IsInternal { get; }
+        bool IsConnector { get; }
+
+        bool PreventsParentCollapse { get; }
 
         ArmorSlot ArmorSlot { get; }
         IItem Armor { get; set; }

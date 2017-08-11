@@ -324,6 +324,8 @@ namespace Tiles.Content.Bridge.DfNet
                 IsSight = singleWords.Contains("SIGHT"),
                 IsStance = singleWords.Contains("STANCE"),
                 IsInternal = singleWords.Contains("INTERNAL"),
+                IsConnector = singleWords.Contains("CONNECTOR"),
+                PreventsParentCollapse = singleWords.Contains("PREVENTS_PARENT_COLLAPSE"),
                 IsSmall = singleWords.Contains("SMALL"),
                 IsEmbedded = singleWords.Contains("EMBEDDED"),
                 RelativeSize = GetBpSize(defn.Name),
