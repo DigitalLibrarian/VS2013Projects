@@ -57,7 +57,7 @@ namespace Tiles.ScreensImpl.UI
             SimDisplayScreen = new SimDisplayUiPanelScreen(ViewModel, canvas, simDisplayBox);
             ActionLogScreen = new ActionLogUiPanelScreen(ViewModel, canvas, actionLogPanelBox);
             LookingScreen = new LookingCommandScreen(Game, lookExaminePanel);
-            InventoryScreen = new InventoryScreen(Game.Player, CommandFactory, Game.ActionLog, Canvas, Box);
+            InventoryScreen = new InventoryScreen(Game.Player, CommandFactory, Canvas, Box);
 
         }
 

@@ -13,7 +13,9 @@ namespace Tiles.Bodies
         Fraction DentFraction { get; }
         Fraction CutFraction { get; }
 
+        bool IsPristine();
         bool IsPulped();
+
         void Add(IDamageVector damage);
     }
 
@@ -34,10 +36,18 @@ namespace Tiles.Bodies
 
         public virtual Fraction CutFraction { get; private set; }
 
-        public virtual bool IsPulped() { 
+        public virtual bool IsPulped() 
+        { 
             return EffectFraction.AsDouble() >= 1d
                 || DentFraction.AsDouble() >= 2.5d
                 || CutFraction.AsDouble() >= 1d;
+        }
+
+        public virtual bool IsPristine()
+        {
+            return EffectFraction.Numerator == 0
+                && DentFraction.Numerator == 0
+                && CutFraction.Numerator == 0;
         }
 
         public void Add(IDamageVector damage)

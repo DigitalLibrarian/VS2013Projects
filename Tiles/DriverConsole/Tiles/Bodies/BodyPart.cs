@@ -92,9 +92,15 @@ namespace Tiles.Bodies
             return (int)System.Math.Pow((Size * 10000d), 0.333d);
         }
 
+        public bool IsDamaged()
+        {
+            return Tissue.TissueLayers
+                .Where(x => !x.Class.IsCosmetic)
+                .Any(x => !x.Damage.IsPristine());
+        }
+
         public bool IsEffectivelyPulped()
         {
-            // TODO - Enforce [PREVENTS_PARENT_COLLAPSE]
             return Tissue.TissueLayers
                 .Where(x => !x.Class.IsCosmetic)
                 .All(x => x.IsPulped());

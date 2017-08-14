@@ -89,15 +89,38 @@ namespace Tiles.ScreensImpl.Panels
                 }
                 foreach (var bodyPart in agent.Body.Parts)
                 {
-                    // TODO - wound display
-                    if (!bodyPart.IsInternal)
+                    var items = agent.Outfit.GetItems(bodyPart);
+                    if ((!bodyPart.IsInternal && bodyPart.IsDamaged()) || items.Any())
                     {
                         lines.Add(string.Format("{0}", bodyPart.Name));
 
-                        foreach (var item in agent.Outfit.GetItems(bodyPart))
+                        if (bodyPart.IsDamaged())
                         {
-                            lines.Add(string.Format(" {0}", item.Class.Name));
+                            foreach (var tlLayer in bodyPart.Tissue.TissueLayers.Reverse())
+                            {
+                                if (!tlLayer.Damage.IsPristine())
+                                {
+                                    lines.Add(string.Format(" {0} e:{1:p} d:{2:p} c:{3:p} area:{4:p} pen:{5:p}", 
+                                        tlLayer.Name, 
+                                        tlLayer.Damage.EffectFraction.AsDouble(),
+                                        tlLayer.Damage.DentFraction.AsDouble(),
+                                        tlLayer.Damage.CutFraction.AsDouble(),
+                                        tlLayer.WoundAreaRatio,
+                                        tlLayer.PenetrationRatio
+                                        ));
+                                }
+                            }
                         }
+
+                        if (items.Any())
+                        {
+                            foreach (var item in items)
+                            {
+                                lines.Add(string.Format(" {0}", item.Class.Name));
+                            }
+                        }
+
+
                     }
                 }
             }

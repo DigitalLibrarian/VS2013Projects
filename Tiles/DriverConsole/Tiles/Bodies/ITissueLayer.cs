@@ -13,11 +13,16 @@ namespace Tiles.Bodies
     {
         ITissueLayerClass Class { get; }
         IMaterial Material { get; }
+        IDamageVector Damage { get; }
+
         /// <summary>
         /// Thickness in m^-5
         /// </summary>
         double Thickness { get; }
         double Volume { get; }
+
+         double WoundAreaRatio { get; }
+         double PenetrationRatio { get; }
 
         double EffectiveThickness { get; }
         double EffectiveVolume { get; }
