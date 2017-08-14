@@ -8,6 +8,7 @@ using Tiles.Agents.Combat;
 using Tiles.Bodies;
 using Tiles.Bodies.Injuries;
 using Tiles.Items;
+using Tiles.Materials;
 
 namespace Tiles
 {
@@ -61,7 +62,7 @@ namespace Tiles
             var bpInjury = session.InjuryReport.BodyPartInjuries.FirstOrDefault();
             if (bpInjury != null) 
             { 
-                var completionMessage = bpInjury.GetResultPhrase();
+                var completionMessage = GetPhrase(bpInjury);
                 if (bpInjury.IsSever)
                 {
                     completionMessage = limbMessage;
@@ -97,7 +98,7 @@ namespace Tiles
             if (session.InjuryReport.BodyPartInjuries.Any())
             {
                 var bpInjury = session.InjuryReport.BodyPartInjuries.First();
-                var completionMessage = bpInjury.GetResultPhrase();
+                var completionMessage = GetPhrase(bpInjury);
                 if (bpInjury.IsSever)
                 {
                     completionMessage = limbMessage;
@@ -131,7 +132,7 @@ namespace Tiles
             var message = string.Format(" * {0}'s {1} was hit{2}",
                 context.Defender.Name,
                 bpInjury.BodyPart.Name,
-                bpInjury.GetResultPhrase());
+                GetPhrase(bpInjury));
             Log.AddLine(message);
         }
 
@@ -139,6 +140,110 @@ namespace Tiles
         {
             var message = string.Format("Type = {0}, Ca = {1}, Mp = {2}", move.Class.StressMode, move.Class.ContactArea, move.Class.MaxPenetration);
             Log.AddLine(message);
+        }
+
+        string GetGerund(ITissueLayerInjury tlInjury)
+        {
+            var gerund = "";
+            switch (tlInjury.StrikeResult.StressResult)
+            {
+                case StressResult.None:
+                    gerund = "stopping at";
+                    break;
+                case StressResult.Impact_Dent:
+                    gerund = tlInjury.IsVascular() ? "bruising" : "denting";
+                    break;
+                case StressResult.Impact_Bypass:
+                    gerund = tlInjury.IsVascular() ? "bruising" : "denting";
+                    break;
+                case StressResult.Impact_InitiateFracture:
+                    if (tlInjury.IsChip()) gerund = "chipping";
+                    else
+                    {
+                        gerund = tlInjury.IsSoft() ? "tearing" : "fracturing";
+                    }
+                    break;
+                case StressResult.Impact_CompleteFracture:
+                    if (tlInjury.IsChip()) gerund = "chipping";
+                    else
+                    {
+                        gerund = tlInjury.IsSoft() ? "tearing apart" : "shattering";
+                    }
+                    break;
+                case StressResult.Shear_Dent:
+                    gerund = "denting";
+                    break;
+                case StressResult.Shear_Cut:
+                    if (!tlInjury.IsSoft())
+                    {
+                        if (tlInjury.IsChip()) gerund = "chipping";
+                        else
+                        {
+                            gerund = "fracturing";
+                        }
+                    }
+                    else
+                    {
+                        gerund = "tearing";
+                    }
+                    break;
+                case StressResult.Shear_CutThrough:
+
+                    if (tlInjury.IsSoft())
+                    {
+                        gerund = "tearing apart";
+                    }
+                    else
+                    {
+                        gerund = tlInjury.IsChip() ? "tearing through" : "shattering";
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            return gerund;
+        }
+
+        string GetPhrase(ITissueLayerInjury tlInjury)
+        {
+            var gerund = GetGerund(tlInjury);
+            return string.Format("{0} the {1}", gerund, tlInjury.Layer.Class.Name);
+        }
+
+        string GetPhrase(IBodyPartInjury bpInjury)
+        {
+            var injuries = bpInjury.TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
+            if (injuries.Any())
+            {
+                var phrases = injuries
+                    .Select(injury =>
+                    {
+                        var remaining = injuries.SkipWhile(x => x != injury);
+                        var grouped = remaining.TakeWhile(x => GetPhrase(x).Equals(GetPhrase(injury)));
+                        if (grouped.Last() == injury)
+                        {
+                            return injury;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    })
+                    .Where(x => x != null)
+                    .Select(x => GetPhrase(x))
+                    .ToList();
+                if (phrases.Count() > 1)
+                {
+                    var last = phrases.Last();
+                    phrases[phrases.Count() - 1] = string.Format("and {0}", last);
+                }
+                return string.Format(", {0}!", string.Join(", ", phrases));
+            }
+            else
+            {
+                return ", but the attack glances away.";
+            }
         }
     }
 }

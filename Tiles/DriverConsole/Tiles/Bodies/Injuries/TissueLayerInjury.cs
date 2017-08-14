@@ -13,8 +13,9 @@ namespace Tiles.Bodies.Injuries
         ITissueLayer Layer { get; }
         MaterialStrikeResult StrikeResult { get; }
 
-        string Gerund { get; }
-        string GetPhrase();
+        bool IsChip();
+        bool IsSoft();
+        bool IsVascular();
 
         double WoundArea { get; }
 
@@ -34,82 +35,6 @@ namespace Tiles.Bodies.Injuries
             StrikeResult = strikeResult;
         }
 
-        // TODO - move to action reporter
-        #region Language Generation
-        // TODO - move to action reporter
-        public string GetPhrase()
-        {
-            return string.Format("{0} the {1}", Gerund, Layer.Class.Name);
-        }
-
-        // TODO - move to action reporter
-        public string Gerund
-        {
-            get
-            {
-                var gerund = "";
-                switch (StrikeResult.StressResult)
-                {
-                    case StressResult.None:
-                        gerund = "stopping at";
-                        break;
-                    case StressResult.Impact_Dent:
-                        gerund = IsVascular() ? "bruising" : "denting";
-                        break;
-                    case StressResult.Impact_Bypass:
-                        gerund = IsVascular() ? "bruising" : "denting";
-                        break;
-                    case StressResult.Impact_InitiateFracture:
-                        if (IsChip()) gerund = "chipping";
-                        else
-                        {
-                            gerund = IsSoft() ? "tearing" : "fracturing";
-                        }
-                        break;
-                    case StressResult.Impact_CompleteFracture:
-                        if (IsChip()) gerund = "chipping";
-                        else
-                        {
-                            gerund = IsSoft() ? "tearing apart" : "shattering";
-                        }
-                        break;
-                    case StressResult.Shear_Dent:
-                        gerund = "denting";
-                        break;
-                    case StressResult.Shear_Cut:
-                        if (!IsSoft())
-                        {
-                            if (IsChip()) gerund = "chipping";
-                            else
-                            {
-                                gerund = "fracturing";
-                            }
-                        }
-                        else
-                        {
-                            gerund = "tearing";
-                        }
-                        break;
-                    case StressResult.Shear_CutThrough:
-
-                        if (IsSoft())
-                        {
-                            gerund = "tearing apart";
-                        }
-                        else
-                        {
-                            gerund = IsChip() ? "tearing through" : "shattering";
-                        }
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-
-                return gerund;
-            }
-        }
-        #endregion
-
         public double WoundArea
         {
             get
@@ -128,12 +53,12 @@ namespace Tiles.Bodies.Injuries
             return StrikeResult.ContactArea <= maxCa;
         }
 
-        private bool IsSoft()
+        public bool IsSoft()
         {
             return Layer.Material.IsSoft(StrikeResult.StressMode);
         }
 
-        private bool IsVascular()
+        public bool IsVascular()
         {
             return Layer.IsVascular();
         }
