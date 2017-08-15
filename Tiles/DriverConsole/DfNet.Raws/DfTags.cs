@@ -155,6 +155,7 @@ namespace DfNet.Raws
             public const string SOLID_DENSITY = "SOLID_DENSITY";
 
             public const string GRASP = "GRASP";
+            public const string STANCE = "STANCE";
 
             public const string HEAD = "HEAD";
             public const string LIMB = "LIMB";

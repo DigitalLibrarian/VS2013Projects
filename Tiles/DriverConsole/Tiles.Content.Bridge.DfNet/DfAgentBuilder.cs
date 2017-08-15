@@ -310,6 +310,8 @@ namespace Tiles.Content.Bridge.DfNet
                         t.IsSingleWord(DfTags.MiscTags.LIMB)
                      || t.IsSingleWord(DfTags.MiscTags.HEAD)
                      || t.IsSingleWord(DfTags.MiscTags.DIGIT)
+                     || t.IsSingleWord(DfTags.MiscTags.GRASP)
+                     || t.IsSingleWord(DfTags.MiscTags.STANCE)
                      ),
                 Moves = new List<CombatMove>(),
                 Categories = categories.Distinct().ToList(),
