@@ -63,8 +63,8 @@ namespace Tiles.Bodies.Injuries
                     {
                         Builder.AddLayer(
                             tissueLayer.Material, 
-                            tissueLayer.EffectiveThickness,
-                            tissueLayer.EffectiveVolume, 
+                            tissueLayer.Thickness,
+                            tissueLayer.Volume, 
                             tissueLayer);
                         tlParts.Add(tissueLayer, targetPart);
                     }

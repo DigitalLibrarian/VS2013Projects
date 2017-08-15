@@ -21,11 +21,8 @@ namespace Tiles.Bodies
         double Thickness { get; }
         double Volume { get; }
 
-         double WoundAreaRatio { get; }
-         double PenetrationRatio { get; }
-
-        double EffectiveThickness { get; }
-        double EffectiveVolume { get; }
+        double WoundAreaRatio { get; }
+        double PenetrationRatio { get; }
 
         string Name { get; }
 

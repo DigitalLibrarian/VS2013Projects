@@ -22,9 +22,6 @@ namespace Tiles.Bodies
         public double WoundAreaRatio { get; private set; }
         public double PenetrationRatio { get; private set; }
 
-        public double EffectiveThickness { get { return Thickness * (1d - PenetrationRatio); } }
-        public double EffectiveVolume { get { return Volume * (1d - WoundAreaRatio); } }
-
         public TissueLayer(ITissueLayerClass layerClass, double thickness, double volume)
         {
             Class = layerClass;
@@ -36,7 +33,7 @@ namespace Tiles.Bodies
 
         public bool IsPulped()
         {
-            return Damage.IsPulped() || (EffectiveThickness <= 0d && EffectiveVolume <= 0d);
+            return Damage.IsPulped() || (PenetrationRatio >= 1d && WoundAreaRatio >= 1d);
         }
 
         public bool IsVascular()

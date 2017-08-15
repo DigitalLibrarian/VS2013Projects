@@ -59,11 +59,15 @@ namespace Tiles.ScreensImpl.SiteFactories
             return engineAgentClass;
         }
 
-        public IAgent CreateCreatureAgent(IAtlas atlas, string name, string caste, Vector3 pos)
+        public IAgent CreateCreatureAgent(IAtlas atlas, string name, string caste, Vector3 pos, IAgentCommandPlanner planner = null)
         {
             var agentContent = DfAgentFactory.Create(name, caste);
             var engineAgentClass = ContentMapper.Map(agentContent);
-            return AgentFactory.Create(atlas, engineAgentClass,pos, DefaultPlanner);
+            if (planner == null)
+            {
+                planner = DefaultPlanner;
+            }
+            return AgentFactory.Create(atlas, engineAgentClass,pos, planner);
         }
 
         public IEnumerable<string> GetCreatureNames()

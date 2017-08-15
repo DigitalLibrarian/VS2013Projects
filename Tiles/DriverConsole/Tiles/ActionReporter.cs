@@ -171,7 +171,7 @@ namespace Tiles
                     }
                     break;
                 case StressResult.Shear_Dent:
-                    gerund = "denting";
+                    gerund = tlInjury.IsVascular() ? "bruising" : "denting";
                     break;
                 case StressResult.Shear_Cut:
                     if (!tlInjury.IsSoft())
@@ -213,7 +213,7 @@ namespace Tiles
 
         string GetPhrase(IBodyPartInjury bpInjury)
         {
-            var injuries = bpInjury.TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
+            var injuries = bpInjury.TissueLayerInjuries;//.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
             if (injuries.Any())
             {
                 var phrases = injuries
