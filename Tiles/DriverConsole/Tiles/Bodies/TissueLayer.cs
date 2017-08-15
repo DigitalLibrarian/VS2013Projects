@@ -33,7 +33,7 @@ namespace Tiles.Bodies
 
         public bool IsPulped()
         {
-            return Damage.IsPulped() || (PenetrationRatio >= 1d && WoundAreaRatio >= 1d);
+            return Damage.IsPulped() && (PenetrationRatio >= 1d && WoundAreaRatio >= 1d);
         }
 
         public bool IsVascular()
@@ -43,7 +43,7 @@ namespace Tiles.Bodies
 
         public void AddInjury(ITissueLayerInjury injury)
         {
-            WoundAreaRatio += injury.StrikeResult.ContactAreaRatio;
+            WoundAreaRatio += injury.WoundArea;
             WoundAreaRatio = System.Math.Min(WoundAreaRatio, 1d);
             WoundAreaRatio = System.Math.Max(WoundAreaRatio, 0d);
 

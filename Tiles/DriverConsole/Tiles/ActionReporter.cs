@@ -148,7 +148,7 @@ namespace Tiles
             switch (tlInjury.StrikeResult.StressResult)
             {
                 case StressResult.None:
-                    gerund = "stopping at";
+                    gerund = "glancing off";
                     break;
                 case StressResult.Impact_Dent:
                     gerund = tlInjury.IsVascular() ? "bruising" : "denting";
@@ -213,7 +213,12 @@ namespace Tiles
 
         string GetPhrase(IBodyPartInjury bpInjury)
         {
-            var injuries = bpInjury.TissueLayerInjuries;//.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
+            var injuries = bpInjury.TissueLayerInjuries;
+            if (injuries.Count() > 1)
+            {
+                injuries = bpInjury.TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
+            }
+
             if (injuries.Any())
             {
                 var phrases = injuries

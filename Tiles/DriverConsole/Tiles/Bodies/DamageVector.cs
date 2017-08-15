@@ -39,7 +39,7 @@ namespace Tiles.Bodies
         public virtual bool IsPulped() 
         { 
             return EffectFraction.AsDouble() >= 1d
-                || DentFraction.AsDouble() >= 2.5d
+                || DentFraction.AsDouble() >= 1d
                 || CutFraction.AsDouble() >= 1d;
         }
 
