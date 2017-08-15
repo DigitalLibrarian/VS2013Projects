@@ -25,6 +25,7 @@ namespace Tiles.Bodies.Injuries
             get
             {
                 if (BodyPart.Class.IsInternal) return false;
+                if (!BodyPart.Class.CanBeAmputated) return false;
 
                 var connectiveLayers = BodyPart.Tissue.TissueLayers
                     .Where(x => x.Class.IsConnective);
