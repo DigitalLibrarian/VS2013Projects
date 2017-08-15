@@ -43,15 +43,18 @@ namespace Tiles.Bodies
 
         public void AddInjury(ITissueLayerInjury injury)
         {
-            WoundAreaRatio += injury.WoundArea;
-            WoundAreaRatio = System.Math.Min(WoundAreaRatio, 1d);
-            WoundAreaRatio = System.Math.Max(WoundAreaRatio, 0d);
+            if (injury.StrikeResult.StressResult != StressResult.None)
+            {
+                WoundAreaRatio += injury.StrikeResult.ContactAreaRatio;
+                WoundAreaRatio = System.Math.Min(WoundAreaRatio, 1d);
+                WoundAreaRatio = System.Math.Max(WoundAreaRatio, 0d);
 
-            PenetrationRatio += injury.StrikeResult.PenetrationRatio;
-            PenetrationRatio = System.Math.Min(PenetrationRatio, 1d);
-            PenetrationRatio = System.Math.Max(PenetrationRatio, 0d);
+                PenetrationRatio += injury.StrikeResult.PenetrationRatio;
+                PenetrationRatio = System.Math.Min(PenetrationRatio, 1d);
+                PenetrationRatio = System.Math.Max(PenetrationRatio, 0d);
 
-            Damage.Add(injury.GetDamage());
+                Damage.Add(injury.GetDamage());
+            }
         }
     }
 }
