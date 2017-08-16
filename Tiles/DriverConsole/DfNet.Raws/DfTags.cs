@@ -123,8 +123,11 @@ namespace DfNet.Raws
             public const string TISSUE_NAME = "TISSUE_NAME";
 
             public const string VASCULAR = "VASCULAR";
+            public const string PAIN_RECEPTORS = "PAIN_RECEPTORS";
+            public const string HEALING_RATE = "HEALING_RATE";
             public const string CONNECTS = "CONNECTS";
             public const string COSMETIC = "COSMETIC";
+            public const string ARTERIES = "ARTERIES";
             public const string RELATIVE_THICKNESS = "RELATIVE_THICKNESS";
             public const string THICKENS_ON_STRENGTH = "THICKENS_ON_STRENGTH";
             public const string THICKENS_ON_ENERGY_STORAGE = "THICKENS_ON_ENERGY_STORAGE";

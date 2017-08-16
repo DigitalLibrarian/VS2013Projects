@@ -247,10 +247,13 @@ namespace Tiles.Content.Bridge.DfNet
                             Material = GetTissueMaterial(tisName),
                             RelativeThickness = thickness,
                             VascularRating = tissueTemplate.VascularRating,
+                            HealingRate = tissueTemplate.HealingRate,
+                            PainReceptors = tissueTemplate.PainReceptors,
                             IsCosmetic = tissueTemplate.IsCosmetic,
                             IsConnective = tissueTemplate.IsConnective,
                             ThickensOnStrength = tissueTemplate.ThickensOnStrength,
-                            ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage
+                            ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage,
+                            HasArteries = tissueTemplate.HasArteries
                         });
                     }
                 }
@@ -265,10 +268,13 @@ namespace Tiles.Content.Bridge.DfNet
                             Material = GetTissueMaterial(tisName),
                             RelativeThickness = tissueTemplate.RelativeThickness,
                             VascularRating = tissueTemplate.VascularRating,
+                            HealingRate = tissueTemplate.HealingRate,
+                            PainReceptors = tissueTemplate.PainReceptors,
                             IsCosmetic = tissueTemplate.IsCosmetic,
                             IsConnective = tissueTemplate.IsConnective,
                             ThickensOnStrength = tissueTemplate.ThickensOnStrength,
-                            ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage
+                            ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage,
+                            HasArteries = tissueTemplate.HasArteries
                         });
                     }
                 }

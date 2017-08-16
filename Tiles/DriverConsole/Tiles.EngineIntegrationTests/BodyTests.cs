@@ -257,6 +257,56 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void DwarfHeadSkinHealingRate()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.AreEqual(100, layer.Class.HealingRate);
+        }
+
+        [TestMethod]
+        public void DwarfHeadSkinPainReceptors()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.AreEqual(5, layer.Class.PainReceptors);
+        }
+
+
+        [TestMethod]
+        public void DwarfHeadFatHasArteries()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.IsFalse(layer.Class.HasArteries);
+        }
+
+        [TestMethod]
+        public void DwarfHeadMuscleHasArteries()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
+            Assert.IsTrue(layer.Class.HasArteries);
+        }
+
+        [TestMethod]
+        public void DwarfHeadFatPainReceptors()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("head"));
+            var layer = bp.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
+            Assert.AreEqual(5, layer.Class.PainReceptors);
+        }
+        [TestMethod]
         public void DwarfHeadContactArea()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);

@@ -13,9 +13,12 @@ namespace Tiles.Content.Bridge.DfNet
         public bool IsConnective { get; set; }
         public bool IsCosmetic { get; set; }
         public int VascularRating { get; set; }
+        public int PainReceptors { get; set; }
+        public int HealingRate { get; set; }
         public int RelativeThickness { get; set; }
         public bool ThickensOnStrength { get; set; }
         public bool ThickensOnEnergyStorage { get; set; }
+        public bool HasArteries { get; set; }
     }
 
     public interface IDfTissueTemplateFactory
@@ -52,43 +55,9 @@ namespace Tiles.Content.Bridge.DfNet
 
             var matTags = cTags.GetRange(startIndex, endIndex - startIndex).ToList();
 
-            /*
-            foreach (var createMatTag in matTags.Where(t => t.Name.Equals(DfTags.MiscTags.TISSUE_MATERIAL)).ToList())
-            {
-                var matStrat = createMatTag.GetParam(0);
-                //[TISSUE_MATERIAL:LOCAL_CREATURE_MAT:WOOD]
-                if (matStrat.Equals("LOCAL_CREATURE_MAT"))
-                {
-                    var matName = createMatTag.GetParam(1);
-                    var cMatTempTag = creatureDf.Tags.Single(
-                        t => t.Name.Equals(DfTags.MiscTags.USE_MATERIAL_TEMPLATE)
-                                && t.GetParam(0).Equals(matName));
-                    var matTempName = cMatTempTag.GetParam(1);
-                    var matTempDf = Store.Get(DfTags.MATERIAL_TEMPLATE, matTempName);
-                    var matTempTags = matTempDf.Tags.Skip(1).ToList();
-                    matTags.InsertRange(0, matTempTags);
-                }
-                else if (matStrat.Equals("INORGANIC"))
-                {
-                    var inorgName = createMatTag.GetParam(1);
-                    var inorgDf = _CreateInorganicDf(inorgName);
-                    matTags.InsertRange(0, inorgDf.Tags.Skip(1));
-                }
-                else if (matStrat.Equals("MUD"))
-                {
-                    /// grr
-                    matTags.InsertRange(0, GetDefaultMaterialPropertyTags());
-                }
-                else
-                {
-                    throw new NotImplementedException(string.Format("Unknown tissue inclusion strategy {0}", createMatTag.ToString()));
-                }
-            }
-            */
             var tisO = new DfObject(matTags.ToArray());
             return Common(tisO, tisName);
         }
-
 
         public DfTissueTemplate Common(DfObject df, string tissueName)
         {
@@ -103,6 +72,12 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.VASCULAR:
                         template.VascularRating = int.Parse(tag.GetParam(0));
                         break;
+                    case DfTags.MiscTags.PAIN_RECEPTORS:
+                        template.PainReceptors = int.Parse(tag.GetParam(0));
+                        break;
+                    case DfTags.MiscTags.HEALING_RATE:
+                        template.HealingRate = int.Parse(tag.GetParam(0));
+                        break;
                     case DfTags.MiscTags.CONNECTS:
                         template.IsConnective = true;
                         break;
@@ -111,6 +86,9 @@ namespace Tiles.Content.Bridge.DfNet
                         break;
                     case DfTags.MiscTags.COSMETIC:
                         template.IsCosmetic = true;
+                        break;
+                    case DfTags.MiscTags.ARTERIES:
+                        template.HasArteries = true;
                         break;
                     case DfTags.MiscTags.THICKENS_ON_STRENGTH:
                         template.ThickensOnStrength = true;

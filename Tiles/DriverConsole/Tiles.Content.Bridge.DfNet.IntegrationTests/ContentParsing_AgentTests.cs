@@ -50,10 +50,14 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsFalse(skin.IsCosmetic);
             Assert.IsTrue(skin.IsConnective);
             Assert.AreEqual(1, skin.VascularRating);
+            Assert.AreEqual(100, skin.HealingRate);
+            Assert.AreEqual(5, skin.PainReceptors);
             var fat = tissueLayers.Single(x => x.Material.Name.Equals("fat"));
             Assert.IsFalse(fat.IsCosmetic);
+            Assert.IsFalse(fat.HasArteries);
             var muscle = tissueLayers.Single(x => x.Material.Name.Equals("muscle"));
             Assert.IsFalse(muscle.IsCosmetic);
+            Assert.IsTrue(muscle.HasArteries);
         }
 
         [TestMethod]

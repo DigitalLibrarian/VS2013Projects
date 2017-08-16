@@ -255,16 +255,16 @@ namespace Tiles.Content.Map
             var layers = new List<EngineBodies.ITissueLayerClass>();
             foreach (var layer in tissue.Layers)
             {
-                layers.Add(new EngineBodies.TissueLayerClass(
-                    Map(layer.Material),
-                    layer.RelativeThickness
-                    )
+                layers.Add(new EngineBodies.TissueLayerClass( Map(layer.Material), layer.RelativeThickness)
                     {
                         IsCosmetic = layer.IsCosmetic,
                         IsConnective = layer.IsConnective,
                         VascularRating = layer.VascularRating,
+                        PainReceptors = layer.PainReceptors,
+                        HealingRate = layer.HealingRate,
                         ThickensOnStrength = layer.ThickensOnStrength,
-                        ThickensOnEnergyStorage = layer.ThickensOnEnergyStorage
+                        ThickensOnEnergyStorage = layer.ThickensOnEnergyStorage,
+                        HasArteries = layer.HasArteries
                     });
             }
 

@@ -14,9 +14,12 @@ namespace Tiles.Bodies
         bool IsCosmetic { get; }
         bool IsConnective { get; }
         int VascularRating { get; }
-        bool ThickensOnStrength { get; }
+        int PainReceptors { get; }
+        int HealingRate { get; }
 
+        bool ThickensOnStrength { get; }
         bool ThickensOnEnergyStorage { get;}
+        bool HasArteries { get; }
 
         string Name { get; }
     }

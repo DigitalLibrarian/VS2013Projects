@@ -14,8 +14,11 @@ namespace Tiles.Bodies
         public bool IsCosmetic { get; set; }
         public bool IsConnective { get; set; }
         public int VascularRating { get; set; }
+        public int PainReceptors { get; set; }
+        public int HealingRate { get; set; }
         public bool ThickensOnStrength { get; set; }
         public bool ThickensOnEnergyStorage { get; set; }
+        public bool HasArteries { get; set; }
 
         public string Name { get { return Material.Name; } }
 
@@ -24,6 +27,5 @@ namespace Tiles.Bodies
             Material = material;
             RelativeThickness = relThick;
         }
-
     }
 }
