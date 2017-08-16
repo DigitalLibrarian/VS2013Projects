@@ -73,7 +73,6 @@ namespace Tiles.ScreensImpl.SiteFactories
 
         Vector3? FindSpawnSitePos(ISite s)
         {
-            var targetSiteZ = -s.Box.Min.Z;
             var box = new Box3(
                 Vector3.Zero,
                 new Vector3(s.Box.Size.X, s.Box.Size.Y, 1)
