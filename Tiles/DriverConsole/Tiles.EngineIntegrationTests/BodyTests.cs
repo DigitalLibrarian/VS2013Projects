@@ -521,6 +521,17 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("scratch"));
             Assert.AreEqual(25d, moveClass.MaxPenetration, 1d);
         }
+
+        [TestMethod]
+        public void Dwarf_TotalVascular()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var total = dwarf.Body.Parts.Sum(x => x.Tissue.TissueLayers.Sum(y => y.Class.VascularRating));
+            Assert.Fail("Find out what the correct answer is");
+            Assert.AreEqual(666, total);
+        }
+
         [TestMethod]
         public void DwarfTotalBodyPartRelativeSize()
         {

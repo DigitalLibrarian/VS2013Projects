@@ -12,6 +12,45 @@ namespace Tiles.Tests.Bodies
     [TestClass]
     public class BodyTests
     {
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [TestMethod]
+        public void SizeMustBePositive()
+        {
+            new Body(new Mock<IBodyClass>().Object, new List<IBodyPart>(), 0);
+        }
+
+        [TestMethod]
+        public void IsDead_NoParts()
+        {
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { }, 10);
+            Assert.IsTrue(body.IsDead);
+        }
+
+        [TestMethod]
+        public void IsDead_PrinciplePartIsEffectivelyPulped()
+        {
+            var partMock = new Mock<IBodyPart>();
+            partMock.Setup(x => x.IsEffectivelyPulped()).Returns(true);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock.Object }, 10);
+            Assert.IsTrue(body.IsDead);
+
+            partMock.Setup(x => x.IsEffectivelyPulped()).Returns(false);
+            Assert.IsFalse(body.IsDead);
+        }
+
+        [TestMethod]
+        public void IsDead_NoBlood()
+        {
+            var partMock = new Mock<IBodyPart>();
+            partMock.Setup(x => x.IsEffectivelyPulped()).Returns(false);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock.Object }, 10);
+            body.BloodFraction.Numerator = 0;
+            Assert.IsTrue(body.IsDead);
+
+            body.BloodFraction.Numerator = 1;
+            Assert.IsFalse(body.IsDead);
+        }
+
         [TestMethod]
         public void WrestlingProperties()
         {
@@ -60,7 +99,7 @@ namespace Tiles.Tests.Bodies
             var partMock2 = new Mock<IBodyPart>();
             var partMock3 = new Mock<IBodyPart>();
 
-            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 0);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 1);
 
             body.Amputate(partMock2.Object);
 
@@ -82,7 +121,7 @@ namespace Tiles.Tests.Bodies
             partMock4.Setup(x => x.Parent).Returns(partMock3.Object);
             partMock5.Setup(x => x.Parent).Returns(partMock4.Object);
 
-            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object, partMock4.Object, partMock5.Object }, 0);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object, partMock4.Object, partMock5.Object }, 1);
 
             body.Amputate(partMock2.Object);
 
@@ -99,7 +138,7 @@ namespace Tiles.Tests.Bodies
 
             var unknownPartMock = new Mock<IBodyPart>();
 
-            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 0);
+            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock1.Object, partMock2.Object, partMock3.Object }, 1);
 
             body.Amputate(unknownPartMock.Object);
 

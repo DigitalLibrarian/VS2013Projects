@@ -79,16 +79,13 @@ namespace Tiles.Tests.Agents
             AtlasMock.Verify(x => x.GetTileAtPos(It.IsAny<Vector3>()), Times.Never());
         }
 
-        [Ignore]
         [TestMethod]
         public void IsDead()
         {
-            BodyMock.Setup(x => x.Parts)
-                .Returns(new List<IBodyPart>{
-                    new Mock<IBodyPart>().Object
-                });
+            BodyMock.Setup(x => x.IsDead).Returns(false);
             Assert.IsFalse(Agent.IsDead);
 
+            BodyMock.Setup(x => x.IsDead).Returns(true);
             Assert.IsTrue(Agent.IsDead);
         }
 

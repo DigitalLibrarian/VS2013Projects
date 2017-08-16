@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tiles.Agents.Combat;
+using Tiles.Math;
 
 namespace Tiles.Bodies
 {
@@ -18,7 +19,19 @@ namespace Tiles.Bodies
         public IBodyClass Class { get; private set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
 
+        public Fraction BloodFraction { get; set; }
+
         Dictionary<string, int> Attributes { get; set; }
+
+        public bool IsDead
+        {
+            get
+            {
+                return !Parts.Any()
+                    || Parts.First().IsEffectivelyPulped()
+                    || BloodFraction.AsDouble() <= 0d;
+            }
+        }
 
         public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size)
             : this(bodyClass, parts, size, Enumerable.Empty<ICombatMoveClass>())
@@ -27,11 +40,20 @@ namespace Tiles.Bodies
         }
         public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size, IEnumerable<ICombatMoveClass> moves)
         {
+            if (size <= 0d)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("size must be positive"));
+            }
+
             Parts = parts;
             Size = size;
             Moves = moves;
             Attributes = new Dictionary<string, int>();
             Class = bodyClass;
+
+            // TODO - find out the correct value
+            var bloodCount = (int)Size;
+            BloodFraction = new Fraction(bloodCount, bloodCount);
         }
 
         public void Amputate(IBodyPart part)
