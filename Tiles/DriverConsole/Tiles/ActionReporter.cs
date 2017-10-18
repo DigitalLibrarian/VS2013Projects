@@ -151,32 +151,32 @@ namespace Tiles
                     gerund = "glancing off";
                     break;
                 case StressResult.Impact_Dent:
-                    gerund = tlInjury.IsVascular() ? "bruising" : "denting";
+                    gerund = tlInjury.IsVascular ? "bruising" : "denting";
                     break;
                 case StressResult.Impact_Bypass:
-                    gerund = tlInjury.IsVascular() ? "bruising" : "denting";
+                    gerund = tlInjury.IsVascular ? "bruising" : "denting";
                     break;
                 case StressResult.Impact_InitiateFracture:
-                    if (tlInjury.IsChip()) gerund = "chipping";
+                    if (tlInjury.IsChip) gerund = "chipping";
                     else
                     {
-                        gerund = tlInjury.IsSoft() ? "tearing" : "fracturing";
+                        gerund = tlInjury.IsSoft ? "tearing" : "fracturing";
                     }
                     break;
                 case StressResult.Impact_CompleteFracture:
-                    if (tlInjury.IsChip()) gerund = "chipping";
+                    if (tlInjury.IsChip) gerund = "chipping";
                     else
                     {
-                        gerund = tlInjury.IsSoft() ? "tearing apart" : "shattering";
+                        gerund = tlInjury.IsSoft ? "tearing apart" : "shattering";
                     }
                     break;
                 case StressResult.Shear_Dent:
-                    gerund = tlInjury.IsVascular() ? "bruising" : "denting";
+                    gerund = tlInjury.IsVascular ? "bruising" : "denting";
                     break;
                 case StressResult.Shear_Cut:
-                    if (!tlInjury.IsSoft())
+                    if (!tlInjury.IsSoft)
                     {
-                        if (tlInjury.IsChip()) gerund = "chipping";
+                        if (tlInjury.IsChip) gerund = "chipping";
                         else
                         {
                             gerund = "fracturing";
@@ -189,13 +189,13 @@ namespace Tiles
                     break;
                 case StressResult.Shear_CutThrough:
 
-                    if (tlInjury.IsSoft())
+                    if (tlInjury.IsSoft)
                     {
                         gerund = "tearing apart";
                     }
                     else
                     {
-                        gerund = tlInjury.IsChip() ? "tearing through" : "shattering";
+                        gerund = tlInjury.IsChip ? "tearing through" : "shattering";
                     }
                     break;
                 default:

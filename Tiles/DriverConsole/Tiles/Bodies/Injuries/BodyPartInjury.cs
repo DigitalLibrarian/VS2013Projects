@@ -35,7 +35,7 @@ namespace Tiles.Bodies.Injuries
                     return false;
                 }
 
-                if (!connectiveLayers.Any(x => !x.IsPulped()))
+                if (!connectiveLayers.Any(x => !x.IsPulped))
                 {
                     return true;
                 }

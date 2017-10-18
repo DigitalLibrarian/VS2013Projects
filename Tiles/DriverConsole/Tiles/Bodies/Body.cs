@@ -28,7 +28,7 @@ namespace Tiles.Bodies
             get
             {
                 return !Parts.Any()
-                    || Parts.First().IsEffectivelyPulped()
+                    || Parts.First().IsEffectivelyPulped
                     || BloodFraction.AsDouble() <= 0d;
             }
         }

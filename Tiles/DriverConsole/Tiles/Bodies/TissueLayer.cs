@@ -31,20 +31,35 @@ namespace Tiles.Bodies
             Damage = new DamageVector();
         }
 
-        public bool IsPulped()
+        public bool IsPulped
         {
-            return Damage.IsPulped() && (PenetrationRatio >= 1d && WoundAreaRatio >= 1d);
+            get
+            {
+                return Damage.IsPulped && (PenetrationRatio >= 1d && WoundAreaRatio >= 1d);
+            }
         }
 
-        public bool IsVascular()
+        public bool IsPristine
         {
-            return Class.VascularRating > 0;
-        }   
+            get
+            {
+                return Damage.IsPristine && (PenetrationRatio <= 0d && WoundAreaRatio <= 0d);
+            }
+        }
+
+        public bool IsVascular
+        {
+            get
+            {
+                return Class.VascularRating > 0;
+            }   
+        }
 
         public void AddInjury(ITissueLayerInjury injury)
         {
             if (injury.StrikeResult.StressResult != StressResult.None)
             {
+                // These might be better as a live sum
                 WoundAreaRatio += injury.StrikeResult.ContactAreaRatio;
                 WoundAreaRatio = System.Math.Min(WoundAreaRatio, 1d);
                 WoundAreaRatio = System.Math.Max(WoundAreaRatio, 0d);

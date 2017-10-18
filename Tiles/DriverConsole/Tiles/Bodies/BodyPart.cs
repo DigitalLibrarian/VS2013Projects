@@ -74,36 +74,52 @@ namespace Tiles.Bodies
             part.GraspedBy = null;
         }
 
-        public double GetMass()
+        public double Mass
         {
-            // TODO - test with invertebrates to verify this
-            // body part mass just uses the inner most layer of tissue's density.  Kinda silly
-            var dense = Tissue.TissueLayers.First();
-            var density = (double)dense.Material.SolidDensity/100d;
-            return density * Size;
-        }
-        
-        public double GetContactArea()
-        {
-            return System.Math.Pow((Size), 0.666d);
-        }
-        public double GetThickness()
-        {
-            return (int)System.Math.Pow((Size * 10000d), 0.333d);
+            get
+            {
+                // TODO - test with invertebrates to verify this
+                // body part mass just uses the inner most layer of tissue's density.  Kinda silly
+                var dense = Tissue.TissueLayers.First();
+                var density = (double)dense.Material.SolidDensity / 100d;
+                return density * Size;
+            }
         }
 
-        public bool IsDamaged()
+        public double ContactArea
         {
-            return Tissue.TissueLayers
-                .Where(x => !x.Class.IsCosmetic)
-                .Any(x => !x.Damage.IsPristine());
+            get
+            {
+                return System.Math.Pow((Size), 0.666d);
+            }
         }
 
-        public bool IsEffectivelyPulped()
+        public double Thickness
         {
-            return Tissue.TissueLayers
-                .Where(x => !x.Class.IsCosmetic)
-                .All(x => x.IsPulped());
+            get
+            {
+                return (int)System.Math.Pow((Size * 10000d), 0.333d);
+            }
+        }
+
+        public bool IsDamaged
+        {
+            get
+            {
+                return Tissue.TissueLayers
+                    .Where(x => !x.Class.IsCosmetic)
+                    .Any(x => !x.IsPristine);
+            }
+        }
+
+        public bool IsEffectivelyPulped
+        {
+            get
+            {
+                return Tissue.TissueLayers
+                    .Where(x => !x.Class.IsCosmetic)
+                    .All(x => x.IsPulped);
+            }
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Tiles.Bodies.Injuries
 
                 var tlBodyPart = tlParts[tissueLayer];
 
-                var totalThick = tlBodyPart.GetThickness();
+                var totalThick = tlBodyPart.Thickness;
                 double ttFact = (double)(tissueLayer.Thickness) / (double)(totalThick);
                 var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult);
 

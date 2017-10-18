@@ -43,7 +43,7 @@ namespace Tiles.Bodies.Injuries
                 Builder.SetStressMode(stressMode);
                 Builder.SetMomentum(momentum);
                 Builder.SetStrikerContactArea(contactArea);
-                Builder.SetStrickenContactArea(targetPart.GetContactArea());
+                Builder.SetStrickenContactArea(targetPart.ContactArea);
                 Builder.SetMaxPenetration(maxPenetration);
                 Builder.SetStrikerMaterial(strikerMat);
                 Builder.SetStrikerSharpness(sharpness);
@@ -95,7 +95,7 @@ namespace Tiles.Bodies.Injuries
 
         private bool IsSuitable(ITissueLayer layer)
         {
-            return !layer.Class.IsCosmetic && !layer.IsPulped();
+            return !layer.Class.IsCosmetic && !layer.IsPulped;
         }
     }
 }

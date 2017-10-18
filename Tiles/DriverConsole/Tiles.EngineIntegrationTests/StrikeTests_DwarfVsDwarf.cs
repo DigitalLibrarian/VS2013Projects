@@ -372,7 +372,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
             var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            Assert.AreEqual(47d, targetBodyPart.GetContactArea(), 0.1d);
+            Assert.AreEqual(47d, targetBodyPart.ContactArea, 0.1d);
             Assert.AreEqual(19.5d, move.Class.ContactArea, 0.1d);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
@@ -426,7 +426,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass);
 
-            Assert.AreEqual(104, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(104, (int)targetBodyPart.ContactArea);
             Assert.AreEqual(19, (int)move.Class.ContactArea);
 
             var layerResult = report.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
@@ -475,7 +475,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass);
 
-            Assert.AreEqual(35, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(35, (int)targetBodyPart.ContactArea);
             Assert.AreEqual(19, (int)move.Class.ContactArea);
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
@@ -501,7 +501,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Impact_Bypass);
 
             Assert.AreEqual(19, (int)move.Class.ContactArea);
-            Assert.AreEqual(56, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(56, (int)targetBodyPart.ContactArea);
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
             Assert.AreEqual(21, (int)skinInjury.StrikeResult.ContactArea);
@@ -523,7 +523,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass);
 
-            Assert.AreEqual(35, (int)targetBodyPart.GetContactArea());
+            Assert.AreEqual(35, (int)targetBodyPart.ContactArea);
             Assert.AreEqual(19, (int)move.Class.ContactArea);
 
             var skinInjury = report.BodyPartInjuries.First().TissueLayerInjuries.First();
@@ -545,7 +545,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Impact_Bypass,
                 StressResult.Impact_CompleteFracture);
 
-            Assert.AreEqual(4.8d, targetBodyPart.GetContactArea(), 0.1d);
+            Assert.AreEqual(4.8d, targetBodyPart.ContactArea, 0.1d);
             Assert.AreEqual(19.5d, move.Class.ContactArea, 0.01d);
 
             var layerResult = report.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
@@ -1609,7 +1609,7 @@ namespace Tiles.EngineIntegrationTests
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
             Assert.IsNotNull(targetBodyPart);
 
-            Assert.AreEqual(104.89d, targetBodyPart.GetContactArea(), 0.01d);
+            Assert.AreEqual(104.89d, targetBodyPart.ContactArea, 0.01d);
 
             var sword = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "WOOD_TEMPLATE");
             attacker.Outfit.Wield(sword);

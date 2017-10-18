@@ -56,7 +56,7 @@ namespace Tiles.Tests.Bodies.Injuries
             double partContactArea = 5d;
             var maxPen = 3;
 
-            TargetPartMock.Setup(x => x.GetContactArea())
+            TargetPartMock.Setup(x => x.ContactArea)
                 .Returns(partContactArea);
 
             var bpInjuries = new List<IBodyPartInjury>();
@@ -126,7 +126,7 @@ namespace Tiles.Tests.Bodies.Injuries
             double partContactArea = 5d;
             var maxPen = 3;
 
-            TargetPartMock.Setup(x => x.GetContactArea())
+            TargetPartMock.Setup(x => x.ContactArea)
                 .Returns(partContactArea);
 
             var bpInjuries = new List<IBodyPartInjury>();
@@ -184,7 +184,7 @@ namespace Tiles.Tests.Bodies.Injuries
             double partContactArea = 5d;
             var maxPen = 3;
 
-            TargetPartMock.Setup(x => x.GetContactArea())
+            TargetPartMock.Setup(x => x.ContactArea)
                 .Returns(partContactArea);
 
             var tissueLayer1ClassMock = new Mock<ITissueLayerClass>();
@@ -197,7 +197,7 @@ namespace Tiles.Tests.Bodies.Injuries
             tissueLayer1Mock.Setup(x => x.Volume).Returns(tissueLayer1Volume);
             tissueLayer1Mock.Setup(x => x.Thickness).Returns(tissueLayer1Thickness);
             tissueLayer1Mock.Setup(x => x.Class).Returns(tissueLayer1ClassMock.Object);
-            tissueLayer1Mock.Setup(x => x.IsPulped()).Returns(false);
+            tissueLayer1Mock.Setup(x => x.IsPulped).Returns(false);
 
             var tissueLayer2ClassMock = new Mock<ITissueLayerClass>();
             tissueLayer2ClassMock.Setup(x => x.IsCosmetic).Returns(false);
@@ -209,7 +209,7 @@ namespace Tiles.Tests.Bodies.Injuries
             tissueLayer2Mock.Setup(x => x.Volume).Returns(tissueLayer2Volume);
             tissueLayer2Mock.Setup(x => x.Thickness).Returns(tissueLayer2Thickness);
             tissueLayer2Mock.Setup(x => x.Class).Returns(tissueLayer2ClassMock.Object);
-            tissueLayer2Mock.Setup(x => x.IsPulped()).Returns(false);
+            tissueLayer2Mock.Setup(x => x.IsPulped).Returns(false);
 
             var tissueLayers = new List<ITissueLayer>{ tissueLayer1Mock.Object, tissueLayer2Mock.Object };
             TargetPartTissueMock.Setup(x => x.TissueLayers)
@@ -298,7 +298,7 @@ namespace Tiles.Tests.Bodies.Injuries
             double partContactArea = 5d;
             var maxPen = 3;
 
-            TargetPartMock.Setup(x => x.GetContactArea())
+            TargetPartMock.Setup(x => x.ContactArea)
                 .Returns(partContactArea);
 
             var tissueLayerClassMock = new Mock<ITissueLayerClass>();
@@ -369,7 +369,7 @@ namespace Tiles.Tests.Bodies.Injuries
             double partContactArea = 5d;
             var maxPen = 3;
 
-            TargetPartMock.Setup(x => x.GetContactArea())
+            TargetPartMock.Setup(x => x.ContactArea)
                 .Returns(partContactArea);
 
             var tissueLayer1ClassMock = new Mock<ITissueLayerClass>();
@@ -489,7 +489,7 @@ namespace Tiles.Tests.Bodies.Injuries
             double partContactArea = 5d;
             var maxPen = 3;
 
-            TargetPartMock.Setup(x => x.GetContactArea())
+            TargetPartMock.Setup(x => x.ContactArea)
                 .Returns(partContactArea);
 
             var tissueLayer1ClassMock = new Mock<ITissueLayerClass>();

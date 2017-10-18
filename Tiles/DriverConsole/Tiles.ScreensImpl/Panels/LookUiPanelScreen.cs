@@ -90,11 +90,11 @@ namespace Tiles.ScreensImpl.Panels
                 foreach (var bodyPart in agent.Body.Parts)
                 {
                     var items = agent.Outfit.GetItems(bodyPart);
-                    if ((!bodyPart.IsInternal && bodyPart.IsDamaged()) || items.Any())
+                    if ((!bodyPart.IsInternal && bodyPart.IsDamaged) || items.Any())
                     {
                         lines.Add(string.Format("{0}", bodyPart.Name));
 
-                        if (bodyPart.IsDamaged())
+                        if (bodyPart.IsDamaged)
                         {
                             foreach (var tlLayer in bodyPart.Tissue.TissueLayers.Reverse())
                             {

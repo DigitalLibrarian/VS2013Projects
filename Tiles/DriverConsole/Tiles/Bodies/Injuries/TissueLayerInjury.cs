@@ -13,9 +13,9 @@ namespace Tiles.Bodies.Injuries
         ITissueLayer Layer { get; }
         MaterialStrikeResult StrikeResult { get; }
 
-        bool IsChip();
-        bool IsSoft();
-        bool IsVascular();
+        bool IsChip { get; }
+        bool IsSoft { get; }
+        bool IsVascular { get; }
 
         double WoundArea { get; }
 
@@ -47,20 +47,28 @@ namespace Tiles.Bodies.Injuries
             }
         }
 
-        public bool IsChip()
+        public bool IsChip
         {
-            var maxCa = BodyPart.GetContactArea() * 0.25d;
-            return StrikeResult.ContactArea <= maxCa;
+            get
+            {
+                return StrikeResult.ContactArea <= BodyPart.ContactArea * 0.25d;
+            }
         }
 
-        public bool IsSoft()
+        public bool IsSoft
         {
-            return Layer.Material.IsSoft(StrikeResult.StressMode);
+            get
+            {
+                return Layer.Material.IsSoft(StrikeResult.StressMode);
+            }
         }
 
-        public bool IsVascular()
+        public bool IsVascular
         {
-            return Layer.IsVascular();
+            get
+            {
+                return Layer.IsVascular;
+            }
         }
 
         public IDamageVector GetDamage()

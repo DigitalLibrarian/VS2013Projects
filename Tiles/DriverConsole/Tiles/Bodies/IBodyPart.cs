@@ -52,12 +52,16 @@ namespace Tiles.Bodies
         bool IsWrestling { get; }
 
         double Size { get; }
-        double GetMass();
 
-        bool IsDamaged();
-        bool IsEffectivelyPulped();
+        bool IsDamaged { get; }
+        bool IsEffectivelyPulped { get; }
 
-        double GetContactArea();
-        double GetThickness();
+        double Mass { get; }
+        double ContactArea { get; }
+        double Thickness { get; }
+
+        //double GetMass();
+        //double GetContactArea();
+        //double GetThickness();
     }
 }

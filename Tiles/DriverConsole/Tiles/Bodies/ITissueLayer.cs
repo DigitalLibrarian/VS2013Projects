@@ -26,9 +26,10 @@ namespace Tiles.Bodies
 
         string Name { get; }
 
-        // TODO - these should be properties
-        bool IsPulped();
-        bool IsVascular();
+        bool IsPristine { get; }
+        bool IsPulped { get; }
+        bool IsVascular { get; }
+
         void AddInjury(ITissueLayerInjury injury);
     }
 }

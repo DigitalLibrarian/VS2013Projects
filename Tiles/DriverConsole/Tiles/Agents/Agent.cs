@@ -153,7 +153,7 @@ namespace Tiles.Agents
             {
                 var parts = move.Class.GetRelatedBodyParts(move.Attacker.Body);
                 double partWeight = parts
-                    .Select(p => p.GetMass())
+                    .Select(p => p.Mass)
                     .Sum();
                 double partsize = parts.Select(p => p.Size)
                     .Sum();

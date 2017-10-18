@@ -30,11 +30,11 @@ namespace Tiles.Tests.Bodies
         public void IsDead_PrinciplePartIsEffectivelyPulped()
         {
             var partMock = new Mock<IBodyPart>();
-            partMock.Setup(x => x.IsEffectivelyPulped()).Returns(true);
+            partMock.Setup(x => x.IsEffectivelyPulped).Returns(true);
             var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock.Object }, 10);
             Assert.IsTrue(body.IsDead);
 
-            partMock.Setup(x => x.IsEffectivelyPulped()).Returns(false);
+            partMock.Setup(x => x.IsEffectivelyPulped).Returns(false);
             Assert.IsFalse(body.IsDead);
         }
 
@@ -42,7 +42,7 @@ namespace Tiles.Tests.Bodies
         public void IsDead_NoBlood()
         {
             var partMock = new Mock<IBodyPart>();
-            partMock.Setup(x => x.IsEffectivelyPulped()).Returns(false);
+            partMock.Setup(x => x.IsEffectivelyPulped).Returns(false);
             var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock.Object }, 10);
             body.BloodFraction.Numerator = 0;
             Assert.IsTrue(body.IsDead);
