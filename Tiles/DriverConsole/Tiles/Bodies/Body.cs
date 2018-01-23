@@ -52,7 +52,7 @@ namespace Tiles.Bodies
             Class = bodyClass;
 
             // TODO - find out the correct value
-            var bloodCount = (int)Size;
+            var bloodCount = System.Math.Max(1, (int)Size);
             BloodFraction = new Fraction(bloodCount, bloodCount);
         }
 
