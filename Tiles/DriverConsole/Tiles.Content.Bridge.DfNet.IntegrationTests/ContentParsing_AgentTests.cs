@@ -184,5 +184,45 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             Assert.AreEqual(1, hand.Tissue.Layers.Count());
         }
+
+        [TestMethod]
+        public void Hippo_Ivory()
+        {
+            var agent = DfAgentFactory.Create("HIPPO", "MALE");
+            Assert.IsNotNull(agent);
+
+            var leftEyeTooth = agent.Body.Parts.Where(p => p.NameSingular == "left eye tooth").Single();
+            Assert.IsNotNull(leftEyeTooth);
+
+            var rightEyeTooth = agent.Body.Parts.Where(p => p.NameSingular == "right eye tooth").Single();
+            Assert.IsNotNull(rightEyeTooth);
+
+            Assert.AreEqual("ivory", rightEyeTooth.Tissue.Layers.Single().Material.Name);
+            Assert.AreEqual("ivory", leftEyeTooth.Tissue.Layers.Single().Material.Name);
+        }
+
+        [TestMethod]
+        public void Hippo_ThroatArteries()
+        {
+            var agent = DfAgentFactory.Create("HIPPO", "MALE");
+            Assert.IsNotNull(agent);
+
+            var throat = agent.Body.Parts.Single(p => p.NameSingular == "throat");
+            Assert.IsNotNull(throat);
+
+            Assert.IsTrue(throat.Tissue.Layers.Single(x => x.Material.Name.Equals("skin")).HasMajorArteries);
+        }
+
+        [TestMethod]
+        public void Hippo_HeartArteries()
+        {
+            var agent = DfAgentFactory.Create("HIPPO", "MALE");
+            Assert.IsNotNull(agent);
+
+            var heart = agent.Body.Parts.Single(p => p.NameSingular == "heart");
+            Assert.IsNotNull(heart);
+
+            Assert.IsTrue(heart.Tissue.Layers.Single().HasMajorArteries);
+        }
     }
 }

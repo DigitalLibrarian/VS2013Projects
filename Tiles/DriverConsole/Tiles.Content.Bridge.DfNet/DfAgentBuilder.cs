@@ -22,6 +22,7 @@ namespace Tiles.Content.Bridge.DfNet
         Dictionary<string, DfTissueTemplate> MatNameToTT { get; set; }
 
         List<BpRelationDefn> BpRelationDefns { get; set; }
+        List<TlOverrideDefn> TlOverrideDefns { get; set; }
 
         string Name { get; set; }
         int Symbol { get; set; }
@@ -46,6 +47,7 @@ namespace Tiles.Content.Bridge.DfNet
             MatNameToTT = new Dictionary<string, DfTissueTemplate>();
 
             BpRelationDefns = new List<BpRelationDefn>();
+            TlOverrideDefns = new List<TlOverrideDefn>();
         }
 
         #region Lookups
@@ -229,22 +231,79 @@ namespace Tiles.Content.Bridge.DfNet
             }
             return Materials[tisName];
         }
+
+        bool TlOverride_MajorArteries(string bpName, string tisName, IEnumerable<string> categories)
+        {
+            foreach (var tlOverride in TlOverrideDefns)
+            {
+                bool isStrategyHit = false;
+                switch(tlOverride.TargetStrategy)
+                {
+                    case BodyPartRelationStrategy.ByCategory:
+                        isStrategyHit = categories.Any(x => x == tlOverride.TargetStrategyParam);
+                        break;
+                    case BodyPartRelationStrategy.ByToken:
+                        isStrategyHit = bpName == tlOverride.TargetStrategyParam;
+                        break;
+                }
+
+                if(isStrategyHit)
+                {
+                    if(tlOverride.SourceTissueName == "ALL" || tlOverride.SourceTissueName == tisName)
+                    {
+                        return tlOverride.HasMajorArteries;
+                    }
+                }
+            }
+            return false;   
+        }
+
+        string TlOverride_SetTissueName(string bpName, string tisName, IEnumerable<string> categories)
+        {
+            foreach (var tlOverride in TlOverrideDefns)
+            {
+                bool isStrategyHit = false;
+                switch (tlOverride.TargetStrategy)
+                {
+                    case BodyPartRelationStrategy.ByCategory:
+                        isStrategyHit = categories.Any(x => x == tlOverride.TargetStrategyParam);
+                        break;
+                    case BodyPartRelationStrategy.ByToken:
+                        isStrategyHit = bpName == tlOverride.TargetStrategyParam;
+                        break;
+                }
+
+                if (isStrategyHit)
+                {
+                    if (tlOverride.SourceTissueName == "ALL" || tlOverride.SourceTissueName == tisName)
+                    {
+                        if (tlOverride.DestTissueName != null)
+                        {
+                            var brak = 0;
+                        }
+                        return tlOverride.DestTissueName;
+                    }
+                }
+            }
+            return null;
+        }
         
-        Tissue CreateTissueForPart(string bpName)
+        Tissue CreateTissueForPart(string bpName, IEnumerable<string> bpCategories)
         {
             var layers = new List<TissueLayer>();
 
-            foreach (var bpCat in GetBodyPartCategories(BodyPartsDefn[bpName]))
+            foreach (var bpCat in bpCategories)
             {
                 if (BodyPartCategoryTissueThickness.ContainsKey(bpCat))
                 {
-                    foreach(var tisName in BodyPartCategoryTissueThickness[bpCat].Keys)
+                    foreach(var sourceTissueName in BodyPartCategoryTissueThickness[bpCat].Keys)
                     {
-                        var tissueTemplate = MatNameToTT[tisName];
-                        var thickness = BodyPartCategoryTissueThickness[bpCat][tisName];
+                        var tissueNameOverride = TlOverride_SetTissueName(bpName, sourceTissueName, bpCategories) ?? sourceTissueName;
+                        var tissueTemplate = MatNameToTT[tissueNameOverride];
+                        var thickness = BodyPartCategoryTissueThickness[bpCat][sourceTissueName];
                         layers.Add(new TissueLayer
                         {
-                            Material = GetTissueMaterial(tisName),
+                            Material = GetTissueMaterial(tissueNameOverride),
                             RelativeThickness = thickness,
                             VascularRating = tissueTemplate.VascularRating,
                             HealingRate = tissueTemplate.HealingRate,
@@ -253,19 +312,21 @@ namespace Tiles.Content.Bridge.DfNet
                             IsConnective = tissueTemplate.IsConnective,
                             ThickensOnStrength = tissueTemplate.ThickensOnStrength,
                             ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage,
-                            HasArteries = tissueTemplate.HasArteries
+                            HasArteries = tissueTemplate.HasArteries,
+                            HasMajorArteries = TlOverride_MajorArteries(bpName, sourceTissueName, bpCategories)
                         });
                     }
                 }
 
                 if (BodyPartCategoryTissues.ContainsKey(bpCat))
                 {
-                    foreach (var tisName in BodyPartCategoryTissues[bpCat])
+                    foreach (var sourceTissueName in BodyPartCategoryTissues[bpCat])
                     {
-                        var tissueTemplate = MatNameToTT[tisName];
+                        var tissueNameOverride = TlOverride_SetTissueName(bpName, sourceTissueName, bpCategories) ?? sourceTissueName;
+                        var tissueTemplate = MatNameToTT[tissueNameOverride];
                         layers.Add(new TissueLayer
                         {
-                            Material = GetTissueMaterial(tisName),
+                            Material = GetTissueMaterial(tissueNameOverride),
                             RelativeThickness = tissueTemplate.RelativeThickness,
                             VascularRating = tissueTemplate.VascularRating,
                             HealingRate = tissueTemplate.HealingRate,
@@ -274,7 +335,8 @@ namespace Tiles.Content.Bridge.DfNet
                             IsConnective = tissueTemplate.IsConnective,
                             ThickensOnStrength = tissueTemplate.ThickensOnStrength,
                             ThickensOnEnergyStorage = tissueTemplate.ThickensOnEnergyStorage,
-                            HasArteries = tissueTemplate.HasArteries
+                            HasArteries = tissueTemplate.HasArteries,
+                            HasMajorArteries = TlOverride_MajorArteries(bpName, sourceTissueName, bpCategories)
                         });
                     }
                 }
@@ -289,9 +351,9 @@ namespace Tiles.Content.Bridge.DfNet
         {
             var singleWords = defn.Tags.Where(t => t.IsSingleWord())
                 .Select(t => t.Name).ToList();
-            var tissue = CreateTissueForPart(defn.Name);
-
             var categories = GetBodyPartCategories(defn).ToList();
+            var tissue = CreateTissueForPart(defn.Name, categories);
+
             foreach(var cat in categories.ToList())
             {
                 if(BodyPartCategoryTissues.ContainsKey(cat))
@@ -809,19 +871,27 @@ namespace Tiles.Content.Bridge.DfNet
 
         public void AddBodyPartRelation(string targetStrategy, string targetStrategyParam, BodyPartRelationType relType, string relatedPartStrategy, string relatedPartStrategyParam, int weight)
         {
+            BpRelationDefns.Add(new BpRelationDefn
+            {
+                TargetStrategy = Parse(targetStrategy),
+                TargetStrategyParam = targetStrategyParam,
+                RelationType = relType, 
+                RelatedPartStrategy = Parse(relatedPartStrategy),
+                RelatedPartStrategyParam = relatedPartStrategyParam,
+                Weight = weight
+            });
+        }
 
-
-            BpRelationDefns.Add(
-                new BpRelationDefn
-                {
-                    TargetStrategy = Parse(targetStrategy),
-                    TargetStrategyParam = targetStrategyParam,
-                    RelationType = relType, 
-                    RelatedPartStrategy = Parse(relatedPartStrategy),
-                    RelatedPartStrategyParam = relatedPartStrategyParam,
-                    Weight = weight
-                }
-                );
+        public void AddTissueLayerOverride(string tissueName, string strategy, string strategyParam, bool hasMajorArteries, string destTissueName)
+        {
+            TlOverrideDefns.Add(new TlOverrideDefn
+            {
+                SourceTissueName = tissueName,
+                TargetStrategy = Parse(strategy),
+                TargetStrategyParam = strategyParam,
+                HasMajorArteries = hasMajorArteries,
+                DestTissueName = destTissueName
+            });
         }
 
         BodyPartRelationStrategy Parse(string strat)
@@ -845,6 +915,15 @@ namespace Tiles.Content.Bridge.DfNet
             public BodyPartRelationStrategy RelatedPartStrategy { get; set; }
             public string RelatedPartStrategyParam { get; set; }
             public int Weight { get; set; }
+        }
+
+        class TlOverrideDefn
+        {
+            public string SourceTissueName { get; set;}
+            public BodyPartRelationStrategy TargetStrategy { get; set; }
+            public string TargetStrategyParam { get; set; }
+            public bool HasMajorArteries { get; set; }
+            public string DestTissueName { get; set; }
         }
     }
 }

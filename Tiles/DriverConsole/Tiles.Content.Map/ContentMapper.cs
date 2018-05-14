@@ -264,7 +264,8 @@ namespace Tiles.Content.Map
                         HealingRate = layer.HealingRate,
                         ThickensOnStrength = layer.ThickensOnStrength,
                         ThickensOnEnergyStorage = layer.ThickensOnEnergyStorage,
-                        HasArteries = layer.HasArteries
+                        HasArteries = layer.HasArteries, 
+                        HasMajorArteries = layer.HasMajorArteries
                     });
             }
 

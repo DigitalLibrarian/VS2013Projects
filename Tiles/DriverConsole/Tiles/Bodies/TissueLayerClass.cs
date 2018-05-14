@@ -19,6 +19,7 @@ namespace Tiles.Bodies
         public bool ThickensOnStrength { get; set; }
         public bool ThickensOnEnergyStorage { get; set; }
         public bool HasArteries { get; set; }
+        public bool HasMajorArteries { get; set; }
 
         public string Name { get { return Material.Name; } }
 

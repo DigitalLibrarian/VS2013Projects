@@ -28,6 +28,7 @@ namespace Tiles.Bodies
             Thickness = thickness;
             Volume = volume;
 
+            // TODO - this should be a dynamic sum from a list of tracked injuries
             Damage = new DamageVector();
         }
 

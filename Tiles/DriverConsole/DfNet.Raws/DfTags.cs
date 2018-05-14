@@ -121,6 +121,8 @@ namespace DfNet.Raws
             public const string SELECT_TISSUE_LAYER = "SELECT_TISSUE_LAYER";
             public const string PLUS_TISSUE_LAYER = "PLUS_TISSUE_LAYER";
             public const string TISSUE_NAME = "TISSUE_NAME";
+            public const string TL_MAJOR_ARTERIES = "TL_MAJOR_ARTERIES";
+            public const string SET_LAYER_TISSUE = "SET_LAYER_TISSUE";
 
             public const string VASCULAR = "VASCULAR";
             public const string PAIN_RECEPTORS = "PAIN_RECEPTORS";

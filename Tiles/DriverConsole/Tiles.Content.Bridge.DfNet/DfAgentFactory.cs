@@ -223,18 +223,58 @@ namespace Tiles.Content.Bridge.DfNet
                         HandleBpRelation(tag, agentContext);
                         break;
 
-                    // TODO - these add tags to the various tissue
-                    // not currently needed for Tiles sime
-                    //case DfTags.MiscTags.SELECT_TISSUE_LAYER:
-
-                    //    break;
-                    //case DfTags.MiscTags.PLUS_TISSUE_LAYER:
-
-                    //    break;
+                    case DfTags.MiscTags.SELECT_TISSUE_LAYER:
+                        HandleSelectTissueLayer(tag, tags, agentContext);
+                        break;
                 }
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleSelectTissueLayer(DfTag tag, List<DfTag> tags, IDfAgentBuilder agentContext)
+        {
+            var startIndex = tags.IndexOf(tag);
+
+            var includedTags = new string[] {
+                DfTags.MiscTags.PLUS_TISSUE_LAYER, 
+                DfTags.MiscTags.TL_MAJOR_ARTERIES, 
+                DfTags.MiscTags.SET_LAYER_TISSUE};
+
+            var endIndex = tags.FindIndex(startIndex + 1, t => t.Name.Equals(DfTags.MiscTags.SELECT_TISSUE_LAYER)
+                || !includedTags.Any(x => x == t.Name));
+            if (endIndex == -1)
+            {
+                endIndex = tags.Count();
+            }
+
+            string setTissueLayer = null;
+            bool hasMajorArteries = false;
+            for(int i = startIndex; i < endIndex; i++)
+            {
+                if (tags[i].IsSingleWord(DfTags.MiscTags.TL_MAJOR_ARTERIES))
+                {
+                    hasMajorArteries = true;
+                }
+                else if(tags[i].Name == DfTags.MiscTags.SET_LAYER_TISSUE)
+                {
+                    setTissueLayer = tags[i].GetParam(0);
+                }
+            }
+
+
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                if(tags[i].Name == DfTags.MiscTags.SELECT_TISSUE_LAYER
+                    || tags[i].Name == DfTags.MiscTags.PLUS_TISSUE_LAYER)
+                {
+                    var tissueName = tags[i].GetParam(0);
+                    var strategy = tags[i].GetParam(1);
+                    var strategyParam = tags[i].GetParam(2);
+
+                    agentContext.AddTissueLayerOverride(tissueName, strategy, strategyParam, hasMajorArteries, setTissueLayer);
+                }
+            }
         }
 
         private void HandleBpRelation(DfTag tag, IDfAgentBuilder agentContext)

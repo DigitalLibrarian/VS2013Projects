@@ -22,5 +22,6 @@ namespace Tiles.Content.Models
         public bool ThickensOnStrength { get; set; }
         public bool ThickensOnEnergyStorage { get; set; }
         public bool HasArteries { get; set; }
+        public bool HasMajorArteries { get; set; }
     }
 }
