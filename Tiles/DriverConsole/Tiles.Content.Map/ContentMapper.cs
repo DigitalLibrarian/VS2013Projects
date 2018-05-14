@@ -19,6 +19,8 @@ namespace Tiles.Content.Map
     {
         public EngineMaterials.IMaterial Map(ContentModel.Material m)
         {
+            if (m == null) return null;
+
             return new EngineMaterials.Material(m.Name, m.Adjective)
             {
                 ImpactFracture = m.ImpactFracture,
@@ -190,7 +192,9 @@ namespace Tiles.Content.Map
                 body.Size, 
                 body.Parts.Select(x => partMap[x]), 
                 body.Moves.Select(x => Map(x)),
-                body.Attributes.Select(x => Map(x))
+                body.Attributes.Select(x => Map(x)),
+                Map(body.BloodMaterial),
+                Map(body.PusMaterial)
                 );
         }
 

@@ -16,23 +16,28 @@ namespace Tiles.Bodies
         }
         
         public BodyClass(double size, IEnumerable<IBodyPartClass> parts, IEnumerable<ICombatMoveClass> moves)
-            : this(size, parts, moves, new List<IAttributeClass>())
+            : this(size, parts, moves, new List<IAttributeClass>(), null, null)
         {
 
         }
 
-        public BodyClass(double size, IEnumerable<IBodyPartClass> parts, IEnumerable<ICombatMoveClass> moves, IEnumerable<IAttributeClass> attrs)
+        public BodyClass(double size, IEnumerable<IBodyPartClass> parts, IEnumerable<ICombatMoveClass> moves, IEnumerable<IAttributeClass> attrs, IMaterial bloodMaterial, IMaterial pusMaterial)
         {
             Parts = parts;
             Size = size;
             Moves = moves;
             Attributes = attrs;
+
+            BloodMaterial = bloodMaterial;
+            PusMaterial = pusMaterial;
         }
         public IEnumerable<IBodyPartClass> Parts { get; set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
         public IEnumerable<IAttributeClass> Attributes { get; set; }
         public double Size { get; set; }
 
+        public IMaterial BloodMaterial { get; set; }
+        public IMaterial PusMaterial { get; set; }
 
         public int TotalBodyPartRelSize
         {

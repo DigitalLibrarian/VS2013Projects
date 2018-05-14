@@ -216,15 +216,19 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.PHYS_ATT_RANGE:
                         HandleAttributeRange(tag, agentContext);
                         break;
-
-                    //case DfTags.MiscTags.BP_POSITION:
-                    //    break;
                     case DfTags.MiscTags.BP_RELATION:
                         HandleBpRelation(tag, agentContext);
                         break;
-
                     case DfTags.MiscTags.SELECT_TISSUE_LAYER:
                         HandleSelectTissueLayer(tag, tags, agentContext);
+                        break;
+                    case DfTags.MiscTags.BLOOD:
+                        tisName = tag.GetParam(1);
+                        agentContext.SetBloodMaterial(tisName);
+                        break;
+                    case DfTags.MiscTags.PUS:
+                        tisName = tag.GetParam(1);
+                        agentContext.SetPusMaterial(tisName);
                         break;
                 }
             }

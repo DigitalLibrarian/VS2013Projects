@@ -19,5 +19,8 @@ namespace Tiles.Content.Models
         public List<Attribute> Attributes { get; set; }
 
         public double Size { get; set; }
+
+        public Material BloodMaterial { get; set; }
+        public Material PusMaterial { get; set; }
     }
 }

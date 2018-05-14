@@ -14,6 +14,8 @@ namespace Tiles.Content.Bridge.DfNet
         void SetSymbol(int symbol);
         void SetForegroundColor(Color color);
         void SetBackgroundColor(Color color);
+        void SetBloodMaterial(string matName);
+        void SetPusMaterial(string tisName);
 
         void AddBody(string name, DfObject bpObject);
         void AddMaterial(string matName, Material material);

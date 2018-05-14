@@ -124,6 +124,9 @@ namespace DfNet.Raws
             public const string TL_MAJOR_ARTERIES = "TL_MAJOR_ARTERIES";
             public const string SET_LAYER_TISSUE = "SET_LAYER_TISSUE";
 
+            public const string BLOOD = "BLOOD";
+            public const string PUS = "PUS";
+
             public const string VASCULAR = "VASCULAR";
             public const string PAIN_RECEPTORS = "PAIN_RECEPTORS";
             public const string HEALING_RATE = "HEALING_RATE";

@@ -107,6 +107,22 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_BloodAndPus()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            Assert.IsNotNull(agent.Body.BloodMaterial);
+            Assert.IsNotNull(agent.Body.PusMaterial);
+        }
+
+        [TestMethod]
+        public void BronzeColossus_BloodAndPus()
+        {
+            var agent = DfAgentFactory.Create("COLOSSUS_BRONZE", "MALE");
+            Assert.IsNull(agent.Body.BloodMaterial);
+            Assert.IsNull(agent.Body.PusMaterial);
+        }
+
+        [TestMethod]
         public void GreenDevourer()
         {
             var agent = DfAgentFactory.Create("GREEN_DEVOURER");

@@ -32,6 +32,9 @@ namespace Tiles.Content.Bridge.DfNet
 
         double Size { get; set; }
 
+        Material BloodMaterial { get; set; }
+        Material PusMaterial { get; set; }
+
         public DfAgentBuilder()
         {
             BodyPartsDefn = new Dictionary<string, DfObject>();
@@ -719,6 +722,16 @@ namespace Tiles.Content.Bridge.DfNet
             body.Moves = BodyAttacks.SelectMany(attack => CreateBodyCombatMove(attack, body)).ToList();
         }
 
+        public void SetBloodMaterial(string matName)
+        {
+            BloodMaterial = Materials[matName];
+        }
+
+        public void SetPusMaterial(string matName)
+        {
+            PusMaterial = Materials[matName];
+        }
+
         public Agent Build()
         {
             var parts = new List<BodyPart>();
@@ -793,7 +806,9 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     Parts = parts,
                     Size = Size,
-                    Attributes = newAttrs
+                    Attributes = newAttrs,
+                    BloodMaterial = BloodMaterial,
+                    PusMaterial = PusMaterial
                 };
 
             SetMoves(body);
