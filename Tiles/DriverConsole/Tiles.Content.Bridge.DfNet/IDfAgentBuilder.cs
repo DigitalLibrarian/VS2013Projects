@@ -19,7 +19,6 @@ namespace Tiles.Content.Bridge.DfNet
 
         void AddBody(string name, DfObject bpObject);
         void AddMaterial(string matName, Material material);
-        //void AddTissueMaterial(string matName, Material material, bool cosmetic);
         void AddTissueTemplate(string matName, DfTissueTemplate tissueTemplate);
         void RemoveMaterial(string matName);
 

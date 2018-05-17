@@ -280,10 +280,6 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     if (tlOverride.SourceTissueName == "ALL" || tlOverride.SourceTissueName == tisName)
                     {
-                        if (tlOverride.DestTissueName != null)
-                        {
-                            var brak = 0;
-                        }
                         return tlOverride.DestTissueName;
                     }
                 }

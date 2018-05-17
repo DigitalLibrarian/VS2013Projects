@@ -70,6 +70,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(310000, mat.BendingFracture);
             Assert.AreEqual(73, mat.BendingStrainAtYield);
 
+            Assert.AreEqual("molten iron", mat.StateProps.Single(sp => sp.PropertyName.Equals("NAME_ADJ") && sp.State.Equals("LIQUID")).Value);
+
         }
 
         [TestMethod]
@@ -132,6 +134,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
                 Assert.AreNotEqual(0, m.SharpnessMultiplier,
                     string.Format("Sharpness == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
+
+                Assert.IsTrue(m.StateProps.Any(), string.Format("No state properties for Name={0}, Adjective={1}", m.Name, m.Adjective));
 
             }
         }

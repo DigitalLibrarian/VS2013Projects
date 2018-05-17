@@ -10,7 +10,7 @@ namespace Tiles.Content.Models
     {
         public Material()
         {
-
+            StateProps = new List<MaterialStateProp>();
         }
 
         public string Name { get; set; }
@@ -42,5 +42,14 @@ namespace Tiles.Content.Models
 
         public int SolidDensity { get; set; }
         public double SharpnessMultiplier { get; set; }
+
+        public IList<MaterialStateProp> StateProps { get; set; }
+    }
+
+    public class MaterialStateProp
+    {
+        public string PropertyName { get; set; }
+        public string State { get; set; }
+        public string Value { get; set; }
     }
 }

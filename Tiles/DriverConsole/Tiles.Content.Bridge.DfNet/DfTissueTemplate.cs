@@ -19,6 +19,9 @@ namespace Tiles.Content.Bridge.DfNet
         public bool ThickensOnStrength { get; set; }
         public bool ThickensOnEnergyStorage { get; set; }
         public bool HasArteries { get; set; }
+
+        public string MaterialScope { get; set; }
+        public string MaterialName { get; set; }
     }
 
     public interface IDfTissueTemplateFactory
@@ -69,6 +72,10 @@ namespace Tiles.Content.Bridge.DfNet
             {
                 switch (tag.Name)
                 {
+                    case DfTags.MiscTags.TISSUE_MATERIAL:
+                        template.MaterialScope = tag.GetParam(0);
+                        template.MaterialName = tag.GetParam(1);
+                        break;
                     case DfTags.MiscTags.VASCULAR:
                         template.VascularRating = int.Parse(tag.GetParam(0));
                         break;

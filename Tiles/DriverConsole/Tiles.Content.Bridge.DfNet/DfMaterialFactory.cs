@@ -36,7 +36,7 @@ namespace Tiles.Content.Bridge.DfNet
                 var newTags = new List<DfTag>();
                 newTags.Add(df.Tags.First());
                 newTags.AddRange(matTempDf.Tags.Skip(1));
-                newTags.AddRange(df.Tags.Skip(1));
+                newTags.AddRange(df.Tags.Skip(1).Where(t => t != includeTag));
                 df = new DfObject(newTags);
             }
             return df;
@@ -132,6 +132,8 @@ namespace Tiles.Content.Bridge.DfNet
         {
             var b = BuilderFactory.Create();
 
+            // TODO - this whole concept of "picking one string" needs to go away, 
+            // and we should just model the descriptive words as given.
             var name = GetMaterialName(df);
             var adjective = GetMaterialAdj(df);
             b.SetName(name);
@@ -206,7 +208,15 @@ namespace Tiles.Content.Bridge.DfNet
                         }
                         b.SetSharpnessMultiplier(sharp);
                         break;
-
+                    default:
+                        if (tag.Name.StartsWith("STATE_"))
+                        {
+                            var propName = tag.Name.Replace("STATE_", "");
+                            var state = tag.GetParam(0);
+                            var value = tag.GetParam(1);
+                            b.AddStatePropertyValue(propName, state, value);
+                        }
+                        break;
                 }
             }
 
@@ -247,6 +257,7 @@ namespace Tiles.Content.Bridge.DfNet
 
         string GetMaterialName(DfObject matDefn)
         {
+
             var checks = new Dictionary<Predicate<DfTag>, Func<DfTag, string>>
             {
                 {t => t.Name.Equals(DfTags.MiscTags.STATE_NAME_ADJ)
@@ -254,10 +265,6 @@ namespace Tiles.Content.Bridge.DfNet
                 {t => t.Name.Equals(DfTags.MiscTags.IS_GEM), t => t.GetParam(0)}
             };
 
-            if (matDefn == null)
-            {
-                int br = 09;
-            }
             foreach (var check in checks.Keys)
             {
                 var adjTag = matDefn.Tags.LastOrDefault(t => check(t));

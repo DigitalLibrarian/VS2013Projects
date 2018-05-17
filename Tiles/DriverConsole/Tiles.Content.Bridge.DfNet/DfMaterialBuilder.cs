@@ -41,6 +41,8 @@ namespace Tiles.Content.Bridge.DfNet
         void SetSolidDensity(int p);
 
         void SetSharpnessMultiplier(double p);
+
+        void AddStatePropertyValue(string propName, string state, string value);
     }
 
     public class DfMaterialBuilder : IDfMaterialBuilder
@@ -166,6 +168,25 @@ namespace Tiles.Content.Bridge.DfNet
         public void SetBendingStrainAtYield(int strainAtYield)
         {
             Material.BendingStrainAtYield = strainAtYield;
+        }
+
+        public void AddStatePropertyValue(string propName, string state, string value)
+        {
+            var stateProp = Material.StateProps.FirstOrDefault(sp => sp.PropertyName.Equals(propName) && sp.State.Equals(state));
+
+            if(stateProp != null)
+            {
+                stateProp.Value = value;
+            }
+            else
+            {
+                Material.StateProps.Add(new MaterialStateProp
+                {
+                    PropertyName = propName,
+                    State = state,
+                    Value = value
+                });
+            }
         }
     }
 }
