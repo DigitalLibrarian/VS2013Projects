@@ -82,6 +82,12 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2, internalParts.Count());
 
             Assert.IsTrue(internalParts.SequenceEqual(new []{skull, brain}));
+
+            Assert.AreEqual("CARMINE", dwarf.Body.Class.BloodMaterial.GetStateProperty("COLOR", "LIQUID"));
+            Assert.AreEqual("frozen blood", dwarf.Body.Class.BloodMaterial.GetStateProperty("NAME", "SOLID"));
+            Assert.AreEqual("blood", dwarf.Body.Class.BloodMaterial.GetStateProperty("NAME", "LIQUID"));
+            Assert.AreEqual("boiling blood", dwarf.Body.Class.BloodMaterial.GetStateProperty("NAME", "GAS"));
+            
         }
 
         [TestMethod]

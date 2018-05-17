@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
+using Tiles.Materials;
 
 namespace Tiles.Bodies
 {
@@ -21,5 +22,7 @@ namespace Tiles.Bodies
         int GetAttribute(string name);
 
         IEnumerable<IAttributeClass> Attributes { get; set; }
+
+        IMaterial BloodMaterial { get; }
     }
 }
