@@ -139,6 +139,7 @@ namespace Tiles.Content.Bridge.DfNet
             b.SetName(name);
             b.SetAdjective(adjective);
 
+            string state, value;
             foreach (var tag in df.Tags)
             {
                 switch (tag.Name)
@@ -208,12 +209,18 @@ namespace Tiles.Content.Bridge.DfNet
                         }
                         b.SetSharpnessMultiplier(sharp);
                         break;
+                    case DfTags.MiscTags.STATE_NAME_ADJ:
+                            state = tag.GetParam(0);
+                            value = tag.GetParam(1);
+                            b.AddStatePropertyValue("NAME", state, value);
+                            b.AddStatePropertyValue("ADJ", state, value);
+                        break;
                     default:
                         if (tag.Name.StartsWith("STATE_"))
                         {
                             var propName = tag.Name.Replace("STATE_", "");
-                            var state = tag.GetParam(0);
-                            var value = tag.GetParam(1);
+                            state = tag.GetParam(0);
+                            value = tag.GetParam(1);
                             b.AddStatePropertyValue(propName, state, value);
                         }
                         break;

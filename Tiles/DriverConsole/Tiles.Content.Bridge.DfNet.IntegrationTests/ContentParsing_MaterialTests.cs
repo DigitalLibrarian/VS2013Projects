@@ -70,7 +70,7 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(310000, mat.BendingFracture);
             Assert.AreEqual(73, mat.BendingStrainAtYield);
 
-            Assert.AreEqual("molten iron", mat.StateProps.Single(sp => sp.PropertyName.Equals("NAME_ADJ") && sp.State.Equals("LIQUID")).Value);
+            Assert.AreEqual("molten iron", mat.StateProps.Single(sp => sp.PropertyName.Equals("NAME") && sp.State.Equals("LIQUID")).Value);
 
         }
 
