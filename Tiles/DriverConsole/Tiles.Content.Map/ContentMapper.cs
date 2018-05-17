@@ -17,11 +17,21 @@ namespace Tiles.Content.Map
 {
     public class ContentMapper : IContentMapper
     {
+        public EngineMaterials.Material.MaterialStateProperty Map(ContentModel.MaterialStateProp p)
+        {
+            return new EngineMaterials.Material.MaterialStateProperty
+            {
+                Name = p.Name,
+                State = p.State,
+                Value = p.Value
+            };
+        }
+
         public EngineMaterials.IMaterial Map(ContentModel.Material m)
         {
             if (m == null) return null;
 
-            return new EngineMaterials.Material(m.Name, m.Adjective)
+            return new EngineMaterials.Material(m.Name, m.Adjective, m.StateProps.Select(p => Map(p)))
             {
                 ImpactFracture = m.ImpactFracture,
                 ImpactYield = m.ImpactYield,

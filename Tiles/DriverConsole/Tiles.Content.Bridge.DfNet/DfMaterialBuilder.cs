@@ -172,7 +172,7 @@ namespace Tiles.Content.Bridge.DfNet
 
         public void AddStatePropertyValue(string propName, string state, string value)
         {
-            var stateProp = Material.StateProps.FirstOrDefault(sp => sp.PropertyName.Equals(propName) && sp.State.Equals(state));
+            var stateProp = Material.StateProps.FirstOrDefault(sp => sp.Name.Equals(propName) && sp.State.Equals(state));
 
             if(stateProp != null)
             {
@@ -182,7 +182,7 @@ namespace Tiles.Content.Bridge.DfNet
             {
                 Material.StateProps.Add(new MaterialStateProp
                 {
-                    PropertyName = propName,
+                    Name = propName,
                     State = state,
                     Value = value
                 });

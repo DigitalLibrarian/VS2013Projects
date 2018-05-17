@@ -70,7 +70,9 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(310000, mat.BendingFracture);
             Assert.AreEqual(73, mat.BendingStrainAtYield);
 
-            Assert.AreEqual("molten iron", mat.StateProps.Single(sp => sp.PropertyName.Equals("NAME") && sp.State.Equals("LIQUID")).Value);
+            Assert.AreEqual("molten iron", mat.StateProps.Single(sp => sp.Name.Equals("NAME") && sp.State.Equals("LIQUID")).Value);
+            Assert.AreEqual("boiling iron", mat.StateProps.Single(sp => sp.Name.Equals("ADJ") && sp.State.Equals("GAS")).Value);
+            Assert.AreEqual("GRAY", mat.StateProps.Single(sp => sp.Name.Equals("COLOR") && sp.State.Equals("ALL_SOLID")).Value);
 
         }
 
@@ -90,14 +92,6 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             {
                 CheckProps(DfMaterialFactory.CreateFromMaterialTemplate(matTempName));
             }
-            
-            /*
-            var tissueTemplateNames = Store.Get(DfTags.TISSUE_TEMPLATE).Select(o => o.Name);
-            foreach (var tisTempName in tissueTemplateNames)
-            {
-                CheckProps(DfMaterialFactory.CreateTissue(tisTempName));
-            }
-            */
             
             foreach (var creatureDf in Store.Get(DfTags.CREATURE))
             {
@@ -136,7 +130,6 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                     string.Format("Sharpness == 0 for Name={0}, Adjective={1}", m.Name, m.Adjective));
 
                 Assert.IsTrue(m.StateProps.Any(), string.Format("No state properties for Name={0}, Adjective={1}", m.Name, m.Adjective));
-
             }
         }
     }

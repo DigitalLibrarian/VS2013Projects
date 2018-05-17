@@ -48,7 +48,7 @@ namespace Tiles.Content.Models
 
     public class MaterialStateProp
     {
-        public string PropertyName { get; set; }
+        public string Name { get; set; }
         public string State { get; set; }
         public string Value { get; set; }
     }

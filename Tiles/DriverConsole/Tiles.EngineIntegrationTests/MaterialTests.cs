@@ -45,5 +45,17 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(310000, mat.BendingFracture);
             Assert.AreEqual(73, mat.BendingStrainAtYield);
         }
+
+        [TestMethod]
+        public void IronStateProperties()
+        {
+            var mat = CreateInorganicMaterial("IRON");
+
+            Assert.AreEqual("boiling iron", mat.GetStateProperty("NAME", "GAS"));
+            Assert.AreEqual("boiling iron", mat.GetStateProperty("ADJ", "GAS"));
+            Assert.AreEqual("GRAY", mat.GetStateProperty("COLOR", "SOLID"));
+            Assert.AreEqual("RED", mat.GetStateProperty("COLOR", "GAS"));
+            Assert.AreEqual("RED", mat.GetStateProperty("COLOR", "LIQUID"));
+        }
     }
 }

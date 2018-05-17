@@ -8,13 +8,25 @@ namespace Tiles.Materials
 {
     public class Material : IMaterial
     {
+        public class MaterialStateProperty 
+        {
+            public string Name { get; set;}
+            public string State { get; set;}
+            public string Value { get; set;}
+        }
+
         public string Name { get; set; }
         public string Adjective { get; set; }
 
+        public IEnumerable<MaterialStateProperty> StateProps { get; set; }
+        
         public Material(string name, string adjective)
+            : this(name, adjective, Enumerable.Empty<MaterialStateProperty>()) { }
+        public Material(string name, string adjective, IEnumerable<MaterialStateProperty> stateProps)
         {
             Name = name;
             Adjective = adjective;
+            StateProps = stateProps;
         }
 
         public int ImpactYield { get; set; }
@@ -108,6 +120,51 @@ namespace Tiles.Materials
                 default:
                     throw new InvalidOperationException(string.Format("The stress mode {0} is unknown.", contactType));
             }
+        }
+
+        private bool IsAllowedState(string state)
+        {
+            switch (state)
+            {
+                case "SOLID":
+                    return true;
+                case "LIQUID":
+                    return true;
+                case "GAS":
+                    return true;
+                case "POWDER":
+                    return true;
+                case "PASTE":
+                    return true;
+                case "PRESSED":
+                    return true;
+            }
+            return false;
+        }
+
+        public string GetStateProperty(string name, string state)
+        {
+            if (!IsAllowedState(state))
+            {
+                throw new ArgumentException(string.Format("state={0} is not allowed", state));
+            }
+
+            // In our list, the state may be SOLID, LIQUID, GAS, 
+            // POWDER/SOLID_POWDER, PASTE/SOLID_PASTE, PRESSED/SOLID_PRESSED, 
+            // ALL_SOLID, or ALL.
+
+            var prop = StateProps.LastOrDefault(p => p.Name.Equals(name) && p.State == "ALL");
+            if (prop != null)
+            {
+                return prop.Value;
+            }
+            prop = StateProps.LastOrDefault(p => p.Name.Equals(name) && p.State.Contains(state));
+            if (prop != null)
+            {
+                return prop.Value;
+            }
+
+            throw new InvalidOperationException("Need better property resolution");
         }
     }
 }
