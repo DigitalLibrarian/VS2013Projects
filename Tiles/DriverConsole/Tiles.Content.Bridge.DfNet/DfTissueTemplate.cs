@@ -74,7 +74,7 @@ namespace Tiles.Content.Bridge.DfNet
                 {
                     case DfTags.MiscTags.TISSUE_MATERIAL:
                         template.MaterialScope = tag.GetParam(0);
-                        template.MaterialName = tag.GetParam(1);
+                        template.MaterialName = tag.GetParams().Last();
                         break;
                     case DfTags.MiscTags.VASCULAR:
                         template.VascularRating = int.Parse(tag.GetParam(0));

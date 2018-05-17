@@ -273,10 +273,23 @@ namespace Tiles.Content.Bridge.DfNet
                     || tags[i].Name == DfTags.MiscTags.PLUS_TISSUE_LAYER)
                 {
                     var tissueName = tags[i].GetParam(0);
-                    var strategy = tags[i].GetParam(1);
-                    var strategyParam = tags[i].GetParam(2);
-
-                    agentContext.AddTissueLayerOverride(tissueName, strategy, strategyParam, hasMajorArteries, setTissueLayer);
+                    if(tags[i].GetParams().Count() > 1)
+                    {
+                        var strategy = tags[i].GetParam(1);
+                        var strategyParam = tags[i].GetParam(2);
+                        agentContext.AddTissueLayerOverride(tissueName, strategy, strategyParam, hasMajorArteries, setTissueLayer);
+                    }
+                    else
+                    {
+                        if (tissueName.Equals("ALL"))
+                        {
+                            // TODO - add case this for hydra's healing power
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
                 }
             }
         }
