@@ -32,7 +32,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = Attacker.Body.Moves.Single(x => x.Name.Equals("stab"));
-            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -71,7 +71,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = Attacker.Body.Moves.Single(x => x.Name.Equals("stab"));
-            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -120,7 +120,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = Attacker.Body.Moves.Single(x => x.Name.Equals("stab"));
-            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Shear_Cut,

@@ -30,7 +30,7 @@ namespace Tiles.EngineIntegrationTests
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
             var moveClass = Attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
             var strikeMom = move.Attacker.GetStrikeMomentum(move);
             Assert.AreEqual(236984, strikeMom, 1d);
@@ -48,7 +48,7 @@ namespace Tiles.EngineIntegrationTests
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
             var moveClass = Attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,

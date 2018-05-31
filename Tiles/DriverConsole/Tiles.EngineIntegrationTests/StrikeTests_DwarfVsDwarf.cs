@@ -38,7 +38,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left foot"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -84,7 +84,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left lower arm"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -127,7 +127,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper leg"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -170,7 +170,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right lower leg"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -213,7 +213,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -256,7 +256,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -301,7 +301,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("third finger"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -370,7 +370,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             Assert.AreEqual(47d, targetBodyPart.ContactArea, 0.1d);
             Assert.AreEqual(19.5d, move.Class.ContactArea, 0.1d);
@@ -419,7 +419,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -468,7 +468,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -493,7 +493,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right lower leg"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -516,7 +516,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left lower arm"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -539,7 +539,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("nose"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var report = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -572,7 +572,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right foot"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -616,7 +616,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("lower body"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -659,7 +659,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("first finger"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_CompleteFracture,
@@ -722,7 +722,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("kick"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -765,7 +765,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("upper body"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             Assert.AreEqual(9.48d, move.Class.ContactArea, 0.01d);
 
@@ -801,7 +801,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper arm"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -836,7 +836,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right upper leg"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -872,7 +872,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right lower leg"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -909,7 +909,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("right hand"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -961,7 +961,7 @@ namespace Tiles.EngineIntegrationTests
             var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
             Assert.IsNotNull(slashMoveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+            var slashMove = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove,
                 StressResult.Shear_CutThrough,
@@ -1005,7 +1005,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut,
@@ -1054,7 +1054,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_CutThrough,
@@ -1113,7 +1113,7 @@ namespace Tiles.EngineIntegrationTests
             var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
             Assert.IsNotNull(slashMoveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+            var slashMove = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove,
                 StressResult.Shear_CutThrough,
@@ -1172,7 +1172,7 @@ namespace Tiles.EngineIntegrationTests
             var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
             Assert.IsNotNull(slashMoveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+            var slashMove = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove,
                 StressResult.Shear_CutThrough,
@@ -1241,7 +1241,7 @@ namespace Tiles.EngineIntegrationTests
             var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
             Assert.IsNotNull(slashMoveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+            var slashMove = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove,
                 StressResult.Shear_CutThrough,
@@ -1291,7 +1291,7 @@ namespace Tiles.EngineIntegrationTests
             var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
             Assert.IsNotNull(slashMoveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+            var slashMove = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, slashMove,
                 StressResult.Shear_Cut,
@@ -1332,7 +1332,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
             
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut);
@@ -1370,7 +1370,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
                 StressResult.Shear_Dent);
@@ -1408,7 +1408,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut);
 
@@ -1437,7 +1437,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut);
 
@@ -1465,7 +1465,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut);
@@ -1505,7 +1505,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut);
@@ -1545,7 +1545,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut);
@@ -1585,7 +1585,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut);
 
@@ -1616,7 +1616,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut);
 
@@ -1645,7 +1645,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_Cut);
@@ -1684,7 +1684,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("lash"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
@@ -1732,7 +1732,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("lash"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
@@ -1791,7 +1791,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("strike"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -1841,7 +1841,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("strike"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -1880,7 +1880,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("strike"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -1919,7 +1919,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("strike"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
                 StressResult.Shear_CutThrough,
@@ -1978,7 +1978,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -2027,7 +2027,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,
@@ -2067,7 +2067,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -2107,7 +2107,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -2166,7 +2166,7 @@ namespace Tiles.EngineIntegrationTests
 
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("hack"));
 
-            var move = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_CutThrough,
@@ -2219,7 +2219,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("kick"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var mom = attacker.GetStrikeMomentum(move);
 
@@ -2241,7 +2241,7 @@ namespace Tiles.EngineIntegrationTests
             var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.FirstOrDefault(mc => mc.Name.Equals("slash"));
             Assert.IsNotNull(slashMoveClass);
 
-            var slashMove = CombatMoveBuilder.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
+            var slashMove = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);
 
             //"Iron has [MAX_EDGE:10000], so a no-quality iron short sword has a sharpness of 5000." - http://www.bay12forums.com/smf/index.php?topic=131995.105
 

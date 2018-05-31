@@ -9,7 +9,7 @@ using Tiles.Items;
 
 namespace Tiles.Agents.Combat
 {
-    public class CombatMoveBuilder : ICombatMoveBuilder
+    public class CombatMoveFactory : ICombatMoveFactory
     {
         public ICombatMove AttackBodyPartWithWeapon(IAgent attacker, IAgent defender, ICombatMoveClass moveClass, IBodyPart targetBodyPart, IItem weapon)
         {

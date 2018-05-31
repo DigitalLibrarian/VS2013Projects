@@ -32,7 +32,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = Attacker.Body.Moves.First(mc => mc.Name.Equals("gore"));
-            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
             var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
@@ -70,7 +70,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = Attacker.Body.Moves.First(mc => mc.Name.Equals("kick"));
-            var move = CombatMoveBuilder.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
             var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,

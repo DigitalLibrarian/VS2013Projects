@@ -109,7 +109,7 @@
     <Compile Include="Bodies\IBodyPart.cs" />
     <Compile Include="Agents\Combat\AttackConductor.cs" />
     <Compile Include="Agents\Combat\CombatMove.cs" />
-    <Compile Include="Agents\Combat\CombatMoveBuilder.cs" />
+    <Compile Include="Agents\Combat\CombatMoveFactory.cs" />
     <Compile Include="Agents\Combat\CombatMoveDiscoverer.cs" />
     <Compile Include="Agents\Combat\IAttackConductor.cs" />
     <Compile Include="Atlas.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IPlayer.cs" />
-    <Compile Include="Agents\Combat\ICombatMoveBuilder.cs" />
+    <Compile Include="Agents\Combat\ICombatMoveFactory.cs" />
     <Compile Include="Agents\Combat\ICombatMoveDiscoverer.cs" />
     <Compile Include="ConjugatedWord.cs" />
     <Compile Include="EcsBridge.cs" />

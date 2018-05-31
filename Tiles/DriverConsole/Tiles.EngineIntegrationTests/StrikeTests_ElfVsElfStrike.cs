@@ -30,7 +30,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.Single(x => x.Name.Equals("upper body"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -70,7 +70,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.Single(x => x.Name.Equals("left foot"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
@@ -110,7 +110,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("fourth finger"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("punch"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_CompleteFracture,
@@ -168,7 +168,7 @@ namespace Tiles.EngineIntegrationTests
 
             var targetBodyPart = defender.Body.Parts.Single(x => x.Name.Equals("right upper leg"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("kick"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,

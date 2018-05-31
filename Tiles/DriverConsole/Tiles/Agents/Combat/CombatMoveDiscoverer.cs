@@ -12,10 +12,10 @@ namespace Tiles.Agents.Combat
 {
     public class CombatMoveDiscoverer : ICombatMoveDiscoverer
     {
-        public ICombatMoveBuilder MoveBuilder { get; private set; }
-        public CombatMoveDiscoverer(ICombatMoveBuilder moveBuilder)
+        public ICombatMoveFactory MoveFactory { get; private set; }
+        public CombatMoveDiscoverer(ICombatMoveFactory moveFactory)
         {
-            MoveBuilder = moveBuilder;
+            MoveFactory = moveFactory;
         }
         bool IsMeleeRange(IAgent attacker, IAgent defender)
         {
@@ -66,7 +66,7 @@ namespace Tiles.Agents.Combat
                 {
                     foreach (var youPart in defender.Body.Parts.Where(AcceptableTargetPart))
                     {
-                        yield return MoveBuilder.BodyMove(attacker, defender, moveClass, youPart);
+                        yield return MoveFactory.BodyMove(attacker, defender, moveClass, youPart);
                     }
                 }
             }
@@ -84,7 +84,7 @@ namespace Tiles.Agents.Combat
             {
                 foreach (var youPart in defender.Body.Parts.Where(AcceptableTargetPart))
                 {
-                    yield return MoveBuilder.AttackBodyPartWithWeapon(attacker, defender, attackMoveClass, youPart, weaponItem);
+                    yield return MoveFactory.AttackBodyPartWithWeapon(attacker, defender, attackMoveClass, youPart, weaponItem);
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace Tiles.Agents.Combat
             {
                 if (!youPart.IsWrestling)
                 {
-                    yield return MoveBuilder.GraspOpponentBodyPart(attacker, defender, mePart, youPart);
+                    yield return MoveFactory.GraspOpponentBodyPart(attacker, defender, mePart, youPart);
                 }
             }
         }
@@ -105,8 +105,8 @@ namespace Tiles.Agents.Combat
         {
             if (mePart.IsGrasping && defender.Body.Parts.Contains(mePart.Grasped))
             {
-                yield return MoveBuilder.PullGraspedBodyPart(attacker, defender, mePart, mePart.Grasped);
-                yield return MoveBuilder.ReleaseGraspedPart(attacker, defender, mePart, mePart.Grasped);
+                yield return MoveFactory.PullGraspedBodyPart(attacker, defender, mePart, mePart.Grasped);
+                yield return MoveFactory.ReleaseGraspedPart(attacker, defender, mePart, mePart.Grasped);
             }
 
             if (defender.Body.IsWrestling)
@@ -115,7 +115,7 @@ namespace Tiles.Agents.Combat
                 {
                     if (youPart.IsGrasping && youPart.Grasped == mePart)
                     {
-                        yield return MoveBuilder.BreakOpponentGrasp(attacker, defender, mePart, youPart);
+                        yield return MoveFactory.BreakOpponentGrasp(attacker, defender, mePart, youPart);
                     }
                 }
             }

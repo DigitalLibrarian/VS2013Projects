@@ -34,7 +34,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var strikeMat = attacker.GetStrikeMaterial(move);
             Assert.AreEqual("chitin", strikeMat.Name);
@@ -50,7 +50,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var mom = attacker.GetStrikeMomentum(move);
             Assert.AreEqual(76d, mom, 1d);
@@ -66,7 +66,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,

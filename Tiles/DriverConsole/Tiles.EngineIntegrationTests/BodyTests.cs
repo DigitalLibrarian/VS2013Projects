@@ -32,7 +32,7 @@ namespace Tiles.EngineIntegrationTests
 
         IAtlas Atlas { get; set; }
 
-        ICombatMoveBuilder CombatMoveBuilder { get; set; }
+        ICombatMoveFactory CombatMoveFactory { get; set; }
         IInjuryReportCalc InjuryReportCalc { get; set; }
 
         IMaterialStressCalc MaterialStressCalc { get; set; }
@@ -56,7 +56,7 @@ namespace Tiles.EngineIntegrationTests
             DfTagsFascade = new DfTagsFascade(Store, EntityManager, Random);
 
             Atlas = new Mock<IAtlas>().Object;
-            CombatMoveBuilder = new CombatMoveBuilder();
+            CombatMoveFactory = new CombatMoveFactory();
             InjuryReportCalc = new InjuryReportCalc();
 
             MaterialStressCalc = new MaterialStressCalc();
@@ -522,7 +522,7 @@ namespace Tiles.EngineIntegrationTests
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
             var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
             var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
-            var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
             var mat = dwarf.GetStrikeMaterial(move);
             Assert.AreEqual("tooth", mat.Name);
         }
@@ -533,7 +533,7 @@ namespace Tiles.EngineIntegrationTests
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
             var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
             var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
-            var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
             var mom = dwarf.GetStrikeMomentum(move);
             Assert.AreEqual(5,(int) mom);
         }
@@ -564,7 +564,7 @@ namespace Tiles.EngineIntegrationTests
             var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
 
             var moveClass = dwarf.Body.Moves.First(x => x.Name.Equals("scratch"));
-            var move = CombatMoveBuilder.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
             var mom = dwarf.GetStrikeMomentum(move);
             Assert.AreEqual(17, (int) mom);
         }
@@ -786,7 +786,7 @@ namespace Tiles.EngineIntegrationTests
             var part = parts.First();
             Assert.AreEqual("right hand", part.Name);
 
-            var move = CombatMoveBuilder.BodyMove(human, human, punch, human.Body.Parts.First());
+            var move = CombatMoveFactory.BodyMove(human, human, punch, human.Body.Parts.First());
             var punchMom = human.GetStrikeMomentum(move);
             Assert.AreEqual(51, (int)punchMom);
         }
@@ -798,7 +798,7 @@ namespace Tiles.EngineIntegrationTests
             var bite = human.Body.Moves.First(x => x.Name.Equals("bite"));
             Assert.AreEqual(StressMode.Edge, bite.StressMode);
 
-            var move = CombatMoveBuilder.BodyMove(human, human, bite, human.Body.Parts.First());
+            var move = CombatMoveFactory.BodyMove(human, human, bite, human.Body.Parts.First());
 
             var mom = human.GetStrikeMomentum(move);
             Assert.AreEqual(4, (int)mom);
@@ -812,7 +812,7 @@ namespace Tiles.EngineIntegrationTests
             var scratch = human.Body.Moves.First(x => x.Name.Equals("scratch"));
             Assert.AreEqual(StressMode.Edge, scratch.StressMode);
 
-            var move = CombatMoveBuilder.BodyMove(human, human, scratch, human.Body.Parts.First());
+            var move = CombatMoveFactory.BodyMove(human, human, scratch, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
             Assert.AreEqual(16, (int)mom);
         }
@@ -845,7 +845,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, parts.Count());
             Assert.AreEqual("right foot", parts.First().Name);
 
-            var move = CombatMoveBuilder.BodyMove(human, human, kick, human.Body.Parts.First());
+            var move = CombatMoveFactory.BodyMove(human, human, kick, human.Body.Parts.First());
             var mom = human.GetStrikeMomentum(move);
             Assert.AreEqual(76, (int)mom);
         }
@@ -977,7 +977,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
             Assert.IsNotNull(moveClass);
 
-            var move = CombatMoveBuilder.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
+            var move = CombatMoveFactory.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
             var mat = attacker.GetStrikeMaterial(move);
             Assert.IsNotNull(mat);
         }
@@ -990,7 +990,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
             Assert.IsNotNull(moveClass);
 
-            var move = CombatMoveBuilder.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
+            var move = CombatMoveFactory.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
             var mat = attacker.GetStrikeMaterial(move);
             Assert.IsNotNull(mat);
         }

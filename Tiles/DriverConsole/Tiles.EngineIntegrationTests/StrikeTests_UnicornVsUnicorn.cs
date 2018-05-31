@@ -40,7 +40,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsNotNull(targetBodyPart);
 
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("stab"));
-            var move = CombatMoveBuilder.BodyMove(attacker, defender, moveClass, targetBodyPart);
+            var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
             var results = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Cut,

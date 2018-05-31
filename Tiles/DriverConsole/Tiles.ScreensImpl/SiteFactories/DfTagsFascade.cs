@@ -49,7 +49,7 @@ namespace Tiles.ScreensImpl.SiteFactories
 
             DefaultPlanner = new DefaultAgentCommandPlanner(random,
                 new AgentCommandFactory(),
-                new CombatMoveDiscoverer(new CombatMoveBuilder()),
+                new CombatMoveDiscoverer(new CombatMoveFactory()),
                 new PositionFinder());
         }
         public IAgentClass CreateCreatureAgentClass(IAtlas atlas, string name, string caste, Vector3 pos)

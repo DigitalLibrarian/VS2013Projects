@@ -17,7 +17,7 @@ namespace Tiles.ScreensImpl.ContentFactories
         private static int SightRange = 25;
 
         public SurvivorAgentCommandPlanner(IRandom random, IAgentCommandFactory commandFactory) 
-            : base(random, commandFactory, new CombatMoveDiscoverer(new CombatMoveBuilder()), new PositionFinder()) { }
+            : base(random, commandFactory, new CombatMoveDiscoverer(new CombatMoveFactory()), new PositionFinder()) { }
 
         public override IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent)
         {

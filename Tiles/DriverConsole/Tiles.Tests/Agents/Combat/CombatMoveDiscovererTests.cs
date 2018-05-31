@@ -17,7 +17,7 @@ namespace Tiles.Tests.Agents.Combat
     [TestClass]
     public class CombatMoveDiscovererTests
     {
-        Mock<ICombatMoveBuilder> BuilderMock { get; set; }
+        Mock<ICombatMoveFactory> MoveFactoryMock { get; set; }
         CombatMoveDiscoverer Disco { get; set; }
 
         Mock<IAgent> AttackerMock { get; set; }
@@ -33,8 +33,8 @@ namespace Tiles.Tests.Agents.Combat
         [TestInitialize]
         public void Initialize()
         {
-            BuilderMock = new Mock<ICombatMoveBuilder>();
-            Disco = new CombatMoveDiscoverer(BuilderMock.Object);
+            MoveFactoryMock = new Mock<ICombatMoveFactory>();
+            Disco = new CombatMoveDiscoverer(MoveFactoryMock.Object);
 
             AttackerBodyParts = new List<IBodyPart>();
             AttackerBodyMock = new Mock<IBody>();
@@ -79,7 +79,7 @@ namespace Tiles.Tests.Agents.Combat
 
         void AssertNoMovesBuilt()
         {
-            BuilderMock.Verify(
+            MoveFactoryMock.Verify(
                 x => x.AttackBodyPartWithWeapon(
                     It.IsAny<IAgent>(), 
                     It.IsAny<IAgent>(),
@@ -184,7 +184,7 @@ namespace Tiles.Tests.Agents.Combat
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(partMock.Object)).Returns(itemMock.Object);
 
             var spoofedResult = new Mock<ICombatMove>();
-            BuilderMock.Setup(
+            MoveFactoryMock.Setup(
                 x => x.AttackBodyPartWithWeapon(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
@@ -203,7 +203,7 @@ namespace Tiles.Tests.Agents.Combat
             {
                 foreach(var ac in new [] { attackClassMock1, attackClassMock2})
                 {
-                    BuilderMock.Verify(
+                    MoveFactoryMock.Verify(
                         x => x.AttackBodyPartWithWeapon(
                             AttackerMock.Object,
                             DefenderMock.Object,
@@ -214,7 +214,7 @@ namespace Tiles.Tests.Agents.Combat
                 }
             }
 
-            BuilderMock.Verify(
+            MoveFactoryMock.Verify(
                 x => x.AttackBodyPartWithWeapon(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
@@ -264,7 +264,7 @@ namespace Tiles.Tests.Agents.Combat
             AttackerOutfitMock.Setup(x => x.GetWeaponItem(attackerBodyPartMock3.Object)).Returns((IItem)null);
 
             var spoofedResult = new Mock<ICombatMove>();
-            BuilderMock.Setup(
+            MoveFactoryMock.Setup(
                 x => x.GraspOpponentBodyPart(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
@@ -280,7 +280,7 @@ namespace Tiles.Tests.Agents.Combat
             {
                 foreach (var attackerPart in new[] { attackerBodyPartMock2.Object, attackerBodyPartMock3.Object})
                 {
-                    BuilderMock.Verify(x => x.GraspOpponentBodyPart(
+                    MoveFactoryMock.Verify(x => x.GraspOpponentBodyPart(
                         AttackerMock.Object, DefenderMock.Object, attackerPart, defenderPart), Times.Once());
                 }
             }
@@ -304,7 +304,7 @@ namespace Tiles.Tests.Agents.Combat
             defenderBodyPartMock.Setup(x => x.Grasped).Returns(attackerBodyPartMock.Object);
 
             var spoofedResult = new Mock<ICombatMove>();
-            BuilderMock.Setup(
+            MoveFactoryMock.Setup(
                 x => x.BreakOpponentGrasp(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
@@ -316,7 +316,7 @@ namespace Tiles.Tests.Agents.Combat
             Assert.AreEqual(1, result.Count());
             Assert.IsTrue(result.All(x => x == spoofedResult.Object));
 
-            BuilderMock.Verify(x => x.BreakOpponentGrasp(It.IsAny<IAgent>(), It.IsAny<IAgent>(), attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once);
+            MoveFactoryMock.Verify(x => x.BreakOpponentGrasp(It.IsAny<IAgent>(), It.IsAny<IAgent>(), attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once);
         }
 
         [Ignore]
@@ -338,7 +338,7 @@ namespace Tiles.Tests.Agents.Combat
 
 
             var spoofedResult1 = new Mock<ICombatMove>();
-            BuilderMock.Setup(
+            MoveFactoryMock.Setup(
                 x => x.PullGraspedBodyPart(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
@@ -347,7 +347,7 @@ namespace Tiles.Tests.Agents.Combat
                     )).Returns(spoofedResult1.Object);
 
             var spoofedResult2 = new Mock<ICombatMove>();
-            BuilderMock.Setup(
+            MoveFactoryMock.Setup(
                 x => x.ReleaseGraspedPart(
                     It.IsAny<IAgent>(),
                     It.IsAny<IAgent>(),
@@ -361,8 +361,8 @@ namespace Tiles.Tests.Agents.Combat
             Assert.AreSame(spoofedResult1.Object, result.ElementAt(0));
             Assert.AreSame(spoofedResult2.Object, result.ElementAt(1));
 
-            BuilderMock.Verify(x => x.PullGraspedBodyPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
-            BuilderMock.Verify(x => x.ReleaseGraspedPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
+            MoveFactoryMock.Verify(x => x.PullGraspedBodyPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
+            MoveFactoryMock.Verify(x => x.ReleaseGraspedPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
         }
     }
 }

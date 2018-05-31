@@ -34,7 +34,7 @@ namespace Tiles.EngineIntegrationTests
 
         IAtlas Atlas { get; set; }
 
-        protected ICombatMoveBuilder CombatMoveBuilder { get; set; }
+        protected ICombatMoveFactory CombatMoveFactory { get; set; }
         protected IInjuryReportCalc InjuryReportCalc { get; set; }
 
         public virtual void Initialize()
@@ -55,7 +55,7 @@ namespace Tiles.EngineIntegrationTests
             DfTagsFascade = new DfTagsFascade(Store, EntityManager, Random);
 
             Atlas = new Mock<IAtlas>().Object;
-            CombatMoveBuilder = new CombatMoveBuilder();
+            CombatMoveFactory = new CombatMoveFactory();
             InjuryReportCalc = new InjuryReportCalc();
         }
 
