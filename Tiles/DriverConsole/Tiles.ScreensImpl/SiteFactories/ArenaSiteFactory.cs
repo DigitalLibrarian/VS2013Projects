@@ -46,7 +46,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             var buildingBox = new Box3(Vector3.Zero, new Vector3(box.Size.X - 1, box.Size.Y - 1, 1));
             var structureFactory = new StructureFactory();
             var structure = structureFactory.CreateRectangularBuilding(
-                buildingBox.Size, buildingColor: Color.DarkRed, notBuildingColor: Color.Black);
+                buildingBox.Size, buildingColor: Color.DarkGray, notBuildingColor: Color.Black);
 
             s.InsertStructure(buildingBox.Min, structure);
 

@@ -331,6 +331,14 @@ namespace Tiles.EngineIntegrationTests
             Assert.IsTrue(bp.PreventsParentCollapse);
         }
 
+        [TestMethod]
+        public void DwarfSkull_BoneHealingRate()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+
+            var bp = dwarf.Body.Parts.First(x => x.Name.Equals("skull"));
+            Assert.AreEqual(1000, bp.Tissue.TissueLayers.Single().Class.HealingRate);
+        }
 
         [TestMethod]
         public void DwarfUpperBodySkinVolume()
