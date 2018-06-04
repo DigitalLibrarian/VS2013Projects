@@ -57,14 +57,14 @@ namespace Tiles.Bodies
 
         public void AddInjury(ITissueLayerInjury injury)
         {
-            if (injury.StrikeResult.StressResult != StressResult.None)
+            if (injury.StressResult != StressResult.None)
             {
                 // These might be better as a live sum
-                WoundAreaRatio += injury.StrikeResult.ContactAreaRatio;
+                WoundAreaRatio += injury.ContactAreaRatio;
                 WoundAreaRatio = System.Math.Min(WoundAreaRatio, 1d);
                 WoundAreaRatio = System.Math.Max(WoundAreaRatio, 0d);
 
-                PenetrationRatio += injury.StrikeResult.PenetrationRatio;
+                PenetrationRatio += injury.PenetrationRatio;
                 PenetrationRatio = System.Math.Min(PenetrationRatio, 1d);
                 PenetrationRatio = System.Math.Max(PenetrationRatio, 0d);
 

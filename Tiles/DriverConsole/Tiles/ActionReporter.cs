@@ -145,7 +145,7 @@ namespace Tiles
         string GetGerund(ITissueLayerInjury tlInjury)
         {
             var gerund = "";
-            switch (tlInjury.StrikeResult.StressResult)
+            switch (tlInjury.StressResult)
             {
                 case StressResult.None:
                     gerund = "glancing off";
@@ -216,7 +216,7 @@ namespace Tiles
             var injuries = bpInjury.TissueLayerInjuries;
             if (injuries.Count() > 1)
             {
-                injuries = bpInjury.TissueLayerInjuries.Where(x => x.StrikeResult.StressResult != Materials.StressResult.None);
+                injuries = bpInjury.TissueLayerInjuries.Where(x => x.StressResult != Materials.StressResult.None);
             }
 
             if (injuries.Any())

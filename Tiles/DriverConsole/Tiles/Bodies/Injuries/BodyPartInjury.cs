@@ -49,8 +49,8 @@ namespace Tiles.Bodies.Injuries
 
                     foreach (var injury in layerInjuries)
                     {
-                        if (!injury.StrikeResult.IsDefeated
-                            || injury.StrikeResult.PenetrationRatio < 1d)
+                        if (!injury.IsDefeated
+                            || injury.PenetrationRatio < 1d)
                         {
                             return false;
                         }

@@ -116,10 +116,10 @@ namespace Tiles.EngineIntegrationTests
             foreach (var exp in expectedLayerResults)
             {
                 var tInjury = partInjury.TissueLayerInjuries.ElementAt(i);
-                Assert.AreEqual(exp, tInjury.StrikeResult.StressResult,
+                Assert.AreEqual(exp, tInjury.StressResult,
                     string.Format("Expected <{0}>, got <{1}> for {2} {3}",
                         exp,
-                        tInjury.StrikeResult.StressResult,
+                        tInjury.StressResult,
                         partInjury.BodyPart.Name,
                         tInjury.Layer.Material.Name));
                 i++;
@@ -129,9 +129,9 @@ namespace Tiles.EngineIntegrationTests
             {
                 foreach (var tInjury in partInjury.TissueLayerInjuries.Skip(expected))
                 {
-                    if (tInjury.StrikeResult.StressResult != StressResult.None)
+                    if (tInjury.StressResult != StressResult.None)
                     {
-                        Assert.Fail(string.Format("Unexpected tissue layer result {0} for {1} layer", tInjury.StrikeResult.StressResult, tInjury.Layer.Material.Name));
+                        Assert.Fail(string.Format("Unexpected tissue layer result {0} for {1} layer", tInjury.StressResult, tInjury.Layer.Material.Name));
                     }
                 }
             }

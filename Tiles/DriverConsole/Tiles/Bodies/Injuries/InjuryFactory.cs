@@ -81,6 +81,11 @@ namespace Tiles.Bodies.Injuries
             ITissueLayer layer,
             MaterialStrikeResult tissueResult)
         {
+            var woundArea = tissueResult.PenetrationRatio >= 1d ? tissueResult.ContactArea : 0d;
+            var isChip = tissueResult.ContactArea <= bodyPart.ContactArea;
+            var isSoft = layer.Material.IsSoft(tissueResult.StressMode);
+            var isVascular = layer.IsVascular;
+
             var damage = new DamageVector();
             switch (tissueResult.StressResult)
             {
@@ -106,7 +111,7 @@ namespace Tiles.Bodies.Injuries
                     break;
             }
             yield return
-                new TissueLayerInjury(bodyPart, layer, damage, tissueResult);
+                new TissueLayerInjury(bodyPart, layer, tissueResult.StressResult, damage, woundArea, tissueResult.ContactArea, tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, tissueResult.IsDefeated, isChip, isSoft, isVascular);
         }
 
 

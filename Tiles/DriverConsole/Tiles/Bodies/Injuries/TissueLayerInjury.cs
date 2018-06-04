@@ -12,13 +12,18 @@ namespace Tiles.Bodies.Injuries
     {
         ITissueLayer Layer { get; }
         IDamageVector Damage { get; }
-        MaterialStrikeResult StrikeResult { get; }
 
+        StressResult StressResult { get; }
+
+        bool IsDefeated { get; }
         bool IsChip { get; }
         bool IsSoft { get; }
         bool IsVascular { get; }
 
         double WoundArea { get; }
+        double ContactArea { get; }
+        double ContactAreaRatio { get; }
+        double PenetrationRatio { get; }
     }
 
     class TissueLayerInjury : ITissueLayerInjury
@@ -27,49 +32,33 @@ namespace Tiles.Bodies.Injuries
         public IBodyPart BodyPart { get; private set; }
         public IDamageVector Damage { get; private set; }
 
-        public MaterialStrikeResult StrikeResult { get; private set; }
-        public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, IDamageVector damage, MaterialStrikeResult strikeResult)
+        public StressResult StressResult { get; private set; }
+
+        public bool IsDefeated { get; private set; }
+        public bool IsChip { get; private set; }
+        public bool IsSoft { get; private set; }
+        public bool IsVascular { get; private set; }
+
+        public double WoundArea { get; private set; }
+        public double ContactArea { get; private set; }
+        public double ContactAreaRatio { get; private set; }
+        public double PenetrationRatio { get; private set; }
+
+        public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, StressResult stressResult, IDamageVector damage, double woundArea, double contactArea, double contactAreaRatio, double penetrationRatio, bool isDefeated, bool isChip, bool isSoft, bool isVascular)
         {
             BodyPart = bodyPart;
             Layer = layer;
-            StrikeResult = strikeResult;
             Damage = damage;
-        }
+            StressResult = stressResult;
 
-        public double WoundArea
-        {
-            get
-            {
-                if (StrikeResult.PenetrationRatio >= 1d)
-                {
-                    return StrikeResult.ContactArea;
-                }
-                return 0;
-            }
-        }
-
-        public bool IsChip
-        {
-            get
-            {
-                return StrikeResult.ContactArea <= BodyPart.ContactArea * 0.25d;
-            }
-        }
-
-        public bool IsSoft
-        {
-            get
-            {
-                return Layer.Material.IsSoft(StrikeResult.StressMode);
-            }
-        }
-
-        public bool IsVascular
-        {
-            get
-            {
-                return Layer.IsVascular;
-            }
+            WoundArea = woundArea;
+            ContactArea = contactArea;
+            ContactAreaRatio = contactAreaRatio;
+            PenetrationRatio = penetrationRatio;
+            IsDefeated = isDefeated;
+            IsChip = isChip;
+            IsSoft = isSoft;
+            IsVascular = isVascular;
         }
     }
 }
