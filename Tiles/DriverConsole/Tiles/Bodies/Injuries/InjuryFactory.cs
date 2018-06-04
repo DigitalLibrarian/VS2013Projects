@@ -81,8 +81,38 @@ namespace Tiles.Bodies.Injuries
             ITissueLayer layer,
             MaterialStrikeResult tissueResult)
         {
+            var damage = new DamageVector();
+            switch (tissueResult.StressResult)
+            {
+                case StressResult.Impact_Bypass:
+                    damage.EffectFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.EffectFraction.Denominator);
+                    break;
+                case StressResult.Impact_CompleteFracture:
+                    damage.CutFraction.Numerator = Round(tissueResult.PenetrationRatio * tissueResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
+                    damage.DentFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                case StressResult.Shear_Dent:
+                    damage.DentFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                case StressResult.Shear_Cut:
+                    damage.CutFraction.Numerator = Round(tissueResult.PenetrationRatio * tissueResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
+                    damage.DentFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                case StressResult.Shear_CutThrough:
+                    damage.CutFraction.Numerator = Round(tissueResult.PenetrationRatio * tissueResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
+                    damage.DentFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                default:
+                    break;
+            }
             yield return
-                new TissueLayerInjury(bodyPart, layer, tissueResult);
+                new TissueLayerInjury(bodyPart, layer, damage, tissueResult);
+        }
+
+
+        private long Round(double d)
+        {
+            return ((long)((double)d / 10d)) * 10L;
         }
 
         #region Damage Classifiction

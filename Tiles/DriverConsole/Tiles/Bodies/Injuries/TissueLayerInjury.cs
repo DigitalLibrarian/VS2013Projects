@@ -11,6 +11,7 @@ namespace Tiles.Bodies.Injuries
     public interface ITissueLayerInjury
     {
         ITissueLayer Layer { get; }
+        IDamageVector Damage { get; }
         MaterialStrikeResult StrikeResult { get; }
 
         bool IsChip { get; }
@@ -18,21 +19,21 @@ namespace Tiles.Bodies.Injuries
         bool IsVascular { get; }
 
         double WoundArea { get; }
-
-        IDamageVector GetDamage();
     }
 
     class TissueLayerInjury : ITissueLayerInjury
     {
         public ITissueLayer Layer { get; private set; }
         public IBodyPart BodyPart { get; private set; }
+        public IDamageVector Damage { get; private set; }
 
         public MaterialStrikeResult StrikeResult { get; private set; }
-        public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult)
+        public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, IDamageVector damage, MaterialStrikeResult strikeResult)
         {
             BodyPart = bodyPart;
             Layer = layer;
             StrikeResult = strikeResult;
+            Damage = damage;
         }
 
         public double WoundArea
@@ -69,40 +70,6 @@ namespace Tiles.Bodies.Injuries
             {
                 return Layer.IsVascular;
             }
-        }
-
-        public IDamageVector GetDamage()
-        {
-            var damage = new DamageVector();
-            switch (StrikeResult.StressResult)
-            {
-                case StressResult.Impact_Bypass:
-                    damage.EffectFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double) damage.EffectFraction.Denominator);
-                    break;
-                case StressResult.Impact_CompleteFracture:
-                    damage.CutFraction.Numerator = Round(StrikeResult.PenetrationRatio * StrikeResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
-                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
-                    break;
-                case StressResult.Shear_Dent:
-                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
-                    break;
-                case StressResult.Shear_Cut:
-                    damage.CutFraction.Numerator = Round(StrikeResult.PenetrationRatio * StrikeResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
-                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
-                    break;
-                case StressResult.Shear_CutThrough:
-                    damage.CutFraction.Numerator = Round(StrikeResult.PenetrationRatio * StrikeResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
-                    damage.DentFraction.Numerator = Round(StrikeResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
-                    break;
-                default:
-                    break;
-            }
-            return damage;
-        }
-
-        private long Round(double d)
-        {
-            return ((long) ((double)d / 10d)) * 10L;
         }
     }
 }

@@ -50,9 +50,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(8.15d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.31d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(3190, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(3190, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(3190, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(3190, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -60,9 +60,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(8.15d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.31d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(3190, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(3190, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(3190, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(3190, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
@@ -70,9 +70,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(8.15d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(0.07d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.31d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(240, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(3190, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(240, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(3190, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -95,27 +95,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.22d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(2270, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(2270, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(2270, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(2270, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.22d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(2270, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(2270, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(2270, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(2270, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.22d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(2270, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(2270, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -138,27 +138,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.12d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(1230, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1230, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(1230, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1230, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.73d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.12d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(900, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1230, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(900, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1230, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.12d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(1230, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(1230, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -181,27 +181,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.14d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(1430, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1430, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(1430, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1430, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.79d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.14d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(1140, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1430, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(1140, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1430, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.14d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(1430, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(1430, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -224,27 +224,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.17d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(1730, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1730, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(1730, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1730, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.95d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.17d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(1650, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1730, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(1650, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1730, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.17d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(1730, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(1730, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -268,9 +268,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(8d, layerResult.StrikeResult.ContactArea, 0.2d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(770, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(770, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(770, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(770, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -278,18 +278,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(8d, layerResult.StrikeResult.ContactArea, 0.2d);
             Assert.AreEqual(0.56d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(430, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(770, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(430, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(770, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.07d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -316,9 +316,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -326,9 +326,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
@@ -336,9 +336,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
@@ -346,9 +346,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0.84d, layerResult.StrikeResult.PenetrationRatio, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(8450, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(8450, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(4);
@@ -356,9 +356,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -385,9 +385,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(21.2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.45d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(4510, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(4510, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -395,9 +395,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(21.2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.45d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(4510, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(4510, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
@@ -405,9 +405,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(21.2d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.45d, layerResult.StrikeResult.ContactAreaRatio, 0.1d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(4510, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(4510, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
         
@@ -434,9 +434,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(21.26d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(0.2, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(2020, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2020, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = report.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -444,9 +444,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(21.26d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(0.2, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(2020, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2020, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = report.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
@@ -454,9 +454,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(21.26d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(0.2, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(2020, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2020, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -584,27 +584,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.83d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(8320, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(8320, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.83d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(8320, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(8320, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.83d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(8320, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(8320, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -627,27 +627,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.2d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(2020, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2020, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.2d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(2020, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2020, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.2d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(2020, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2020, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -672,45 +672,45 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("nail", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(10000d, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000d, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0d, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000d, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000d, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().EffectFraction.Numerator, 0.1d);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.EffectFraction.Numerator, 0.1d);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().EffectFraction.Numerator, 0.1d);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.EffectFraction.Numerator, 0.1d);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(4);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -733,27 +733,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.59d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(5920, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(5920, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.59d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(5920, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(5920, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.59d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(5920, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(5920, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -778,18 +778,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(980, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(980, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(980, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(980, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.06d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(60, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(980, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(60, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(980, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
         
@@ -813,18 +813,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.28d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(2870, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(2870, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(2870, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(2870, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.18d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.28d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(520, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(2870, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(520, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(2870, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -848,9 +848,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.15d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1560, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1560, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1560, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1560, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -858,9 +858,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0.1, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.15d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(160, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1560, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(160, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1560, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -884,9 +884,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.18d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1810, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1810, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1810, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1810, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -894,9 +894,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0.12, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.18d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(220, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(1810, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(220, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1810, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
         }
@@ -921,9 +921,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.52d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(5290, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(5290, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(5290, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(5290, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -931,9 +931,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0.28d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.52d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1500, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(5290, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1500, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(5290, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
@@ -941,9 +941,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10.3d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.52d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(5290, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(5290, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1015,27 +1015,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.51d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.51d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.51d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -1065,36 +1065,36 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -1125,36 +1125,36 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -1185,45 +1185,45 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("nail", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(4);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -1252,27 +1252,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.05d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(520, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(520, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1302,9 +1302,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(StressResult.Shear_Cut, layerResult.StrikeResult.StressResult);
             Assert.AreEqual(0.63d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(6390, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(6390, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -1312,9 +1312,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(StressResult.Shear_Dent, layerResult.StrikeResult.StressResult);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1341,18 +1341,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.35d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(3560, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(3560, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1379,18 +1379,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0.95d, layerResult.StrikeResult.ContactAreaRatio, 0.02d);
             Assert.AreEqual(0.86d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(8240, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(9560, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(8240, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(9560, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.95d, layerResult.StrikeResult.ContactAreaRatio, 0.02d);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(9560, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(9560, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1417,9 +1417,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0.22d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.5d, layerResult.StrikeResult.ContactAreaRatio, 0.05d);
             Assert.AreEqual(55d, layerResult.StrikeResult.ContactArea, 1d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1170, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1170, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1445,9 +1445,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0.22d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.5d, layerResult.StrikeResult.ContactAreaRatio, 0.05d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1170, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(5190, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1170, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(5190, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1475,9 +1475,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(46.04d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -1485,9 +1485,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(46.04d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0.03d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(320, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(320, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1515,9 +1515,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(18.5d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -1525,9 +1525,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(18.5d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0.89d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(8980, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(8980, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1555,9 +1555,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(46.04d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
@@ -1565,9 +1565,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(46.04d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(0.05d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(520, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(520, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1594,9 +1594,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(103.89d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(0.1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1080, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1080, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1625,9 +1625,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(103.89d, layerResult.StrikeResult.ContactArea, 0.01d);
             Assert.AreEqual(0.1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1080, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1080, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1654,18 +1654,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.46d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(4680, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(4680, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1694,27 +1694,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.03d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(300, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(300, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.03d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(300, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(300, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.03d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(300, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(300, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1744,36 +1744,36 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.04d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(420, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(420, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.04d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(420, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(420, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.04d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(420, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(420, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(0.04d, layerResult.StrikeResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(420, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(420, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(420, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(420, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -1802,27 +1802,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0.0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1851,18 +1851,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.05d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(430, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(430, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1890,18 +1890,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.19d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1910, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1910, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -1930,27 +1930,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
@@ -1958,9 +1958,9 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(18.5d, layerResult.StrikeResult.ContactArea, 0.1d);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
         }
 
@@ -1989,27 +1989,27 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.WoundArea);
         }
 
@@ -2037,18 +2037,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(.31d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(3090, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(3090, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -2077,18 +2077,18 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(0.33d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(3370, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(3370, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -2119,36 +2119,36 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(0.12d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(1240, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1240, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 
@@ -2178,36 +2178,36 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.StrikeResult.ContactArea, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0.68d, layerResult.StrikeResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(6860, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(6860, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.StrikeResult.PenetrationRatio);
             Assert.AreEqual(1d, layerResult.StrikeResult.ContactAreaRatio);
-            Assert.AreEqual(0, layerResult.GetDamage().EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.GetDamage().CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.GetDamage().DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
         }
 

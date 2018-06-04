@@ -28,7 +28,6 @@ namespace Tiles.Bodies
             Thickness = thickness;
             Volume = volume;
 
-            // TODO - this should be a dynamic sum from a list of tracked injuries
             Damage = new DamageVector();
         }
 
@@ -69,7 +68,7 @@ namespace Tiles.Bodies
                 PenetrationRatio = System.Math.Min(PenetrationRatio, 1d);
                 PenetrationRatio = System.Math.Max(PenetrationRatio, 0d);
 
-                Damage.Add(injury.GetDamage());
+                Damage.Add(injury.Damage);
             }
         }
     }
