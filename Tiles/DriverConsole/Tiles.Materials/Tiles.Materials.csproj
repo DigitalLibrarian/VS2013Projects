@@ -56,12 +56,6 @@
     <Compile Include="StressResult.cs" />
     <Compile Include="StockMaterials.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tiles.Math\Tiles.Math.csproj">
-      <Project>{49e4b040-9ddf-4120-87ca-9d296f4f01b9}</Project>
-      <Name>Tiles.Math</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
