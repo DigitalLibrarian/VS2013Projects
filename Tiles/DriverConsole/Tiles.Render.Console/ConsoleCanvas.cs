@@ -19,7 +19,7 @@ namespace Tiles.Render.Console
             Writer = writer;
         }
 
-        public void DrawSprite(ISprite sprite, Vector2 screenPos)
+        public void DrawSprite(Sprite sprite, Vector2 screenPos)
         {
             DrawSymbol(sprite.Symbol, screenPos, sprite.ForegroundColor, sprite.BackgroundColor);
         }

@@ -18,16 +18,16 @@ namespace Tiles.Tests.Items
         public void WeaponConstructor()
         {
             string name = "name";
-            var spriteMock = new Mock<ISprite>();
+            var sprite = new Sprite();
             var materialMock = new Mock<IMaterial>();
             var weaponClassMock = new Mock<IWeaponClass>();
             int size = 10;
 
-            var itemClass = new ItemClass(name, spriteMock.Object, size, materialMock.Object, weaponClassMock.Object);
+            var itemClass = new ItemClass(name, sprite, size, materialMock.Object, weaponClassMock.Object);
 
             Assert.AreSame(name, itemClass.Name);
             Assert.AreEqual(size, itemClass.Size);
-            Assert.AreSame(spriteMock.Object, itemClass.Sprite);
+            Assert.AreSame(sprite, itemClass.Sprite);
             Assert.AreSame(materialMock.Object, itemClass.Material);
             Assert.AreSame(weaponClassMock.Object, itemClass.WeaponClass);
             Assert.IsNull(itemClass.ArmorClass);
@@ -37,16 +37,16 @@ namespace Tiles.Tests.Items
         public void ArmorConstructor()
         {
             string name = "name";
-            var spriteMock = new Mock<ISprite>();
+            var sprite = new Sprite();
             var materialMock = new Mock<IMaterial>();
             var armorClassMock = new Mock<IArmorClass>();
             int size = 10;
 
-            var itemClass = new ItemClass(name, spriteMock.Object, size, materialMock.Object, armorClassMock.Object);
+            var itemClass = new ItemClass(name, sprite, size, materialMock.Object, armorClassMock.Object);
 
             Assert.AreSame(name, itemClass.Name);
             Assert.AreEqual(size, itemClass.Size);
-            Assert.AreSame(spriteMock.Object, itemClass.Sprite);
+            Assert.AreSame(sprite, itemClass.Sprite);
             Assert.AreSame(materialMock.Object, itemClass.Material);
             Assert.AreSame(armorClassMock.Object, itemClass.ArmorClass);
             Assert.IsNull(itemClass.WeaponClass);
@@ -56,16 +56,16 @@ namespace Tiles.Tests.Items
         public void FullConstructor()
         {
             string name = "name";
-            var spriteMock = new Mock<ISprite>();
+            var sprite = new Sprite();
             var materialMock = new Mock<IMaterial>();
             var weaponClassMock = new Mock<IWeaponClass>();
             var armorClassMock = new Mock<IArmorClass>();
             int size = 10;
 
-            var itemClass = new ItemClass(name, spriteMock.Object, size, materialMock.Object, weaponClassMock.Object, armorClassMock.Object);
+            var itemClass = new ItemClass(name, sprite, size, materialMock.Object, weaponClassMock.Object, armorClassMock.Object);
 
             Assert.AreSame(name, itemClass.Name);
-            Assert.AreSame(spriteMock.Object, itemClass.Sprite);
+            Assert.AreSame(sprite, itemClass.Sprite);
             Assert.AreSame(materialMock.Object, itemClass.Material);
             Assert.AreSame(weaponClassMock.Object, itemClass.WeaponClass);
             Assert.AreSame(armorClassMock.Object, itemClass.ArmorClass);

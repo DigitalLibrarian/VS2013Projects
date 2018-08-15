@@ -29,7 +29,7 @@ namespace Tiles
         public IList<IItem> Items { get; set; }
 
         public Terrain Terrain { get; set; }
-        public ISprite TerrainSprite { get; set; }
+        public Sprite TerrainSprite { get; set; }
 
         public Vector3 Index { get; private set; }
 

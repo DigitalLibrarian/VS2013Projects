@@ -9,7 +9,7 @@ namespace Tiles.Structures
 {
     public interface IStructureCell
     {
-        ISprite Sprite { get; set; }
+        Sprite Sprite { get; set; }
         IStructure Structure { get;}
         StructureCellType Type { get; set; }
 

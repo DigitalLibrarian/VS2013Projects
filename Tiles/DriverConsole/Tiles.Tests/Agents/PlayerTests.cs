@@ -19,7 +19,6 @@ namespace Tiles.Tests.Agents
     {
         Vector3 StartPos { get; set; }
         Mock<IAtlas> AtlasMock { get; set; }
-        Mock<ISprite> SpriteMock { get; set; }
         Mock<IBody> BodyMock { get; set; }
         Mock<IInventory> InventoryMock { get; set; }
         Mock<IOutfit> OutfitMock { get; set; }
@@ -33,7 +32,6 @@ namespace Tiles.Tests.Agents
         {
             StartPos = Vector3.Zero;
             AtlasMock = new Mock<IAtlas>();
-            SpriteMock = new Mock<ISprite>();
             BodyMock = new Mock<IBody>();
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();

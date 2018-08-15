@@ -10,7 +10,7 @@ namespace Tiles.Agents
     public interface IAgentClass
     {
         string Name { get; set; }
-        ISprite Sprite { get; set; }
+        Sprite Sprite { get; set; }
         IBodyClass BodyClass { get; set; }
 
     }

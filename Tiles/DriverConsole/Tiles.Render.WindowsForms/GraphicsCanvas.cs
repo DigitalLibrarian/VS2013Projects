@@ -95,7 +95,7 @@ namespace Tiles.Render.WindowsForms
             graphics.DrawImage(image, screenRect, 0, 0, FontMap.GlyphSize.X, FontMap.GlyphSize.Y, GraphicsUnit.Pixel, imageAttr);
         }
 
-        public void DrawSprite(ISprite sprite, Tiles.Math.Vector2 screenPos)
+        public void DrawSprite(Sprite sprite, Tiles.Math.Vector2 screenPos)
         {
             var screenPoint = Point(screenPos);
             var destRect = GlyphRect(screenPoint);

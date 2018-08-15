@@ -21,7 +21,7 @@ namespace Tiles.Tests.Agents
     public class AgentTests
     {
         Mock<IAtlas> AtlasMock { get; set; }
-        Mock<ISprite> SpriteMock { get; set; }
+        Sprite Sprite { get; set; }
         Mock<IBody> BodyMock { get; set; }
         Mock<IInventory> InventoryMock { get; set; }
         Mock<IOutfit> OutfitMock { get; set; }
@@ -34,7 +34,7 @@ namespace Tiles.Tests.Agents
         public void Initialize()
         {
             AtlasMock = new Mock<IAtlas>();
-            SpriteMock = new Mock<ISprite>();
+            Sprite = new Sprite();
             BodyMock = new Mock<IBody>();
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();
@@ -42,7 +42,7 @@ namespace Tiles.Tests.Agents
             Name = "name";
             AgentClassMock = new Mock<IAgentClass>();
             AgentClassMock.Setup(x => x.Name).Returns(Name);
-            AgentClassMock.Setup(x => x.Sprite).Returns(SpriteMock.Object);
+            AgentClassMock.Setup(x => x.Sprite).Returns(Sprite);
 
             Agent = new Agent(
                 AtlasMock.Object, 
@@ -60,7 +60,7 @@ namespace Tiles.Tests.Agents
         {
             Assert.IsNull(Agent.AgentBehavior);
             Assert.AreSame(AtlasMock.Object, Agent.Atlas);
-            Assert.AreSame(SpriteMock.Object, Agent.Sprite);
+            Assert.AreSame(Sprite, Agent.Sprite);
             Assert.AreSame(BodyMock.Object, Agent.Body);
             Assert.AreSame(InventoryMock.Object, Agent.Inventory);
             Assert.AreSame(OutfitMock.Object, Agent.Outfit);

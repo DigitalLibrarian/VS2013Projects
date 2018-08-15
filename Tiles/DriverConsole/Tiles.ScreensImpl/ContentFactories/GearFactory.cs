@@ -256,7 +256,7 @@ namespace Tiles.ScreensImpl.ContentFactories
             });
 
         IItem CreateItem(
-            string name, ISprite sprite, IItemClass itemClass)
+            string name, Sprite sprite, IItemClass itemClass)
         {
             return ItemFactory.Create(itemClass);
         }

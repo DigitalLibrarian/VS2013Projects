@@ -15,7 +15,7 @@ namespace Tiles
         Vector3 Index { get;}
         IList<IItem> Items { get; }
         Terrain Terrain { get; set; }
-        ISprite TerrainSprite { get; set; }
+        Sprite TerrainSprite { get; set; }
 
         IStructureCell StructureCell { get; set; }
         bool HasStructureCell { get; }

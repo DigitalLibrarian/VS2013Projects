@@ -25,6 +25,7 @@ namespace Tiles.Agents.Combat
 
         public IEnumerable<ICombatMove> GetPossibleMoves(IAgent attacker, IAgent defender)
         {
+            // TODO - a grabbed body part cannot be used to attack you
             bool meleeRange = IsMeleeRange(attacker, defender);
 
             if (meleeRange)

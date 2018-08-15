@@ -15,23 +15,23 @@ namespace Tiles.Tests.Structures
     public class StructureCellTests
     {
         Mock<IStructure> StructureMock { get; set; }
-        Mock<ISprite> SpriteMock { get; set; }
+        Sprite Sprite { get; set; }
 
         [TestInitialize]
         public void Initialize()
         {
             StructureMock = new Mock<IStructure>();
-            SpriteMock = new Mock<ISprite>();
+            Sprite = new Sprite();
         }
 
         [TestMethod]
         public void ConstructorDefaults()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object);
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite);
 
             Assert.AreSame(StructureMock.Object, cell.Structure);
-            Assert.AreSame(SpriteMock.Object, cell.Sprite);
+            Assert.AreSame(Sprite, cell.Sprite);
             Assert.AreEqual(cellType, cell.Type);
             Assert.IsFalse(cell.IsOpen);
             Assert.IsFalse(cell.CanClose);
@@ -43,12 +43,12 @@ namespace Tiles.Tests.Structures
         public void ConfigConstructor()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canOpen: true, canClose: true, canPass: false, isOpen: true
                 );
 
             Assert.AreSame(StructureMock.Object, cell.Structure);
-            Assert.AreSame(SpriteMock.Object, cell.Sprite);
+            Assert.AreSame(Sprite, cell.Sprite);
             Assert.AreEqual(cellType, cell.Type);
             Assert.IsTrue(cell.IsOpen);
             Assert.IsTrue(cell.CanClose);
@@ -60,7 +60,7 @@ namespace Tiles.Tests.Structures
         public void Open_CanOpen_NotOpen()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canOpen: true, isOpen: false
                 );
 
@@ -73,7 +73,7 @@ namespace Tiles.Tests.Structures
         public void Open_CanOpen_Open()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canOpen: true, isOpen: true
                 );
 
@@ -86,7 +86,7 @@ namespace Tiles.Tests.Structures
         public void Open_CanNotOpen_NotOpen()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canOpen: false, isOpen: false
                 );
 
@@ -99,7 +99,7 @@ namespace Tiles.Tests.Structures
         public void Open_CanNotOpen_Open()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canOpen: false, isOpen: true
                 );
 
@@ -112,7 +112,7 @@ namespace Tiles.Tests.Structures
         public void Close_CanClose_Open()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canClose: true, isOpen: true
                 );
 
@@ -125,7 +125,7 @@ namespace Tiles.Tests.Structures
         public void Close_CanClose_NotOpen()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canClose: true, isOpen: false
                 );
 
@@ -138,7 +138,7 @@ namespace Tiles.Tests.Structures
         public void Close_CanNotClose_Open()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canClose: false, isOpen: true
                 );
 
@@ -151,7 +151,7 @@ namespace Tiles.Tests.Structures
         public void Close_CanNotClose_NotOpen()
         {
             StructureCellType cellType = StructureCellType.None;
-            var cell = new StructureCell(StructureMock.Object, cellType, SpriteMock.Object,
+            var cell = new StructureCell(StructureMock.Object, cellType, Sprite,
                 canClose: false, isOpen: false
                 );
 

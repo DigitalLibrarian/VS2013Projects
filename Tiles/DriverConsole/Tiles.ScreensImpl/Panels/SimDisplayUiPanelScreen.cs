@@ -48,16 +48,16 @@ namespace Tiles.ScreensImpl.Panels
 
             if (reticule)
             {
-                ISprite s = PickDisplaySprite(atlas.GetTileAtPos(camPos));
+                Sprite s = PickDisplaySprite(atlas.GetTileAtPos(camPos));
                 var screenPos = AtlasToScreen(camPos, Box.Min, Box.Size, camPos);
                 Canvas.DrawSymbol(s.Symbol, screenPos, Color.White, Color.Blue);
             }
         }
 
-        protected ISprite PickDisplaySprite(ITile tile)
+        protected Sprite PickDisplaySprite(ITile tile)
         {
             var obj = tile.GetTopItem();
-            ISprite s;
+            Sprite s;
             if (tile.HasAgent)
             {
                 s = tile.Agent.Sprite;
@@ -86,7 +86,7 @@ namespace Tiles.ScreensImpl.Panels
 
         private void DrawTile(ITile tile, int screenX, int screenY)
         {
-            ISprite s = PickDisplaySprite(tile);
+            Sprite s = PickDisplaySprite(tile);
             Canvas.DrawSprite(s, new Vector2(screenX, screenY));
         }
     }

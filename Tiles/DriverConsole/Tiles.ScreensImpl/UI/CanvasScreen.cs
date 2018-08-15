@@ -34,7 +34,7 @@ namespace Tiles.ScreensImpl.UI
             return v + Translation;
         }
 
-        public void DrawSprite(ISprite sprite, Vector2 screenPos)
+        public void DrawSprite(Sprite sprite, Vector2 screenPos)
         {
             Inner.DrawSprite(sprite, Translate(screenPos));
         }

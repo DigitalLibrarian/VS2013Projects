@@ -8,7 +8,7 @@ namespace Tiles.Structures
 {
     public class StructureCell : IStructureCell
     {
-        public ISprite Sprite { get; set; }
+        public Sprite Sprite { get; set; }
         public IStructure Structure { get; private set; }
         public StructureCellType Type { get; set; }
         public bool IsOpen { get; set; }
@@ -19,7 +19,7 @@ namespace Tiles.Structures
         public StructureCell(
             IStructure structure,
             StructureCellType type,
-            ISprite sprite,
+            Sprite sprite,
             bool canOpen = false,
             bool canClose = false,
             bool canPass = true,

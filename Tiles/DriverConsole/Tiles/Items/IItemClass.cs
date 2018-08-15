@@ -14,7 +14,7 @@ namespace Tiles.Items
         /// Volume in cm^3
         /// </summary>
         double Size { get; }
-        ISprite Sprite { get; }
+        Sprite Sprite { get; }
         IWeaponClass WeaponClass { get; }
         IArmorClass ArmorClass { get; }
 

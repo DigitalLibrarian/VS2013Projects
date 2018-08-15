@@ -164,7 +164,7 @@ namespace Tiles.Content.Map
             );
         }
 
-        public ISprite Map(ContentModel.Sprite sprite)
+        public Sprite Map(ContentModel.Sprite sprite)
         {
             return new Sprite(sprite.Symbol, 
                 Map(sprite.Foreground),

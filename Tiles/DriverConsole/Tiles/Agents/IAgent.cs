@@ -21,7 +21,7 @@ namespace Tiles.Agents
 
         string Name { get; }
         IAgentBehavior AgentBehavior { get; set; }
-        ISprite Sprite { get; }
+        Sprite Sprite { get; }
         Vector3 Pos { get; }
         IBody Body { get; }
         bool IsPlayer { get; }

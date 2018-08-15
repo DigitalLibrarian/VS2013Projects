@@ -24,15 +24,15 @@ namespace Tiles.ScreensImpl.ContentFactories
         static IBodyClassFactory BodyClassFactory = new BodyClassFactory();
         static IItemClass ZombieClawClass = new ItemClass(
             name: "zombie claw", 
-            sprite: null, 
+            sprite: new Sprite(), 
             size: 100,
             material: StockMaterials.Nail, 
             weaponClass: ZombieClaw.WeaponClass, 
             armorClass: null);
 
         static IItemClass ZombieTeethClass = new ItemClass(
-            name: "zombie teeth", 
-            sprite: null, 
+            name: "zombie teeth",
+            sprite: new Sprite(),
             size: 50,
             material: StockMaterials.Bone, 
             weaponClass: ZombieTeeth.WeaponClass, 

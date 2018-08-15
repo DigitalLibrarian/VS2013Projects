@@ -10,12 +10,12 @@ namespace Tiles.EntityComponents
 {
     public interface ISpriteComponent : IComponent
     {
-        ISprite Sprite { get; }
+        Sprite Sprite { get; }
     }
 
     public class SpriteComponent : ISpriteComponent
     {
         public int Id { get { return ComponentTypes.Sprite; } }
-        public ISprite Sprite { get; set; }
+        public Sprite Sprite { get; set; }
     }
 }

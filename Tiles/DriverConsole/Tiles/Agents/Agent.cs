@@ -18,7 +18,7 @@ namespace Tiles.Agents
         public IAtlas Atlas { get; private set; }
         public IAgentClass Class { get; private set; }
         public string Name { get { return Class.Name; } }
-        public ISprite Sprite { get { return Class.Sprite; } }
+        public Sprite Sprite { get { return Class.Sprite; } }
         public IBody Body { get; private set; }
         public Vector3 Pos { get; protected set; }
         public IInventory Inventory { get; private set; }
