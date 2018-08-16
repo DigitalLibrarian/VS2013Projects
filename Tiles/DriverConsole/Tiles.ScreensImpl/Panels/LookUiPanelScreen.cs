@@ -74,7 +74,9 @@ namespace Tiles.ScreensImpl.Panels
             }
             else
             {
-                lines.Add(string.Format("Name: {0}", agent.Name));
+                lines.Add(string.Format("Name: {0} IsProne: {1} CanStand: {2}", agent.Name, agent.IsProne, agent.CanStand));
+                lines.Add(string.Format("IsProne: {0}", agent.IsProne));
+                lines.Add(string.Format("CanStand: {0}", agent.CanStand));
                 
                 if (agent.Body.IsWrestling)
                 {
