@@ -12,13 +12,18 @@ namespace Tiles.Agents
 {
     public class AgentCommandFactory : IAgentCommandFactory
     {
-        long MinTime = 1;
+
+        private long ScaleTime(IAgent agent, long amount=1)
+        {
+            return amount * (agent.IsProne ? 3 : 1);
+        }
+
         public IEnumerable<IAgentCommand> Nothing(IAgent agent)
         {
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.None,
-                RequiredTime = MinTime * 1
+                RequiredTime = ScaleTime(agent) * 1
             };
         }
         
@@ -27,7 +32,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.Move,
-                RequiredTime = MinTime * 10,
+                RequiredTime = ScaleTime(agent, 10),
                 Direction = direction
             };
         }
@@ -39,7 +44,7 @@ namespace Tiles.Agents
                 yield return new AgentCommand
                 {
                     CommandType = AgentCommandType.PickUpItemOnAgentTile,
-                    RequiredTime = MinTime*2,
+                    RequiredTime = ScaleTime(agent, 2),
                     Item = item
                 };
             }
@@ -50,19 +55,19 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.None,
-                RequiredTime = attackMove.Class.PrepTime
+                RequiredTime = ScaleTime(agent, attackMove.Class.PrepTime)
             };
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.AttackMelee,
-                RequiredTime = MinTime,
+                RequiredTime = ScaleTime(agent),
                 Target = target,
                 AttackMove = attackMove
             };
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.None,
-                RequiredTime = attackMove.Class.RecoveryTime
+                RequiredTime = ScaleTime(agent, attackMove.Class.RecoveryTime)
             };
         }
 
@@ -71,7 +76,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.WieldWeapon,
-                RequiredTime = MinTime * 5,
+                RequiredTime = ScaleTime(agent, 5),
                 Weapon = item
             };
         }
@@ -81,7 +86,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.WearArmor,
-                RequiredTime = MinTime * 5,
+                RequiredTime = ScaleTime(agent, 5),
                 Armor = item
             };
         }
@@ -91,7 +96,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.UnwieldWeapon,
-                RequiredTime = MinTime * 5,
+                RequiredTime = ScaleTime(agent, 5),
                 Weapon = item,
             };
         }
@@ -101,7 +106,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.TakeOffArmor,
-                RequiredTime = MinTime * 5,
+                RequiredTime = ScaleTime(agent, 5),
                 Armor = item
             };
         }
@@ -111,7 +116,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.DropInventoryItem,
-                RequiredTime = MinTime,
+                RequiredTime = ScaleTime(agent),
                 Item = item
             };
         }
@@ -121,7 +126,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.StandUp,
-                RequiredTime = MinTime
+                RequiredTime = ScaleTime(agent)
             };
         }
 
@@ -130,7 +135,7 @@ namespace Tiles.Agents
             yield return new AgentCommand
             {
                 CommandType = AgentCommandType.LayDown,
-                RequiredTime = MinTime
+                RequiredTime = ScaleTime(agent)
             };
         }
     }
