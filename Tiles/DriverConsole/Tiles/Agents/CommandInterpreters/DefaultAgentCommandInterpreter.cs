@@ -20,7 +20,9 @@ namespace Tiles.Agents.CommandInterpreters
             {AgentCommandType.UnwieldWeapon, new AgentCommandTypeInterpreter_UnwieldWeapon()},
             {AgentCommandType.WearArmor, new AgentCommandTypeInterpreter_WearArmor()},
             {AgentCommandType.TakeOffArmor, new AgentCommandTypeInterpreter_TakeOffArmor()},
-            {AgentCommandType.DropInventoryItem, new AgentCommandTypeInterpreter_DropInventoryItem()}
+            {AgentCommandType.DropInventoryItem, new AgentCommandTypeInterpreter_DropInventoryItem()},
+            {AgentCommandType.StandUp, new AgentCommandTypeInterpreter_StandUp()},
+            {AgentCommandType.LayDown, new AgentCommandTypeInterpreter_LayDown()}
         }) { }
     }
 }

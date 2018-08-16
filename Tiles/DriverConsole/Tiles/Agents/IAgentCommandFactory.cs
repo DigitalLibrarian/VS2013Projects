@@ -13,6 +13,9 @@ namespace Tiles.Agents
     public interface IAgentCommandFactory
     {
         IEnumerable<IAgentCommand> Nothing(IAgent agent);
+        IEnumerable<IAgentCommand> StandUp(IAgent agent);
+        IEnumerable<IAgentCommand> LayDown(IAgent agent);
+
         IEnumerable<IAgentCommand> MeleeAttack(IAgent agent, IAgent target, ICombatMove attackMove);
         IEnumerable<IAgentCommand> WieldWeapon(IAgent agent, IItem item);
         IEnumerable<IAgentCommand> WearArmor(IAgent agent, IItem item);

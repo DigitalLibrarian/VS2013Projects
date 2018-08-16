@@ -44,6 +44,7 @@ namespace Tiles.Tests.Agents
             agentClassMock.Setup(x => x.BodyClass).Returns(bodyClassMock.Object);
 
             var bodyMock = new Mock<IBody>();
+            bodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart>());
             BodyFactoryMock.Setup(x => x.Create(bodyClassMock.Object)).Returns(bodyMock.Object);
 
             var pos = new Vector3(1, 2, 3);

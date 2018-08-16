@@ -150,6 +150,7 @@ namespace Tiles.ScreensImpl.UI
             Key_Look(args);
             Key_Get(args);
             Key_ExtendedActionLog(args);
+            Key_StandToggle(args);
         }
 
         void Key_Inventory(KeyPressEventArgs args)
@@ -226,7 +227,18 @@ namespace Tiles.ScreensImpl.UI
                 ShowExtendedActionLogScreen();
             }
         }
-
+        
+        void Key_StandToggle(KeyPressEventArgs args)
+        {
+            if(args.Key == ConsoleKey.S)
+            {
+                Game.Player.EnqueueCommands(
+                    Game.Player.Agent.IsProne 
+                        ? CommandFactory.StandUp(Game.Player.Agent) 
+                        : CommandFactory.LayDown(Game.Player.Agent)
+                    );
+            }
+        }
         #endregion
 
         private void ShowExtendedActionLogScreen()

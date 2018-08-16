@@ -27,6 +27,7 @@ namespace Tiles.Agents
         public IOutfit Outfit { get; private set; }
         public bool IsUndead { get; set; }
         public bool IsProne { get; set; }
+        public bool CanStand { get { return !CantStand(); } }
 
         public IAgentCommandQueue CommandQueue { get; private set; }
 
@@ -54,6 +55,7 @@ namespace Tiles.Agents
             Outfit = outfit;
             
             CommandQueue = commandQueue;
+            IsProne = !CanStand;
         }
 
         public virtual void Update(IGame game)
@@ -184,6 +186,24 @@ namespace Tiles.Agents
             // TODO - implement unconscious check
 
             return false;
+        }
+
+
+        public bool StandUp()
+        {
+            if (!IsProne) return false;
+            if (!CanStand) return false;
+
+            IsProne = false;
+            return true;
+        }
+
+        public bool LayDown()
+        {
+            if (IsProne) return false;
+
+            IsProne = true;
+            return true;
         }
     }
 }

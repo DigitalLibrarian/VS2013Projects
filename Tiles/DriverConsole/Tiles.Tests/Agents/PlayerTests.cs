@@ -33,6 +33,7 @@ namespace Tiles.Tests.Agents
             StartPos = Vector3.Zero;
             AtlasMock = new Mock<IAtlas>();
             BodyMock = new Mock<IBody>();
+            BodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart>());
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();
             CommandQueueMock= new Mock<IAgentCommandQueue>();

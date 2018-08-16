@@ -23,6 +23,7 @@ namespace Tiles.Agents
         bool IsDead { get; }
         bool IsUndead { get; }
         bool IsProne { get; }
+        bool CanStand { get; }
 
         Vector3 Pos { get; }
         Sprite Sprite { get; }
@@ -42,6 +43,9 @@ namespace Tiles.Agents
         bool CanPerform(ICombatMove move);
         double GetStrikeMomentum(ICombatMove move);
         IMaterial GetStrikeMaterial(ICombatMove move);
+
+        bool StandUp();
+        bool LayDown();
 
         void Sever(IBodyPart part);
     }

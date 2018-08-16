@@ -253,5 +253,43 @@ namespace Tiles.Tests.Agents
             Assert.IsNull(command.Weapon);
             Assert.IsNull(command.Armor);
         }
+
+        [TestMethod]
+        public void StandUp()
+        {
+            var agentMock = new Mock<IAgent>();
+
+            var commands = Factory.StandUp(agentMock.Object);
+            Assert.AreEqual(1, commands.Count());
+            var command = commands.Single();
+
+            Assert.AreEqual(AgentCommandType.StandUp, command.CommandType);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
+            Assert.IsNull(command.Target);
+            Assert.IsNull(command.AttackMove);
+            Assert.IsNull(command.Item);
+            Assert.IsNull(command.Weapon);
+            Assert.IsNull(command.Armor);
+        }
+
+        [TestMethod]
+        public void LayDown()
+        {
+            var agentMock = new Mock<IAgent>();
+
+            var commands = Factory.LayDown(agentMock.Object);
+            Assert.AreEqual(1, commands.Count());
+            var command = commands.Single();
+
+            Assert.AreEqual(AgentCommandType.LayDown, command.CommandType);
+            Asserter.AreEqual(Vector3.Zero, command.TileOffset);
+            Asserter.AreEqual(Vector3.Zero, command.Direction);
+            Assert.IsNull(command.Target);
+            Assert.IsNull(command.AttackMove);
+            Assert.IsNull(command.Item);
+            Assert.IsNull(command.Weapon);
+            Assert.IsNull(command.Armor);
+        }
     }
 }

@@ -16,6 +16,8 @@ namespace Tiles.Agents
         UnwieldWeapon,
         WearArmor,
         TakeOffArmor,
-        DropInventoryItem
+        DropInventoryItem,
+        StandUp,
+        LayDown
     }
 }

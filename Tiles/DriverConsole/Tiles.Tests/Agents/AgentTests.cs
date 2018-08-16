@@ -36,6 +36,7 @@ namespace Tiles.Tests.Agents
             AtlasMock = new Mock<IAtlas>();
             Sprite = new Sprite();
             BodyMock = new Mock<IBody>();
+            BodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart>());
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();
             CommandQueueMock = new Mock<IAgentCommandQueue>();
@@ -68,7 +69,14 @@ namespace Tiles.Tests.Agents
             Assert.IsFalse(Agent.IsPlayer);
             Assert.IsNull(Agent.AgentBehavior);
             Assert.AreEqual(Name, Agent.Name);
-            Assert.IsFalse(Agent.IsProne);
+            Assert.IsTrue(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void VacuouslyCannotStand()
+        {
+            Assert.IsFalse(Agent.Body.Parts.Any());
+            Assert.IsFalse(Agent.CanStand);
         }
 
         [TestMethod]
@@ -361,7 +369,7 @@ namespace Tiles.Tests.Agents
             moveClassMock.Verify(x => x.GetRelatedBodyParts(It.IsAny<IBody>()), Times.Never());
         }
 
-#region Servering limbs affects Stance
+#region Stance
 
         private void SetupStanceFixture(out Mock<IBodyPart> leftFootMock, out Mock<IBodyPart> rightFootMock, out Mock<IBodyPart> controlMock)
         {
@@ -384,7 +392,17 @@ namespace Tiles.Tests.Agents
             BodyMock.Setup(x => x.Amputate(It.IsAny<IBodyPart>()))
                 .Callback<IBodyPart>(p => parts.Remove(p));
 
+            Agent = new Agent(
+                AtlasMock.Object,
+                AgentClassMock.Object,
+                Vector3.Zero,
+                BodyMock.Object,
+                InventoryMock.Object,
+                OutfitMock.Object,
+                CommandQueueMock.Object);
+
             Assert.IsFalse(Agent.IsProne);
+            Assert.IsTrue(Agent.CanStand);
         }
 
         [TestMethod]
@@ -407,6 +425,7 @@ namespace Tiles.Tests.Agents
             Agent.Sever(leftFootMock.Object);
 
             Assert.IsTrue(Agent.IsProne);
+            Assert.IsFalse(Agent.CanStand);
         }
 
         [TestMethod]
@@ -419,6 +438,7 @@ namespace Tiles.Tests.Agents
             Agent.Sever(controlMock.Object);
 
             Assert.IsTrue(Agent.IsProne);
+            Assert.IsFalse(Agent.CanStand);
         }
 
         [TestMethod]
@@ -430,6 +450,7 @@ namespace Tiles.Tests.Agents
             Agent.Sever(rightFootMock.Object);
 
             Assert.IsTrue(Agent.IsProne);
+            Assert.IsFalse(Agent.CanStand);
         }
 
         [TestMethod]
@@ -442,7 +463,81 @@ namespace Tiles.Tests.Agents
             Agent.Sever(controlMock.Object);
 
             Assert.IsTrue(Agent.IsProne);
+            Assert.IsFalse(Agent.CanStand);
+        }
+
+        [TestMethod]
+        public void StandUp_IsProne()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Assert.IsFalse(Agent.IsProne);
+            Assert.IsTrue(Agent.LayDown());
+            Assert.IsTrue(Agent.IsProne);
+            Assert.IsTrue(Agent.CanStand);
+
+            Assert.IsTrue(Agent.StandUp());
+            Assert.IsFalse(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void StandUp_Standing()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Assert.IsFalse(Agent.IsProne);
+            Assert.IsTrue(Agent.LayDown());
+            Assert.IsTrue(Agent.IsProne);
+            Assert.IsTrue(Agent.CanStand);
+
+            Assert.IsTrue(Agent.StandUp());
+            Assert.IsFalse(Agent.IsProne);
+
+            Assert.IsFalse(Agent.StandUp());
+            Assert.IsFalse(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void StandUp_Unable()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Assert.IsTrue(Agent.CanStand);
+            rightFootMock.Setup(x => x.IsEffectivelyPulped).Returns(true);
+            Assert.IsFalse(Agent.CanStand);
+
+            Assert.IsFalse(Agent.StandUp());
+            Assert.IsFalse(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void LayDown_IsProne()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Assert.IsFalse(Agent.IsProne);
+            Assert.IsTrue(Agent.LayDown());
+            Assert.IsTrue(Agent.IsProne);
+
+            Assert.IsFalse(Agent.LayDown());
+            Assert.IsTrue(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void LayDown_Standing()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Assert.IsFalse(Agent.IsProne);
+            Assert.IsTrue(Agent.LayDown());
+            Assert.IsTrue(Agent.IsProne);
         }
 #endregion
+
     }
 }

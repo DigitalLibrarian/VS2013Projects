@@ -115,5 +115,23 @@ namespace Tiles.Agents
                 Item = item
             };
         }
+
+        public IEnumerable<IAgentCommand> StandUp(IAgent agent)
+        {
+            yield return new AgentCommand
+            {
+                CommandType = AgentCommandType.StandUp,
+                RequiredTime = MinTime
+            };
+        }
+
+        public IEnumerable<IAgentCommand> LayDown(IAgent agent)
+        {
+            yield return new AgentCommand
+            {
+                CommandType = AgentCommandType.LayDown,
+                RequiredTime = MinTime
+            };
+        }
     }
 }
