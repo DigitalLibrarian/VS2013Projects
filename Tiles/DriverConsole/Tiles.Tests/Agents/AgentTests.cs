@@ -60,7 +60,7 @@ namespace Tiles.Tests.Agents
         {
             Assert.IsNull(Agent.AgentBehavior);
             Assert.AreSame(AtlasMock.Object, Agent.Atlas);
-            Assert.AreSame(Sprite, Agent.Sprite);
+            Assert.AreEqual(Sprite, Agent.Sprite);
             Assert.AreSame(BodyMock.Object, Agent.Body);
             Assert.AreSame(InventoryMock.Object, Agent.Inventory);
             Assert.AreSame(OutfitMock.Object, Agent.Outfit);

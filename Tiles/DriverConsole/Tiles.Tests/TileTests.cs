@@ -26,7 +26,7 @@ namespace Tiles.Tests
             Assert.IsFalse(t.HasAgent);
             Assert.IsNull(t.Agent);
             Assert.AreEqual(Terrain.None, t.Terrain);
-            Assert.IsNull(t.TerrainSprite);
+            Assert.AreEqual(t.TerrainSprite, new Sprite());
         }
 
         [TestMethod]

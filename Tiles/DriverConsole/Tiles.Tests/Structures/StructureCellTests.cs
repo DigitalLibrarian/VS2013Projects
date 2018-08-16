@@ -31,7 +31,7 @@ namespace Tiles.Tests.Structures
             var cell = new StructureCell(StructureMock.Object, cellType, Sprite);
 
             Assert.AreSame(StructureMock.Object, cell.Structure);
-            Assert.AreSame(Sprite, cell.Sprite);
+            Assert.AreEqual(Sprite, cell.Sprite);
             Assert.AreEqual(cellType, cell.Type);
             Assert.IsFalse(cell.IsOpen);
             Assert.IsFalse(cell.CanClose);
@@ -48,7 +48,7 @@ namespace Tiles.Tests.Structures
                 );
 
             Assert.AreSame(StructureMock.Object, cell.Structure);
-            Assert.AreSame(Sprite, cell.Sprite);
+            Assert.AreEqual(Sprite, cell.Sprite);
             Assert.AreEqual(cellType, cell.Type);
             Assert.IsTrue(cell.IsOpen);
             Assert.IsTrue(cell.CanClose);

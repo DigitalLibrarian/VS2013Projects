@@ -27,7 +27,7 @@ namespace Tiles.Tests.Items
 
             Assert.AreSame(name, itemClass.Name);
             Assert.AreEqual(size, itemClass.Size);
-            Assert.AreSame(sprite, itemClass.Sprite);
+            Assert.AreEqual(sprite, itemClass.Sprite);
             Assert.AreSame(materialMock.Object, itemClass.Material);
             Assert.AreSame(weaponClassMock.Object, itemClass.WeaponClass);
             Assert.IsNull(itemClass.ArmorClass);
@@ -46,7 +46,7 @@ namespace Tiles.Tests.Items
 
             Assert.AreSame(name, itemClass.Name);
             Assert.AreEqual(size, itemClass.Size);
-            Assert.AreSame(sprite, itemClass.Sprite);
+            Assert.AreEqual(sprite, itemClass.Sprite);
             Assert.AreSame(materialMock.Object, itemClass.Material);
             Assert.AreSame(armorClassMock.Object, itemClass.ArmorClass);
             Assert.IsNull(itemClass.WeaponClass);
@@ -65,7 +65,7 @@ namespace Tiles.Tests.Items
             var itemClass = new ItemClass(name, sprite, size, materialMock.Object, weaponClassMock.Object, armorClassMock.Object);
 
             Assert.AreSame(name, itemClass.Name);
-            Assert.AreSame(sprite, itemClass.Sprite);
+            Assert.AreEqual(sprite, itemClass.Sprite);
             Assert.AreSame(materialMock.Object, itemClass.Material);
             Assert.AreSame(weaponClassMock.Object, itemClass.WeaponClass);
             Assert.AreSame(armorClassMock.Object, itemClass.ArmorClass);

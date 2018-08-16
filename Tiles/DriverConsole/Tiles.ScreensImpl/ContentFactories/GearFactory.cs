@@ -17,8 +17,8 @@ namespace Tiles.ScreensImpl.ContentFactories
         #region static defns
         static IMaterial Leather = new Material("leather", "leather");
         static IMaterial Plastic = new Material("plastic", "plastic");
-        static IMaterial Steel = new Material("steel", "steel");
-        static IMaterial Wood = new Material("wood", "wood");
+        static IMaterial Steel = StockMaterials.Steel;
+        static IMaterial Wood = StockMaterials.Wood;
         static IMaterial Cotton = new Material("cotton", "cotton");
         private static IList<IItemClass> _ItemClasses = new List<IItemClass>
         {
@@ -47,6 +47,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsMartialArts = true,
                            IsStrike = true,
                            IsItem = true,
+                           ContactArea = 10,
+                           MaxPenetration = 0,
+                           StressMode = StressMode.Blunt,
                        },
                        new CombatMoveClass(
                            name: "Swish",
@@ -64,6 +67,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsMartialArts = true,
                            IsStrike = true,
                            IsItem = true,
+                           ContactArea = 120,
+                           MaxPenetration = 0,
+                           StressMode = StressMode.Blunt
                        },
                    }
                 )),
@@ -92,6 +98,10 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsMartialArts = true,
                            IsStrike = true,
                            IsItem = true,
+                           ContactArea = 20000,
+                           MaxPenetration = 4000,
+                           StressMode = StressMode.Edge,
+                           VelocityMultiplier = 1250
                        },
                        new CombatMoveClass(
                            name: "Stab",
@@ -109,6 +119,10 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsMartialArts = true,
                            IsStrike = true,
                            IsItem = true,
+                           ContactArea = 50,
+                           MaxPenetration = 2000,
+                           StressMode = StressMode.Edge,
+                           VelocityMultiplier = 1000
                        },
                    }
                 )),
@@ -130,13 +144,17 @@ namespace Tiles.ScreensImpl.ContentFactories
                                     { VerbConjugation.SecondPerson, "bash"},
                                     { VerbConjugation.ThirdPerson, "bashes"},
                                 }, true),
-                           prepTime: 1,
-                           recoveryTime: 1
+                           prepTime: 3,
+                           recoveryTime: 3
                            ){
                            IsDefenderPartSpecific = true,
                            IsMartialArts = true,
                            IsStrike = true,
                            IsItem = true,
+                           ContactArea = 10,
+                           MaxPenetration = 200,
+                           StressMode = StressMode.Blunt,
+                           VelocityMultiplier = 2000
                        }
                    }
                 )),
@@ -251,6 +269,9 @@ namespace Tiles.ScreensImpl.ContentFactories
                        IsMartialArts = true,
                        IsStrike = true,
                        IsItem = true,
+                       ContactArea = 200,
+                       MaxPenetration = 10,
+                       StressMode = StressMode.Blunt,
                    },
 
             });

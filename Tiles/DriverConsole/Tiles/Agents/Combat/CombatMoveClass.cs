@@ -21,6 +21,7 @@ namespace Tiles.Agents.Combat
             RecoveryTime = recoveryTime;
 
             Requirements = new List<IBodyPartRequirement>();
+            VelocityMultiplier = 1000;
         }
 
 

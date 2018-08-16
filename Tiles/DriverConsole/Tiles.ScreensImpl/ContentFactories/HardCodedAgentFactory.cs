@@ -184,8 +184,12 @@ namespace Tiles.ScreensImpl.ContentFactories
                                IsMartialArts = true,
                                IsStrike = true,
                                IsDefenderPartSpecific = true,
-                               IsItem = true
+                               IsItem = true,
+                               ContactArea = 3,
+                               MaxPenetration = 10,
+                               StressMode = StressMode.Edge,
                            },
+                            
                        new CombatMoveClass(
                            name: "Rake",
                            meleeVerb: new Verb(
@@ -202,7 +206,11 @@ namespace Tiles.ScreensImpl.ContentFactories
                                IsMartialArts = true,
                                IsStrike = true,
                                IsDefenderPartSpecific = true,
-                               IsItem = true
+                               IsItem = true,
+                               ContactArea = 5,
+                               MaxPenetration = 35,
+                               StressMode = StressMode.Edge,
+                               VelocityMultiplier = 3000
                            }
                     }
                     );
@@ -229,7 +237,10 @@ namespace Tiles.ScreensImpl.ContentFactories
                                IsMartialArts = true,
                                IsStrike = true,
                                IsDefenderPartSpecific = true,
-                               IsItem = true
+                               IsItem = true,
+                               ContactArea = 1,
+                               MaxPenetration = 20,
+                               StressMode = StressMode.Edge,
                            },
                     }
                     );
