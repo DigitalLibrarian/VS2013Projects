@@ -37,6 +37,8 @@ namespace Tiles.Bodies
         public bool IsSight { get; set; }
 
         public bool IsStance { get; set; }
+        public bool IsLeft { get; set; }
+        public bool IsRight { get; set; }
         public bool IsInternal { get; set; }
         public bool IsSmall { get; set; }
         public bool IsEmbedded { get; set; }
@@ -60,6 +62,8 @@ namespace Tiles.Bodies
             bool isBreathe = false,
             bool isSight = false,
             bool isStance = false,
+            bool isLeft = false,
+            bool isRight = false,
             bool isInternal = false,
             bool isSmall = false,
             bool isEmbedded = false,
@@ -89,6 +93,8 @@ namespace Tiles.Bodies
             IsBreathe = isBreathe;
             IsSight = isSight;
             IsStance = isStance;
+            IsLeft = isLeft;
+            IsRight = isRight;
             IsInternal = isInternal;
             IsSmall = isSmall;
             IsEmbedded = isEmbedded;
@@ -102,7 +108,5 @@ namespace Tiles.Bodies
                 BodyPartRelations = relations;
             }
         }
-
-
     }
 }

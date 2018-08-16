@@ -50,6 +50,10 @@ namespace Tiles.Content.Models
         public List<BodyPartRelation> BodyPartRelations { get; set; }
         
         public string TokenId { get; set; }
+
+        public bool IsLeft { get; set; }
+
+        public bool IsRight { get; set; }
     }
 
     public enum BodyPartRelationType

@@ -392,6 +392,8 @@ namespace Tiles.Content.Bridge.DfNet
                 IsBreathe = singleWords.Contains("BREATHE"),
                 IsSight = singleWords.Contains("SIGHT"),
                 IsStance = singleWords.Contains("STANCE"),
+                IsLeft = singleWords.Contains("LEFT"),
+                IsRight = singleWords.Contains("RIGHT"),
                 IsInternal = singleWords.Contains("INTERNAL"),
                 IsConnector = singleWords.Contains("CONNECTOR"),
                 PreventsParentCollapse = singleWords.Contains("PREVENTS_PARENT_COLLAPSE"),

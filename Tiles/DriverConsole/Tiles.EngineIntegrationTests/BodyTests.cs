@@ -102,6 +102,18 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_FeetCharacteristic()
+        {
+            var agent = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            Assert.IsNotNull(agent);
+
+            var leftFoot = agent.Body.Parts.Single(p => p.IsStance && p.IsLeft);
+            var rightFoot = agent.Body.Parts.Single(p => p.IsStance && p.IsRight);
+            Assert.AreEqual("left foot", leftFoot.Name);
+            Assert.AreEqual("right foot", rightFoot.Name);
+        }
+
+        [TestMethod]
         public void Dwarf_PunchTimes()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);

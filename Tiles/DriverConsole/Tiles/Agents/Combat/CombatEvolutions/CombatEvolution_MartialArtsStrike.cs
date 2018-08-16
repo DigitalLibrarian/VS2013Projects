@@ -37,27 +37,18 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var attacker = session.Attacker;
             var defender = session.Defender;
 
-            if (!defender.Body.Parts.Contains(move.DefenderBodyPart))
-            {
-                return;
-            }
-
-            if (!attacker.CanPerform(move))
-            {
-                return;
-            }
+            if (!defender.Body.Parts.Contains(move.DefenderBodyPart)) return;
+            if (!attacker.CanPerform(move)) return;
 
             bool isWeaponBased = move.Class.IsItem;
             var momentum = attacker.GetStrikeMomentum(move);
-            IMaterial weaponMat = attacker.GetStrikeMaterial(move);
-            if (weaponMat == null)
-            {
-                return;
-            }
+            var weaponMat = attacker.GetStrikeMaterial(move);
+            if (weaponMat == null) return;
+
             var armorItems = session.Defender.Outfit
                 .GetItems(move.DefenderBodyPart).Where(x => x.IsArmor);
 
-            IInjuryReport report = InjuryReportCalc.CalculateMaterialStrike(
+            var report = InjuryReportCalc.CalculateMaterialStrike(
                 armorItems,
                 move.Class.StressMode,
                 momentum,
@@ -78,11 +69,14 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 }
             }
 
-            bool targetPartWasShed = report.IsSever(move.DefenderBodyPart);
+            var targetWasProne = defender.IsProne;
+            var targetIsProne = false;
+            var targetPartWasShed = report.IsSever(move.DefenderBodyPart);
             foreach (var sever in report.GetSeverings())
             {
-                defender.Body.Amputate(sever.BodyPart);
+                defender.Sever(sever.BodyPart);
                 HandleShedPart(attacker, defender, move, sever.BodyPart);
+                targetIsProne = defender.IsProne;
             }
 
             if (isWeaponBased)
@@ -92,6 +86,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             else
             {
                 Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, targetPartWasShed);
+            }
+
+            if (!targetWasProne && targetIsProne)
+            {
+                Reporter.ReportFallDown(session, move.Defender);
             }
 
             var defenderDies = defender.IsDead;

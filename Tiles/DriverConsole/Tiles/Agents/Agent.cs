@@ -26,6 +26,7 @@ namespace Tiles.Agents
         public IAgentBehavior AgentBehavior { get; set; }
         public IOutfit Outfit { get; private set; }
         public bool IsUndead { get; set; }
+        public bool IsProne { get; set; }
 
         public IAgentCommandQueue CommandQueue { get; private set; }
 
@@ -123,23 +124,19 @@ namespace Tiles.Agents
 
         public double GetStrikeMomentum(ICombatMove move)
         {
-            double baseSize = Body.Size;
-
-            double Str, VelocityMultiplier, Size, W;
-            Str = Body.GetAttribute("STRENGTH");
-            Size = Body.Size;
-
-            VelocityMultiplier = (double)move.Class.VelocityMultiplier;
+            double  Str = Body.GetAttribute("STRENGTH"),
+                    VelocityMultiplier = (double)move.Class.VelocityMultiplier,
+                    Size = Body.Size;
 
             if (move.Class.IsItem)
             {
                 var weapon = move.Weapon;
-                W = weapon.GetMass();
+                var weight = weapon.GetMass();
 
-                W /= 1000d; // grams to kg
+                weight /= 1000d; // grams to kg
 
-                double intWeight = (int)(W);
-                double fractWeight = (int)((W - (intWeight)) * 1000d) * 1000d;
+                double intWeight = (int)(weight);
+                double fractWeight = (int)((weight - (intWeight)) * 1000d) * 1000d;
 
                 double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
                 double actWeight = (intWeight * 1000d) + (fractWeight / 1000d);
@@ -147,7 +144,6 @@ namespace Tiles.Agents
                 var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
                 v = System.Math.Min(5000d, v);
                 return v * actWeight / 1000d + 1d;
-
             }
             else
             {
@@ -164,7 +160,30 @@ namespace Tiles.Agents
                 var v = 100d * Str / 1000d * VelocityMultiplier / 1000d;
                 return v * (partWeight / 1000) + 1;
             }
+        }
 
+        public void Sever(IBodyPart part)
+        {
+            Body.Amputate(part);
+            IsProne = !IsProne && CantStand();
+        }
+
+        private bool CantStand()
+        {
+            // We want to detect whether or not our agent should fall over.  Why this might "spontaneously" happen:
+            //  * Losing the entire set of [LEFT] or [RIGHT] parts that have [STANCE] is the cause of falling prone/supine
+            //  * Being unconscious
+
+            var stanceParts = Body.Parts.Where(p => p.IsStance && !p.IsEffectivelyPulped);
+            var leftStanceParts = stanceParts.Where(p => p.IsLeft);
+            if (!leftStanceParts.Any()) return true;
+
+            var rightStanceParts = stanceParts.Where(p => p.IsRight);
+            if (!rightStanceParts.Any()) return true;
+
+            // TODO - implement unconscious check
+
+            return false;
         }
     }
 }

@@ -17,26 +17,32 @@ namespace Tiles.Agents
     public interface IAgent
     {
         int EntityId { get; set; }
-        IAgentClass Class { get;  }
 
         string Name { get; }
-        IAgentBehavior AgentBehavior { get; set; }
-        Sprite Sprite { get; }
-        Vector3 Pos { get; }
-        IBody Body { get; }
         bool IsPlayer { get; }
         bool IsDead { get; }
         bool IsUndead { get; }
-        bool CanMove(Vector3 move);
-        bool Move(Vector3 move);
-        void Update(IGame game);
+        bool IsProne { get; }
+
+        Vector3 Pos { get; }
+        Sprite Sprite { get; }
+
+        IAgentClass Class { get; }
+        IBody Body { get; }
         IInventory Inventory { get; }
         IOutfit Outfit { get; }
 
+        IAgentBehavior AgentBehavior { get; set; }
         IAgentCommandQueue CommandQueue { get; }
+
+        bool CanMove(Vector3 move);
+        bool Move(Vector3 move);
+        void Update(IGame game);
 
         bool CanPerform(ICombatMove move);
         double GetStrikeMomentum(ICombatMove move);
         IMaterial GetStrikeMaterial(ICombatMove move);
+
+        void Sever(IBodyPart part);
     }
 }

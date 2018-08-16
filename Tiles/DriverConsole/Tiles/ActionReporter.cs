@@ -14,6 +14,8 @@ namespace Tiles
 {
     public class ActionReporter : IActionReporter
     {
+        // TODO - need proper name awareness
+
         public IActionLog Log { get; private set; }
         public ActionReporter(IActionLog log)
         {
@@ -68,7 +70,7 @@ namespace Tiles
                     completionMessage = limbMessage;
                 }
 
-                var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
+                var message = string.Format("The {0} {1} the {2}'s {3}{4}{5}",
                     attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
 
                 Log.AddLine(message);
@@ -79,7 +81,7 @@ namespace Tiles
             }
             else
             {
-                var message = string.Format("{0} {1} the {2}'s {3}{4}{5}",
+                var message = string.Format("The {0} {1} the {2}'s {3}{4}{5}",
                     attackerName, verbStr, defenderName, bodyPartName, withWeapon, " but nothing happens.");
 
                 Log.AddLine(message);
@@ -114,7 +116,7 @@ namespace Tiles
                 }
             } 
             else {
-                var message = string.Format("{0} {1} the {2}'s {3} but the attack glances away.",
+                var message = string.Format("The {0} {1} the {2}'s {3} but the attack glances away.",
                     attackerName, verbStr, defenderName, bodyPartName);
 
                 Log.AddLine(message);
@@ -125,6 +127,11 @@ namespace Tiles
         {
             var message = string.Format("The {0} is struck down!", agent.Name);
             Log.AddLine(message);
+        }
+
+        public void ReportFallDown(ICombatMoveContext session, IAgent agent)
+        {
+            Log.AddLine(string.Format("The {0} falls down.", agent.Name));
         }
 
         void ReportAdditionalBodyPartInjury(ICombatMoveContext context, IBodyPartInjury bpInjury)

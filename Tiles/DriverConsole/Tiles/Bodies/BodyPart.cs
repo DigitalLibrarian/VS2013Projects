@@ -27,6 +27,8 @@ namespace Tiles.Bodies
         public bool IsSight { get { return Class.IsSight; } }
 
         public bool IsStance { get { return Class.IsStance; } }
+        public bool IsLeft { get { return Class.IsLeft; } }
+        public bool IsRight { get { return Class.IsRight; } }
         public bool IsInternal { get { return Class.IsInternal; } }
 
         public bool IsConnector { get { return Class.IsConnector; } }

@@ -63,5 +63,9 @@ namespace Tiles.Bodies
         //double GetMass();
         //double GetContactArea();
         //double GetThickness();
+
+        bool IsLeft { get; }
+
+        bool IsRight { get; }
     }
 }

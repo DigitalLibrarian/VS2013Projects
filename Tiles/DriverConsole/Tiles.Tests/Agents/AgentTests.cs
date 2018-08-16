@@ -68,6 +68,7 @@ namespace Tiles.Tests.Agents
             Assert.IsFalse(Agent.IsPlayer);
             Assert.IsNull(Agent.AgentBehavior);
             Assert.AreEqual(Name, Agent.Name);
+            Assert.IsFalse(Agent.IsProne);
         }
 
         [TestMethod]
@@ -359,5 +360,89 @@ namespace Tiles.Tests.Agents
 
             moveClassMock.Verify(x => x.GetRelatedBodyParts(It.IsAny<IBody>()), Times.Never());
         }
+
+#region Servering limbs affects Stance
+
+        private void SetupStanceFixture(out Mock<IBodyPart> leftFootMock, out Mock<IBodyPart> rightFootMock, out Mock<IBodyPart> controlMock)
+        {
+            leftFootMock = new Mock<IBodyPart>();
+            leftFootMock.Setup(x => x.IsStance).Returns(true);
+            leftFootMock.Setup(x => x.IsLeft).Returns(true);
+
+            rightFootMock = new Mock<IBodyPart>();
+            rightFootMock.Setup(x => x.IsStance).Returns(true);
+            rightFootMock.Setup(x => x.IsRight).Returns(true);
+
+            controlMock = new Mock<IBodyPart>();
+
+            var parts = new List<IBodyPart>
+            {
+                controlMock.Object, leftFootMock.Object, rightFootMock.Object
+            };
+
+            BodyMock.Setup(x => x.Parts).Returns(parts);
+            BodyMock.Setup(x => x.Amputate(It.IsAny<IBodyPart>()))
+                .Callback<IBodyPart>(p => parts.Remove(p));
+
+            Assert.IsFalse(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void Sever_IsProne_Unaffected()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Agent.Sever(controlMock.Object);
+
+            Assert.IsFalse(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void Sever_IsProne_SeverLastLeft()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Agent.Sever(leftFootMock.Object);
+
+            Assert.IsTrue(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void Sever_IsProne_PulpLastLeft()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            leftFootMock.Setup(x => x.IsEffectivelyPulped).Returns(true);
+            Agent.Sever(controlMock.Object);
+
+            Assert.IsTrue(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void Sever_IsProne_SeverLastRight()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            Agent.Sever(rightFootMock.Object);
+
+            Assert.IsTrue(Agent.IsProne);
+        }
+
+        [TestMethod]
+        public void Sever_IsProne_PulpLastRight()
+        {
+            Mock<IBodyPart> leftFootMock, rightFootMock, controlMock;
+            SetupStanceFixture(out leftFootMock, out rightFootMock, out controlMock);
+
+            rightFootMock.Setup(x => x.IsEffectivelyPulped).Returns(true);
+            Agent.Sever(controlMock.Object);
+
+            Assert.IsTrue(Agent.IsProne);
+        }
+#endregion
     }
 }

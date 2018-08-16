@@ -98,6 +98,18 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_FeetCharacteristic()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            Assert.IsNotNull(agent);
+
+            var leftFoot = agent.Body.Parts.Single(p => p.IsStance && p.IsLeft);
+            var rightFoot = agent.Body.Parts.Single(p => p.IsStance && p.IsRight);
+            Assert.AreEqual("left foot", leftFoot.NameSingular);
+            Assert.AreEqual("right foot", rightFoot.NameSingular);
+        }
+
+        [TestMethod]
         public void Dwarf_Skull()
         {
             var agent = DfAgentFactory.Create("DWARF", "MALE");

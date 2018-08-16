@@ -33,6 +33,8 @@ namespace Tiles.Bodies
         bool IsSight { get; }
 
         bool IsStance { get; }
+        bool IsLeft { get; set; }
+        bool IsRight { get; set; }
         bool IsInternal { get; }
         bool IsSmall { get; }
         bool IsEmbedded { get; }
