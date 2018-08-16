@@ -136,7 +136,7 @@ namespace Tiles
 
         void ReportAdditionalBodyPartInjury(ICombatMoveContext context, IBodyPartInjury bpInjury)
         {
-            var message = string.Format(" * {0}'s {1} was hit{2}",
+            var message = string.Format(" The {0}'s {1} was hit{2}",
                 context.Defender.Name,
                 bpInjury.BodyPart.Name,
                 GetPhrase(bpInjury));
