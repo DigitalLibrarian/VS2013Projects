@@ -188,7 +188,6 @@ namespace Tiles.Agents
             return false;
         }
 
-
         public bool StandUp()
         {
             if (!IsProne) return false;

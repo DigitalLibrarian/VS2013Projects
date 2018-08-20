@@ -781,7 +781,24 @@ namespace Tiles.Content.Bridge.DfNet
             var sprite = new Sprite(Symbol, Foreground, Background);
 
             var required = new string[]{
-                "STRENGTH"
+                "STRENGTH",
+                "AGILITY",
+                "TOUGHNESS",
+                "ENDURANCE",
+                "RECUPERATION",
+                "DISEASE_RESISTANCE",
+                "ANALYTICAL_ABILITY",
+                "FOCUS",
+                "WILLPOWER",
+                "CREATIVITY",
+                "INTUITION",
+                "PATIENCE",
+                "MEMORY",
+                "LINGUISTIC_ABILITY",
+                "KINESTHETIC_SENSE",
+                "EMPATHY",
+                "SOCIAL_AWARENESS",
+                "SPATIAL_SENSE"
             };
             var defaultValues = new List<int> { 200, 700, 900, 1000, 1100, 1300, 2000 };
 
@@ -793,6 +810,7 @@ namespace Tiles.Content.Bridge.DfNet
                 }
             }
             
+            // For now each agent will get the median value for every attribute
             var newAttrs = Attributes.Select(att =>
                         new Tiles.Content.Models.Attribute
                         {
