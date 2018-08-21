@@ -216,6 +216,9 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.PHYS_ATT_RANGE:
                         HandleAttributeRange(tag, agentContext);
                         break;
+                    case DfTags.MiscTags.MENT_ATT_RANGE:
+                        HandleAttributeRange(tag, agentContext);
+                        break;
                     case DfTags.MiscTags.BP_RELATION:
                         HandleBpRelation(tag, agentContext);
                         break;

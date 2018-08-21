@@ -184,6 +184,7 @@ namespace DfNet.Raws
             public const string COLOR = "COLOR";
 
             public const string PHYS_ATT_RANGE = "PHYS_ATT_RANGE";
+            public const string MENT_ATT_RANGE = "MENT_ATT_RANGE";
 
             public const string IMPACT_YIELD = "IMPACT_YIELD";
             public const string IMPACT_FRACTURE = "IMPACT_FRACTURE";

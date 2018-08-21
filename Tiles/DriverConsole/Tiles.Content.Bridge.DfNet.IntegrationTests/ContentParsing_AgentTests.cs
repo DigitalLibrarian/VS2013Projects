@@ -110,6 +110,15 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_MedianWillpower()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            var will = agent.Body.Attributes.SingleOrDefault(x => x.Name == "WILLPOWER");
+            Assert.IsNotNull(will);
+            Assert.AreEqual(1000, will.Median);
+        }
+
+        [TestMethod]
         public void Dwarf_Skull()
         {
             var agent = DfAgentFactory.Create("DWARF", "MALE");
