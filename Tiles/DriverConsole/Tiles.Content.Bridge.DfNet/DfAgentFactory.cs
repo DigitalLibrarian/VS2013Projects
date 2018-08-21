@@ -233,6 +233,9 @@ namespace Tiles.Content.Bridge.DfNet
                         tisName = tag.GetParam(1);
                         agentContext.SetPusMaterial(tisName);
                         break;
+                    case DfTags.MiscTags.NOPAIN:
+                        agentContext.SetFeelsNoPain(true);
+                        break;
                 }
             }
 

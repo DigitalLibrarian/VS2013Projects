@@ -35,6 +35,8 @@ namespace Tiles.Content.Bridge.DfNet
         Material BloodMaterial { get; set; }
         Material PusMaterial { get; set; }
 
+        bool FeelsNoPain { get; set; }
+
         public DfAgentBuilder()
         {
             BodyPartsDefn = new Dictionary<string, DfObject>();
@@ -51,6 +53,7 @@ namespace Tiles.Content.Bridge.DfNet
 
             BpRelationDefns = new List<BpRelationDefn>();
             TlOverrideDefns = new List<TlOverrideDefn>();
+            FeelsNoPain = default(bool);
         }
 
         #region Lookups
@@ -730,6 +733,11 @@ namespace Tiles.Content.Bridge.DfNet
             PusMaterial = Materials[matName];
         }
 
+        public void SetFeelsNoPain(bool feelsNoPain) 
+        {
+            FeelsNoPain = feelsNoPain;
+        }
+
         public Agent Build()
         {
             var parts = new List<BodyPart>();
@@ -824,7 +832,8 @@ namespace Tiles.Content.Bridge.DfNet
                     Size = Size,
                     Attributes = newAttrs,
                     BloodMaterial = BloodMaterial,
-                    PusMaterial = PusMaterial
+                    PusMaterial = PusMaterial,
+                    FeelsNoPain = FeelsNoPain
                 };
 
             SetMoves(body);

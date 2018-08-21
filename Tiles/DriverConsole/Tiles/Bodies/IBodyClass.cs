@@ -24,5 +24,7 @@ namespace Tiles.Bodies
         IEnumerable<IAttributeClass> Attributes { get; set; }
 
         IMaterial BloodMaterial { get; }
+
+        bool FeelsNoPain { get; }
     }
 }

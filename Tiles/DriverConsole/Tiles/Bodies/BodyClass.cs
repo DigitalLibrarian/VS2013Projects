@@ -38,6 +38,7 @@ namespace Tiles.Bodies
 
         public IMaterial BloodMaterial { get; set; }
         public IMaterial PusMaterial { get; set; }
+        public bool FeelsNoPain { get; set; }
 
         public int TotalBodyPartRelSize
         {

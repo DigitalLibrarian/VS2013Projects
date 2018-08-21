@@ -199,13 +199,15 @@ namespace Tiles.Content.Map
             }
 
             return new EngineBodies.BodyClass(
-                body.Size, 
-                body.Parts.Select(x => partMap[x]), 
+                body.Size,
+                body.Parts.Select(x => partMap[x]),
                 body.Moves.Select(x => Map(x)),
                 body.Attributes.Select(x => Map(x)),
                 Map(body.BloodMaterial),
-                Map(body.PusMaterial)
-                );
+                Map(body.PusMaterial))
+                {
+                    FeelsNoPain = body.FeelsNoPain
+                };
         }
 
         private EngineBodies.IAttributeClass Map(ContentModel.Attribute x)

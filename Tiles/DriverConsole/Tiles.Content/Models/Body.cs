@@ -22,5 +22,7 @@ namespace Tiles.Content.Models
 
         public Material BloodMaterial { get; set; }
         public Material PusMaterial { get; set; }
+
+        public bool FeelsNoPain { get; set; }
     }
 }

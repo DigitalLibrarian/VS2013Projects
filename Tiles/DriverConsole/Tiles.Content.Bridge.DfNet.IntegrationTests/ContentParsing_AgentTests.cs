@@ -29,6 +29,13 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
                 );
         }
 
+        [TestMethod]
+        public void Dwarf_FeelsPain()
+        {
+
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            Assert.IsFalse(agent.Body.FeelsNoPain);
+        }
 
         [TestMethod]
         public void Dwarf_HeadTissues()
@@ -260,6 +267,13 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.IsNotNull(heart);
 
             Assert.IsTrue(heart.Tissue.Layers.Single().HasMajorArteries);
+        }
+
+        [TestMethod]
+        public void GiantCaveSpider_FeelsPain()
+        {
+            var agent = DfAgentFactory.Create("SPIDER_CAVE_GIANT", "MALE");
+            Assert.IsTrue(agent.Body.FeelsNoPain);
         }
     }
 }
