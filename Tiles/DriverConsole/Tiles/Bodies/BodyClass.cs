@@ -49,12 +49,5 @@ namespace Tiles.Bodies
                 .Select(x => x.RelativeSize).Sum();
             }
         }
-
-
-        public int GetAttribute(string name)
-        {
-            return Attributes.Single(a => a.Name.Equals(name))
-                .Median;
-        }
     }
 }

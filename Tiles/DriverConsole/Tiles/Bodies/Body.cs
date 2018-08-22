@@ -15,7 +15,6 @@ namespace Tiles.Bodies
         public IList<IBodyPart> Parts { get; private set; }
 
         public double Size { get; set; }
-        public double StoredFat { get { return 500000d; } }
         public IBodyClass Class { get; private set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
 
@@ -89,7 +88,6 @@ namespace Tiles.Bodies
             }
             return Attributes[name];
         }
-        public IEnumerable<string> AttributeNames { get { return Attributes.Keys; } }
 
         public IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type)
         {

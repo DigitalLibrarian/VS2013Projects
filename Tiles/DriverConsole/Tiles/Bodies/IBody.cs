@@ -15,8 +15,6 @@ namespace Tiles.Bodies
         bool IsDead { get; }
 
         double Size { get; }
-        double StoredFat { get; }
-
 
         IList<IBodyPart> Parts { get; }
         IBodyClass Class { get; }
@@ -28,7 +26,6 @@ namespace Tiles.Bodies
 
         void SetAttribute(string name, int value);
         int GetAttribute(string name);
-        IEnumerable<string> AttributeNames { get; }
 
         IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type);
     }

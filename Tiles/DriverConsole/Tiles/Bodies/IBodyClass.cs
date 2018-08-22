@@ -19,8 +19,6 @@ namespace Tiles.Bodies
 
         int TotalBodyPartRelSize { get; }
 
-        int GetAttribute(string name);
-
         IEnumerable<IAttributeClass> Attributes { get; set; }
 
         IMaterial BloodMaterial { get; }
