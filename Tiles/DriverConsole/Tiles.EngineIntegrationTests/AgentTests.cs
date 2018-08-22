@@ -19,7 +19,7 @@ using Tiles.Bodies;
 namespace Tiles.EngineIntegrationTests
 {
     [TestClass]
-    public class BodyTests
+    public class AgentTests
     {
         IRandom Random { get; set; }
 
@@ -62,6 +62,14 @@ namespace Tiles.EngineIntegrationTests
             MaterialStressCalc = new MaterialStressCalc();
         }
 
+
+        [TestMethod]
+        public void Dwarf_PainThreshold()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            Assert.AreEqual(100, dwarf.GetPainThreshold());
+        }
+
         [TestMethod]
         public void DwarfHead_InternalParts()
         {
@@ -87,7 +95,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual("frozen blood", dwarf.Body.Class.BloodMaterial.GetStateProperty("NAME", "SOLID"));
             Assert.AreEqual("blood", dwarf.Body.Class.BloodMaterial.GetStateProperty("NAME", "LIQUID"));
             Assert.AreEqual("boiling blood", dwarf.Body.Class.BloodMaterial.GetStateProperty("NAME", "GAS"));
-            
         }
 
         [TestMethod]

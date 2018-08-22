@@ -44,6 +44,8 @@ namespace Tiles.Agents
         double GetStrikeMomentum(ICombatMove move);
         IMaterial GetStrikeMaterial(ICombatMove move);
 
+        int GetPainThreshold();
+
         bool StandUp();
         bool LayDown();
 

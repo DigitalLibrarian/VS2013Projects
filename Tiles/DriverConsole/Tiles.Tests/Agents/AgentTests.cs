@@ -539,5 +539,18 @@ namespace Tiles.Tests.Agents
         }
 #endregion
 
+        [TestMethod]
+        public void PainThreshold()
+        {
+            foreach (var pair in new[] { 
+                new [] { 1000, 100 }
+            })
+            {
+                BodyMock.Setup(x => x.GetAttribute("WILLPOWER"))
+                    .Returns(pair[0]);
+
+                Assert.AreEqual(pair[1], Agent.GetPainThreshold());
+            }
+        }
     }
 }

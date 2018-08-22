@@ -204,5 +204,10 @@ namespace Tiles.Agents
             IsProne = true;
             return true;
         }
+
+        public int GetPainThreshold()
+        {
+            return Body.GetAttribute("WILLPOWER") / 10;
+        }
     }
 }
