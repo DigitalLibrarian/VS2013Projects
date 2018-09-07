@@ -29,7 +29,7 @@ namespace Tiles.Materials.Tests
             var stressMode = StressMode.Edge;
             var strikerMatMock = new Mock<IMaterial>();
             double strikerSharpness = 2d, strikerContactArea = 3d;
-            double momentum = 4d, penetrationLeft = 5d;
+            double momentum = 4d, penetrationLeft = 5d, maxPen = 6d;
             var strickenMatMock = new Mock<IMaterial>();
             double strickenThickness = 6d, strickenVolume = 7d, strickenContactArea = 8d;
 
@@ -41,8 +41,8 @@ namespace Tiles.Materials.Tests
             var result = Tester.StrikeTest(
                 stressMode,
                 strikerMatMock.Object, strikerSharpness, strikerContactArea,
-                momentum, penetrationLeft,
-                strickenMatMock.Object, strickenThickness, strickenVolume, strickenContactArea);
+                momentum, maxPen, penetrationLeft,
+                strickenMatMock.Object, strickenThickness, strickenVolume, strickenContactArea, false);
 
             Assert.AreSame(builderResult, result);
 
@@ -54,9 +54,11 @@ namespace Tiles.Materials.Tests
             BuilderMock.Verify(x => x.SetStrikeMomentum(momentum), Times.Once());
             BuilderMock.Verify(x => x.SetLayerVolume(strickenVolume), Times.Once());
             BuilderMock.Verify(x => x.SetLayerThickness(strickenThickness), Times.Once());
+            BuilderMock.Verify(x => x.SetMaxPenetration(maxPen), Times.Once());
             BuilderMock.Verify(x => x.SetRemainingPenetration(penetrationLeft), Times.Once());
             BuilderMock.Verify(x => x.SetStrikerContactArea(strikerContactArea), Times.Once());
             BuilderMock.Verify(x => x.SetStrickenContactArea(strickenContactArea), Times.Once());
+            BuilderMock.Verify(x => x.SetImplementWasSmall(false), Times.Once());
             BuilderMock.Verify(x => x.Build(), Times.Once());
         }
     }

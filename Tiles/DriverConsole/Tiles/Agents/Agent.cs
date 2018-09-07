@@ -10,6 +10,7 @@ using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
 using Tiles.Agents.Combat;
 using Tiles.Materials;
+using Tiles.Bodies.Injuries;
 namespace Tiles.Agents
 {
     public class Agent : IAgent
@@ -28,15 +29,9 @@ namespace Tiles.Agents
         public bool IsUndead { get; set; }
         public bool IsProne { get; set; }
         public bool CanStand { get { return !CantStand(); } }
+        public bool IsDead { get { return Body.IsDead; } }
 
         public IAgentCommandQueue CommandQueue { get; private set; }
-
-        public bool IsDead { 
-            get 
-            {
-                return Body.IsDead;
-            } 
-        }
 
         public Agent(
             IAtlas atlas, 
@@ -167,6 +162,11 @@ namespace Tiles.Agents
         public void Sever(IBodyPart part)
         {
             Body.Amputate(part);
+            UpdateIsProne();
+        }
+
+        private void UpdateIsProne()
+        {
             IsProne = !IsProne && CantStand();
         }
 
@@ -208,6 +208,12 @@ namespace Tiles.Agents
         public int GetPainThreshold()
         {
             return Body.GetAttribute("WILLPOWER") / 10;
+        }
+
+        public void AddInjury(IBodyPartInjury injury)
+        {
+            Body.AddInjury(injury);
+            UpdateIsProne();
         }
     }
 }

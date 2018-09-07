@@ -61,6 +61,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.IsAny<Dictionary<ITissueLayer, IBodyPart>>()
@@ -75,7 +76,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetBodyMock.Object,
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
-                sharpness);
+                sharpness,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -98,6 +100,7 @@ namespace Tiles.Tests.Bodies.Injuries
             BuilderMock.Verify(x => x.Build(), Times.Once());
 
             InjuryFactoryMock.Verify(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.Is<Dictionary<ITissueLayer, IBodyPart>>(d => d.Count() == 0)), Times.Once());
@@ -131,6 +134,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.IsAny<Dictionary<ITissueLayer, IBodyPart>>()
@@ -145,7 +149,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetBodyMock.Object,
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
-                sharpness);
+                sharpness,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -170,6 +175,7 @@ namespace Tiles.Tests.Bodies.Injuries
             BuilderMock.Verify(x => x.Build(), Times.Once());
 
             InjuryFactoryMock.Verify(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.Is<Dictionary<ITissueLayer, IBodyPart>>(d => d.Count() == 0)), Times.Once());
@@ -217,6 +223,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.IsAny<Dictionary<ITissueLayer, IBodyPart>>()
@@ -241,7 +248,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetBodyMock.Object,
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
-                sharpness);
+                sharpness,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -276,6 +284,7 @@ namespace Tiles.Tests.Bodies.Injuries
             BuilderMock.Verify(x => x.Build(), Times.Once());
 
             InjuryFactoryMock.Verify(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.Is<Dictionary<ITissueLayer, IBodyPart>>(d =>
@@ -318,6 +327,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.IsAny<Dictionary<ITissueLayer, IBodyPart>>()
@@ -332,7 +342,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetBodyMock.Object,
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
-                sharpness);
+                sharpness,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -355,6 +366,7 @@ namespace Tiles.Tests.Bodies.Injuries
             BuilderMock.Verify(x => x.Build(), Times.Once());
 
             InjuryFactoryMock.Verify(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.Is<Dictionary<ITissueLayer, IBodyPart>>(d => d.Count() == 0)), Times.Once());
@@ -409,6 +421,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.IsAny<Dictionary<ITissueLayer, IBodyPart>>()
@@ -433,7 +446,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetBodyMock.Object,
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
-                sharpness);
+                sharpness,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -467,6 +481,7 @@ namespace Tiles.Tests.Bodies.Injuries
             BuilderMock.Verify(x => x.Build(), Times.Once());
 
             InjuryFactoryMock.Verify(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.Is<Dictionary<ITissueLayer, IBodyPart>>(d =>
@@ -529,6 +544,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.IsAny<Dictionary<ITissueLayer, IBodyPart>>()
@@ -544,7 +560,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetBodyMock.Object,
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
-                sharpness);
+                sharpness,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -567,6 +584,7 @@ namespace Tiles.Tests.Bodies.Injuries
             BuilderMock.Verify(x => x.Build(), Times.Once());
 
             InjuryFactoryMock.Verify(x => x.Create(
+                TargetBodyMock.Object,
                 TargetPartMock.Object,
                 contactArea, maxPen, StrikeResultMock.Object,
                 It.Is<Dictionary<ITissueLayer, IBodyPart>>(d => d.Count() == 0)), Times.Once());

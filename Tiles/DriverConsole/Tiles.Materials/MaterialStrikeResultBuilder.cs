@@ -13,6 +13,7 @@ namespace Tiles.Materials
         double Momentum { get; set; }
         double LayerVolume { get; set; }
         double LayerThickness { get; set; }
+        double MaxPenetration { get; set; }
         double RemainingPenetration { get; set; }
         double StrikerSharpness { get; set; }
         StressMode StressMode { get; set; }
@@ -44,6 +45,7 @@ namespace Tiles.Materials
             StressMode = Materials.StressMode.None;
             StrikerMaterial = null;
             StrickenMaterial = null;
+            ImplementWasSmall = false;
         }
 
         public void SetStressMode(StressMode mode)
@@ -258,6 +260,10 @@ namespace Tiles.Materials
                 ContactAreaRatio = contactAreaRatio,
 
                 PenetrationRatio = penetrationRatio,
+                ImplementMaxPenetration =(int) MaxPenetration,
+                ImplementRemainingPenetration = (int) RemainingPenetration,
+                ImplementWasSmall = ImplementWasSmall,
+                ImplementContactArea = StrikerContactArea,
 
                 StressResult = msr,
                 IsDefeated = defeated,
@@ -265,6 +271,18 @@ namespace Tiles.Materials
                 Stress = stress,
                 ResultMomentum = resultMom
             };
+        }
+
+        private bool ImplementWasSmall { get; set; }
+        public void SetImplementWasSmall(bool wasSmall)
+        {
+            ImplementWasSmall = wasSmall;
+        }
+
+
+        public void SetMaxPenetration(double maxPenetration)
+        {
+            MaxPenetration = maxPenetration;
         }
     }
 }

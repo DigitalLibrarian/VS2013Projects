@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Bodies.Injuries;
 using Tiles.Items;
 
 namespace Tiles.Bodies
@@ -121,6 +122,14 @@ namespace Tiles.Bodies
                 return Tissue.TissueLayers
                     .Where(x => !x.Class.IsCosmetic)
                     .All(x => x.IsPulped);
+            }
+        }
+
+        public void AddInjury(IBodyPartInjury injury)
+        {
+            foreach (var tlInjury in injury.TissueLayerInjuries)
+            {
+                tlInjury.Layer.AddInjury(tlInjury);
             }
         }
     }

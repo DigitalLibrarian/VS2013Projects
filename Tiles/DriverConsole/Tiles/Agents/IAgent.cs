@@ -11,6 +11,7 @@ using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
 using Tiles.Agents.Combat;
 using Tiles.Materials;
+using Tiles.Bodies.Injuries;
 
 namespace Tiles.Agents
 {
@@ -49,6 +50,7 @@ namespace Tiles.Agents
         bool StandUp();
         bool LayDown();
 
+        void AddInjury(IBodyPartInjury injury);
         void Sever(IBodyPart part);
     }
 }

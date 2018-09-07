@@ -15,6 +15,6 @@ namespace Tiles.Bodies.Injuries
         IInjuryReport CalculateMaterialStrike(
             IEnumerable<IItem> armorItems, StressMode stressMode,
             double momentum, double contactArea, double maxPenetration,
-            IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, double sharpness);
+            IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, double sharpness, bool implementWasSmall);
     }
 }

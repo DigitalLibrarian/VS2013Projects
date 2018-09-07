@@ -11,6 +11,7 @@ namespace Tiles.Bodies.Injuries
     public interface IInjuryFactory
     {
         IEnumerable<IBodyPartInjury> Create(
+            IBody targetBody,
             IBodyPart targetPart,
             double contactArea,
             double maxPenetration,
@@ -21,6 +22,7 @@ namespace Tiles.Bodies.Injuries
     public class InjuryFactory : IInjuryFactory
     {
         public IEnumerable<IBodyPartInjury> Create(
+            IBody targetBody,
             IBodyPart targetPart,
             double contactArea,
             double maxPenetration,
@@ -38,7 +40,7 @@ namespace Tiles.Bodies.Injuries
 
                 var totalThick = tlBodyPart.Thickness;
                 double ttFact = (double)(tissueLayer.Thickness) / (double)(totalThick);
-                var tlInjuries = CreateTissueInjury(tlBodyPart, tissueLayer, tissueResult);
+                var tlInjuries = CreateTissueInjury(targetBody, tlBodyPart, tissueLayer, tissueResult);
 
                 if (!tissueInjuries.ContainsKey(tlBodyPart))
                 {
@@ -75,8 +77,8 @@ namespace Tiles.Bodies.Injuries
             return new BodyPartInjury(part, tissueInjuries);
         }
 
-
         private IEnumerable<ITissueLayerInjury> CreateTissueInjury(
+            IBody targetBody,
             IBodyPart bodyPart,
             ITissueLayer layer,
             MaterialStrikeResult tissueResult)
@@ -110,10 +112,58 @@ namespace Tiles.Bodies.Injuries
                 default:
                     break;
             }
+
+            var painContribution = GetPainContribution(targetBody, bodyPart, layer, tissueResult, damage);
+
             yield return
-                new TissueLayerInjury(bodyPart, layer, tissueResult.StressResult, damage, woundArea, tissueResult.ContactArea, tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, tissueResult.IsDefeated, isChip, isSoft, isVascular);
+                new TissueLayerInjury(bodyPart, layer, tissueResult.StressResult, damage, woundArea, tissueResult.ContactArea, tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, painContribution, tissueResult.IsDefeated, isChip, isSoft, isVascular);
         }
 
+        private int GetPainContribution(IBody body, IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult tissueResult, IDamageVector damage)
+        {
+            if (tissueResult.PenetrationRatio == 0) return 0;
+            var receptors = (double)layer.Class.PainReceptors;
+            if (receptors == 0) return 0;
+
+            double volDamaged = layer.Volume * tissueResult.ContactAreaRatio;
+
+            double preRounded = receptors *
+                    (
+                            damage.DentFraction.AsDouble()
+                        + (tissueResult.PenetrationRatio * tissueResult.ContactAreaRatio)
+                        + tissueResult.ContactAreaRatio
+                        );
+
+            if (tissueResult.PenetrationRatio >= 1d)
+            {
+                var layerRatio = (double) layer.Thickness / (double)bodyPart.Tissue.TotalThickness;
+                var penRatio = (double)bodyPart.Thickness / (double)tissueResult.ImplementMaxPenetration;
+                var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
+                var weaponFactor = tissueResult.ContactArea / tissueResult.ImplementContactArea;
+                //weaponFactor = System.Math.Max(0.25d, weaponFactor);
+                if (IsLowContactArea(tissueResult.ContactArea)
+                    && IsLowContactArea(tissueResult.ImplementContactArea))
+                {
+                    preRounded = receptors * (
+                        tissueResult.ContactAreaRatio
+                        ) * weaponFactor;
+                }
+                //preRounded *= layerRatio;
+            }
+
+            
+            if (bodyPart.Class.IsSmall || tissueResult.ImplementWasSmall)
+            {
+                preRounded = 1;
+            }
+
+            var sum = (int)System.Math.Round(
+                preRounded, 0, MidpointRounding.AwayFromZero);
+
+            sum = (int)preRounded;
+            sum = System.Math.Max(1, sum);
+            return System.Math.Min(3*(int)receptors, sum);
+        }
 
         private long Round(double d)
         {
@@ -138,7 +188,7 @@ namespace Tiles.Bodies.Injuries
 
         bool IsLowPenetration(int maxPenetation)
         {
-            return maxPenetation < 2000;
+            return maxPenetation <= 2000;
         }
         #endregion
     }

@@ -44,6 +44,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var momentum = attacker.GetStrikeMomentum(move);
             var weaponMat = attacker.GetStrikeMaterial(move);
             if (weaponMat == null) return;
+            bool implementWasSmall = false;
+            if (!isWeaponBased)
+            {
+                implementWasSmall = move.Class.GetRelatedBodyParts(defender.Body).All(x => x.Class.IsSmall);
+            }
 
             var armorItems = session.Defender.Outfit
                 .GetItems(move.DefenderBodyPart).Where(x => x.IsArmor);
@@ -57,27 +62,26 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 move.Defender.Body,
                 move.DefenderBodyPart,
                 weaponMat,
-                move.Sharpness);
+                move.Sharpness,
+                implementWasSmall);
 
             session.InjuryReport = report;
 
+            var targetWasProne = defender.IsProne;
+            
             foreach (var bpInjury in report.BodyPartInjuries)
             {
-                foreach (var tlInjury in bpInjury.TissueLayerInjuries)
-                {
-                    tlInjury.Layer.AddInjury(tlInjury);
-                }
+                defender.AddInjury(bpInjury);
             }
 
-            var targetWasProne = defender.IsProne;
             var targetIsProne = false;
             var targetPartWasShed = report.IsSever(move.DefenderBodyPart);
             foreach (var sever in report.GetSeverings())
             {
                 defender.Sever(sever.BodyPart);
                 HandleShedPart(attacker, defender, move, sever.BodyPart);
-                targetIsProne = defender.IsProne;
             }
+            targetIsProne = defender.IsProne;
 
             if (isWeaponBased)
             {

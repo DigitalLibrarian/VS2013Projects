@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
+using Tiles.Bodies.Injuries;
 
 namespace Tiles.Bodies
 {
@@ -28,5 +29,7 @@ namespace Tiles.Bodies
         int GetAttribute(string name);
 
         IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type);
+
+        void AddInjury(IBodyPartInjury injury);
     }
 }

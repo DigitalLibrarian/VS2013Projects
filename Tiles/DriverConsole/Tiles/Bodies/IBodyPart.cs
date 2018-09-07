@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Tiles.Bodies.Injuries;
 using Tiles.Items;
 
 namespace Tiles.Bodies
@@ -67,5 +67,7 @@ namespace Tiles.Bodies
         bool IsLeft { get; }
 
         bool IsRight { get; }
+
+        void AddInjury(IBodyPartInjury injury);
     }
 }

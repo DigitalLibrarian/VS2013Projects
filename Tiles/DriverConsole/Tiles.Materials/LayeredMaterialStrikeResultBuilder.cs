@@ -47,6 +47,7 @@ namespace Tiles.Materials
             StrikerSharpness = 0;
             StressMode = StressMode.None;
             StrikerMaterial = null;
+            ImplementWasSmall = false;
         }
 
         public void SetStrikerMaterial(IMaterial mat)
@@ -101,6 +102,11 @@ namespace Tiles.Materials
                 Tag = tag
             });
         }
+
+        public void SetImplementWasSmall(bool wasSmall)
+        {
+            ImplementWasSmall = wasSmall;
+        }
         #endregion
 
         public ILayeredMaterialStrikeResult Build()
@@ -130,6 +136,7 @@ namespace Tiles.Materials
                     strikeMaterial,
                     momentum,
                     contactArea,
+                    MaxPenetration,
                     penRemaining,
                     mode,
                     layer);
@@ -192,7 +199,8 @@ namespace Tiles.Materials
         }
 
         MaterialStrikeResult PerformSingleLayerTest(
-            IMaterial strikerMat, double momentum, double contactArea, double penetrationLeft,
+            IMaterial strikerMat, double momentum, double contactArea, 
+            double maxPenetration, double penetrationLeft,
             StressMode mode, MaterialLayer layer)
         {
             return LayerTester.StrikeTest(
@@ -201,11 +209,15 @@ namespace Tiles.Materials
                 StrikerSharpness,
                 contactArea,
                 momentum, 
+                maxPenetration,
                 penetrationLeft,
                 layer.Material,
                 layer.Thickness,
                 layer.Volume,
-                StrickenContactArea);
+                StrickenContactArea,
+                ImplementWasSmall);
         }
+
+        public bool ImplementWasSmall { get; set; }
     }
 }

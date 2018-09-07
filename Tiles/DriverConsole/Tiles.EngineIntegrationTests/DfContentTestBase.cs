@@ -90,6 +90,12 @@ namespace Tiles.EngineIntegrationTests
             var context = new CombatMoveContext(attacker, defender, move);
             var moveClass = move.Class;
 
+            bool implementWasSmall = false;
+            if (!move.Class.IsItem)
+            {
+                implementWasSmall = move.Class.GetRelatedBodyParts(defender.Body).All(x => x.Class.IsSmall);
+            }
+
             var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
                 context.Defender.Outfit.GetItems(targetPart).Where(x => x.IsArmor),
                 moveClass.StressMode,
@@ -99,7 +105,8 @@ namespace Tiles.EngineIntegrationTests
                 defender.Body,
                 targetPart,
                 strikerMaterial,
-                move.Sharpness
+                move.Sharpness,
+                implementWasSmall
                 );
 
             var partInjury = injuryReport.BodyPartInjuries.First();

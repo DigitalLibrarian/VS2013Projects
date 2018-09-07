@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tiles.Agents.Combat;
+using Tiles.Bodies.Injuries;
 using Tiles.Math;
 
 namespace Tiles.Bodies
@@ -114,6 +115,11 @@ namespace Tiles.Bodies
             }
 
             return Enumerable.Empty<IBodyPart>();
+        }
+
+        public void AddInjury(IBodyPartInjury injury)
+        {
+            throw new NotImplementedException();
         }
     }
 }

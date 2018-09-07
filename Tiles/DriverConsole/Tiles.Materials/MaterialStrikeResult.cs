@@ -20,5 +20,12 @@ namespace Tiles.Materials
         public StressResult StressResult { get; set; }
         public double ResultMomentum { get; set; }
         public bool IsDefeated { get; set; }
+
+        public int ImplementMaxPenetration { get; set; }
+        public int ImplementRemainingPenetration { get; set; }
+        public bool ImplementWasSmall { get; set; }
+
+        public double ImplementContactArea { get; set; }
+
     }
 }

@@ -80,6 +80,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(3970, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(3970, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2, layerResult.PainContribution);
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
@@ -88,6 +89,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(3970, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(3970, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(2, layerResult.PainContribution);
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
@@ -96,6 +98,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(1150, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(3970, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(1, layerResult.PainContribution);
         }
     }
 }

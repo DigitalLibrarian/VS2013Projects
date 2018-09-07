@@ -11,8 +11,8 @@ namespace Tiles.Materials
         MaterialStrikeResult StrikeTest(
             StressMode mode,
             IMaterial strikerMat, double strikerSharpness, double strikerContactArea,
-            double momentum, double penetrationLeft,
+            double momentum, double maxPenetration, double penetrationLeft,
             IMaterial strickenMat, double strickenThickness, double strickenVolume,
-            double strickenContactArea);
+            double strickenContactArea, bool implementWasSmall);
     }
 }
