@@ -129,8 +129,8 @@ namespace Tiles.Bodies.Injuries
 
             double preRounded = receptors *
                     (
-                            damage.DentFraction.AsDouble()
-                        + (tissueResult.PenetrationRatio * tissueResult.ContactAreaRatio)
+                          damage.DentFraction.AsDouble()
+                        + damage.CutFraction.AsDouble()
                         + tissueResult.ContactAreaRatio
                         );
 
@@ -140,7 +140,6 @@ namespace Tiles.Bodies.Injuries
                 var penRatio = (double)bodyPart.Thickness / (double)tissueResult.ImplementMaxPenetration;
                 var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
                 var weaponFactor = tissueResult.ContactArea / tissueResult.ImplementContactArea;
-                //weaponFactor = System.Math.Max(0.25d, weaponFactor);
                 if (IsLowContactArea(tissueResult.ContactArea)
                     && IsLowContactArea(tissueResult.ImplementContactArea))
                 {
@@ -148,10 +147,8 @@ namespace Tiles.Bodies.Injuries
                         tissueResult.ContactAreaRatio
                         ) * weaponFactor;
                 }
-                //preRounded *= layerRatio;
             }
 
-            
             if (bodyPart.Class.IsSmall || tissueResult.ImplementWasSmall)
             {
                 preRounded = 1;
