@@ -45,14 +45,20 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var weaponMat = attacker.GetStrikeMaterial(move);
             if (weaponMat == null) return;
             bool implementWasSmall = false;
+            double implementSize;
             if (!isWeaponBased)
             {
-                implementWasSmall = move.Class.GetRelatedBodyParts(defender.Body).All(x => x.Class.IsSmall);
+                var relatedParts = move.Class.GetRelatedBodyParts(defender.Body);
+                implementWasSmall = relatedParts.All(x => x.Class.IsSmall);
+                implementSize = relatedParts.Sum(x => x.Size);
+            }
+            else
+            {
+                implementSize = move.Weapon.Class.Size;
             }
 
             var armorItems = session.Defender.Outfit
                 .GetItems(move.DefenderBodyPart).Where(x => x.IsArmor);
-
             var report = InjuryReportCalc.CalculateMaterialStrike(
                 armorItems,
                 move.Class.StressMode,
@@ -63,7 +69,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 move.DefenderBodyPart,
                 weaponMat,
                 move.Sharpness,
-                implementWasSmall);
+                implementWasSmall,
+                implementSize);
 
             session.InjuryReport = report;
 

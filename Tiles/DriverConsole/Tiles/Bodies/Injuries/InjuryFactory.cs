@@ -127,6 +127,12 @@ namespace Tiles.Bodies.Injuries
 
             double volDamaged = layer.Volume * tissueResult.ContactAreaRatio;
 
+            var sizeRatio = bodyPart.Size / tissueResult.ImplementSize;
+            var layerRatio = (double)layer.Thickness / (double)bodyPart.Tissue.TotalThickness;
+            var penRatio = (double)bodyPart.Thickness / (double)tissueResult.ImplementMaxPenetration;
+            var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
+            var weaponRatio = tissueResult.ContactArea / tissueResult.ImplementContactArea;
+            var woundRatio = tissueResult.ContactArea / bodyPart.ContactArea;
             double preRounded = receptors *
                     (
                           damage.DentFraction.AsDouble()
@@ -134,18 +140,62 @@ namespace Tiles.Bodies.Injuries
                         + tissueResult.ContactAreaRatio
                         );
 
-            if (tissueResult.PenetrationRatio >= 1d)
+            if (tissueResult.ContactAreaRatio >= 1d)// && sizeRatio < 3d)
             {
-                var layerRatio = (double) layer.Thickness / (double)bodyPart.Tissue.TotalThickness;
-                var penRatio = (double)bodyPart.Thickness / (double)tissueResult.ImplementMaxPenetration;
-                var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
-                var weaponFactor = tissueResult.ContactArea / tissueResult.ImplementContactArea;
-                if (IsLowContactArea(tissueResult.ContactArea)
-                    && IsLowContactArea(tissueResult.ImplementContactArea))
+                if (sizeRatio > 1d)
                 {
-                    preRounded = receptors * (
-                        tissueResult.ContactAreaRatio
-                        ) * weaponFactor;
+                    preRounded = receptors * sizeRatio;
+                }
+                else if (sizeRatio < 0.9d)
+                {
+                    preRounded = (damage.DentFraction.AsDouble() * receptors) +
+                        (sizeRatio * receptors);
+                }
+            }
+
+
+            if (
+                //tissueResult.PenetrationRatio >= 0.05d
+                //&& 
+                sizeRatio < 1.08d
+                )
+            {
+                if (IsLowContactArea(tissueResult.ContactArea))
+                {
+                    if (IsLowContactArea(tissueResult.ImplementContactArea))
+                    {
+                        if (tissueResult.ContactArea < tissueResult.ImplementContactArea)
+                        {
+                            preRounded = receptors * (
+                                tissueResult.ContactAreaRatio
+                                +
+                                sizeRatio
+                                );
+                        }
+                        else
+                        {
+                            preRounded = receptors * (
+                                tissueResult.ContactAreaRatio
+                                );
+                        }
+                        
+                        if (weaponRatio < 0.9d)
+                        {
+                            preRounded *= weaponRatio;
+                        }
+                    }
+                    else if (weaponRatio > 0.1d)
+                    {
+                        if (tissueResult.ContactArea < tissueResult.ImplementContactArea)
+                        {
+                            preRounded = (sizeRatio * receptors * 3d);
+                        }
+                        else
+                        {
+                            preRounded = (damage.DentFraction.AsDouble() * receptors) +
+                                (sizeRatio * receptors);
+                        }
+                    }
                 }
             }
 
@@ -157,8 +207,8 @@ namespace Tiles.Bodies.Injuries
             var sum = (int)System.Math.Round(
                 preRounded, 0, MidpointRounding.AwayFromZero);
 
-            sum = (int)preRounded;
-            sum = System.Math.Max(1, sum);
+            //sum = (int)preRounded;
+            //sum = System.Math.Max(1, sum);
             return System.Math.Min(3*(int)receptors, sum);
         }
 

@@ -264,6 +264,7 @@ namespace Tiles.Materials
                 ImplementRemainingPenetration = (int) RemainingPenetration,
                 ImplementWasSmall = ImplementWasSmall,
                 ImplementContactArea = StrikerContactArea,
+                ImplementSize = ImplementSize,
 
                 StressResult = msr,
                 IsDefeated = defeated,
@@ -283,6 +284,12 @@ namespace Tiles.Materials
         public void SetMaxPenetration(double maxPenetration)
         {
             MaxPenetration = maxPenetration;
+        }
+
+        private double ImplementSize { get; set; }
+        public void SetImplementSize(double size)
+        {
+            ImplementSize = size;
         }
     }
 }

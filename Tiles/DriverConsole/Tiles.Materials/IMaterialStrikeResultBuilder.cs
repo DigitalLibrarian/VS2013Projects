@@ -26,6 +26,7 @@ namespace Tiles.Materials
 
         void SetRemainingPenetration(double penetrationLeft);
         void SetImplementWasSmall(bool wasSmall);
+        void SetImplementSize(double size);
 
         void SetMaxPenetration(double maxPenetration);
     }

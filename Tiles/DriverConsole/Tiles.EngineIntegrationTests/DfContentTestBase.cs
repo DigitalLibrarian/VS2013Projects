@@ -91,9 +91,16 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = move.Class;
 
             bool implementWasSmall = false;
+            double implementSize;
             if (!move.Class.IsItem)
             {
-                implementWasSmall = move.Class.GetRelatedBodyParts(defender.Body).All(x => x.Class.IsSmall);
+                var relatedParts = move.Class.GetRelatedBodyParts(defender.Body);
+                implementWasSmall = relatedParts.All(x => x.Class.IsSmall);
+                implementSize = relatedParts.Sum(x => x.Size);
+            }
+            else
+            {
+                implementSize = move.Weapon.Class.Size;
             }
 
             var injuryReport = InjuryReportCalc.CalculateMaterialStrike(
@@ -106,7 +113,8 @@ namespace Tiles.EngineIntegrationTests
                 targetPart,
                 strikerMaterial,
                 move.Sharpness,
-                implementWasSmall
+                implementWasSmall,
+                implementSize
                 );
 
             var partInjury = injuryReport.BodyPartInjuries.First();

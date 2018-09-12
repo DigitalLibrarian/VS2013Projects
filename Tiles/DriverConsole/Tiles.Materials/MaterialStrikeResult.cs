@@ -24,6 +24,7 @@ namespace Tiles.Materials
         public int ImplementMaxPenetration { get; set; }
         public int ImplementRemainingPenetration { get; set; }
         public bool ImplementWasSmall { get; set; }
+        public double ImplementSize { get; set; }
 
         public double ImplementContactArea { get; set; }
 

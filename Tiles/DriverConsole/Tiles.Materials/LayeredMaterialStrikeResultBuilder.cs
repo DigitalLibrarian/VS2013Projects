@@ -215,9 +215,16 @@ namespace Tiles.Materials
                 layer.Thickness,
                 layer.Volume,
                 StrickenContactArea,
-                ImplementWasSmall);
+                ImplementWasSmall,
+                ImplementSize);
         }
 
         public bool ImplementWasSmall { get; set; }
+        public double ImplementSize { get; set; }
+
+        public void SetImplementSize(double size)
+        {
+            ImplementSize = size;
+        }
     }
 }

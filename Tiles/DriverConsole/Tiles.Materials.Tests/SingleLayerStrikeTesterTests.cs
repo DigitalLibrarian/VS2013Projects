@@ -29,7 +29,7 @@ namespace Tiles.Materials.Tests
             var stressMode = StressMode.Edge;
             var strikerMatMock = new Mock<IMaterial>();
             double strikerSharpness = 2d, strikerContactArea = 3d;
-            double momentum = 4d, penetrationLeft = 5d, maxPen = 6d;
+            double momentum = 4d, penetrationLeft = 5d, maxPen = 6d, implementSize = 10d;
             var strickenMatMock = new Mock<IMaterial>();
             double strickenThickness = 6d, strickenVolume = 7d, strickenContactArea = 8d;
 
@@ -42,7 +42,8 @@ namespace Tiles.Materials.Tests
                 stressMode,
                 strikerMatMock.Object, strikerSharpness, strikerContactArea,
                 momentum, maxPen, penetrationLeft,
-                strickenMatMock.Object, strickenThickness, strickenVolume, strickenContactArea, false);
+                strickenMatMock.Object, strickenThickness, strickenVolume, strickenContactArea, false,
+                implementSize);
 
             Assert.AreSame(builderResult, result);
 
@@ -59,6 +60,7 @@ namespace Tiles.Materials.Tests
             BuilderMock.Verify(x => x.SetStrikerContactArea(strikerContactArea), Times.Once());
             BuilderMock.Verify(x => x.SetStrickenContactArea(strickenContactArea), Times.Once());
             BuilderMock.Verify(x => x.SetImplementWasSmall(false), Times.Once());
+            BuilderMock.Verify(x => x.SetImplementSize(implementSize), Times.Once());
             BuilderMock.Verify(x => x.Build(), Times.Once());
         }
     }

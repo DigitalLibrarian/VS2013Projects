@@ -25,6 +25,7 @@ namespace Tiles.Materials
         void SetMaxPenetration(double maxPenetration);
         void SetStressMode(StressMode mode);
         void SetImplementWasSmall(bool wasSmall);
+        void SetImplementSize(double size);
 
         ILayeredMaterialStrikeResult Build();
 

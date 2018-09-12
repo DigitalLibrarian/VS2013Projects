@@ -77,7 +77,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
                 sharpness,
-                false);
+                false,
+                implementSize: 100d);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -150,7 +151,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
                 sharpness,
-                false);
+                false,
+                implementSize: 100d);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -249,7 +251,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
                 sharpness,
-                false);
+                false,
+                implementSize: 100d);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -343,7 +346,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
                 sharpness,
-                false);
+                false,
+                implementSize: 100d);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -447,7 +451,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
                 sharpness,
-                false);
+                false,
+                implementSize: 100d);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -561,7 +566,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 TargetPartMock.Object,
                 StrikerMaterialMock.Object,
                 sharpness,
-                false);
+                false,
+                implementSize: 100d);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
