@@ -101,7 +101,10 @@ namespace Tiles.ScreensImpl.ContentFactories
             bodyParts["head"].WeaponSlot = WeaponSlot.Teeth;
             bodyParts["left hand"].WeaponSlot = WeaponSlot.Claw;
             bodyParts["right hand"].WeaponSlot = WeaponSlot.Claw;
-            return new BodyClass(60000, bodyParts.Values.ToList());
+            return new BodyClass(60000, bodyParts.Values.ToList())
+            {
+                FeelsNoPain = true
+            };
         }
     }
 }

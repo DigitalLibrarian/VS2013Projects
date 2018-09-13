@@ -55,11 +55,25 @@ namespace Tiles.Tests.Agents.Behaviors
         }
 
         [TestMethod]
+        public void AgentIsSleeping()
+        {
+            AgentMock.Setup(x => x.IsWoke).Returns(false);
+
+            var nothingCommandMock = new Mock<IAgentCommand>();
+            CommandFactoryMock.Setup(x => x.Nothing(AgentMock.Object)).Returns(new IAgentCommand[] { nothingCommandMock.Object });
+
+            var result = Planner.PlanBehavior(GameMock.Object, AgentMock.Object);
+
+            Assert.AreEqual(1, result.Count());
+            Assert.AreSame(nothingCommandMock.Object, result.ElementAt(0));
+        }
+
+        [TestMethod]
         public void CannotFindTarget()
         {
             var agentPos = new Vector3(42, 42, 42);
             AgentMock.Setup(x => x.Pos).Returns(agentPos);
-
+            AgentMock.Setup(x => x.IsWoke).Returns(true);
             PosFinderMock.Setup(x => x.FindNearbyPos(agentPos, It.IsAny<Predicate<Vector3>>(), It.IsAny<int>())).Returns((Vector3?)null);
 
             var wanderDir = new Vector3(-1, 0, 0);

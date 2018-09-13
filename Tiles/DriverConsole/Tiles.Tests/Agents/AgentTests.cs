@@ -23,6 +23,7 @@ namespace Tiles.Tests.Agents
         Mock<IAtlas> AtlasMock { get; set; }
         Sprite Sprite { get; set; }
         Mock<IBody> BodyMock { get; set; }
+        Mock<IBodyClass> BodyClassMock { get; set; }
         Mock<IInventory> InventoryMock { get; set; }
         Mock<IOutfit> OutfitMock { get; set; }
         Mock<IAgentCommandQueue> CommandQueueMock { get; set; }
@@ -35,7 +36,11 @@ namespace Tiles.Tests.Agents
         {
             AtlasMock = new Mock<IAtlas>();
             Sprite = new Sprite();
+            BodyClassMock = new Mock<IBodyClass>();
+            BodyClassMock.Setup(x => x.FeelsNoPain).Returns(true);
             BodyMock = new Mock<IBody>();
+            BodyMock.Setup(x => x.GetAttribute("WILLPOWER")).Returns(1000);
+            BodyMock.Setup(x => x.Class).Returns(BodyClassMock.Object);
             BodyMock.Setup(x => x.Parts).Returns(new List<IBodyPart>());
             InventoryMock = new Mock<IInventory>();
             OutfitMock = new Mock<IOutfit>();

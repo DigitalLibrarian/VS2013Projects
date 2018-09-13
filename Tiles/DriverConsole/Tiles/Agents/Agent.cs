@@ -50,10 +50,10 @@ namespace Tiles.Agents
             Body = body;
             Inventory = inventory;
             Outfit = outfit;
-            
+
             CommandQueue = commandQueue;
-            IsProne = !CanStand;
             IsWoke = CanWake();
+            IsProne = CantStand();
         }
 
         public virtual void Update(IGame game)
@@ -108,6 +108,7 @@ namespace Tiles.Agents
 
         public bool CanWake()
         {
+            if (Body.Class.FeelsNoPain) return true;
             return Body.TotalPain < GetPainThreshold();
         }
         
