@@ -16,6 +16,7 @@ namespace Tiles.Agents.Behaviors
         public override IEnumerable<IAgentCommand> PlanBehavior(IGame game, IAgent agent)
         {
             if (agent.IsDead) return Dead(agent);
+            if (!agent.IsWoke) return Nothing(agent);
 
             double wanderProb = 0.15;
 
