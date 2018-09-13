@@ -12,6 +12,7 @@ using Tiles.Agents.Behaviors;
 using Tiles.Agents.Combat;
 using Tiles.Materials;
 using Tiles.Bodies.Injuries;
+using Tiles.Bodies.Wounds;
 
 namespace Tiles.Agents
 {
@@ -22,6 +23,7 @@ namespace Tiles.Agents
         string Name { get; }
         bool IsPlayer { get; }
         bool IsDead { get; }
+        bool IsWoke { get; }
         bool IsUndead { get; }
         bool IsProne { get; }
         bool CanStand { get; }
@@ -46,11 +48,12 @@ namespace Tiles.Agents
         IMaterial GetStrikeMaterial(ICombatMove move);
 
         int GetPainThreshold();
+        bool CanWake();
 
         bool StandUp();
         bool LayDown();
 
-        void AddInjury(IBodyPartInjury injury);
+        void AddInjury(IBodyPartInjury injury, IBodyPartWoundFactory woundFactory);
         void Sever(IBodyPart part);
     }
 }

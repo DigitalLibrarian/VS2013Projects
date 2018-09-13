@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents.Combat;
 using Tiles.Bodies.Injuries;
+using Tiles.Bodies.Wounds;
 
 namespace Tiles.Bodies
 {
@@ -14,6 +15,8 @@ namespace Tiles.Bodies
         bool IsBeingGrasped { get; }
         bool IsWrestling { get; }
         bool IsDead { get; }
+
+        int TotalPain { get; }
 
         double Size { get; }
 
@@ -30,6 +33,6 @@ namespace Tiles.Bodies
 
         IDictionary<IBodyPart, int> GetRelations(IBodyPart target, BodyPartRelationType type);
 
-        void AddInjury(IBodyPartInjury injury);
+        void AddInjury(IBodyPartInjury injury, IBodyPartWoundFactory woundFactory);
     }
 }

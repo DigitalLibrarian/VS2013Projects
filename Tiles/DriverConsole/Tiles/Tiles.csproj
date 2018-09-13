@@ -127,6 +127,7 @@
     <Compile Include="Bodies\TissueLayer.cs" />
     <Compile Include="Bodies\TissueLayerClass.cs" />
     <Compile Include="Bodies\Wounds\BodyPartWound.cs" />
+    <Compile Include="Bodies\Wounds\BodyPartWoundFactory.cs" />
     <Compile Include="Bodies\Wounds\TissueLayerWound.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Agents\IAgent.cs" />

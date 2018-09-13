@@ -128,6 +128,11 @@ namespace Tiles
             var message = string.Format("The {0} is struck down!", agent.Name);
             Log.AddLine(message);
         }
+        
+        public void ReportGiveInToPain(ICombatMoveContext session, Agents.IAgent agent)
+        {
+            Log.AddLine(string.Format("The {0} gives in to pain.", agent.Name));
+        }
 
         public void ReportFallDown(ICombatMoveContext session, IAgent agent)
         {

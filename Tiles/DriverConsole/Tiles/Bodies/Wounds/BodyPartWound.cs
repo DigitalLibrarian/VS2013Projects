@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace Tiles.Bodies.Wounds
 {
-    class BodyPartWound
+    public interface IBodyPartWound
     {
-        public int Age { get; private set; }
-        public bool IsSever { get; private set; }
+        IBodyPart Part { get; }
+        IEnumerable<ITissueLayerWound> LayerWounds { get; }
+        int Age { get; }
+    }
+
+    public class BodyPartWound : IBodyPartWound
+    {
+        public IBodyPart Part { get; set; }
+        public IEnumerable<ITissueLayerWound> LayerWounds { get; set; }
+        public int Age { get; set; }
     }
 }

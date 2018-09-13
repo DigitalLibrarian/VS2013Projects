@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Tiles.Bodies.Wounds
 {
-    class TissueLayerWound
+    public interface ITissueLayerWound
     {
-        public int WoundArea { get; set; }
+        ITissueLayer Layer { get; }
+        int Pain { get; }
+    }
 
-        public double ContactAreaRatio { get; set; }
-        public double PenetrationRatio { get; set; }
-
+    public class TissueLayerWound : ITissueLayerWound
+    {
+        public ITissueLayer Layer { get; set; }
         public int Pain { get; set; }
     }
 }

@@ -16,6 +16,7 @@ using Tiles.Ecs;
 using Tiles.EntitySystems;
 using Tiles.Materials;
 using Tiles.Bodies.Injuries;
+using Tiles.Bodies.Wounds;
 
 namespace Tiles
 {
@@ -48,8 +49,9 @@ namespace Tiles
             var injuryCalc = new InjuryReportCalc();
             var reporter = new ActionReporter(log);
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
+            var woundFactory = new BodyPartWoundFactory();
             var evolutions = new List<ICombatEvolution>{
-                new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, reaper),
+                new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, reaper, woundFactory),
                 new CombatEvolution_StartHold(reporter, reaper),
                 new CombatEvolution_ReleaseHold(reporter, reaper),
                 new CombatEvolution_BreakHold(reporter, reaper)

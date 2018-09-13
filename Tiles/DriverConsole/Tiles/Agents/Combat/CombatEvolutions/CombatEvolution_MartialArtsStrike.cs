@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
 using Tiles.Bodies.Injuries;
+using Tiles.Bodies.Wounds;
 using Tiles.Items;
 using Tiles.Materials;
 using Tiles.Math;
@@ -14,13 +15,16 @@ namespace Tiles.Agents.Combat.CombatEvolutions
     public class CombatEvolution_MartialArtsStrike : CombatEvolution
     {
         IInjuryReportCalc InjuryReportCalc { get; set; }
+        IBodyPartWoundFactory WoundFactory { get; set; }
         public CombatEvolution_MartialArtsStrike(
             IInjuryReportCalc injuryReportCalc,
             IActionReporter reporter, 
-            IAgentReaper reaper) 
+            IAgentReaper reaper,
+            IBodyPartWoundFactory woundFactory) 
             : base(reporter, reaper) 
         {
             InjuryReportCalc = injuryReportCalc;
+            WoundFactory = woundFactory;
         }
 
         protected override bool Should(ICombatMoveContext session)
@@ -74,21 +78,21 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             session.InjuryReport = report;
 
+            var targetWasWoke = defender.IsWoke;
             var targetWasProne = defender.IsProne;
-            
             foreach (var bpInjury in report.BodyPartInjuries)
             {
-                defender.AddInjury(bpInjury);
+                defender.AddInjury(bpInjury, WoundFactory);
             }
 
-            var targetIsProne = false;
             var targetPartWasShed = report.IsSever(move.DefenderBodyPart);
             foreach (var sever in report.GetSeverings())
             {
                 defender.Sever(sever.BodyPart);
                 HandleShedPart(attacker, defender, move, sever.BodyPart);
             }
-            targetIsProne = defender.IsProne;
+            var targetIsWoke = defender.IsWoke;
+            var targetIsProne = defender.IsProne;
 
             if (isWeaponBased)
             {
@@ -102,6 +106,11 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             if (!targetWasProne && targetIsProne)
             {
                 Reporter.ReportFallDown(session, move.Defender);
+            }
+
+            if (targetWasWoke && !targetIsWoke && !defender.CanWake())
+            {
+                Reporter.ReportGiveInToPain(session, defender);
             }
 
             var defenderDies = defender.IsDead;

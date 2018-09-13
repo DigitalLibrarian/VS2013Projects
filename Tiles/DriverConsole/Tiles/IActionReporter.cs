@@ -23,5 +23,7 @@ namespace Tiles
         void ReportDeath(Agents.IAgent agent);
 
         void ReportFallDown(ICombatMoveContext session, Agents.IAgent agent);
+
+        void ReportGiveInToPain(ICombatMoveContext session, Agents.IAgent agent);
     }
 }

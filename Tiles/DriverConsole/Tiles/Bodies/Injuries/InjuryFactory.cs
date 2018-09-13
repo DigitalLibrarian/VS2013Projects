@@ -133,6 +133,7 @@ namespace Tiles.Bodies.Injuries
             var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
             var weaponRatio = tissueResult.ContactArea / tissueResult.ImplementContactArea;
             var woundRatio = tissueResult.ContactArea / bodyPart.ContactArea;
+
             double preRounded = receptors *
                     (
                           damage.DentFraction.AsDouble()
@@ -140,7 +141,7 @@ namespace Tiles.Bodies.Injuries
                         + tissueResult.ContactAreaRatio
                         );
 
-            if (tissueResult.ContactAreaRatio >= 1d)// && sizeRatio < 3d)
+            if (tissueResult.ContactAreaRatio >= 1d)// && sizeRatio < 5d)
             {
                 if (sizeRatio > 1d)
                 {
@@ -152,11 +153,11 @@ namespace Tiles.Bodies.Injuries
                         (sizeRatio * receptors);
                 }
             }
-
-
+            
+            
             if (
-                //tissueResult.PenetrationRatio >= 0.05d
-                //&& 
+                tissueResult.PenetrationRatio > 0.0
+                &&
                 sizeRatio < 1.08d
                 )
             {
@@ -178,13 +179,13 @@ namespace Tiles.Bodies.Injuries
                                 tissueResult.ContactAreaRatio
                                 );
                         }
-                        
+
                         if (weaponRatio < 0.9d)
                         {
                             preRounded *= weaponRatio;
                         }
                     }
-                    else if (weaponRatio > 0.1d)
+                    else// if (weaponRatio > 0.01d)
                     {
                         if (tissueResult.ContactArea < tissueResult.ImplementContactArea)
                         {

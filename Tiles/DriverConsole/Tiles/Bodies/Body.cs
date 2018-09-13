@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Tiles.Agents.Combat;
 using Tiles.Bodies.Injuries;
+using Tiles.Bodies.Wounds;
 using Tiles.Math;
 
 namespace Tiles.Bodies
@@ -14,6 +15,7 @@ namespace Tiles.Bodies
         public bool IsBeingGrasped { get { return Parts.Any(x => x.IsBeingGrasped); } }
         public bool IsWrestling { get {  return Parts.Any(x => x.IsWrestling);} }
         public IList<IBodyPart> Parts { get; private set; }
+        public IList<IBodyPartWound> Wounds { get; private set; }
 
         public double Size { get; set; }
         public IBodyClass Class { get; private set; }
@@ -33,11 +35,17 @@ namespace Tiles.Bodies
             }
         }
 
-        public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size)
-            : this(bodyClass, parts, size, Enumerable.Empty<ICombatMoveClass>())
+        public int TotalPain
         {
-
+            get
+            {
+                return Wounds.Sum(w => w.LayerWounds.Sum(l => l.Pain));
+            }
         }
+
+        public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size)
+            : this(bodyClass, parts, size, Enumerable.Empty<ICombatMoveClass>()) { }
+
         public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size, IEnumerable<ICombatMoveClass> moves)
         {
             if (size <= 0d)
@@ -51,7 +59,8 @@ namespace Tiles.Bodies
             Attributes = new Dictionary<string, int>();
             Class = bodyClass;
 
-            // TODO - find out the correct value
+            Wounds = new List<IBodyPartWound>();
+
             var bloodCount = System.Math.Max(1, (int)Size);
             BloodFraction = new Fraction(bloodCount, bloodCount);
         }
@@ -117,9 +126,14 @@ namespace Tiles.Bodies
             return Enumerable.Empty<IBodyPart>();
         }
 
-        public void AddInjury(IBodyPartInjury injury)
+        public void AddInjury(IBodyPartInjury injury, IBodyPartWoundFactory woundFactory)
         {
-            throw new NotImplementedException();
+            foreach (var tInjury in injury.TissueLayerInjuries)
+            {
+                tInjury.Layer.AddInjury(tInjury);
+            }
+
+            Wounds.Add(woundFactory.Create(injury));
         }
     }
 }

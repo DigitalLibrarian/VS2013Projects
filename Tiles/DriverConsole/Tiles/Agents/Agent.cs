@@ -11,6 +11,7 @@ using Tiles.Agents.Behaviors;
 using Tiles.Agents.Combat;
 using Tiles.Materials;
 using Tiles.Bodies.Injuries;
+using Tiles.Bodies.Wounds;
 namespace Tiles.Agents
 {
     public class Agent : IAgent
@@ -28,6 +29,7 @@ namespace Tiles.Agents
         public IOutfit Outfit { get; private set; }
         public bool IsUndead { get; set; }
         public bool IsProne { get; set; }
+        public bool IsWoke { get; set; }
         public bool CanStand { get { return !CantStand(); } }
         public bool IsDead { get { return Body.IsDead; } }
 
@@ -51,6 +53,7 @@ namespace Tiles.Agents
             
             CommandQueue = commandQueue;
             IsProne = !CanStand;
+            IsWoke = CanWake();
         }
 
         public virtual void Update(IGame game)
@@ -101,7 +104,11 @@ namespace Tiles.Agents
             {
                 return move.Class.GetRelatedBodyParts(Body).Any();
             }
+        }
 
+        public bool CanWake()
+        {
+            return Body.TotalPain < GetPainThreshold();
         }
         
         public IMaterial GetStrikeMaterial(ICombatMove move)
@@ -114,8 +121,7 @@ namespace Tiles.Agents
             {
                 var relatedParts = move.Class.GetRelatedBodyParts(Body);
                 var strikePart = relatedParts.First();
-                var weaponMat = strikePart.Tissue.TissueLayers.Select(x => x.Material).OrderByDescending(x => x.ShearFracture).First();
-                return weaponMat;
+                return strikePart.Tissue.TissueLayers.Select(x => x.Material).OrderByDescending(x => x.ShearFracture).First();
             }
         }
 
@@ -167,7 +173,15 @@ namespace Tiles.Agents
 
         private void UpdateIsProne()
         {
-            IsProne = !IsProne && CantStand();
+            if (!IsProne)
+            {
+                IsProne = CantStand();
+            }
+        }
+
+        private void UpdateIsWoke()
+        {
+            IsWoke = IsWoke && CanWake();
         }
 
         private bool CantStand()
@@ -183,9 +197,7 @@ namespace Tiles.Agents
             var rightStanceParts = stanceParts.Where(p => p.IsRight);
             if (!rightStanceParts.Any()) return true;
 
-            // TODO - implement unconscious check
-
-            return false;
+            return !CanWake();
         }
 
         public bool StandUp()
@@ -210,9 +222,10 @@ namespace Tiles.Agents
             return Body.GetAttribute("WILLPOWER") / 10;
         }
 
-        public void AddInjury(IBodyPartInjury injury)
+        public void AddInjury(IBodyPartInjury injury, IBodyPartWoundFactory woundFactory)
         {
-            Body.AddInjury(injury);
+            Body.AddInjury(injury, woundFactory);
+            UpdateIsWoke();
             UpdateIsProne();
         }
     }
