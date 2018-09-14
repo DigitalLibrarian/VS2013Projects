@@ -154,7 +154,6 @@ namespace Tiles.Bodies.Injuries
                 }
             }
             
-            
             if (
                 tissueResult.PenetrationRatio > 0.0
                 &&
