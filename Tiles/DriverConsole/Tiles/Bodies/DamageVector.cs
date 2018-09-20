@@ -40,8 +40,7 @@ namespace Tiles.Bodies
         {
             get
             {
-                return EffectFraction.AsDouble() >= 1d
-                    || DentFraction.AsDouble() >= 1d
+                return DentFraction.AsDouble() >= 1d
                     || CutFraction.AsDouble() >= 1d;
             }
         }

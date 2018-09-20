@@ -84,7 +84,11 @@ namespace Tiles.Bodies.Injuries
             MaterialStrikeResult tissueResult)
         {
             var woundArea = tissueResult.PenetrationRatio >= 1d ? tissueResult.ContactArea : 0d;
-            var isChip = tissueResult.ContactArea <= bodyPart.ContactArea;
+            //var isChip = tissueResult.ContactArea <= bodyPart.ContactArea;
+
+            // TODO - this should be checked after the fact by looking at the layer's wounds.  That way
+            // hitting a chipped bone can "fracture" it.
+            var isChip = tissueResult.ContactAreaRatio < 0.25d;
             var isSoft = layer.Material.IsSoft(tissueResult.StressMode);
             var isVascular = layer.IsVascular;
 
@@ -158,7 +162,7 @@ namespace Tiles.Bodies.Injuries
             {
                 if (tVolRatio <= 1d)
                 {
-                    if (woundRatio > 0.75d)
+                    if (woundRatio > 0.5d)
                     {
                         factor += 1d;
                         if (penRatio >= 0.5d && caRatio >= 0.5d)
@@ -218,11 +222,11 @@ namespace Tiles.Bodies.Injuries
                     preRounded = receptors *
                         System.Math.Min(System.Math.Max(woundRatio, penRatio), invTVolRatio);
 
-                    preRounded = receptors
-                       * System.Math.Min(woundRatio, penRatio);
+                    //preRounded = receptors * System.Math.Min(woundRatio, penRatio);
 
-                    if (penRatio < 0.5d)
+                    if (penRatio < 0.5d) 
                         preRounded = receptors * (1d - penRatio);
+
                 }
                 else
                 {

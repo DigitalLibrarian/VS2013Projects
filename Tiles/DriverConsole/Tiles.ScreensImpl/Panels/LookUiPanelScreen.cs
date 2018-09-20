@@ -100,13 +100,14 @@ namespace Tiles.ScreensImpl.Panels
                         {
                             foreach (var tlLayer in bodyPart.Tissue.TissueLayers.Reverse())
                             {
-                                lines.Add(string.Format(" {0} e:{1:p} d:{2:p} c:{3:p} area:{4:p} pen:{5:p}", 
+                                lines.Add(string.Format(" {0} e:{1:p} d:{2:p} c:{3:p} area:{4:p} pen:{5:p} pulp:{6}", 
                                     tlLayer.Name, 
                                     tlLayer.Damage.EffectFraction.AsDouble(),
                                     tlLayer.Damage.DentFraction.AsDouble(),
                                     tlLayer.Damage.CutFraction.AsDouble(),
                                     tlLayer.WoundAreaRatio,
-                                    tlLayer.PenetrationRatio
+                                    tlLayer.PenetrationRatio,
+                                    tlLayer.IsPulped
                                     ));
                             }
                         }
