@@ -149,6 +149,9 @@ namespace Tiles.Bodies.Injuries
             var momRatio = tissueResult.ResultMomentum / tissueResult.Momentum;
             tVolRatio = sizeRatio;
 
+            tVolRatio = System.Math.Max(0.1d, tVolRatio);
+            invTVolRatio = System.Math.Max(0.1, invTVolRatio);
+
             var penThick = (double)layer.Thickness * tissueResult.PenetrationRatio;
             var tVolToPenThickRatio = penThick / tVolRatio;
             var penThickToTVolRatio = tVolRatio / penThick;
@@ -162,7 +165,7 @@ namespace Tiles.Bodies.Injuries
             {
                 if (tVolRatio <= 1d)
                 {
-                    if (woundRatio > 0.5d)
+                    if (normCaRatio > 0.5d)
                     {
                         factor += 1d;
                         if (penRatio >= 0.5d && caRatio >= 0.5d)
@@ -174,7 +177,9 @@ namespace Tiles.Bodies.Injuries
 
                     receptors *= factor;
                     preRounded = receptors *
-                        System.Math.Min(System.Math.Max(woundRatio, caRatio), tVolRatio);
+                        System.Math.Min(System.Math.Max(woundRatio, caRatio), 
+                        tVolRatio
+                        );
                 }
                 else
                 {

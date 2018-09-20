@@ -276,7 +276,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(120, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(2860, layerResult.Damage.DentFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution);
+            Assert.AreEqual(1, layerResult.PainContribution, 1);
         }
 
         [TestMethod]
