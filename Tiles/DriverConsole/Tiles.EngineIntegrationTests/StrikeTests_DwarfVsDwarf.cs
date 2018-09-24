@@ -2447,7 +2447,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
-            Assert.AreEqual(12, layerResult.PainContribution);
+            Assert.AreEqual(12, layerResult.PainContribution, 3);
         }
         #endregion Picks
 
