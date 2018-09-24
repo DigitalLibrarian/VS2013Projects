@@ -34,7 +34,7 @@ namespace Tiles.EngineIntegrationTests
 
 
         [TestMethod]
-        public void DwarfVsUnicorn_SlashRightFrontLegWithSteelSword()
+        public void DwarfVsUnicorn_SlashFrontLegWithSteelSword()
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
             Assert.IsNotNull(targetBodyPart);
@@ -90,7 +90,7 @@ namespace Tiles.EngineIntegrationTests
 
 
         [TestMethod]
-        public void DwarfVsUnicorn_SlashRightFrontLegWithCopperSword()
+        public void DwarfVsUnicorn_SlashFrontLegWithCopperSword()
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right front leg"));
             Assert.IsNotNull(targetBodyPart);

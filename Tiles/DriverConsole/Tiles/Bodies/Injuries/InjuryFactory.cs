@@ -144,6 +144,147 @@ namespace Tiles.Bodies.Injuries
             var cutRatio = damage.CutFraction.AsDouble();
             var dentRatio = damage.DentFraction.AsDouble();
             var sizeRatio = bodyPart.Size / tissueResult.ImplementSize;
+            var invSizeRatio = tissueResult.ImplementSize / bodyPart.Size;
+            var volRatio = ((double)layer.Volume) / tissueResult.ImplementSize;
+            var partTotalVolume = (double)(bodyPart.Tissue.TissueLayers.Sum(x => x.Volume));
+            var tVolRatio = (partTotalVolume / tissueResult.ImplementSize);
+            var invTVolRatio = tissueResult.ImplementSize / partTotalVolume;
+            var layerRatio = (double)layer.Thickness / (double)bodyPart.Tissue.TotalThickness;
+            var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
+            var weaponRatio = tissueResult.ContactArea / tissueResult.ImplementContactArea;
+            var invWeaponRatio = tissueResult.ImplementContactArea / tissueResult.ContactArea;
+            var bpCaRatio = tissueResult.ImplementContactArea / bodyPart.ContactArea;
+            var invBpCaRatio = bodyPart.ContactArea / tissueResult.ImplementContactArea;
+            var woundRatio = tissueResult.ContactArea / bodyPart.ContactArea;
+            var invWoundRatio = bodyPart.ContactArea / tissueResult.ContactArea;
+            var maxRat = System.Math.Max(caRatio, tissueResult.PenetrationRatio);
+            var normCaRatio = (tissueResult.ContactArea / 50d);
+            var invNormCaRatio = (50d / tissueResult.ContactArea);
+            var momRatio = tissueResult.ResultMomentum / tissueResult.Momentum;
+            var partMass = bodyPart.Tissue.TissueLayers.Sum(t => t.Material.GetMassForUniformVolume(t.Volume));
+            var wepSizeCaRatio = tissueResult.ImplementSize / tissueResult.ImplementContactArea;
+            var invWebSizeCaRatio = tissueResult.ImplementContactArea / tissueResult.ImplementSize;
+            tVolRatio = sizeRatio;
+
+            tVolRatio = System.Math.Max(0.1d, tVolRatio);
+            invTVolRatio = System.Math.Max(0.1, invTVolRatio);
+
+            var penThick = (double)layer.Thickness * tissueResult.PenetrationRatio;
+            var tVolToPenThickRatio = penThick / tVolRatio;
+            var penThickToTVolRatio = tVolRatio / penThick;
+
+            var weaponNormRatio = tissueResult.ImplementSize / 300d;
+
+            var factor = 1d;
+            double preRounded = 0;
+
+            if (IsLowContactArea(tissueResult.ImplementContactArea))
+            {
+                if (tVolRatio <= 1d)
+                {
+                    if (normCaRatio > 0.5d)
+                    {
+                        factor += 1d;
+                        if (penRatio >= 0.5d && caRatio >= 0.5d)
+                        {
+                            if (penThick >= 1d)
+                                factor += 1d;
+                        }
+                    }
+
+                    receptors *= factor;
+                    preRounded = receptors *
+                            Min(Max(woundRatio, caRatio),
+                            tVolRatio
+                            );
+                }
+                else
+                {
+                    if (cutRatio > 0.0d) factor += 1d;
+                    if (IsLowContactArea(tissueResult.ContactArea))
+                    {
+                        receptors *= factor;
+                        preRounded = receptors * Min(invTVolRatio, penRatio, caRatio);
+                    }
+                    else
+                    {
+                        if (penRatio >= 0.5d && caRatio >= 0.1d)
+                        {
+                            if (penThick >= 1d)
+                                factor += 1d;
+                        }
+
+                        receptors *= factor;
+                        preRounded = receptors * System.Math.Max(woundRatio, invTVolRatio);
+                    }
+                }
+            }
+            else
+            {
+                if (cutRatio > 0.01d && woundRatio > 0.95d) factor += 1d;
+                if (!IsLowContactArea(tissueResult.ContactArea) || woundRatio > .95d)
+                {
+                    if (penRatio >= 1d || caRatio >= 1d)
+                    {
+                        if (penRatio >= .25d)
+                            factor += 1d;
+                    }
+                }
+
+                receptors *= factor;
+                if (tVolRatio <= 1d) // part is smaller by volume
+                {
+                    preRounded = receptors *
+                        System.Math.Min(System.Math.Max(woundRatio, penRatio), tVolRatio);
+                }
+                else if (invTVolRatio > 0.25d)
+                {
+                    preRounded = receptors *
+                        System.Math.Min(System.Math.Max(woundRatio, penRatio), invTVolRatio);
+                    preRounded = receptors * invTVolRatio;
+
+                    if (penRatio < 1d)
+                    {
+                        if (penRatio < 0.5d)
+                            preRounded = receptors * (1d - penRatio);
+                        else
+                        {
+                            preRounded = receptors * penRatio;
+                        }
+                    }
+                }
+                else
+                {
+                    preRounded = receptors
+                        * System.Math.Max(woundRatio, penRatio)
+                        ;
+                }
+            }
+
+            if (bodyPart.Class.IsSmall || tissueResult.ImplementWasSmall || caRatio < 0.05d)
+            {
+                preRounded = 1;
+            }
+
+            var sum = (int)System.Math.Round(
+                preRounded, 0, MidpointRounding.AwayFromZero);
+
+            return sum;
+        }
+
+
+        private int GetPainContribution13(IBody body, IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult tissueResult, IDamageVector damage)
+        {
+            if (tissueResult.PenetrationRatio == 0) return 0;
+            var receptors = (double)layer.Class.PainReceptors;
+            if (receptors == 0) return 0;
+
+            var penRatio = tissueResult.PenetrationRatio;
+            var caRatio = tissueResult.ContactAreaRatio;
+            var cutRatio = damage.CutFraction.AsDouble();
+            var dentRatio = damage.DentFraction.AsDouble();
+            var sizeRatio = bodyPart.Size / tissueResult.ImplementSize;
+            var invSizeRatio = tissueResult.ImplementSize / bodyPart.Size;
             var volRatio = ((double)layer.Volume) / tissueResult.ImplementSize;
             var partTotalVolume = (double)(bodyPart.Tissue.TissueLayers.Sum(x => x.Volume));
             var tVolRatio = (partTotalVolume / tissueResult.ImplementSize);
@@ -231,14 +372,12 @@ namespace Tiles.Bodies.Injuries
                 {
                     preRounded = receptors *
                         System.Math.Min(System.Math.Max(woundRatio, penRatio), tVolRatio);
-                    //preRounded = -1;
                 }
                 else if (invTVolRatio > 0.25d)
                 {
                     preRounded = receptors *
                         System.Math.Min(System.Math.Max(woundRatio, penRatio), invTVolRatio);
-
-                    //preRounded = receptors * System.Math.Min(woundRatio, penRatio);
+                    preRounded = receptors * invTVolRatio;
 
                     if (penRatio < 1d)
                     {
@@ -252,8 +391,8 @@ namespace Tiles.Bodies.Injuries
                 }
                 else
                 {
-                    preRounded = receptors *
-                            System.Math.Max(woundRatio, penRatio)
+                    preRounded = receptors 
+                        * System.Math.Max(woundRatio, penRatio)
                         ;
                 }
             }

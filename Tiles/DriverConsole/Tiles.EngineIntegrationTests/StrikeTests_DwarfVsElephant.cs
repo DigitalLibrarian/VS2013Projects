@@ -26,7 +26,7 @@ namespace Tiles.EngineIntegrationTests
         }
         
         [TestMethod]
-        public void DwarfVsElephant_ScratchLeftRearFoot()
+        public void DwarfVsElephant_ScratchRearFoot()
         {
             var targetBodyPart = Defender.Body.Parts.Single(p => p.Name.Equals("left rear foot"));
             Assert.IsNotNull(targetBodyPart);
@@ -307,7 +307,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsElephant_SlashRightTuskWithSteelHalberd()
+        public void DwarfVsElephant_SlashTuskWithSteelHalberd()
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right tusk"));
             Assert.IsNotNull(targetBodyPart);
@@ -333,7 +333,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsElephant_StabRightTuskWithSteelHalberd()
+        public void DwarfVsElephant_StabTuskWithSteelHalberd()
         {
             var targetBodyPart = Defender.Body.Parts.First(x => x.Name.Equals("right tusk"));
             Assert.IsNotNull(targetBodyPart);
@@ -413,7 +413,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsElephant_StrikeLeftFrontFootWithWoodPick()
+        public void DwarfVsElephant_StrikeFrontFootWithWoodPick()
         {
             var targetBodyPart = Defender.Body.Parts.FirstOrDefault(x => x.Name.Equals("left front foot"));
             Assert.IsNotNull(targetBodyPart);
@@ -438,7 +438,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsElephant_StrikeLeftRearLegWithWoodPick()
+        public void DwarfVsElephant_StrikeRearLegWithWoodPick()
         {
             var targetBodyPart = Defender.Body.Parts.FirstOrDefault(x => x.Name.Equals("left rear leg"));
             Assert.IsNotNull(targetBodyPart);

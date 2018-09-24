@@ -32,7 +32,7 @@ namespace Tiles.EngineIntegrationTests
 
         #region Scratching
         [TestMethod]
-        public void DwarfVsDwarf_ScratchLeftFoot()
+        public void DwarfVsDwarf_ScratchFoot()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -81,7 +81,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_ScratchLeftLowerArm()
+        public void DwarfVsDwarf_ScratchLowerArm()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -127,7 +127,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_ScratchRightUpperLeg()
+        public void DwarfVsDwarf_ScratchUpperLeg()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -173,7 +173,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_ScratchRightLowerLeg()
+        public void DwarfVsDwarf_ScratchLowerLeg()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -493,7 +493,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_PunchRightUpperArm_ContactAreas()
+        public void DwarfVsDwarf_PunchUpperArm_ContactAreas()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -517,7 +517,7 @@ namespace Tiles.EngineIntegrationTests
         }
         
         [TestMethod]
-        public void DwarfVsDwarf_PunchRightLowerLeg_ContactAreas()
+        public void DwarfVsDwarf_PunchLowerLeg_ContactAreas()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -540,7 +540,7 @@ namespace Tiles.EngineIntegrationTests
         }
         
         [TestMethod]
-        public void DwarfVsDwarf_PunchLeftLowerArm_ContactAreas()
+        public void DwarfVsDwarf_PunchLowerArm_ContactAreas()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -597,7 +597,7 @@ namespace Tiles.EngineIntegrationTests
         }
         
         [TestMethod]
-        public void DwarfVsDwarf_PunchRightFoot()
+        public void DwarfVsDwarf_Punchoot()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -846,7 +846,7 @@ namespace Tiles.EngineIntegrationTests
         }
         
         [TestMethod]
-        public void DwarfVsDwarf_BiteRightUpperArm()
+        public void DwarfVsDwarf_BiteUpperArm()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -883,7 +883,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_BiteRightUpperLeg()
+        public void DwarfVsDwarf_BiteUpperLeg()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -921,7 +921,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_BiteRightLowerLeg()
+        public void DwarfVsDwarf_BiteLowerLeg()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -960,7 +960,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_BiteRightHand()
+        public void DwarfVsDwarf_BiteHand()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -1226,11 +1226,54 @@ namespace Tiles.EngineIntegrationTests
             Assert.Inconclusive("Need example of extreme low penetration on muscle");
             //Assert.AreEqual(15, layerResult.PainContribution);
         }
+
+        [TestMethod]
+        public void DwarfVsDwarf_StabHeadWithWoodDagger()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_DAGGER_LARGE, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(0.11d, layerResult.ContactAreaRatio, 0.1d);
+            Assert.AreEqual(1d, layerResult.PenetrationRatio);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1150, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1150, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(5.45d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
+            Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
+            Assert.AreEqual(1, layerResult.PainContribution);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0.11d, layerResult.ContactAreaRatio, 0.1d);
+            Assert.AreEqual(0.49d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(570, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(1150, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(5.45d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+            Assert.AreEqual(1, layerResult.PainContribution);
+        }
         #endregion
 
         #region Spears
         [TestMethod]
-        public void DwarfVsDwarf_StabLeftLowerArmWithWoodSpear()
+        public void DwarfVsDwarf_StabLowerArmWithWoodSpear()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -1353,11 +1396,118 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.WoundArea, 0.1);
             Assert.AreEqual(2, layerResult.PainContribution, 1);
         }
+
+        [TestMethod]
+        public void DwarfVsDwarf_StabHeadWithWoodSpear()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_SPEAR, "WOOD_TEMPLATE");
+            attacker.Outfit.Wield(weapon);
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_Cut,
+                StressResult.Shear_Cut,
+                StressResult.None);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(0.46d, layerResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.PenetrationRatio);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(4630, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(4630, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(21.8d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
+            Assert.AreEqual(3, layerResult.PainContribution, 1);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0.46d, layerResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0.17d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(820, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(4630, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(21.8d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+            Assert.AreEqual(2, layerResult.PainContribution, 1);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(21.8d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(0.46d, layerResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+            Assert.AreEqual(0, layerResult.PainContribution);
+        }
         #endregion
 
         #region Swords
         [TestMethod]
-        public void DwarfVsDwarf_SlashLeftUpperLegCopperSword()
+        public void DwarfVsDwarf_StabHeadWithCopperSword()
+        {
+            var attacker = Dwarf;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("head"));
+            Assert.IsNotNull(targetBodyPart);
+
+            var sword = CreateInorganicWeapon(DfTags.MiscTags.ITEM_WEAPON_SWORD_SHORT, "COPPER");
+            attacker.Outfit.Wield(sword);
+
+            var moveClass = sword.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, sword);
+            var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_CutThrough,
+                StressResult.Shear_Cut);
+
+            var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
+            Assert.AreEqual("skin", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.ContactAreaRatio);
+            Assert.AreEqual(1d, layerResult.PenetrationRatio);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(46.04d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
+            Assert.AreEqual(7, layerResult.PainContribution);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
+            Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(1d, layerResult.ContactAreaRatio);
+            Assert.AreEqual(1d, layerResult.PenetrationRatio);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(46.04d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
+            Assert.AreEqual(7, layerResult.PainContribution);
+
+            layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
+            Assert.AreEqual(46.04d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(1d, layerResult.ContactAreaRatio);
+            Assert.AreEqual(0.62d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(6240, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
+            Assert.AreEqual(6, layerResult.PainContribution);
+        }
+        [TestMethod]
+        public void DwarfVsDwarf_SlashUpperLegCopperSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -1414,7 +1564,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashLeftUpperLegSteelSword()
+        public void DwarfVsDwarf_SlashUpperLegSteelSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -1574,7 +1724,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashRightHandSteelSword()
+        public void DwarfVsDwarf_SlashHandSteelSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -1635,7 +1785,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
-            Assert.AreEqual(15, layerResult.PainContribution);
+            Assert.AreEqual(15, layerResult.PainContribution, 1);
         }
 
         [TestMethod]
@@ -1765,7 +1915,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashRightUpperLegWoodSword()
+        public void DwarfVsDwarf_SlashUpperLegWoodSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -1808,7 +1958,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_StabRightFootWithWoodSword()
+        public void DwarfVsDwarf_StabFootWithWoodSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -1849,7 +1999,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_StabRightLowerLegWithWoodSword()
+        public void DwarfVsDwarf_StabLowerLegWithWoodSword()
         {
             var attacker = Dwarf; 
             var defender = Dwarf;
@@ -1990,7 +2140,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_StabLeftHandWithWoodSword()
+        public void DwarfVsDwarf_StabHandWithWoodSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -2094,7 +2244,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashRightFootWithWoodSword()
+        public void DwarfVsDwarf_SlashFootWithWoodSword()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -2136,7 +2286,7 @@ namespace Tiles.EngineIntegrationTests
 
         #region Whips
         [TestMethod]
-        public void DwarfVsDwarf_LashRightLowerArmWithWoodWhip()
+        public void DwarfVsDwarf_LashLowerArmWithWoodWhip()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -2187,7 +2337,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_LashLeftFootWithWoodWhip()
+        public void DwarfVsDwarf_LashFootWithWoodWhip()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -2252,7 +2402,7 @@ namespace Tiles.EngineIntegrationTests
 
         #region Picks
         [TestMethod]
-        public void DwarfVsDwarf_StrikeRightHandWithWoodPick()
+        public void DwarfVsDwarf_StrikeHandWithWoodPick()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -2388,7 +2538,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_StrikeRightHandWithSteelPick()
+        public void DwarfVsDwarf_StrikeHandWithSteelPick()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -2453,7 +2603,7 @@ namespace Tiles.EngineIntegrationTests
 
         #region Axes
         [TestMethod]
-        public void DwarfVsDwarf_HackLeftHandWithWoodenAxe()
+        public void DwarfVsDwarf_HackHandWithWoodenAxe()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -2587,7 +2737,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_HackLeftHandWithSilverAxe()
+        public void DwarfVsDwarf_HackHandWithSilverAxe()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -3194,7 +3344,7 @@ namespace Tiles.EngineIntegrationTests
 
         #region Halberds
         [TestMethod]
-        public void DwarfVsDwarf_StabRightHandWithWoodHalberd()
+        public void DwarfVsDwarf_StabHandWithWoodHalberd()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -3369,7 +3519,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashRightHandWithWoodHalberd()
+        public void DwarfVsDwarf_SlashHandWithWoodHalberd()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -3462,7 +3612,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashLeftUpperArmWithWoodHalberd()
+        public void DwarfVsDwarf_SlashUpperArmWithWoodHalberd()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -3544,7 +3694,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_StabRightHandWithSilverHalberd()
+        public void DwarfVsDwarf_StabHandWithSilverHalberd()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -3607,7 +3757,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_StabLeftUpperArmWithSilverHalberd()
+        public void DwarfVsDwarf_StabUpperArmWithSilverHalberd()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -3777,7 +3927,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashRightHandWithSilverHalberd()
+        public void DwarfVsDwarf_SlashHandWithSilverHalberd()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
@@ -3894,7 +4044,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void DwarfVsDwarf_SlashLeftUpperArmWithSilverHalberd()
+        public void DwarfVsDwarf_SlashUpperArmWithSilverHalberd()
         {
             var attacker = Dwarf;
             var defender = Dwarf;
