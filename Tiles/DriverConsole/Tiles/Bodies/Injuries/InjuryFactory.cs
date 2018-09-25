@@ -164,6 +164,7 @@ namespace Tiles.Bodies.Injuries
             var partMass = bodyPart.Tissue.TissueLayers.Sum(t => t.Material.GetMassForUniformVolume(t.Volume));
             var wepSizeCaRatio = tissueResult.ImplementSize / tissueResult.ImplementContactArea;
             var invWebSizeCaRatio = tissueResult.ImplementContactArea / tissueResult.ImplementSize;
+            var vdEstimate = layer.Volume * tissueResult.ContactAreaRatio * tissueResult.PenetrationRatio;
             tVolRatio = sizeRatio;
 
             tVolRatio = System.Math.Max(0.1d, tVolRatio);
