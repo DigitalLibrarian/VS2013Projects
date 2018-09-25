@@ -142,9 +142,10 @@ namespace Tiles.Bodies.Injuries
             var penRatio = tissueResult.PenetrationRatio;
             var caRatio = tissueResult.ContactAreaRatio;
             var partSig = bodyPart.Size / 650d;
+            var woundRatio = tissueResult.ContactArea / bodyPart.ContactArea;
 
             var multiplier = 1d;
-            if (caRatio >= .5d)
+            if (caRatio >= .5d && woundRatio > 0.5d)
             {
                 multiplier += 1d;
                 if (caRatio + penRatio > 1.2d)
@@ -165,7 +166,7 @@ namespace Tiles.Bodies.Injuries
 
             if (    bodyPart.Class.IsSmall 
                 ||  tissueResult.ImplementWasSmall 
-                ||  caRatio < 0.05d)
+                ||  caRatio < 0.06d)
             {
                 preRounded = 1;
             }
@@ -173,6 +174,7 @@ namespace Tiles.Bodies.Injuries
             {
                 var max = receptors * multiplier * partSig;
                 max -= 0.5d;
+                max = Max(0.5d, max);
                 preRounded = Min(preRounded, max);
             }
 
