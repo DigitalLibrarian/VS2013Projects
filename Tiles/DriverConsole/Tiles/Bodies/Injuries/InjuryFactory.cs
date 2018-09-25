@@ -139,6 +139,7 @@ namespace Tiles.Bodies.Injuries
             var receptors = (double)layer.Class.PainReceptors;
             if (receptors == 0) return 0;
 
+            var sizeRatio = bodyPart.Size / tissueResult.ImplementSize;
             var penRatio = tissueResult.PenetrationRatio;
             var caRatio = tissueResult.ContactAreaRatio;
             var partSig = bodyPart.Size / 650d;
