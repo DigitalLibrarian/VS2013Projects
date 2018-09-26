@@ -275,5 +275,12 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var agent = DfAgentFactory.Create("SPIDER_CAVE_GIANT", "MALE");
             Assert.IsTrue(agent.Body.FeelsNoPain);
         }
+
+        [TestMethod]
+        public void Crab_HasSnatchMove()
+        {
+            var agent = DfAgentFactory.Create("CRAB", "MALE");
+            Assert.IsTrue(agent.Body.Moves.Any(x => x.Name.Equals("PINCER") && x.Verb.SecondPerson.Equals("snatch")));
+        }
     }
 }

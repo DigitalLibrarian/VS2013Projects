@@ -1689,7 +1689,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2070, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(21.8, layerResult.ContactArea, 0.1);
             Assert.AreEqual(0, layerResult.WoundArea);
-            Assert.AreEqual(0, layerResult.PainContribution);
+            Assert.AreEqual(1, layerResult.PainContribution, 1);
         }
 
         [TestMethod]

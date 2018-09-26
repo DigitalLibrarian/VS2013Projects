@@ -52,7 +52,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             double implementSize;
             if (!isWeaponBased)
             {
-                var relatedParts = move.Class.GetRelatedBodyParts(defender.Body);
+                var relatedParts = move.Class.GetRelatedBodyParts(attacker.Body);
                 implementWasSmall = relatedParts.All(x => x.Class.IsSmall);
                 implementSize = relatedParts.Sum(x => x.Size);
             }

@@ -122,7 +122,9 @@ namespace Tiles.Agents
             {
                 var relatedParts = move.Class.GetRelatedBodyParts(Body);
                 var strikePart = relatedParts.First();
-                return strikePart.Tissue.TissueLayers.Select(x => x.Material).OrderByDescending(x => x.ShearFracture).First();
+                return strikePart.Tissue.TissueLayers.Select(x => x.Material)
+                    .OrderByDescending(x => x.ShearFracture)
+                    .First();
             }
         }
 
@@ -152,15 +154,13 @@ namespace Tiles.Agents
             else
             {
                 var parts = move.Class.GetRelatedBodyParts(move.Attacker.Body);
+
                 double partWeight = parts
                     .Select(p => p.Mass)
                     .Sum();
-                double partsize = parts.Select(p => p.Size)
-                    .Sum();
-                VelocityMultiplier = 1000d;
 
-                var material = GetStrikeMaterial(move);
-                var sumRelSize = parts.Select(x => x.Class.RelativeSize).Sum();
+                var strikerMat = GetStrikeMaterial(move);
+
                 var v = 100d * Str / 1000d * VelocityMultiplier / 1000d;
                 return v * (partWeight / 1000) + 1;
             }
