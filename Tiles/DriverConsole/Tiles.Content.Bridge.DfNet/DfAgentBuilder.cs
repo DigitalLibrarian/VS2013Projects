@@ -31,6 +31,7 @@ namespace Tiles.Content.Bridge.DfNet
         Color Background { get; set; }
 
         double Size { get; set; }
+        double BodySizePerc { get; set; }
 
         Material BloodMaterial { get; set; }
         Material PusMaterial { get; set; }
@@ -54,6 +55,7 @@ namespace Tiles.Content.Bridge.DfNet
             BpRelationDefns = new List<BpRelationDefn>();
             TlOverrideDefns = new List<TlOverrideDefn>();
             FeelsNoPain = default(bool);
+            BodySizePerc = 1d;
         }
 
         #region Lookups
@@ -709,7 +711,7 @@ namespace Tiles.Content.Bridge.DfNet
             totalPartSize = 0;
             totalContactArea = 0;
             double partRatio = ((double)part.RelativeSize / totalBpRelSize);
-            var partSize = (partRatio * Size);
+            var partSize = (partRatio * Size * BodySizePerc);
             var partLength = System.Math.Pow(partSize, 0.3333d);
             var bpContactArea = System.Math.Pow((partSize), 0.666d);
             
@@ -829,7 +831,7 @@ namespace Tiles.Content.Bridge.DfNet
             var body = new Body
                 {
                     Parts = parts,
-                    Size = Size,
+                    Size = Size * BodySizePerc,
                     Attributes = newAttrs,
                     BloodMaterial = BloodMaterial,
                     PusMaterial = PusMaterial,
@@ -964,6 +966,12 @@ namespace Tiles.Content.Bridge.DfNet
             public string TargetStrategyParam { get; set; }
             public bool HasMajorArteries { get; set; }
             public string DestTissueName { get; set; }
+        }
+
+        public void SetBodySizePerc(int perc)
+        {
+            var dPerc = (double)perc / 100d;
+            BodySizePerc = dPerc;
         }
     }
 }

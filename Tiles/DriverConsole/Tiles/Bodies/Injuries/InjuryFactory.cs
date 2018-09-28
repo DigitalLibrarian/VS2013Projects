@@ -146,9 +146,12 @@ namespace Tiles.Bodies.Injuries
             var penRatio = tissueResult.PenetrationRatio;
             var caRatio = tissueResult.ContactAreaRatio;
             var woundRatio = tissueResult.ContactArea / bodyPart.ContactArea;
-            var partSig = bodyPart.Size / 650d;
-            var invPartSig = 650d / bodyPart.Size;
+            var partNormalizer = 650d;
+            var partSig = bodyPart.Size / partNormalizer;
+            var invPartSig = partNormalizer / bodyPart.Size;
             var partChar = bodyPart.Class.RelativeSize / bodyPart.Thickness;
+            var relSizeRatio = bodyPart.Class.RelativeSize / tissueResult.ImplementSize;
+            var partTotalVolume = (double)(bodyPart.Tissue.TissueLayers.Sum(x => x.Volume));
 
             var multiplier = 2d;
             {
@@ -157,14 +160,9 @@ namespace Tiles.Bodies.Injuries
             }
 
             var dmgRatio = Min(caRatio, penRatio);
-            if(caRatio > 0.5d)
-            {
-                dmgRatio = caRatio;
-            }
-            if (penRatio < 0.05d)
-            {
-                dmgRatio = penRatio;
-            }
+            if (caRatio > 0.5d)                     dmgRatio = caRatio;
+            if (penRatio < 0.05d)                   dmgRatio = penRatio;
+            if (penRatio < 0.33 && caRatio < 0.33)  dmgRatio = Max(caRatio, penRatio);
 
             var preRounded = receptors * multiplier * dmgRatio;
 
@@ -179,15 +177,12 @@ namespace Tiles.Bodies.Injuries
                 max = Max(0.5d, max);
                 preRounded = Min(preRounded, max);
             }
-            else  if (partSig >= 2d &&  woundRatio > 0.25d)
+            else if (partSig >= 2d && woundRatio > 0.25d)
             {
                 preRounded *= woundRatio;
             }
 
-            var sum = (int)System.Math.Round(
-                preRounded, 0, MidpointRounding.AwayFromZero);
-
-            return sum;
+            return (int) System.Math.Round(preRounded, 0, MidpointRounding.AwayFromZero);
         }
 
         private int GetPainContribution15(IBody body, IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult tissueResult, IDamageVector damage)

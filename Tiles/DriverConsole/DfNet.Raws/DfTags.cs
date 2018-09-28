@@ -217,6 +217,8 @@ namespace DfNet.Raws
             public const string DEFAULT_RELSIZE = "DEFAULT_RELSIZE";
             public const string BODY_SIZE = "BODY_SIZE";
 
+            public const string CHANGE_BODY_SIZE_PERC = "CHANGE_BODY_SIZE_PERC";
+
             public const string ITEM_WEAPON_WHIP  = "ITEM_WEAPON_WHIP";
             public const string ITEM_WEAPON_AXE_BATTLE  = "ITEM_WEAPON_AXE_BATTLE";
             public const string ITEM_WEAPON_HAMMER_WAR  = "ITEM_WEAPON_HAMMER_WAR";

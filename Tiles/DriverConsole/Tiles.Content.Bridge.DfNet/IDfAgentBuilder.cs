@@ -24,21 +24,15 @@ namespace Tiles.Content.Bridge.DfNet
         void RemoveMaterial(string matName);
 
         void AddTissueToBodyPart(string bpName, string tisName);
-
         void SetBodyPartTissueThickness(string bpName, string tisName, int relThick);
-        
-        Agent Build();
-
+        void SetBodySizePerc(int perc);
         void OverrideBodyPartCategorySize(string bpCategory, int size);
-
         void AddLifeStageSize(int ageYear, int ageDay, double size);
-
         void AddBodyAttack(DfBodyAttack move);
-
         void AddAttribute(DfAttributeRange ar);
-
         void AddBodyPartRelation(string targetStrategy, string targetStrategyParam, BodyPartRelationType relType, string relatedPartStrategy, string relatedPartStrategyParam, int weight);
-
         void AddTissueLayerOverride(string tissueName, string strategy, string strategyParam, bool hasMajorArteries, string destTissueName);
+
+        Agent Build();
     }
 }

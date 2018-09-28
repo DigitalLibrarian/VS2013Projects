@@ -15,7 +15,9 @@ namespace DfNet.Raws.Interpreting.TagInterpreters
             var creatureType = triggerTag.GetParam(0);
             var creatureDf = store.Get(DfTags.CREATURE, creatureType);
 
-            context.CopyTagsFrom(creatureDf);
+            context.InsertTags(creatureDf.Tags.Skip(1).ToArray());
+
+            //context.CopyTagsFrom(creatureDf);
         }
     }
 }

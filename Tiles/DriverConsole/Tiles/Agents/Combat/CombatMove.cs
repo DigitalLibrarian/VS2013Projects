@@ -19,7 +19,6 @@ namespace Tiles.Agents.Combat
             Defender = defender;
         }
 
-
         public ICombatMoveClass Class { get; set; }
         public string Name { get; set; }
         public string Verb { get; set; }
@@ -29,7 +28,6 @@ namespace Tiles.Agents.Combat
         public IBodyPart AttackerBodyPart { get; set; }
         public IBodyPart DefenderBodyPart { get; set; }
         public IItem Weapon { get; set; }
-
 
         public double Sharpness
         {

@@ -32,28 +32,5 @@ namespace DfNet.Raws.Interpreting.Applicators
         {
             Interpreter.Interpret(store, context, CvDefn.Tags, false);
         }
-
-        public static IEnumerable<string> FindRequiredCVs(DfObject dfObj)
-        {
-            foreach (var tag in dfObj.Tags)
-            {
-                if (tag.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION))
-                {
-                    yield return tag.GetParam(0);
-                }
-            }
-        }
-
-        public static IEnumerable<string> FindRequiredCreature(DfObject dfObj)
-        {
-            foreach (var tag in dfObj.Tags)
-            {
-                if (tag.Name.Equals(DfTags.MiscTags.COPY_TAGS_FROM))
-                {
-                    yield return tag.GetParam(0);
-                }
-            }
-
-        }
     }
 }

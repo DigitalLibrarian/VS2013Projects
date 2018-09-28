@@ -70,6 +70,10 @@
     <Compile Include="StrikeTests_ElfVsElfStrike.cs" />
     <Compile Include="StrikeTests_DwarfVsDwarf.cs" />
     <Compile Include="StrikeTests_GiantCaveSpiderVsDwarf.cs" />
+    <Compile Include="StrikeTests_GiantCrabVsGiantCrab.cs" />
+    <Compile Include="StrikeTests_GiantGrizzlyBearVsGiantGrizzlyBear.cs" />
+    <Compile Include="StrikeTests_GremlinVsDwarf.cs" />
+    <Compile Include="StrikeTests_MinotaurVsMinotaur.cs" />
     <Compile Include="StrikeTests_UnicornVsDwarf.cs" />
     <Compile Include="StrikeTests_UnicornVsUnicorn.cs" />
     <Compile Include="TestContentStore.cs" />

@@ -31,6 +31,7 @@ namespace Tiles.Materials
                 factor = (double)strickenMat.ShearFracture / (double)strikerMat.ShearFracture;
                 factor = System.Math.Max(MinRelativeToughness, factor);
             }
+
             return (((double)strickenMat.ShearFracture) * 5000d) * factor
                 / (((double)strikerMat.ShearFracture) * sharpness * 10d);
         }
@@ -43,6 +44,10 @@ namespace Tiles.Materials
             {
                 factor = (double)strickenMat.ShearFracture / (double)strikerMat.ShearFracture;
                 factor = System.Math.Max(MinRelativeToughness, factor);
+            }
+            else if (strikerMat.ShearFracture == strickenMat.ShearFracture)
+            {
+                factor = MinRelativeToughness;
             }
 
             return (((double)strickenMat.ShearFracture) * layerVolume * 5000d * factor)

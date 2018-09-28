@@ -277,10 +277,25 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         }
 
         [TestMethod]
-        public void Crab_HasSnatchMove()
+        public void Crab_HasTwoSnatchMoves()
         {
             var agent = DfAgentFactory.Create("CRAB", "MALE");
-            Assert.IsTrue(agent.Body.Moves.Any(x => x.Name.Equals("PINCER") && x.Verb.SecondPerson.Equals("snatch")));
+            Assert.AreEqual(2, agent.Body.Moves.Count(x => x.Name.Equals("PINCER") && x.Verb.SecondPerson.Equals("snatch")));
+        }
+
+        [TestMethod]
+        public void GiantGrizzlyBear_BodySize()
+        {
+            var agent = DfAgentFactory.Create("GIANT_BEAR_GRIZZLY", "MALE");
+            Assert.AreEqual(170000, agent.Body.Size);
+        }
+
+        [TestMethod]
+        public void GiantGrizzlyBear_ScratchContactArea()
+        {
+            var agent = DfAgentFactory.Create("GIANT_BEAR_GRIZZLY", "MALE");
+            var move = agent.Body.Moves.First(x => x.Name.Equals("SCRATCH"));
+            Assert.AreEqual(45.89, move.ContactArea, 0.01d);
         }
     }
 }

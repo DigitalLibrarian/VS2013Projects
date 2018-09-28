@@ -111,7 +111,8 @@ namespace Tiles.Agents
             if (Body.Class.FeelsNoPain) return true;
             return Body.TotalPain < GetPainThreshold();
         }
-        
+
+        // TODO - Belongs in CombatMove
         public IMaterial GetStrikeMaterial(ICombatMove move)
         {
             if (move.Class.IsItem)
@@ -122,12 +123,26 @@ namespace Tiles.Agents
             {
                 var relatedParts = move.Class.GetRelatedBodyParts(Body);
                 var strikePart = relatedParts.First();
+
+                var childTissueReq = move.Class.Requirements.FirstOrDefault(r => r.Type == BodyPartRequirementType.ChildTissueLayerGroup);
+                if (childTissueReq != null)
+                {
+                    // TODO - We really should be keeping the reference name 
+                    // from the raws.  It can be used to drive this.
+                    var tokens = childTissueReq.Constraints.Last().Tokens;
+                    var layerName = tokens.Last().ToLower();
+
+                    var tissue = strikePart.Tissue.TissueLayers.First(tl => tl.Class.Name.ToLower().Equals(layerName));
+                    return tissue.Material;
+                }
+
                 return strikePart.Tissue.TissueLayers.Select(x => x.Material)
                     .OrderByDescending(x => x.ShearFracture)
                     .First();
             }
         }
 
+        // TODO - Belongs in CombatMove
         public double GetStrikeMomentum(ICombatMove move)
         {
             double  Str = Body.GetAttribute("STRENGTH"),
@@ -155,13 +170,13 @@ namespace Tiles.Agents
             {
                 var parts = move.Class.GetRelatedBodyParts(move.Attacker.Body);
 
+                var strikerMat = GetStrikeMaterial(move);
+                var density = strikerMat.SolidDensity / 100d;
                 double partWeight = parts
-                    .Select(p => p.Mass)
+                    .Select(p => p.Mass )
                     .Sum();
 
-                var strikerMat = GetStrikeMaterial(move);
-
-                var v = 100d * Str / 1000d * VelocityMultiplier / 1000d;
+                var v = 100d * (Str / 1000d) * (VelocityMultiplier / 1000d);
                 return v * (partWeight / 1000) + 1;
             }
         }

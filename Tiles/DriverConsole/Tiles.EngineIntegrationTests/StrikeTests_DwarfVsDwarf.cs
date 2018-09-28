@@ -4519,7 +4519,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(14.3, attacker.GetStrikeMomentum(move), 0.1);
         }
 
-        // TODO - move to its own class
         [TestMethod]
         public void IronShortSwordSharpness()
         {
@@ -4532,6 +4531,7 @@ namespace Tiles.EngineIntegrationTests
             attacker.Outfit.Wield(sword);
 
             var slashMoveClass = sword.Class.WeaponClass.AttackMoveClasses.FirstOrDefault(mc => mc.Name.Equals("slash"));
+
             Assert.IsNotNull(slashMoveClass);
 
             var slashMove = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, slashMoveClass, targetBodyPart, sword);

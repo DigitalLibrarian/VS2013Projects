@@ -24,7 +24,7 @@ namespace Tiles.Content.Bridge.DfNet
                     move = CreateWeaponAttack(attackTag);
                     break;
                 default:
-                    move = CreateBodyAttack(attackTag);
+                    throw new NotImplementedException();
                     break;
             }
 
@@ -77,29 +77,6 @@ namespace Tiles.Content.Bridge.DfNet
             }
 
             throw new NotImplementedException();
-        }
-
-        CombatMove CreateBodyAttack(DfTag attackTag)
-        {
-            return new CombatMove
-            {
-                Name = attackTag.GetParam(0),
-                Verb = new Verb
-                {
-                    SecondPerson = attackTag.GetParam(0),
-                    ThirdPerson = attackTag.GetParam(0),
-                    IsTransitive = false
-                },
-                ContactType = Models.ContactType.Other,
-                ContactArea = 0,
-                MaxPenetration = 0,
-                VelocityMultiplier = 0,
-
-                IsItem = false,
-                IsMartialArts = true,
-                IsStrike = true,
-                IsDefenderPartSpecific = true
-            };
         }
     }
 }

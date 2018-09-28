@@ -123,11 +123,11 @@ namespace Tiles.Materials
                 volDamaged = LayerVolume * contactAreaRatio;
 
             double penetrationRatio = 0d;
-            
+
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness);
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, sharpness);
             var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, sharpness, LayerVolume);
-
+           
             var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, LayerVolume);
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
             var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);

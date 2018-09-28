@@ -8,7 +8,7 @@ namespace DfNet.Raws.Interpreting
 {
     public class DfObjectContext : IDfObjectContext
     {
-        public int Cursor { get; private set; }
+        public int Cursor { get; set; }
         public DfObject Source { get; private set; }
 
         List<DfTag> Working { get; set; }

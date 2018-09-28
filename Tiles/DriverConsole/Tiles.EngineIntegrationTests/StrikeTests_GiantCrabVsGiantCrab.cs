@@ -11,23 +11,23 @@ using Tiles.Math;
 namespace Tiles.EngineIntegrationTests
 {
     [TestClass]
-    public class StrikeTests_CrabVsCrab : DfContentTestBase
+    public class StrikeTests_GiantCrabVsGiantCrab : DfContentTestBase
     {
-        IAgent Crab { get; set; }
+        IAgent GiantCrab { get; set; }
 
         [TestInitialize]
         public override void Initialize()
         {
             base.Initialize();
 
-            Crab = CreateAgent("CRAB", "MALE", Vector3.Zero);
+            GiantCrab = CreateAgent("GIANT_CRAB", "MALE", Vector3.Zero);
         }
 
         [TestMethod]
-        public void CrabVsCrab_SnatchesFoot()
+        public void GiantCrabVsGiantCrab_SnatchesFoot()
         {
-            var attacker = Crab;
-            var defender = Crab;
+            var attacker = GiantCrab;
+            var defender = GiantCrab;
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left first foot"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("snatch"));
@@ -73,10 +73,10 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void CrabVsCrab_SnatchesLeg()
+        public void GiantCrabVsGiantCrab_SnatchesLeg()
         {
-            var attacker = Crab;
-            var defender = Crab;
+            var attacker = GiantCrab;
+            var defender = GiantCrab;
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left first leg"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("snatch"));
@@ -111,10 +111,10 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void CrabVsCrab_SnatchesCephalothorax()
+        public void GiantCrabVsGiantCrab_SnatchesCephalothorax()
         {
-            var attacker = Crab;
-            var defender = Crab;
+            var attacker = GiantCrab;
+            var defender = GiantCrab;
 
             var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("cephalothorax"));
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("snatch"));

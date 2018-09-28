@@ -7,7 +7,7 @@ namespace DfNet.Raws.Interpreting
         IEnumerable<DfTag> WorkingSet { get; }
 
         DfObject Source { get; }
-        int Cursor { get; }
+        int Cursor { get; set; }
 
         void GoToEnd();
         void GoToStart();

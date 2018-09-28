@@ -48,7 +48,14 @@ namespace Tiles.Content.Bridge.DfNet
             var creatureDf = Store.Get(DfTags.CREATURE, name);
             // this shit needs to be refactored
             var context = new DfObjectContext(creatureDf);
-            ApplyPass(new DfCreatureApplicator(creatureDf), context);
+
+            do
+            {
+                ApplyPass(new DfCreatureApplicator(creatureDf), context);
+                creatureDf = context.Create();
+
+            } while (creatureDf.Tags.Any(
+                x => x.Name.Equals(DfTags.MiscTags.APPLY_CREATURE_VARIATION)));
 
             if (caste != null)
             {
@@ -236,10 +243,19 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.NOPAIN:
                         agentContext.SetFeelsNoPain(true);
                         break;
+                    case DfTags.MiscTags.CHANGE_BODY_SIZE_PERC:
+                        HandleChangeBodySizePerc(tag, agentContext);
+                        break;
                 }
             }
 
             return agentContext.Build();
+        }
+
+        private void HandleChangeBodySizePerc(DfTag tag, IDfAgentBuilder agentContext)
+        {
+            var perc = int.Parse(tag.GetParam(0));
+            agentContext.SetBodySizePerc(perc);
         }
 
         private void HandleSelectTissueLayer(DfTag tag, List<DfTag> tags, IDfAgentBuilder agentContext)

@@ -768,7 +768,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(225, (int)layer.Volume);
         }
 
-
         [TestMethod]
         public void HumanBodyAttack_HandSize()
         {
@@ -819,7 +818,6 @@ namespace Tiles.EngineIntegrationTests
             var mom = human.GetStrikeMomentum(move);
             Assert.AreEqual(4, (int)mom);
         }
-
 
         [TestMethod]
         public void HumanBodyAttack_Scratch_Momentum()
@@ -883,7 +881,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(StressMode.Edge, moveClass.StressMode);
             Assert.AreEqual(1, moveClass.ContactArea);
         }
-
 
         [TestMethod]
         public void ParakeetBodyAttack_Scratch_MaxPenetration()
@@ -1009,6 +1006,40 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveFactory.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
             var mat = attacker.GetStrikeMaterial(move);
             Assert.IsNotNull(mat);
+        }
+
+        [TestMethod]
+        public void GiantGrizzlyBear_ToeSize()
+        {
+            var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
+
+            var part = attacker.Body.Parts.Single(p => p.Name.Equals("first right front toe"));
+            Assert.AreEqual(24.95d, part.ContactArea, 0.01d);
+            Assert.AreEqual(125.27d, part.Size, 0.01d);
+            Assert.AreEqual(107d, part.Thickness);
+        }
+
+        [TestMethod]
+        public void CrabVsCrab_SnatchMaterial()
+        {
+            var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "CRAB", "MALE", Vector3.Zero);
+
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("snatch"));
+            var move = CombatMoveFactory.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
+            var strikeMat = attacker.GetStrikeMaterial(move);
+            Assert.AreEqual("chitin", strikeMat.Name);
+        }
+
+        [TestMethod]
+        public void GiantGrizzlyBear_ScratchMaterial()
+        {
+            var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
+
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
+            var move = CombatMoveFactory.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
+            var mat = attacker.GetStrikeMaterial(move);
+
+            Assert.AreEqual("nail", mat.Name);
         }
 
         IAgent GetNewDwarf()
