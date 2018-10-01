@@ -57,6 +57,7 @@ namespace Tiles.Materials
         {
             StrikerSharpness = sharpness;
         }
+
         public void SetStrikeMomentum(double momentum)
         {
             Momentum = momentum;
