@@ -12,6 +12,7 @@ namespace Tiles.Bodies
     {
         public string Name { get; set; }
         public string TokenId { get; set; }
+        public int Number { get; set; }
 
         public IBodyPartClass Parent { get; set; }
         public ITissueClass Tissue { get; set; }
@@ -68,6 +69,7 @@ namespace Tiles.Bodies
             bool isSmall = false,
             bool isEmbedded = false,
             bool isConnector = false,
+            int number = 1,
             bool preventsParentCollapse = false,
             IBodyPartClass parent = null,
             IEnumerable<IBodyPartRelation> relations = null)
@@ -99,6 +101,7 @@ namespace Tiles.Bodies
             IsSmall = isSmall;
             IsEmbedded = isEmbedded;
             IsConnector = isConnector;
+            Number = number;
             PreventsParentCollapse = preventsParentCollapse;
 
             if (relations == null)

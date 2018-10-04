@@ -183,6 +183,8 @@ namespace DfNet.Raws
             public const string LAYER_SIZE = "LAYER_SIZE";
             public const string CREATURE_TILE = "CREATURE_TILE";
 
+            public const string MINIMUM_SIZE = "MINIMUM_SIZE";
+
             public const string COLOR = "COLOR";
 
             public const string PHYS_ATT_RANGE = "PHYS_ATT_RANGE";

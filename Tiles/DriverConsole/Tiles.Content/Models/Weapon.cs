@@ -16,5 +16,6 @@ namespace Tiles.Content.Models
 
         public List<WeaponSlot> SlotRequirements { get; set; }
         public List<CombatMove> Moves { get; set; }
+        public int MinimumSize { get; set; }
     }
 }

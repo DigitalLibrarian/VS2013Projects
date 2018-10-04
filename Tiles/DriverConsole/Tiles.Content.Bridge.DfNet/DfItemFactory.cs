@@ -80,6 +80,10 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.LAYER_SIZE:
                         b.SetSize(int.Parse(tag.GetParam(0)));
                         break;
+                    case DfTags.MiscTags.MINIMUM_SIZE:
+                        b.SetMinimumSize(int.Parse(tag.GetParam(0)));
+                        break;
+
                 }
             }
 

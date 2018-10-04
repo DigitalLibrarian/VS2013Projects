@@ -26,7 +26,7 @@ namespace Tiles.Materials.Tests
 
         #region Relative Contact Areas
         [TestMethod]
-        public void ContactArea_StrikerIsSmaller()
+        public void ContactArea_StrikerIsSmaller_Edge()
         {
             double sharpness = 1d, momentum = 1d, thickness = 1d, volume = 1d, remainingPen = 10d;
             double strickenContactArea = 10d;
@@ -35,7 +35,7 @@ namespace Tiles.Materials.Tests
             var strikerMaterialMock = new Mock<IMaterial>();
             var strickenMaterialMock = new Mock<IMaterial>();
 
-            Builder.SetStressMode(StressMode.None);
+            Builder.SetStressMode(StressMode.Edge);
             Builder.SetStrikerContactArea(strikerContactArea);
             Builder.SetStrikerMaterial(strikerMaterialMock.Object);
             Builder.SetStrickenContactArea(strickenContactArea);
@@ -48,10 +48,36 @@ namespace Tiles.Materials.Tests
 
             var result = Builder.Build();
 
-            Assert.AreEqual(981, (int) (result.ContactAreaRatio * 1000));
-            Assert.AreEqual(981, (int) (result.ContactArea * 100));
+            Assert.AreEqual(900, (int) (result.ContactAreaRatio * 1000));
+            Assert.AreEqual(900, (int) (result.ContactArea * 100));
         }
 
+        [TestMethod]
+        public void ContactArea_StrikerIsSmaller_Blunt()
+        {
+            double sharpness = 1d, momentum = 1d, thickness = 1d, volume = 1d, remainingPen = 10d;
+            double strickenContactArea = 10d;
+            double strikerContactArea = 9d;
+
+            var strikerMaterialMock = new Mock<IMaterial>();
+            var strickenMaterialMock = new Mock<IMaterial>();
+
+            Builder.SetStressMode(StressMode.Blunt);
+            Builder.SetStrikerContactArea(strikerContactArea);
+            Builder.SetStrikerMaterial(strikerMaterialMock.Object);
+            Builder.SetStrickenContactArea(strickenContactArea);
+            Builder.SetStrickenMaterial(strickenMaterialMock.Object);
+            Builder.SetStrikerSharpness(sharpness);
+            Builder.SetStrikeMomentum(momentum);
+            Builder.SetLayerThickness(thickness);
+            Builder.SetLayerVolume(volume);
+            Builder.SetRemainingPenetration(remainingPen);
+
+            var result = Builder.Build();
+
+            Assert.AreEqual(981, (int)(result.ContactAreaRatio * 1000));
+            Assert.AreEqual(981, (int)(result.ContactArea * 100));
+        }
         [TestMethod]
         public void ContactArea_StrickenIsSmaller()
         {

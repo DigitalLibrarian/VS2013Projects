@@ -95,6 +95,9 @@ namespace Tiles.Bodies.Injuries
             var damage = new DamageVector();
             switch (tissueResult.StressResult)
             {
+                case StressResult.Impact_Dent:
+                    damage.DentFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
                 case StressResult.Impact_Bypass:
                     damage.EffectFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.EffectFraction.Denominator);
                     break;
@@ -112,6 +115,9 @@ namespace Tiles.Bodies.Injuries
                 case StressResult.Shear_CutThrough:
                     damage.CutFraction.Numerator = Round(tissueResult.PenetrationRatio * tissueResult.ContactAreaRatio * (double)damage.CutFraction.Denominator);
                     damage.DentFraction.Numerator = Round(tissueResult.ContactAreaRatio * (double)damage.DentFraction.Denominator);
+                    break;
+                case StressResult.None:
+                    damage.EffectFraction.Numerator = Round(tissueResult.PreDentRatio * (double)damage.EffectFraction.Denominator);
                     break;
                 default:
                     break;

@@ -76,7 +76,7 @@ namespace Tiles.Items
                                IsItem = true,
                                IsStrike = true
                            },
-
-                    });
+                    },
+            minimumSize: 10000);
     }
 }

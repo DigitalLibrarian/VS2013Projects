@@ -142,6 +142,13 @@ namespace Tiles.Agents
             }
         }
 
+        private double MeleeWeaponMomentum(double skill, double creatureClassSize, double strength,
+            double velocityMultipier, double creatureSize, double weaponDensity, double weaponSize)
+        {
+            return (skill * creatureClassSize * strength * velocityMultipier)
+                 / (1000000d * (1d + creatureSize / (weaponDensity * weaponSize)));
+        }
+
         // TODO - Belongs in CombatMove
         public double GetStrikeMomentum(ICombatMove move)
         {
@@ -164,17 +171,31 @@ namespace Tiles.Agents
 
                 var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
                 v = System.Math.Min(5000d, v);
+
                 return v * actWeight / 1000d + 1d;
             }
             else
             {
                 var parts = move.Class.GetRelatedBodyParts(move.Attacker.Body);
-
                 var strikerMat = GetStrikeMaterial(move);
                 var density = strikerMat.SolidDensity / 100d;
                 double partWeight = parts
-                    .Select(p => p.Mass )
+                    .Select(p => p.Mass * (double) p.Class.Number)
                     .Sum();
+
+                //var weight = partWeight;
+                //weight /= 1000d; // grams to kg
+
+                //double intWeight = (int)(weight);
+                //double fractWeight = (int)((weight - (intWeight)) * 1000d) * 1000d;
+
+                //double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
+                //double actWeight = (intWeight * 1000d) + (fractWeight / 1000d);
+
+                //var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
+                //v = System.Math.Min(5000d, v);
+                //return v * actWeight / 1000d + 1d;
+
 
                 var v = 100d * (Str / 1000d) * (VelocityMultiplier / 1000d);
                 return v * (partWeight / 1000) + 1;

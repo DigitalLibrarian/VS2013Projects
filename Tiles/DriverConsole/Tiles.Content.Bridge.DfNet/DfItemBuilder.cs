@@ -101,5 +101,11 @@ namespace Tiles.Content.Bridge.DfNet
         {
             Item.Size = size;
         }
+
+        public void SetMinimumSize(int minimumSize)
+        {
+            AutovivWeapon();
+            Item.Weapon.MinimumSize = minimumSize;
+        }
     }
 }

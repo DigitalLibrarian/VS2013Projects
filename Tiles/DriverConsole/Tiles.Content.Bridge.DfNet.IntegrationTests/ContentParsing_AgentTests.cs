@@ -82,8 +82,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             Assert.AreEqual(BprConstraintType.ByCategory, con.ConstraintType);
             Assert.IsTrue(new string[] { "TOOTH" }.SequenceEqual(con.Tokens));
 
-            Assert.AreEqual(9, move.ContactArea, 0.5);
-            Assert.AreEqual(6, move.MaxPenetration, 0.5);
+            Assert.AreEqual(9, move.ContactArea, 1d);
+            Assert.AreEqual(30, move.MaxPenetration, 0.5);
 
             Assert.AreEqual(3, move.PrepTime);
             Assert.AreEqual(3, move.RecoveryTime);

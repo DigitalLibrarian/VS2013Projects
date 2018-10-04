@@ -21,6 +21,8 @@ namespace Tiles.Content.Models
 
         public string NameSingular { get; set; }
         public string NamePlural { get; set; }
+
+        public int Number { get; set; }
         
         public bool CanBeAmputated { get; set; }
         public bool CanGrasp { get; set; }

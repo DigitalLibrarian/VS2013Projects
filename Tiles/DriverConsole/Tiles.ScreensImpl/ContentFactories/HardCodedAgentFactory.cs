@@ -212,7 +212,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                                StressMode = StressMode.Edge,
                                VelocityMultiplier = 3000
                            }
-                    }
+                    },
+                   minimumSize: 100
                     );
 
         }
@@ -242,7 +243,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                                MaxPenetration = 20,
                                StressMode = StressMode.Edge,
                            },
-                    }
+                    },
+                   minimumSize: 100
                     );
 
         }

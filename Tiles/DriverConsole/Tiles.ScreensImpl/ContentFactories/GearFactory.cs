@@ -71,7 +71,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                            MaxPenetration = 0,
                            StressMode = StressMode.Blunt
                        },
-                   }
+                   },
+                   minimumSize: 100
                 )),
             new ItemClass(
                name: "steel sword", 
@@ -124,7 +125,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                            StressMode = StressMode.Edge,
                            VelocityMultiplier = 1000
                        },
-                   }
+                   },
+                   minimumSize: 100
                 )),
             new ItemClass(
                 name: "baseball bat", 
@@ -156,7 +158,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                            StressMode = StressMode.Blunt,
                            VelocityMultiplier = 2000
                        }
-                   }
+                   },
+                   minimumSize: 100
                 )),
             new ItemClass(
                 name: "cotton hat",
@@ -273,8 +276,8 @@ namespace Tiles.ScreensImpl.ContentFactories
                        MaxPenetration = 10,
                        StressMode = StressMode.Blunt,
                    },
-
-            });
+            },
+            minimumSize: 100);
 
         IItem CreateItem(
             string name, Sprite sprite, IItemClass itemClass)

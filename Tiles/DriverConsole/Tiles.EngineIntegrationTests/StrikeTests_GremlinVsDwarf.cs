@@ -71,7 +71,7 @@ namespace Tiles.EngineIntegrationTests
 
             var result = AssertTissueStrikeResults(attacker, defender, targetBodyPart, move,
                 StressResult.Shear_Dent,
-                StressResult.Shear_Dent);
+                StressResult.Impact_Bypass);
 
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);

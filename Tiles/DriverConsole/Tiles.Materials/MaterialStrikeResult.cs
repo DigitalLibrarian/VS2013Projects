@@ -16,6 +16,7 @@ namespace Tiles.Materials
         public double Stress { get; set; }
 
         public double PenetrationRatio { get; set; }
+        public double PreDentRatio { get; set; }
 
         public StressResult StressResult { get; set; }
         public double ResultMomentum { get; set; }

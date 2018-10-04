@@ -95,7 +95,7 @@ namespace Tiles.EngineIntegrationTests
             var layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.PenetrationRatio);
-            Assert.AreEqual(0.06d, layerResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(0.13d, layerResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(580, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(580, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);

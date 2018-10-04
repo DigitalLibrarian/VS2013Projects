@@ -74,7 +74,8 @@ namespace Tiles.Content.Map
             if (weapon == null) return null;
             return new WeaponClass(
                 weapon.SlotRequirements.Select(Map).ToArray(),
-                weapon.Moves.Select(Map).ToArray());
+                weapon.Moves.Select(Map).ToArray(),
+                weapon.MinimumSize);
         }
 
         public EngineItems.IItemClass Map(ContentModel.Item item)
@@ -219,6 +220,7 @@ namespace Tiles.Content.Map
         {
             return new EngineBodies.BodyPartClass(
                 name: bodyPart.NameSingular,
+                number: bodyPart.Number,
                 tokenId: bodyPart.TokenId,
                 tissueClass: Map(bodyPart.Tissue), 
                 armorSlotType: Map(bodyPart.ArmorSlot), 

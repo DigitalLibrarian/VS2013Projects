@@ -13,6 +13,7 @@ namespace Tiles.Bodies
         IBodyPartClass Parent { get; }
         string TokenId { get; }
         string Name { get; }
+        int Number { get; }
         int RelativeSize { get; }
 
         ArmorSlot ArmorSlot { get; }

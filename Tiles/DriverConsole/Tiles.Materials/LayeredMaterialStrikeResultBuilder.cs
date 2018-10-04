@@ -120,12 +120,11 @@ namespace Tiles.Materials
             double penRemaining = MaxPenetration;
             double penetration = 0;
             bool done = false;
-            int turnsToBlunt = -1;
             var strikeMaterial = StrikerMaterial;
             double lastMomentumIn;
             for (int layerIndex = 0; layerIndex < Layers.Count(); layerIndex++)
             {
-                if (turnsToBlunt-- == 0  || penetration >= MaxPenetration)
+                if (penetration >= MaxPenetration)
                 {
                     mode = Materials.StressMode.Blunt;
                 }
@@ -150,15 +149,20 @@ namespace Tiles.Materials
                         var penComp = layer.Thickness * layerResult.PenetrationRatio;
                         penetration += penComp;
                         penRemaining -= penComp;
-                        if (layerResult.PenetrationRatio < 1d)
+                        if (layerResult.PenetrationRatio < 1d
+                            || penRemaining < 1d)
                         {
                             penRemaining = 0d;
+                            penetration = MaxPenetration;
                         }
-                    } else if (layerResult.StressResult == StressResult.Impact_CompleteFracture)
+                    } 
+                    else if (layerResult.StressResult == StressResult.Impact_CompleteFracture)
                     {
                         strikeMaterial = layer.Material;
                         mode = Materials.StressMode.Edge;
-                        turnsToBlunt = 1;
+                        MaxPenetration = layer.Thickness;
+                        penRemaining = MaxPenetration;
+                        penetration = 0;
                     }
                 }
                 else if (mode != StressMode.Blunt)

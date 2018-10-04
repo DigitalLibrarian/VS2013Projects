@@ -96,7 +96,7 @@ namespace Tiles.EngineIntegrationTests
             {
                 var relatedParts = move.Class.GetRelatedBodyParts(defender.Body);
                 implementWasSmall = relatedParts.All(x => x.Class.IsSmall);
-                implementSize = relatedParts.Sum(x => x.Size);
+                implementSize = relatedParts.Sum(x => x.Size * (double) x.Class.Number);
             }
             else
             {
@@ -150,6 +150,9 @@ namespace Tiles.EngineIntegrationTests
                     }
                 }
             }
+
+            Assert.Inconclusive("Course grain results looks good.");
+
             return injuryReport;
         }
 

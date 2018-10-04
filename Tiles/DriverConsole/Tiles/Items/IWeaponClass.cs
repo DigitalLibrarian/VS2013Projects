@@ -11,5 +11,6 @@ namespace Tiles.Items
     {
         IEnumerable<WeaponSlot> RequiredSlots { get; }
         IEnumerable<ICombatMoveClass> AttackMoveClasses { get; }
+        int MinimumSize { get; }
     }
 }

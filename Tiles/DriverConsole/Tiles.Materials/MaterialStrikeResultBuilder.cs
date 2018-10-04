@@ -104,14 +104,14 @@ namespace Tiles.Materials
         {
             var contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
             var contactAreaRatio = (contactArea / StrickenContactArea);
-            if (contactAreaRatio < 1d)
+            if (contactAreaRatio < 1d && StressMode == Materials.StressMode.Blunt)
             {
                 // If the striker is smaller than the strikee, then we can make the damaged area spread out a bit.
                 // Think about how if you are punched, then you are slightly sore around the impacted area to a degree.
                 contactArea *= 1.09d;
                 contactAreaRatio = (contactArea / StrickenContactArea);
             }
-            else
+            else if(contactAreaRatio >= 1d)
             {
                 contactAreaRatio = 1d;
                 contactArea = contactArea - 1;
@@ -121,7 +121,8 @@ namespace Tiles.Materials
             bool defeated = false;
             double stress = -1, resultMom = -1, 
                 sharpness = StrikerSharpness,
-                volDamaged = LayerVolume * contactAreaRatio;
+                volDamaged = LayerVolume * contactAreaRatio,
+                preDentRatio = 1d;
 
             double penetrationRatio = 0d;
 
@@ -136,7 +137,9 @@ namespace Tiles.Materials
             int strainAtYield, yield, fractureForce;
             StrickenMaterial.GetModeProperties(StressMode, out yield, out fractureForce, out strainAtYield);
 
-            stress = Momentum / volDamaged;
+            var sharpFudge = sharpness / 1000d;
+            if (contactAreaRatio < 0.25d) sharpFudge = 1d;
+            stress = (Momentum / (volDamaged)) * sharpFudge;
             if (StressMode == Materials.StressMode.Edge)
             {
                 var dentCost = (shearCost1);
@@ -178,6 +181,10 @@ namespace Tiles.Materials
                         }
                     }
                 }
+                else 
+                {
+                    preDentRatio = stress / (dentCost);
+                }
             }
             else
             {
@@ -216,6 +223,10 @@ namespace Tiles.Materials
                             }
                         }
                     }
+                }
+                else
+                {
+                    preDentRatio = stress / (dentCost);
                 }
             }
 
@@ -259,8 +270,9 @@ namespace Tiles.Materials
                 Momentum = Momentum,
                 ContactArea = contactArea,
                 ContactAreaRatio = contactAreaRatio,
-
                 PenetrationRatio = penetrationRatio,
+                PreDentRatio = preDentRatio,
+
                 ImplementMaxPenetration =(int) MaxPenetration,
                 ImplementRemainingPenetration = (int) RemainingPenetration,
                 ImplementWasSmall = ImplementWasSmall,

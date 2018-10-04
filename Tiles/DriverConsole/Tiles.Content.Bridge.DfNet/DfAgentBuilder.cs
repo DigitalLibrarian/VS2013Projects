@@ -369,7 +369,15 @@ namespace Tiles.Content.Bridge.DfNet
                     categories.AddRange(BodyPartCategoryTissueThickness[cat].Keys);
                 }
             }
-            
+
+            var numberOfParts = 1;
+            var numberTag = defn.Tags.FirstOrDefault(t => t.Name.Equals("NUMBER"));
+            if (numberTag != null)
+            {
+                numberOfParts = int.Parse(numberTag.GetParam(0));
+                // TODO - figure out INDIVIDUAL_NAME
+            }
+
             var part = new BodyPart
             {
                 Parent = parent,
@@ -377,6 +385,7 @@ namespace Tiles.Content.Bridge.DfNet
                 TokenId = defn.Name,
                 NameSingular = defn.Tags.First().GetParam(1),
                 NamePlural = defn.Tags.First().GetParam(2),
+                Number = numberOfParts,
                 CanGrasp = defn.Tags.Any(t => t.IsSingleWord(DfTags.MiscTags.GRASP)),
                 CanBeAmputated = defn.Tags.Any(t =>
                         t.IsSingleWord(DfTags.MiscTags.LIMB)
@@ -411,7 +420,6 @@ namespace Tiles.Content.Bridge.DfNet
             };
             return part;
         }
-
 
         bool IsConstraintMatch(BaConstraint con, BodyPart part)
         {
@@ -512,8 +520,10 @@ namespace Tiles.Content.Bridge.DfNet
                         double maxLength = 1;
                         GetAttackProps(attack, part, totalBpRelSize, out maxLength, out totalPartSize, out totalContactArea);
                         var contactRatio = (double)attack.ContactPercent / 100d;
+
+                        totalContactArea = Math.Pow(totalPartSize, 0.666d);
                         var contactArea = totalContactArea * contactRatio;
-                        var maxPen = (((double)attack.PenetrationPercent / 100d) * maxLength);
+                        var maxPen = (((double)attack.PenetrationPercent / 100d) * totalPartSize);
                         // NOTE - the contact area is < 1 here for the parakeet scratch
                         var combatMove =
                             new CombatMove
@@ -587,11 +597,13 @@ namespace Tiles.Content.Bridge.DfNet
                             maxLength += partLength;
                         }
 
-                        totalContactArea *= 1.5d;
-                        totalPartSize /= 2d;
+                        //totalContactArea *= 1.5d;
+                        //totalPartSize /= 2d;
+
+                        //totalContactArea = Math.Pow(totalPartSize, 0.666d);
                         var contactRatio = (double)attack.ContactPercent / 100d;
                         var contactArea = totalContactArea * contactRatio;
-                        var maxPen = (((double)attack.PenetrationPercent / 100d) * maxLength);
+                        var maxPen = (((double)attack.PenetrationPercent / 100d) * totalPartSize);
 
                         var combatMove =
                             new CombatMove
@@ -667,12 +679,14 @@ namespace Tiles.Content.Bridge.DfNet
                         }
 
 
-                        totalContactArea /= 2d;
-                        totalPartSize /= 2d;
+                        //totalContactArea /= 2d;
+                        //totalPartSize /= 2d;
                         //maxLength /= 2d;
+
+                        totalContactArea = Math.Pow(totalPartSize, 0.666d);
                         var contactRatio = (double)attack.ContactPercent / 100d;
                         var contactArea = totalContactArea * contactRatio;
-                        var maxPen = (((double)attack.PenetrationPercent / 100d) * maxLength);
+                        var maxPen = (((double)attack.PenetrationPercent / 100d) * totalPartSize);
 
                         var combatMove =
                             new CombatMove
@@ -711,10 +725,10 @@ namespace Tiles.Content.Bridge.DfNet
             totalPartSize = 0;
             totalContactArea = 0;
             double partRatio = ((double)part.RelativeSize / totalBpRelSize);
-            var partSize = (partRatio * Size * BodySizePerc);
+            var partSize = (partRatio * Size * BodySizePerc) * (double)part.Number;
             var partLength = System.Math.Pow(partSize, 0.3333d);
             var bpContactArea = System.Math.Pow((partSize), 0.666d);
-            
+
             maxLength += partSize;
             totalPartSize += partSize;
             totalContactArea += bpContactArea;
