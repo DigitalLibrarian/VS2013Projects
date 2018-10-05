@@ -128,7 +128,7 @@ namespace Tiles.Materials
 
             var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness);
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, sharpness);
-            var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, sharpness, LayerVolume);
+            var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, sharpness, volDamaged);
            
             var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, LayerVolume);
             var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
@@ -138,7 +138,6 @@ namespace Tiles.Materials
             StrickenMaterial.GetModeProperties(StressMode, out yield, out fractureForce, out strainAtYield);
 
             var sharpFudge = sharpness / 1000d;
-            if (contactAreaRatio < 0.25d) sharpFudge = 1d;
             stress = (Momentum / (volDamaged)) * sharpFudge;
             if (StressMode == Materials.StressMode.Edge)
             {

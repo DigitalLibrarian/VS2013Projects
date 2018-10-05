@@ -872,7 +872,6 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(5546, totRel);
         }
 
-
         [TestMethod]
         public void ParakeetBodyAttack_Scratch_ContactArea()
         {
@@ -1060,7 +1059,16 @@ namespace Tiles.EngineIntegrationTests
             var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
 
-            Assert.AreEqual(54.1d, moveClass.ContactArea);
+            Assert.AreEqual(54.15d, moveClass.ContactArea, 0.01d);
+        }
+
+        [TestMethod]
+        public void GiantGrizzlyBear_ScratchPenetration()
+        {
+            var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
+            var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("scratch"));
+
+            Assert.AreEqual(400.88d, moveClass.MaxPenetration, 0.01d);
         }
 
         [TestMethod]
@@ -1081,7 +1089,7 @@ namespace Tiles.EngineIntegrationTests
             var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("bite"));
 
-            Assert.AreEqual(130d, moveClass.ContactArea);
+            Assert.AreEqual(127.67d, moveClass.ContactArea, 0.01d);
         }
 
         IAgent GetNewDwarf()

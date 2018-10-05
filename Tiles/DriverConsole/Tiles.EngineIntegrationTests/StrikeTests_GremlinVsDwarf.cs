@@ -27,6 +27,22 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void GremlinVsDwarf_WoodDaggerSlashMomentum()
+        {
+            var attacker = Gremlin;
+            var defender = Dwarf;
+
+            var targetBodyPart = defender.Body.Parts.First(x => x.Name.Equals("left foot"));
+            var weapon = CreateMaterialTemplateWeapon(DfTags.MiscTags.ITEM_WEAPON_DAGGER_LARGE, "WOOD_TEMPLATE");
+
+            var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
+            var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
+
+            var mom = attacker.GetStrikeMomentum(move);
+            Assert.AreEqual(6, mom);
+        }
+
+        [TestMethod]
         public void GremlinVsDwarf_StabFootWithWoodDagger()
         {
             var attacker = Gremlin;

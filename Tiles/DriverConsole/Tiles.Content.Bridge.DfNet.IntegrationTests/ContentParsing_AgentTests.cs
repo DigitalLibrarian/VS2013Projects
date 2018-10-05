@@ -295,7 +295,15 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             var agent = DfAgentFactory.Create("GIANT_BEAR_GRIZZLY", "MALE");
             var move = agent.Body.Moves.First(x => x.Name.Equals("SCRATCH"));
-            Assert.AreEqual(45.89, move.ContactArea, 0.01d);
+            Assert.AreEqual(54.15d, move.ContactArea, 0.01d);
+        }
+
+        [TestMethod]
+        public void GiantCrab_SnatchMoveContactArea()
+        {
+            var agent = DfAgentFactory.Create("GIANT_CRAB", "MALE");
+            var move = agent.Body.Moves.First(x => x.Name.Equals("PINCER"));
+            Assert.AreEqual(129.16d, move.ContactArea, 0.01d);
         }
     }
 }
