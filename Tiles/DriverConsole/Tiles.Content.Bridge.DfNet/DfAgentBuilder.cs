@@ -600,7 +600,7 @@ namespace Tiles.Content.Bridge.DfNet
                         //totalContactArea *= 1.5d;
                         //totalPartSize /= 2d;
 
-                        //totalContactArea = Math.Pow(totalPartSize, 0.666d);
+                        totalContactArea = Math.Pow(totalPartSize, 0.666d);
                         var contactRatio = (double)attack.ContactPercent / 100d;
                         var contactArea = totalContactArea * contactRatio;
                         var maxPen = (((double)attack.PenetrationPercent / 100d) * totalPartSize);
