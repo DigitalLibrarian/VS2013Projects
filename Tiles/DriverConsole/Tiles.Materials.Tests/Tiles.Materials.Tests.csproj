@@ -59,7 +59,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MaterialStressCalcTests.cs" />
-    <Compile Include="MaterialStrikeResultBuilderTests.cs" />
     <Compile Include="MaterialTests.cs" />
     <Compile Include="SingleLayerStrikeTesterTests.cs" />
     <Compile Include="StockMaterialTests.cs" />

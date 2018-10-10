@@ -252,7 +252,7 @@ namespace Tiles.Materials
                 if (StressMode == Materials.StressMode.Edge)
                 {
                     var sharpFactor = 5000d / sharpness;
-                    deduction = shearCost1 * volDamaged * LayerThickness * sharpFactor / 10d;
+                    deduction = shearCost1 * volDamaged * sharpFactor / 10d;
                 }
                 else
                 {

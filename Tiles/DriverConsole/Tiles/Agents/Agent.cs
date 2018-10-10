@@ -155,7 +155,7 @@ namespace Tiles.Agents
             double  Str = Body.GetAttribute("STRENGTH"),
                     VelocityMultiplier = (double)move.Class.VelocityMultiplier,
                     Size = Body.Size;
-
+            
             if (move.Class.IsItem)
             {
                 var weapon = move.Weapon;
@@ -195,7 +195,6 @@ namespace Tiles.Agents
                 //var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
                 //v = System.Math.Min(5000d, v);
                 //return v * actWeight / 1000d + 1d;
-
 
                 var v = 100d * (Str / 1000d) * (VelocityMultiplier / 1000d);
                 return v * (partWeight / 1000) + 1;

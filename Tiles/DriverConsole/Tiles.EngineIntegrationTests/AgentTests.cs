@@ -1030,6 +1030,14 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void GiantGrizzlyBear_Size()
+        {
+            var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
+
+            Assert.AreEqual(170000d, attacker.Class.BodyClass.Size);
+        }
+
+        [TestMethod]
         public void GiantGrizzlyBear_ScratchMaterial()
         {
             var attacker = DfTagsFascade.CreateCreatureAgent(Atlas, "GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
