@@ -159,6 +159,7 @@ namespace Tiles.Bodies.Injuries
             var partChar = bodyPart.Class.RelativeSize / bodyPart.Thickness;
             var relSizeRatio = bodyPart.Class.RelativeSize / tissueResult.ImplementSize;
             var partTotalVolume = (double)(bodyPart.Tissue.TissueLayers.Sum(x => x.Volume));
+            var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
 
             var multiplier = 2d;
             {
@@ -170,13 +171,17 @@ namespace Tiles.Bodies.Injuries
             if (caRatio > 0.5d)                     dmgRatio = caRatio;
             if (penRatio < 0.05d)                   dmgRatio = penRatio;
             if (penRatio == 0d)                     dmgRatio = caRatio;
+            if (penRatio < 1 && caRatio < 1)        dmgRatio = woundRatio;
             if (penRatio < 0.33 && caRatio < 0.33)  dmgRatio = Max(caRatio, penRatio);
 
             var preRounded = receptors * multiplier * dmgRatio;
+            
+            var upperBound = Max(partRatio * 10d) * receptors * multiplier;
+            preRounded = Min(upperBound, preRounded);
 
             if (bodyPart.Class.IsSmall || woundRatio < 0.05d)
             {
-                preRounded = 1;
+                preRounded = 1d;
             }
             else if (partSig < 1d)
             {
