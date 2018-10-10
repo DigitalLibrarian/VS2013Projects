@@ -141,7 +141,8 @@ namespace Tiles.Bodies.Injuries
         
         private int GetPainContribution(IBody body, IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult tissueResult, IDamageVector damage)
         {
-            if (tissueResult.PenetrationRatio == 0) return 0;
+            if (tissueResult.PenetrationRatio == 0
+                && tissueResult.StressResult != StressResult.Shear_Dent) return 0;
             var receptors = (double)layer.Class.PainReceptors;
             if (receptors == 0) return 0;
 
@@ -168,6 +169,7 @@ namespace Tiles.Bodies.Injuries
             var dmgRatio = Min(caRatio, penRatio);
             if (caRatio > 0.5d)                     dmgRatio = caRatio;
             if (penRatio < 0.05d)                   dmgRatio = penRatio;
+            if (penRatio == 0d)                     dmgRatio = caRatio;
             if (penRatio < 0.33 && caRatio < 0.33)  dmgRatio = Max(caRatio, penRatio);
 
             var preRounded = receptors * multiplier * dmgRatio;
