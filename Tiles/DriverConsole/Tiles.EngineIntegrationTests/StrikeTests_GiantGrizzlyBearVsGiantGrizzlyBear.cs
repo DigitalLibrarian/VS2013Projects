@@ -23,6 +23,7 @@ namespace Tiles.EngineIntegrationTests
             Bear = CreateAgent("GIANT_BEAR_GRIZZLY", "MALE", Vector3.Zero);
         }
 
+        [Ignore]
         [TestMethod]
         public void GiantGrizzlyBearVsGiantGrizzlyBear_ScratchesLowerBody()
         {
@@ -50,6 +51,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, layerResult.PainContribution);
         }
 
+        [Ignore]
         [TestMethod]
         public void GiantGrizzlyBearVsGiantGrizzlyBear_ScratchesRearLeg()
         {
@@ -77,6 +79,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, layerResult.PainContribution);
         }
 
+        [Ignore]
         [TestMethod]
         public void GiantGrizzlyBearVsGiantGrizzlyBear_ScratchesHead()
         {
@@ -104,6 +107,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, layerResult.PainContribution);
         }
 
+        [Ignore]
         [TestMethod]
         public void GiantGrizzlyBearVsGiantGrizzlyBear_BitesLowerBody()
         {

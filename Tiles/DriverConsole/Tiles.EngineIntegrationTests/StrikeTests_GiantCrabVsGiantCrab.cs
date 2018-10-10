@@ -23,6 +23,7 @@ namespace Tiles.EngineIntegrationTests
             GiantCrab = CreateAgent("GIANT_CRAB", "MALE", Vector3.Zero);
         }
 
+        [Ignore]
         [TestMethod]
         public void GiantCrabVsGiantCrab_SnatchesFoot()
         {
@@ -72,6 +73,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, layerResult.PainContribution);
         }
 
+        [Ignore]
         [TestMethod]
         public void GiantCrabVsGiantCrab_SnatchesLeg()
         {
@@ -110,6 +112,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, layerResult.PainContribution);
         }
 
+        [Ignore]
         [TestMethod]
         public void GiantCrabVsGiantCrab_SnatchesCephalothorax()
         {

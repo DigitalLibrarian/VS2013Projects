@@ -72,6 +72,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, layerResult.PainContribution);
         }
 
+        [Ignore]
         [TestMethod]
         public void CrabVsCrab_SnatchesLeg()
         {
@@ -110,6 +111,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1, layerResult.PainContribution);
         }
 
+        [Ignore]
         [TestMethod]
         public void CrabVsCrab_SnatchesCephalothorax()
         {

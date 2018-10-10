@@ -151,8 +151,6 @@ namespace Tiles.EngineIntegrationTests
                 }
             }
 
-            Assert.Inconclusive("Course grain results looks good.");
-
             return injuryReport;
         }
 

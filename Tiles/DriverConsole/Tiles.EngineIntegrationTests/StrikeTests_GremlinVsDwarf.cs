@@ -42,6 +42,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(6, mom);
         }
 
+        [Ignore]
         [TestMethod]
         public void GremlinVsDwarf_StabFootWithWoodDagger()
         {
@@ -72,6 +73,7 @@ namespace Tiles.EngineIntegrationTests
 
         }
 
+        [Ignore]
         [TestMethod]
         public void GremlinVsDwarf_SlashFootWithWoodDagger()
         {
@@ -102,6 +104,7 @@ namespace Tiles.EngineIntegrationTests
 
         }
 
+        [Ignore]
         [TestMethod]
         public void GremlinVsDwarf_SlashUpperBodyWithWoodDagger()
         {
@@ -119,6 +122,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_Dent);
         }
 
+        [Ignore]
         [TestMethod]
         public void GremlinVsDwarf_StabsUpperBodyWithWoodDagger()
         {
