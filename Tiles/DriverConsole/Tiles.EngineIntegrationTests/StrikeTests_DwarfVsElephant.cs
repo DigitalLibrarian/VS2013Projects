@@ -80,7 +80,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.PainContribution, "pain");
+            Assert.AreEqual(1, layerResult.PainContribution, "pain");
             
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
@@ -193,7 +193,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1380, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.PainContribution, "pain");
+            Assert.AreEqual(10, layerResult.PainContribution, "pain");
         }
 
         [TestMethod]
@@ -238,7 +238,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(290, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(290, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.PainContribution, "pain");
+            Assert.AreEqual(1, layerResult.PainContribution, "pain");
         }
 
         [TestMethod]
@@ -263,7 +263,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(20, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(640, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.PainContribution, "pain");
+            Assert.AreEqual(1, layerResult.PainContribution, "pain");
         }
 
         [TestMethod]
@@ -387,7 +387,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2380, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(2380, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution, "pain");
+            Assert.AreEqual(1, layerResult.PainContribution, "skin pain");
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
@@ -396,25 +396,25 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2380, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(2380, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution, "pain");
+            Assert.AreEqual(1, layerResult.PainContribution, "fat pain");
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
-            Assert.AreEqual(0.43d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.PenetrationRatio);
             Assert.AreEqual(0.23d, layerResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(1130, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(2380, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(2380, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution, "pain");
+            Assert.AreEqual(1, layerResult.PainContribution, "muscle pain");
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
-            Assert.AreEqual(0.0d, layerResult.PenetrationRatio);
+            Assert.AreEqual(0.23d, layerResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.23d, layerResult.ContactAreaRatio, 0.01d);
-            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(550, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(2380, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(0, layerResult.PainContribution, "pain");
+            Assert.AreEqual(0, layerResult.PainContribution, "bone pain");
         }
 
         [TestMethod]
@@ -439,7 +439,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(20, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(2380, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution, "pain");
+            Assert.AreEqual(2, layerResult.PainContribution, 1, "pain");
         }
 
         [TestMethod]
