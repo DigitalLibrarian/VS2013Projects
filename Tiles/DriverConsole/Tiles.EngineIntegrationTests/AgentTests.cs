@@ -562,7 +562,7 @@ namespace Tiles.EngineIntegrationTests
             var targetBodyPart = dwarf.Body.Parts.Single(x => x.Name.Equals("left foot"));
             var move = CombatMoveFactory.BodyMove(dwarf, dwarf, moveClass, targetBodyPart);
             var mom = dwarf.GetStrikeMomentum(move);
-            Assert.AreEqual(5,(int) mom);
+            Assert.AreEqual(19,(int) mom);
         }
 
         [TestMethod]
@@ -816,7 +816,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveFactory.BodyMove(human, human, bite, human.Body.Parts.First());
 
             var mom = human.GetStrikeMomentum(move);
-            Assert.AreEqual(4, (int)mom);
+            Assert.AreEqual(18, (int)mom);
         }
 
         [TestMethod]
@@ -1058,7 +1058,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveFactory.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
 
             var mom = attacker.GetStrikeMomentum(move);
-            Assert.AreEqual(500, mom);
+            Assert.AreEqual(201.44d, mom, 0.01d);
         }
 
         [TestMethod]
@@ -1088,7 +1088,7 @@ namespace Tiles.EngineIntegrationTests
             var move = CombatMoveFactory.BodyMove(attacker, attacker, moveClass, attacker.Body.Parts.First());
 
             var mom = attacker.GetStrikeMomentum(move);
-            Assert.AreEqual(500, mom);
+            Assert.AreEqual(727.60, mom, 0.01d);
         }
 
         [TestMethod]
