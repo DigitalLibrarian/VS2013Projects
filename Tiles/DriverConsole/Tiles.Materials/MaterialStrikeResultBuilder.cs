@@ -104,17 +104,10 @@ namespace Tiles.Materials
         {
             var contactArea = System.Math.Min(StrikerContactArea, StrickenContactArea);
             var contactAreaRatio = (contactArea / StrickenContactArea);
-            if (contactAreaRatio < 1d && StressMode == Materials.StressMode.Blunt)
-            {
-                // If the striker is smaller than the strikee, then we can make the damaged area spread out a bit.
-                // Think about how if you are punched, then you are slightly sore around the impacted area to a degree.
-                contactArea *= 1.09d;
-                contactAreaRatio = (contactArea / StrickenContactArea);
-            }
-            else if(contactAreaRatio >= 1d)
+            if(contactAreaRatio >= 1d)
             {
                 contactAreaRatio = 1d;
-                contactArea = contactArea - 1;
+                contactArea = StrickenContactArea - 1;
             }
 
             var msr = StressResult.None;

@@ -65,6 +65,7 @@
     <Compile Include="MaterialTests.cs" />
     <Compile Include="StrikeTests_BronzeColossusVsDwarf.cs" />
     <Compile Include="StrikeTests_CrabVsCrab.cs" />
+    <Compile Include="StrikeTests_DwarfVsElf.cs" />
     <Compile Include="StrikeTests_ElephantVsDwarf.cs" />
     <Compile Include="StrikeTests_DwarfVsElephant.cs" />
     <Compile Include="StrikeTests_ElfVsElfStrike.cs" />

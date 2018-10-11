@@ -172,7 +172,6 @@ namespace Tiles.Bodies.Injuries
             if (penRatio < 0.05d)                   dmgRatio = penRatio;
             if (penRatio == 0d)                     dmgRatio = caRatio;
             if (penRatio < 1 && caRatio < 1)        dmgRatio = woundRatio;
-            if (penRatio < 0.33 && caRatio < 0.33)  dmgRatio = Max(caRatio, penRatio);
 
             var preRounded = receptors * multiplier * dmgRatio;
             
