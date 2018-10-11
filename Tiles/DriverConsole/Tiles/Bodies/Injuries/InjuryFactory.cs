@@ -161,9 +161,11 @@ namespace Tiles.Bodies.Injuries
             var partTotalVolume = (double)(bodyPart.Tissue.TissueLayers.Sum(x => x.Volume));
             var partRatio = (double)bodyPart.Class.RelativeSize / (double)body.Class.TotalBodyPartRelSize;
 
-            var multiplier = 2d;
+            var multiplier = 1d;
+            if(!(partSig > 10 && partRatio <= 0.02))
             {
-                if (caRatio + penRatio > 1.2d)
+                multiplier += 1d;
+                if (caRatio + penRatio > 1.25d)
                     multiplier += 1d;
             }
 

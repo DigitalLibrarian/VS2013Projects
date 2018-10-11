@@ -2307,7 +2307,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(2160, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(0d, layerResult.WoundArea);
-            Assert.AreEqual(13, layerResult.PainContribution, 1);
+            Assert.AreEqual(9, layerResult.PainContribution, 1);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
@@ -3240,12 +3240,12 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
-            //Assert.AreEqual(0.12d, layerResult.PenetrationRatio, 0.01d);
-            //Assert.AreEqual(1d, layerResult.ContactAreaRatio);
-            //Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            //Assert.AreEqual(1240, layerResult.Damage.CutFraction.Numerator);
-            //Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
-            //Assert.AreEqual(0d, layerResult.WoundArea);
+            Assert.AreEqual(0.77d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(7790, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.WoundArea);
             Assert.Inconclusive("Figure out how much pain this bone wound should generate");
         }
 
@@ -3278,6 +3278,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(65.11d, layerResult.ContactArea, 0.01d);
             Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
             Assert.AreEqual(13, layerResult.PainContribution, 1);
 
@@ -3288,6 +3289,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(65.11d, layerResult.ContactArea, 0.01d);
             Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
             Assert.AreEqual(13, layerResult.PainContribution, 1);
 
@@ -3298,17 +3300,19 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(65.11d, layerResult.ContactArea, 0.01d);
             Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
             Assert.AreEqual(13, layerResult.PainContribution, 1);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
-            //Assert.AreEqual(0.12d, layerResult.PenetrationRatio, 0.01d);
-            //Assert.AreEqual(1d, layerResult.ContactAreaRatio);
-            //Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            //Assert.AreEqual(1240, layerResult.Damage.CutFraction.Numerator);
-            //Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
-            //Assert.AreEqual(0d, layerResult.WoundArea);
+            Assert.AreEqual(0.11d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(1d, layerResult.ContactAreaRatio);
+            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(1170, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(65.11d, layerResult.ContactArea, 0.01d);
+            Assert.AreEqual(0d, layerResult.WoundArea);
             Assert.Inconclusive("Figure out how much pain this bone wound should generate");
         }
         #endregion
