@@ -136,6 +136,9 @@ namespace Tiles.Agents
                     return tissue.Material;
                 }
 
+
+                return strikePart.Tissue.TissueLayers.Select(x => x.Material).Last();
+
                 return strikePart.Tissue.TissueLayers.Select(x => x.Material)
                     .OrderByDescending(x => x.ShearFracture)
                     .First();

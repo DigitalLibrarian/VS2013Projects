@@ -106,7 +106,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(1d, layerResult.ContactAreaRatio);
             Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
-            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(10000, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(0, layerResult.PainContribution, "bone pain");
         }
 

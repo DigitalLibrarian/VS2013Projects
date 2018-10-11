@@ -221,7 +221,7 @@ namespace Tiles.Materials
                 }
                 else
                 {
-                    preDentRatio = stress / (dentCost);
+                    preDentRatio = contactAreaRatio;
                 }
             }
 
@@ -231,7 +231,8 @@ namespace Tiles.Materials
                 /* If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility. 
                  * For example if you punch someone in a steel helm,  [IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt fracture the steel helm, only 
                  * 940/50000=0.0188=1.88% of the momentum is passed to the skin layer */
-                resultMom = Momentum * ((double)strainAtYield / 50000d);
+                
+                resultMom = Momentum * ((double)StrikerMaterial.ImpactStrainAtYield / (double)StrickenMaterial.ImpactStrainAtYield);
                 resultMom = System.Math.Max(0d, resultMom);
 
                 if(StressMode == Materials.StressMode.Blunt

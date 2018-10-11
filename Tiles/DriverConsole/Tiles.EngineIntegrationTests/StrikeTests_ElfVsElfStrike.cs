@@ -117,7 +117,7 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_CutThrough,
                 StressResult.Impact_Bypass,
                 StressResult.Impact_Bypass,
-                StressResult.Impact_CompleteFracture);
+                StressResult.None);
 
             var layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("nail", layerResult.Layer.Name);
@@ -154,10 +154,10 @@ namespace Tiles.EngineIntegrationTests
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(4);
             Assert.AreEqual("bone", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.ContactAreaRatio);
-            Assert.AreEqual(1d, layerResult.PenetrationRatio);
-            Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.Damage.CutFraction.Numerator);
-            Assert.AreEqual(10000, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0d, layerResult.PenetrationRatio);
+            Assert.AreEqual(10000, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
         }
 
         [TestMethod]
