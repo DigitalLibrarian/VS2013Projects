@@ -171,7 +171,6 @@ namespace Tiles.Bodies.Injuries
 
             var dmgRatio = Min(caRatio, penRatio);
             if (caRatio > 0.5d)                     dmgRatio = caRatio;
-            if (penRatio < 0.05d)                   dmgRatio = penRatio;
             if (penRatio == 0d)                     dmgRatio = caRatio;
             if (penRatio < 1 && caRatio < 1)        dmgRatio = woundRatio;
 

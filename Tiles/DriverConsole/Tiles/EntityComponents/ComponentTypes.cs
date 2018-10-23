@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tiles.Agents.Behaviors;
-using Tiles.Bodies;
-using Tiles.Ecs;
-using Tiles.Items;
-using Tiles.Items.Outfits;
-using Tiles.Math;
-
-namespace Tiles.EntityComponents
+﻿namespace Tiles.EntityComponents
 {
     public static class ComponentTypes
     {

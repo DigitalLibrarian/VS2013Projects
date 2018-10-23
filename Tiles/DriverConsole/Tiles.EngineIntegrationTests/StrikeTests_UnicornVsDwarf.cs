@@ -116,7 +116,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(690, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(690, layerResult.Damage.DentFraction.Numerator);
-            Assert.AreEqual(9, layerResult.PainContribution, "bone pain");
+            Assert.AreEqual(9, layerResult.PainContribution, 4, "bone pain");
         }
 
 
@@ -169,7 +169,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.DentFraction.Numerator);
-            Assert.AreEqual(5, layerResult.PainContribution, "bone pain");
+            Assert.AreEqual(5, layerResult.PainContribution, 2, "bone pain");
         }
     }
 }
