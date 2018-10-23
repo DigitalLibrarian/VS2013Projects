@@ -119,7 +119,7 @@ namespace Tiles.Materials
 
             double penetrationRatio = 0d;
 
-            var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness);
+            var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness) / LayerThickness;
             var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, sharpness);
             var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, sharpness, volDamaged);
            
@@ -129,9 +129,9 @@ namespace Tiles.Materials
             
             int strainAtYield, yield, fractureForce;
             StrickenMaterial.GetModeProperties(StressMode, out yield, out fractureForce, out strainAtYield);
-
+            
             var sharpFudge = sharpness / 1000d;
-            stress = (Momentum / (volDamaged)) * sharpFudge;
+            stress = (Momentum / volDamaged) * sharpFudge;
             if (StressMode == Materials.StressMode.Edge)
             {
                 var dentCost = (shearCost1);
@@ -157,7 +157,6 @@ namespace Tiles.Materials
                         if (penetrationRatio > 0.01d)
                         {
                             msr = StressResult.Shear_Cut;
-
                             defeated = true;
 
                             if (stress > defeatCost
@@ -227,12 +226,14 @@ namespace Tiles.Materials
 
             if (!defeated)
             {
-
                 /* If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility. 
                  * For example if you punch someone in a steel helm,  [IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt fracture the steel helm, only 
                  * 940/50000=0.0188=1.88% of the momentum is passed to the skin layer */
-                
-                resultMom = Momentum * ((double)StrikerMaterial.ImpactStrainAtYield / (double)StrickenMaterial.ImpactStrainAtYield);
+
+                int strikerStrainAtYield, strikerYield, strikerFractureForce;
+                StrikerMaterial.GetModeProperties(StressMode, out strikerYield, out strikerFractureForce, out strikerStrainAtYield);
+
+                resultMom = Momentum * (double)strikerStrainAtYield / (double) strainAtYield;
                 resultMom = System.Math.Max(0d, resultMom);
 
                 if(StressMode == Materials.StressMode.Blunt

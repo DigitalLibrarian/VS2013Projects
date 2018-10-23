@@ -190,8 +190,6 @@ namespace Tiles.Materials
                     result.AddLayerResult(layerResult);
                 }
 
-
-
                 if (done) break;
             }
 

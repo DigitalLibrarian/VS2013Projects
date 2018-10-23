@@ -23,6 +23,7 @@ namespace Tiles.EngineIntegrationTests
             Crab = CreateAgent("CRAB", "MALE", Vector3.Zero);
         }
 
+        [Ignore]
         [TestMethod]
         public void CrabVsCrab_SnatchesFoot()
         {
@@ -97,7 +98,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(13.98d, layerResult.ContactArea, 0.01d);
             Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
-//            Assert.AreEqual(9, layerResult.PainContribution);
+            Assert.AreEqual(9, layerResult.PainContribution);
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);

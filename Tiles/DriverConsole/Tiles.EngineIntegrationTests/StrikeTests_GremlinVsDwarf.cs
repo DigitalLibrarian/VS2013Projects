@@ -101,10 +101,8 @@ namespace Tiles.EngineIntegrationTests
             //Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             //Assert.AreEqual(layerResult.ContactArea, layerResult.WoundArea);
             Assert.AreEqual(1, layerResult.PainContribution);
-
         }
 
-        [Ignore]
         [TestMethod]
         public void GremlinVsDwarf_SlashUpperBodyWithWoodDagger()
         {

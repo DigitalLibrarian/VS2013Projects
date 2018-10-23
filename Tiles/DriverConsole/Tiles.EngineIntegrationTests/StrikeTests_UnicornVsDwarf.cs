@@ -116,7 +116,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(690, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(690, layerResult.Damage.DentFraction.Numerator);
-            Assert.Inconclusive("Need to understand partial bone penetration pain");
+            Assert.AreEqual(9, layerResult.PainContribution, "bone pain");
         }
 
 
@@ -142,7 +142,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.DentFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution);
+            Assert.AreEqual(1, layerResult.PainContribution, "skin pain");
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
@@ -151,7 +151,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.DentFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution);
+            Assert.AreEqual(1, layerResult.PainContribution, "fat pain");
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
             Assert.AreEqual("muscle", layerResult.Layer.Name);
@@ -160,7 +160,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.DentFraction.Numerator);
-            Assert.AreEqual(1, layerResult.PainContribution);
+            Assert.AreEqual(1, layerResult.PainContribution, "muscle pain");
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(3);
             Assert.AreEqual("bone", layerResult.Layer.Name);
@@ -169,7 +169,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(1790, layerResult.Damage.DentFraction.Numerator);
-            Assert.Inconclusive("Bone pain");
+            Assert.AreEqual(5, layerResult.PainContribution, "bone pain");
         }
     }
 }

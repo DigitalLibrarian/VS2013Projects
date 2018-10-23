@@ -62,10 +62,10 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = result.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
-            Assert.AreEqual(0.1d, layerResult.PenetrationRatio, 0.01d);
+            Assert.AreEqual(0.14d, layerResult.PenetrationRatio, 0.01d);
             Assert.AreEqual(0.30d, layerResult.ContactAreaRatio, 0.01);
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
-            Assert.AreEqual(330, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(440, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(3020, layerResult.Damage.DentFraction.Numerator);
             Assert.AreEqual(20d, layerResult.ContactArea, 0.1);
             Assert.AreEqual(0d, layerResult.WoundArea);

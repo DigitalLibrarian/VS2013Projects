@@ -174,8 +174,9 @@ namespace Tiles.Agents
 
                 var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
                 v = System.Math.Min(5000d, v);
+                var mom =  v * actWeight / 1000d + 1d;
 
-                return v * actWeight / 1000d + 1d;
+                return mom;
             }
             else
             {

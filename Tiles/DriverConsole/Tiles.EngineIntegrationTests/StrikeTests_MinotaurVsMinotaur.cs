@@ -67,7 +67,7 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
-        public void MinotaurVsMinotar_ScratchesUpperBody()
+        public void MinotaurVsMinotaur_ScratchesUpperBody()
         {
             var attacker = Minotaur;
             var defender = Minotaur;

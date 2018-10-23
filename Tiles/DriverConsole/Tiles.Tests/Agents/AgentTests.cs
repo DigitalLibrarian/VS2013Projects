@@ -358,6 +358,10 @@ namespace Tiles.Tests.Agents
 
             var weaponMock = new Mock<IItem>();
             weaponMock.Setup(x => x.GetMass()).Returns(6280);
+            var weaponClass = new Mock<IWeaponClass>();
+            weaponClass.Setup(x => x.MinimumSize).Returns(42500);
+            var itemClass = new Mock<IItemClass>();
+            itemClass.Setup(x => x.WeaponClass).Returns(weaponClass.Object);
 
             int veloMultiply = 1250;
             var moveClassMock = new Mock<ICombatMoveClass>();

@@ -48,7 +48,6 @@ namespace Tiles.EngineIntegrationTests
                 StressResult.Shear_Cut,
                 StressResult.Shear_Cut);
 
-
             var layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
             Assert.AreEqual(1d, layerResult.PenetrationRatio);
@@ -83,7 +82,7 @@ namespace Tiles.EngineIntegrationTests
             Assert.AreEqual(0, layerResult.Damage.EffectFraction.Numerator);
             Assert.AreEqual(110, layerResult.Damage.CutFraction.Numerator);
             Assert.AreEqual(110, layerResult.Damage.DentFraction.Numerator);
-            Assert.Inconclusive("partial bone pain");
+            Assert.AreEqual(1, layerResult.PainContribution, "pain");
         }
     }
 }
