@@ -44,7 +44,8 @@
     <Compile Include="ContentFactories\BodyClassFactory.cs" />
     <Compile Include="ContentFactories\IBodyClassFactory.cs" />
     <Compile Include="SiteFactories\DfTagsFascade.cs" />
-    <Compile Include="UI\CombatScreen.cs" />
+    <Compile Include="UI\CombatTargetBodyPartPickScreen.cs" />
+    <Compile Include="UI\CombatVerbPickScreen.cs" />
     <Compile Include="ContentFactories\HardCodedAgentFactory.cs" />
     <Compile Include="SiteFactories\ArenaSiteFactory.cs" />
     <Compile Include="UI\CanvasScreen.cs" />

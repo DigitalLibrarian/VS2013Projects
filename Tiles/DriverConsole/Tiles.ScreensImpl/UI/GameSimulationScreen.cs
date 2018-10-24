@@ -184,7 +184,7 @@ namespace Tiles.ScreensImpl.UI
                 if (newTile.HasAgent && !newTile.Agent.IsDead)
                 {
                     ScreenManager.Add(
-                        new CombatScreen(
+                        new CombatVerbPickScreen(
                             Game.Player, 
                             newTile.Agent, 
                             CommandFactory,

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Control;
+using Tiles.Gsm;
 using Tiles.Math;
 using Tiles.Render;
 
 namespace Tiles.ScreensImpl.UI
 {
-    public class CombatScreen : CanvasBoxScreen
+    public class CombatVerbPickScreen : CanvasBoxScreen
     {
         IPlayer Player { get; set; }
         IAttackConductor AttackConductor { get; set; }
@@ -21,7 +22,7 @@ namespace Tiles.ScreensImpl.UI
 
         JaggedListSelector Selector { get; set; }
 
-        public CombatScreen(IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
+        public CombatVerbPickScreen(IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
             IAttackConductor attackConductor, ICombatMoveDiscoverer moveDisco, ICanvas canvas, Box2 box)
             : base(canvas, box) 
         {
@@ -48,6 +49,12 @@ namespace Tiles.ScreensImpl.UI
             };
         }
 
+        private IEnumerable<string> GetDistinctVerbs()
+        {
+            var moves = MoveDisco.GetPossibleMoves(Player.Agent, Target);
+            return moves.Select(m => m.Class.Verb.Conjugate(VerbConjugation.SecondPerson)).Distinct();
+        }
+
         public override void Draw()
         {
             base.Draw();
@@ -55,10 +62,9 @@ namespace Tiles.ScreensImpl.UI
             Canvas.DrawString("What is your attack move?", Box.Min);
 
             var lines = new List<string>();
-            var moves = MoveDisco.GetPossibleMoves(Player.Agent, Target);
-            foreach (var move in moves)
+            foreach (var verb in GetDistinctVerbs())
             {
-                lines.Add(string.Format("{0}", move.Name));
+                lines.Add(string.Format("{0}", verb));
             }
             lines.Add("Don't attack");
 
@@ -82,12 +88,8 @@ namespace Tiles.ScreensImpl.UI
             }
             else if (args.Key == ConsoleKey.Enter)
             {
-                var moves = MoveDisco.GetPossibleMoves(Player.Agent, Target).ToList();
-                if (Selector.Selected.Y < moves.Count())
-                {
-                    Player.EnqueueCommands(CommandFactory.MeleeAttack(Player.Agent, Target, moves.ElementAt(Selector.Selected.Y)));
-                }
-                Exit();
+                var verb2ndPerson = GetDistinctVerbs().ElementAt(Selector.Selected.Y);
+                ScreenManager.Add(new CombatTargetBodyPartPickScreen(this, verb2ndPerson, Player, Target, CommandFactory, AttackConductor, MoveDisco, Canvas,  Box));
             }
             else if (args.Key == ConsoleKey.Escape)
             {
@@ -95,5 +97,4 @@ namespace Tiles.ScreensImpl.UI
             }
         }
     }
-
 }
