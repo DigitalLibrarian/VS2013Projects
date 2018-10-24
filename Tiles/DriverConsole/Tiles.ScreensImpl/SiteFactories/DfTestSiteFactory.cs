@@ -67,7 +67,7 @@ namespace Tiles.ScreensImpl.SiteFactories
                 }
             }
 
-            int numAgents = numItems/2;
+            int numAgents = numItems/10;
             var creatures = Df.GetCreatureNames().ToList();
             for (int i = 0; i < numAgents; i++)
             {

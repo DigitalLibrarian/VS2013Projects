@@ -47,7 +47,7 @@ namespace Tiles
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
             var bodyPartName = grasper.Name;
 
-            var message = string.Format("{0} {1} the {2}'s {3}.", attackerName, verbStr, defenderName, bodyPartName);
+            var message = string.Format("The {0} {1} the {2}'s {3}.", attackerName, verbStr, defenderName, bodyPartName);
             Log.AddLine(message);
         }
 
@@ -106,7 +106,7 @@ namespace Tiles
                     completionMessage = limbMessage;
                 }
 
-                var message = string.Format("{0} {1} the {2}'s {3}{4}",
+                var message = string.Format("The {0} {1} the {2}'s {3}{4}",
                     attackerName, verbStr, defenderName, bodyPartName, completionMessage);
 
                 Log.AddLine(message);
