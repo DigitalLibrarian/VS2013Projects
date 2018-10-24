@@ -173,7 +173,6 @@ namespace Tiles.Materials
                 else if (layerResult.StressResult == StressResult.None)
                 {
                     done = true;
-                    //if (mode == Materials.StressMode.Blunt) layerResult.StressResult = StressResult.Impact_Bypass;
                 }
                 if (layer.IsTagged)
                 {
