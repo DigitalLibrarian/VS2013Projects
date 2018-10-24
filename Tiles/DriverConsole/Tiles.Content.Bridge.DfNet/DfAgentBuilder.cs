@@ -536,6 +536,7 @@ namespace Tiles.Content.Bridge.DfNet
                                 IsStrike = true,
                                 IsMartialArts = true,
                                 ContactType = attack.ContactType,
+                                CanLatch = attack.CanLatch,
                                 ContactArea = System.Math.Max(1, contactArea),
                                 MaxPenetration = System.Math.Max(1, maxPen),
                                 VelocityMultiplier = 1000,
@@ -616,6 +617,7 @@ namespace Tiles.Content.Bridge.DfNet
                                 IsStrike = true,
                                 IsMartialArts = true,
                                 ContactType = attack.ContactType,
+                                CanLatch = attack.CanLatch,
                                 ContactArea = System.Math.Max(1, contactArea),
                                 MaxPenetration = System.Math.Max(1, maxPen),
                                 VelocityMultiplier = 1000,
@@ -699,6 +701,7 @@ namespace Tiles.Content.Bridge.DfNet
                                 IsStrike = true,
                                 IsMartialArts = true,
                                 ContactType = attack.ContactType,
+                                CanLatch = attack.CanLatch,
                                 ContactArea = System.Math.Max(1, contactArea),
                                 MaxPenetration = System.Math.Max(1, maxPen),
                                 VelocityMultiplier = 1000,
@@ -776,7 +779,6 @@ namespace Tiles.Content.Bridge.DfNet
                 toLoad.AddRange(FindPartsForTypes(defn));
                 toLoad.AddRange(FindPartsForDirectConnection(defn.Name));
                  
-
                 foreach (var partDefn in toLoad)
                 {
                     var newPart = CreateBodyPart(partDefn, part);

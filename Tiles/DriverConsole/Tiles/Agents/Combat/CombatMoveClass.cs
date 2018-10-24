@@ -41,6 +41,9 @@ namespace Tiles.Agents.Combat
 
         public bool IsItem { get; set; }
 
+        public bool IsGrabRequired { get; set; }
+        public bool CanLatch { get; set; }
+
         public StressMode StressMode { get; set; }
         public double ContactArea { get; set; }
         public double MaxPenetration { get; set; }

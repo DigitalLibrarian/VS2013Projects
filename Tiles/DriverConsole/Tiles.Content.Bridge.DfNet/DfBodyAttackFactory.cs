@@ -68,6 +68,9 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.ATTACK_FLAG_EDGE:
                         attack.ContactType = ContactType.Edge;
                         break;
+                    case DfTags.MiscTags.ATTACK_FLAG_CANLATCH:
+                        attack.CanLatch = true;
+                        break;
                 }
             }
             return attack;

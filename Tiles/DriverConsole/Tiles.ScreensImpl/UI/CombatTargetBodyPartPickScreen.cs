@@ -72,7 +72,6 @@ namespace Tiles.ScreensImpl.UI
             {
                 lines.Add(string.Format("{0}", move.Name));
             }
-            lines.Add("Don't attack");
 
             Selector.Draw(Canvas, Box.Min + new Vector2(1, 2), lines.ToArray());
         }

@@ -131,6 +131,24 @@ namespace Tiles.EngineIntegrationTests
         }
 
         [TestMethod]
+        public void Dwarf_PunchCannotLatch()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var move = dwarf.Body.Moves.First(x => x.Name.Equals("punch"));
+
+            Assert.IsFalse(move.CanLatch);
+        }
+
+        [TestMethod]
+        public void Dwarf_BiteCanLatch()
+        {
+            var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);
+            var move = dwarf.Body.Moves.First(x => x.Name.Equals("bite"));
+
+            Assert.IsTrue(move.CanLatch);
+        }
+
+        [TestMethod]
         public void Dwarf_SkullAroundBrain()
         {
             var dwarf = DfTagsFascade.CreateCreatureAgent(Atlas, "DWARF", "MALE", Vector3.Zero);

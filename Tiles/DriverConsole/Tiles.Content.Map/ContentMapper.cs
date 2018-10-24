@@ -114,6 +114,7 @@ namespace Tiles.Content.Map
                     AttackerBodyStateChange = Map(move.BodyStateChange),
                     StressMode = Map(move.ContactType),
                     ContactArea = move.ContactArea,
+                    CanLatch = move.CanLatch,
                     MaxPenetration = move.MaxPenetration,
                     VelocityMultiplier = move.VelocityMultiplier,
                     Requirements = move.Requirements.Select(rq => Map(rq))

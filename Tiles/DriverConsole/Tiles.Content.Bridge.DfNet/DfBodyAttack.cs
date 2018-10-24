@@ -31,6 +31,7 @@ namespace Tiles.Content.Bridge.DfNet
         public int RecoveryTime { get; set; }
 
         public ContactType ContactType { get; set; }
+        public bool CanLatch { get; set; }
     }
 
     public enum BaConstraintType

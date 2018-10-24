@@ -72,10 +72,24 @@ namespace Tiles.Agents.Combat
             )
         {
             IsMartialArts = true,
+            IsGrabRequired = true,
             IsStrike = true,
-            IsDefenderPartSpecific = true
+            IsDefenderPartSpecific = true,
+            StressMode = Materials.StressMode.Tensile,
+            Requirements = new List<IBodyPartRequirement>
+            {
+                new BodyPartRequirement {
+                    Type = BodyPartRequirementType.BodyPart,
+                    Constraints = new List<BprConstraint>{
+                        new BprConstraint(BprConstraintType.ByType){
+                            Tokens = new List<string>{
+                                "GRASP"
+                            }
+                        }
+                    }
+                }
+            }
         };
-
 
         static ICombatMoveClass _breakGrasp = new CombatMoveClass(
             name: "Break grasp",
@@ -92,7 +106,7 @@ namespace Tiles.Agents.Combat
         {
             IsMartialArts = true,
             IsDefenderPartSpecific = true,
-            AttackerBodyStateChange = BodyStateChange.BreakHold
+            AttackerBodyStateChange = BodyStateChange.BreakHold,
         };
 
 

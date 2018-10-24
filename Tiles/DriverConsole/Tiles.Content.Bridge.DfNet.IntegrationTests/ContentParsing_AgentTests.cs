@@ -87,6 +87,8 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
 
             Assert.AreEqual(3, move.PrepTime);
             Assert.AreEqual(3, move.RecoveryTime);
+
+            Assert.IsTrue(move.CanLatch);
         }
 
 

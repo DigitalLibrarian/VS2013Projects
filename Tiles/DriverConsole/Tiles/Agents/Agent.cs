@@ -100,8 +100,9 @@ namespace Tiles.Agents
             {
                 return this.Outfit.IsWielded(move.Weapon);
             }
-            else
+            else 
             {
+                if(move.Class.IsGrabRequired && !Body.IsGrasping) return false;
                 return move.Class.GetRelatedBodyParts(Body).Any();
             }
         }
