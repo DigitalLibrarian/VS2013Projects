@@ -85,13 +85,6 @@ namespace Tiles.Materials
             StressMode = mode;
         }
 
-        public void AddLayer(IMaterial mat)
-        {
-            Layers.Add(new MaterialLayer
-            {
-                Material = mat
-            });
-        }
         public void AddLayer(IMaterial mat, double thick, double volume, object tag)
         {
             Layers.Add(new MaterialLayer

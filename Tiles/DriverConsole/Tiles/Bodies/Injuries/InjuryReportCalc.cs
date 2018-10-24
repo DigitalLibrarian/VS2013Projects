@@ -52,12 +52,7 @@ namespace Tiles.Bodies.Injuries
 
                 var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
 
-                // TODO - these armor items might need to be reversed
-                foreach (var armorItem in armorItems)
-                {
-                    // TODO - probably need to *find* a thickness and volume given the striking agent size
-                    Builder.AddLayer(armorItem.Class.Material);
-                }
+                // TODO - add armor items
 
                 foreach (var tissueLayer in tissueLayers)
                 {

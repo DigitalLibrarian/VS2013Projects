@@ -8,7 +8,6 @@ namespace Tiles.Materials
 {
     public interface ILayeredMaterialStrikeResultBuilder
     {
-        void AddLayer(IMaterial mat);
         void AddLayer(IMaterial mat, double thick, double volume, object tag);
 
         void SetStrikerMaterial(IMaterial mat);
