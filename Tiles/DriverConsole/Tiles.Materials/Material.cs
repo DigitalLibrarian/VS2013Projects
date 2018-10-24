@@ -58,13 +58,14 @@ namespace Tiles.Materials
 
         public bool IsSoft(StressMode stressMode)
         {
+            const int threshold = 25000;
             if (stressMode == StressMode.Edge)
             {
-                return ShearStrainAtYield >= 50000;
+                return ShearStrainAtYield >= threshold;
             }
             else
             {
-                return ImpactStrainAtYield >= 50000;
+                return ImpactStrainAtYield >= threshold;
             }
         }
 

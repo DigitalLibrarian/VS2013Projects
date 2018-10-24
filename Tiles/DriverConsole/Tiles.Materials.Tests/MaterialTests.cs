@@ -131,10 +131,10 @@ namespace Tiles.Materials.Tests
         [TestMethod]
         public void IsSoft_Edge()
         {
-            M1.ShearStrainAtYield = 49999;
+            M1.ShearStrainAtYield = 24999;
             Assert.IsFalse(M1.IsSoft(StressMode.Edge));
 
-            M1.ShearStrainAtYield = 50000;
+            M1.ShearStrainAtYield = 25000;
             Assert.IsTrue(M1.IsSoft(StressMode.Edge));
         }
 
@@ -146,14 +146,14 @@ namespace Tiles.Materials.Tests
                 .Cast<StressMode>()
                 .Where(x => x != StressMode.Edge);
 
-            M1.ImpactStrainAtYield = 49999;
+            M1.ImpactStrainAtYield = 24999;
 
             foreach (var enumValue in enumValues)
             {
                 Assert.IsFalse(M1.IsSoft(enumValue));
             }
 
-            M1.ImpactStrainAtYield = 50000;
+            M1.ImpactStrainAtYield = 25000;
 
             foreach (var enumValue in enumValues)
             {
