@@ -188,6 +188,7 @@
     <Compile Include="ITile.cs" />
     <Compile Include="Agents\Player.cs" />
     <Compile Include="IVerb.cs" />
+    <Compile Include="Liquids\LiquidsManager.cs" />
     <Compile Include="MissingVerbConjugationException.cs" />
     <Compile Include="PositionFinder.cs" />
     <Compile Include="Render\ICanvas.cs" />

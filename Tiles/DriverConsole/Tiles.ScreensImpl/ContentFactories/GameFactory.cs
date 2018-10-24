@@ -78,11 +78,16 @@ namespace Tiles.ScreensImpl.ContentFactories
 
         public IGame SetupDfTestWorld()
         {
-
             var siteSize = new Vector3(64, 64, 64);
             var siteFactory = new DfTestSiteFactory(DfStore, EntityManager, Random);
             return Setup(EntityManager, siteFactory, siteSize, Random);
+        }
 
+        public IGame SetupLiquidsDemoWorld()
+        {
+            var siteSize = new Vector3(64, 64, 64);
+            var siteFactory = new LiquidsDemoSiteFactory(Random);
+            return Setup(EntityManager, siteFactory, siteSize, Random);
         }
 
         private Game Setup(IEntityManager entityManager,

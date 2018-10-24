@@ -66,6 +66,10 @@ namespace Tiles.ScreensImpl.Panels
             {
                 s = obj.Class.Sprite;
             }
+            else if (tile.LiquidDepth > 0)
+            {
+                s = LiquidSprite(tile.LiquidDepth);
+            }
             else if (tile.HasStructureCell)
             {
                 s = tile.StructureCell.Sprite;
@@ -74,6 +78,18 @@ namespace Tiles.ScreensImpl.Panels
             {
                 s = tile.TerrainSprite;
             }
+            return s;
+        }
+
+        Dictionary<int, Sprite> liquidSpriteCache = new Dictionary<int, Sprite>();
+        Sprite LiquidSprite(int depth)
+        {
+            if (liquidSpriteCache.ContainsKey(depth))
+            {
+                return liquidSpriteCache[depth];
+            }
+            var s = new Sprite(Symbol.LiquidDepth(depth), Color.Cyan, Color.DarkBlue);
+            liquidSpriteCache[depth] = s;
             return s;
         }
 

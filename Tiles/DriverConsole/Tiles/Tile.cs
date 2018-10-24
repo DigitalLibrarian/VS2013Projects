@@ -15,7 +15,6 @@ namespace Tiles
     { 
         None,
         Rock,
-        Water,
         Lava,
         Dirt,
         Mud,
@@ -39,6 +38,9 @@ namespace Tiles
         public IStructureCell StructureCell { get; set; }
         public bool HasStructureCell { get { return StructureCell != null; } }
         public bool IsTerrainPassable { get; set; }
+
+        public int LiquidDepth { get; set; }
+        public bool IsLiquidFull { get { return LiquidDepth >= 7; } }
 
         public Tile(int x, int y, int z)
         {

@@ -19,7 +19,6 @@ namespace Tiles.Math
             Z = z;
         }
 
-
         public static Vector3 Min(Vector3 v1, Vector3 v2)
         {
             return new Vector3(
@@ -67,6 +66,11 @@ namespace Tiles.Math
             return ((double)v1.X * (double)v2.X)
                 + ((double)v1.Y * (double)v2.Y)
                 + ((double)v1.Z * (double)v2.Z);
+        }
+
+        public double Length()
+        {
+            return System.Math.Sqrt(Dot(this, this));
         }
     }
 }

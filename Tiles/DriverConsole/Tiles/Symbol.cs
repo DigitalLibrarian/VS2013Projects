@@ -37,7 +37,10 @@ namespace Tiles
         public static readonly int MiscWeapon = 173;
         public static readonly int Corpse = 234;
         public static readonly int CorpseBodyPart = 233;
-
-
+        
+        public static int LiquidDepth(int depth)
+        {
+            return 0x30 + depth;
+        }
     }
 }

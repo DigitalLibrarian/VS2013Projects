@@ -21,6 +21,12 @@ namespace Tiles.ScreenImpl.UI
         {
             Factories = new Dictionary<string, Func<IGameScreen>>{
                 {
+                    "Liquids Demo",  () => new GameSimulationScreen(
+                        new GameFactory().SetupLiquidsDemoWorld(),
+                        canvas,
+                        box)
+                },
+                {
                     "Dwarf Fortress Content",  () => new GameSimulationScreen(
                         new GameFactory().SetupDfTestWorld(),
                         canvas,
