@@ -237,15 +237,8 @@ namespace Tiles
                     .Select(injury =>
                     {
                         var remaining = injuries.SkipWhile(x => x != injury);
-                        var grouped = remaining.TakeWhile(x => GetPhrase(x).Equals(GetPhrase(injury)));
-                        if (grouped.Last() == injury)
-                        {
-                            return injury;
-                        }
-                        else
-                        {
-                            return null;
-                        }
+                        var grouped = remaining.TakeWhile(x => GetGerund(x).Equals(GetGerund(injury)));
+                        return grouped.Last() == injury ? injury : null;
                     })
                     .Where(x => x != null)
                     .Select(x => GetPhrase(x))

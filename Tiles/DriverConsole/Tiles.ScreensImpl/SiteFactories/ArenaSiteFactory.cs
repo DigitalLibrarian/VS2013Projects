@@ -52,7 +52,7 @@ namespace Tiles.ScreensImpl.SiteFactories
 
             var pos = Random.FindRandomInBox(buildingBox, test => s.GetTileAtSitePos(test).HasRoomForAgent).Value;
             var planner = new DoNothingAgentCommandPlanner(new AgentCommandFactory());
-            var enemy = Df.CreateCreatureAgent(atlas, "ELF", "MALE", s.Box.Min + pos, planner);
+            var enemy = Df.CreateCreatureAgent(atlas, "DWARF", "MALE", s.Box.Min + pos, planner);
             s.GetTileAtSitePos(pos).SetAgent(enemy);
 
             return s;

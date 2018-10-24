@@ -293,7 +293,8 @@ namespace Tiles.EngineIntegrationTests
 
             var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
-                StressResult.None);
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass);
 
             var layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
             Assert.AreEqual("skin", layerResult.Layer.Name);
@@ -306,6 +307,15 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.PenetrationRatio);
+            Assert.AreEqual(0.05d, layerResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(500, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+            Assert.AreEqual(0, layerResult.PainContribution, "pain");
+
+            layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.PenetrationRatio);
             Assert.AreEqual(0.05d, layerResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(500, layerResult.Damage.EffectFraction.Numerator);
@@ -352,7 +362,8 @@ namespace Tiles.EngineIntegrationTests
 
             var results = AssertTissueStrikeResults(Attacker, Defender, targetBodyPart, move,
                 StressResult.Impact_Bypass,
-                StressResult.None);
+                StressResult.Impact_Bypass,
+                StressResult.Impact_Bypass);
 
 
             var layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(0);
@@ -365,6 +376,14 @@ namespace Tiles.EngineIntegrationTests
 
             layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(1);
             Assert.AreEqual("fat", layerResult.Layer.Name);
+            Assert.AreEqual(0d, layerResult.PenetrationRatio);
+            Assert.AreEqual(0.05d, layerResult.ContactAreaRatio, 0.01d);
+            Assert.AreEqual(500, layerResult.Damage.EffectFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.CutFraction.Numerator);
+            Assert.AreEqual(0, layerResult.Damage.DentFraction.Numerator);
+
+            layerResult = results.BodyPartInjuries.First().TissueLayerInjuries.ElementAt(2);
+            Assert.AreEqual("muscle", layerResult.Layer.Name);
             Assert.AreEqual(0d, layerResult.PenetrationRatio);
             Assert.AreEqual(0.05d, layerResult.ContactAreaRatio, 0.01d);
             Assert.AreEqual(500, layerResult.Damage.EffectFraction.Numerator);
