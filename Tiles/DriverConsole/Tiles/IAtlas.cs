@@ -14,7 +14,8 @@ namespace Tiles
 
         void InsertStructure(Vector3 topLeftIndex, IStructure structure);
 
-        ITile GetTileAtPos(Vector3 pos);
+        ITile GetTileAtPos(Vector3 pos, bool autoViv=true);
+        ISite GetSiteAtPos(Vector3 pos, bool autoViv=true);
 
         IEnumerable<ITile> GetTiles();
         IEnumerable<ISite> GetSites();

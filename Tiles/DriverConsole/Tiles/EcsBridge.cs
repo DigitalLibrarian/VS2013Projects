@@ -23,8 +23,10 @@ namespace Tiles
                 new CommandComponent(agent.AgentBehavior));
 
             entity.AddComponent(
-                new AtlasPositionComponent(
-                    new AtlasPosition(() => agent.Pos)));
+                new AtlasPositionComponent
+                {
+                    PositionFunc = () => agent.Pos
+                });
 
             if(agent.EntityId != 0)
             {

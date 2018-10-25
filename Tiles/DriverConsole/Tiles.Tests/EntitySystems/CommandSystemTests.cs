@@ -24,7 +24,7 @@ namespace Tiles.Tests.EntitySystems
 
         Mock<ICommandComponent> CommandComponentMock { get; set; }
         Mock<IAgentComponent> AgentComponentMock { get; set; }
-        Mock<IAtlasPositionComponent> AtlasPositionComponent { get; set; }
+        AtlasPositionComponent AtlasPositionComponent { get; set; }
 
         Mock<IEntityManager> EntityManagerMock { get; set; }
         List<IEntity> Entities { get; set; }
@@ -50,13 +50,10 @@ namespace Tiles.Tests.EntitySystems
             AgentComponentMock.Setup(x => x.Agent).Returns(AgentMock.Object);
 
             var atlasPos = new Vector3(1, 2, 3);
-            var apMock = new Mock<IAtlasPosition>();
-            apMock.Setup(x => x.Position).Returns(atlasPos);
-
-            AtlasPositionComponent = new Mock<IAtlasPositionComponent>();
-            AtlasPositionComponent.Setup(x => x.Id).Returns(ComponentTypes.AtlasPosition);
-            AtlasPositionComponent.Setup(x => x.AtlasPosition)
-                .Returns(apMock.Object);
+            AtlasPositionComponent = new AtlasPositionComponent
+            {
+                PositionFunc = () => atlasPos
+            };
 
             EntityManagerMock = new Mock<IEntityManager>();
             Entities = new List<IEntity>();
@@ -87,8 +84,8 @@ namespace Tiles.Tests.EntitySystems
             entityMock.Setup(x => x.GetComponent<ICommandComponent>())
                 .Returns(CommandComponentMock.Object);
 
-            entityMock.Setup(x => x.GetComponent<IAtlasPositionComponent>())
-                .Returns(AtlasPositionComponent.Object);
+            entityMock.Setup(x => x.GetComponent<AtlasPositionComponent>())
+                .Returns(AtlasPositionComponent);
 
             Entities.Add(entityMock.Object);
 

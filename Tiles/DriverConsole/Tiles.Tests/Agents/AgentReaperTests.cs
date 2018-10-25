@@ -72,7 +72,7 @@ namespace Tiles.Tests.Agents
             var tileItems = new List<IItem>();
             var tileMock = new Mock<ITile>();
             tileMock.Setup(x => x.Items).Returns(tileItems);
-            AtlasMock.Setup(x => x.GetTileAtPos(agentPos)).Returns(tileMock.Object);
+            AtlasMock.Setup(x => x.GetTileAtPos(agentPos, true)).Returns(tileMock.Object);
 
             var result = Reaper.Reap(agentMock.Object);
             Assert.AreEqual(invItems.Count() + wornItems.Count() + 1, result.Count());
@@ -132,7 +132,7 @@ namespace Tiles.Tests.Agents
             var tileItems = new List<IItem>();
             var tileMock = new Mock<ITile>();
             tileMock.Setup(x => x.Items).Returns(tileItems);
-            AtlasMock.Setup(x => x.GetTileAtPos(agentPos)).Returns(tileMock.Object);
+            AtlasMock.Setup(x => x.GetTileAtPos(agentPos, true)).Returns(tileMock.Object);
 
             var weaponItemMock = new Mock<IItem>();
             var armorItemMock = new Mock<IItem>();

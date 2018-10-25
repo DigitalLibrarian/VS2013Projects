@@ -17,6 +17,7 @@ using Tiles.EntitySystems;
 using Tiles.Materials;
 using Tiles.Bodies.Injuries;
 using Tiles.Bodies.Wounds;
+using Tiles.Liquids;
 
 namespace Tiles
 {
@@ -62,7 +63,8 @@ namespace Tiles
 
             Systems = new List<AtlasBoxSystem>
             {
-                new CommandSystem()
+                new CommandSystem(),
+                new LiquidsSystem()
             };
         }
 

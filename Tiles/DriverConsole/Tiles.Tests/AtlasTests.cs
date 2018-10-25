@@ -83,7 +83,7 @@ namespace Tiles.Tests
 
             SiteFactoryMock.Setup(x => x.Create(Atlas, siteIndex, box)).Returns(siteMock.Object);
 
-            var result = Atlas.GetTileAtPos(pos);
+            var result = Atlas.GetTileAtPos(pos, true);
 
             SiteFactoryMock.Verify(x => x.Create(Atlas, siteIndex, box), Times.Once());
             siteMock.Verify(x => x.GetTileAtSitePos(sitePos), Times.Once());
@@ -121,7 +121,7 @@ namespace Tiles.Tests
 
             SiteFactoryMock.Setup(x => x.Create(Atlas, siteIndex, box)).Returns(siteMock.Object);
 
-            var result = Atlas.GetTileAtPos(pos);
+            var result = Atlas.GetTileAtPos(pos, true);
 
             SiteFactoryMock.Verify(x => x.Create(Atlas, siteIndex, box), Times.Once());
             siteMock.Verify(x => x.GetTileAtSitePos(sitePos), Times.Once());
@@ -174,7 +174,7 @@ namespace Tiles.Tests
             var insertionPoint = new Vector3(1, 1, 1);
             var atlas = Atlas;
 
-            atlas.GetTileAtPos(new Vector3(0, 0, 0));// prime it to generate a site
+            atlas.GetTileAtPos(new Vector3(0, 0, 0), true);// prime it to generate a site
             SiteFactoryMock.Verify(x => x.Create(Atlas, Vector3.Zero, box), Times.Once());
 
             foreach (var tile in siteTiles)

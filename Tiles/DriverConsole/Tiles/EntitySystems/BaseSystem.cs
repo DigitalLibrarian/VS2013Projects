@@ -20,10 +20,10 @@ namespace Tiles.EntitySystems
         {
             foreach (var entity in entityManager.GetEntities(ComponentIds))
             {
-                UpdateEntity(entity, game);
+                UpdateEntity(entityManager, entity, game);
             }
         }
 
-        protected abstract void UpdateEntity(IEntity entity, IGame game);
+        protected abstract void UpdateEntity(IEntityManager entityManager, IEntity entity, IGame game);
     }
 }

@@ -18,7 +18,7 @@ namespace Tiles.EntitySystems
     {
         Box3? Box { get; set; }
 
-        public AtlasBoxSystem(params int[] componentIds)
+        protected AtlasBoxSystem(params int[] componentIds)
             : base(
                 componentIds
                     .ToList()
@@ -40,13 +40,12 @@ namespace Tiles.EntitySystems
             {
                 foreach (var entity in entityManager.GetEntities(ComponentIds).ToList())
                 {
-                    var pos = entity.GetComponent<IAtlasPositionComponent>()
-                                .AtlasPosition
+                    var pos = entity.GetComponent<AtlasPositionComponent>()
                                 .Position;
 
                     if (Box.Value.Contains(pos) && !updatedEntities.Contains(entity))
                     {
-                        UpdateEntity(entity, game);
+                        UpdateEntity(entityManager, entity, game);
                         updatedEntities.Add(entity);
                     }
                 }

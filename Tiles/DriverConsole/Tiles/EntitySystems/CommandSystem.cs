@@ -18,7 +18,7 @@ namespace Tiles.EntitySystems
 
         }
 
-        protected override void UpdateEntity(IEntity entity, IGame game)
+        protected override void UpdateEntity(IEntityManager entityManager, IEntity entity, IGame game)
         {
             var agentComp = entity.GetComponent<IAgentComponent>();
             var commandComp = entity.GetComponent<ICommandComponent>();

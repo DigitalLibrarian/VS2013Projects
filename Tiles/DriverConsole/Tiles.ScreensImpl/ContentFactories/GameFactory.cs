@@ -86,22 +86,35 @@ namespace Tiles.ScreensImpl.ContentFactories
         public IGame SetupLiquidsDemoWorld()
         {
             var siteSize = new Vector3(64, 64, 64);
-            var siteFactory = new LiquidsDemoSiteFactory(Random);
-            return Setup(EntityManager, siteFactory, siteSize, Random);
+            var siteFactory = new LiquidsDemoSiteFactory(EntityManager, Random);
+
+            var spawnBox = new Box3(
+                new Vector3(0, 0, 1),
+                new Vector3(siteSize.X, siteSize.Y, 2)
+                );
+
+            return Setup(EntityManager, siteFactory, siteSize, Random, spawnBox);
+        }
+        
+        private Game Setup(IEntityManager entityManager,
+            ISiteFactory siteFactory, Vector3 siteSize, IRandom random, 
+            params IItem[] invItems)
+        {
+            var spawnBox = new Box3(
+                Vector3.Zero,
+                new Vector3(siteSize.X, siteSize.Y, 1)
+                );
+
+            return Setup(entityManager, siteFactory, siteSize, random, spawnBox, invItems);
         }
 
         private Game Setup(IEntityManager entityManager,
-            ISiteFactory siteFactory, Vector3 siteSize, IRandom random, 
+            ISiteFactory siteFactory, Vector3 siteSize, IRandom random, Box3 spawnBox,
             params IItem[] invItems)
         {
             var atlas = new Atlas(siteFactory, siteSize);
 
             var actionLog = new ActionLog();
-            
-            var spawnBox = new Box3(
-                Vector3.Zero,
-                new Vector3(siteSize.X, siteSize.Y, 1)
-                );
             
             var spawnPos = FindSpawnLocation(atlas, random, spawnBox);
             var player = CreatePlayer(random, entityManager, atlas, spawnPos);

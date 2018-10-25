@@ -79,7 +79,7 @@ namespace Tiles.Tests.Agents
             };
             var tileMock = new Mock<ITile>();
             tileMock.Setup(x => x.Items).Returns(items);
-            atlasMock.Setup(x => x.GetTileAtPos(agentPos)).Returns(tileMock.Object);
+            atlasMock.Setup(x => x.GetTileAtPos(agentPos, true)).Returns(tileMock.Object);
 
             var commands = Factory.PickUpItemsOnAgentTile(gameMock.Object, agentMock.Object);
             Assert.AreEqual(items.Count(), commands.Count());

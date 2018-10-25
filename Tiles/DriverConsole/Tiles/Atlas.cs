@@ -56,11 +56,11 @@ namespace Tiles
             return worldPos - topLeft;
         }
 
-        ISite GetSiteAtPos(Vector3 pos)
+        public ISite GetSiteAtPos(Vector3 pos, bool autoViv=true)
         {
             var siteIndex = SiteIndex(pos);
             var site = SiteLookup(siteIndex);
-            if (site == null)
+            if (autoViv && site == null)
             {
                 var origin = SiteTopLeft(siteIndex);
                 var box = new Box3(origin, origin + SiteSize);
@@ -112,9 +112,10 @@ namespace Tiles
             return Sites.Values;
         }
 
-        public ITile GetTileAtPos(Vector3 pos)
+        public ITile GetTileAtPos(Vector3 pos, bool autoViv=true)
         {
-            var site = GetSiteAtPos(pos);
+            var site = GetSiteAtPos(pos, autoViv);
+            if (site == null) return null;
             var sitePos = ToSitePos(pos);
 
             return site.GetTileAtSitePos(sitePos);

@@ -49,5 +49,14 @@ namespace Tiles.Ecs
                             return true;
                         });
         }
+
+
+        public IEntity DeleteEntity(int entityId)
+        {
+            var entity = GetEntity(entityId);
+            if (entity != null)
+                Entities.Remove(entityId);
+            return entity;
+        }
     }
 }

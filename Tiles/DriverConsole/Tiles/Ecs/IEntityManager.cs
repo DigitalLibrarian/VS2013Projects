@@ -12,6 +12,7 @@ namespace Tiles.Ecs
         IEntity CreateEntity(int entityId);
 
         IEntity GetEntity(int entityId);
+        IEntity DeleteEntity(int entityId);
         IEnumerable<IEntity> GetEntities(IEnumerable<int> componentIds);
     }
 }

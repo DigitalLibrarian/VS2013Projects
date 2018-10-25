@@ -90,7 +90,7 @@ namespace Tiles.Tests.Agents
             BodyMock.Setup(x => x.IsWrestling).Returns(true);
 
             Assert.IsFalse(Agent.CanMove(new Vector3()));
-            AtlasMock.Verify(x => x.GetTileAtPos(It.IsAny<Vector3>()), Times.Never());
+            AtlasMock.Verify(x => x.GetTileAtPos(It.IsAny<Vector3>(), It.IsAny<bool>()), Times.Never());
         }
 
         [TestMethod]
@@ -126,13 +126,13 @@ namespace Tiles.Tests.Agents
             var newDest = originalPos + delta;
 
             var originalTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos)).Returns(originalTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos, true)).Returns(originalTileMock.Object);
 
             Assert.IsFalse(Agent.Move(delta));
             Asserter.AreEqual(originalPos, Agent.Pos);
 
             var newTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest)).Returns(newTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest, true)).Returns(newTileMock.Object);
 
             // Show failure because of impassable terrain (no structure)
             newTileMock.Setup(x => x.HasStructureCell).Returns(false);
@@ -156,7 +156,7 @@ namespace Tiles.Tests.Agents
             var newDest = originalPos + delta;
 
             var originalTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos)).Returns(originalTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos, true)).Returns(originalTileMock.Object);
 
             Assert.IsFalse(Agent.Move(delta));
             Asserter.AreEqual(originalPos, Agent.Pos);
@@ -164,7 +164,7 @@ namespace Tiles.Tests.Agents
             var newTileMock = new Mock<ITile>();
             var structureCellMock = new Mock<IStructureCell>();
             structureCellMock.Setup(x => x.CanPass).Returns(true);
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest)).Returns(newTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest, true)).Returns(newTileMock.Object);
 
             newTileMock.Setup(x => x.HasStructureCell).Returns(true);
             newTileMock.Setup(x => x.StructureCell).Returns(structureCellMock.Object);
@@ -193,7 +193,7 @@ namespace Tiles.Tests.Agents
             var newDest = originalPos + delta;
 
             var originalTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos)).Returns(originalTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos, true)).Returns(originalTileMock.Object);
 
             Assert.IsFalse(Agent.Move(delta));
             Asserter.AreEqual(originalPos, Agent.Pos);
@@ -201,7 +201,7 @@ namespace Tiles.Tests.Agents
             var newTileMock = new Mock<ITile>();
             var structureCellMock = new Mock<IStructureCell>();
             structureCellMock.Setup(x => x.CanPass).Returns(false);
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest)).Returns(newTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest, true)).Returns(newTileMock.Object);
 
             newTileMock.Setup(x => x.HasStructureCell).Returns(true);
             newTileMock.Setup(x => x.StructureCell).Returns(structureCellMock.Object);
@@ -230,7 +230,7 @@ namespace Tiles.Tests.Agents
             var newDest = originalPos + delta;
 
             var originalTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos)).Returns(originalTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos, true)).Returns(originalTileMock.Object);
 
             Assert.IsFalse(Agent.Move(delta));
             Asserter.AreEqual(originalPos, Agent.Pos);
@@ -238,7 +238,7 @@ namespace Tiles.Tests.Agents
             var newTileMock = new Mock<ITile>();
             var structureCellMock = new Mock<IStructureCell>();
             structureCellMock.Setup(x => x.CanPass).Returns(true);
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest)).Returns(newTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest, true)).Returns(newTileMock.Object);
 
             newTileMock.Setup(x => x.HasStructureCell).Returns(true);
             newTileMock.Setup(x => x.StructureCell).Returns(structureCellMock.Object);
@@ -268,13 +268,13 @@ namespace Tiles.Tests.Agents
             var newDest = originalPos + delta;
 
             var originalTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos)).Returns(originalTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos, true)).Returns(originalTileMock.Object);
 
             Assert.IsFalse(Agent.Move(delta));
             Asserter.AreEqual(originalPos, Agent.Pos);
 
             var newTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest)).Returns(newTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest, true)).Returns(newTileMock.Object);
 
             newTileMock.Setup(x => x.HasStructureCell).Returns(false);
             newTileMock.Setup(x => x.StructureCell).Returns((IStructureCell) null);
@@ -302,13 +302,13 @@ namespace Tiles.Tests.Agents
             var newDest = originalPos + delta;
 
             var originalTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos)).Returns(originalTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos, true)).Returns(originalTileMock.Object);
 
             Assert.IsFalse(Agent.Move(delta));
             Asserter.AreEqual(originalPos, Agent.Pos);
 
             var newTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest)).Returns(newTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest, true)).Returns(newTileMock.Object);
 
             newTileMock.Setup(x => x.HasStructureCell).Returns(false);
             newTileMock.Setup(x => x.StructureCell).Returns((IStructureCell)null);
@@ -335,8 +335,8 @@ namespace Tiles.Tests.Agents
             var newDest = originalPos + delta;
 
             var originalTileMock = new Mock<ITile>();
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest)).Returns((ITile)null);
-            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos)).Returns(originalTileMock.Object);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(newDest, true)).Returns((ITile)null);
+            AtlasMock.Setup(atlas => atlas.GetTileAtPos(originalPos, true)).Returns(originalTileMock.Object);
 
             Assert.IsFalse(Agent.Move(delta));
             Asserter.AreEqual(originalPos, Agent.Pos);

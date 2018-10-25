@@ -12,5 +12,7 @@
         public static readonly int Agent = _NextId++;
 
         public static readonly int AtlasPosition = _NextId++;
+
+        public static readonly int LiquidTileNode = _NextId++;
     }
 }
