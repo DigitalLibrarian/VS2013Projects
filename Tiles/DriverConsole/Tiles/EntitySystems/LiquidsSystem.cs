@@ -13,27 +13,6 @@ namespace Tiles.EntitySystems
     public class LiquidsSystem : AtlasBoxSystem
     {
         static readonly int MaxDepth = 7;
-
-        IRandom Random { get; set; }
-        public LiquidsSystem(IRandom random)
-            : base(ComponentTypes.LiquidTileNode, 
-                    ComponentTypes.AtlasPosition)
-        {
-            Random = random;
-        }
-
-        IEnumerable<Vector3> Line(Box3 box, Vector3 index, Vector3 delta)
-        {
-            if (delta.Length() > 0)
-            {
-                while (box.Contains(index))
-                {
-                    yield return index;
-                    index += delta;
-                }
-            }
-        }
-
         static readonly Vector3[] NeighborOffsets = {
                     new Vector3(1, 1, 0),
                     new Vector3(1, -1, 0),
@@ -44,6 +23,15 @@ namespace Tiles.EntitySystems
                     new Vector3(-1, 0, 0),
                     new Vector3(0, -1, 0),
                 };
+
+        IRandom Random { get; set; }
+        public LiquidsSystem(IRandom random)
+            : base(ComponentTypes.LiquidTileNode, 
+                    ComponentTypes.AtlasPosition)
+        {
+            Random = random;
+        }
+
         protected override void UpdateEntity(Ecs.IEntityManager entityManager, Ecs.IEntity entity, IGame game)
         {
             var ltc = entity.GetComponent<LiquidTileNodeComponent>();

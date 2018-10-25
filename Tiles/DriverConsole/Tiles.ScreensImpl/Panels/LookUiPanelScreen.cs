@@ -133,6 +133,7 @@ namespace Tiles.ScreensImpl.Panels
                 string.Format("Tile Index: {0}", tile.Index),
                 string.Format("Terrain Type : {0}", tile.Terrain),
                 string.Format("Is Passable?: {0}", tile.IsTerrainPassable),
+                string.Format("Liquid Depth: {0}/7", tile.LiquidDepth),
                 string.Format("Has Structure: {0}", tile.HasStructureCell),
                 string.Format("Symbol: {0}", tile.TerrainSprite.Symbol),
                 string.Format("Agent: {0}", tile.HasAgent ? string.Format("{0} ({1})", tile.Agent.Name, tile.Agent.Pos) : "n/a"),
