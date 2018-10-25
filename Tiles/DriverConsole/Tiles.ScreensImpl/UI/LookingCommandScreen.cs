@@ -42,6 +42,14 @@ namespace Tiles.ScreensImpl.UI
                 var dir2 = CompassVectors.FromDirection(ConsoleKeyCompassMapping.ToDirection(args.Key));
                 Game.Camera.Move(new Vector3(dir2.X, dir2.Y, 0));
             }
+            else if (args.Key == ConsoleKey.OemComma && args.Shift)
+            {
+                Game.Camera.Move(new Vector3(0, 0, 1));
+            }
+            else if (args.Key == ConsoleKey.OemPeriod && args.Shift)
+            {
+                Game.Camera.Move(new Vector3(0, 0, -1));
+            }
             else
             {
                 InfoPanel.OnKeyPress(args);

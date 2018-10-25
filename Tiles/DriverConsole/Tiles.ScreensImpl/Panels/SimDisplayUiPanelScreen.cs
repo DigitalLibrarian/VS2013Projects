@@ -28,7 +28,7 @@ namespace Tiles.ScreensImpl.Panels
             Vector3 topLeftWorld = new Vector3(leftX, topY, camPos.Z);
             var blockStr = ViewModel.BlockingForInput ? "BLOCKING" : "";
 
-            Canvas.DrawString(string.Format("Time: {0} {1}", ViewModel.GlobalTime, blockStr), Vector2.Zero, Color.White, Color.Black);
+            Canvas.DrawString(string.Format("Time: {0} {1} {2}", ViewModel.GlobalTime, blockStr, camPos), Vector2.Zero, Color.White, Color.Black);
             for (int x = 0; x < Box.Size.X; x++)
             {
                 for (int y = 0; y < Box.Size.Y; y++)

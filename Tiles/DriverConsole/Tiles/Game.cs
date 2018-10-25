@@ -64,7 +64,7 @@ namespace Tiles
             Systems = new List<AtlasBoxSystem>
             {
                 new CommandSystem(),
-                new LiquidsSystem()
+                new LiquidsSystem(Random)
             };
         }
 

@@ -119,8 +119,8 @@ namespace Tiles.ScreensImpl.UI
             {
                 var camPos = Game.Camera.Pos;
                 var updateBox = new Box3(
-                    camPos - new Vector3(Game.Atlas.SiteSize.X, Game.Atlas.SiteSize.Y, 0), 
-                    camPos + new Vector3(Game.Atlas.SiteSize.X, Game.Atlas.SiteSize.Y, 0));
+                    camPos - new Vector3(Game.Atlas.SiteSize.X / 2, Game.Atlas.SiteSize.Y / 2, 0),
+                    camPos + new Vector3(Game.Atlas.SiteSize.X / 2, Game.Atlas.SiteSize.Y / 2, 10));
                 Game.UpdateBox(updateBox);
             }
             
