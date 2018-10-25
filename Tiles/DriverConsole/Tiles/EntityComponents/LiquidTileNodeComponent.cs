@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Ecs;
-using Tiles.EntityComponents;
 
-namespace Tiles.Liquids
+namespace Tiles.EntityComponents
 {
     public class LiquidTileNodeComponent : IComponent
     {

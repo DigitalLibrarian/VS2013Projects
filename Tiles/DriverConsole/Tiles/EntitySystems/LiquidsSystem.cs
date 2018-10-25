@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Ecs;
 using Tiles.EntityComponents;
-using Tiles.EntitySystems;
 using Tiles.Math;
 using Tiles.Random;
 
-namespace Tiles.Liquids
+namespace Tiles.EntitySystems
 {
     public class LiquidsSystem : AtlasBoxSystem
     {
@@ -59,27 +58,24 @@ namespace Tiles.Liquids
             var down = new Vector3(0, 0, -1);
             var nextPos = worldPos + down;
             var takerTile = game.Atlas.GetTileAtPos(nextPos, false);
-            if (takerTile != null && takerTile.IsTerrainPassable && !takerTile.IsLiquidFull)
+            if (takerTile != null && takerTile.IsTerrainPassable && !takerTile.IsLiquidFull) // can fall?
             {
                 var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
                 FlowDown(entityManager, entity, ltc, takerSite, takerTile);
             }
             else
             {
-                int numTries = 0;
-                int maxTries = 3;
-                bool found = false;
-                while(!found && numTries < maxTries)
+                for (int numTries = 0; numTries < 3; numTries++)
                 {
                     nextPos = worldPos + Random.NextElement<Vector3>(Neighbors);
                     takerTile = game.Atlas.GetTileAtPos(nextPos, false);
                     if (takerTile != null
                         && takerTile.IsTerrainPassable
-                        && takerTile.LiquidDepth < tile.LiquidDepth)
+                        && takerTile.LiquidDepth < tile.LiquidDepth) // can flow sideways?
                     {
                         var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
                         FlowInto(entityManager, entity, ltc, takerSite, takerTile);
-                        found = true;
+                        break;
                     }
                     numTries++;
                 }
