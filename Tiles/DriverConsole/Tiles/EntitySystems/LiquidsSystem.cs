@@ -12,6 +12,8 @@ namespace Tiles.EntitySystems
 {
     public class LiquidsSystem : AtlasBoxSystem
     {
+        static readonly int MaxDepth = 7;
+
         IRandom Random { get; set; }
         public LiquidsSystem(IRandom random)
             : base(ComponentTypes.LiquidTileNode, 
@@ -51,7 +53,7 @@ namespace Tiles.EntitySystems
             var worldPos = site.Box.Min + tile.Index;
             var nextPos = worldPos + new Vector3(0, 0, -1);
             var takerTile = game.Atlas.GetTileAtPos(nextPos, false);
-            if (takerTile != null && takerTile.IsTerrainPassable && !takerTile.IsLiquidFull) // can fall?
+            if (takerTile != null && takerTile.IsTerrainPassable && takerTile.LiquidDepth < MaxDepth) // can fall?
             {
                 var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
                 FlowDown(entityManager, entity, ltc, takerSite, takerTile);
@@ -92,7 +94,7 @@ namespace Tiles.EntitySystems
 
         void FlowDown(IEntityManager entityManager, IEntity entity, LiquidTileNodeComponent l, ISite nextSite, ITile nextTile)
         {
-            var room = 7 - nextTile.LiquidDepth;
+            var room = MaxDepth - nextTile.LiquidDepth;
             var amount = l.Tile.LiquidDepth;
             if (room >= amount)
             {

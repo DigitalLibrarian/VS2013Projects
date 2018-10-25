@@ -32,7 +32,6 @@ namespace Tiles
         void RemoveAgent();
         void SetAgent(IAgent agent);
 
-        bool IsLiquidFull { get; }
         /// <summary>
         /// [0 - 7] liquid depth
         /// </summary>
