@@ -38,6 +38,13 @@ namespace Tiles.EntitySystems
             var site = ltc.Site;
             var tile = ltc.Tile;
 
+            if (tile.LiquidDepth == 1 && Random.Next(5000) == 0)
+            {
+                entityManager.DeleteEntity(entity.Id);
+                tile.LiquidDepth = 0;
+                return;
+            }
+
             var worldPos = site.Box.Min + tile.Index;
             var nextPos = worldPos + new Vector3(0, 0, -1);
             var takerTile = game.Atlas.GetTileAtPos(nextPos, false);
