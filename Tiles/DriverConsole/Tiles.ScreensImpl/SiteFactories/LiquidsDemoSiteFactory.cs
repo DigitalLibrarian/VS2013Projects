@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Ecs;
 using Tiles.EntityComponents;
+using Tiles.EntitySystems;
 using Tiles.Math;
 using Tiles.Random;
 
@@ -44,20 +45,7 @@ namespace Tiles.ScreensImpl.SiteFactories
                             var tile = site.GetTileAtIndex(x, y, z);
                             tile.LiquidDepth = Random.Next(1, 7);
 
-                            var lte = EntityManager.CreateEntity();
-                            var ltc = new LiquidTileNodeComponent
-                            {
-                                Site = site,
-                                Tile = tile
-                            };
-                            lte.AddComponent(ltc);
-
-                            // Always start with ltc, so we can just change the tile pointer when the 
-                            // water moves in the simple case
-                            lte.AddComponent(new AtlasPositionComponent
-                            {
-                                PositionFunc = () => ltc.Site.Box.Min + ltc.Tile.Index
-                            });
+                            LiquidsSystem.CreateLiquidsNode(EntityManager, site, tile);
                         }
                     }
                 }

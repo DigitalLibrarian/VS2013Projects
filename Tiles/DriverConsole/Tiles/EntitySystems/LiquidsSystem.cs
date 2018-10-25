@@ -72,7 +72,7 @@ namespace Tiles.EntitySystems
             }
         }
 
-        IEntity CreateLiquidsNode(IEntityManager entityManager, ISite site, ITile tile)
+        public static IEntity CreateLiquidsNode(IEntityManager entityManager, ISite site, ITile tile)
         {
             var lte = entityManager.CreateEntity();
             var ltc = new LiquidTileNodeComponent
