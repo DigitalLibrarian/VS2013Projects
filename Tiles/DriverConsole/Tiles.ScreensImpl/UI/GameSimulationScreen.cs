@@ -179,6 +179,10 @@ namespace Tiles.ScreensImpl.UI
             if (ConsoleKeyCompassMapping.IsCompassDirection(args.Key))
             {
                 var delta2d = CompassVectors.FromDirection(ConsoleKeyCompassMapping.ToDirection(args.Key));
+                if (args.Shift)
+                {
+                    delta2d *= 10;
+                }
                 var delta3d = new Vector3(delta2d.X, delta2d.Y, 0);
                 var newTile = Game.Atlas.GetTileAtPos(Game.Player.Pos + delta3d);
                 if (newTile.HasAgent && !newTile.Agent.IsDead)

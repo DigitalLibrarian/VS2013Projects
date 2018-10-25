@@ -63,21 +63,16 @@ namespace Tiles.EntitySystems
                 var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
                 FlowDown(entityManager, entity, ltc, takerSite, takerTile);
             }
-            else
+            else if(tile.LiquidDepth > 1)
             {
-                for (int numTries = 0; numTries < 3; numTries++)
+                nextPos = worldPos + Random.NextElement<Vector3>(Neighbors);
+                takerTile = game.Atlas.GetTileAtPos(nextPos, false);
+                if (takerTile != null
+                    && takerTile.IsTerrainPassable
+                    && takerTile.LiquidDepth < tile.LiquidDepth) // can flow sideways?
                 {
-                    nextPos = worldPos + Random.NextElement<Vector3>(Neighbors);
-                    takerTile = game.Atlas.GetTileAtPos(nextPos, false);
-                    if (takerTile != null
-                        && takerTile.IsTerrainPassable
-                        && takerTile.LiquidDepth < tile.LiquidDepth) // can flow sideways?
-                    {
-                        var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
-                        FlowInto(entityManager, entity, ltc, takerSite, takerTile);
-                        break;
-                    }
-                    numTries++;
+                    var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
+                    FlowInto(entityManager, entity, ltc, takerSite, takerTile);
                 }
             }
         }
@@ -156,6 +151,5 @@ namespace Tiles.EntitySystems
                 }
             }
         }
-
     }
 }

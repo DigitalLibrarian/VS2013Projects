@@ -30,7 +30,7 @@ namespace Tiles.ScreensImpl.SiteFactories
                 tile.Terrain = Terrain.None;
             }
 
-            const int space = 6;
+            const int space = 5;
             var half = site.Size.X/2;
             var mid = site.Size * 0.5d;
             for (int z = 3; z < 7; z++)
