@@ -32,7 +32,7 @@ namespace Tiles.EntitySystems
             }
         }
 
-        static readonly Vector3[] Neighbors = {
+        static readonly Vector3[] NeighborOffsets = {
                     new Vector3(1, 1, 0),
                     new Vector3(1, -1, 0),
                     new Vector3(-1, 1, 0),
@@ -48,15 +48,8 @@ namespace Tiles.EntitySystems
             var site = ltc.Site;
             var tile = ltc.Tile;
 
-            if (tile.LiquidDepth == 0)
-            {
-                entityManager.DeleteEntity(entity.Id);
-                return;
-            }
-
             var worldPos = site.Box.Min + tile.Index;
-            var down = new Vector3(0, 0, -1);
-            var nextPos = worldPos + down;
+            var nextPos = worldPos + new Vector3(0, 0, -1);
             var takerTile = game.Atlas.GetTileAtPos(nextPos, false);
             if (takerTile != null && takerTile.IsTerrainPassable && !takerTile.IsLiquidFull) // can fall?
             {
@@ -65,7 +58,7 @@ namespace Tiles.EntitySystems
             }
             else if(tile.LiquidDepth > 1)
             {
-                nextPos = worldPos + Random.NextElement<Vector3>(Neighbors);
+                nextPos = worldPos + Random.NextElement<Vector3>(NeighborOffsets);
                 takerTile = game.Atlas.GetTileAtPos(nextPos, false);
                 if (takerTile != null
                     && takerTile.IsTerrainPassable
@@ -112,16 +105,15 @@ namespace Tiles.EntitySystems
                 }
                 else
                 {
-                    // can take all and there is an entity.  give liquid and delete this entity
-                    CreateLiquidsNode(entityManager, nextSite, nextTile);
+                    // can take all and there is an entity.  delete this entity
                     entityManager.DeleteEntity(entity.Id);
                 }
 
-                nextTile.LiquidDepth += amount;
+                nextTile.LiquidDepth += amount; // make the hand off
             }
             else
             {
-                // only partial room
+                // only partial room, so both entities remain
                 l.Tile.LiquidDepth = l.Tile.LiquidDepth - room;
                 nextTile.LiquidDepth = nextTile.LiquidDepth + room;
             }
@@ -131,24 +123,19 @@ namespace Tiles.EntitySystems
         {
             var diff = l.Tile.LiquidDepth - nextTile.LiquidDepth;
             var flow = diff / 2;
-            if (l.Tile.LiquidDepth > 1 && (double)diff / 2d > flow)
-            {
+            // if there was round-off, bump up by one.  
+            if (l.Tile.LiquidDepth > 1 && (double)diff / 2d > flow) 
                 flow++;
-            }
-            if (flow > 0)
+
+            if (nextTile.LiquidDepth == 0) 
+                CreateLiquidsNode(entityManager, nextSite, nextTile);
+
+            l.Tile.LiquidDepth -= flow;
+            nextTile.LiquidDepth += flow;
+
+            if (l.Tile.LiquidDepth == 0)
             {
-                if (nextTile.LiquidDepth == 0)
-                {
-                    CreateLiquidsNode(entityManager, nextSite, nextTile);
-                }
-
-                l.Tile.LiquidDepth -= flow;
-                nextTile.LiquidDepth += flow;
-
-                if (l.Tile.LiquidDepth == 0)
-                {
-                    entityManager.DeleteEntity(entity.Id);
-                }
+                entityManager.DeleteEntity(entity.Id);
             }
         }
     }
