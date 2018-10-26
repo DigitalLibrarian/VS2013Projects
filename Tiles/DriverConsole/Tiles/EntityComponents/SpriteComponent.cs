@@ -8,12 +8,7 @@ using Tiles.Ecs;
 
 namespace Tiles.EntityComponents
 {
-    public interface ISpriteComponent : IComponent
-    {
-        Sprite Sprite { get; }
-    }
-
-    public class SpriteComponent : ISpriteComponent
+    public class SpriteComponent : IComponent
     {
         public int Id { get { return ComponentTypes.Sprite; } }
         public Sprite Sprite { get; set; }

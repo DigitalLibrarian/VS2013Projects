@@ -35,7 +35,6 @@ namespace Tiles.Tests.Ecs
             var compMock = new Mock<ISomeComponent>();
             compMock.Setup(x => x.Id).Returns(1);
 
-
             var result = Entity.GetComponent<ISomeComponent>(1);
             Assert.IsNull(result);
 

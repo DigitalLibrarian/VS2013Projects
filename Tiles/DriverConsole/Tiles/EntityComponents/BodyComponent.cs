@@ -8,12 +8,7 @@ using Tiles.Ecs;
 
 namespace Tiles.EntityComponents
 {
-    public interface IBodyComponent : IComponent
-    {
-        IBody Body { get; }
-    }
-
-    public class BodyComponent : IBodyComponent
+    public class BodyComponent : IComponent
     {
         public int Id { get { return ComponentTypes.Body; } }
         public IBody Body { get; set; }
