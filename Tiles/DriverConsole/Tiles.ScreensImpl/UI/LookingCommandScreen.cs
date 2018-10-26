@@ -50,6 +50,13 @@ namespace Tiles.ScreensImpl.UI
             {
                 Game.Camera.Move(new Vector3(0, 0, -1));
             }
+            else if (args.Key == ConsoleKey.M && args.Shift)
+            {
+                var tilePos = Game.Camera.Pos;
+                var tile = Game.Atlas.GetTileAtPos(tilePos);
+                tile.IsTerrainPassable = true;
+                tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+            }
             else
             {
                 InfoPanel.OnKeyPress(args);
