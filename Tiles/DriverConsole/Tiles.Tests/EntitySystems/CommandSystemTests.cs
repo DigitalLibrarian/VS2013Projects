@@ -22,8 +22,8 @@ namespace Tiles.Tests.EntitySystems
         Mock<IAgent> AgentMock { get; set; }
         Mock<IAgentBehavior> BehaviorMock { get; set; }
 
-        Mock<ICommandComponent> CommandComponentMock { get; set; }
-        Mock<IAgentComponent> AgentComponentMock { get; set; }
+        CommandComponent CommandComponent { get; set; }
+        AgentComponent AgentComponent { get; set; }
         AtlasPositionComponent AtlasPositionComponent { get; set; }
 
         Mock<IEntityManager> EntityManagerMock { get; set; }
@@ -41,13 +41,8 @@ namespace Tiles.Tests.EntitySystems
             GameMock = new Mock<IGame>();
             BehaviorMock = new Mock<IAgentBehavior>();
 
-            CommandComponentMock = new Mock<ICommandComponent>();
-            CommandComponentMock.Setup(x => x.Id).Returns(ComponentTypes.Command);
-            CommandComponentMock.Setup(x => x.Behavior).Returns(BehaviorMock.Object);
-
-            AgentComponentMock = new Mock<IAgentComponent>();
-            AgentComponentMock.Setup(x => x.Id).Returns(ComponentTypes.Agent);
-            AgentComponentMock.Setup(x => x.Agent).Returns(AgentMock.Object);
+            CommandComponent = new CommandComponent(BehaviorMock.Object);
+            AgentComponent = new AgentComponent(AgentMock.Object);
 
             var atlasPos = new Vector3(1, 2, 3);
             AtlasPositionComponent = new AtlasPositionComponent
@@ -78,11 +73,11 @@ namespace Tiles.Tests.EntitySystems
         {
             var entityMock = new Mock<IEntity>();
 
-            entityMock.Setup(x => x.GetComponent<IAgentComponent>(ComponentTypes.Agent))
-                .Returns(AgentComponentMock.Object);
+            entityMock.Setup(x => x.GetComponent<AgentComponent>(ComponentTypes.Agent))
+                .Returns(AgentComponent);
 
-            entityMock.Setup(x => x.GetComponent<ICommandComponent>(ComponentTypes.Command))
-                .Returns(CommandComponentMock.Object);
+            entityMock.Setup(x => x.GetComponent<CommandComponent>(ComponentTypes.Command))
+                .Returns(CommandComponent);
 
             entityMock.Setup(x => x.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition))
                 .Returns(AtlasPositionComponent);

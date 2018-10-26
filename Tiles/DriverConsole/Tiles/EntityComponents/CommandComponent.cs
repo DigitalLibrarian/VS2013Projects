@@ -9,12 +9,7 @@ using Tiles.Ecs;
 
 namespace Tiles.EntityComponents
 {
-    public interface ICommandComponent : IComponent
-    {
-        IAgentBehavior Behavior { get; }
-    }
-
-    public class CommandComponent : ICommandComponent
+    public class CommandComponent : IComponent
     {
         public int Id { get { return ComponentTypes.Command; } }
 

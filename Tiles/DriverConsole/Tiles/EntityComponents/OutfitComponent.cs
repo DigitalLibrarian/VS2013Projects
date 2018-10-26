@@ -8,11 +8,6 @@ using Tiles.Items.Outfits;
 
 namespace Tiles.EntityComponents
 {
-    public interface IOutfitComponent : IComponent
-    {
-        IOutfit Outfit { get; }
-    }
-
     public class OutfitComponent : IComponent
     {
         public int Id { get { return ComponentTypes.Outfit; } }

@@ -8,12 +8,7 @@ using Tiles.Items;
 
 namespace Tiles.EntityComponents
 {
-    public interface IInventoryComponent : IComponent
-    {
-        IInventory Inventory { get; }
-    }
-
-    public class InventoryComponent : IInventoryComponent
+    public class InventoryComponent : IComponent
     {
         public int Id { get { return ComponentTypes.Inventory; } }
         public IInventory Inventory { get; set; }

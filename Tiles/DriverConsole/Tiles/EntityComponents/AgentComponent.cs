@@ -8,12 +8,7 @@ using Tiles.Ecs;
 
 namespace Tiles.EntityComponents
 {
-    public interface IAgentComponent : IComponent
-    {
-        IAgent Agent { get; }
-    }
-
-    public class AgentComponent : IAgentComponent
+    public class AgentComponent : IComponent
     {
         public int Id { get { return ComponentTypes.Agent; } }
         public IAgent Agent { get; set; }
