@@ -13,7 +13,29 @@ namespace Tiles.EntitySystems
     public class LiquidsSystem : AtlasBoxSystem
     {
         static readonly int MaxDepth = 7;
-        static readonly Vector3[] NeighborOffsets = {
+        static readonly Vector3[] NeighborOffsets_Over = {
+                    new Vector3(1, 1, 0),
+                    new Vector3(1, -1, 0),
+                    new Vector3(-1, 1, 0),
+                    new Vector3(-1, -1, 0),
+                    
+                    new Vector3(1, 0, 0),
+                    new Vector3(-1, 0, 0),
+                    new Vector3(0, 1, 0),
+                    new Vector3(0, -1, 0),
+                };
+
+        static readonly Vector3[] NeighborOffsets_Pressure = {
+                    new Vector3(0, 0, -1),
+                    new Vector3(1, 1, -1),
+                    new Vector3(1, -1, -1),
+                    new Vector3(-1, 1, -1),
+                    new Vector3(-1, -1, -1),
+                    new Vector3(1, 0, -1),
+                    new Vector3(0, 1, -1),
+                    new Vector3(-1, 0, -1),
+                    new Vector3(0, -1, -1),
+
                     new Vector3(1, 1, 0),
                     new Vector3(1, -1, 0),
                     new Vector3(-1, 1, 0),
@@ -22,6 +44,16 @@ namespace Tiles.EntitySystems
                     new Vector3(0, 1, 0),
                     new Vector3(-1, 0, 0),
                     new Vector3(0, -1, 0),
+                    
+                    new Vector3(1, 1, 1),
+                    new Vector3(1, -1, 1),
+                    new Vector3(-1, 1, 1),
+                    new Vector3(-1, -1, 1),
+                    new Vector3(1, 0, 1),
+                    new Vector3(0, 1, 1),
+                    new Vector3(-1, 0, 1),
+                    new Vector3(0, -1, 1),
+                    new Vector3(0, 0, 1),
                 };
 
         IRandom Random { get; set; }
@@ -55,16 +87,42 @@ namespace Tiles.EntitySystems
             }
             else if(tile.LiquidDepth > 1)
             {
-                nextPos = worldPos + Random.NextElement<Vector3>(NeighborOffsets);
-                takerTile = game.Atlas.GetTileAtPos(nextPos, false);
-                if (takerTile != null
-                    && takerTile.IsTerrainPassable
-                    && takerTile.LiquidDepth < tile.LiquidDepth) // can flow sideways?
+                // swap two elements, to create chaos over time
+                SwapTwoElements(Random, NeighborOffsets_Over);
+
+                bool hit = false;
+                foreach (var nextOff in NeighborOffsets_Over)
                 {
-                    var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
-                    FlowInto(entityManager, entity, ltc, takerSite, takerTile);
+                    nextPos = worldPos + nextOff;
+                    takerTile = game.Atlas.GetTileAtPos(nextPos, false);
+                    if (takerTile != null
+                        && takerTile.IsTerrainPassable
+                        && takerTile.LiquidDepth < tile.LiquidDepth) // can flow sideways?
+                    {
+                        var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
+                        FlowInto(entityManager, entity, ltc, takerSite, takerTile);
+                        hit = true;
+                        break;
+                    }
+                }
+
+                if(!hit)
+                {
+                    // now we need to flood fill around the surface of the body of water, that is not above our
+                    // entity position.  If we find a vacant spot to flow into, we teleport/flow there.
+                    TryTeleFlow(game.Atlas, entityManager, entity, ltc, worldPos, worldPos);
                 }
             }
+        }
+
+        static void SwapTwoElements(IRandom random, Vector3[] array)
+        {
+
+            var i0 = random.NextIndex(array);
+            var i1 = random.NextIndex(array);
+            Vector3 temp = array[i0];
+            array[i0] = array[i1];
+            array[i1] = temp;
         }
 
         public static IEntity CreateLiquidsNode(IEntityManager entityManager, ISite site, ITile tile)
@@ -133,6 +191,54 @@ namespace Tiles.EntitySystems
             if (l.Tile.LiquidDepth == 0)
             {
                 entityManager.DeleteEntity(entity.Id);
+            }
+        }
+
+        bool TryTeleFlow(IAtlas atlas, IEntityManager entityManager, IEntity entity, LiquidTileNodeComponent l, Vector3 originalWorldPos, Vector3 worldPos, List<Vector3> visited = null)
+        {
+            visited = visited ?? new List<Vector3>{ worldPos };
+
+            // flood fill
+            foreach(var off in NeighborOffsets_Pressure)
+            {
+                var offPos = worldPos + off;
+                if (offPos.Z > originalWorldPos.Z) continue;
+                if (visited.Contains(offPos)) continue;
+
+                visited.Add(offPos);
+                var offTile = atlas.GetTileAtPos(offPos);
+                if (offTile.LiquidDepth == MaxDepth)
+                {
+                    // Let us skip forward in this direction until we hit a wall
+                    foreach (var testPos in Line(offPos, off, v => atlas.GetTileAtPos(v).LiquidDepth != MaxDepth))
+                    {
+                        visited.Add(testPos);
+                    }
+
+                    if (TryTeleFlow(atlas, entityManager, entity, l, originalWorldPos, visited.Last(), visited))
+                    {
+                        return true;
+                    }
+                }
+                else if (offTile.IsTerrainPassable && offTile.LiquidDepth < l.Tile.LiquidDepth)
+                {
+                    var offSite = atlas.GetSiteAtPos(offPos);
+                    if (offPos.Z < originalWorldPos.Z)
+                        FlowDown(entityManager, entity, l, offSite, offTile);
+                    else
+                        FlowInto(entityManager, entity, l, offSite, offTile);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        IEnumerable<Vector3> Line(Vector3 start, Vector3 delta, Predicate<Vector3> stopCondition)
+        {
+            while (!stopCondition(start + delta))
+            {
+                yield return start += delta;
             }
         }
     }

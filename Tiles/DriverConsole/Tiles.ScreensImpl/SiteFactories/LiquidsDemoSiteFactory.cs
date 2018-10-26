@@ -33,7 +33,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             ITile tile;
 
             // Create 3 layers of impassable tiles
-            int floorZBottom = 0, floorZTop = 3;
+            int floorZBottom = 0, floorZTop = 6;
             for (int x = 0; x < site.Box.Size.X; x++)
             {
                 for (int y = 0; y < site.Box.Size.Y; y++)
@@ -48,8 +48,9 @@ namespace Tiles.ScreensImpl.SiteFactories
             }
 
             // play snake on the top layer of "floor".  cut out a place for a river to form, with a drain at the start.
-            var pos = new Vector3(box.Size.X / 2, box.Size.Y / 2, floorZTop);
-            int maxRiverLength = 50;
+            var pos = new Vector3(box.Size.X / 2, box.Size.Y / 2, floorZTop-3);
+            var riverStartPos = pos;
+            int maxRiverLength = 15;
             int riverLength = 0;
             int minLeg = 3, maxLeg = 10;
 
@@ -60,10 +61,10 @@ namespace Tiles.ScreensImpl.SiteFactories
                 CompassVectors.West
             };
 
-
             tile = site.GetTileAtSitePos(pos);
             tile.IsTerrainPassable = true;
             tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+
 
             Vector3 lastPlaced= Vector3.Zero;
             int numAttempts = 0, maxAttempts = 10;
@@ -105,6 +106,40 @@ namespace Tiles.ScreensImpl.SiteFactories
 
                     tile.IsTerrainPassable = true;
                     tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+
+                    var sideDir = new Vector3(
+                        dir.X == 0 ? 1 : 0,
+                        dir.Y == 0 ? 1 : 0,
+                        0);
+                    var up = new Vector3(0, 0, 1);
+                    tile = site.GetTileAtSitePos(pos + dir + sideDir + up);
+                    if (tile != null && tile.IsTerrainPassable)
+                    {
+                        tile.IsTerrainPassable = false;
+                        tile.TerrainSprite = new Sprite(Symbol.Terrain_Floor, Color.White, Color.White);
+                    }
+
+                    tile = site.GetTileAtSitePos(pos + dir - sideDir + up);
+                    if (tile != null && tile.IsTerrainPassable)
+                    {
+                        tile.IsTerrainPassable = false;
+                        tile.TerrainSprite = new Sprite(Symbol.Terrain_Floor, Color.White, Color.White);
+                    }
+
+                    tile = site.GetTileAtSitePos(pos - dir + sideDir + up);
+                    if (tile != null && tile.IsTerrainPassable)
+                    {
+                        tile.IsTerrainPassable = false;
+                        tile.TerrainSprite = new Sprite(Symbol.Terrain_Floor, Color.White, Color.White);
+                    }
+
+                    tile = site.GetTileAtSitePos(pos - dir - sideDir + up);
+                    if (tile != null && tile.IsTerrainPassable)
+                    {
+                        tile.IsTerrainPassable = false;
+                        tile.TerrainSprite = new Sprite(Symbol.Terrain_Floor, Color.White, Color.White);
+                    }
+
                     riverLength++;
                     lastPlaced = pos + dir;
                     pos += dir;
@@ -113,17 +148,39 @@ namespace Tiles.ScreensImpl.SiteFactories
 
             if (riverLength > 0)
             {
+                // Create spout going up, at the end of the river
                 for (int i = lastPlaced.Z; i >= 0; i--)
                 {
-                    tile = site.GetTileAtSitePos(lastPlaced + new Vector3(0, 0, -i));
+                    tile = site.GetTileAtSitePos(lastPlaced + new Vector3(0, 0, i));
                     tile.IsTerrainPassable = true;
                     tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+
+                    for (int zOff = 1; zOff < 6; zOff++)
+                        for (int xOff = -1; xOff < 2; xOff++)
+                            for (int yOff = -1; yOff < 2; yOff++)
+                            {
+                                tile = site.GetTileAtSitePos(lastPlaced + new Vector3(xOff, yOff, zOff));
+                                tile.IsTerrainPassable = true;
+                                tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+                            }
                 }
+            }
+
+            // create funnel opening
+            for (int zOff = 0; zOff < 6; zOff++)
+            {
+                for (int xOff = -1 + -zOff; xOff < 2+zOff; xOff++)
+                    for (int yOff = -1 + -zOff; yOff < 2+zOff; yOff++)
+                    {
+                        tile = site.GetTileAtSitePos(riverStartPos + new Vector3(xOff, yOff, zOff));
+                        tile.IsTerrainPassable = true;
+                        tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+                    }
             }
 
             const int space = 2;
             int waterZStart = floorZTop + 3, waterZThick = 5;
-            var half = site.Size.X / 5;
+            var half = site.Size.X / 16;
             var mid = site.Size * 0.5d;
             for (int z = waterZStart; z < waterZStart + waterZThick; z++)
             {
@@ -140,7 +197,6 @@ namespace Tiles.ScreensImpl.SiteFactories
                     }
                 }
             }
-
 
             return site;
         }
