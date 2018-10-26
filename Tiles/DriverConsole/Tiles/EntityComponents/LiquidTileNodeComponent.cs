@@ -16,5 +16,6 @@ namespace Tiles.EntityComponents
 
         public ISite Site { get; set; }
         public ITile Tile { get; set; }
+        public bool IsSleeping { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Tiles.EntitySystems
                     new Vector3(0, -1, 0),
                 };
 
-        static readonly Vector3[] NeighborOffsets_Pressure = {
+        static readonly Vector3[] NeighborOffsets = {
                     new Vector3(0, 0, -1),
                     new Vector3(1, 1, -1),
                     new Vector3(1, -1, -1),
@@ -55,11 +55,9 @@ namespace Tiles.EntitySystems
                     new Vector3(0, -1, 1),
                     new Vector3(0, 0, 1),
                 };
-
         IRandom Random { get; set; }
         public LiquidsSystem(IRandom random)
-            : base(ComponentTypes.LiquidTileNode, 
-                    ComponentTypes.AtlasPosition)
+            : base(LiquidsSystemComponentTypes)
         {
             Random = random;
         }
@@ -77,6 +75,9 @@ namespace Tiles.EntitySystems
                 return;
             }
 
+            if (ltc.IsSleeping) return;
+
+            bool hit = false;
             var worldPos = site.Box.Min + tile.Index;
             var nextPos = worldPos + new Vector3(0, 0, -1);
             var takerTile = game.Atlas.GetTileAtPos(nextPos, false);
@@ -84,13 +85,13 @@ namespace Tiles.EntitySystems
             {
                 var takerSite = game.Atlas.GetSiteAtPos(nextPos, false);
                 FlowDown(entityManager, entity, ltc, takerSite, takerTile);
+                hit = true;
             }
             else if(tile.LiquidDepth > 1)
             {
-                // swap two elements, to create chaos over time
+                // swap two elements, to create chaos over time and avoid favoring the original order
                 SwapTwoElements(Random, NeighborOffsets_Over);
 
-                bool hit = false;
                 foreach (var nextOff in NeighborOffsets_Over)
                 {
                     nextPos = worldPos + nextOff;
@@ -110,14 +111,46 @@ namespace Tiles.EntitySystems
                 {
                     // now we need to flood fill around the surface of the body of water, that is not above our
                     // entity position.  If we find a vacant spot to flow into, we teleport/flow there.
-                    TryTeleFlow(game.Atlas, entityManager, entity, ltc, worldPos, worldPos);
+                    hit = TryTeleFlow(game.Atlas, entityManager, entity, ltc, worldPos, worldPos);
+                }
+            }
+            
+            if (hit)
+            {
+                // wake up any neighbors
+                WakeUpLiquids(entityManager, worldPos);
+            }
+            else
+            {
+                // put this node to sleep and we won't update it until something wakes it up
+                ltc.IsSleeping = true;
+            }
+        }
+
+        private static readonly int[] LiquidsSystemComponentTypes = { ComponentTypes.LiquidTileNode, ComponentTypes.AtlasPosition };
+
+        public static void WakeUpLiquids(IEntityManager entityManager, Vector3 worldPos)
+        {
+            var everybody = entityManager.GetEntities(LiquidsSystemComponentTypes);
+            FloodWakeUp(everybody, worldPos);
+        }
+        static void FloodWakeUp(IEnumerable<IEntity> everybody, Vector3 worldPos)
+        {
+            // flood fill
+            foreach (var off in NeighborOffsets)
+            {
+                var offPos = worldPos + off;
+                var neighbor = everybody.SingleOrDefault(e => e.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition).Position.Equals(offPos));
+                if (neighbor != null)
+                {
+                    var ltc = neighbor.GetComponent<LiquidTileNodeComponent>(ComponentTypes.LiquidTileNode);
+                    ltc.IsSleeping = false;
                 }
             }
         }
 
         static void SwapTwoElements(IRandom random, Vector3[] array)
         {
-
             var i0 = random.NextIndex(array);
             var i1 = random.NextIndex(array);
             Vector3 temp = array[i0];
@@ -178,7 +211,7 @@ namespace Tiles.EntitySystems
         {
             var diff = l.Tile.LiquidDepth - nextTile.LiquidDepth;
             var flow = diff / 2;
-            // if there was round-off, bump up by one.  
+            // if there was round-off, bump up by one, so that we err on the side of sloshiness
             if (l.Tile.LiquidDepth > 1 && (double)diff / 2d > flow) 
                 flow++;
 
@@ -199,7 +232,7 @@ namespace Tiles.EntitySystems
             visited = visited ?? new List<Vector3>{ worldPos };
 
             // flood fill
-            foreach(var off in NeighborOffsets_Pressure)
+            foreach(var off in NeighborOffsets)
             {
                 var offPos = worldPos + off;
                 if (offPos.Z > originalWorldPos.Z) continue;
@@ -220,7 +253,7 @@ namespace Tiles.EntitySystems
                         return true;
                     }
                 }
-                else if (offTile.IsTerrainPassable && offTile.LiquidDepth < l.Tile.LiquidDepth)
+                else if (offTile.IsTerrainPassable && offTile.LiquidDepth < MaxDepth)
                 {
                     var offSite = atlas.GetSiteAtPos(offPos);
                     if (offPos.Z < originalWorldPos.Z)
@@ -234,7 +267,7 @@ namespace Tiles.EntitySystems
             return false;
         }
 
-        IEnumerable<Vector3> Line(Vector3 start, Vector3 delta, Predicate<Vector3> stopCondition)
+        static IEnumerable<Vector3> Line(Vector3 start, Vector3 delta, Predicate<Vector3> stopCondition)
         {
             while (!stopCondition(start + delta))
             {

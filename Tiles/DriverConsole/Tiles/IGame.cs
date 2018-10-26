@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Tiles.Agents;
 using Tiles.Agents.Combat;
+using Tiles.Ecs;
 using Tiles.Random;
 
 namespace Tiles
 {
     public interface IGame
     {
+        IEntityManager EntityManager { get; }
         IRandom Random { get; }
         IAtlas Atlas { get; }
         ICamera Camera { get; }

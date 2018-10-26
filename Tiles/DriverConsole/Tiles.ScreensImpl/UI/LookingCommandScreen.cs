@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiles.Control;
+using Tiles.EntitySystems;
 using Tiles.Gsm;
 using Tiles.Math;
 using Tiles.Render;
@@ -60,6 +61,7 @@ namespace Tiles.ScreensImpl.UI
                 var tile = Game.Atlas.GetTileAtPos(tilePos);
                 tile.IsTerrainPassable = true;
                 tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+                LiquidsSystem.WakeUpLiquids(Game.EntityManager, tilePos);
             }
             else if (args.Key == ConsoleKey.F && args.Shift)
             {

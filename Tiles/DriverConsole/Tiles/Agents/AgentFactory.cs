@@ -25,7 +25,6 @@ namespace Tiles.Agents
 
         public IAgent Create(IAtlas atlas, IAgentClass agentClass, Vector3 pos, IAgentCommandPlanner planner)
         {
-            var entity = EntityManager.CreateEntity();
             var body = BodyFactory.Create(agentClass.BodyClass);
             var agent = new Agent(
                 atlas,

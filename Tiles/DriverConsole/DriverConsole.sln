@@ -38,6 +38,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiles.StringManipulation.Tests", "Tiles.StringManipulation.Tests\Tiles.StringManipulation.Tests.csproj", "{105B71A6-9C2A-4F9F-BBDA-37241B851D9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4A43F31-FF6A-457A-9280-89F8664FFF19}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfNet.Raws", "DfNet.Raws\DfNet.Raws.csproj", "{559E9C2C-01CA-4665-83BF-6A757E71818B}"
 EndProject
