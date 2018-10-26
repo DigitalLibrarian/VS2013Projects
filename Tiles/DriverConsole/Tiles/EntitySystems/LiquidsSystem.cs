@@ -38,7 +38,7 @@ namespace Tiles.EntitySystems
             var site = ltc.Site;
             var tile = ltc.Tile;
 
-            if (tile.LiquidDepth == 1 && Random.Next(5000) == 0)
+            if (tile.LiquidDepth == 0 || tile.LiquidDepth == 1 && Random.Next(5000) == 0)
             {
                 entityManager.DeleteEntity(entity.Id);
                 tile.LiquidDepth = 0;

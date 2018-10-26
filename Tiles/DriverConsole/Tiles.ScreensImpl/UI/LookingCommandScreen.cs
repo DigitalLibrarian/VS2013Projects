@@ -40,6 +40,10 @@ namespace Tiles.ScreensImpl.UI
             else if (ConsoleKeyCompassMapping.IsCompassDirection(args.Key))
             {
                 var dir2 = CompassVectors.FromDirection(ConsoleKeyCompassMapping.ToDirection(args.Key));
+                if (args.Shift)
+                {
+                    dir2 *= 10;
+                }
                 Game.Camera.Move(new Vector3(dir2.X, dir2.Y, 0));
             }
             else if (args.Key == ConsoleKey.OemComma && args.Shift)
@@ -56,6 +60,17 @@ namespace Tiles.ScreensImpl.UI
                 var tile = Game.Atlas.GetTileAtPos(tilePos);
                 tile.IsTerrainPassable = true;
                 tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
+            }
+            else if (args.Key == ConsoleKey.F && args.Shift)
+            {
+                var tilePos = Game.Camera.Pos;
+                var tile = Game.Atlas.GetTileAtPos(tilePos);
+                if (!tile.HasAgent)
+                {
+                    tile.IsTerrainPassable = false;
+                    tile.LiquidDepth = 0;
+                    tile.TerrainSprite = new Sprite(Symbol.Terrain_Floor, Color.White, Color.White);
+                }
             }
             else
             {
