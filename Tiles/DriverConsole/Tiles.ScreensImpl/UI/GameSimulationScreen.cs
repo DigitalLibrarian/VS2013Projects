@@ -208,7 +208,13 @@ namespace Tiles.ScreensImpl.UI
             else if (args.Key == ConsoleKey.OemPeriod && args.Shift)
             {
                 Game.Player.EnqueueCommands(CommandFactory.MoveDirection(Game.Player.Agent, new Vector3(0, 0, -1)));
-
+            }
+            else if (args.Key == ConsoleKey.M && args.Shift)
+            {
+                var tileBelowPos = Game.Player.Pos + new Vector3(0, 0, -1);
+                var tile = Game.Atlas.GetTileAtPos(tileBelowPos);
+                tile.IsTerrainPassable = true;
+                tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.Black);
             }
             else if (args.Key == ConsoleKey.NumPad5)
             {
