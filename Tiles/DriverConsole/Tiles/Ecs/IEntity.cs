@@ -11,6 +11,6 @@ namespace Tiles.Ecs
         int Id { get; }
         bool HasComponent(int componentId);
         void AddComponent(IComponent comp);
-        TComponent GetComponent<TComponent>() where TComponent : class;
+        TComponent GetComponent<TComponent>(int componentId);
     }
 }

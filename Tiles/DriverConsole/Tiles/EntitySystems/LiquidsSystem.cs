@@ -34,7 +34,7 @@ namespace Tiles.EntitySystems
 
         protected override void UpdateEntity(Ecs.IEntityManager entityManager, Ecs.IEntity entity, IGame game)
         {
-            var ltc = entity.GetComponent<LiquidTileNodeComponent>();
+            var ltc = entity.GetComponent<LiquidTileNodeComponent>(ComponentTypes.LiquidTileNode);
             var site = ltc.Site;
             var tile = ltc.Tile;
 

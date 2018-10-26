@@ -40,7 +40,7 @@ namespace Tiles.EntitySystems
             {
                 foreach (var entity in entityManager.GetEntities(ComponentIds).ToList())
                 {
-                    var pos = entity.GetComponent<AtlasPositionComponent>()
+                    var pos = entity.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition)
                                 .Position;
 
                     if (Box.Value.Contains(pos) && !updatedEntities.Contains(entity))

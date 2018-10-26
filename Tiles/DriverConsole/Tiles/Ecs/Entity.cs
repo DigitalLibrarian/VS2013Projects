@@ -26,11 +26,11 @@ namespace Tiles.Ecs
         {
             Components.Add(comp.Id, comp);
         }
-
-        public TComponent GetComponent<TComponent>() where TComponent : class
+        
+        public TComponent GetComponent<TComponent>(int componentId)
         {
-            var comp = Components.Values.FirstOrDefault(c => c is TComponent);
-            return comp as TComponent;
+            var comp = Components.Values.FirstOrDefault(c => c.Id == componentId);
+            return (TComponent)comp;
         }
     }
 }

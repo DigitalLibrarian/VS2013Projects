@@ -78,13 +78,13 @@ namespace Tiles.Tests.EntitySystems
         {
             var entityMock = new Mock<IEntity>();
 
-            entityMock.Setup(x => x.GetComponent<IAgentComponent>())
+            entityMock.Setup(x => x.GetComponent<IAgentComponent>(ComponentTypes.Agent))
                 .Returns(AgentComponentMock.Object);
 
-            entityMock.Setup(x => x.GetComponent<ICommandComponent>())
+            entityMock.Setup(x => x.GetComponent<ICommandComponent>(ComponentTypes.Command))
                 .Returns(CommandComponentMock.Object);
 
-            entityMock.Setup(x => x.GetComponent<AtlasPositionComponent>())
+            entityMock.Setup(x => x.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition))
                 .Returns(AtlasPositionComponent);
 
             Entities.Add(entityMock.Object);

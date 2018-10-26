@@ -36,12 +36,12 @@ namespace Tiles.Tests.Ecs
             compMock.Setup(x => x.Id).Returns(1);
 
 
-            var result = Entity.GetComponent<ISomeComponent>();
+            var result = Entity.GetComponent<ISomeComponent>(1);
             Assert.IsNull(result);
 
             Entity.AddComponent(compMock.Object);
 
-            result = Entity.GetComponent<ISomeComponent>();
+            result = Entity.GetComponent<ISomeComponent>(1);
             Assert.AreSame(compMock.Object, result);
         }
 
