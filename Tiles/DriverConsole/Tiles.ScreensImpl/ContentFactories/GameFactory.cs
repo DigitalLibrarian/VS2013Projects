@@ -88,10 +88,11 @@ namespace Tiles.ScreensImpl.ContentFactories
             var siteSize = new Vector3(64, 64, 64);
             var siteFactory = new LiquidsDemoSiteFactory(EntityManager, Random);
 
-            var spawnBox = new Box3(
-                new Vector3(0, 0, 1),
-                new Vector3(siteSize.X, siteSize.Y, 2)
-                );
+            var center = siteSize * 0.5d;
+            center.Z = 0;
+            var spawnMin = center + new Vector3(-5, -5, 4);
+            var spawnMax = center + new Vector3(5, 5, 4);
+            var spawnBox = new Box3(spawnMin, spawnMax);
 
             return Setup(EntityManager, siteFactory, siteSize, Random, spawnBox);
         }
