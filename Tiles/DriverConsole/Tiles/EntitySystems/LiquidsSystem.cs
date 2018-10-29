@@ -102,7 +102,7 @@ namespace Tiles.EntitySystems
 
             if (ltc.IsSleeping) return;
 
-            bool hit = false;
+            var hit = false;
             var worldPos = site.Box.Min + tile.Index;
             var nextPos = worldPos + new Vector3(0, 0, -1);
             var takerTile = game.Atlas.GetTileAtPos(nextPos, false);
@@ -244,7 +244,6 @@ namespace Tiles.EntitySystems
             // if there was round-off, bump up by one, so that we err on the side of sloshiness
             if ((double)diff / 2d > (double)flow) 
                 flow++;
-
 
             if (nextTile.LiquidDepth == 0) 
                 CreateLiquidsNode(entityManager, nextSite, nextTile);

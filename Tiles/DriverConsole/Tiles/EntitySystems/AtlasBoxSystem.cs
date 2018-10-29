@@ -23,6 +23,7 @@ namespace Tiles.EntitySystems
                 componentIds
                     .ToList()
                     .Concat(new []{ComponentTypes.AtlasPosition})
+                    .Distinct()
                     .ToArray())
         {
             Box = null;

@@ -198,6 +198,11 @@ namespace Tiles.ScreensImpl.SiteFactories
                 }
             }
 
+            // add this nice case of water just doing the lateral thing
+            tile = site.GetTileAtIndex(25, 25, waterZStart);
+            tile.LiquidDepth = 7;
+            LiquidsSystem.CreateLiquidsNode(EntityManager, site, tile);
+
             return site;
         }
     }

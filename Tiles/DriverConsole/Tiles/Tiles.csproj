@@ -151,7 +151,7 @@
     <Compile Include="EntityComponents\AtlasPositionComponent.cs" />
     <Compile Include="EntityComponents\SpriteComponent.cs" />
     <Compile Include="EntitySystems\BaseSystem.cs" />
-    <Compile Include="EntitySystems\AtlasBoxUpdateSystem.cs" />
+    <Compile Include="EntitySystems\AtlasBoxSystem.cs" />
     <Compile Include="EntitySystems\CommandSystem.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Agents\IAgentCommandFactory.cs" />
