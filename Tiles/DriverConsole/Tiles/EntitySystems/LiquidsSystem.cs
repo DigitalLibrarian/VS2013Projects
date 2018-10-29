@@ -166,6 +166,14 @@ namespace Tiles.EntitySystems
             }
         }
 
+        static IEnumerable<Vector3> Line(Vector3 start, Vector3 delta, Predicate<Vector3> stopCondition)
+        {
+            while (!stopCondition(start + delta))
+            {
+                yield return start += delta;
+            }
+        }
+
         static void SwapTwoElements(IRandom random, Vector3[] array)
         {
             var i0 = random.NextIndex(array);
@@ -195,6 +203,7 @@ namespace Tiles.EntitySystems
             return lte;
         }
 
+        #region Flow
         void FlowDown(IEntityManager entityManager, IEntity entity, LiquidTileNodeComponent l, ISite nextSite, ITile nextTile)
         {
             var room = MaxDepth - nextTile.LiquidDepth;
@@ -253,7 +262,7 @@ namespace Tiles.EntitySystems
             foreach(var off in NeighborOffsets_Pressure)
             {
                 var offPos = worldPos + off;
-                if (offPos.Z > originalWorldPos.Z) continue;
+                if (offPos.Z >= originalWorldPos.Z) continue;
                 if (visited.Contains(offPos)) continue;
 
                 visited.Add(offPos);
@@ -290,16 +299,8 @@ namespace Tiles.EntitySystems
                     }
                 }
             }
-
             return false;
         }
-
-        static IEnumerable<Vector3> Line(Vector3 start, Vector3 delta, Predicate<Vector3> stopCondition)
-        {
-            while (!stopCondition(start + delta))
-            {
-                yield return start += delta;
-            }
-        }
+        #endregion
     }
 }
