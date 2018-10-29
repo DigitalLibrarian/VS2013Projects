@@ -112,7 +112,6 @@ namespace Tiles.EntitySystems
             {
                 // swap two elements, to create chaos over time and avoid favoring the original order
                 SwapTwoElements(Random, NeighborOffsets_Over);
-
                 foreach (var nextOff in NeighborOffsets_Over)
                 {
                     nextPos = worldPos + nextOff;
@@ -126,6 +125,7 @@ namespace Tiles.EntitySystems
                         hit = true;
                         break;
                     }
+                    else if (Random.Next(NeighborOffsets.Count()) == 0) return;
                 }
 
                 if(!hit)
@@ -150,8 +150,7 @@ namespace Tiles.EntitySystems
 
         public static void WakeUpLiquids(IEntityManager entityManager, Vector3 worldPos)
         {
-            var everybody = entityManager.GetEntities(LiquidsSystemComponentTypes);
-            WakeUp(everybody, worldPos);
+            WakeUp(entityManager.GetEntities(LiquidsSystemComponentTypes), worldPos);
         }
         static void WakeUp(IEnumerable<IEntity> everybody, Vector3 worldPos)
         {
