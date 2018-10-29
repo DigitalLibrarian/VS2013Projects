@@ -25,6 +25,25 @@ namespace Tiles.EntitySystems
                     new Vector3(0, -1, 0),
                 };
 
+        static readonly Vector3[] NeighborOffsets_Pressure = {
+                    new Vector3(0, 0, -1),
+                    new Vector3(1, 0, -1),
+                    new Vector3(0, 1, -1),
+                    new Vector3(-1, 0, -1),
+                    new Vector3(0, -1, -1),
+
+                    new Vector3(1, 0, 0),
+                    new Vector3(0, 1, 0),
+                    new Vector3(-1, 0, 0),
+                    new Vector3(0, -1, 0),
+                    
+                    new Vector3(1, 0, 1),
+                    new Vector3(0, 1, 1),
+                    new Vector3(-1, 0, 1),
+                    new Vector3(0, -1, 1),
+                    new Vector3(0, 0, 1),
+                };
+
         static readonly Vector3[] NeighborOffsets = {
                     new Vector3(0, 0, -1),
                     new Vector3(1, 1, -1),
@@ -56,6 +75,8 @@ namespace Tiles.EntitySystems
                     new Vector3(0, 0, 1),
                 };
         IRandom Random { get; set; }
+
+        private static readonly int[] LiquidsSystemComponentTypes = { ComponentTypes.LiquidTileNode, ComponentTypes.AtlasPosition };
         public LiquidsSystem(IRandom random)
             : base(LiquidsSystemComponentTypes)
         {
@@ -117,7 +138,7 @@ namespace Tiles.EntitySystems
             
             if (hit)
             {
-                // wake up any neighbors
+                // there was a disturbance, wake up any neighbors
                 WakeUpLiquids(entityManager, worldPos);
             }
             else
@@ -127,16 +148,13 @@ namespace Tiles.EntitySystems
             }
         }
 
-        private static readonly int[] LiquidsSystemComponentTypes = { ComponentTypes.LiquidTileNode, ComponentTypes.AtlasPosition };
-
         public static void WakeUpLiquids(IEntityManager entityManager, Vector3 worldPos)
         {
             var everybody = entityManager.GetEntities(LiquidsSystemComponentTypes);
-            FloodWakeUp(everybody, worldPos);
+            WakeUp(everybody, worldPos);
         }
-        static void FloodWakeUp(IEnumerable<IEntity> everybody, Vector3 worldPos)
+        static void WakeUp(IEnumerable<IEntity> everybody, Vector3 worldPos)
         {
-            // flood fill
             foreach (var off in NeighborOffsets)
             {
                 var offPos = worldPos + off;
@@ -212,8 +230,9 @@ namespace Tiles.EntitySystems
             var diff = l.Tile.LiquidDepth - nextTile.LiquidDepth;
             var flow = diff / 2;
             // if there was round-off, bump up by one, so that we err on the side of sloshiness
-            if (l.Tile.LiquidDepth > 1 && (double)diff / 2d > flow) 
+            if ((double)diff / 2d > (double)flow) 
                 flow++;
+
 
             if (nextTile.LiquidDepth == 0) 
                 CreateLiquidsNode(entityManager, nextSite, nextTile);
@@ -232,7 +251,7 @@ namespace Tiles.EntitySystems
             visited = visited ?? new List<Vector3>{ worldPos };
 
             // flood fill
-            foreach(var off in NeighborOffsets)
+            foreach(var off in NeighborOffsets_Pressure)
             {
                 var offPos = worldPos + off;
                 if (offPos.Z > originalWorldPos.Z) continue;
@@ -257,10 +276,19 @@ namespace Tiles.EntitySystems
                 {
                     var offSite = atlas.GetSiteAtPos(offPos);
                     if (offPos.Z < originalWorldPos.Z)
+                    {
                         FlowDown(entityManager, entity, l, offSite, offTile);
-                    else
+                        return true;
+                    }
+                    else if (offTile.LiquidDepth < l.Tile.LiquidDepth)
+                    {
                         FlowInto(entityManager, entity, l, offSite, offTile);
-                    return true;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
 
