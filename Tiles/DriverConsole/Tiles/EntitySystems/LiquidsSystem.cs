@@ -13,6 +13,8 @@ namespace Tiles.EntitySystems
     public class LiquidsSystem : AtlasBoxSystem
     {
         static readonly int MaxDepth = 7;
+
+        #region Neighbor Offsets
         static readonly Vector3[] NeighborOffsets_Over = {
                     new Vector3(1, 1, 0),
                     new Vector3(1, -1, 0),
@@ -74,6 +76,8 @@ namespace Tiles.EntitySystems
                     new Vector3(0, -1, 1),
                     new Vector3(0, 0, 1),
                 };
+        #endregion
+
         IRandom Random { get; set; }
 
         private static readonly int[] LiquidsSystemComponentTypes = { ComponentTypes.LiquidTileNode, ComponentTypes.AtlasPosition };
