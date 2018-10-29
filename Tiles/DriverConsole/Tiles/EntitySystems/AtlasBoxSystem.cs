@@ -41,10 +41,6 @@ namespace Tiles.EntitySystems
             var updatedEntities = new List<int>();
             if (Box.HasValue)
             {
-                if (this is LiquidsSystem)
-                {
-                    var bak = -0;
-                }
                 RelevantEntities = entityManager.GetEntities(ComponentIds).ToList();
                 foreach (var entity in RelevantEntities)
                 {
