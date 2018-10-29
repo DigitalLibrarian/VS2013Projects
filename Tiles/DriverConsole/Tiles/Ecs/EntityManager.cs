@@ -15,7 +15,6 @@ namespace Tiles.Ecs
             Entities = new Dictionary<int, IEntity>();
         }
 
-        
         public IEntity CreateEntity()
         {
             int id = Entities.Keys.OrderBy(x => x).LastOrDefault() + 1;

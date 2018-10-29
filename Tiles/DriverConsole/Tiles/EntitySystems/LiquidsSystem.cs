@@ -82,7 +82,7 @@ namespace Tiles.EntitySystems
 
         private static readonly int[] LiquidsSystemComponentTypes = { ComponentTypes.LiquidTileNode, ComponentTypes.AtlasPosition };
         public LiquidsSystem(IRandom random)
-            : base(LiquidsSystemComponentTypes)
+            : base(ComponentTypes.LiquidTileNode)
         {
             Random = random;
         }
@@ -143,7 +143,7 @@ namespace Tiles.EntitySystems
             if (hit)
             {
                 // there was a disturbance, wake up any neighbors
-                WakeUpLiquids(entityManager, worldPos);
+                WakeUpLiquids(RelevantEntities, worldPos);
             }
             else
             {
@@ -154,14 +154,14 @@ namespace Tiles.EntitySystems
 
         public static void WakeUpLiquids(IEntityManager entityManager, Vector3 worldPos)
         {
-            WakeUp(entityManager.GetEntities(LiquidsSystemComponentTypes), worldPos);
+            WakeUpLiquids(entityManager.GetEntities(LiquidsSystemComponentTypes), worldPos);
         }
-        static void WakeUp(IEnumerable<IEntity> everybody, Vector3 worldPos)
+        private static void WakeUpLiquids(IEnumerable<IEntity> everybody, Vector3 worldPos)
         {
             foreach (var off in NeighborOffsets)
             {
                 var offPos = worldPos + off;
-                var neighbor = everybody.SingleOrDefault(e => e.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition).Position.Equals(offPos));
+                var neighbor = everybody.FirstOrDefault(e => e.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition).Position.Equals(offPos));
                 if (neighbor != null)
                 {
                     var ltc = neighbor.GetComponent<LiquidTileNodeComponent>(ComponentTypes.LiquidTileNode);

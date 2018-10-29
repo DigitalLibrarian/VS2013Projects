@@ -34,20 +34,27 @@ namespace Tiles.EntitySystems
             Box = box;
         }
 
+        protected IEnumerable<IEntity> RelevantEntities { get; private set; }
+
         public override void Update(IEntityManager entityManager, IGame game)
         {
-            var updatedEntities = new List<IEntity>();
+            var updatedEntities = new List<int>();
             if (Box.HasValue)
             {
-                foreach (var entity in entityManager.GetEntities(ComponentIds).ToList())
+                if (this is LiquidsSystem)
+                {
+                    var bak = -0;
+                }
+                RelevantEntities = entityManager.GetEntities(ComponentIds).ToList();
+                foreach (var entity in RelevantEntities)
                 {
                     var pos = entity.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition)
                                 .Position;
 
-                    if (Box.Value.Contains(pos) && !updatedEntities.Contains(entity))
+                    if (Box.Value.Contains(pos) && !updatedEntities.Contains(entity.Id))
                     {
                         UpdateEntity(entityManager, entity, game);
-                        updatedEntities.Add(entity);
+                        updatedEntities.Add(entity.Id);
                     }
                 }
             }
