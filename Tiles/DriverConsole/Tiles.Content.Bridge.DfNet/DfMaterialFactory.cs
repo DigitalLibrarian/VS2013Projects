@@ -10,12 +10,14 @@ namespace Tiles.Content.Bridge.DfNet
     public class DfMaterialFactory : IDfMaterialFactory
     {
         IDfObjectStore Store { get; set; }
+        IDfColorFactory ColorFactory { get; set; }
         IDfMaterialBuilderFactory BuilderFactory { get; set; }
 
-        public DfMaterialFactory(IDfObjectStore store, IDfMaterialBuilderFactory builderFactory)
+        public DfMaterialFactory(IDfObjectStore store, IDfMaterialBuilderFactory builderFactory, IDfColorFactory colorFactory)
         {
             Store = store;
             BuilderFactory = builderFactory;
+            ColorFactory = colorFactory;
         }
 
         public Material CreateInorganic(string name)
@@ -208,6 +210,15 @@ namespace Tiles.Content.Bridge.DfNet
                             sharp = 0.01d;
                         }
                         b.SetSharpnessMultiplier(sharp);
+                        break;
+                    case DfTags.MiscTags.DISPLAY_COLOR:
+                            var fgIndex = int.Parse(tag.GetParam(0));
+                            var bgIndex = int.Parse(tag.GetParam(1));
+                            var bright = int.Parse(tag.GetParam(2));
+
+                            var fg = ColorFactory.Create(fgIndex, bright == 1);
+                            var bg = ColorFactory.Create(bgIndex, false);
+                            b.SetDisplayColor(fg, bg);
                         break;
                     case DfTags.MiscTags.STATE_NAME_ADJ:
                             state = tag.GetParam(0);

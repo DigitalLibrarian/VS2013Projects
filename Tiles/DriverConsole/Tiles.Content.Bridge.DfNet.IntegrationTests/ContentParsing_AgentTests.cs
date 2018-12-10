@@ -19,10 +19,11 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         public void Initialize()
         {
             Store = TestContentStore.Get();
+            var colorFactory = new DfColorFactory();
             DfAgentFactory = new DfAgentFactory(Store, 
                 new DfAgentBuilderFactory(),
-                new DfColorFactory(),
-                new DfMaterialFactory(Store, new DfMaterialBuilderFactory()),
+                colorFactory,
+                new DfMaterialFactory(Store, new DfMaterialBuilderFactory(), colorFactory),
                 new DfTissueTemplateFactory(Store),
                 new DfCombatMoveFactory(),
                 new DfBodyAttackFactory()
@@ -141,7 +142,29 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         {
             var agent = DfAgentFactory.Create("DWARF", "MALE");
             Assert.IsNotNull(agent.Body.BloodMaterial);
+            Assert.AreEqual(0x8b, agent.Body.BloodMaterial.DisplayForegroundColor.R);
+            Assert.AreEqual(0x0, agent.Body.BloodMaterial.DisplayForegroundColor.G);
+            Assert.AreEqual(0x0, agent.Body.BloodMaterial.DisplayForegroundColor.B);
+            Assert.AreEqual(0xff, agent.Body.BloodMaterial.DisplayForegroundColor.A);
+
+            Assert.AreEqual(0x0, agent.Body.BloodMaterial.DisplayBackgroundColor.R);
+            Assert.AreEqual(0x0, agent.Body.BloodMaterial.DisplayBackgroundColor.G);
+            Assert.AreEqual(0x0, agent.Body.BloodMaterial.DisplayBackgroundColor.B);
+            Assert.AreEqual(0xff, agent.Body.BloodMaterial.DisplayBackgroundColor.A);
+
             Assert.IsNotNull(agent.Body.PusMaterial);
+        }
+
+        [TestMethod]
+        public void Dwarf_ChinWhiskerMaterialDoesNotHaveDisplayColors()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            var head = agent.Body.Parts.Single(p => p.NameSingular.Equals("head"));
+
+            var tissueLayers = head.Tissue.Layers;
+            var whisker = tissueLayers.Single(x => x.Material.Name.Equals("chin whisker"));
+            Assert.IsNull(whisker.Material.DisplayForegroundColor);
+            Assert.IsNull(whisker.Material.DisplayBackgroundColor);
         }
 
         [TestMethod]

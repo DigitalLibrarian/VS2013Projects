@@ -44,6 +44,9 @@ namespace Tiles.Content.Models
         public double SharpnessMultiplier { get; set; }
 
         public IList<MaterialStateProp> StateProps { get; set; }
+
+        public Color DisplayForegroundColor { get; set; }
+        public Color DisplayBackgroundColor { get; set; }
     }
 
     public class MaterialStateProp

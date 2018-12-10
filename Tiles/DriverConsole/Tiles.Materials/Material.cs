@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Math;
 
 namespace Tiles.Materials
 {
@@ -55,6 +56,9 @@ namespace Tiles.Materials
 
         public int SolidDensity { get; set; }
         public double SharpnessMultiplier { get; set; }
+
+        public Color? DisplayForegroundColor { get; set; }
+        public Color? DisplayBackgroundColor { get; set; }
 
         public bool IsSoft(StressMode stressMode)
         {

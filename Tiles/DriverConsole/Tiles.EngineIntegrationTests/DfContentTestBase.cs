@@ -40,10 +40,11 @@ namespace Tiles.EngineIntegrationTests
         public virtual void Initialize()
         {
             Store = TestContentStore.Get();
+            var colorFactory = new DfColorFactory();
             DfAgentFactory = new DfAgentFactory(Store,
                 new DfAgentBuilderFactory(),
-                new DfColorFactory(),
-                new DfMaterialFactory(Store, new DfMaterialBuilderFactory()),
+                colorFactory,
+                new DfMaterialFactory(Store, new DfMaterialBuilderFactory(), colorFactory),
                 new DfTissueTemplateFactory(Store),
                 new DfCombatMoveFactory(),
                 new DfBodyAttackFactory()

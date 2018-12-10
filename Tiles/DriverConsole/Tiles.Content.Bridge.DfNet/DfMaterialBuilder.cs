@@ -43,6 +43,8 @@ namespace Tiles.Content.Bridge.DfNet
         void SetSharpnessMultiplier(double p);
 
         void AddStatePropertyValue(string propName, string state, string value);
+
+        void SetDisplayColor(Color foregroundColor, Color backgroundColor);
     }
 
     public class DfMaterialBuilder : IDfMaterialBuilder
@@ -187,6 +189,12 @@ namespace Tiles.Content.Bridge.DfNet
                     Value = value
                 });
             }
+        }
+
+        public void SetDisplayColor(Color foregroundColor, Color backgroundColor)
+        {
+            Material.DisplayForegroundColor = foregroundColor;
+            Material.DisplayBackgroundColor = backgroundColor;
         }
     }
 }

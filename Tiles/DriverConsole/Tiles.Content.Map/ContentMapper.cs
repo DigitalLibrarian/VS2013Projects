@@ -58,7 +58,10 @@ namespace Tiles.Content.Map
                 BendingYield = m.BendingYield,
 
                 SolidDensity = m.SolidDensity,
-                SharpnessMultiplier = m.SharpnessMultiplier
+                SharpnessMultiplier = m.SharpnessMultiplier,
+
+                DisplayForegroundColor = Map(m.DisplayForegroundColor),
+                DisplayBackgroundColor = Map(m.DisplayBackgroundColor)
             };
         }
 
@@ -169,12 +172,13 @@ namespace Tiles.Content.Map
         public Sprite Map(ContentModel.Sprite sprite)
         {
             return new Sprite(sprite.Symbol, 
-                Map(sprite.Foreground),
-                Map(sprite.Background));
+                Map(sprite.Foreground).Value,
+                Map(sprite.Background).Value);
         }
 
-        public Color Map(ContentModel.Color c)
+        public Color? Map(ContentModel.Color c)
         {
+            if (c == null) return null;
             return new Color(c.R, c.B, c.G, c.A);
         }
 

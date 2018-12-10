@@ -187,6 +187,7 @@ namespace DfNet.Raws
             public const string MINIMUM_SIZE = "MINIMUM_SIZE";
 
             public const string COLOR = "COLOR";
+            public const string DISPLAY_COLOR = "DISPLAY_COLOR";
 
             public const string PHYS_ATT_RANGE = "PHYS_ATT_RANGE";
             public const string MENT_ATT_RANGE = "MENT_ATT_RANGE";

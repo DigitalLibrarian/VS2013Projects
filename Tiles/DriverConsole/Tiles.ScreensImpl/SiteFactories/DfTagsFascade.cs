@@ -36,11 +36,12 @@ namespace Tiles.ScreensImpl.SiteFactories
             Random = random;
             ItemFactory = new ItemFactory();
             AgentFactory = new AgentFactory(entityManager, new BodyFactory(new TissueFactory()));
-            DfMaterialFactory = new DfMaterialFactory(Store, new DfMaterialBuilderFactory());
+            var colorFactory = new DfColorFactory();
+            DfMaterialFactory = new DfMaterialFactory(Store, new DfMaterialBuilderFactory(), colorFactory);
             var moveFactory = new DfCombatMoveFactory();
             DfItemFactory = new DfItemFactory(Store, new DfItemBuilderFactory(), moveFactory);
             DfAgentFactory = new DfAgentFactory(Store, new DfAgentBuilderFactory(), 
-                new DfColorFactory(),
+                colorFactory,
                 DfMaterialFactory, 
                 new DfTissueTemplateFactory(Store),
                 moveFactory,

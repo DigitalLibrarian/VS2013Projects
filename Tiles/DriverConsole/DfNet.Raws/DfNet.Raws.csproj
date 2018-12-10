@@ -44,7 +44,6 @@
     <Compile Include="DfObjectStore.cs" />
     <Compile Include="DfTag.cs" />
     <Compile Include="DfTags.cs" />
-    <Compile Include="IDfObjectPipeLine.cs" />
     <Compile Include="IDfObjectStore.cs" />
     <Compile Include="Interpreting\Applicators\DfBodyApplicator.cs" />
     <Compile Include="Interpreting\Applicators\DfBodyDetailPlanApplicator.cs" />
