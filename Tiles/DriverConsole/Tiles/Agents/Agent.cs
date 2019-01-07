@@ -56,14 +56,6 @@ namespace Tiles.Agents
             IsProne = CantStand();
         }
 
-        public virtual void Update(IGame game)
-        {
-            if (AgentBehavior != null)
-            {
-                AgentBehavior.Update(game, this);
-            }
-        }
-
         public bool CanMove(Vector3 delta)
         {
             if (Body.IsWrestling) return false;

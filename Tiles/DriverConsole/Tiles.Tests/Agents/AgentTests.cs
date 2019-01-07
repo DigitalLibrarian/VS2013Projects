@@ -104,21 +104,6 @@ namespace Tiles.Tests.Agents
         }
 
         [TestMethod]
-        public void Update()
-        {
-            var gameMock = new Mock<IGame>();
-
-            Agent.Update(gameMock.Object);
-
-            var behaveMock = new Mock<IAgentBehavior>();
-            Agent.AgentBehavior = behaveMock.Object;
-
-            Agent.Update(gameMock.Object);
-
-            behaveMock.Verify(x => x.Update(gameMock.Object, Agent), Times.Once());
-        }
-
-        [TestMethod]
         public void Move_ImpassableTerrain_NoStructure_NoAgent()
         {
             var delta = new Vector3(1, 1, 0);

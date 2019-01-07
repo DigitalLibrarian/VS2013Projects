@@ -41,7 +41,6 @@ namespace Tiles.Agents
 
         bool CanMove(Vector3 move);
         bool Move(Vector3 move);
-        void Update(IGame game);
 
         bool CanPerform(ICombatMove move);
         double GetStrikeMomentum(ICombatMove move);
