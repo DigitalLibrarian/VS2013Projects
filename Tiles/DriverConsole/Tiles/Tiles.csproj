@@ -104,7 +104,6 @@
     <Compile Include="Bodies\BodyPart.cs" />
     <Compile Include="Bodies\BodyPartClass.cs" />
     <Compile Include="Bodies\BodyStateChange.cs" />
-    <Compile Include="Bodies\HealthVector.cs" />
     <Compile Include="Bodies\IBody.cs" />
     <Compile Include="Bodies\IBodyClass.cs" />
     <Compile Include="Bodies\IBodyFactory.cs" />
