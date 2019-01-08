@@ -106,11 +106,23 @@ namespace Tiles.ScreensImpl.Panels
             var screenPos = new Vector2(screenX, screenY);
             if (!tile.HasAgent && tile.SplatterAmount != Splatter.SplatterAmount.None)
             {
-                Canvas.DrawSymbol(
-                    s.Symbol,
-                    screenPos,
-                    tile.SplatterMaterial.DisplayForegroundColor.Value,
-                    tile.SplatterMaterial.DisplayBackgroundColor.Value);
+                if (tile.SplatterAmount == Splatter.SplatterAmount.Some)
+                {
+                    Canvas.DrawSymbol(
+                        s.Symbol,
+                        screenPos,
+                        tile.SplatterMaterial.DisplayForegroundColor.Value,
+                        tile.SplatterMaterial.DisplayBackgroundColor.Value);
+                }
+                else
+                {
+                    Canvas.DrawSymbol(
+                        Symbol.Liquid_Light,
+                        screenPos,
+                        tile.SplatterMaterial.DisplayBackgroundColor.Value,
+                        tile.SplatterMaterial.DisplayForegroundColor.Value);
+                }
+
             }
             else
             {
