@@ -44,10 +44,10 @@ namespace Tiles.Tests.Bodies
             var partMock = new Mock<IBodyPart>();
             partMock.Setup(x => x.IsEffectivelyPulped).Returns(false);
             var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock.Object }, 10);
-            body.BloodFraction.Numerator = 0;
+            body.Blood.Numerator = 0;
             Assert.IsTrue(body.IsDead);
 
-            body.BloodFraction.Numerator = 1;
+            body.Blood.Numerator = 1;
             Assert.IsFalse(body.IsDead);
         }
 

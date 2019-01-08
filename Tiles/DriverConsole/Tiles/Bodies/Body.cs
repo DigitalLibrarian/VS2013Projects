@@ -21,7 +21,7 @@ namespace Tiles.Bodies
         public IBodyClass Class { get; private set; }
         public IEnumerable<ICombatMoveClass> Moves { get; set; }
 
-        public Fraction BloodFraction { get; set; }
+        public Fraction Blood { get; set; }
 
         Dictionary<string, int> Attributes { get; set; }
 
@@ -31,7 +31,7 @@ namespace Tiles.Bodies
             {
                 return !Parts.Any()
                     || Parts.First().IsEffectivelyPulped
-                    || BloodFraction.AsDouble() <= 0d;
+                    || Blood.AsDouble() <= 0d;
             }
         }
 
@@ -70,7 +70,7 @@ namespace Tiles.Bodies
             Wounds = new List<IBodyPartWound>();
 
             var bloodCount = System.Math.Max(1, (int)Size);
-            BloodFraction = new Fraction(bloodCount, bloodCount);
+            Blood = new Fraction(bloodCount, bloodCount);
         }
 
         public void Amputate(IBodyPart part)

@@ -11,9 +11,9 @@ namespace Tiles.EntitySystems
 {
     public class AutonomicBodySystem : AtlasBoxSystem
     {
+        private static readonly int HardThreshold = 150;
         private ISplatterFascade Splatter { get; set; }
         private IRandom Random { get; set; }
-        private double BleedingThreshold = 50;
 
         public AutonomicBodySystem(IRandom random, ISplatterFascade splatter)
             : base(ComponentTypes.Body)
@@ -26,9 +26,9 @@ namespace Tiles.EntitySystems
         {
             var body = entity.GetComponent<BodyComponent>(ComponentTypes.Body).Body;
             var totalBleeding = body.TotalBleeding;
-            var ratio = (double)totalBleeding / BleedingThreshold;
+            var ratio = (double)totalBleeding / (body.Blood.Denominator * 0.01d);
 
-            if (ratio >= 1d || Random.NextDouble() < ratio)
+            if (totalBleeding > HardThreshold || Random.NextDouble() < ratio)
             {
                 var pos = entity.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition).Position;
                 Splatter.Register(pos, body.Class.BloodMaterial);

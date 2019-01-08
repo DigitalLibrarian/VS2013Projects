@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tiles.Agents.Combat;
 using Tiles.Bodies.Injuries;
 using Tiles.Bodies.Wounds;
+using Tiles.Math;
 
 namespace Tiles.Bodies
 {
@@ -20,6 +21,8 @@ namespace Tiles.Bodies
         int TotalBleeding { get; }
 
         double Size { get; }
+
+        Fraction Blood { get; set; }
 
         IList<IBodyPart> Parts { get; }
         IBodyClass Class { get; }
