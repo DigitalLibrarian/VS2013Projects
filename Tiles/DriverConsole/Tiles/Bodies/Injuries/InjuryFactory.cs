@@ -124,9 +124,10 @@ namespace Tiles.Bodies.Injuries
             }
 
             var painContribution = GetPainContribution(targetBody, bodyPart, layer, tissueResult, damage);
+            var bleedingContribution = GetBleedingContribution(bodyPart, layer, tissueResult, damage);
 
             yield return
-                new TissueLayerInjury(bodyPart, layer, tissueResult.StressResult, damage, woundArea, tissueResult.ContactArea, tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, painContribution, tissueResult.IsDefeated, isChip, isSoft, isVascular);
+                new TissueLayerInjury(bodyPart, layer, tissueResult.StressResult, damage, woundArea, tissueResult.ContactArea, tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, painContribution, bleedingContribution, tissueResult.IsDefeated, isChip, isSoft, isVascular);
         }
 
         private double Min(params double[] nums)
@@ -196,6 +197,15 @@ namespace Tiles.Bodies.Injuries
             }
 
             return (int) System.Math.Round(preRounded, 0, MidpointRounding.AwayFromZero);
+        }
+
+        public int GetBleedingContribution(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult, IDamageVector damage)
+        {
+            var bleed = damage.CutFraction.AsDouble() * (double)layer.Class.VascularRating;
+            if (layer.Class.HasArteries)
+                bleed *= 3d;
+
+            return (int)System.Math.Round(bleed, 0, MidpointRounding.AwayFromZero);
         }
 
         private long Round(double d)

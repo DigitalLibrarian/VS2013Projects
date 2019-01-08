@@ -91,7 +91,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             {
                 tile.Terrain = Terrain.None;
                 tile.IsTerrainPassable = true;
-                tile.TerrainSprite = new Sprite(Symbol.None, Color.White, Color.Black);
+                tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.White);
                 return;
             }
             var d = new List<dynamic>{

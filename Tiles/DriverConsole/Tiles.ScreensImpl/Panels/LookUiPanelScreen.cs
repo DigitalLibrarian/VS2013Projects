@@ -107,8 +107,17 @@ namespace Tiles.ScreensImpl.Panels
                                     tlLayer.Damage.CutFraction.AsDouble(),
                                     tlLayer.WoundAreaRatio,
                                     tlLayer.PenetrationRatio,
-                                    tlLayer.IsPulped
-                                    ));
+                                    tlLayer.IsPulped));
+
+                                int woundCount = 1;
+                                foreach (var layerWound in agent.Body.Wounds.Where(w => w.Part == bodyPart).SelectMany(w => w.LayerWounds.Where(lw => lw.Layer == tlLayer)))
+                                {
+                                    lines.Add(string.Format("  wound #{0} pain:{1} bleed:{2}",
+                                        woundCount++,
+                                        layerWound.Pain,
+                                        layerWound.Bleeding
+                                        ));
+                                }
                             }
                         }
 
@@ -134,6 +143,7 @@ namespace Tiles.ScreensImpl.Panels
                 string.Format("Terrain Type : {0}", tile.Terrain),
                 string.Format("Is Passable?: {0}", tile.IsTerrainPassable),
                 string.Format("Liquid Depth: {0} / 7", tile.LiquidDepth),
+                string.Format("Splatter: {0}", tile.SplatterAmount),
                 string.Format("Has Structure: {0}", tile.HasStructureCell),
                 string.Format("Symbol: {0}", tile.TerrainSprite.Symbol),
                 string.Format("Agent: {0}", tile.HasAgent ? string.Format("{0} ({1})", tile.Agent.Name, tile.Agent.Pos) : "n/a"),

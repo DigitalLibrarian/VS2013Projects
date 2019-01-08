@@ -9,10 +9,10 @@ namespace Tiles
     // TODO - should probably base this off the int code or something
     public static class Symbol
     {
-        public static readonly int None = 32;
+        public static readonly int None = 219;
         public static readonly int Terrain_Empty = 32;
         public static readonly int Terrain_Tree = 15;
-        public static readonly int Terrain_Floor = 32;
+        public static readonly int Terrain_Floor = 219;
 
         public static readonly int Liquid_Light = 176;
         public static readonly int Liquid_Medium = 177;

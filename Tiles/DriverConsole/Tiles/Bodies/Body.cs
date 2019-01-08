@@ -43,6 +43,14 @@ namespace Tiles.Bodies
             }
         }
 
+        public int TotalBleeding
+        {
+            get
+            {
+                return Wounds.Sum(w => w.LayerWounds.Sum(l => l.Bleeding));
+            }
+        }
+
         public Body(IBodyClass bodyClass, IList<IBodyPart> parts, double size)
             : this(bodyClass, parts, size, Enumerable.Empty<ICombatMoveClass>()) { }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiles.Math;
 
 namespace Tiles.Materials
 {
@@ -34,6 +35,9 @@ namespace Tiles.Materials
         int BendingYield { get; }
         int BendingFracture { get; }
         int BendingStrainAtYield { get; }
+
+        Color? DisplayForegroundColor { get; }
+        Color? DisplayBackgroundColor { get; }
 
         /// <summary>
         /// Density of material, in solid state, measured in kg/m^3

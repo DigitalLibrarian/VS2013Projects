@@ -10,11 +10,13 @@ namespace Tiles.Bodies.Wounds
     {
         ITissueLayer Layer { get; }
         int Pain { get; }
+        int Bleeding { get; }
     }
 
     public class TissueLayerWound : ITissueLayerWound
     {
         public ITissueLayer Layer { get; set; }
         public int Pain { get; set; }
+        public int Bleeding { get; set; }
     }
 }

@@ -7,6 +7,8 @@ using Tiles.Items;
 using Tiles.Math;
 using Tiles.Agents;
 using Tiles.Structures;
+using Tiles.Materials;
+using Tiles.Splatter;
 
 namespace Tiles
 {
@@ -36,5 +38,8 @@ namespace Tiles
         /// [0 - 7] liquid depth
         /// </summary>
         int LiquidDepth { get; set; }
+
+        IMaterial SplatterMaterial { get; set; }
+        SplatterAmount SplatterAmount { get; set; }
     }
 }

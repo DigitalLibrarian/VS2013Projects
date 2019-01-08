@@ -26,7 +26,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             var site = new Site(box);
             foreach (var tile0 in site.GetTiles())
             {
-                tile0.TerrainSprite = new Sprite(Symbol.None, Color.White, Color.Black);
+                tile0.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.White);
                 tile0.IsTerrainPassable = true;
                 tile0.Terrain = Terrain.None;
             }

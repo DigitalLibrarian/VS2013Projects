@@ -29,7 +29,8 @@ namespace Tiles.Bodies.Wounds
             return new TissueLayerWound
             {
                 Layer = injury.Layer,
-                Pain = injury.PainContribution
+                Pain = injury.PainContribution,
+                Bleeding = injury.BleedingContribution
             };
         }
     }

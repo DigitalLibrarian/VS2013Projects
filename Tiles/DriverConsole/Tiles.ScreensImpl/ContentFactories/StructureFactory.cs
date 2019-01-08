@@ -75,7 +75,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                             cell = new StructureCell(
                                 structure,
                                 StructureCellType.Floor,
-                                new Sprite(Symbol.Terrain_Floor, notBuildingColor, buildingColor),
+                                new Sprite(Symbol.Terrain_Floor, buildingColor, notBuildingColor),
                                 canPass: true);
                         }
                         else if (z == box.Max.Z)
@@ -83,7 +83,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                             cell = new StructureCell(
                                 structure,
                                 StructureCellType.Floor,
-                                new Sprite(Symbol.Terrain_Floor, notBuildingColor, buildingColor),
+                                new Sprite(Symbol.Terrain_Floor, buildingColor, notBuildingColor),
                                 canPass: true);
                         }
 

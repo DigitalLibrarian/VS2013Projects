@@ -149,6 +149,7 @@
     <Compile Include="EntityComponents\OutfitComponent.cs" />
     <Compile Include="EntityComponents\AtlasPositionComponent.cs" />
     <Compile Include="EntityComponents\SpriteComponent.cs" />
+    <Compile Include="EntitySystems\AutonomicBodySystem.cs" />
     <Compile Include="EntitySystems\BaseSystem.cs" />
     <Compile Include="EntitySystems\AtlasBoxSystem.cs" />
     <Compile Include="EntitySystems\CommandSystem.cs" />
@@ -195,6 +196,8 @@
     <Compile Include="Items\IItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.cs" />
+    <Compile Include="Splatter\SplatterAmount.cs" />
+    <Compile Include="Splatter\SplatterFascade.cs" />
     <Compile Include="Structures\IStructure.cs" />
     <Compile Include="Structures\IStructureCell.cs" />
     <Compile Include="Structures\Structure.cs" />

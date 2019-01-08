@@ -12,7 +12,11 @@ namespace Tiles.Agents.CommandInterpreters
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand)
         {
-            agent.Move(agentCommand.Direction);
+            var originalPos = agent.Pos;
+            if(agent.Move(agentCommand.Direction))
+            {
+                game.Splatter.Track(originalPos, agentCommand.Direction);
+            }
         }
     }
 }

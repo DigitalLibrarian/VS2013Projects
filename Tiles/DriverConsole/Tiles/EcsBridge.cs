@@ -20,6 +20,9 @@ namespace Tiles
                 new AgentComponent(agent));
 
             entity.AddComponent(
+                new BodyComponent(agent.Body));
+
+            entity.AddComponent(
                 new CommandComponent(agent.AgentBehavior));
 
             entity.AddComponent(

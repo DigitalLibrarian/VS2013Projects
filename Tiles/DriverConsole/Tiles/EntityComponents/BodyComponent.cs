@@ -12,5 +12,10 @@ namespace Tiles.EntityComponents
     {
         public int Id { get { return ComponentTypes.Body; } }
         public IBody Body { get; set; }
+
+        public BodyComponent(IBody body)
+        {
+            Body = body;
+        }
     }
 }

@@ -102,8 +102,20 @@ namespace Tiles.ScreensImpl.Panels
 
         private void DrawTile(ITile tile, int screenX, int screenY)
         {
-            Sprite s = PickDisplaySprite(tile);
-            Canvas.DrawSprite(s, new Vector2(screenX, screenY));
+            var s = PickDisplaySprite(tile);
+            var screenPos = new Vector2(screenX, screenY);
+            if (!tile.HasAgent && tile.SplatterAmount != Splatter.SplatterAmount.None)
+            {
+                Canvas.DrawSymbol(
+                    s.Symbol,
+                    screenPos,
+                    tile.SplatterMaterial.DisplayForegroundColor.Value,
+                    tile.SplatterMaterial.DisplayBackgroundColor.Value);
+            }
+            else
+            {
+                Canvas.DrawSprite(s, screenPos);
+            }
         }
     }
 }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Tiles.Agents;
 using Tiles.Items;
+using Tiles.Materials;
 using Tiles.Math;
 using Tiles.Structures;
+using Tiles.Splatter;
 
 namespace Tiles
 {
@@ -40,6 +41,9 @@ namespace Tiles
         public bool IsTerrainPassable { get; set; }
 
         public int LiquidDepth { get; set; }
+
+        public IMaterial SplatterMaterial { get; set; }
+        public SplatterAmount SplatterAmount { get; set; }
 
         public Tile(int x, int y, int z)
         {
@@ -88,5 +92,6 @@ namespace Tiles
                 return false;
             }
         }
+
     }
 }

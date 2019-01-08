@@ -6,6 +6,7 @@ using Tiles.Agents;
 using Tiles.Agents.Combat;
 using Tiles.Ecs;
 using Tiles.Random;
+using Tiles.Splatter;
 
 namespace Tiles
 {
@@ -18,6 +19,7 @@ namespace Tiles
         IActionLog ActionLog { get; }
         IPlayer Player { get; }
         IAttackConductor AttackConductor { get; }
+        ISplatterFascade Splatter { get; }
 
         ITile CameraTile { get; }
 

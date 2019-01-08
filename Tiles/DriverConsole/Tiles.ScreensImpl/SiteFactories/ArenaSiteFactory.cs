@@ -32,7 +32,7 @@ namespace Tiles.ScreensImpl.SiteFactories
             var s = new Site(box);
             foreach (var tile in s.GetTiles())
             {
-                tile.TerrainSprite = new Sprite(Symbol.None, Color.White, Color.Black);
+                tile.TerrainSprite = new Sprite(Symbol.None, Color.Black, Color.White);
                 tile.IsTerrainPassable = true;
                 tile.Terrain = Terrain.None;
             }

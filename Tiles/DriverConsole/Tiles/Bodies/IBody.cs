@@ -17,11 +17,13 @@ namespace Tiles.Bodies
         bool IsDead { get; }
 
         int TotalPain { get; }
+        int TotalBleeding { get; }
 
         double Size { get; }
 
         IList<IBodyPart> Parts { get; }
         IBodyClass Class { get; }
+        IList<IBodyPartWound> Wounds { get; }
 
         void Amputate(IBodyPart part);
 

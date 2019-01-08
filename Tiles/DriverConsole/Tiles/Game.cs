@@ -17,6 +17,7 @@ using Tiles.EntitySystems;
 using Tiles.Materials;
 using Tiles.Bodies.Injuries;
 using Tiles.Bodies.Wounds;
+using Tiles.Splatter;
 
 namespace Tiles
 {
@@ -29,6 +30,7 @@ namespace Tiles
         public IAttackConductor AttackConductor { get; private set;}
         public IRandom Random { get; private set; }
         public IEntityManager EntityManager { get; private set; }
+        public ISplatterFascade Splatter { get; private set; }
         
         public ITile CameraTile { get { return Atlas.GetTileAtPos(Camera.Pos); } }
         public long DesiredFrameLength { get; set; }
@@ -50,6 +52,7 @@ namespace Tiles
             var reporter = new ActionReporter(log);
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
             var woundFactory = new BodyPartWoundFactory();
+            Splatter = new SplatterFascade(Random, Atlas);
             var evolutions = new List<ICombatEvolution>{
                 new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, reaper, woundFactory),
                 new CombatEvolution_StartHold(reporter, reaper),
@@ -62,6 +65,7 @@ namespace Tiles
 
             Systems = new List<AtlasBoxSystem>
             {
+                new AutonomicBodySystem(Random, Splatter),
                 new CommandSystem(),
                 new LiquidsSystem(Random)
             };
