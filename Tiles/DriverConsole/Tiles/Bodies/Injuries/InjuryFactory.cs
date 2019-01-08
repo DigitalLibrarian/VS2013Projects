@@ -201,7 +201,7 @@ namespace Tiles.Bodies.Injuries
 
         public int GetBleedingContribution(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult, IDamageVector damage)
         {
-            var bleed = damage.CutFraction.AsDouble() * (double)layer.Class.VascularRating;
+            var bleed = strikeResult.ContactAreaRatio * strikeResult.PenetrationRatio * (double)layer.Class.VascularRating;
             if (layer.Class.HasArteries)
                 bleed *= 3d;
 

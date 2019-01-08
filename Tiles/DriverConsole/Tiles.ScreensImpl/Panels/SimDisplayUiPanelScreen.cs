@@ -117,7 +117,7 @@ namespace Tiles.ScreensImpl.Panels
                 else
                 {
                     Canvas.DrawSymbol(
-                        Symbol.Liquid_Light,
+                        tile.Items.Count() == 0 ? Symbol.Liquid_Light : s.Symbol,
                         screenPos,
                         tile.SplatterMaterial.DisplayBackgroundColor.Value,
                         tile.SplatterMaterial.DisplayForegroundColor.Value);

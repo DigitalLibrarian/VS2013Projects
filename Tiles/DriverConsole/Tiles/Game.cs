@@ -65,7 +65,7 @@ namespace Tiles
 
             Systems = new List<AtlasBoxSystem>
             {
-                new AutonomicBodySystem(Random, Splatter),
+                new AutonomicBodySystem(Random, Splatter, reporter, reaper),
                 new CommandSystem(),
                 new LiquidsSystem(Random)
             };

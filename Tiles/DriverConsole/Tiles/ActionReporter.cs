@@ -255,5 +255,11 @@ namespace Tiles
                 return ", but the attack glances away.";
             }
         }
+
+
+        public void ReportBledOut(IAgent agent)
+        {
+            Log.AddLine(string.Format("The {0} has bled out.", agent.Name));
+        }
     }
 }

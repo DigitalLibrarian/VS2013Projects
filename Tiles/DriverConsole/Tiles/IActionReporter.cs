@@ -25,5 +25,7 @@ namespace Tiles
         void ReportFallDown(ICombatMoveContext session, Agents.IAgent agent);
 
         void ReportGiveInToPain(ICombatMoveContext session, Agents.IAgent agent);
+
+        void ReportBledOut(Agents.IAgent agent);
     }
 }
