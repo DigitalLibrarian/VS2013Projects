@@ -27,5 +27,6 @@ namespace Tiles
         void ReportGiveInToPain(ICombatMoveContext session, Agents.IAgent agent);
 
         void ReportBledOut(Agents.IAgent agent);
+        void ReportArteryOpened(Agents.IAgent agent);
     }
 }

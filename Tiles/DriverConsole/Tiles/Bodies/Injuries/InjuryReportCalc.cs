@@ -16,9 +16,9 @@ namespace Tiles.Bodies.Injuries
         private IInjuryFactory InjuryFactory { get; set; }
         private ILayeredMaterialStrikeResultBuilder Builder { get; set; }
 
-        public InjuryReportCalc()
+        public InjuryReportCalc(IInjuryFactory injuryFactory)
         {
-            InjuryFactory = new InjuryFactory();
+            InjuryFactory = injuryFactory;
             Builder = new LayeredMaterialStrikeResultBuilder(new SingleLayerStrikeTester(new MaterialStrikeResultBuilder())); 
         }
 

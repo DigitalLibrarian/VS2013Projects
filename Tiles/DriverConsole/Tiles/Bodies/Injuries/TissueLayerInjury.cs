@@ -27,6 +27,7 @@ namespace Tiles.Bodies.Injuries
 
         int PainContribution { get;  }
         int BleedingContribution { get; }
+        bool ArteryOpened { get; }
     }
 
     public class TissueLayerInjury : ITissueLayerInjury
@@ -49,10 +50,11 @@ namespace Tiles.Bodies.Injuries
 
         public int PainContribution { get; private set; }
         public int BleedingContribution { get; private set; }
+        public bool ArteryOpened { get; private set; }
 
         public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, StressResult stressResult, IDamageVector damage, 
             double woundArea, double contactArea, double contactAreaRatio, double penetrationRatio, 
-            int painContribution, int bleedingContribution,
+            int painContribution, int bleedingContribution, bool arteryOpened,
             bool isDefeated, bool isChip, bool isSoft, bool isVascular)
         {
             BodyPart = bodyPart;
@@ -66,6 +68,7 @@ namespace Tiles.Bodies.Injuries
             PenetrationRatio = penetrationRatio;
             PainContribution = painContribution;
             BleedingContribution = bleedingContribution;
+            ArteryOpened = arteryOpened;
             IsDefeated = isDefeated;
             IsChip = isChip;
             IsSoft = isSoft;

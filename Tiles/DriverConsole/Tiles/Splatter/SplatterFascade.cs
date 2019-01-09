@@ -13,6 +13,7 @@ namespace Tiles.Splatter
     {
         void Register(Vector3 worldPos, IMaterial material);
         void Track(Vector3 worldPos, Vector3 dir);
+        void ArterySquirt(Vector3 pos, IMaterial blood, int squirtDistance = 3);
     }
 
     public class SplatterFascade : ISplatterFascade
@@ -81,6 +82,18 @@ namespace Tiles.Splatter
 
 
             return true;
+        }
+
+        public void ArterySquirt(Vector3 pos, IMaterial blood, int squirtDistance = 3)
+        {
+            var dir = Random.NextElement(CompassVectors.GetAll());
+            for (int i = 0; i < squirtDistance-1; i++)
+            {
+                pos += dir;
+                Register(pos, blood);
+                var tile = Atlas.GetTileAtPos(pos);
+                if (!tile.IsTerrainPassable) break;
+            }
         }
     }
 }

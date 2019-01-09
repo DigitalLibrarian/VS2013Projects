@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.EntityComponents;
+using Tiles.Materials;
+using Tiles.Math;
 using Tiles.Random;
 using Tiles.Splatter;
 
 namespace Tiles.EntitySystems
 {
-    public class AutonomicBodySystem : AtlasBoxSystem
+    public class AutonomicSystem : AtlasBoxSystem
     {
         private static readonly int HardThreshold = 250;
         private ISplatterFascade Splatter { get; set; }
@@ -18,7 +20,7 @@ namespace Tiles.EntitySystems
         private IActionReporter ActionReporter { get; set; }
         private IAgentReaper Reaper { get; set; }
 
-        public AutonomicBodySystem(IRandom random, ISplatterFascade splatter, IActionReporter actionReporter, IAgentReaper reaper)
+        public AutonomicSystem(IRandom random, ISplatterFascade splatter, IActionReporter actionReporter, IAgentReaper reaper)
             : base(ComponentTypes.Body)
         {
             Random = random;
@@ -38,7 +40,6 @@ namespace Tiles.EntitySystems
                 var pos = entity.GetComponent<AtlasPositionComponent>(ComponentTypes.AtlasPosition).Position;
                 Splatter.Register(pos, body.Class.BloodMaterial);
             }
-
 
             if (entity.HasComponent(ComponentTypes.Agent))
             {

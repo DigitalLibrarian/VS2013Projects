@@ -48,13 +48,13 @@ namespace Tiles
             ActionLog = log;
             Random = random;
 
-            var injuryCalc = new InjuryReportCalc();
+            var injuryCalc = new InjuryReportCalc(new InjuryFactory(Random));
             var reporter = new ActionReporter(log);
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
             var woundFactory = new BodyPartWoundFactory();
             Splatter = new SplatterFascade(Random, Atlas);
             var evolutions = new List<ICombatEvolution>{
-                new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, reaper, woundFactory),
+                new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, reaper, woundFactory, Splatter),
                 new CombatEvolution_StartHold(reporter, reaper),
                 new CombatEvolution_ReleaseHold(reporter, reaper),
                 new CombatEvolution_BreakHold(reporter, reaper)
@@ -65,7 +65,7 @@ namespace Tiles
 
             Systems = new List<AtlasBoxSystem>
             {
-                new AutonomicBodySystem(Random, Splatter, reporter, reaper),
+                new AutonomicSystem(Random, Splatter, reporter, reaper),
                 new CommandSystem(),
                 new LiquidsSystem(Random)
             };

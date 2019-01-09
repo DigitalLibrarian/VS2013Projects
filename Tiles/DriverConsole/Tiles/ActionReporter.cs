@@ -256,10 +256,14 @@ namespace Tiles
             }
         }
 
-
         public void ReportBledOut(IAgent agent)
         {
             Log.AddLine(string.Format("The {0} has bled out.", agent.Name));
+        }
+
+        public void ReportArteryOpened(IAgent agent)
+        {
+            Log.AddLine("An artery was opened by the attack!");
         }
     }
 }

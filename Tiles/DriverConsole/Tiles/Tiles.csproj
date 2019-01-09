@@ -149,7 +149,7 @@
     <Compile Include="EntityComponents\OutfitComponent.cs" />
     <Compile Include="EntityComponents\AtlasPositionComponent.cs" />
     <Compile Include="EntityComponents\SpriteComponent.cs" />
-    <Compile Include="EntitySystems\AutonomicBodySystem.cs" />
+    <Compile Include="EntitySystems\AutonomicSystem.cs" />
     <Compile Include="EntitySystems\BaseSystem.cs" />
     <Compile Include="EntitySystems\AtlasBoxSystem.cs" />
     <Compile Include="EntitySystems\CommandSystem.cs" />

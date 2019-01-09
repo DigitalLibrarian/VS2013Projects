@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Bodies;
 using Tiles.Materials;
+using Tiles.Random;
 
 namespace Tiles.Bodies.Injuries
 {
@@ -21,6 +22,13 @@ namespace Tiles.Bodies.Injuries
 
     public class InjuryFactory : IInjuryFactory
     {
+        private IRandom Random { get; set; }
+
+        public InjuryFactory(IRandom random)
+        {
+            Random = random;
+        }
+
         public IEnumerable<IBodyPartInjury> Create(
             IBody targetBody,
             IBodyPart targetPart,
@@ -123,11 +131,18 @@ namespace Tiles.Bodies.Injuries
                     break;
             }
 
+            bool arteryOpened = WasArteryOpened(layer, tissueResult);
             var painContribution = GetPainContribution(targetBody, bodyPart, layer, tissueResult, damage);
-            var bleedingContribution = GetBleedingContribution(bodyPart, layer, tissueResult, damage);
+            var bleedingContribution = GetBleedingContribution(bodyPart, layer, tissueResult, damage, arteryOpened);
 
             yield return
-                new TissueLayerInjury(bodyPart, layer, tissueResult.StressResult, damage, woundArea, tissueResult.ContactArea, tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, painContribution, bleedingContribution, tissueResult.IsDefeated, isChip, isSoft, isVascular);
+                new TissueLayerInjury(
+                    bodyPart, layer, 
+                    tissueResult.StressResult, damage, 
+                    woundArea, tissueResult.ContactArea, 
+                    tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, 
+                    painContribution, bleedingContribution, arteryOpened,
+                    tissueResult.IsDefeated, isChip, isSoft, isVascular);
         }
 
         private double Min(params double[] nums)
@@ -138,6 +153,12 @@ namespace Tiles.Bodies.Injuries
         private double Max(params double[] nums)
         {
             return nums.Max();
+        }
+
+        private bool WasArteryOpened(ITissueLayer layer, MaterialStrikeResult tissueResult)
+        {
+            if (!layer.Class.HasArteries) return false;
+            return Random.NextDouble() < tissueResult.ContactAreaRatio * tissueResult.PenetrationRatio;
         }
         
         private int GetPainContribution(IBody body, IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult tissueResult, IDamageVector damage)
@@ -199,9 +220,13 @@ namespace Tiles.Bodies.Injuries
             return (int) System.Math.Round(preRounded, 0, MidpointRounding.AwayFromZero);
         }
 
-        public int GetBleedingContribution(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult, IDamageVector damage)
+        public int GetBleedingContribution(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult, IDamageVector damage, bool arteryOpened)
         {
-            var bleed = strikeResult.ContactAreaRatio * strikeResult.PenetrationRatio * (double)layer.Class.VascularRating;
+            var multiplier = (double)layer.Class.VascularRating;
+            if (arteryOpened) multiplier *= 5d;
+
+            var bleed = strikeResult.ContactAreaRatio * strikeResult.PenetrationRatio * multiplier;
+
             if (layer.Class.HasArteries)
                 bleed *= 3d;
 
@@ -212,27 +237,5 @@ namespace Tiles.Bodies.Injuries
         {
             return ((long)((double)d / 10d)) * 10L;
         }
-
-        #region Damage Classifiction
-
-        bool IsHighContactArea(double contactArea)
-        {
-            return contactArea > 50;
-        }
-
-        bool IsHighPenetration(int maxPenetation)
-        {
-            return maxPenetation > 2000;
-        }
-        bool IsLowContactArea(double contactArea)
-        {
-            return contactArea <= 50;
-        }
-
-        bool IsLowPenetration(int maxPenetation)
-        {
-            return maxPenetation <= 2000;
-        }
-        #endregion
     }
 }

@@ -11,6 +11,7 @@ namespace Tiles.Bodies.Wounds
         ITissueLayer Layer { get; }
         int Pain { get; }
         int Bleeding { get; }
+        bool ArteryOpen { get; }
     }
 
     public class TissueLayerWound : ITissueLayerWound
@@ -18,5 +19,6 @@ namespace Tiles.Bodies.Wounds
         public ITissueLayer Layer { get; set; }
         public int Pain { get; set; }
         public int Bleeding { get; set; }
+        public bool ArteryOpen { get; set; }
     }
 }

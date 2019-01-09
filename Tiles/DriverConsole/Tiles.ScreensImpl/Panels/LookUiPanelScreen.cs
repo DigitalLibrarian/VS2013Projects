@@ -112,10 +112,11 @@ namespace Tiles.ScreensImpl.Panels
                                 int woundCount = 1;
                                 foreach (var layerWound in agent.Body.Wounds.Where(w => w.Part == bodyPart).SelectMany(w => w.LayerWounds.Where(lw => lw.Layer == tlLayer)))
                                 {
-                                    lines.Add(string.Format("  wound #{0} pain:{1} bleed:{2}",
+                                    lines.Add(string.Format("  wound #{0} pain:{1} bleed:{2} artery:{3}",
                                         woundCount++,
                                         layerWound.Pain,
-                                        layerWound.Bleeding
+                                        layerWound.Bleeding,
+                                        layerWound.ArteryOpen
                                         ));
                                 }
                             }

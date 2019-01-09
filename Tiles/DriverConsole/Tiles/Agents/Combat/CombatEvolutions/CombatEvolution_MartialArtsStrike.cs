@@ -9,6 +9,7 @@ using Tiles.Bodies.Wounds;
 using Tiles.Items;
 using Tiles.Materials;
 using Tiles.Math;
+using Tiles.Splatter;
 
 namespace Tiles.Agents.Combat.CombatEvolutions
 {
@@ -16,15 +17,18 @@ namespace Tiles.Agents.Combat.CombatEvolutions
     {
         IInjuryReportCalc InjuryReportCalc { get; set; }
         IBodyPartWoundFactory WoundFactory { get; set; }
+        ISplatterFascade Splatter { get; set; }
         public CombatEvolution_MartialArtsStrike(
             IInjuryReportCalc injuryReportCalc,
             IActionReporter reporter, 
             IAgentReaper reaper,
-            IBodyPartWoundFactory woundFactory) 
+            IBodyPartWoundFactory woundFactory,
+            ISplatterFascade splatter) 
             : base(reporter, reaper) 
         {
             InjuryReportCalc = injuryReportCalc;
             WoundFactory = woundFactory;
+            Splatter = splatter;
         }
 
         protected override bool Should(ICombatMoveContext session)
@@ -101,6 +105,12 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             else
             {
                 Reporter.ReportMeleeStrikeBodyPart(session, move.Class.Verb, move.DefenderBodyPart, targetPartWasShed);
+            }
+
+            if (report.BodyPartInjuries.SelectMany(bpi => bpi.TissueLayerInjuries).Any(tli => tli.ArteryOpened))
+            {
+                Splatter.ArterySquirt(defender.Pos, defender.Body.Class.BloodMaterial);
+                Reporter.ReportArteryOpened(defender);
             }
 
             if (!targetWasProne && targetIsProne)
