@@ -224,11 +224,11 @@ namespace Tiles.Bodies.Injuries
         {
             var multiplier = (double)layer.Class.VascularRating;
             if (arteryOpened) multiplier *= 5d;
-
             var bleed = strikeResult.ContactAreaRatio * strikeResult.PenetrationRatio * multiplier;
-
             if (layer.Class.HasArteries)
                 bleed *= 3d;
+
+            bleed = System.Math.Min(bleed, bodyPart.Size*2);
 
             return (int)System.Math.Round(bleed, 0, MidpointRounding.AwayFromZero);
         }
