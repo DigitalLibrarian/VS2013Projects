@@ -263,7 +263,12 @@ namespace Tiles
 
         public void ReportArteryOpened(IAgent agent)
         {
-            Log.AddLine("An artery was opened by the attack!");
+            Log.AddLine("An artery has been opened by the attack!");
+        }
+
+        public void ReportMajorArteryOpened(IAgent agent)
+        {
+            Log.AddLine("A major artery has been opened by the attack!");
         }
     }
 }

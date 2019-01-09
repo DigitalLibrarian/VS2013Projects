@@ -19,6 +19,7 @@ namespace Tiles.Bodies
 
         bool ThickensOnStrength { get; }
         bool ThickensOnEnergyStorage { get;}
+        bool HasMajorArteries { get; }
         bool HasArteries { get; }
 
         string Name { get; }

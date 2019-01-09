@@ -31,7 +31,8 @@ namespace Tiles.Bodies.Wounds
                 Layer = injury.Layer,
                 Pain = injury.PainContribution,
                 Bleeding = injury.BleedingContribution,
-                ArteryOpen = injury.ArteryOpened
+                ArteryOpen = injury.ArteryOpened,
+                MajorArteryOpen = injury.MajorArteryOpened
             };
         }
     }

@@ -132,8 +132,9 @@ namespace Tiles.Bodies.Injuries
             }
 
             bool arteryOpened = WasArteryOpened(layer, tissueResult);
+            bool majorArteryOpened = WasMajorArteryOpened(layer, tissueResult);
             var painContribution = GetPainContribution(targetBody, bodyPart, layer, tissueResult, damage);
-            var bleedingContribution = GetBleedingContribution(bodyPart, layer, tissueResult, damage, arteryOpened);
+            var bleedingContribution = GetBleedingContribution(bodyPart, layer, tissueResult, damage, arteryOpened, majorArteryOpened);
 
             yield return
                 new TissueLayerInjury(
@@ -141,7 +142,7 @@ namespace Tiles.Bodies.Injuries
                     tissueResult.StressResult, damage, 
                     woundArea, tissueResult.ContactArea, 
                     tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, 
-                    painContribution, bleedingContribution, arteryOpened,
+                    painContribution, bleedingContribution, arteryOpened, majorArteryOpened,
                     tissueResult.IsDefeated, isChip, isSoft, isVascular);
         }
 
@@ -158,6 +159,12 @@ namespace Tiles.Bodies.Injuries
         private bool WasArteryOpened(ITissueLayer layer, MaterialStrikeResult tissueResult)
         {
             if (!layer.Class.HasArteries) return false;
+            return Random.NextDouble() < tissueResult.ContactAreaRatio * tissueResult.PenetrationRatio;
+        }
+
+        private bool WasMajorArteryOpened(ITissueLayer layer, MaterialStrikeResult tissueResult)
+        {
+            if (!layer.Class.HasMajorArteries) return false;
             return Random.NextDouble() < tissueResult.ContactAreaRatio * tissueResult.PenetrationRatio;
         }
         
@@ -220,14 +227,12 @@ namespace Tiles.Bodies.Injuries
             return (int) System.Math.Round(preRounded, 0, MidpointRounding.AwayFromZero);
         }
 
-        public int GetBleedingContribution(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult, IDamageVector damage, bool arteryOpened)
+        public int GetBleedingContribution(IBodyPart bodyPart, ITissueLayer layer, MaterialStrikeResult strikeResult, IDamageVector damage, bool arteryOpened, bool majorArteryOpened)
         {
             var multiplier = (double)layer.Class.VascularRating;
-            if (arteryOpened) multiplier *= 5d;
+            if (arteryOpened) multiplier *= (double)Random.Next(2, 10);
+            if (majorArteryOpened) multiplier *= (double)Random.Next(10, 100);
             var bleed = strikeResult.ContactAreaRatio * strikeResult.PenetrationRatio * multiplier;
-            if (layer.Class.HasArteries)
-                bleed *= 3d;
-
             bleed = System.Math.Min(bleed, bodyPart.Size*2);
 
             return (int)System.Math.Round(bleed, 0, MidpointRounding.AwayFromZero);

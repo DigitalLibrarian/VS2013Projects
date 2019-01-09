@@ -109,8 +109,14 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             if (report.BodyPartInjuries.SelectMany(bpi => bpi.TissueLayerInjuries).Any(tli => tli.ArteryOpened))
             {
-                Splatter.ArterySquirt(defender.Pos, defender.Body.Class.BloodMaterial);
+                Splatter.ArterySquirt(defender.Pos, defender.Body.Class.BloodMaterial, 2);
                 Reporter.ReportArteryOpened(defender);
+            }
+
+            if (report.BodyPartInjuries.SelectMany(bpi => bpi.TissueLayerInjuries).Any(tli => tli.MajorArteryOpened))
+            {
+                Splatter.ArterySquirt(defender.Pos, defender.Body.Class.BloodMaterial, 4);
+                Reporter.ReportMajorArteryOpened(defender);
             }
 
             if (!targetWasProne && targetIsProne)
