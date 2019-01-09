@@ -39,6 +39,7 @@ namespace Tiles.EngineIntegrationTests
 
         public virtual void Initialize()
         {
+            Random = new Tiles.Random.RandomWrapper(new System.Random());
             Store = TestContentStore.Get();
             var colorFactory = new DfColorFactory();
             DfAgentFactory = new DfAgentFactory(Store,

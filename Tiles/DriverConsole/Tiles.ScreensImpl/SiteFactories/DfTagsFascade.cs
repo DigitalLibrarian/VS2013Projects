@@ -26,14 +26,12 @@ namespace Tiles.ScreensImpl.SiteFactories
         IDfAgentFactory DfAgentFactory { get; set; }
         IAgentFactory AgentFactory { get; set; }
         IItemFactory ItemFactory { get; set; }
-        IRandom Random { get; set; }
         IContentMapper ContentMapper { get; set; }
         IAgentCommandPlanner DefaultPlanner { get; set; }
 
         public DfTagsFascade(IDfObjectStore store, IEntityManager entityManager, IRandom random)
         {
             Store = store;
-            Random = random;
             ItemFactory = new ItemFactory();
             AgentFactory = new AgentFactory(entityManager, new BodyFactory(new TissueFactory()));
             var colorFactory = new DfColorFactory();
