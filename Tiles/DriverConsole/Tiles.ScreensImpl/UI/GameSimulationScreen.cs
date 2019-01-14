@@ -249,14 +249,18 @@ namespace Tiles.ScreensImpl.UI
         {
             if (args.Key == ConsoleKey.A && args.Shift)
             {
-                ScreenManager.Add(
-                    new CombatScreen(
-                        Game,
-                        CommandFactory,
-                        new CombatTargetDiscoverer(),
-                        Canvas, 
-                        Box)
-                    );
+                var disco = new CombatTargetDiscoverer();
+                if (disco.GetPossibleTargets(Game.Player.Agent, Game.Atlas).Any())
+                {
+                    ScreenManager.Add(
+                        new CombatScreen(
+                            Game,
+                            CommandFactory,
+                            disco,
+                            Canvas,
+                            Box)
+                        );
+                }
             }
         }
         #endregion
