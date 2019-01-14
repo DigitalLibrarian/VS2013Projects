@@ -37,6 +37,17 @@ namespace Tiles.Agents
             };
         }
 
+        public IEnumerable<IAgentCommand> DodgeDirection(IAgent agent, IAgent other, Vector3 direction)
+        {
+            yield return new AgentCommand
+            {
+                CommandType = AgentCommandType.Dodge,
+                RequiredTime = ScaleTime(agent, 1),
+                Direction = direction, 
+                AttackMove = other.AgentBehavior.Context.Command.AttackMove
+            };
+        }
+
         public IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IGame game, IAgent agent) 
         {
             foreach (var item in game.Atlas.GetTileAtPos(agent.Pos).Items)

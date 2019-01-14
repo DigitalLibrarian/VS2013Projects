@@ -19,16 +19,13 @@ namespace Tiles.Agents.Combat
         }
         bool IsMeleeRange(IAgent attacker, IAgent defender)
         {
-            var diffVector = attacker.Pos - defender.Pos;
-            return CompassVectors.IsCompassVector(diffVector);
+            return CompassVectors.IsCompassVector(attacker.Pos - defender.Pos);
         }
 
         public IEnumerable<ICombatMove> GetPossibleMoves(IAgent attacker, IAgent defender)
         {
             // TODO - a grabbed body part cannot be used to attack you
-            bool meleeRange = IsMeleeRange(attacker, defender);
-
-            if (meleeRange)
+            if (IsMeleeRange(attacker, defender))
             {
                 foreach (var mePart in attacker.Body.Parts)
                 {
@@ -38,7 +35,7 @@ namespace Tiles.Agents.Combat
                         foreach (var move in WeaponMoves(attacker, defender, weaponItem))
                             yield return move;
                     }
-                    if (mePart.CanGrasp)
+                    if (false && mePart.CanGrasp)
                     {
                         foreach (var move in GraspMoves(attacker, defender, mePart))
                             yield return move;

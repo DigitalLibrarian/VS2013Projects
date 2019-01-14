@@ -270,5 +270,11 @@ namespace Tiles
         {
             Log.AddLine("A major artery has been opened by the attack!");
         }
+
+        public void ReportDodgedAttack(ICombatMoveContext session)
+        {
+            var verb = session.Defender.IsProne ? "rolls" : "jumps";
+            Log.AddLine(string.Format("The {0} attacks {1} but the {1} {2} away!", session.Attacker.Name, session.Defender.Name, verb));
+        }
     }
 }

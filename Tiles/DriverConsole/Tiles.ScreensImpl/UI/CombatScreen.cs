@@ -103,11 +103,12 @@ namespace Tiles.ScreensImpl.UI
                 ScreenManager.Add(
                     new CombatVerbPickScreen(
                         new IGameScreen[] { this },
-                        Game.Player,
+                        Game,
                         agent,
                         CommandFactory,
-                        Game.AttackConductor,
-                        new CombatMoveDiscoverer(new CombatMoveFactory()), Canvas, Box)
+                        new CombatMoveDiscoverer(new CombatMoveFactory()),
+                        new DodgeAgentCommandDiscoverer(CommandFactory),
+                        Canvas, Box)
                     );
             }
             else if (args.Key == ConsoleKey.Escape)

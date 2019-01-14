@@ -14,6 +14,7 @@ namespace Tiles.Agents.CommandInterpreters
         {
             {AgentCommandType.None, new AgentCommandTypeInterpreter_None()},
             {AgentCommandType.Move, new AgentCommandTypeInterpreter_Move()},
+            {AgentCommandType.Dodge, new AgentCommandTypeInterpreter_Dodge()},
             {AgentCommandType.AttackMeleePrep, new AgentCommandTypeInterpreter_AttackMeleePrep()},
             {AgentCommandType.AttackMelee, new AgentCommandTypeInterpreter_AttackMelee()},
             {AgentCommandType.AttackMeleeRecovery, new AgentCommandTypeInterpreter_AttackMeleeRecovery()},

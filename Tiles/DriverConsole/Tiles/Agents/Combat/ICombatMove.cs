@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tiles.Bodies;
 using Tiles.Items;
+using Tiles.Math;
 namespace Tiles.Agents.Combat
 {
     public interface ICombatMove
@@ -17,5 +18,10 @@ namespace Tiles.Agents.Combat
         IItem Weapon { get; set; }
 
         double Sharpness { get; }
+        Vector3 Direction { get; }
+
+        bool IsDodged { get; }
+
+        void MarkDodged();
     }
 }

@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace Tiles.Agents.CommandInterpreters
 {
-    public class AgentCommandTypeInterpreter_Move : IAgentCommandTypeInterpreter
+    public class AgentCommandTypeInterpreter_Dodge : IAgentCommandTypeInterpreter
     {
-        public virtual AgentCommandType CommandType { get { return AgentCommandType.Move; } }
+        public AgentCommandType CommandType { get { return AgentCommandType.Dodge; } }
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand)
         {
             var originalPos = agent.Pos;
-            if(agent.Move(agentCommand.Direction))
+            if (agent.Move(agentCommand.Direction))
             {
-                game.Splatter.Track(originalPos, agentCommand.Direction);
+                // this is the enemies move, in the case of a dodge command
+                agentCommand.AttackMove.MarkDodged();
             }
         }
     }

@@ -15,10 +15,12 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 {
     public class CombatEvolution_MartialArtsStrike : CombatEvolution
     {
+        IAtlas Atlas { get; set; }
         IInjuryReportCalc InjuryReportCalc { get; set; }
         IBodyPartWoundFactory WoundFactory { get; set; }
         ISplatterFascade Splatter { get; set; }
         public CombatEvolution_MartialArtsStrike(
+            IAtlas atlas,
             IInjuryReportCalc injuryReportCalc,
             IActionReporter reporter, 
             IAgentReaper reaper,
@@ -26,6 +28,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             ISplatterFascade splatter) 
             : base(reporter, reaper) 
         {
+            Atlas = atlas;
             InjuryReportCalc = injuryReportCalc;
             WoundFactory = woundFactory;
             Splatter = splatter;
@@ -47,6 +50,12 @@ namespace Tiles.Agents.Combat.CombatEvolutions
 
             if (!defender.Body.Parts.Contains(move.DefenderBodyPart)) return;
             if (!attacker.CanPerform(move)) return;
+
+            if (move.IsDodged)
+            {
+                Reporter.ReportDodgedAttack(session);
+                return;
+            }
 
             bool isWeaponBased = move.Class.IsItem;
             var momentum = attacker.GetStrikeMomentum(move);

@@ -15,7 +15,7 @@ namespace Tiles.Agents.Combat
         {
             var moveName = string.Format("{0} {1} with {2}", moveClass.Name, targetBodyPart.Name, weapon.Class.Name);
 
-            return new CombatMove(moveClass, moveName, attacker, defender)
+            return new CombatMove(moveClass, moveName, attacker, defender, defender.Pos - attacker.Pos)
             {
                 Weapon = weapon,
                 DefenderBodyPart = targetBodyPart
@@ -114,7 +114,7 @@ namespace Tiles.Agents.Combat
         {
             var moveName = string.Format("Break {0}'s {1} grasp on {2}", defender.Name,  defenderBodyPart.Name, attackerBodyPart.Name);
 
-            return new CombatMove(_breakGrasp, moveName, attacker, defender)
+            return new CombatMove(_breakGrasp, moveName, attacker, defender, defender.Pos - attacker.Pos)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -125,7 +125,7 @@ namespace Tiles.Agents.Combat
         {
             var moveName = string.Format("Grab {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
 
-            return new CombatMove(_grasp, moveName, attacker, defender)
+            return new CombatMove(_grasp, moveName, attacker, defender, defender.Pos - attacker.Pos)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -135,7 +135,7 @@ namespace Tiles.Agents.Combat
         public ICombatMove PullGraspedBodyPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Pull {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
-            return new CombatMove(_wrestlingPull, moveName, attacker, defender)
+            return new CombatMove(_wrestlingPull, moveName, attacker, defender, defender.Pos - attacker.Pos)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -146,7 +146,7 @@ namespace Tiles.Agents.Combat
         public ICombatMove ReleaseGraspedPart(IAgent attacker, IAgent defender, IBodyPart attackerBodyPart, IBodyPart defenderBodyPart)
         {
             var moveName = string.Format("Release {0} with your {1}", defenderBodyPart.Name, attackerBodyPart.Name);
-            return new CombatMove(_release, moveName, attacker, defender)
+            return new CombatMove(_release, moveName, attacker, defender, defender.Pos - attacker.Pos)
             {
                 AttackerBodyPart = attackerBodyPart,
                 DefenderBodyPart = defenderBodyPart
@@ -160,7 +160,7 @@ namespace Tiles.Agents.Combat
                 moveClass.Verb.Conjugate(VerbConjugation.SecondPerson), 
                 defenderBodyPart.Name);
 
-            return new CombatMove(moveClass, moveName, attacker, defender)
+            return new CombatMove(moveClass, moveName, attacker, defender, defender.Pos - attacker.Pos)
             {
                 DefenderBodyPart = defenderBodyPart
             };

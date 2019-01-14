@@ -45,6 +45,7 @@
     <Compile Include="ContentFactories\IBodyClassFactory.cs" />
     <Compile Include="SiteFactories\DfTagsFascade.cs" />
     <Compile Include="SiteFactories\LiquidsDemoSiteFactory.cs" />
+    <Compile Include="UI\CombatDodgeDirectionPickScreen.cs" />
     <Compile Include="UI\CombatTargetBodyPartPickScreen.cs" />
     <Compile Include="UI\CombatVerbPickScreen.cs" />
     <Compile Include="ContentFactories\HardCodedAgentFactory.cs" />

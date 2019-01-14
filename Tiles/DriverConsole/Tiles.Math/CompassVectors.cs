@@ -19,23 +19,22 @@ namespace Tiles.Math
         static public Vector3 SouthEast { get { return South + East; } }
         static public Vector3 SouthWest { get { return South + West; } }
 
+        static Dictionary<CompassDirection, Vector3> DirectionToVector = new Dictionary<CompassDirection, Vector3>
+        {
+            {CompassDirection.North, CompassVectors.North},
+            {CompassDirection.South, CompassVectors.South},
+            {CompassDirection.East, CompassVectors.East},
+            {CompassDirection.West, CompassVectors.West},
+            
+            {CompassDirection.NorthEast, CompassVectors.NorthEast},
+            {CompassDirection.NorthWest, CompassVectors.NorthWest},
+            {CompassDirection.SouthEast, CompassVectors.SouthEast},
+            {CompassDirection.SouthWest, CompassVectors.SouthWest},
+        };
+
         static public Vector3 FromDirection(CompassDirection dir)
         {
-            var v = new Vector3(0, 0, 0);
-            switch (dir)
-            {
-                case CompassDirection.North: v = North; break;
-                case CompassDirection.East: v = East; break;
-                case CompassDirection.West: v = West; break;
-                case CompassDirection.South: v = South; break;
-
-                case CompassDirection.NorthEast: v = NorthEast; break;
-                case CompassDirection.NorthWest: v = NorthWest; break;
-                case CompassDirection.SouthEast: v = SouthEast; break;
-                case CompassDirection.SouthWest: v = SouthWest; break;
-            }
-
-            return v;
+            return DirectionToVector[dir];
         }
 
         static public IEnumerable<Vector3> GetAll()
@@ -48,6 +47,21 @@ namespace Tiles.Math
         static public bool IsCompassVector(Vector3 v)
         {
             return GetAll().Contains(v);
+        }
+
+
+        static public CompassDirection GetCompassDirection(Vector3 v)
+        {
+            foreach (var pair in DirectionToVector)
+            {
+                var dir = pair.Key;
+                var vector = pair.Value;
+                if (vector == v)
+                {
+                    return dir;
+                }
+            }
+            throw new InvalidOperationException("Not given compass vector");
         }
     }
 }

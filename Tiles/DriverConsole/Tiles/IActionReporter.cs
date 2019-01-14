@@ -29,5 +29,7 @@ namespace Tiles
         void ReportBledOut(Agents.IAgent agent);
         void ReportArteryOpened(Agents.IAgent agent);
         void ReportMajorArteryOpened(Agents.IAgent agent);
+
+        void ReportDodgedAttack(ICombatMoveContext session);
     }
 }

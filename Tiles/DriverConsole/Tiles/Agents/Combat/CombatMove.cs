@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Bodies;
 using Tiles.Items;
+using Tiles.Math;
 
 namespace Tiles.Agents.Combat
 {
     public class CombatMove : ICombatMove
     {
-        public CombatMove(ICombatMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender)
+        public CombatMove(ICombatMoveClass attackMoveClass, string name, IAgent attacker, IAgent defender, Vector3 direction)
         {
             Class = attackMoveClass;
             Name = name;
             Attacker = attacker;
             Defender = defender;
+            Direction = direction;
         }
 
         public ICombatMoveClass Class { get; set; }
@@ -28,6 +30,7 @@ namespace Tiles.Agents.Combat
         public IBodyPart AttackerBodyPart { get; set; }
         public IBodyPart DefenderBodyPart { get; set; }
         public IItem Weapon { get; set; }
+        public Vector3 Direction { get; set; }
 
         public double Sharpness
         {
@@ -35,6 +38,12 @@ namespace Tiles.Agents.Combat
                 //Iron has [MAX_EDGE:10000], so a no-quality iron short sword has a sharpness of 5000
                 return Attacker.GetStrikeMaterial(this).SharpnessMultiplier * 5000d;
             }
+        }
+
+        public bool IsDodged { get; private set; }
+        public void MarkDodged()
+        {
+            IsDodged = true;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Agents.Behaviors;
+using Tiles.Agents.Combat;
 using Tiles.Ecs;
 using Tiles.Math;
 using Tiles.Random;
@@ -51,7 +52,11 @@ namespace Tiles.ScreensImpl.SiteFactories
             s.InsertStructure(buildingBox.Min, structure);
 
             var pos = Random.FindRandomInBox(buildingBox, test => s.GetTileAtSitePos(test).HasRoomForAgent).Value;
-            var planner = new DoNothingAgentCommandPlanner(new AgentCommandFactory());
+            IAgentCommandPlanner planner = new DoNothingAgentCommandPlanner(new AgentCommandFactory());
+            planner = new DefaultAgentCommandPlanner(Random,
+                new AgentCommandFactory(),
+                new CombatMoveDiscoverer(new CombatMoveFactory()),
+                new PositionFinder());
             var enemy = Df.CreateCreatureAgent(atlas, "DWARF", "MALE", s.Box.Min + pos, planner);
             s.GetTileAtSitePos(pos).SetAgent(enemy);
 

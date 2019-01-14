@@ -11,6 +11,7 @@ namespace Tiles.Agents
         None,
         PickUpItemOnAgentTile,
         Move,
+        Dodge,
         AttackMeleePrep,
         AttackMelee,
         AttackMeleeRecovery,

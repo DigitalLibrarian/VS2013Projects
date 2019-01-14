@@ -191,11 +191,12 @@ namespace Tiles.ScreensImpl.UI
                     ScreenManager.Add(
                         new CombatVerbPickScreen(
                             new IGameScreen[] {},
-                            Game.Player, 
+                            Game, 
                             newTile.Agent, 
                             CommandFactory,
-                            Game.AttackConductor, 
-                            new CombatMoveDiscoverer(new CombatMoveFactory()), Canvas, Box)
+                            new CombatMoveDiscoverer(new CombatMoveFactory()), 
+                            new DodgeAgentCommandDiscoverer(CommandFactory),
+                            Canvas, Box)
                         );
                 }
                 else if (!Game.Player.Agent.Body.IsWrestling)

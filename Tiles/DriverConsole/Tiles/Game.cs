@@ -54,7 +54,7 @@ namespace Tiles
             var woundFactory = new BodyPartWoundFactory();
             Splatter = new SplatterFascade(Random, Atlas);
             var evolutions = new List<ICombatEvolution>{
-                new CombatEvolution_MartialArtsStrike(injuryCalc, reporter, reaper, woundFactory, Splatter),
+                new CombatEvolution_MartialArtsStrike(Atlas, injuryCalc, reporter, reaper, woundFactory, Splatter),
                 new CombatEvolution_StartHold(reporter, reaper),
                 new CombatEvolution_ReleaseHold(reporter, reaper),
                 new CombatEvolution_BreakHold(reporter, reaper)
