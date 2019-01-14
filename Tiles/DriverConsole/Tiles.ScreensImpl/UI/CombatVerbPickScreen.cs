@@ -14,6 +14,7 @@ namespace Tiles.ScreensImpl.UI
 {
     public class CombatVerbPickScreen : CanvasBoxScreen
     {
+        IEnumerable<IGameScreen> ParentScreens { get; set; }
         IPlayer Player { get; set; }
         IAttackConductor AttackConductor { get; set; }
         ICombatMoveDiscoverer MoveDisco { get; set; }
@@ -22,10 +23,13 @@ namespace Tiles.ScreensImpl.UI
 
         JaggedListSelector Selector { get; set; }
 
-        public CombatVerbPickScreen(IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
+        public CombatVerbPickScreen(
+            IEnumerable<IGameScreen> parents, 
+            IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
             IAttackConductor attackConductor, ICombatMoveDiscoverer moveDisco, ICanvas canvas, Box2 box)
             : base(canvas, box) 
         {
+            ParentScreens = parents;
             Player = player;
             Target = target;
             CommandFactory = commandFactory;
@@ -88,7 +92,9 @@ namespace Tiles.ScreensImpl.UI
             else if (args.Key == ConsoleKey.Enter)
             {
                 var verb2ndPerson = GetDistinctVerbs().ElementAt(Selector.Selected.Y);
-                ScreenManager.Add(new CombatTargetBodyPartPickScreen(this, verb2ndPerson, Player, Target, CommandFactory, AttackConductor, MoveDisco, Canvas,  Box));
+                ScreenManager.Add(new CombatTargetBodyPartPickScreen(
+                ParentScreens.Concat(new IGameScreen[]{ this }), 
+                verb2ndPerson, Player, Target, CommandFactory, AttackConductor, MoveDisco, Canvas, Box));
             }
             else if (args.Key == ConsoleKey.Escape)
             {

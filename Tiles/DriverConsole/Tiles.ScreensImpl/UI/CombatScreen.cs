@@ -12,35 +12,19 @@ using Tiles.Render;
 
 namespace Tiles.ScreensImpl.UI
 {
-    public class CombatTargetBodyPartPickScreen : CanvasBoxScreen
+    public class CombatScreen : CanvasBoxScreen
     {
-        IPlayer Player { get; set; }
-        IAttackConductor AttackConductor { get; set; }
-        ICombatMoveDiscoverer MoveDisco { get; set; }
-        IAgent Target { get; set; }
+        IGame Game { get; set; }
         IAgentCommandFactory CommandFactory { get; set; }
-
+        ICombatTargetDiscoverer TargetDisco { get; set; }
         JaggedListSelector Selector { get; set; }
 
-        IEnumerable<IGameScreen> ParentScreens { get; set; }
-        string Verb2ndPerson { get; set; }
-
-        public CombatTargetBodyPartPickScreen(IEnumerable<IGameScreen> parents, string verb2ndPerson, IPlayer player, IAgent target, IAgentCommandFactory commandFactory,
-            IAttackConductor attackConductor, ICombatMoveDiscoverer moveDisco, ICanvas canvas, Box2 box)
+        public CombatScreen(IGame game, IAgentCommandFactory commandFactory, ICombatTargetDiscoverer targetDisco, ICanvas canvas, Box2 box)
             : base(canvas, box)
         {
-
-            ParentScreens = parents;
-            Verb2ndPerson = verb2ndPerson;
-
-            Player = player;
-            Target = target;
+            Game = game;
             CommandFactory = commandFactory;
-            AttackConductor = attackConductor;
-            MoveDisco = moveDisco;
-
-            PropagateInput = false;
-            PropagateUpdate = false;
+            TargetDisco = targetDisco;
         }
 
         public override void Load()
@@ -56,21 +40,21 @@ namespace Tiles.ScreensImpl.UI
             };
         }
 
-        private IEnumerable<ICombatMove> GetMoves()
+        IEnumerable<IAgent> GetAgents()
         {
-            return MoveDisco.GetPossibleMoves(Player.Agent, Target).Where(m => m.Class.Verb.Conjugate(VerbConjugation.SecondPerson) == Verb2ndPerson);
+            return TargetDisco.GetPossibleTargets(Game.Player.Agent, Game.Atlas);
         }
 
         public override void Draw()
         {
             base.Draw();
 
-            Canvas.DrawString("Where would you like to target your attack?", Box.Min);
+            Canvas.DrawString("Select your target:", Box.Min);
 
             var lines = new List<string>();
-            foreach (var move in GetMoves())
+            foreach (var agent in GetAgents())
             {
-                lines.Add(string.Format("{0}", move.Name));
+                lines.Add(string.Format("{0}", agent.Name));
             }
 
             Selector.Draw(Canvas, Box.Min + new Vector2(1, 2), lines.ToArray());
@@ -93,16 +77,16 @@ namespace Tiles.ScreensImpl.UI
             }
             else if (args.Key == ConsoleKey.Enter)
             {
-                var moves = GetMoves();
-                if (Selector.Selected.Y < moves.Count())
-                {
-                    Player.EnqueueCommands(CommandFactory.MeleeAttack(Player.Agent, Target, moves.ElementAt(Selector.Selected.Y)));
-                    foreach (var screen in ParentScreens)
-                    {
-                        ScreenManager.Remove(screen);
-                    }
-                }
-                Exit();
+                var agent = GetAgents().ElementAt(Selector.Selected.Y);
+                ScreenManager.Add(
+                    new CombatVerbPickScreen(
+                        new IGameScreen[] { this },
+                        Game.Player,
+                        agent,
+                        CommandFactory,
+                        Game.AttackConductor,
+                        new CombatMoveDiscoverer(new CombatMoveFactory()), Canvas, Box)
+                    );
             }
             else if (args.Key == ConsoleKey.Escape)
             {

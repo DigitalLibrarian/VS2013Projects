@@ -59,6 +59,7 @@
     <Compile Include="UI\ExtendedActionLogScreen.cs" />
     <Compile Include="UI\GameSimulationScreen.cs" />
     <Compile Include="ContentFactories\GearFactory.cs" />
+    <Compile Include="UI\CombatScreen.cs" />
     <Compile Include="UI\InventoryItemDisplayScreen.cs" />
     <Compile Include="UI\InventoryScreen.cs" />
     <Compile Include="JaggedListSelector.cs" />

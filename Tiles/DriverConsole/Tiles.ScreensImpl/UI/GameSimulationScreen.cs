@@ -151,6 +151,7 @@ namespace Tiles.ScreensImpl.UI
             Key_Get(args);
             Key_ExtendedActionLog(args);
             Key_StandToggle(args);
+            Key_Combat(args);
         }
 
         void Key_Inventory(KeyPressEventArgs args)
@@ -189,6 +190,7 @@ namespace Tiles.ScreensImpl.UI
                 {
                     ScreenManager.Add(
                         new CombatVerbPickScreen(
+                            new IGameScreen[] {},
                             Game.Player, 
                             newTile.Agent, 
                             CommandFactory,
@@ -225,7 +227,7 @@ namespace Tiles.ScreensImpl.UI
 
         void Key_ExtendedActionLog(KeyPressEventArgs args)
         {
-            if (args.Key == ConsoleKey.A)
+            if (args.Key == ConsoleKey.A && !args.Shift)
             {
                 ShowExtendedActionLogScreen();
             }
@@ -239,6 +241,21 @@ namespace Tiles.ScreensImpl.UI
                     Game.Player.Agent.IsProne 
                         ? CommandFactory.StandUp(Game.Player.Agent) 
                         : CommandFactory.LayDown(Game.Player.Agent)
+                    );
+            }
+        }
+
+        void Key_Combat(KeyPressEventArgs args)
+        {
+            if (args.Key == ConsoleKey.A && args.Shift)
+            {
+                ScreenManager.Add(
+                    new CombatScreen(
+                        Game,
+                        CommandFactory,
+                        new CombatTargetDiscoverer(),
+                        Canvas, 
+                        Box)
                     );
             }
         }

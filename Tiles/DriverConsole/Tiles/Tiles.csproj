@@ -67,6 +67,7 @@
     <Compile Include="Agents\Combat\ICombatEvolution.cs" />
     <Compile Include="Agents\Combat\ICombatMoveContext.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
+    <Compile Include="Agents\Combat\ICombatTargetDiscoverer.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_LayDown.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_StandUp.cs" />
     <Compile Include="Bodies\AttributeClass.cs" />
@@ -166,7 +167,6 @@
     <Compile Include="ISprite.cs" />
     <Compile Include="Items\ArmorClass.cs" />
     <Compile Include="Items\ArmorSlot.cs" />
-    <Compile Include="DamageType.cs" />
     <Compile Include="Items\IArmorClass.cs" />
     <Compile Include="Items\IItemClass.cs" />
     <Compile Include="Items\IItemFactory.cs" />
