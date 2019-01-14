@@ -68,6 +68,8 @@
     <Compile Include="Agents\Combat\ICombatMoveContext.cs" />
     <Compile Include="Agents\Combat\CombatEvolutions\CombatEvolution.cs" />
     <Compile Include="Agents\Combat\ICombatTargetDiscoverer.cs" />
+    <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMeleePrep.cs" />
+    <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_AttackMeleeRecovery.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_LayDown.cs" />
     <Compile Include="Agents\CommandInterpreters\AgentCommandTypeInterpreter_StandUp.cs" />
     <Compile Include="Bodies\AttributeClass.cs" />

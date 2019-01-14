@@ -14,7 +14,9 @@ namespace Tiles.Agents.CommandInterpreters
         {
             {AgentCommandType.None, new AgentCommandTypeInterpreter_None()},
             {AgentCommandType.Move, new AgentCommandTypeInterpreter_Move()},
+            {AgentCommandType.AttackMeleePrep, new AgentCommandTypeInterpreter_AttackMeleePrep()},
             {AgentCommandType.AttackMelee, new AgentCommandTypeInterpreter_AttackMelee()},
+            {AgentCommandType.AttackMeleeRecovery, new AgentCommandTypeInterpreter_AttackMeleeRecovery()},
             {AgentCommandType.PickUpItemOnAgentTile, new AgentCommandTypeInterpreter_PickUpItemsOnAgentTile()},
             {AgentCommandType.WieldWeapon, new AgentCommandTypeInterpreter_WieldWeapon()},
             {AgentCommandType.UnwieldWeapon, new AgentCommandTypeInterpreter_UnwieldWeapon()},

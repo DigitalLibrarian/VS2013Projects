@@ -54,7 +54,29 @@ namespace Tiles.ScreensImpl.UI
             var lines = new List<string>();
             foreach (var agent in GetAgents())
             {
-                lines.Add(string.Format("{0}", agent.Name));
+                var actionString = "Doing nothing";
+                if (agent.AgentBehavior.Context.HasCommand)
+                {
+                    var command = agent.AgentBehavior.Context.Command;
+                    if (command.AttackMove != null)
+                    {
+                        var attackTarget = command.Target == Game.Player.Agent ? "you" : command.Target.Name;
+                        switch (command.CommandType)
+                        {
+                            case AgentCommandType.AttackMeleePrep:
+                                actionString = string.Format("Preparing to attack {0}", attackTarget);
+                                break;
+                            case AgentCommandType.AttackMelee:
+                                actionString = string.Format("Attacking {0}", attackTarget);
+                                break;
+                            case AgentCommandType.AttackMeleeRecovery:
+                                actionString = string.Format("Recovering from attacking {0}", attackTarget);
+                                break;
+                        }
+                    }
+                }
+
+                lines.Add(string.Format("{0} - {1}", agent.Name, actionString));
             }
 
             Selector.Draw(Canvas, Box.Min + new Vector2(1, 2), lines.ToArray());

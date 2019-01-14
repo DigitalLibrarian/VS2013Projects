@@ -8,7 +8,7 @@ namespace Tiles.Agents.Behaviors
 {
     public class AgentCommandExecutionContext : IAgentCommandExecutionContext
     {
-        IAgentCommand Command { get; set; }
+        public IAgentCommand Command { get; set; }
         IAgentCommandInterpreter Interpreter { get; set; }
 
         public long TimeRemaining { get; set; }

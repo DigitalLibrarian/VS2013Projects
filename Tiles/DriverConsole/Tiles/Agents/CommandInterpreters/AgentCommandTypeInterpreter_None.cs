@@ -8,7 +8,7 @@ namespace Tiles.Agents.CommandInterpreters
 {
     public class AgentCommandTypeInterpreter_None : IAgentCommandTypeInterpreter
     {
-        public AgentCommandType CommandType { get { return AgentCommandType.None; } }
+        public virtual AgentCommandType CommandType { get { return AgentCommandType.None; } }
 
         public void Execute(IGame game, IAgent agent, IAgentCommand agentCommand) { }
     }

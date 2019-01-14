@@ -9,6 +9,8 @@ namespace Tiles.Agents.Behaviors
     // TODO - rename
     public interface IAgentCommandExecutionContext
     {
+        IAgentCommand Command { get; }
+
         bool HasCommand { get; }
         bool Executed { get; }
         bool IsBusy { get; }

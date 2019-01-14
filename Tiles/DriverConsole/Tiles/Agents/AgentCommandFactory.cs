@@ -54,8 +54,10 @@ namespace Tiles.Agents
         {
             yield return new AgentCommand
             {
-                CommandType = AgentCommandType.None,
-                RequiredTime = ScaleTime(agent, attackMove.Class.PrepTime)
+                CommandType = AgentCommandType.AttackMeleePrep,
+                RequiredTime = ScaleTime(agent, attackMove.Class.PrepTime),
+                Target = target,
+                AttackMove = attackMove
             };
             yield return new AgentCommand
             {
@@ -66,8 +68,10 @@ namespace Tiles.Agents
             };
             yield return new AgentCommand
             {
-                CommandType = AgentCommandType.None,
-                RequiredTime = ScaleTime(agent, attackMove.Class.RecoveryTime)
+                CommandType = AgentCommandType.AttackMeleeRecovery,
+                RequiredTime = ScaleTime(agent, attackMove.Class.RecoveryTime),
+                Target = target,
+                AttackMove = attackMove
             };
         }
 
