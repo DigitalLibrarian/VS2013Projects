@@ -26,7 +26,8 @@ namespace Tiles.Agents.Combat
 
         public IEnumerable<IAgentCommand> GetPossibleDodges(IAgent agent, IAgent other, IAtlas atlas)
         {
-            if (other.AgentBehavior.Context.HasCommand
+            if ( !agent.Body.IsWrestling
+                && other.AgentBehavior.Context.HasCommand
                 && DodgeableCommandTypes.Contains(other.AgentBehavior.Context.Command.CommandType)
                 && other.AgentBehavior.Context.Command.AttackMove != null)
             {
