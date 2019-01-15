@@ -119,11 +119,11 @@ namespace Tiles.Tests.Agents
 
             var command = commands.ElementAt(0);
 
-            Assert.AreEqual(AgentCommandType.None, command.CommandType);
+            Assert.AreEqual(AgentCommandType.AttackMeleePrep, command.CommandType);
             Asserter.AreEqual(Vector3.Zero, command.TileOffset);
             Asserter.AreEqual(Vector3.Zero, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
+            Assert.AreSame(targetMock.Object, command.Target);
+            Assert.AreSame(attackMock.Object, command.AttackMove);
             Assert.IsNull(command.Item);
             Assert.IsNull(command.Weapon);
             Assert.IsNull(command.Armor);
@@ -143,11 +143,11 @@ namespace Tiles.Tests.Agents
 
             command = commands.ElementAt(2);
 
-            Assert.AreEqual(AgentCommandType.None, command.CommandType);
+            Assert.AreEqual(AgentCommandType.AttackMeleeRecovery, command.CommandType);
             Asserter.AreEqual(Vector3.Zero, command.TileOffset);
             Asserter.AreEqual(Vector3.Zero, command.Direction);
-            Assert.IsNull(command.Target);
-            Assert.IsNull(command.AttackMove);
+            Assert.AreSame(targetMock.Object, command.Target);
+            Assert.AreSame(attackMock.Object, command.AttackMove);
             Assert.IsNull(command.Item);
             Assert.IsNull(command.Weapon);
             Assert.IsNull(command.Armor);

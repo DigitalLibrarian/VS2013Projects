@@ -28,12 +28,17 @@ namespace Tiles.Agents.Behaviors
         {
             while (timeLeft > 0)
             {
-                if (!Context.HasCommand)
+                if (timeLeft > 0 && !Context.HasCommand)
                 {
                     Context.StartNewCommand(game, GetNextCommand(game, agent));
                 }
 
                 timeLeft -= Context.Execute(game, agent, timeLeft);
+
+                if (!Context.HasCommand && agent.CommandQueue.Any())
+                {
+                    Context.StartNewCommand(game, GetNextCommand(game, agent));
+                }
             }
         }
 

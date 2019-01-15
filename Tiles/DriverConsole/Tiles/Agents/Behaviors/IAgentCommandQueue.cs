@@ -10,6 +10,7 @@ namespace Tiles.Agents.Behaviors
     {
         void Enqueue(IAgentCommand command);
         IAgentCommand Next();
+        IAgentCommand Peek();
 
         bool Any();
     }

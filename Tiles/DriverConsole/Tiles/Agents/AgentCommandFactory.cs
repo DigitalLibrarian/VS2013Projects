@@ -46,6 +46,16 @@ namespace Tiles.Agents
                 Direction = direction, 
                 AttackMove = other.AgentBehavior.Context.Command.AttackMove
             };
+
+            var nextCommand = other.CommandQueue.Peek();
+            if (nextCommand != null)
+            {
+                yield return new AgentCommand
+                {
+                    CommandType = AgentCommandType.None,
+                    RequiredTime = other.AgentBehavior.Context.TimeRemaining + nextCommand.RequiredTime
+                };
+            }
         }
 
         public IEnumerable<IAgentCommand> PickUpItemsOnAgentTile(IGame game, IAgent agent) 

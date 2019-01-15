@@ -30,5 +30,10 @@ namespace Tiles.Agents.Behaviors
         {
             return Queue.Dequeue();
         }
+
+        public IAgentCommand Peek()
+        {
+            return Queue.Peek();
+        }
     }
 }

@@ -64,7 +64,7 @@ namespace Tiles.ScreensImpl.UI
             Canvas.DrawString("Dodging - Which direction?", Box.Min);
 
             var lines = new List<string>();
-            foreach (var command in GetDodges())
+            foreach (var command in GetDodges().Where(c => c.CommandType == AgentCommandType.Dodge))
             {
                 var v = command.Direction;
                 var dir = CompassVectors.GetCompassDirection(v);
@@ -91,8 +91,20 @@ namespace Tiles.ScreensImpl.UI
             }
             else if (args.Key == ConsoleKey.Enter)
             {
-                var command = GetDodges().ElementAt(Selector.Selected.Y);
-                Game.Player.EnqueueCommands(Enumerable.Repeat<IAgentCommand>(command, 1));
+                var dCount = -1;
+                var groups = new List<List<IAgentCommand>>();
+                foreach (var c in GetDodges())
+                {
+                    if (c.CommandType == AgentCommandType.Dodge)
+                    {
+                        groups.Add(new List<IAgentCommand>());
+                        dCount++;
+                    }
+                    groups[dCount].Add(c);
+                }
+
+                var commands = groups[Selector.Selected.Y];
+                Game.Player.EnqueueCommands(commands);
                 foreach (var screen in ParentScreens)
                 {
                     ScreenManager.Remove(screen);

@@ -76,9 +76,9 @@ namespace Driver.Tiles.WindowsForms
 
         bool first = true;
 
-        void panelDisplay_Paint(object sender, PaintEventArgs e)
+        void PaintFrame(PaintEventArgs args)
         {
-            PanelGraphics = e.Graphics;
+            PanelGraphics = args.Graphics;
             PanelGraphics.Clear(System.Drawing.Color.Black);
 
             if (first)
@@ -93,6 +93,18 @@ namespace Driver.Tiles.WindowsForms
             lock (ScreenManager)
             {
                 ScreenManager.Draw();
+            }
+        }
+
+        void panelDisplay_Paint(object sender, PaintEventArgs args)
+        {
+            try
+            {
+                PaintFrame(args);
+            }
+            catch (Exception ex)
+            {
+                var brak = 0;
             }
         }
 

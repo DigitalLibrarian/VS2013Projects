@@ -273,6 +273,11 @@ namespace Tiles.Tests.Agents.Behaviors
             var gameMock = new Mock<IGame>();
             gameMock.Setup(x => x.DesiredFrameLength).Returns(1);
             ContextMock.Setup(x => x.HasCommand).Returns(false);
+            ContextMock.Setup(x => x.StartNewCommand(It.IsAny<IGame>(), It.IsAny<IAgentCommand>()))
+                .Callback(() =>
+                {
+                    ContextMock.Setup(x => x.HasCommand).Returns(true);
+                });
 
             var commandMock1 = new Mock<IAgentCommand>();
             commandMock1.Setup(x => x.RequiredTime).Returns(2);
@@ -286,8 +291,9 @@ namespace Tiles.Tests.Agents.Behaviors
                 commandMock3.Object
             };
             PlannerMock.Setup(x => x.PlanBehavior(gameMock.Object, AgentMock.Object)).Returns(commands);
-
             ContextMock.Setup(x => x.Execute(gameMock.Object, AgentMock.Object, 1)).Returns(1);
+
+            // 1st tick, starts the first command
             Behavior.Update(gameMock.Object, AgentMock.Object);
 
             PlannerMock.Verify(x => x.PlanBehavior(gameMock.Object, AgentMock.Object), Times.Once());
@@ -296,6 +302,16 @@ namespace Tiles.Tests.Agents.Behaviors
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock1.Object), Times.Once());
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, It.IsAny<IAgentCommand>()), Times.Once());
 
+            ContextMock.Setup(x => x.Execute(gameMock.Object, AgentMock.Object, 1))
+                .Returns<IGame, IAgent, long>(
+                    (g, a, t) =>
+                    {
+                        ContextMock.Setup(x => x.HasCommand).Returns(false);
+                        return 1;
+                    }
+                );
+
+            // 2nd tick, finishes the first command and starts the second with no progress
             Behavior.Update(gameMock.Object, AgentMock.Object);
 
             ContextMock.Verify(x => x.StartNewCommand(gameMock.Object, commandMock2.Object), Times.Once());
