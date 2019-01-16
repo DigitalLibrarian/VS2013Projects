@@ -10,6 +10,7 @@ using Tiles.Bodies;
 using Tiles.Bodies.Injuries;
 using Tiles.Items;
 using Tiles.Materials;
+using Tiles.Random;
 
 namespace Tiles.Tests.Bodies.Injuries
 {
@@ -21,6 +22,7 @@ namespace Tiles.Tests.Bodies.Injuries
 
         InjuryReportCalc Calc { get; set; }
 
+        Mock<IRandom> RandomMock { get; set; }
         Mock<IBody> TargetBodyMock { get; set; }
         Mock<IBodyPart> TargetPartMock { get; set; }
         Mock<ITissue> TargetPartTissueMock { get; set; }
@@ -30,10 +32,11 @@ namespace Tiles.Tests.Bodies.Injuries
         [TestInitialize]
         public void Initialize()
         {
+            RandomMock = new Mock<IRandom>();
             InjuryFactoryMock = new Mock<IInjuryFactory>();
             BuilderMock = new Mock<ILayeredMaterialStrikeResultBuilder>();
 
-            Calc = new InjuryReportCalc(InjuryFactoryMock.Object, BuilderMock.Object);
+            Calc = new InjuryReportCalc(RandomMock.Object, InjuryFactoryMock.Object, BuilderMock.Object);
 
             TargetBodyMock = new Mock<IBody>();
             TargetPartMock = new Mock<IBodyPart>();
@@ -341,8 +344,11 @@ namespace Tiles.Tests.Bodies.Injuries
             var internalPartMock = new Mock<IBodyPart>();
             internalPartMock.Setup(x => x.Tissue).Returns(tissueMock.Object);
 
+            var internalParts = new List<IBodyPart> { internalPartMock.Object };
             TargetBodyMock.Setup(x => x.GetInternalParts(TargetPartMock.Object))
-                .Returns(new List<IBodyPart> { internalPartMock.Object });
+                .Returns(internalParts);
+
+            RandomMock.Setup(x => x.NextElement(internalParts)).Returns(internalPartMock.Object);
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(
@@ -464,8 +470,11 @@ namespace Tiles.Tests.Bodies.Injuries
             var internalPartMock = new Mock<IBodyPart>();
             internalPartMock.Setup(x => x.Tissue).Returns(tissueMock.Object);
 
+            var internalParts = new List<IBodyPart> { internalPartMock.Object };
             TargetBodyMock.Setup(x => x.GetInternalParts(TargetPartMock.Object))
-                .Returns(new List<IBodyPart> { internalPartMock.Object });
+                .Returns(internalParts);
+
+            RandomMock.Setup(x => x.NextElement(internalParts)).Returns(internalPartMock.Object);
 
             var bpInjuries = new List<IBodyPartInjury>();
             InjuryFactoryMock.Setup(x => x.Create(

@@ -13,17 +13,20 @@ namespace Tiles.Bodies.Injuries
 {
     public class InjuryReportCalc : IInjuryReportCalc
     {
+        private IRandom Random { get; set; }
         private IInjuryFactory InjuryFactory { get; set; }
         private ILayeredMaterialStrikeResultBuilder Builder { get; set; }
 
-        public InjuryReportCalc(IInjuryFactory injuryFactory)
+        public InjuryReportCalc(IRandom random, IInjuryFactory injuryFactory)
         {
+            Random = random;
             InjuryFactory = injuryFactory;
             Builder = new LayeredMaterialStrikeResultBuilder(new SingleLayerStrikeTester(new MaterialStrikeResultBuilder())); 
         }
 
-        public InjuryReportCalc(IInjuryFactory injuryFactory, ILayeredMaterialStrikeResultBuilder resultBuilder)
+        public InjuryReportCalc(IRandom random, IInjuryFactory injuryFactory, ILayeredMaterialStrikeResultBuilder resultBuilder)
         {
+            Random = random;
             InjuryFactory = injuryFactory;
             Builder = resultBuilder;
         }
@@ -68,8 +71,10 @@ namespace Tiles.Bodies.Injuries
                 }
 
                 // TODO - it should not be possible to sever internal parts, but we can "spill" them
-                foreach (var internalPart in targetBody.GetInternalParts(targetPart))
+                var internals = targetBody.GetInternalParts(targetPart);
+                if (internals.Any())
                 {
+                    var internalPart = Random.NextElement<IBodyPart>(internals);
                     foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
                     {
                         if (IsSuitable(tissueLayer))

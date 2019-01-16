@@ -58,7 +58,7 @@ namespace Tiles.EngineIntegrationTests
 
             Atlas = new Mock<IAtlas>().Object;
             CombatMoveFactory = new CombatMoveFactory();
-            InjuryReportCalc = new InjuryReportCalc(new InjuryFactory(Random));
+            InjuryReportCalc = new InjuryReportCalc(Random, new InjuryFactory(Random));
 
             MaterialStressCalc = new MaterialStressCalc();
         }

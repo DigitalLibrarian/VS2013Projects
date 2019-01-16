@@ -92,7 +92,7 @@ namespace Tiles.ScreensImpl.Panels
                 foreach (var bodyPart in agent.Body.Parts)
                 {
                     var items = agent.Outfit.GetItems(bodyPart);
-                    if ((!bodyPart.IsInternal && bodyPart.IsDamaged) || items.Any())
+                    if ((bodyPart.IsDamaged) || items.Any())
                     {
                         lines.Add(string.Format("{0} pulp:{1}", bodyPart.Name, bodyPart.IsEffectivelyPulped));
 

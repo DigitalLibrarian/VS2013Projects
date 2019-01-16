@@ -48,7 +48,7 @@ namespace Tiles
             ActionLog = log;
             Random = random;
 
-            var injuryCalc = new InjuryReportCalc(new InjuryFactory(Random));
+            var injuryCalc = new InjuryReportCalc(Random, new InjuryFactory(Random));
             var reporter = new ActionReporter(log);
             var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
             var woundFactory = new BodyPartWoundFactory();
