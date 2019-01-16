@@ -156,6 +156,7 @@ namespace Tiles.Materials
                         MaxPenetration = layer.Thickness;
                         penRemaining = MaxPenetration;
                         penetration = 0;
+                        layerResult.IsBluntCrack = true;
                     }
                 }
                 else if (mode != StressMode.Blunt)

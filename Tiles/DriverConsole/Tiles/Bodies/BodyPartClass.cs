@@ -104,12 +104,13 @@ namespace Tiles.Bodies
             Number = number;
             PreventsParentCollapse = preventsParentCollapse;
 
-            if (relations == null)
-            {
-                BodyPartRelations = Enumerable.Empty<IBodyPartRelation>();
-            }else{
-                BodyPartRelations = relations;
-            }
+            BodyPartRelations = relations == null ? Enumerable.Empty<IBodyPartRelation>() : relations;
+        }
+
+        public int GetBpRelationWeight(IBodyPartClass bpClass, BodyPartRelationType relationType)
+        {
+            var bpRelation = BodyPartRelations.FirstOrDefault(bpr => bpr.IsMatch(bpClass, relationType));
+            return bpRelation != null ? bpRelation.Weight : 0;
         }
     }
 }

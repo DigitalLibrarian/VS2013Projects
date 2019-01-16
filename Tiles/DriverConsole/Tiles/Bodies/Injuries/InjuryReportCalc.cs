@@ -71,17 +71,37 @@ namespace Tiles.Bodies.Injuries
                 }
 
                 // TODO - it should not be possible to sever internal parts, but we can "spill" them
-                var internals = targetBody.GetInternalParts(targetPart);
-                if (internals.Any())
+
+                // Internal wounds - pick one internal part at random.  if it is surrounded by anything, then that goes first.
+                var allInternals = targetBody.GetInternalParts(targetPart);
+                var strikePathInternals = new List<IBodyPart>();
+                if (allInternals.Any())
                 {
-                    var internalPart = Random.NextElement<IBodyPart>(internals);
-                    foreach (var tissueLayer in internalPart.Tissue.TissueLayers.Reverse())
+                    var targetInternal = Random.NextElement<IBodyPart>(allInternals);
+                    foreach (var testInternal in allInternals)
                     {
-                        if (IsSuitable(tissueLayer))
+                        if (testInternal != targetInternal)
                         {
-                            // TODO - need to figure in the effective thickness and volume by accounting for existing wounds
-                            Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
-                            tlParts.Add(tissueLayer, internalPart);
+                            var weight = testInternal.Class.GetBpRelationWeight(targetInternal.Class, BodyPartRelationType.Around);
+                            if (weight > 0)
+                            {
+                                strikePathInternals.Add(testInternal);
+                                break;
+                            }
+                        }
+                    }
+                    strikePathInternals.Add(targetInternal);
+
+                    foreach (var strikePathInternal in strikePathInternals)
+                    {
+                        foreach (var tissueLayer in strikePathInternal.Tissue.TissueLayers.Reverse())
+                        {
+                            if (IsSuitable(tissueLayer))
+                            {
+                                // TODO - need to figure in the effective thickness and volume by accounting for existing wounds
+                                Builder.AddLayer(tissueLayer.Material, tissueLayer.Thickness, tissueLayer.Volume, tissueLayer);
+                                tlParts.Add(tissueLayer, strikePathInternal);
+                            }
                         }
                     }
                 }

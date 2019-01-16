@@ -143,7 +143,7 @@ namespace Tiles.Bodies.Injuries
                     woundArea, tissueResult.ContactArea, 
                     tissueResult.ContactAreaRatio, tissueResult.PenetrationRatio, 
                     painContribution, bleedingContribution, arteryOpened, majorArteryOpened,
-                    tissueResult.IsDefeated, isChip, isSoft, isVascular);
+                    tissueResult.IsDefeated, tissueResult.IsBluntCrack, isChip, isSoft, isVascular);
         }
 
         private double Min(params double[] nums)

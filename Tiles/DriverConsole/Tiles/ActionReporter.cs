@@ -53,13 +53,37 @@ namespace Tiles
 
         public void ReportMeleeItemStrikeBodyPart(ICombatMoveContext session, IVerb verb, IItem item, IBodyPart bodyPart, bool targetPartWasShed)
         {
-            //DebugReportCombatMove(session.Move);
+            var attackerName = session.Attacker.Name;
+            var defenderName = session.Defender.Name;
+            var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
+            string withWeapon = item == null ? "" : string.Format(" with its {0}", item.Class.Name);
+            var bodyPartName = bodyPart.Name;
+
+            
+            var bpInjury = session.InjuryReport.BodyPartInjuries.FirstOrDefault();
+            if (bpInjury != null)
+            {
+                var message = string.Format("The {0} {1} the {2} in the {3}{4}{5}",
+                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, GetPhrase(session.InjuryReport));
+
+                Log.AddLine(message);
+            }
+            else
+            {
+                var message = string.Format("The {0} {1} the {2} in the {3}{4}{5}",
+                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, " and the attack misses.");
+
+                Log.AddLine(message);
+            }
+
+            /*
             var attackerName = session.Attacker.Name;
             var defenderName = session.Defender.Name;
             var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
             var bodyPartName = bodyPart.Name;
             var limbMessage = targetPartWasShed ? " and the severed part falls away!" : ".";
-            string withWeapon = string.Format(" with it's {0}", item.Class.Name);
+            string withWeapon = "";
+            if(item != null) string.Format(" with its {0}", item.Class.Name);
             
             var bpInjury = session.InjuryReport.BodyPartInjuries.FirstOrDefault();
             if (bpInjury != null) 
@@ -74,59 +98,25 @@ namespace Tiles
                     attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
 
                 Log.AddLine(message);
-                foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
-                {
-                    ReportAdditionalBodyPartInjury(session, addInjury);
-                }
             }
             else
             {
                 var message = string.Format("The {0} {1} the {2}'s {3}{4}{5}",
-                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, " but nothing happens.");
+                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, " and the attack misses.");
 
                 Log.AddLine(message);
             }
+             * */
         }
 
         public void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, bool targetPartWasShed)
         {
-            //DebugReportCombatMove(session.Move);
-            var attackerName = session.Attacker.Name;
-            var defenderName = session.Defender.Name;
-            var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
-            var bodyPartName = bodyPart.Name;
-            var limbMessage = targetPartWasShed ? " and the severed part falls away!" : ".";
-
-            if (session.InjuryReport.BodyPartInjuries.Any())
-            {
-                var bpInjury = session.InjuryReport.BodyPartInjuries.First();
-                var completionMessage = GetPhrase(bpInjury);
-                if (bpInjury.IsSever)
-                {
-                    completionMessage = limbMessage;
-                }
-
-                var message = string.Format("The {0} {1} the {2}'s {3}{4}",
-                    attackerName, verbStr, defenderName, bodyPartName, completionMessage);
-
-                Log.AddLine(message);
-                foreach (var addInjury in session.InjuryReport.BodyPartInjuries.Skip(1))
-                {
-                    ReportAdditionalBodyPartInjury(session, addInjury);
-                }
-            } 
-            else {
-                var message = string.Format("The {0} {1} the {2}'s {3} but the attack glances away.",
-                    attackerName, verbStr, defenderName, bodyPartName);
-
-                Log.AddLine(message);
-            }
+            ReportMeleeItemStrikeBodyPart(session, verb, null, bodyPart, targetPartWasShed);
         }
 
         public void ReportDeath(IAgent agent)
         {
-            var message = string.Format("The {0} is struck down!", agent.Name);
-            Log.AddLine(message);
+            Log.AddLine(string.Format("The {0} is struck down!", agent.Name));
         }
         
         public void ReportGiveInToPain(ICombatMoveContext session, Agents.IAgent agent)
@@ -153,7 +143,7 @@ namespace Tiles
             var message = string.Format("Type = {0}, Ca = {1}, Mp = {2}", move.Class.StressMode, move.Class.ContactArea, move.Class.MaxPenetration);
             Log.AddLine(message);
         }
-
+        
         string GetGerund(ITissueLayerInjury tlInjury)
         {
             var gerund = "";
@@ -216,6 +206,16 @@ namespace Tiles
 
             return gerund;
         }
+        
+        string GetPhrase(Tuple<IBodyPart, ITissueLayerInjury> tlInjury)
+        {
+            var gerund = GetGerund(tlInjury.Item2);
+            if (tlInjury.Item1.Tissue.TissueLayers.Count() == 1)
+            {
+                return string.Format("{0} the {1}", gerund, tlInjury.Item1.Name);
+            }
+            return string.Format("{0} the {1}'s {2}", gerund, tlInjury.Item1.Name, tlInjury.Item2.Layer.Class.Name);
+        }
 
         string GetPhrase(ITissueLayerInjury tlInjury)
         {
@@ -233,27 +233,157 @@ namespace Tiles
 
             if (injuries.Any())
             {
-                var phrases = injuries
-                    .Select(injury =>
-                    {
-                        var remaining = injuries.SkipWhile(x => x != injury);
-                        var grouped = remaining.TakeWhile(x => GetGerund(x).Equals(GetGerund(injury)));
-                        return grouped.Last() == injury ? injury : null;
-                    })
-                    .Where(x => x != null)
-                    .Select(x => GetPhrase(x))
-                    .ToList();
-                if (phrases.Count() > 1)
-                {
-                    var last = phrases.Last();
-                    phrases[phrases.Count() - 1] = string.Format("and {0}", last);
-                }
-                return string.Format(", {0}!", string.Join(", ", phrases));
+                return GetPhrase(injuries);
             }
             else
             {
                 return ", but the attack glances away.";
             }
+        }
+
+        string GetPhrase(IEnumerable<Tuple<IBodyPart, ITissueLayerInjury>> injuries)
+        {
+            var phrases = GetPhrases(injuries).ToList();
+
+            if (phrases.Count() > 1)
+            {
+                var last = phrases.Last();
+                phrases[phrases.Count() - 1] = string.Format("and {0}", last);
+            }
+            return string.Format(", {0}", string.Join(", ", phrases));
+        }
+
+        IEnumerable<string> GetPhrases(IEnumerable<Tuple<IBodyPart, ITissueLayerInjury>> injuries, bool useProper=false)
+        {
+            var phrases = injuries
+                   .Select(injury =>
+                   {
+                       var remaining = injuries.SkipWhile(x => x != injury);
+                       var grouped = remaining.TakeWhile(x => GetGerund(x.Item2).Equals(GetGerund(injury.Item2)));
+                       return grouped.Last() == injury ? injury : null;
+                   })
+                   .Where(x => x != null)
+                   .Select(x => GetPhrase(x))
+                   .ToList();
+
+            return phrases;
+        }
+
+        string GetPhrase(IEnumerable<ITissueLayerInjury> injuries)
+        {
+            var phrases = GetPhrases(injuries).ToList();
+
+            if (phrases.Count() > 1)
+            {
+                var last = phrases.Last();
+                phrases[phrases.Count() - 1] = string.Format("and {0}", last);
+            }
+            return string.Format(", {0}", string.Join(", ", phrases));
+        }
+
+        IEnumerable<string> GetPhrases(IEnumerable<ITissueLayerInjury> injuries)
+        {
+            var phrases = injuries
+                   .Select(injury =>
+                   {
+                       var remaining = injuries.SkipWhile(x => x != injury);
+                       var grouped = remaining.TakeWhile(x => GetGerund(x).Equals(GetGerund(injury)));
+                       return grouped.Last() == injury ? injury : null;
+                   })
+                   .Where(x => x != null)
+                   .Select(x => GetPhrase(x))
+                   .ToList();
+            
+            return phrases;
+        }
+
+        string GetPhrase(IInjuryReport injuryReport)
+        {
+            if (injuryReport.IsPrimaryTargetSevered())
+            {
+                return " and the severed part falls away!";
+            }
+
+            string jamPhrase = null;
+            IBodyPart bp1=null, bp2=null;
+            ITissueLayer tl1=null, tl2=null;
+            if (injuryReport.IsJam(out bp1, out tl1, out bp2, out tl2))
+            {
+                string jamObject = "";
+                if (bp1.Tissue.TissueLayers.Count() == 1)
+                {
+                    jamObject = bp1.Name;
+                }
+                else
+                {
+                    jamObject = tl1.Name;
+                }
+
+                string jamTarget = "";
+                if (bp2.Tissue.TissueLayers.Count() == 1)
+                {
+                    jamTarget = bp2.Name;
+                }
+                else
+                {
+                    jamTarget = string.Format("{0}'s {1}", bp2.Name, tl2.Name);
+                }
+
+                jamPhrase = string.Format("jamming the {0} through the {1}", jamObject, jamTarget);
+            }
+
+            var phrases = new List<string>();
+            var jamFound = false;
+            var inJam = false;
+            var injuries = new List<ITissueLayerInjury>();
+            var preJamInjuries = new List<ITissueLayerInjury>();
+            var postJamInjuries = new List<Tuple<IBodyPart, ITissueLayerInjury>>();
+            foreach (var bpInjury in injuryReport.BodyPartInjuries)
+            {
+                foreach (var tlInjury in bpInjury.TissueLayerInjuries)
+                {
+                    if (!jamFound && tlInjury.Layer == tl1)
+                    {
+                        inJam = true;
+                    }
+
+                    if (inJam)
+                    {
+                        jamFound = true;
+
+                        if (tlInjury.Layer == tl2)
+                        {
+                            postJamInjuries.Add(new Tuple<IBodyPart, ITissueLayerInjury>(bpInjury.BodyPart, tlInjury));
+                            inJam = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!jamFound)
+                        {
+                            preJamInjuries.Add(tlInjury);
+                        }
+                        else
+                        {
+                            postJamInjuries.Add(new Tuple<IBodyPart, ITissueLayerInjury>(bpInjury.BodyPart, tlInjury));
+                        }
+                    }
+                }
+            }
+
+            phrases.AddRange(GetPhrases(preJamInjuries));
+            if (jamFound)
+            {
+                phrases.Add(jamPhrase);
+            }
+            phrases.AddRange(GetPhrases(postJamInjuries));
+
+            if (phrases.Count() > 1)
+            {
+                var last = phrases.Last();
+                phrases[phrases.Count() - 1] = string.Format("and {0}", last);
+            }
+            return string.Format(", {0}!", string.Join(", ", phrases));
         }
 
         public void ReportBledOut(IAgent agent)

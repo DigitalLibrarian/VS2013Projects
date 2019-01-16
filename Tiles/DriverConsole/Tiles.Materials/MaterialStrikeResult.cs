@@ -21,6 +21,7 @@ namespace Tiles.Materials
         public StressResult StressResult { get; set; }
         public double ResultMomentum { get; set; }
         public bool IsDefeated { get; set; }
+        public bool IsBluntCrack { get; set; }
 
         public int ImplementMaxPenetration { get; set; }
         public int ImplementRemainingPenetration { get; set; }

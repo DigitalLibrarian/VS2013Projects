@@ -16,6 +16,7 @@ namespace Tiles.Bodies.Injuries
         StressResult StressResult { get; }
 
         bool IsDefeated { get; }
+        bool IsBluntCrack { get; }
         bool IsChip { get; }
         bool IsSoft { get; }
         bool IsVascular { get; }
@@ -40,6 +41,7 @@ namespace Tiles.Bodies.Injuries
         public StressResult StressResult { get; private set; }
 
         public bool IsDefeated { get; private set; }
+        public bool IsBluntCrack { get; private set; }
         public bool IsChip { get; private set; }
         public bool IsSoft { get; private set; }
         public bool IsVascular { get; private set; }
@@ -57,7 +59,7 @@ namespace Tiles.Bodies.Injuries
         public TissueLayerInjury(IBodyPart bodyPart, ITissueLayer layer, StressResult stressResult, IDamageVector damage, 
             double woundArea, double contactArea, double contactAreaRatio, double penetrationRatio, 
             int painContribution, int bleedingContribution, bool arteryOpened, bool majorArteryOpened,
-            bool isDefeated, bool isChip, bool isSoft, bool isVascular)
+            bool isDefeated, bool isBluntCrack, bool isChip, bool isSoft, bool isVascular)
         {
             BodyPart = bodyPart;
             Layer = layer;
@@ -73,6 +75,7 @@ namespace Tiles.Bodies.Injuries
             ArteryOpened = arteryOpened;
             MajorArteryOpened = majorArteryOpened;
             IsDefeated = isDefeated;
+            IsBluntCrack = isBluntCrack;
             IsChip = isChip;
             IsSoft = isSoft;
             IsVascular = isVascular;

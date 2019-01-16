@@ -45,5 +45,7 @@ namespace Tiles.Bodies
         IEnumerable<string> Categories { get; }
         IEnumerable<string> Types { get; }
         IEnumerable<IBodyPartRelation> BodyPartRelations { get; set; }
+
+        int GetBpRelationWeight(IBodyPartClass bpClass, BodyPartRelationType relationType);
     }
 }
