@@ -73,7 +73,7 @@ namespace Tiles.Agents.Combat
 
         bool AcceptableTargetPart(IBodyPart part)
         {
-            return !part.IsInternal;
+            return !part.IsInternal && !part.Class.IsSmall;
         }
 
 
