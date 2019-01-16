@@ -253,7 +253,7 @@ namespace Tiles
             return string.Format(", {0}", string.Join(", ", phrases));
         }
 
-        IEnumerable<string> GetPhrases(IEnumerable<Tuple<IBodyPart, ITissueLayerInjury>> injuries, bool useProper=false)
+        IEnumerable<string> GetPhrases(IEnumerable<Tuple<IBodyPart, ITissueLayerInjury>> injuries)
         {
             var phrases = injuries
                    .Select(injury =>
@@ -342,7 +342,7 @@ namespace Tiles
             {
                 foreach (var tlInjury in bpInjury.TissueLayerInjuries)
                 {
-                    if (!jamFound && tlInjury.Layer == tl1)
+                    if (!jamFound && tlInjury.Layer == tl1 && jamPhrase != null)
                     {
                         inJam = true;
                     }
@@ -371,12 +371,16 @@ namespace Tiles
                 }
             }
 
-            phrases.AddRange(GetPhrases(preJamInjuries));
+            if(preJamInjuries.Any())
+                phrases.AddRange(GetPhrases(preJamInjuries));
+
             if (jamFound)
             {
                 phrases.Add(jamPhrase);
             }
-            phrases.AddRange(GetPhrases(postJamInjuries));
+            
+            if(postJamInjuries.Any())
+                phrases.AddRange(GetPhrases(postJamInjuries));
 
             if (phrases.Count() > 1)
             {
