@@ -49,11 +49,6 @@ namespace Tiles.ScreensImpl.SiteFactories
                 return s;
             }
 
-            if (box.Contans(CompassVectors.North))
-            {
-                throw new NotImplementedException();
-            }
-
             int numItems = box.Size.X;
             var metals = Df.GetMetalNames().ToList();
             var weapons = Df.GetWeaponNames().ToList();
