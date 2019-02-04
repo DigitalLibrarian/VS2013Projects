@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiles.Agents;
 using Tiles.Bodies;
+using Tiles.Ecs;
 using Tiles.Items;
 using Tiles.Math;
 
@@ -15,6 +16,7 @@ namespace Tiles.Tests.Agents
     [TestClass]
     public class AgentReaperTests
     {
+        Mock<IEntityManager> EntityManagerMock { get; set; }
         Mock<IAtlas> AtlasMock { get; set; }
         Mock<IActionReporter> ReporterMock { get; set; }
         Mock<IItemFactory> ItemFactoryMock { get; set; }
@@ -24,11 +26,12 @@ namespace Tiles.Tests.Agents
         [TestInitialize]
         public void Initialize()
         {
+            EntityManagerMock = new Mock<IEntityManager>();
             AtlasMock = new Mock<IAtlas>();
             ReporterMock = new Mock<IActionReporter>();
             ItemFactoryMock = new Mock<IItemFactory>();
 
-            Reaper = new AgentReaper(AtlasMock.Object, ReporterMock.Object, ItemFactoryMock.Object);
+            Reaper = new AgentReaper(EntityManagerMock.Object, AtlasMock.Object, ReporterMock.Object, ItemFactoryMock.Object);
         }
 
         [TestMethod]
@@ -50,8 +53,10 @@ namespace Tiles.Tests.Agents
             inventoryMock.Setup(x => x.GetItems()).Returns(invItems);
             inventoryMock.Setup(x => x.GetWorn()).Returns(wornItems);
 
+            int entityId = 42;
             var agentMock = new Mock<IAgent>();
             agentMock.Setup(x => x.Inventory).Returns(inventoryMock.Object);
+            agentMock.Setup(x => x.EntityId).Returns(entityId);
 
             var agentGrasperPartMock = new Mock<IBodyPart>();
             var otherGraspeePartMock = new Mock<IBodyPart>();
@@ -95,6 +100,9 @@ namespace Tiles.Tests.Agents
 
             agentGrasperPartMock.Verify(x => x.StopGrasp(otherGraspeePartMock.Object), Times.Once());
             otherGrasperPartMock.Verify(x => x.StopGrasp(agentGraspeePartMock.Object), Times.Once());
+
+            EntityManagerMock.Verify(x => x.DeleteEntity(entityId), Times.Once());
+                
         }
 
         [Ignore]

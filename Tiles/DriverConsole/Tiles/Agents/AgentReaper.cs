@@ -13,13 +13,16 @@ namespace Tiles.Agents
 {
     public class AgentReaper : IAgentReaper
     {
+        IEntityManager EntityManager { get; set; }
         IAtlas Atlas { get; set; }
         IActionReporter Reporter { get; set; }
         IItemFactory ItemFactory { get; set; }
 
         public AgentReaper(
+            IEntityManager entityManager,
             IAtlas atlas, IActionReporter reporter, IItemFactory itemFactory)
         {
+            EntityManager = entityManager;
             Atlas = atlas;
             Reporter = reporter;
             ItemFactory = itemFactory;
@@ -27,6 +30,8 @@ namespace Tiles.Agents
 
         public IEnumerable<IItem> Reap(IAgent agent)
         {
+            EntityManager.DeleteEntity(agent.EntityId);
+
             foreach (var bodyPart in agent.Body.Parts)
             {
                 ClearGrasps(bodyPart);

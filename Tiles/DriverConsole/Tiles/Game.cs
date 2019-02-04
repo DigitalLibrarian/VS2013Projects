@@ -50,7 +50,7 @@ namespace Tiles
 
             var injuryCalc = new InjuryReportCalc(Random, new InjuryFactory(Random));
             var reporter = new ActionReporter(log);
-            var reaper = new AgentReaper(Atlas, reporter, new ItemFactory());
+            var reaper = new AgentReaper(EntityManager, Atlas, reporter, new ItemFactory());
             var woundFactory = new BodyPartWoundFactory();
             Splatter = new SplatterFascade(Random, Atlas);
             var evolutions = new List<ICombatEvolution>{
