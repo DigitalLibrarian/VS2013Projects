@@ -26,10 +26,12 @@ namespace Tiles.Bodies
 
         string Name { get; }
 
+        bool IsPenetrated { get; }
         bool IsPristine { get; }
         bool IsPulped { get; }
         bool IsVascular { get; }
 
         void AddInjury(ITissueLayerInjury injury);
+
     }
 }

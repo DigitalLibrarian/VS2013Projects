@@ -24,5 +24,6 @@ namespace Tiles.Bodies
         IMaterial BloodMaterial { get; }
 
         bool FeelsNoPain { get; }
+        bool NoThought { get; }
     }
 }

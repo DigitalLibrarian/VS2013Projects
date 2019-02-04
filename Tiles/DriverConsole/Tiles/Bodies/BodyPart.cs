@@ -21,6 +21,7 @@ namespace Tiles.Bodies
         public bool IsNervous { get { return Class.IsNervous; } }
         public bool IsCirculatory { get { return Class.IsCirculatory; } }
         public bool IsSkeletal { get { return Class.IsSkeletal; } }
+        public bool IsThought { get { return Class.IsThought; } }
 
         public bool IsDigit { get { return Class.IsDigit; } }
 
@@ -112,6 +113,16 @@ namespace Tiles.Bodies
                 return Tissue.TissueLayers
                     .Where(x => !x.Class.IsCosmetic)
                     .Any(x => !x.IsPristine);
+            }
+        }
+
+        public bool IsPenetrated
+        {
+            get
+            {
+                return Tissue.TissueLayers
+                    .Where(x => !x.Class.IsCosmetic)
+                    .Any(x => x.IsPenetrated);
             }
         }
 

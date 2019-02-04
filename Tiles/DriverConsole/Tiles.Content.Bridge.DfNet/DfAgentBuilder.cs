@@ -37,6 +37,7 @@ namespace Tiles.Content.Bridge.DfNet
         Material PusMaterial { get; set; }
 
         bool FeelsNoPain { get; set; }
+        bool NoThought { get; set; }
 
         public DfAgentBuilder()
         {
@@ -54,7 +55,6 @@ namespace Tiles.Content.Bridge.DfNet
 
             BpRelationDefns = new List<BpRelationDefn>();
             TlOverrideDefns = new List<TlOverrideDefn>();
-            FeelsNoPain = default(bool);
             BodySizePerc = 1d;
         }
 
@@ -400,6 +400,7 @@ namespace Tiles.Content.Bridge.DfNet
                 IsNervous = 
                         singleWords.Contains("NERVOUS")
                     ||  singleWords.Contains("THOUGHT"),
+                IsThought = singleWords.Contains("THOUGHT"),
                 IsCirculatory = singleWords.Contains("CIRCULATION"),
                 IsSkeletal = singleWords.Contains("SKELETAL"),
                 IsDigit = singleWords.Contains("DIGIT"),
@@ -757,6 +758,11 @@ namespace Tiles.Content.Bridge.DfNet
             FeelsNoPain = feelsNoPain;
         }
 
+        public void SetNoThought(bool noThought)
+        {
+            NoThought = noThought;
+        }
+
         public Agent Build()
         {
             var parts = new List<BodyPart>();
@@ -851,7 +857,8 @@ namespace Tiles.Content.Bridge.DfNet
                     Attributes = newAttrs,
                     BloodMaterial = BloodMaterial,
                     PusMaterial = PusMaterial,
-                    FeelsNoPain = FeelsNoPain
+                    FeelsNoPain = FeelsNoPain,
+                    NoThought = NoThought
                 };
 
             SetMoves(body);

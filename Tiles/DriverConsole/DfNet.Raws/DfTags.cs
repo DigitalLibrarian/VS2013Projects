@@ -128,6 +128,7 @@ namespace DfNet.Raws
             public const string PUS = "PUS";
 
             public const string NOPAIN = "NOPAIN";
+            public const string NOTHOUGHT = "NOTHOUGHT";
 
             public const string VASCULAR = "VASCULAR";
             public const string PAIN_RECEPTORS = "PAIN_RECEPTORS";

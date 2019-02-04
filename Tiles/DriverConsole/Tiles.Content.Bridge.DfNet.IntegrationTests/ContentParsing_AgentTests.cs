@@ -33,9 +33,15 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
         [TestMethod]
         public void Dwarf_FeelsPain()
         {
-
             var agent = DfAgentFactory.Create("DWARF", "MALE");
             Assert.IsFalse(agent.Body.FeelsNoPain);
+        }
+
+        [TestMethod]
+        public void Dwarf_NoThought()
+        {
+            var agent = DfAgentFactory.Create("DWARF", "MALE");
+            Assert.IsFalse(agent.Body.NoThought);
         }
 
         [TestMethod]
@@ -329,6 +335,13 @@ namespace Tiles.Content.Bridge.DfNet.IntegrationTests
             var agent = DfAgentFactory.Create("GIANT_CRAB", "MALE");
             var move = agent.Body.Moves.First(x => x.Name.Equals("PINCER"));
             Assert.AreEqual(129.16d, move.ContactArea, 0.01d);
+        }
+
+        [TestMethod]
+        public void BronzeCollosus_NoThought()
+        {
+            var agent = DfAgentFactory.Create("COLOSSUS_BRONZE", "MALE");
+            Assert.IsTrue(agent.Body.NoThought);
         }
     }
 }

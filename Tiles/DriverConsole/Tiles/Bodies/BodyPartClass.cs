@@ -31,6 +31,7 @@ namespace Tiles.Bodies
         public bool IsNervous { get; set; }
         public bool IsCirculatory { get; set; }
         public bool IsSkeletal { get; set; }
+        public bool IsThought { get; set; }
 
         public bool IsDigit { get; set; }
 
@@ -58,7 +59,7 @@ namespace Tiles.Bodies
             IEnumerable<string> types,
             int relSize,
             bool isCritical = false, bool canGrasp = false, bool canBeAmputated = false, 
-            bool isNervous = false, bool isCirc = false, bool isSkeletal = false,
+            bool isNervous = false, bool isCirc = false, bool isSkeletal = false, bool isThought = false,
             bool isDigit = false, 
             bool isBreathe = false,
             bool isSight = false,
@@ -91,6 +92,7 @@ namespace Tiles.Bodies
             IsNervous = IsNervous;
             IsCirculatory = isCirc;
             IsSkeletal = isSkeletal;
+            IsThought = isThought;
             IsDigit = isDigit;
             IsBreathe = isBreathe;
             IsSight = isSight;

@@ -17,6 +17,7 @@ namespace Tiles.Content.Bridge.DfNet
         void SetBloodMaterial(string matName);
         void SetPusMaterial(string tisName);
         void SetFeelsNoPain(bool feelsNoPain);
+        void SetNoThought(bool noThought);
 
         void AddBody(string name, DfObject bpObject);
         void AddMaterial(string matName, Material material);
@@ -34,5 +35,6 @@ namespace Tiles.Content.Bridge.DfNet
         void AddTissueLayerOverride(string tissueName, string strategy, string strategyParam, bool hasMajorArteries, string destTissueName);
 
         Agent Build();
+
     }
 }

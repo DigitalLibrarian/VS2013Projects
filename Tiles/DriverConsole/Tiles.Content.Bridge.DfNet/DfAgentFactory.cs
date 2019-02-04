@@ -243,6 +243,9 @@ namespace Tiles.Content.Bridge.DfNet
                     case DfTags.MiscTags.NOPAIN:
                         agentContext.SetFeelsNoPain(true);
                         break;
+                    case DfTags.MiscTags.NOTHOUGHT:
+                        agentContext.SetNoThought(true);
+                        break;
                     case DfTags.MiscTags.CHANGE_BODY_SIZE_PERC:
                         HandleChangeBodySizePerc(tag, agentContext);
                         break;

@@ -24,6 +24,7 @@ namespace Tiles.Bodies
         bool IsNervous { get; }
         bool IsCirculatory { get; }
         bool IsSkeletal { get; }
+        bool IsThought { get; }
 
         bool IsDigit { get; }
 
@@ -55,6 +56,7 @@ namespace Tiles.Bodies
 
         bool IsDamaged { get; }
         bool IsEffectivelyPulped { get; }
+        bool IsPenetrated { get; }
 
         double Mass { get; }
         double ContactArea { get; }

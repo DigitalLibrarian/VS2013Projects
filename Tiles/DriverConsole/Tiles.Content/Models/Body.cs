@@ -24,5 +24,6 @@ namespace Tiles.Content.Models
         public Material PusMaterial { get; set; }
 
         public bool FeelsNoPain { get; set; }
+        public bool NoThought { get; set; }
     }
 }

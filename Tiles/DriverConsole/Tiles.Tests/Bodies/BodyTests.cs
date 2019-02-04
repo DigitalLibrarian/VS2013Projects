@@ -29,9 +29,12 @@ namespace Tiles.Tests.Bodies
         [TestMethod]
         public void IsDead_PrinciplePartIsEffectivelyPulped()
         {
+            var bodyClassMock = new Mock<IBodyClass>();
+            bodyClassMock.Setup(x => x.NoThought).Returns(true);
+
             var partMock = new Mock<IBodyPart>();
             partMock.Setup(x => x.IsEffectivelyPulped).Returns(true);
-            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock.Object }, 10);
+            var body = new Body(bodyClassMock.Object, new List<IBodyPart> { partMock.Object }, 10);
             Assert.IsTrue(body.IsDead);
 
             partMock.Setup(x => x.IsEffectivelyPulped).Returns(false);
@@ -41,14 +44,40 @@ namespace Tiles.Tests.Bodies
         [TestMethod]
         public void IsDead_NoBlood()
         {
+            var bodyClassMock = new Mock<IBodyClass>();
+            bodyClassMock.Setup(x => x.NoThought).Returns(true);
+
             var partMock = new Mock<IBodyPart>();
             partMock.Setup(x => x.IsEffectivelyPulped).Returns(false);
-            var body = new Body(new Mock<IBodyClass>().Object, new List<IBodyPart> { partMock.Object }, 10);
+            var body = new Body(bodyClassMock.Object, new List<IBodyPart> { partMock.Object }, 10);
             body.Blood.Numerator = 0;
             Assert.IsTrue(body.IsDead);
 
             body.Blood.Numerator = 1;
             Assert.IsFalse(body.IsDead);
+        }
+
+        [TestMethod]
+        public void IsDead_BrainDead()
+        {
+            var bodyClassMock = new Mock<IBodyClass>();
+            bodyClassMock.Setup(x => x.NoThought).Returns(true);
+
+            var principlePartMock = new Mock<IBodyPart>();
+            principlePartMock.Setup(x => x.IsThought).Returns(false);
+            principlePartMock.Setup(x => x.IsEffectivelyPulped).Returns(false);
+
+            var thoughtPart = new Mock<IBodyPart>();
+            thoughtPart.Setup(x => x.IsThought).Returns(true);
+            thoughtPart.Setup(x => x.IsPenetrated).Returns(true);
+
+            var body = new Body(bodyClassMock.Object, new List<IBodyPart> { principlePartMock.Object, thoughtPart.Object }, 10);
+
+            body.Blood.Numerator = 1;
+            Assert.IsFalse(body.IsDead);
+
+            bodyClassMock.Setup(x => x.NoThought).Returns(false);
+            Assert.IsTrue(body.IsDead);
         }
 
         [TestMethod]

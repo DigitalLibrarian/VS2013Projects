@@ -212,7 +212,8 @@ namespace Tiles.Content.Map
                 Map(body.BloodMaterial),
                 Map(body.PusMaterial))
                 {
-                    FeelsNoPain = body.FeelsNoPain
+                    FeelsNoPain = body.FeelsNoPain,
+                    NoThought = body.NoThought
                 };
         }
 
@@ -237,6 +238,7 @@ namespace Tiles.Content.Map
                 canGrasp: bodyPart.CanGrasp,
                 canBeAmputated: bodyPart.CanBeAmputated,
                 isNervous: bodyPart.IsNervous,
+                isThought: bodyPart.IsThought,
                 isCirc: bodyPart.IsCirculatory,
                 isSkeletal: bodyPart.IsSkeletal,
                 isDigit: bodyPart.IsDigit,

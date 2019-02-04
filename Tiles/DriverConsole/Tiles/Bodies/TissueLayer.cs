@@ -47,6 +47,14 @@ namespace Tiles.Bodies
             }
         }
 
+        public bool IsPenetrated
+        {
+            get
+            {
+                return PenetrationRatio > 0;
+            }
+        }
+
         public bool IsVascular
         {
             get

@@ -30,6 +30,7 @@ namespace Tiles.Content.Models
         public bool IsNervous { get; set; }
         public bool IsCirculatory { get; set; }
         public bool IsSkeletal { get; set; }
+        public bool IsThought { get; set; }
 
         public bool IsDigit { get; set; }
 

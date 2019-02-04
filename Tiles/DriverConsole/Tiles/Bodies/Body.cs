@@ -29,6 +29,11 @@ namespace Tiles.Bodies
         {
             get
             {
+                if (!Class.NoThought && !Parts.Any(p => p.IsThought && !p.IsPenetrated))
+                {
+                    return true;
+                }
+
                 return !Parts.Any()
                     || Parts.First().IsEffectivelyPulped
                     || Blood.AsDouble() <= 0d;
