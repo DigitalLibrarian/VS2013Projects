@@ -160,7 +160,7 @@ namespace Tiles.Materials
             var bluntCost3 = MaterialStressCalc.BluntCost3(strickenYield, strickenFracture, LayerVolume);
             
             var sharpFudge = sharpness / 1000d;
-            stress = (Momentum / volDamaged) *sharpFudge;
+            stress = (Momentum / volDamaged) * sharpFudge;
             if (ImplementIsEdged)
             {
                 var dentCost = (shearCost1);

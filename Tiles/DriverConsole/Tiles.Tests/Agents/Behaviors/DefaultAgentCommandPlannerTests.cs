@@ -90,33 +90,5 @@ namespace Tiles.Tests.Agents.Behaviors
             Assert.AreSame(commandMock.Object, result.First());
             CommandFactoryMock.Verify(x => x.MoveDirection(AgentMock.Object, wanderDir), Times.Once());
         }
-
-        [Ignore]
-        [TestMethod]
-        public void NoAvailableMoves()
-        {
-
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void PossibleMovesFound()
-        {
-
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void RandomWander()
-        {
-
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void DoesNotTargetSelf()
-        {
-
-        }
     }
 }

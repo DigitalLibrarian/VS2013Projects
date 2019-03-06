@@ -227,7 +227,6 @@ namespace Tiles.Tests.Agents.Combat
         }
 
 
-        [Ignore]
         [TestMethod]
         public void PossibleGrasp()
         {
@@ -286,7 +285,6 @@ namespace Tiles.Tests.Agents.Combat
             }
         }
 
-        [Ignore]
         [TestMethod]
         public void PossibleBreakGrasp()
         {
@@ -317,52 +315,6 @@ namespace Tiles.Tests.Agents.Combat
             Assert.IsTrue(result.All(x => x == spoofedResult.Object));
 
             MoveFactoryMock.Verify(x => x.BreakOpponentGrasp(It.IsAny<IAgent>(), It.IsAny<IAgent>(), attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once);
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void PossiblePullAndReleaseGrasp()
-        {
-            AttackerMock.Setup(x => x.Pos).Returns(Vector3.Zero);
-            DefenderMock.Setup(x => x.Pos).Returns(new Vector3(1, 1, 0));
-            
-            var attackerBodyPartMock = AddBodyPart(AttackerBodyParts);
-            attackerBodyPartMock.Setup(x => x.IsWrestling).Returns(true);
-            attackerBodyPartMock.Setup(x => x.IsGrasping).Returns(true);
-
-            var defenderBodyPartMock = AddBodyPart(DefenderBodyParts);
-            defenderBodyPartMock.Setup(x => x.IsWrestling).Returns(true);
-            defenderBodyPartMock.Setup(x => x.IsGrasping).Returns(false);
-
-            attackerBodyPartMock.Setup(x => x.Grasped).Returns(defenderBodyPartMock.Object);
-
-
-            var spoofedResult1 = new Mock<ICombatMove>();
-            MoveFactoryMock.Setup(
-                x => x.PullGraspedBodyPart(
-                    It.IsAny<IAgent>(),
-                    It.IsAny<IAgent>(),
-                    It.IsAny<IBodyPart>(),
-                    It.IsAny<IBodyPart>()
-                    )).Returns(spoofedResult1.Object);
-
-            var spoofedResult2 = new Mock<ICombatMove>();
-            MoveFactoryMock.Setup(
-                x => x.ReleaseGraspedPart(
-                    It.IsAny<IAgent>(),
-                    It.IsAny<IAgent>(),
-                    It.IsAny<IBodyPart>(),
-                    It.IsAny<IBodyPart>()
-                    )).Returns(spoofedResult2.Object);
-
-
-            var result = Disco.GetPossibleMoves(AttackerMock.Object, DefenderMock.Object).ToList();
-            Assert.AreEqual(2, result.Count());
-            Assert.AreSame(spoofedResult1.Object, result.ElementAt(0));
-            Assert.AreSame(spoofedResult2.Object, result.ElementAt(1));
-
-            MoveFactoryMock.Verify(x => x.PullGraspedBodyPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
-            MoveFactoryMock.Verify(x => x.ReleaseGraspedPart(AttackerMock.Object, DefenderMock.Object, attackerBodyPartMock.Object, defenderBodyPartMock.Object), Times.Once());
         }
     }
 }
