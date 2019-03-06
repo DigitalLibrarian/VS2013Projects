@@ -940,7 +940,7 @@ namespace Tiles.EngineIntegrationTests
 
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("skin"));
 
-            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            var cost = MaterialStressCalc.BluntCost1(layer.Material.ImpactYield, layer.Volume);
             Assert.AreEqual(2, (int)cost);
         }
         [TestMethod]
@@ -954,7 +954,7 @@ namespace Tiles.EngineIntegrationTests
 
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("fat"));
 
-            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            var cost = MaterialStressCalc.BluntCost1(layer.Material.ImpactYield, layer.Volume);
             Assert.AreEqual(27d, (int)cost);
         }
 
@@ -969,7 +969,7 @@ namespace Tiles.EngineIntegrationTests
 
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("muscle"));
 
-            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            var cost = MaterialStressCalc.BluntCost1(layer.Material.ImpactYield, layer.Volume);
             Assert.AreEqual(69, (int)cost);
         }
 
@@ -984,7 +984,7 @@ namespace Tiles.EngineIntegrationTests
 
             var layer = targetBodyPart.Tissue.TissueLayers.Single(x => x.Material.Name.Equals("bone"));
 
-            var cost = MaterialStressCalc.ImpactCost1(layer.Material, layer.Volume);
+            var cost = MaterialStressCalc.BluntCost1(layer.Material.ImpactYield, layer.Volume);
             Assert.AreEqual(1395d, (int)cost);
         }
 

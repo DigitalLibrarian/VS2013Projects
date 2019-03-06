@@ -3,11 +3,12 @@ namespace Tiles.Materials
 {
     public interface IMaterialStressCalc
     {
-        double ImpactCost1(IMaterial strickenMat, double layerVolume);
-        double ImpactCost2(IMaterial strickenMat, double layerVolume);
-        double ImpactCost3(IMaterial strickenMat, double layerVolume);
-        double ShearCost1(IMaterial strikerMat, IMaterial strickenMat, double sharpness);
-        double ShearCost2(IMaterial strikerMat, IMaterial strickenMat, double sharpness);
-        double ShearCost3(IMaterial strikerMat, IMaterial strickenMat, double sharpness, double layerVolume);
+        double ShearCost1(double strickenYield, double strikerYield, double sharpness);
+        double ShearCost2(double strickenFracture, double strikerFracture, double sharpness);
+        double ShearCost3(double strickenFracture, double strikerFracture, double sharpness, double layerVolume);
+
+        double BluntCost1(double strickenYield, double layerVolume);
+        double BluntCost2(double strickenYield, double strickenFracture, double layerVolume);
+        double BluntCost3(double strickenYield, double strickenFracture, double layerVolume);
     }
 }

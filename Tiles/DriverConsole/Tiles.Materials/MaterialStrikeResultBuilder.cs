@@ -119,16 +119,19 @@ namespace Tiles.Materials
 
             double penetrationRatio = 0d;
 
-            var shearCost1 = MaterialStressCalc.ShearCost1(StrikerMaterial, StrickenMaterial, sharpness) / LayerThickness;
-            var shearCost2 = MaterialStressCalc.ShearCost2(StrikerMaterial, StrickenMaterial, sharpness);
-            var shearCost3 = MaterialStressCalc.ShearCost3(StrikerMaterial, StrickenMaterial, sharpness, volDamaged);
+            int strickenStrainAtYield, strickenYield, strickenFracture;
+            StrickenMaterial.GetModeProperties(StressMode, out strickenYield, out strickenFracture, out strickenStrainAtYield);
+
+            int strikerStrainAtYield, strikerYield, strikerFracture;
+            StrikerMaterial.GetModeProperties(StressMode, out strikerYield, out strikerFracture, out strikerStrainAtYield);
+
+            var shearCost1 = MaterialStressCalc.ShearCost1(strickenYield, strikerYield, sharpness) / LayerThickness;
+            var shearCost2 = MaterialStressCalc.ShearCost2(strickenFracture, strikerFracture, sharpness);
+            var shearCost3 = MaterialStressCalc.ShearCost3(strickenFracture, strikerFracture, sharpness, volDamaged);
            
-            var impactCost1 = MaterialStressCalc.ImpactCost1(StrickenMaterial, LayerVolume);
-            var impactCost2 = MaterialStressCalc.ImpactCost2(StrickenMaterial, LayerVolume);
-            var impactCost3 = MaterialStressCalc.ImpactCost3(StrickenMaterial, LayerVolume);
-            
-            int strainAtYield, yield, fractureForce;
-            StrickenMaterial.GetModeProperties(StressMode, out yield, out fractureForce, out strainAtYield);
+            var bluntCost1 = MaterialStressCalc.BluntCost1(strickenYield, LayerVolume);
+            var bluntCost2 = MaterialStressCalc.BluntCost2(strickenYield, strickenFracture, LayerVolume);
+            var bluntCost3 = MaterialStressCalc.BluntCost3(strickenYield, strickenFracture, LayerVolume);
             
             var sharpFudge = sharpness / 1000d;
             stress = (Momentum / volDamaged) * sharpFudge;
@@ -193,14 +196,14 @@ namespace Tiles.Materials
                 // This should be visible in action log.  Probably happens before any other layer testing
                 // use copy "glances away".  This probably belongs at a higher level.
 
-                var dentCost = (impactCost1);
-                var cutCost = dentCost + System.Math.Max(0, impactCost2);
-                var defeatCost = cutCost + System.Math.Max(0, impactCost3);
+                var dentCost = (bluntCost1);
+                var cutCost = dentCost + System.Math.Max(0, bluntCost2);
+                var defeatCost = cutCost + System.Math.Max(0, bluntCost3);
 
                 if (stress > dentCost)
                 {
                     msr = StressResult.Impact_Dent;
-                    if (strainAtYield >= 50000)
+                    if (strickenStrainAtYield >= 50000)
                     {
                         msr = StressResult.Impact_Bypass;
                     }
@@ -229,7 +232,7 @@ namespace Tiles.Materials
                 /* If the layer was not defeated, reduced blunt damage is passed through to the layer below depending on layer strain/denting and flexibility. 
                  * For example if you punch someone in a steel helm,  [IMPACT_STRAIN_AT_YIELD:940], and the punch doesn't blunt fracture the steel helm, only 
                  * 940/50000=0.0188=1.88% of the momentum is passed to the skin layer */
-                resultMom = Momentum * ( (double)strainAtYield / 50000d);
+                resultMom = Momentum * ( (double)strickenStrainAtYield / 50000d);
                 resultMom = System.Math.Max(0d, resultMom);
 
                 if(StressMode == Materials.StressMode.Blunt
@@ -250,7 +253,7 @@ namespace Tiles.Materials
                 }
                 else
                 {
-                    deduction = impactCost1 / 10d;
+                    deduction = bluntCost1 / 10d;
                 }
 
                 resultMom = Momentum - deduction;
@@ -285,7 +288,6 @@ namespace Tiles.Materials
         {
             ImplementWasSmall = wasSmall;
         }
-
 
         public void SetMaxPenetration(double maxPenetration)
         {
