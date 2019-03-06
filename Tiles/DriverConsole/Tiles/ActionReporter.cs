@@ -75,38 +75,6 @@ namespace Tiles
 
                 Log.AddLine(message);
             }
-
-            /*
-            var attackerName = session.Attacker.Name;
-            var defenderName = session.Defender.Name;
-            var verbStr = verb.Conjugate(VerbConjugation.ThirdPerson);
-            var bodyPartName = bodyPart.Name;
-            var limbMessage = targetPartWasShed ? " and the severed part falls away!" : ".";
-            string withWeapon = "";
-            if(item != null) string.Format(" with its {0}", item.Class.Name);
-            
-            var bpInjury = session.InjuryReport.BodyPartInjuries.FirstOrDefault();
-            if (bpInjury != null) 
-            { 
-                var completionMessage = GetPhrase(bpInjury);
-                if (bpInjury.IsSever)
-                {
-                    completionMessage = limbMessage;
-                }
-
-                var message = string.Format("The {0} {1} the {2}'s {3}{4}{5}",
-                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, completionMessage);
-
-                Log.AddLine(message);
-            }
-            else
-            {
-                var message = string.Format("The {0} {1} the {2}'s {3}{4}{5}",
-                    attackerName, verbStr, defenderName, bodyPartName, withWeapon, " and the attack misses.");
-
-                Log.AddLine(message);
-            }
-             * */
         }
 
         public void ReportMeleeStrikeBodyPart(ICombatMoveContext session, IVerb verb, IBodyPart bodyPart, bool targetPartWasShed)
