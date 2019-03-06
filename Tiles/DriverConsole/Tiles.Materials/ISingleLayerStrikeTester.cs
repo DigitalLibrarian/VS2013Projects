@@ -13,6 +13,7 @@ namespace Tiles.Materials
             IMaterial strikerMat, double strikerSharpness, double strikerContactArea,
             double momentum, double maxPenetration, double penetrationLeft,
             IMaterial strickenMat, double strickenThickness, double strickenVolume,
-            double strickenContactArea, bool implementWasSmall, double implementSize);
+            double strickenContactArea, bool implementWasSmall, double implementSize, 
+            bool implementIsEdged);
     }
 }

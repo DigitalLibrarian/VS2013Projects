@@ -25,7 +25,6 @@ namespace Tiles.Content.Bridge.DfNet
                     break;
                 default:
                     throw new NotImplementedException();
-                    break;
             }
 
             foreach (var subTag in attackDf.Tags)
@@ -59,10 +58,11 @@ namespace Tiles.Content.Bridge.DfNet
                 MaxPenetration = int.Parse(attackTag.GetParam(2)),
                 VelocityMultiplier = int.Parse(attackTag.GetParam(6)),
 
+                IsEdged = attackTag.GetParam(0) == "EDGE",
                 IsItem = true,
                 IsMartialArts = true,
                 IsStrike = true,
-                IsDefenderPartSpecific = true
+                IsDefenderPartSpecific = true,
             };
         }
 
@@ -71,9 +71,9 @@ namespace Tiles.Content.Bridge.DfNet
             switch (ct)
             {
                 case "BLUNT":
-                    return ContactType.Blunt;
+                    return ContactType.Impact;
                 case "EDGE":
-                    return ContactType.Edge;
+                    return ContactType.Shear;
             }
 
             throw new NotImplementedException();

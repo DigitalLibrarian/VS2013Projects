@@ -16,6 +16,7 @@ namespace Tiles.Bodies.Injuries
             IEnumerable<IItem> armorItems, StressMode stressMode,
             double momentum, double contactArea, double maxPenetration,
             IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, 
-            double sharpness, bool implementWasSmall, double implementSize);
+            double sharpness, bool implementWasSmall, double implementSize,
+            bool implementIsEdged);
     }
 }

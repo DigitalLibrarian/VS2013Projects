@@ -16,6 +16,12 @@ namespace Tiles.Materials
         double MaxPenetration { get; set; }
         double RemainingPenetration { get; set; }
         double StrikerSharpness { get; set; }
+
+        private bool ImplementIsSmall { get; set; }
+        private double ImplementSize { get; set; }
+        private bool ImplementIsEdged { get; set; }
+
+
         StressMode StressMode { get; set; }
 
         IMaterial StrikerMaterial { get; set; }
@@ -45,7 +51,7 @@ namespace Tiles.Materials
             StressMode = Materials.StressMode.None;
             StrikerMaterial = null;
             StrickenMaterial = null;
-            ImplementWasSmall = false;
+            ImplementIsSmall = false;
         }
 
         public void SetStressMode(StressMode mode)
@@ -98,6 +104,26 @@ namespace Tiles.Materials
         {
             RemainingPenetration = penetrationLeft;
         }
+
+        public void SetImplementIsSmall(bool wasSmall)
+        {
+            ImplementIsSmall = wasSmall;
+        }
+
+        public void SetMaxPenetration(double maxPenetration)
+        {
+            MaxPenetration = maxPenetration;
+        }
+
+        public void SetImplementSize(double size)
+        {
+            ImplementSize = size;
+        }
+
+        public void SetImplementIsEdged(bool isEdged)
+        {
+            ImplementIsEdged = isEdged;
+        }
         #endregion
 
         public MaterialStrikeResult Build()
@@ -134,8 +160,8 @@ namespace Tiles.Materials
             var bluntCost3 = MaterialStressCalc.BluntCost3(strickenYield, strickenFracture, LayerVolume);
             
             var sharpFudge = sharpness / 1000d;
-            stress = (Momentum / volDamaged) * sharpFudge;
-            if (StressMode == Materials.StressMode.Edge)
+            stress = (Momentum / volDamaged) *sharpFudge;
+            if (ImplementIsEdged)
             {
                 var dentCost = (shearCost1);
                 var cutCost = dentCost + System.Math.Max(0, shearCost2);
@@ -235,8 +261,7 @@ namespace Tiles.Materials
                 resultMom = Momentum * ( (double)strickenStrainAtYield / 50000d);
                 resultMom = System.Math.Max(0d, resultMom);
 
-                if(StressMode == Materials.StressMode.Blunt
-                    && msr == StressResult.None)
+                if(!ImplementIsEdged && msr == StressResult.None)
                 {
                     // the buck stops here
                     resultMom = 0d;
@@ -246,7 +271,7 @@ namespace Tiles.Materials
             {
                 // After a layer has been defeated via cutting or blunt fracture, the momentum is reset to the original minus a portion of the "yield" cost(s). 
                 double deduction = 0;
-                if (StressMode == Materials.StressMode.Edge)
+                if (ImplementIsEdged)
                 {
                     var sharpFactor = 5000d / sharpness;
                     deduction = shearCost1 * volDamaged * sharpFactor / 10d;
@@ -271,7 +296,7 @@ namespace Tiles.Materials
 
                 ImplementMaxPenetration =(int) MaxPenetration,
                 ImplementRemainingPenetration = (int) RemainingPenetration,
-                ImplementWasSmall = ImplementWasSmall,
+                ImplementWasSmall = ImplementIsSmall,
                 ImplementContactArea = StrikerContactArea,
                 ImplementSize = ImplementSize,
 
@@ -281,23 +306,6 @@ namespace Tiles.Materials
                 Stress = stress,
                 ResultMomentum = resultMom
             };
-        }
-
-        private bool ImplementWasSmall { get; set; }
-        public void SetImplementWasSmall(bool wasSmall)
-        {
-            ImplementWasSmall = wasSmall;
-        }
-
-        public void SetMaxPenetration(double maxPenetration)
-        {
-            MaxPenetration = maxPenetration;
-        }
-
-        private double ImplementSize { get; set; }
-        public void SetImplementSize(double size)
-        {
-            ImplementSize = size;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Tiles.Materials
         public bool IsSoft(StressMode stressMode)
         {
             const int threshold = 25000;
-            if (stressMode == StressMode.Edge)
+            if (stressMode == StressMode.Shear)
             {
                 return ShearStrainAtYield >= threshold;
             }
@@ -92,12 +92,12 @@ namespace Tiles.Materials
 
             switch (contactType)
             {
-                case StressMode.Edge:
+                case StressMode.Shear:
                     yield = ShearYield;
                     fracture = ShearFracture;
                     strainAtYield = ShearStrainAtYield;
                     break;
-                case StressMode.Blunt:
+                case StressMode.Impact:
                     yield = ImpactYield;
                     fracture = ImpactFracture;
                     strainAtYield = ImpactStrainAtYield;

@@ -9,8 +9,8 @@ namespace Tiles.Content.Models
     public enum ContactType
     {
         None,
-        Edge,
-        Blunt,
+        Shear,
+        Impact,
         Other
     }
 }

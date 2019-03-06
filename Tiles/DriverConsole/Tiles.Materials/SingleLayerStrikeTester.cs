@@ -20,7 +20,8 @@ namespace Tiles.Materials
             IMaterial strikerMat, double strikerSharpness, double strikerContactArea,
             double momentum, double maxPenetration, double penetrationLeft,
             IMaterial strickenMat, double strickenThickness, double strickenVolume,
-            double strickenContactArea, bool implementWasSmall, double implementSize)
+            double strickenContactArea, bool implementWasSmall, double implementSize,
+            bool implementIsEdged)
         {
             Builder.Clear();
 
@@ -33,8 +34,9 @@ namespace Tiles.Materials
             Builder.SetLayerThickness(strickenThickness);
             Builder.SetMaxPenetration(maxPenetration);
             Builder.SetRemainingPenetration(penetrationLeft);
-            Builder.SetImplementWasSmall(implementWasSmall);
+            Builder.SetImplementIsSmall(implementWasSmall);
             Builder.SetImplementSize(implementSize);
+            Builder.SetImplementIsEdged(implementIsEdged);
 
             Builder.SetStrikerContactArea(strikerContactArea);
             Builder.SetStrickenContactArea(strickenContactArea);

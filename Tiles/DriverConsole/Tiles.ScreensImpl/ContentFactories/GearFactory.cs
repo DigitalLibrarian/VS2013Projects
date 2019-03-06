@@ -49,7 +49,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsItem = true,
                            ContactArea = 10,
                            MaxPenetration = 0,
-                           StressMode = StressMode.Blunt,
+                           StressMode = StressMode.Impact,
                        },
                        new CombatMoveClass(
                            name: "Swish",
@@ -69,7 +69,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsItem = true,
                            ContactArea = 120,
                            MaxPenetration = 0,
-                           StressMode = StressMode.Blunt
+                           StressMode = StressMode.Impact
                        },
                    },
                    minimumSize: 100
@@ -101,7 +101,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsItem = true,
                            ContactArea = 20000,
                            MaxPenetration = 4000,
-                           StressMode = StressMode.Edge,
+                           StressMode = StressMode.Shear,
                            VelocityMultiplier = 1250
                        },
                        new CombatMoveClass(
@@ -122,7 +122,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsItem = true,
                            ContactArea = 50,
                            MaxPenetration = 2000,
-                           StressMode = StressMode.Edge,
+                           StressMode = StressMode.Shear,
                            VelocityMultiplier = 1000
                        },
                    },
@@ -155,7 +155,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                            IsItem = true,
                            ContactArea = 10,
                            MaxPenetration = 200,
-                           StressMode = StressMode.Blunt,
+                           StressMode = StressMode.Impact,
                            VelocityMultiplier = 2000
                        }
                    },
@@ -274,7 +274,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                        IsItem = true,
                        ContactArea = 200,
                        MaxPenetration = 10,
-                       StressMode = StressMode.Blunt,
+                       StressMode = StressMode.Impact,
                    },
             },
             minimumSize: 100);

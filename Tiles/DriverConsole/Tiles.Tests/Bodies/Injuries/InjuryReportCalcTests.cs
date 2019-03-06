@@ -81,7 +81,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 StrikerMaterialMock.Object,
                 sharpness,
                 false,
-                implementSize: 100d);
+                100d, 
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -178,7 +179,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 StrikerMaterialMock.Object,
                 sharpness,
                 false,
-                implementSize: 100d);
+                100d, 
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -272,7 +274,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 StrikerMaterialMock.Object,
                 sharpness,
                 false,
-                implementSize: 100d);
+                100d,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -379,7 +382,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 StrikerMaterialMock.Object,
                 sharpness,
                 false,
-                implementSize: 100d);
+                100d,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);
@@ -496,7 +500,8 @@ namespace Tiles.Tests.Bodies.Injuries
                 StrikerMaterialMock.Object,
                 sharpness,
                 false,
-                implementSize: 100d);
+                100d,
+                false);
 
             Assert.IsNotNull(result);
             Assert.AreSame(bpInjuries, result.BodyPartInjuries);

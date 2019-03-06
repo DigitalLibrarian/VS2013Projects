@@ -114,6 +114,7 @@ namespace Tiles.Content.Map
                     IsMartialArts = move.IsMartialArts,
                     IsStrike = move.IsStrike,
                     IsItem = move.IsItem,
+                    IsEdged = move.IsEdged,
                     AttackerBodyStateChange = Map(move.BodyStateChange),
                     StressMode = Map(move.ContactType),
                     ContactArea = move.ContactArea,

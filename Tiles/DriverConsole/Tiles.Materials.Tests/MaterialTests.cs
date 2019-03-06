@@ -52,7 +52,7 @@ namespace Tiles.Materials.Tests
         {
             int yield, fracture, strainAtYield;
 
-            M1.GetModeProperties(StressMode.Blunt, out yield, out fracture, out strainAtYield);
+            M1.GetModeProperties(StressMode.Impact, out yield, out fracture, out strainAtYield);
 
             Assert.AreEqual(M1.ImpactYield, yield);
             Assert.AreEqual(M1.ImpactFracture, fracture);
@@ -64,7 +64,7 @@ namespace Tiles.Materials.Tests
         {
             int yield, fracture, strainAtYield;
 
-            M1.GetModeProperties(StressMode.Edge, out yield, out fracture, out strainAtYield);
+            M1.GetModeProperties(StressMode.Shear, out yield, out fracture, out strainAtYield);
 
             Assert.AreEqual(M1.ShearYield, yield);
             Assert.AreEqual(M1.ShearFracture, fracture);
@@ -132,10 +132,10 @@ namespace Tiles.Materials.Tests
         public void IsSoft_Edge()
         {
             M1.ShearStrainAtYield = 24999;
-            Assert.IsFalse(M1.IsSoft(StressMode.Edge));
+            Assert.IsFalse(M1.IsSoft(StressMode.Shear));
 
             M1.ShearStrainAtYield = 25000;
-            Assert.IsTrue(M1.IsSoft(StressMode.Edge));
+            Assert.IsTrue(M1.IsSoft(StressMode.Shear));
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace Tiles.Materials.Tests
             var enumValues = Enum.GetValues(typeof(StressMode))
                 .AsQueryable()
                 .Cast<StressMode>()
-                .Where(x => x != StressMode.Edge);
+                .Where(x => x != StressMode.Shear);
 
             M1.ImpactStrainAtYield = 24999;
 

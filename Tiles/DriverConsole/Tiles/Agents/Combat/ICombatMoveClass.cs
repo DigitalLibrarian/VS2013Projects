@@ -21,6 +21,7 @@ namespace Tiles.Agents.Combat
         bool CanLatch { get; set; }
         bool IsStrike { get; }
         bool IsItem { get; }
+        bool IsEdged { get; set; }
 
         int PrepTime { get; }
         int RecoveryTime { get; }

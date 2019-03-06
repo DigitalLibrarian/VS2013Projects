@@ -87,7 +87,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
                 weaponMat,
                 move.Sharpness,
                 implementWasSmall,
-                implementSize);
+                implementSize,
+                move.Class.IsEdged);
 
             session.InjuryReport = report;
 

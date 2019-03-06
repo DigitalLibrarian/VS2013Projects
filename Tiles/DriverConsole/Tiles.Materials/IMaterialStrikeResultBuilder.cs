@@ -18,16 +18,16 @@ namespace Tiles.Materials
         void SetStrikerMaterial(IMaterial mat);
         void SetStrickenMaterial(IMaterial mat);
         void SetLayerVolume(double vol);
-
-        MaterialStrikeResult Build();
-        void Clear();
-
         void SetLayerThickness(double p);
 
         void SetRemainingPenetration(double penetrationLeft);
-        void SetImplementWasSmall(bool wasSmall);
+        void SetImplementIsSmall(bool isSmall);
         void SetImplementSize(double size);
+        void SetImplementIsEdged(bool isEdged);
 
         void SetMaxPenetration(double maxPenetration);
+
+        MaterialStrikeResult Build();
+        void Clear();
     }
 }

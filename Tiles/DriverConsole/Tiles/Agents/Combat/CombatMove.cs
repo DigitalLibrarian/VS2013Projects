@@ -36,7 +36,8 @@ namespace Tiles.Agents.Combat
         {
             get {
                 //Iron has [MAX_EDGE:10000], so a no-quality iron short sword has a sharpness of 5000
-                return Attacker.GetStrikeMaterial(this).SharpnessMultiplier * 5000d;
+                var strikeMat = Attacker.GetStrikeMaterial(this);
+                return strikeMat.SharpnessMultiplier * 5000d;
             }
         }
 

@@ -26,7 +26,7 @@ namespace Tiles.Materials.Tests
         [TestMethod]
         public void Build_BasicFascade()
         {
-            var stressMode = StressMode.Edge;
+            var stressMode = StressMode.Shear;
             var strikerMatMock = new Mock<IMaterial>();
             double strikerSharpness = 2d, strikerContactArea = 3d;
             double momentum = 4d, penetrationLeft = 5d, maxPen = 6d, implementSize = 10d;
@@ -43,7 +43,7 @@ namespace Tiles.Materials.Tests
                 strikerMatMock.Object, strikerSharpness, strikerContactArea,
                 momentum, maxPen, penetrationLeft,
                 strickenMatMock.Object, strickenThickness, strickenVolume, strickenContactArea, false,
-                implementSize);
+                implementSize, false);
 
             Assert.AreSame(builderResult, result);
 
@@ -59,8 +59,9 @@ namespace Tiles.Materials.Tests
             BuilderMock.Verify(x => x.SetRemainingPenetration(penetrationLeft), Times.Once());
             BuilderMock.Verify(x => x.SetStrikerContactArea(strikerContactArea), Times.Once());
             BuilderMock.Verify(x => x.SetStrickenContactArea(strickenContactArea), Times.Once());
-            BuilderMock.Verify(x => x.SetImplementWasSmall(false), Times.Once());
+            BuilderMock.Verify(x => x.SetImplementIsSmall(false), Times.Once());
             BuilderMock.Verify(x => x.SetImplementSize(implementSize), Times.Once());
+            BuilderMock.Verify(x => x.SetImplementIsEdged(false), Times.Once());
             BuilderMock.Verify(x => x.Build(), Times.Once());
         }
     }

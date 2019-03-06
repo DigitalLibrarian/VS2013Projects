@@ -25,6 +25,7 @@ namespace Tiles.Content.Models
         public bool IsMartialArts { get; set; }
         public bool IsStrike { get; set; }
         public bool IsItem { get; set; }
+        public bool IsEdged { get; set; }
 
         public bool CanLatch { get; set; }
 

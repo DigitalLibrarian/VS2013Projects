@@ -116,7 +116,8 @@ namespace Tiles.EngineIntegrationTests
                 strikerMaterial,
                 move.Sharpness,
                 implementWasSmall,
-                implementSize
+                implementSize,
+                moveClass.IsEdged
                 );
 
             var partInjury = injuryReport.BodyPartInjuries.First();

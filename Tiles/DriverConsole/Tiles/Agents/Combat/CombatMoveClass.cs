@@ -34,12 +34,11 @@ namespace Tiles.Agents.Combat
         public BodyStateChange AttackerBodyStateChange { get; set; }
 
         public bool IsDefenderPartSpecific { get; set; }
-
         public bool IsMartialArts { get; set; }
-
         public bool IsStrike { get; set; }
-
         public bool IsItem { get; set; }
+        public bool IsEdged { get; set; }
+
 
         public bool IsGrabRequired { get; set; }
         public bool CanLatch { get; set; }

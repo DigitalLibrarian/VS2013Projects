@@ -32,6 +32,7 @@ namespace Tiles.Content.Bridge.DfNet
 
         public ContactType ContactType { get; set; }
         public bool CanLatch { get; set; }
+        public bool IsEdged { get; set; }
     }
 
     public enum BaConstraintType

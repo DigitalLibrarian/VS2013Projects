@@ -9,8 +9,8 @@ namespace Tiles.Materials
     public enum StressMode
     {
         None,
-        Edge,
-        Blunt,
+        Shear,
+        Impact,
         Compressive,
         Tensile,
         Torsion,

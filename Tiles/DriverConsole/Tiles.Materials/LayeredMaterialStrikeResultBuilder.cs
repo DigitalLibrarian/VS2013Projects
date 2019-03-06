@@ -30,6 +30,10 @@ namespace Tiles.Materials
         IMaterial StrikerMaterial { get; set; }
         List<MaterialLayer> Layers { get; set; }
 
+        public bool ImplementIsSmall { get; set; }
+        public double ImplementSize { get; set; }
+        public bool ImplementIsEdged { get; set; }
+
         public LayeredMaterialStrikeResultBuilder(ISingleLayerStrikeTester tester)
         {
             LayerTester = tester;
@@ -47,7 +51,8 @@ namespace Tiles.Materials
             StrikerSharpness = 0;
             StressMode = StressMode.None;
             StrikerMaterial = null;
-            ImplementWasSmall = false;
+            ImplementIsSmall = false;
+            ImplementIsEdged = false;
         }
 
         public void SetStrikerMaterial(IMaterial mat)
@@ -96,9 +101,19 @@ namespace Tiles.Materials
             });
         }
 
-        public void SetImplementWasSmall(bool wasSmall)
+        public void SetImplementIsSmall(bool isSmall)
         {
-            ImplementWasSmall = wasSmall;
+            ImplementIsSmall = isSmall;
+        }
+
+        public void SetImplementSize(double size)
+        {
+            ImplementSize = size;
+        }
+
+        public void SetImplementIsEdged(bool isEdged)
+        {
+            ImplementIsEdged = isEdged;
         }
         #endregion
 
@@ -109,6 +124,7 @@ namespace Tiles.Materials
             
             var mode = StressMode;
             var momentum = Momentum;
+            var isEdged = ImplementIsEdged;
 
             double penRemaining = MaxPenetration;
             double penetration = 0;
@@ -119,7 +135,8 @@ namespace Tiles.Materials
             {
                 if (penetration >= MaxPenetration)
                 {
-                    mode = Materials.StressMode.Blunt;
+                    mode = Materials.StressMode.Impact;
+                    isEdged = false;
                 }
 
                 lastMomentumIn = momentum;
@@ -131,13 +148,14 @@ namespace Tiles.Materials
                     MaxPenetration,
                     penRemaining,
                     mode,
-                    layer);
+                    layer,
+                    isEdged);
                  
                 momentum = layerResult.ResultMomentum;
 
                 if (layerResult.IsDefeated)
                 {
-                    if (mode == Materials.StressMode.Edge && penRemaining > 0d)
+                    if (isEdged && penRemaining > 0d)
                     {
                         var penComp = layer.Thickness * layerResult.PenetrationRatio;
                         penetration += penComp;
@@ -152,16 +170,18 @@ namespace Tiles.Materials
                     else if (layerResult.StressResult == StressResult.Impact_CompleteFracture)
                     {
                         strikeMaterial = layer.Material;
-                        mode = Materials.StressMode.Edge;
+                        mode = Materials.StressMode.Shear;
+                        isEdged = true;
                         MaxPenetration = layer.Thickness;
                         penRemaining = MaxPenetration;
                         penetration = 0;
                         layerResult.IsBluntCrack = true;
                     }
                 }
-                else if (mode != StressMode.Blunt)
+                else if (isEdged)
                 {
-                    mode = StressMode.Blunt;
+                    mode = StressMode.Impact;
+                    isEdged = false;
                     // redo as blunt
                     if (layerResult.StressResult == StressResult.None)
                     {
@@ -197,7 +217,7 @@ namespace Tiles.Materials
         MaterialStrikeResult PerformSingleLayerTest(
             IMaterial strikerMat, double momentum, double contactArea, 
             double maxPenetration, double penetrationLeft,
-            StressMode mode, MaterialLayer layer)
+            StressMode mode, MaterialLayer layer, bool isEdged)
         {
             return LayerTester.StrikeTest(
                 mode,
@@ -211,16 +231,9 @@ namespace Tiles.Materials
                 layer.Thickness,
                 layer.Volume,
                 StrickenContactArea,
-                ImplementWasSmall,
-                ImplementSize);
-        }
-
-        public bool ImplementWasSmall { get; set; }
-        public double ImplementSize { get; set; }
-
-        public void SetImplementSize(double size)
-        {
-            ImplementSize = size;
+                ImplementIsSmall,
+                ImplementSize,
+                isEdged);
         }
     }
 }

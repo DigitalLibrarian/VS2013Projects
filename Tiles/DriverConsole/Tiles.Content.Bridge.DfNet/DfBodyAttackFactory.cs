@@ -18,7 +18,7 @@ namespace Tiles.Content.Bridge.DfNet
         public DfBodyAttack Create(DfObject attackDf)
         {
             DfBodyAttack attack = new DfBodyAttack();
-            attack.ContactType = ContactType.Blunt;
+            attack.ContactType = ContactType.Impact;
 
             foreach (var tag in attackDf.Tags)
             {
@@ -66,7 +66,8 @@ namespace Tiles.Content.Bridge.DfNet
                         attack.RecoveryTime = int.Parse(tag.GetParam(1));
                         break;
                     case DfTags.MiscTags.ATTACK_FLAG_EDGE:
-                        attack.ContactType = ContactType.Edge;
+                        attack.ContactType = ContactType.Shear;
+                        attack.IsEdged = true;
                         break;
                     case DfTags.MiscTags.ATTACK_FLAG_CANLATCH:
                         attack.CanLatch = true;

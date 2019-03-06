@@ -129,20 +129,8 @@ namespace Tiles.Agents
                     return tissue.Material;
                 }
 
-
                 return strikePart.Tissue.TissueLayers.Select(x => x.Material).Last();
-
-                return strikePart.Tissue.TissueLayers.Select(x => x.Material)
-                    .OrderByDescending(x => x.ShearFracture)
-                    .First();
             }
-        }
-
-        private double MeleeWeaponMomentum(double skill, double creatureClassSize, double strength,
-            double velocityMultipier, double creatureSize, double weaponDensity, double weaponSize)
-        {
-            return (skill * creatureClassSize * strength * velocityMultipier)
-                 / (1000000d * (1d + creatureSize / (weaponDensity * weaponSize)));
         }
 
         // TODO - Belongs in CombatMove
@@ -179,19 +167,6 @@ namespace Tiles.Agents
                 double partWeight = parts
                     .Select(p => p.Mass * (double) p.Class.Number)
                     .Sum();
-
-                //var weight = partWeight;
-                //weight /= 1000d; // grams to kg
-
-                //double intWeight = (int)(weight);
-                //double fractWeight = (int)((weight - (intWeight)) * 1000d) * 1000d;
-
-                //double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
-                //double actWeight = (intWeight * 1000d) + (fractWeight / 1000d);
-
-                //var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
-                //v = System.Math.Min(5000d, v);
-                //return v * actWeight / 1000d + 1d;
 
                 var v = 100d * (Str / 1000d) * (VelocityMultiplier / 1000d);
                 return v * (partWeight / 1000) + 1;

@@ -34,7 +34,8 @@ namespace Tiles.Bodies.Injuries
         public IInjuryReport CalculateMaterialStrike(
             IEnumerable<IItem> armorItems, StressMode stressMode, 
             double momentum, double contactArea, double maxPenetration, 
-            IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, double sharpness, bool implementWasSmall, double implementSize)
+            IBody targetBody, IBodyPart targetPart, IMaterial strikerMat, double sharpness, 
+            bool implementWasSmall, double implementSize, bool implementIsEdged)
         {
             // tlParts is an index of all involved tissue layers to their containing parts.  
             // It will contain this data for all parts nested inside the target
@@ -50,8 +51,9 @@ namespace Tiles.Bodies.Injuries
                 Builder.SetMaxPenetration(maxPenetration);
                 Builder.SetStrikerMaterial(strikerMat);
                 Builder.SetStrikerSharpness(sharpness);
-                Builder.SetImplementWasSmall(implementWasSmall);
+                Builder.SetImplementIsSmall(implementWasSmall);
                 Builder.SetImplementSize(implementSize);
+                Builder.SetImplementIsEdged(implementIsEdged);
 
                 var tissueLayers = targetPart.Tissue.TissueLayers.Reverse();
 

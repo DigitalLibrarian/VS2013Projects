@@ -187,7 +187,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                                IsItem = true,
                                ContactArea = 3,
                                MaxPenetration = 10,
-                               StressMode = StressMode.Edge,
+                               StressMode = StressMode.Shear,
                            },
                             
                        new CombatMoveClass(
@@ -209,7 +209,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                                IsItem = true,
                                ContactArea = 5,
                                MaxPenetration = 35,
-                               StressMode = StressMode.Edge,
+                               StressMode = StressMode.Shear,
                                VelocityMultiplier = 3000
                            }
                     },
@@ -241,7 +241,7 @@ namespace Tiles.ScreensImpl.ContentFactories
                                IsItem = true,
                                ContactArea = 1,
                                MaxPenetration = 20,
-                               StressMode = StressMode.Edge,
+                               StressMode = StressMode.Shear,
                            },
                     },
                    minimumSize: 100
