@@ -333,36 +333,6 @@ namespace Tiles.Tests.Agents
             originalTileMock.Verify(x => x.RemoveAgent(), Times.Never());
         }
 
-        [TestMethod]
-        public void GetStrikeMomentum_SteelAxeSwordHack()
-        {
-            int bodySize = 6000;
-            BodyMock.Setup(x => x.Size).Returns(bodySize);
-            BodyMock.Setup(x => x.GetAttribute("STRENGTH"))
-                .Returns(1250);
-
-            var weaponMock = new Mock<IItem>();
-            weaponMock.Setup(x => x.GetMass()).Returns(6280);
-            var weaponClass = new Mock<IWeaponClass>();
-            weaponClass.Setup(x => x.MinimumSize).Returns(42500);
-            var itemClass = new Mock<IItemClass>();
-            itemClass.Setup(x => x.WeaponClass).Returns(weaponClass.Object);
-
-            int veloMultiply = 1250;
-            var moveClassMock = new Mock<ICombatMoveClass>();
-            moveClassMock.Setup(x => x.VelocityMultiplier).Returns(veloMultiply);
-            moveClassMock.Setup(x => x.IsItem).Returns(true);
-
-            var moveMock = new Mock<ICombatMove>();
-            moveMock.Setup(x => x.Weapon).Returns(weaponMock.Object);
-            moveMock.Setup(x => x.Class).Returns(moveClassMock.Object);
-
-            var strikeMom = Agent.GetStrikeMomentum(moveMock.Object);
-            Assert.AreEqual(86, (int) strikeMom);
-
-            moveClassMock.Verify(x => x.GetRelatedBodyParts(It.IsAny<IBody>()), Times.Never());
-        }
-
 #region Stance
 
         private void SetupStanceFixture(out Mock<IBodyPart> leftFootMock, out Mock<IBodyPart> rightFootMock, out Mock<IBodyPart> controlMock)

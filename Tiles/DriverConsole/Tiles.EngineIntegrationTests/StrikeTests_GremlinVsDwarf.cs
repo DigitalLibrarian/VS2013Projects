@@ -38,7 +38,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("stab"));
             var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
-            var mom = attacker.GetStrikeMomentum(move);
+            var mom = move.GetStrikeMomentum();
             Assert.AreEqual(6, mom);
         }
 

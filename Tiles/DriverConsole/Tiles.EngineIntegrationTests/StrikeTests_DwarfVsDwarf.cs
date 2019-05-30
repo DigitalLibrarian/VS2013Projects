@@ -4469,7 +4469,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.First(x => x.Name.Equals("kick"));
             var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            var mom = attacker.GetStrikeMomentum(move);
+            var mom = move.GetStrikeMomentum();
 
             Assert.AreEqual(82, (int)mom);
         }
@@ -4487,7 +4487,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = weapon.Class.WeaponClass.AttackMoveClasses.SingleOrDefault(mc => mc.Name.Equals("slash"));
             var move = CombatMoveFactory.AttackBodyPartWithWeapon(attacker, defender, moveClass, targetBodyPart, weapon);
 
-            Assert.AreEqual(14.3, attacker.GetStrikeMomentum(move), 0.1);
+            Assert.AreEqual(14.3, move.GetStrikeMomentum(), 0.1);
         }
 
         [TestMethod]

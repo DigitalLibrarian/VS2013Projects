@@ -36,7 +36,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
             var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            var strikeMat = attacker.GetStrikeMaterial(move);
+            var strikeMat = move.GetStrikeMaterial();
             Assert.AreEqual("chitin", strikeMat.Name);
         }
 
@@ -52,7 +52,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = attacker.Body.Moves.Single(x => x.Name.Equals("bite"));
             var move = CombatMoveFactory.BodyMove(attacker, defender, moveClass, targetBodyPart);
 
-            var mom = attacker.GetStrikeMomentum(move);
+            var mom = move.GetStrikeMomentum();
             Assert.AreEqual(76d, mom, 1d);
         }
 

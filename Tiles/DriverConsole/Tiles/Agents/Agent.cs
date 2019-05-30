@@ -86,92 +86,12 @@ namespace Tiles.Agents
             return false;
         }
 
-        public bool CanPerform(ICombatMove move)
-        {
-            if (move.Class.IsItem)
-            {
-                return this.Outfit.IsWielded(move.Weapon);
-            }
-            else 
-            {
-                if(move.Class.IsGrabRequired && !Body.IsGrasping) return false;
-                return move.Class.GetRelatedBodyParts(Body).Any();
-            }
-        }
-
         public bool CanWake()
         {
             if (Body.Class.FeelsNoPain) return true;
             return Body.TotalPain < GetPainThreshold();
         }
 
-        // TODO - Belongs in CombatMove
-        public IMaterial GetStrikeMaterial(ICombatMove move)
-        {
-            if (move.Class.IsItem)
-            {
-                return move.Weapon.Class.Material;
-            }
-            else
-            {
-                var relatedParts = move.Class.GetRelatedBodyParts(Body);
-                var strikePart = relatedParts.First();
-
-                var childTissueReq = move.Class.Requirements.FirstOrDefault(r => r.Type == BodyPartRequirementType.ChildTissueLayerGroup);
-                if (childTissueReq != null)
-                {
-                    // TODO - We really should be keeping the reference name 
-                    // from the raws.  It can be used to drive this.
-                    var tokens = childTissueReq.Constraints.Last().Tokens;
-                    var layerName = tokens.Last().ToLower();
-
-                    var tissue = strikePart.Tissue.TissueLayers.First(tl => tl.Class.Name.ToLower().Equals(layerName));
-                    return tissue.Material;
-                }
-
-                return strikePart.Tissue.TissueLayers.Select(x => x.Material).Last();
-            }
-        }
-
-        // TODO - Belongs in CombatMove
-        public double GetStrikeMomentum(ICombatMove move)
-        {
-            double  Str = Body.GetAttribute("STRENGTH"),
-                    VelocityMultiplier = (double)move.Class.VelocityMultiplier,
-                    Size = Body.Size;
-            
-            if (move.Class.IsItem)
-            {
-                var weapon = move.Weapon;
-                var weight = weapon.GetMass();
-
-                weight /= 1000d; // grams to kg
-
-                double intWeight = (int)(weight);
-                double fractWeight = (int)((weight - (intWeight)) * 1000d) * 1000d;
-
-                double effWeight = (Size / 100d) + (fractWeight / 10000d) + (intWeight * 100d);
-                double actWeight = (intWeight * 1000d) + (fractWeight / 1000d);
-
-                var v = Size * (Str / 1000d) * ((VelocityMultiplier / 1000d) * (1d / effWeight));
-                v = System.Math.Min(5000d, v);
-                var mom =  v * actWeight / 1000d + 1d;
-
-                return mom;
-            }
-            else
-            {
-                var parts = move.Class.GetRelatedBodyParts(move.Attacker.Body);
-                var strikerMat = GetStrikeMaterial(move);
-                var density = strikerMat.SolidDensity / 100d;
-                double partWeight = parts
-                    .Select(p => p.Mass * (double) p.Class.Number)
-                    .Sum();
-
-                var v = 100d * (Str / 1000d) * (VelocityMultiplier / 1000d);
-                return v * (partWeight / 1000) + 1;
-            }
-        }
 
         public void Sever(IBodyPart part)
         {

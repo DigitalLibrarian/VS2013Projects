@@ -49,7 +49,7 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             var defender = session.Defender;
 
             if (!defender.Body.Parts.Contains(move.DefenderBodyPart)) return;
-            if (!attacker.CanPerform(move)) return;
+            if (!move.CanPerform(attacker)) return;
 
             if (move.IsDodged)
             {
@@ -58,8 +58,8 @@ namespace Tiles.Agents.Combat.CombatEvolutions
             }
 
             bool isWeaponBased = move.Class.IsItem;
-            var momentum = attacker.GetStrikeMomentum(move);
-            var weaponMat = attacker.GetStrikeMaterial(move);
+            var momentum = move.GetStrikeMomentum();
+            var weaponMat = move.GetStrikeMaterial();
             if (weaponMat == null) return;
             bool implementWasSmall = false;
             double implementSize;

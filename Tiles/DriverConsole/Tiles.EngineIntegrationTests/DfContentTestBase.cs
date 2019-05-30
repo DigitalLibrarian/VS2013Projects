@@ -87,8 +87,8 @@ namespace Tiles.EngineIntegrationTests
             params StressResult[] expectedLayerResults
             )
         {
-            IMaterial strikerMaterial = attacker.GetStrikeMaterial(move);
-            var mom = attacker.GetStrikeMomentum(move);
+            IMaterial strikerMaterial = move.GetStrikeMaterial();
+            var mom = move.GetStrikeMomentum();
             var context = new CombatMoveContext(attacker, defender, move);
             var moveClass = move.Class;
 

@@ -32,7 +32,7 @@ namespace Tiles.EngineIntegrationTests
             var moveClass = Attacker.Body.Moves.First(x => x.Name.Equals("punch"));
             var move = CombatMoveFactory.BodyMove(Attacker, Defender, moveClass, targetBodyPart);
 
-            var strikeMom = move.Attacker.GetStrikeMomentum(move);
+            var strikeMom = move.GetStrikeMomentum();
             Assert.AreEqual(236984, strikeMom, 1d);
         }
 

@@ -9,7 +9,6 @@ using Tiles.Math;
 using Tiles.Bodies;
 using Tiles.Items.Outfits;
 using Tiles.Agents.Behaviors;
-using Tiles.Agents.Combat;
 using Tiles.Materials;
 using Tiles.Bodies.Injuries;
 using Tiles.Bodies.Wounds;
@@ -41,10 +40,6 @@ namespace Tiles.Agents
 
         bool CanMove(Vector3 move);
         bool Move(Vector3 move);
-
-        bool CanPerform(ICombatMove move);
-        double GetStrikeMomentum(ICombatMove move);
-        IMaterial GetStrikeMaterial(ICombatMove move);
 
         int GetPainThreshold();
         bool CanWake();

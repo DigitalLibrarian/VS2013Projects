@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tiles.Bodies;
 using Tiles.Items;
+using Tiles.Materials;
 using Tiles.Math;
 namespace Tiles.Agents.Combat
 {
@@ -21,7 +22,10 @@ namespace Tiles.Agents.Combat
         Vector3 Direction { get; }
 
         bool IsDodged { get; }
-
         void MarkDodged();
+
+        bool CanPerform(IAgent agent);
+        double GetStrikeMomentum();
+        IMaterial GetStrikeMaterial();
     }
 }
